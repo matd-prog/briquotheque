@@ -567,6 +567,7 @@ $("input-blister").addEventListener("change", async e => {
   let lecture = { texte: "", trouve: false };
   try {
     await CatalogueJB.charger();
+    decorBlister = await comparerDecor(f);
     lecture = await Blister.lireEntier(f, (i, n) => {
       $("texte-chargement").textContent = `Lecture du nom sur le blister… (essai ${i} sur ${n})`;
     });
@@ -577,6 +578,18 @@ $("input-blister").addEventListener("change", async e => {
   indiceBlister = await indice;
   afficherIndice(indiceBlister);
 });
+
+// Blisters du catalogue JB au décor le plus ressemblant à la photo (vide si indisponible)
+let decorBlister = [];
+async function comparerDecor(fichier) {
+  try {
+    await CatalogueJB.chargerEmpreintes();
+    return CatalogueJB.classerParDecor(await createImageBitmap(fichier), 10);
+  } catch (e) {
+    console.warn("comparaison du décor impossible", e);
+    return [];
+  }
+}
 
 // Repli : on encadre soi-même le nom sur la photo du blister
 $("btn-encadrer-nom").addEventListener("click", async () => {
@@ -593,21 +606,40 @@ $("btn-encadrer-nom").addEventListener("click", async () => {
   afficherIndice(indiceBlister);
 });
 
+// Combine le nom lu et le décor : nom confirmé par le décor, ou blisters au décor ressemblant
 function afficherLectureBlister(texte, trouve, encadre) {
   const res = trouve ? CatalogueJB.rapprocher(texte) : [];
   const lu = res.length ? nomDansTexte(texteAutourDuNom(texte, res[0])) : nomDansTexte(texte);
-  ouvrirCustom(res.length
-    ? `Nom trouvé sur le blister : « ${res[0].nom.replace(/\s*c[ou]s?t[ou]m\s+minifig\w*/i, "")} ». Touchez la bonne figurine :`
-    : encadre
+  const decor = decorBlister.map(d => d.f);
+  const confirme = res.length && decor.some(d => d.code === res[0].code);
+  const nomCourt = f => f.nom.replace(/\s*c[ou]s?t[ou]m\s+minifig\w*/i, "");
+  let info;
+  if (res.length) {
+    info = `Nom trouvé sur le blister : « ${nomCourt(res[0])} ».` +
+      (confirme ? " ✔ Confirmé par le décor du blister." : decor.length ? " Le décor ne permet pas de le confirmer : vérifiez." : "") +
+      " Touchez la bonne figurine :";
+  } else if (decor.length) {
+    info = (encadre && lu ? `Nom lu : « ${lu} », sans correspondance.` : "Le nom n'a pas été trouvé sur le blister.") +
+      " Voici les blisters dont le décor ressemble le plus à votre photo ; touchez le bon, ou « Encadrer le nom moi-même » :";
+  } else {
+    info = encadre
       ? (lu ? `Nom lu : « ${lu} », mais aucune figurine du catalogue JB ne correspond. Corrigez le nom ci-dessous, ou cherchez-la avec un mot.`
             : "Le nom n'a pas pu être lu. Cherchez la figurine avec un mot, ou tapez son nom ci-dessous.")
-      : "Le nom n'a pas été trouvé sur la photo entière (reflet, photo floue ?). Touchez « Encadrer le nom moi-même », ou cherchez la figurine avec un mot.");
+      : "Le nom n'a pas été trouvé sur la photo entière (reflet, photo floue ?). Touchez « Encadrer le nom moi-même », ou cherchez la figurine avec un mot.";
+  }
+  ouvrirCustom(info);
   $("btn-encadrer-nom").hidden = !photoBlister;
   // n° d'exemplaire : seulement s'il est lisible (il est souvent écrit à la main)
   const ex = exemplaireDansTexte(texte);
   if (ex && encadre) $("custom-exemplaire").value = ex;
-  if (res.length) afficherResultatsJB(res);
-  else if (encadre && lu) { $("custom-nom").value = lu.toUpperCase(); majCustom(); }
+  if (res.length) {
+    // le nom d'abord ; s'il n'est pas confirmé, les 3 décors les plus ressemblants ensuite
+    const autres = confirme ? [] : decor.filter(d => !res.some(r => r.code === d.code)).slice(0, 3);
+    afficherResultatsJB([...res, ...autres]);
+  } else if (decor.length) {
+    afficherResultatsJB(decor.slice(0, 6));
+    if (encadre && lu) { $("custom-nom").value = lu.toUpperCase(); majCustom(); }
+  } else if (encadre && lu) { $("custom-nom").value = lu.toUpperCase(); majCustom(); }
 }
 
 // Pour l'affichage : la ligne du texte lu qui contient le nom trouvé

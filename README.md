@@ -37,6 +37,11 @@ Blister JB : bouton « Photographier un blister JB » ; l'appli cherche le nom s
 (Tesseract.js inclus dans lib/tesseract, lecture dans le téléphone) et propose les figurines du
 catalogue JB qui correspondent. Le n° d'exemplaire (ex. 189/250) est ajouté au nom.
 
+Décor des blisters : `data/jb_empreintes.tsv` contient une « empreinte » (couleurs et disposition)
+de chaque photo de blister du catalogue JB, calculée par `node outils/empreintes_jb.js` avec le
+même code que l'appli (`js/empreinte.js`) ; les photos ne sont pas conservées. L'appli compare la
+photo du blister à ces empreintes pour confirmer le nom lu, ou proposer les blisters ressemblants.
+
 Fichiers :
 - `index.html`, `style.css` : l'écran de l'appli
 - `js/app.js` : déroulé photo → identification → ajout

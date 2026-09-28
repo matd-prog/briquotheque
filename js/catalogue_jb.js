@@ -29,6 +29,37 @@ const CatalogueJB = {
     return this._chargement;
   },
 
+  // Empreintes des blisters (data/jb_empreintes.tsv, créées par outils/empreintes_jb.js)
+  empreintes: null,
+  chargerEmpreintes() {
+    if (!this._chargementEmpreintes) {
+      this._chargementEmpreintes = fetch("data/jb_empreintes.tsv")
+        .then(rep => { if (!rep.ok) throw new Error("empreintes JB absentes"); return rep.text(); })
+        .then(texte => {
+          this.empreintes = new Map();
+          for (const ligne of texte.split("\n")) {
+            const [code, e] = ligne.split("\t");
+            if (code && code.startsWith("JB-") && e) this.empreintes.set(code.toUpperCase(), empreinteDepuisTexte(e));
+          }
+          return this.empreintes;
+        })
+        .catch(err => { this._chargementEmpreintes = null; throw err; });
+    }
+    return this._chargementEmpreintes;
+  },
+
+  // Blisters du catalogue dont le décor ressemble le plus à la photo : [{ f, score }], du plus ressemblant au moins
+  classerParDecor(source, max = 10) {
+    if (!this.empreintes || !this.liste) return [];
+    const e = empreinteImage(source, false);
+    const res = [];
+    for (const f of this.liste) {
+      const ref = this.empreintes.get(f.code.toUpperCase());
+      if (ref) res.push({ f, score: similarite(e, ref) });
+    }
+    return res.sort((a, b) => b.score - a.score).slice(0, max);
+  },
+
   trouver(code) {
     return this.parCode ? this.parCode.get((code || "").toUpperCase()) || null : null;
   },
