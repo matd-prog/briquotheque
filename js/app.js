@@ -94,7 +94,7 @@ async function chargerClasseur(octets, nom, nonEnregistres = 0) {
 async function relireContenu() {
   etat.table = await lireTableCamps(etat.classeur);
   etat.collection = await lireCollection(etat.classeur);
-  const nb = ONGLETS_COLORES.reduce((s, o) => s + etat.collection[o].cases.filter(c => c.code).length, 0);
+  const nb = Object.values(etat.collection).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0);
   $("fichier-info").textContent = `📗 ${etat.nomFichier} · ${nb} figurines`;
   majBandeau();
 }
@@ -205,19 +205,38 @@ function nomPourFichier(nom) {
 
 // ---------- résultat ----------
 
+const STAR_WARS = "Star Wars";
+
 function ouFigurine(code) {
   const c = code.toUpperCase();
   const res = [];
-  for (const o of ONGLETS_COLORES)
+  for (const o of Object.keys(etat.collection))
     for (const cas of etat.collection[o].cases)
       if (cas.code.toUpperCase() === c) res.push(`${o}, case ${cas.ref}`);
   return res;
 }
 
+// Thème proposé : d'abord votre Table camps, puis le code BrickLink (sw... = Star Wars)
+function proposerTheme(cand) {
+  const connu = etat.table.find(l => l.code.toUpperCase() === cand.id.toUpperCase());
+  if (connu && CAMPS[connu.camp]) return STAR_WARS;
+  if (connu && ONGLETS_THEMES.includes(connu.camp)) return connu.camp;
+  if (estStarWars(cand)) return STAR_WARS;
+  return themeDuCode(cand.id).onglet;
+}
+
+function couleurChoisie() {
+  return etat.theme === STAR_WARS ? CAMPS[etat.camp].couleur : couleurOnglet(etat.theme);
+}
+function ongletChoisi() {
+  return etat.theme === STAR_WARS ? CAMPS[etat.camp].onglet : etat.theme;
+}
+
 function choisirCandidat(i) {
   const cand = etat.candidats[i];
   etat.choisi = cand;
-  const sw = estStarWars(cand);
+  etat.theme = proposerTheme(cand);
+  etat.camp = proposerCamp(cand.id, cand.nom, etat.table).camp;
   const deja = ouFigurine(cand.id);
   const score = cand.score != null ? `<div class="score">Confiance : ${Math.round(cand.score * 100)} %</div>` : "";
 
@@ -233,34 +252,37 @@ function choisirCandidat(i) {
     <a class="bouton bleu" href="${echapper(cand.lien)}" target="_blank" rel="noopener">🔗 Voir la page BrickLink</a>`;
 
   const zone = $("zone-ajout");
-  if (!sw) {
-    zone.innerHTML = `<div class="alerte stop">Ce n'est pas une figurine Star Wars : elle ne sera pas ajoutée au fichier.</div>`;
-  } else {
-    const prop = proposerCamp(cand.id, cand.nom, etat.table);
-    etat.camp = prop.camp;
-    zone.innerHTML = `
-      ${deja.length ? `<div class="alerte">Déjà dans votre collection : ${echapper(deja.join(" ; "))}</div>` : ""}
-      ${codeInvalide(cand.id) ? `<div class="alerte stop">Code « ${echapper(cand.id)} » : pas un vrai code BrickLink.</div>` : ""}
-      <div class="apercu-etiquette" id="apercu"></div>
+  zone.innerHTML = `
+    ${deja.length ? `<div class="alerte">Déjà dans votre collection : ${echapper(deja.join(" ; "))}</div>` : ""}
+    ${codeInvalide(cand.id) ? `<div class="alerte stop">Code « ${echapper(cand.id)} » : pas un vrai code BrickLink.</div>` : ""}
+    <div class="apercu-etiquette" id="apercu"></div>
+    <label class="etiquette-champ" for="choix-theme">Thème</label>
+    <select id="choix-theme" class="champ">
+      ${[STAR_WARS, ...ONGLETS_THEMES].map(t => `<option ${t === etat.theme ? "selected" : ""}>${echapper(t)}</option>`).join("")}
+    </select>
+    <div id="bloc-camps">
       <div class="camps">
         ${Object.entries(CAMPS).map(([nom, c]) =>
           `<button class="camp" data-camp="${echapper(nom)}" style="background:${c.couleur}">${nom === "Zone grise" ? "Gris" : echapper(nom)}</button>`).join("")}
       </div>
-      <p class="camp-raison" id="camp-raison">Couleur choisie ${echapper(prop.raison)}. Touchez une autre couleur pour la changer.</p>
-      <label class="etiquette-champ" for="champ-nom">Nom dans le fichier</label>
-      <input id="champ-nom" class="champ" value="${echapper(nomPourFichier(cand.nom || cand.id))}">
-      <p class="question">Ajouter à ma collection ?</p>
-      <div class="oui-non">
-        <button class="gros-bouton gris" data-action="non">Non</button>
-        <button class="gros-bouton vert" data-action="oui">Oui</button>
-      </div>`;
-    zone.querySelectorAll(".camp").forEach(b => b.addEventListener("click", () => {
-      etat.camp = b.dataset.camp;
-      $("camp-raison").textContent = "Couleur choisie par vous.";
-      majApercu();
-    }));
-    majApercu();
-  }
+    </div>
+    <p class="camp-raison" id="camp-raison"></p>
+    <label class="etiquette-champ" for="champ-nom">Nom dans le fichier</label>
+    <input id="champ-nom" class="champ" value="${echapper(nomPourFichier(cand.nom || cand.id))}">
+    <p class="question">Ajouter à ma collection ?</p>
+    <div class="oui-non">
+      <button class="gros-bouton gris" data-action="non">Non</button>
+      <button class="gros-bouton vert" data-action="oui">Oui</button>
+    </div>`;
+  zone.querySelectorAll(".camp").forEach(b => b.addEventListener("click", () => {
+    etat.camp = b.dataset.camp;
+    majChoix("Couleur choisie par vous.");
+  }));
+  $("choix-theme").addEventListener("change", e => {
+    etat.theme = e.target.value;
+    majChoix(null);
+  });
+  majChoix(null);
 
   const autres = etat.candidats.map((c, j) => ({ c, j })).filter(x => x.j !== i);
   $("autres").hidden = false;
@@ -276,11 +298,25 @@ function choisirCandidat(i) {
   afficher("resultat");
 }
 
+// Met à jour l'écran après un changement de thème ou de camp
+function majChoix(raison) {
+  const sw = etat.theme === STAR_WARS;
+  $("bloc-camps").hidden = !sw;
+  if (raison) $("camp-raison").textContent = raison;
+  else if (sw) $("camp-raison").textContent =
+    `Couleur choisie ${proposerCamp(etat.choisi.id, etat.choisi.nom, etat.table).raison}. Touchez une autre couleur pour la changer.`;
+  else $("camp-raison").textContent = etat.classeur.aOnglet(etat.theme)
+    ? `Rangée dans l'onglet « ${etat.theme} ».`
+    : `Nouvel onglet « ${etat.theme} » : il sera créé dans le fichier.`;
+  majApercu();
+}
+
 async function majApercu() {
   document.querySelectorAll(".camp").forEach(b => b.classList.toggle("choisi", b.dataset.camp === etat.camp));
-  const onglet = CAMPS[etat.camp].onglet;
+  // un onglet pas encore créé aura les mêmes cases que l'onglet modèle
+  const onglet = etat.classeur.aOnglet(ongletChoisi()) ? ongletChoisi() : ONGLET_MODELE;
   const { w, h } = await dimensionsCase(etat.classeur, onglet, 1, 2);
-  const cv = dessinerEtiquette(etat.choisi.id, CAMPS[etat.camp].couleur, w, h);
+  const cv = dessinerEtiquette(etat.choisi.id, couleurChoisie(), w, h);
   const zone = $("apercu");
   if (zone) { zone.innerHTML = ""; zone.appendChild(cv); }
 }
@@ -298,19 +334,23 @@ async function ajouter() {
   const deja = ouFigurine(code);
   if (deja.length && !(await demander(`Vous avez déjà cette figurine (${deja.join(" ; ")}).\n\nL'ajouter quand même ?`))) return;
 
+  const couleur = couleurChoisie();
   $("texte-chargement").textContent = "Ajout dans le fichier…";
   afficher("chargement");
   try {
-    const res = await ajouterFigurine(etat.classeur, { code, nom, camp: etat.camp });
+    const choix = etat.theme === STAR_WARS ? { camp: etat.camp } : { theme: etat.theme };
+    const nouvelOnglet = !etat.classeur.aOnglet(ongletChoisi());
+    const res = await ajouterFigurine(etat.classeur, { code, nom, ...choix });
     etat.nonEnregistres++;
     const octets = await memoriser();
     const ok = await verifierAjout(octets, { onglet: res.onglet, row: res.row, col: res.col, code });
     if (!ok) throw new Error("vérification après écriture échouée");
     await relireContenu();
-    $("texte-ok").textContent = `Ajoutée dans ${res.onglet}, case ${res.ref}` + (res.nouvelleLigne ? " (nouvelle ligne créée)" : "");
+    $("texte-ok").textContent = `Ajoutée dans ${res.onglet}, case ${res.ref}` +
+      (nouvelOnglet ? " (nouvel onglet créé)" : res.nouvelleLigne ? " (nouvelle ligne créée)" : "");
     const { w, h } = await dimensionsCase(etat.classeur, res.onglet, res.row, res.col);
     $("apercu-ok").innerHTML = "";
-    $("apercu-ok").appendChild(dessinerEtiquette(code, CAMPS[etat.camp].couleur, w, h));
+    $("apercu-ok").appendChild(dessinerEtiquette(code, couleur, w, h));
     afficher("ok");
   } catch (err) {
     console.error(err);
@@ -334,13 +374,9 @@ async function validerSaisie() {
   const code = $("saisie-code").value.trim().toUpperCase().replace(/\s+/g, "");
   if (!code) return;
   const connu = etat.table.find(l => l.code.toUpperCase() === code);
-  let categorie = /^SW/.test(code) ? "Star Wars" : "";
-  if (!categorie && connu) categorie = "Star Wars";
-  if (!categorie && await demander(`Le code ${code} ne commence pas par SW. Est-ce bien un article Star Wars (porte-clés, polybag…) ?`))
-    categorie = "Star Wars";
   etat.candidats = [{
     id: code, nom: connu ? connu.personnage : "", image: imageBricklink(code),
-    score: null, categorie, lien: urlBricklink(code),
+    score: null, categorie: "", lien: urlBricklink(code),
   }];
   choisirCandidat(0);
   $("autres").hidden = true;
@@ -391,7 +427,7 @@ $("lien-telecharger").addEventListener("click", () => setTimeout(fichierEnregist
 // ---------- régénération en lot ----------
 
 async function regenerer() {
-  if (!(await demander("Refaire toutes les étiquettes des onglets Gentils, Méchants et Zone grise avec le nouveau modèle (QR code) ?\n\nLes anciennes images seront remplacées dans le nouveau fichier ; votre fichier d'origine reste intact.")))
+  if (!(await demander("Refaire toutes les étiquettes (onglets Star Wars et onglets de thèmes) avec le modèle QR code ?\n\nLes anciennes images seront remplacées dans le nouveau fichier ; votre fichier d'origine reste intact.")))
     return;
   const zone = $("regen-etat");
   zone.innerHTML = `<progress max="1" value="0"></progress><p class="aide">Préparation…</p>`;

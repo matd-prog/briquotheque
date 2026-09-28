@@ -13,10 +13,14 @@ const NS = {
 const TYPE_REL = {
   drawing: "http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing",
   image:   "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",
+  worksheet: "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet",
 };
 const ONGLETS_COLORES = ["Gentils (vert)", "Méchants (rouge)", "Zone grise"];
 const ONGLET_TABLE = "Table camps";
 const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE];
+// Onglets de thèmes (Simpsons, Harry Potter...) : créés par l'appli, même mise en page
+const ONGLETS_THEMES = TOUS_THEMES.map(t => t.onglet);
+const ONGLET_MODELE = "Gentils (vert)";
 const EMU_PAR_PX = 9525;
 const HAUTEUR_LIGNE = 42.6;
 
@@ -103,13 +107,15 @@ class Classeur {
     }
   }
 
+  aOnglet(nom) { return this.feuilles.some(f => f.nom === nom); }
+
   feuille(nom) {
     const f = this.feuilles.find(f => f.nom === nom);
     if (!f) throw new Error(`L'onglet « ${nom} » est introuvable dans le fichier.`);
     return f;
   }
   _verifierAutorise(nom) {
-    if (!ONGLETS_AUTORISES.includes(nom)) throw new Error(`Modification interdite de l'onglet « ${nom} ».`);
+    if (!ONGLETS_AUTORISES.includes(nom) && !ONGLETS_THEMES.includes(nom)) throw new Error(`Modification interdite de l'onglet « ${nom} ».`);
   }
 
   // ----- cellules -----
@@ -436,6 +442,100 @@ class Classeur {
     await this._nomDefini("_xlnm.Print_Area", f.index, `'${nom.replace(/'/g, "''")}'!$A$1:$E$${derniere}`);
   }
 
+  // ----- création d'un onglet de thème -----
+
+  // Ajoute un style de cellule identique à « base » mais avec un fond plein de la couleur donnée
+  async _styleAvecFond(base, couleur) {
+    const st = await this._doc("xl/styles.xml");
+    const fills = st.getElementsByTagNameNS(NS.main, "fills")[0];
+    const fill = nouvelEl(st, NS.main, "fill"), pf = nouvelEl(st, NS.main, "patternFill");
+    const fg = nouvelEl(st, NS.main, "fgColor"), bg = nouvelEl(st, NS.main, "bgColor");
+    pf.setAttribute("patternType", "solid");
+    fg.setAttribute("rgb", "FF" + couleur.replace("#", "").toUpperCase());
+    bg.setAttribute("indexed", "64");
+    pf.appendChild(fg); pf.appendChild(bg); fill.appendChild(pf); fills.appendChild(fill);
+    const fillId = enfants(fills, "fill").length - 1;
+    fills.setAttribute("count", fillId + 1);
+
+    const xfs = st.getElementsByTagNameNS(NS.main, "cellXfs")[0];
+    const liste = enfants(xfs, "xf");
+    const xf = base != null && liste[+base] ? liste[+base].cloneNode(true) : nouvelEl(st, NS.main, "xf");
+    for (const [a, v] of [["numFmtId", "0"], ["fontId", "0"], ["borderId", "0"], ["xfId", "0"]])
+      if (!xf.hasAttribute(a)) xf.setAttribute(a, v);
+    xf.setAttribute("fillId", fillId);
+    xf.setAttribute("applyFill", "1");
+    xfs.appendChild(xf);
+    xfs.setAttribute("count", liste.length + 1);
+    this._modifie("xl/styles.xml");
+    return String(liste.length);
+  }
+
+  // Crée l'onglet « nom » en recopiant la mise en page de l'onglet modèle
+  // (largeurs de colonnes, hauteur de ligne, marges, impression), sans son contenu.
+  // Il est ajouté après tous les autres onglets, pour ne décaler aucun onglet existant.
+  async creerOnglet(nom, modeleNom, couleur) {
+    if (!ONGLETS_THEMES.includes(nom)) throw new Error(`Création interdite de l'onglet « ${nom} ».`);
+    if (this.aOnglet(nom)) return;
+    const src = await this._doc(this.feuille(modeleNom).chemin);
+    const doc = new DOMParser().parseFromString(new XMLSerializer().serializeToString(src), "application/xml");
+    const racine = doc.documentElement;
+
+    const aRetirer = ["drawing", "legacyDrawing", "legacyDrawingHF", "drawingHF", "rowBreaks", "colBreaks", "mergeCells",
+      "conditionalFormatting", "dataValidations", "hyperlinks", "autoFilter", "sortState", "tableParts", "picture",
+      "oleObjects", "controls", "webPublishItems", "extLst", "sheetProtection", "protectedRanges", "scenarios"];
+    for (const el of Array.from(racine.childNodes))
+      if (el.nodeType === 1 && aRetirer.includes(el.localName)) racine.removeChild(el);
+    for (const at of Array.from(racine.attributes)) if (at.localName === "uid") racine.removeAttributeNode(at);
+    const sheetPr = enfant(racine, "sheetPr");
+    if (sheetPr) sheetPr.removeAttribute("codeName");
+    for (const v of doc.getElementsByTagNameNS(NS.main, "sheetView")) v.removeAttribute("tabSelected");
+
+    // une première ligne de 5 cases colorées, même hauteur et même style que le modèle
+    const sd = this._sheetData(doc);
+    const ligneModele = enfants(sd, "row").find(r => enfants(r, "c").some(c => /^A\d+$/.test(c.getAttribute("r") || "")));
+    const celA = ligneModele && enfants(ligneModele, "c").find(c => /^A\d+$/.test(c.getAttribute("r") || ""));
+    const style = await this._styleAvecFond(celA && celA.hasAttribute("s") ? celA.getAttribute("s") : null, couleur);
+    while (sd.firstChild) sd.removeChild(sd.firstChild);
+    const ligne = nouvelEl(doc, NS.main, "row");
+    ligne.setAttribute("r", "1");
+    ligne.setAttribute("ht", ligneModele && ligneModele.getAttribute("ht") || HAUTEUR_LIGNE);
+    ligne.setAttribute("customHeight", "1");
+    for (let i = 1; i <= 5; i++) {
+      const c = nouvelEl(doc, NS.main, "c");
+      c.setAttribute("r", lettreColonne(i) + "1");
+      c.setAttribute("s", style);
+      ligne.appendChild(c);
+    }
+    sd.appendChild(ligne);
+    const dim = enfant(racine, "dimension");
+    if (dim) dim.setAttribute("ref", "A1:Q1");
+
+    let n = 1;
+    while (this.zip.file(`xl/worksheets/sheet${n}.xml`) || this.docs[`xl/worksheets/sheet${n}.xml`]) n++;
+    const chemin = `xl/worksheets/sheet${n}.xml`;
+    this.docs[chemin] = doc;
+    this._modifie(chemin);
+    await this._ajouterContentType(chemin, "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml");
+
+    const rels = await this._doc("xl/_rels/workbook.xml.rels");
+    const id = this._nouvelId(rels);
+    const rel = nouvelEl(rels, NS.pkg, "Relationship");
+    rel.setAttribute("Id", id); rel.setAttribute("Type", TYPE_REL.worksheet); rel.setAttribute("Target", "/" + chemin);
+    rels.documentElement.appendChild(rel);
+    this._modifie("xl/_rels/workbook.xml.rels");
+
+    const sheets = this.wb.getElementsByTagNameNS(NS.main, "sheets")[0];
+    const ids = Array.from(sheets.getElementsByTagNameNS(NS.main, "sheet")).map(x => +x.getAttribute("sheetId") || 0);
+    const sheet = nouvelEl(this.wb, NS.main, "sheet");
+    sheet.setAttribute("name", nom);
+    sheet.setAttribute("sheetId", Math.max(0, ...ids) + 1);
+    sheet.setAttributeNS(NS.r, "r:id", id);
+    sheets.appendChild(sheet);
+    this._modifie("xl/workbook.xml");
+    this.feuilles.push({ nom, index: this.feuilles.length, chemin });
+    await this.majZoneImpression(nom, 1);
+  }
+
   // ----- enregistrement -----
 
   async enregistrer() {
@@ -452,10 +552,15 @@ class Classeur {
 
 // ---------- logique « figurines » au-dessus du classeur ----------
 
-// Lit les 3 onglets colorés : pour chaque case, le code, le nom et la présence d'une image
+// Onglets d'étiquettes présents dans le fichier : les 3 Star Wars + les thèmes déjà créés
+function ongletsEtiquettes(cl) {
+  return [...ONGLETS_COLORES, ...ONGLETS_THEMES.filter(o => cl.aOnglet(o))];
+}
+
+// Lit les onglets d'étiquettes : pour chaque case, le code, le nom et la présence d'une image
 async function lireCollection(cl) {
   const res = {};
-  for (const nom of ONGLETS_COLORES) {
+  for (const nom of ongletsEtiquettes(cl)) {
     const derniere = await cl.derniereLigneEtiquettes(nom);
     const images = await cl.positionsImages(nom);
     const cases = [];
@@ -491,7 +596,7 @@ async function dimensionsCase(cl, onglet, row, col, marge = 3) {
 }
 
 async function poserEtiquette(cl, onglet, row, col, code) {
-  const couleur = Object.values(CAMPS).find(c => c.onglet === onglet).couleur;
+  const couleur = couleurOnglet(onglet);
   const { w, h } = await dimensionsCase(cl, onglet, row, col);
   const png = await canvasEnPng(dessinerEtiquette(code, couleur, w, h));
   await cl.supprimerImages(onglet, { row, col });
@@ -521,20 +626,23 @@ async function premiereCaseLibre(cl, onglet) {
   return { row, col: 1, nouvelleLigne: true };
 }
 
-async function ajouterFigurine(cl, { code, nom, camp }) {
-  const onglet = CAMPS[camp].onglet;
+// camp : Gentil / Méchant / Zone grise pour Star Wars ; theme : onglet de thème pour les autres
+async function ajouterFigurine(cl, { code, nom, camp, theme }) {
+  const onglet = camp ? CAMPS[camp].onglet : theme;
+  if (!cl.aOnglet(onglet)) await cl.creerOnglet(onglet, ONGLET_MODELE, couleurOnglet(onglet));
   const pos = await premiereCaseLibre(cl, onglet);
-  const styleNom = await cl.styleColonne(onglet, "G");
-  const styleCode = await cl.styleColonne(onglet, "M");
+  // un onglet tout neuf n'a pas encore de nom ni de code : on prend le style de l'onglet modèle
+  const styleNom = (await cl.styleColonne(onglet, "G")) ?? (await cl.styleColonne(ONGLET_MODELE, "G"));
+  const styleCode = (await cl.styleColonne(onglet, "M")) ?? (await cl.styleColonne(ONGLET_MODELE, "M"));
   await cl.ecrireTexte(onglet, lettreColonne(6 + pos.col) + pos.row, nom, styleNom);
   await cl.ecrireTexte(onglet, lettreColonne(12 + pos.col) + pos.row, code, styleCode);
   await poserEtiquette(cl, onglet, pos.row, pos.col, code);
 
   // Table camps
   const row = (await cl.derniereLigne(ONGLET_TABLE)) + 1;
-  const styleCamp = await cl.styleColonne(ONGLET_TABLE, "C", v => v === camp);
+  const styleCamp = camp ? await cl.styleColonne(ONGLET_TABLE, "C", v => v === camp) : null;
   const ref = lettreColonne(pos.col) + pos.row;
-  const valeurs = { A: code, B: nom, C: camp, D: "Confirmé", E: `${onglet}!${ref} (appli ${new Date().toLocaleDateString("fr-FR")})` };
+  const valeurs = { A: code, B: nom, C: camp || onglet, D: "Confirmé", E: `${onglet}!${ref} (appli ${new Date().toLocaleDateString("fr-FR")})` };
   for (const [l, v] of Object.entries(valeurs)) await cl.ecrireTexte(ONGLET_TABLE, l + row, v, l === "C" ? styleCamp : null);
   await majFiltreTable(cl, row);
   return { onglet, ref, row: pos.row, col: pos.col, nouvelleLigne: pos.nouvelleLigne };
@@ -554,13 +662,14 @@ async function majFiltreTable(cl, derniere) {
   cl._modifie(f.chemin);
 }
 
-// Régénère toutes les étiquettes des 3 onglets colorés
+// Régénère toutes les étiquettes des onglets d'étiquettes (Star Wars + thèmes)
 async function regenererTout(cl, progression) {
   const coll = await lireCollection(cl);
+  const onglets = Object.keys(coll);
   const rapport = { faites: 0, ignorees: [] };
-  const total = ONGLETS_COLORES.reduce((s, o) => s + coll[o].cases.filter(c => c.code).length, 0);
+  const total = onglets.reduce((s, o) => s + coll[o].cases.filter(c => c.code).length, 0);
   let i = 0;
-  for (const onglet of ONGLETS_COLORES) {
+  for (const onglet of onglets) {
     await cl.supprimerImages(onglet);
     for (const c of coll[onglet].cases) {
       if (!c.code) continue;

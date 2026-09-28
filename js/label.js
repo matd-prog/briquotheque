@@ -7,6 +7,35 @@ const CAMPS = {
   "Zone grise": { onglet: "Zone grise",       couleur: "#A0A5A9" },
 };
 
+// Autres thèmes : un onglet par thème, reconnu grâce au début du code BrickLink
+// (sim0001 -> Simpsons). "col..." couvre toutes les séries à collectionner.
+const THEMES = [
+  { prefixes: ["sim"], onglet: "Simpsons",                  couleur: "#F2CD37" },
+  { prefixes: ["lor"], onglet: "Seigneur des Anneaux",      couleur: "#E4CD9E" },
+  { prefixes: ["hp"],  onglet: "Harry Potter",              couleur: "#AC78BA" },
+  { prefixes: ["sh"],  onglet: "Super-héros",               couleur: "#36AEBF" },
+  { prefixes: ["col"], onglet: "Minifigs à collectionner",  couleur: "#FE8A18" },
+  { prefixes: ["dis"], onglet: "Disney",                    couleur: "#E4ADC8" },
+  { prefixes: ["njo"], onglet: "Ninjago",                   couleur: "#BBE90B" },
+  { prefixes: ["cty"], onglet: "City",                      couleur: "#9FC3E9" },
+  { prefixes: ["jw"],  onglet: "Jurassic World",            couleur: "#9B9A5A" },
+];
+const THEME_AUTRES = { prefixes: [], onglet: "Autres thèmes", couleur: "#FFFFFF" };
+const TOUS_THEMES = [...THEMES, THEME_AUTRES];
+
+// Thème d'un code BrickLink (hors Star Wars) ; "Autres thèmes" si inconnu
+function themeDuCode(code) {
+  const lettres = (/^([a-z]+)/i.exec(code || "") || [, ""])[1].toLowerCase();
+  if (lettres.startsWith("col")) return THEMES.find(t => t.prefixes.includes("col"));
+  return THEMES.find(t => t.prefixes.includes(lettres)) || THEME_AUTRES;
+}
+
+// Couleur de fond des étiquettes d'un onglet (Star Wars ou thème)
+function couleurOnglet(onglet) {
+  const t = [...Object.values(CAMPS), ...TOUS_THEMES].find(x => x.onglet === onglet);
+  return t ? t.couleur : null;
+}
+
 const ECHELLE = 6; // rendu 6 fois plus grand que la taille affichée, pour l'impression
 
 // Type d'objet BrickLink selon la forme du code :
