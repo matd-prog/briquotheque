@@ -94,3 +94,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .sous-titre { font-weight: 700; margin: 4px 0 8px; }
 .actions-autres { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
 .badge { display: inline-block; background: #e7f0fb; color: var(--bleu); border-radius: 8px; padding: 2px 8px; font-size: 13px; font-weight: 600; }
+
+.bandeau.bleu-fonce { background: #1f4e8c; }
+.bloc-catalogue { display: flex; flex-direction: column; gap: 8px; }
+.etapes { padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 4px; }

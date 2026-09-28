@@ -34,6 +34,12 @@
 
   <!-- 2. Accueil -->
   <section id="ecran-accueil" class="ecran" hidden>
+    <!-- Rappel : catalogue BrickLink à mettre à jour (à partir du 2 du mois) -->
+    <div id="bandeau-catalogue" class="bandeau bleu-fonce" hidden>
+      <span>📚 Catalogue BrickLink à mettre à jour</span>
+      <button class="petit" data-action="voir-catalogue">Comment ?</button>
+    </div>
+
     <label class="gros-bouton rouge">
       📷 Photographier une figurine
       <input type="file" id="input-photo" accept="image/*" capture="environment" hidden>
@@ -45,8 +51,21 @@
     <button class="gros-bouton bleu" data-action="recherche">🔍 Chercher par nom</button>
     <button class="bouton-lien" data-action="saisie">⌨️ Saisir un code à la main</button>
 
-    <details class="outils">
+    <details class="outils" id="outils">
       <summary>Outils</summary>
+      <div id="bloc-catalogue" class="bloc-catalogue">
+        <p class="sous-titre">📚 Catalogue BrickLink (recherche par nom)</p>
+        <p class="aide" id="catalogue-info"></p>
+        <ol class="aide etapes">
+          <li>Connectez-vous sur BrickLink, puis ouvrez la <a href="https://www.bricklink.com/catalogDownload.asp" target="_blank" rel="noopener">page de téléchargement du catalogue</a>.</li>
+          <li>Choisissez <b>Catalog Items</b>, <b>Minifigures</b>, <b>Tab-Delimited File</b> (cochez <b>Year Released</b> si proposé), puis <b>Download</b>.</li>
+          <li>Touchez le bouton ci-dessous et choisissez le fichier téléchargé (<b>Minifigures.txt</b>).</li>
+        </ol>
+        <label class="bouton">📥 Mettre à jour le catalogue BrickLink
+          <input type="file" id="input-catalogue" accept=".txt,.tsv,.csv,text/plain,text/tab-separated-values" hidden>
+        </label>
+      </div>
+      <hr>
       <p>Refaire d'un coup les étiquettes (QR code) de toutes les figurines déjà présentes dans le fichier.</p>
       <button class="bouton" data-action="regenerer">🔄 Régénérer toutes les étiquettes</button>
       <div id="regen-etat"></div>

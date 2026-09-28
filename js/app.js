@@ -60,21 +60,21 @@ const Memoire = {
       r.onerror = () => ko(r.error);
     });
   },
-  async ecrire(valeur) {
+  async ecrire(valeur, cle = "classeur") {
     try {
       const db = await this._db();
       await new Promise((ok, ko) => {
         const tx = db.transaction("donnees", "readwrite");
-        tx.objectStore("donnees").put(valeur, "classeur");
+        tx.objectStore("donnees").put(valeur, cle);
         tx.oncomplete = ok; tx.onerror = () => ko(tx.error);
       });
     } catch (e) { console.warn("Mémoire indisponible", e); }
   },
-  async lire() {
+  async lire(cle = "classeur") {
     try {
       const db = await this._db();
       return await new Promise(ok => {
-        const r = db.transaction("donnees").objectStore("donnees").get("classeur");
+        const r = db.transaction("donnees").objectStore("donnees").get(cle);
         r.onsuccess = () => ok(r.result || null);
         r.onerror = () => ok(null);
       });
@@ -448,6 +448,34 @@ $("recherche-texte").addEventListener("input", () => {
   minuteurRecherche = setTimeout(lancerRecherche, 250);
 });
 
+// ---------- mise à jour du catalogue BrickLink ----------
+
+async function majInfosCatalogue() {
+  try {
+    const liste = await Catalogue.charger();
+    const date = Catalogue.date ? new Date(Catalogue.date).toLocaleDateString("fr-FR") : "date inconnue";
+    $("catalogue-info").textContent = `Catalogue actuel : ${liste.length.toLocaleString("fr-FR")} figurines (${date}).`;
+  } catch (e) {
+    $("catalogue-info").textContent = "Aucun catalogue installé pour l'instant.";
+  }
+  $("bandeau-catalogue").hidden = !Catalogue.aMettreAJour();
+}
+
+$("input-catalogue").addEventListener("change", async e => {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  try {
+    const n = await Catalogue.installer(await f.text());
+    await majInfosCatalogue();
+    toast(`Catalogue mis à jour ✔ (${n.toLocaleString("fr-FR")} figurines)`);
+  } catch (err) {
+    console.error(err);
+    await demander("Ce fichier n'a pas pu être utilisé : " + err.message +
+      "\n\nVérifiez sur BrickLink : « Catalog Items », « Minifigures », « Tab-Delimited File ».", "OK", "Fermer");
+  }
+});
+
 // ---------- saisie manuelle ----------
 
 function ouvrirSaisie() {
@@ -549,6 +577,10 @@ document.addEventListener("click", async e => {
   const action = b.dataset.action;
   if (action === "accueil") afficher(etat.classeur ? "accueil" : "fichier");
   else if (action === "saisie") ouvrirSaisie();
+  else if (action === "voir-catalogue") {
+    $("outils").open = true;
+    $("bloc-catalogue").scrollIntoView({ behavior: "smooth" });
+  }
   else if (action === "recherche") {
     // depuis l'accueil : nouvelle figurine, on oublie les photos précédentes ;
     // depuis un résultat : on garde la photo pour comparer
@@ -579,7 +611,8 @@ $("saisie-code").addEventListener("keydown", e => { if (e.key === "Enter") valid
 
 (async function demarrer() {
   Recadrage.installer();
-  Catalogue.charger().catch(() => {}); // en arrière-plan : sert aussi à reconnaître le thème
+  // en arrière-plan : sert à la recherche par nom et à reconnaître le thème
+  Catalogue.charger().catch(() => {}).then(majInfosCatalogue);
   if ("serviceWorker" in navigator && location.protocol === "https:")
     navigator.serviceWorker.register("sw.js").catch(() => {});
   const m = await Memoire.lire();
