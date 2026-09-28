@@ -299,7 +299,7 @@ function choisirCandidat(i) {
     <div class="apercu-etiquette" id="apercu"></div>
     <label class="etiquette-champ" for="choix-theme">Thème</label>
     <select id="choix-theme" class="champ">
-      ${[STAR_WARS, ...ONGLETS_THEMES].map(t => `<option ${t === etat.theme ? "selected" : ""}>${echapper(t)}</option>`).join("")}
+      ${[STAR_WARS, ...ONGLETS_THEMES.filter(t => t !== THEME_CUSTOMS.onglet)].map(t => `<option ${t === etat.theme ? "selected" : ""}>${echapper(t)}</option>`).join("")}
     </select>
     <div id="bloc-camps">
       <div class="camps">
@@ -476,6 +476,96 @@ $("input-catalogue").addEventListener("change", async e => {
   }
 });
 
+// ---------- figurines custom (JB Spielwaren ou autre) ----------
+
+// Premier lien http(s) trouvé dans le texte collé (le partage Android ajoute parfois le titre de la page)
+function lienDansTexte(texte) {
+  const m = /https?:\/\/\S+/i.exec(texte || "");
+  return m ? m[0] : "";
+}
+
+// JB Spielwaren : …/nya-custom-minifigure/a-648654818/ -> JB-648654818 ; sinon CUS-001, CUS-002…
+function codeCustom(lien) {
+  const jb = /jb-spielwaren\.[a-z]+\/.*?\/a-(\d+)/i.exec(lien);
+  if (jb) return "JB-" + jb[1];
+  let max = 0;
+  const codes = [...Object.values(etat.collection).flatMap(o => o.cases.map(c => c.code)), ...etat.table.map(l => l.code)];
+  for (const c of codes) { const x = /^CUS-(\d+)$/i.exec(c || ""); if (x) max = Math.max(max, +x[1]); }
+  return "CUS-" + String(max + 1).padStart(3, "0");
+}
+
+// Nom proposé d'après l'adresse JB : …/nya-custom-minifigure/a-… -> « NYA »
+function nomDepuisLien(lien) {
+  const m = /\/([a-z0-9-]+)\/a-\d+/i.exec(lien);
+  return m ? m[1].replace(/-?custom-minifigures?$/i, "").replace(/-/g, " ").trim().toUpperCase() : "";
+}
+
+function ouvrirCustom() {
+  $("custom-lien").value = "";
+  $("custom-nom").value = "";
+  delete $("custom-nom").dataset.auto;
+  afficher("custom");
+  majCustom();
+}
+
+function majCustom() {
+  const lien = lienDansTexte($("custom-lien").value);
+  const code = codeCustom(lien);
+  const nom = $("custom-nom");
+  const propose = nomDepuisLien(lien);
+  if (propose && (!nom.value || nom.dataset.auto)) { nom.value = propose; nom.dataset.auto = "1"; }
+  $("custom-code").textContent = `Code de l'étiquette : ${code}` +
+    (code.startsWith("JB-") ? " (numéro d'article JB Spielwaren)" : lien ? "" : " — pas de lien : étiquette sans QR code");
+  const deja = ouFigurine(code);
+  $("custom-alerte").innerHTML = deja.length ? `<div class="alerte">Déjà dans votre collection : ${echapper(deja.join(" ; "))}</div>` : "";
+  const onglet = etat.classeur.aOnglet(THEME_CUSTOMS.onglet) ? THEME_CUSTOMS.onglet : ONGLET_MODELE;
+  dimensionsCase(etat.classeur, onglet, 1, 2).then(({ w, h }) => {
+    $("custom-apercu").innerHTML = "";
+    $("custom-apercu").appendChild(dessinerEtiquette(code, THEME_CUSTOMS.couleur, w, h, lien || null));
+  });
+}
+
+let minuteurCustom;
+for (const id of ["custom-lien", "custom-nom"]) {
+  $(id).addEventListener("input", e => {
+    if (id === "custom-nom") delete $("custom-nom").dataset.auto; // nom tapé à la main : on n'y touche plus
+    clearTimeout(minuteurCustom);
+    minuteurCustom = setTimeout(majCustom, 250);
+  });
+}
+
+async function ajouterCustom() {
+  const lien = lienDansTexte($("custom-lien").value);
+  const code = codeCustom(lien);
+  const nom = $("custom-nom").value.trim();
+  if (!nom) { await demander("Donnez un nom à la figurine.", "OK", "Fermer"); return; }
+  const deja = ouFigurine(code);
+  if (deja.length && !(await demander(`Vous avez déjà cette figurine (${deja.join(" ; ")}).\n\nL'ajouter quand même ?`))) return;
+  const onglet = THEME_CUSTOMS.onglet;
+  const nouvelOnglet = !etat.classeur.aOnglet(onglet);
+  $("texte-chargement").textContent = "Ajout dans le fichier…";
+  $("photo-apercu").removeAttribute("src");
+  afficher("chargement");
+  try {
+    const res = await ajouterFigurine(etat.classeur, { code, nom, theme: onglet, lien });
+    etat.nonEnregistres++;
+    const octets = await memoriser();
+    if (!(await verifierAjout(octets, { onglet, row: res.row, col: res.col, code }))) throw new Error("vérification après écriture échouée");
+    await relireContenu();
+    $("texte-ok").textContent = `Ajoutée dans ${onglet}, case ${res.ref}` + (nouvelOnglet ? " (nouvel onglet créé)" : "");
+    const { w, h } = await dimensionsCase(etat.classeur, onglet, res.row, res.col);
+    $("apercu-ok").innerHTML = "";
+    $("apercu-ok").appendChild(dessinerEtiquette(code, THEME_CUSTOMS.couleur, w, h, lien || null));
+    afficher("ok");
+  } catch (err) {
+    console.error(err);
+    const m = await Memoire.lire();
+    if (m) await chargerClasseur(m.octets, m.nom, m.nonEnregistres);
+    afficher("custom");
+    await demander("L'ajout a échoué : " + err.message, "OK", "Fermer");
+  }
+}
+
 // ---------- saisie manuelle ----------
 
 function ouvrirSaisie() {
@@ -582,6 +672,8 @@ document.addEventListener("click", async e => {
   if (action === "accueil") afficher(etat.classeur ? "accueil" : "fichier");
   else if (action === "saisie") ouvrirSaisie();
   else if (action === "collection") Collection.ouvrir();
+  else if (action === "custom") ouvrirCustom();
+  else if (action === "custom-oui") ajouterCustom();
   else if (action === "voir-catalogue") {
     $("outils").open = true;
     $("bloc-catalogue").scrollIntoView({ behavior: "smooth" });

@@ -22,7 +22,9 @@ const THEMES = [
   { prefixes: ["jw"],  onglet: "Jurassic World",            couleur: "#9B9A5A" },
 ];
 const THEME_AUTRES = { prefixes: [], onglet: "Autres thèmes", couleur: "#FFFFFF" };
-const TOUS_THEMES = [...THEMES, THEME_AUTRES];
+// Figurines custom (JB Spielwaren...) : le QR code ouvre la page du fabricant, gardée en colonnes S à W
+const THEME_CUSTOMS = { prefixes: [], onglet: "Customs", couleur: "#FF698F" };
+const TOUS_THEMES = [...THEMES, THEME_AUTRES, THEME_CUSTOMS];
 
 // Thème d'un code BrickLink (hors Star Wars) ; "Autres thèmes" si inconnu
 function themeDuCode(code) {
@@ -65,7 +67,7 @@ function codeInvalide(code) {
 
 // Coupe le code en deux lignes quand c'est possible ("SW" / "1357") pour écrire plus gros
 function lignesDuCode(code) {
-  const m = /^([A-Za-z]+)(\d.*)$/.exec(code);
+  const m = /^([A-Za-z]+)-?(\d.*)$/.exec(code);    // SW1357 -> SW / 1357 ; JB-648654818 -> JB / 648654818
   if (m) return [m[1], m[2]];
   const t = /^(.+)(-\d+)$/.exec(code);            // 5002938-1 -> 5002938 / -1
   if (t) return [t[1], t[2]];
@@ -86,25 +88,14 @@ function coinsArrondis(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-// w, h : taille affichée en pixels Excel. Renvoie un canvas de (w*6) x (h*6).
-function dessinerEtiquette(code, couleur, w, h) {
-  const S = ECHELLE, W = w * S, H = h * S;
-  const cv = document.createElement("canvas");
-  cv.width = W; cv.height = H;
-  const ctx = cv.getContext("2d");
-  ctx.imageSmoothingEnabled = false;
-  ctx.fillStyle = couleur;
-  ctx.fillRect(0, 0, W, H);
-
-  // QR code : carré blanc arrondi sur toute la hauteur, à gauche
-  const pad = Math.round(1.5 * S);
-  const cote = H - 2 * pad;
+// QR code dans un carré blanc arrondi, à gauche, sur toute la hauteur
+function dessinerQr(ctx, texte, pad, cote) {
+  const S = ECHELLE;
   ctx.fillStyle = "#fff";
   coinsArrondis(ctx, pad, pad, cote, cote, 2 * S);
   ctx.fill();
-
   const qr = qrcode(0, "L");
-  qr.addData(urlBricklink(code));
+  qr.addData(texte);
   qr.make();
   const n = qr.getModuleCount();
   const marge = 2; // zone de silence (en modules) à l'intérieur du cadre blanc
@@ -116,22 +107,39 @@ function dessinerEtiquette(code, couleur, w, h) {
   for (let r = 0; r < n; r++)
     for (let c = 0; c < n; c++)
       if (qr.isDark(r, c)) ctx.fillRect(qx + c * module, qy + r * module, module, module);
+}
+
+// w, h : taille affichée en pixels Excel. Renvoie un canvas de (w*6) x (h*6).
+// lien : adresse du QR code (par défaut la page BrickLink du code) ; null = étiquette sans QR code.
+function dessinerEtiquette(code, couleur, w, h, lien) {
+  const S = ECHELLE, W = w * S, H = h * S;
+  const cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  const ctx = cv.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = couleur;
+  ctx.fillRect(0, 0, W, H);
+
+  const pad = Math.round(1.5 * S);
+  const cote = lien === null ? -pad : H - 2 * pad; // sans QR code : le code prend toute la largeur
+  if (lien !== null) dessinerQr(ctx, lien === undefined ? urlBricklink(code) : lien, pad, cote);
 
   // Code en gras noir, à droite, le plus grand possible
   const x0 = pad + cote + Math.round(1.5 * S);
   const zoneW = W - x0 - pad, zoneH = H - 2 * pad;
   const lignes = lignesDuCode(code);
   const police = t => `bold ${t}px Roboto, Arial, Helvetica, sans-serif`;
-  let t = Math.floor(zoneH / lignes.length * 0.95);
-  ctx.font = police(t);
-  while (t > 10 && Math.max(...lignes.map(l => ctx.measureText(l).width)) > zoneW) {
-    t -= 2; ctx.font = police(t);
-  }
   ctx.fillStyle = "#000";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   const cx = x0 + zoneW / 2, hLigne = zoneH / lignes.length;
-  lignes.forEach((l, i) => ctx.fillText(l, cx, pad + hLigne * (i + 0.5)));
+  // chaque ligne aussi grande que possible (ex. « JB » en grand, « 648654818 » réduit pour tenir)
+  lignes.forEach((l, i) => {
+    let t = Math.floor(hLigne * 0.95);
+    ctx.font = police(t);
+    while (t > 10 && ctx.measureText(l).width > zoneW) { t -= 2; ctx.font = police(t); }
+    ctx.fillText(l, cx, pad + hLigne * (i + 0.5));
+  });
   return cv;
 }
 

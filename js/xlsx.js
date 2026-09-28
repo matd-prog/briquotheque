@@ -589,7 +589,8 @@ async function lireCollection(cl) {
       for (let i = 1; i <= 5; i++) {
         const code = await cl.valeur(nom, lettreColonne(12 + i) + row);
         const nomFig = await cl.valeur(nom, lettreColonne(6 + i) + row);
-        cases.push({ row, col: i, ref: lettreColonne(i) + row, code, nom: nomFig, image: images.has(`${row}:${i}`) });
+        const lien = await cl.valeur(nom, lettreColonne(18 + i) + row); // colonnes S à W (customs)
+        cases.push({ row, col: i, ref: lettreColonne(i) + row, code, nom: nomFig, lien, image: images.has(`${row}:${i}`) });
       }
     }
     res[nom] = { derniere, cases };
@@ -616,10 +617,15 @@ async function dimensionsCase(cl, onglet, row, col, marge = 3) {
   };
 }
 
-async function poserEtiquette(cl, onglet, row, col, code) {
+// Adresse du QR code : page BrickLink (undefined), ou pour une custom son lien (null = pas de QR code)
+function lienEtiquette(onglet, lien) {
+  return onglet === THEME_CUSTOMS.onglet ? (lien || null) : undefined;
+}
+
+async function poserEtiquette(cl, onglet, row, col, code, lien) {
   const couleur = couleurOnglet(onglet);
   const { w, h } = await dimensionsCase(cl, onglet, row, col);
-  const png = await canvasEnPng(dessinerEtiquette(code, couleur, w, h));
+  const png = await canvasEnPng(dessinerEtiquette(code, couleur, w, h, lienEtiquette(onglet, lien)));
   await cl.supprimerImages(onglet, { row, col });
   await cl.ajouterImage(onglet, row, col, png, w, h, 3);
 }
@@ -648,7 +654,7 @@ async function premiereCaseLibre(cl, onglet) {
 }
 
 // camp : Gentil / Méchant / Zone grise pour Star Wars ; theme : onglet de thème pour les autres
-async function ajouterFigurine(cl, { code, nom, camp, theme }) {
+async function ajouterFigurine(cl, { code, nom, camp, theme, lien }) {
   const onglet = camp ? CAMPS[camp].onglet : theme;
   if (!cl.aOnglet(onglet)) await cl.creerOnglet(onglet, ONGLET_MODELE, couleurOnglet(onglet));
   const pos = await premiereCaseLibre(cl, onglet);
@@ -657,7 +663,8 @@ async function ajouterFigurine(cl, { code, nom, camp, theme }) {
   const styleCode = (await cl.styleColonne(onglet, "M")) ?? (await cl.styleColonne(ONGLET_MODELE, "M"));
   await cl.ecrireTexte(onglet, lettreColonne(6 + pos.col) + pos.row, nom, styleNom);
   await cl.ecrireTexte(onglet, lettreColonne(12 + pos.col) + pos.row, code, styleCode);
-  await poserEtiquette(cl, onglet, pos.row, pos.col, code);
+  if (lien) await cl.ecrireTexte(onglet, lettreColonne(18 + pos.col) + pos.row, lien); // colonnes S à W
+  await poserEtiquette(cl, onglet, pos.row, pos.col, code, lien);
 
   // Table camps
   const row = (await cl.derniereLigne(ONGLET_TABLE)) + 1;
@@ -696,7 +703,7 @@ async function regenererTout(cl, progression) {
       if (!c.code) continue;
       i++;
       if (codeInvalide(c.code)) { rapport.ignorees.push({ onglet, ref: c.ref, code: c.code, nom: c.nom }); continue; }
-      await poserEtiquette(cl, onglet, c.row, c.col, c.code);
+      await poserEtiquette(cl, onglet, c.row, c.col, c.code, c.lien);
       rapport.faites++;
       if (progression && i % 5 === 0) { progression(i, total); await new Promise(r => setTimeout(r, 0)); }
     }

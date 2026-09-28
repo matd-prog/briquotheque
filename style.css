@@ -122,3 +122,6 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .planche .case:nth-child(5n+1) { aspect-ratio: 109 / 56; }
 .planche .case img { position: absolute; inset: 5%; width: 90%; height: 90%; object-fit: contain; }
 .planche .case .sans { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #000; opacity: .7; padding: 2px; text-align: center; }
+.fiche .photo-custom { width: 72px; height: 72px; flex: none; display: flex; align-items: center; justify-content: center; font-size: 34px; background: #ffe3ea; border-radius: 8px; }
+.corail { background: #d9476b; }
+.photo-apercu:not([src]) { display: none; }

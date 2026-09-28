@@ -73,7 +73,7 @@ const Collection = {
 
     const figs = this._figurines(this.onglet);
     if (this.vue === "liste") {
-      $("collection-info").textContent = `${figs.length} figurine(s) dans « ${this.onglet} ». Touchez 🔗 pour voir la page BrickLink.`;
+      $("collection-info").textContent = `${figs.length} figurine(s) dans « ${this.onglet} ». Touchez 🔗 pour voir sa page (BrickLink, ou le fabricant pour les customs).`;
       contenu.innerHTML = figs.map(c => this._fiche(c, this.onglet)).join("");
       return;
     }
@@ -99,23 +99,32 @@ const Collection = {
     }).join("")}</div>`;
   },
 
+  // Page à ouvrir : lien de la custom, ou page BrickLink ; null s'il n'y en a pas
+  _lien(c, onglet) {
+    if (onglet === THEME_CUSTOMS.onglet) return c.lien || null;
+    return codeInvalide(c.code) ? null : urlBricklink(c.code);
+  },
+
   _fiche(c, onglet) {
     return `
       <div class="fiche">
-        ${imageHtml({ id: c.code }, "photo")}
+        ${onglet === THEME_CUSTOMS.onglet ? `<span class="photo-custom">🎨</span>` : imageHtml({ id: c.code }, "photo")}
         <div class="infos">
           <div class="nom-court">${echapper(c.nom || "(sans nom)")}</div>
           <div class="code">${echapper(c.code)}</div>
           <div class="lieu">${echapper(onglet)}, case ${c.ref}${c.image ? "" : " · sans étiquette"}</div>
         </div>
-        <a href="${echapper(urlBricklink(c.code))}" target="_blank" rel="noopener" title="Voir sur BrickLink">🔗</a>
+        ${this._lien(c, onglet) ? `<a href="${echapper(this._lien(c, onglet))}" target="_blank" rel="noopener" title="Voir la page">🔗</a>` : ""}
       </div>`;
   },
 
   async _details(onglet, ref) {
     const c = etat.collection[onglet].cases.find(x => x.ref === ref);
     if (!c || !c.code) { toast(`Case ${ref} : vide.`); return; }
-    const voir = await demander(`${c.nom || "(sans nom)"}\n${c.code}\n${onglet}, case ${ref}`, "Voir sur BrickLink", "Fermer");
-    if (voir && !codeInvalide(c.code)) window.open(urlBricklink(c.code), "_blank", "noopener");
+    const lien = this._lien(c, onglet);
+    if (!lien) { await demander(`${c.nom || "(sans nom)"}\n${c.code}\n${onglet}, case ${ref}`, "OK", "Fermer"); return; }
+    const voir = await demander(`${c.nom || "(sans nom)"}\n${c.code}\n${onglet}, case ${ref}`,
+      onglet === THEME_CUSTOMS.onglet ? "Voir la page" : "Voir sur BrickLink", "Fermer");
+    if (voir) window.open(lien, "_blank", "noopener");
   },
 };

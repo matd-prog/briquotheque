@@ -24,6 +24,11 @@ par nom et à reconnaître le thème. Mise à jour mensuelle depuis le télépho
 « Mettre à jour le catalogue BrickLink » avec le fichier Minifigures.txt téléchargé sur
 https://www.bricklink.com/catalogDownload.asp (Catalog Items / Minifigures / Tab-Delimited File).
 
+Figurines custom (JB Spielwaren ou autre) : bouton « Ajouter une figurine custom », onglet
+« Customs » (corail). Code JB-<numéro d'article> pour un lien JB Spielwaren, sinon CUS-001…
+Le QR code ouvre le lien collé (gardé dans l'onglet Customs, colonnes S à W) ; sans lien,
+l'étiquette n'a pas de QR code.
+
 Fichiers :
 - `index.html`, `style.css` : l'écran de l'appli
 - `js/app.js` : déroulé photo → identification → ajout
@@ -32,5 +37,6 @@ Fichiers :
 - `js/label.js` contient aussi la liste des thèmes et de leurs couleurs (`THEMES`)
 - `js/xlsx.js` : modification du fichier Excel
 - `js/recadrage.js` : recadrage de la photo
+- `js/collection.js` : consultation de la collection (liste, planche, recherche)
 - `js/catalogue.js` : catalogue BrickLink (recherche, thème par catégorie, mise à jour)
 - `lib/` : JSZip (lecture/écriture .xlsx) et qrcode-generator (QR codes), licences MIT
