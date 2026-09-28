@@ -81,24 +81,28 @@ const Catalogue = {
 };
 
 // Thème (Star Wars ou onglet de thème) d'après une catégorie BrickLink ou Brickognize,
-// ex. « Star Wars / Star Wars Episode 4/5/6 », « The Simpsons », « Super Heroes / Batman »
+// ex. « Star Wars / Star Wars Episode 4/5/6 », « Town / City », « Super Heroes / Batman II ».
+// Les séries à collectionner sous licence (« Collectible Minifigures / The Simpsons / ... »)
+// vont dans l'onglet de leur thème ; les autres séries dans « Minifigs à collectionner ».
 function themeDeCategorie(categorie) {
   const c = normaliser(categorie);
   if (!c) return null;
+  const serie = /^collectible minifigures/.test(c);
+  const reste = c.replace(/^collectible minifigures( \/ )?/, "");
   const regles = [
     [/^star wars/, "Star Wars"],
-    [/^collectible minifigures/, "Minifigs à collectionner"],
     [/simpsons/, "Simpsons"],
     [/lord of the rings|hobbit/, "Seigneur des Anneaux"],
     [/harry potter|fantastic beasts/, "Harry Potter"],
-    [/super heroes|marvel|dc comics|batman/, "Super-héros"],
+    [/super heroes|marvel|dc comics|batman|spider-man/, "Super-héros"],
     [/ninjago/, "Ninjago"],
     [/jurassic/, "Jurassic World"],
-    [/disney/, "Disney"],
+    [/^disney/, "Disney"],
     [/^town|^city/, "City"],
   ];
-  const r = regles.find(([re]) => re.test(c));
-  return r ? r[1] : null;
+  const r = regles.find(([re]) => re.test(reste));
+  if (r) return r[1];
+  return serie ? "Minifigs à collectionner" : null;
 }
 
 // Fichier BrickLink -> « code, nom, catégorie, année » (une figurine par ligne)

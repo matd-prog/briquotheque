@@ -16,6 +16,14 @@ Tout fonctionne dans le téléphone : le fichier Excel est ouvert depuis Google 
 dans le téléphone, puis renvoyé vers Drive sous un nouveau nom (daté). Le fichier d'origine
 n'est jamais écrasé.
 
+Reconnaissance : photo recadrée envoyée à Brickognize, 5 propositions comparées à la photo
+BrickLink, photo de dos facultative (scores combinés), recherche par nom dans le catalogue BrickLink.
+
+Catalogue BrickLink (`data/figurines.tsv`, 19 250 figurines au 28/09/2026) : sert à la recherche
+par nom et à reconnaître le thème. Mise à jour mensuelle depuis le téléphone : Outils →
+« Mettre à jour le catalogue BrickLink » avec le fichier Minifigures.txt téléchargé sur
+https://www.bricklink.com/catalogDownload.asp (Catalog Items / Minifigures / Tab-Delimited File).
+
 Fichiers :
 - `index.html`, `style.css` : l'écran de l'appli
 - `js/app.js` : déroulé photo → identification → ajout
@@ -23,4 +31,6 @@ Fichiers :
 - `js/camps.js` : choix automatique du camp (Star Wars)
 - `js/label.js` contient aussi la liste des thèmes et de leurs couleurs (`THEMES`)
 - `js/xlsx.js` : modification du fichier Excel
+- `js/recadrage.js` : recadrage de la photo
+- `js/catalogue.js` : catalogue BrickLink (recherche, thème par catégorie, mise à jour)
 - `lib/` : JSZip (lecture/écriture .xlsx) et qrcode-generator (QR codes), licences MIT

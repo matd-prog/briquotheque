@@ -15,7 +15,7 @@ const THEMES = [
   { prefixes: ["hp"],  onglet: "Harry Potter",              couleur: "#AC78BA" },
   { prefixes: ["sh"],  onglet: "Super-héros",               couleur: "#36AEBF" },
   { prefixes: ["col"], onglet: "Minifigs à collectionner",  couleur: "#FE8A18" },
-  { prefixes: ["dis"], onglet: "Disney",                    couleur: "#E4ADC8" },
+  { prefixes: ["dis", "dp"], onglet: "Disney",              couleur: "#E4ADC8" },
   { prefixes: ["njo"], onglet: "Ninjago",                   couleur: "#BBE90B" },
   { prefixes: ["cty"], onglet: "City",                      couleur: "#9FC3E9" },
   { prefixes: ["jw"],  onglet: "Jurassic World",            couleur: "#9B9A5A" },
@@ -26,7 +26,11 @@ const TOUS_THEMES = [...THEMES, THEME_AUTRES];
 // Thème d'un code BrickLink (hors Star Wars) ; "Autres thèmes" si inconnu
 function themeDuCode(code) {
   const lettres = (/^([a-z]+)/i.exec(code || "") || [, ""])[1].toLowerCase();
-  if (lettres.startsWith("col")) return THEMES.find(t => t.prefixes.includes("col"));
+  if (lettres.startsWith("col")) { // séries à collectionner : colhp -> Harry Potter, coltlbm -> Super-héros
+    const suite = lettres.slice(3);
+    if (suite.startsWith("tlbm")) return THEMES.find(t => t.onglet === "Super-héros");
+    return THEMES.find(t => suite && t.prefixes.includes(suite)) || THEMES.find(t => t.prefixes.includes("col"));
+  }
   return THEMES.find(t => t.prefixes.includes(lettres)) || THEME_AUTRES;
 }
 
