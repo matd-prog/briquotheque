@@ -503,10 +503,49 @@ function nomDepuisLien(lien) {
 function ouvrirCustom() {
   $("custom-lien").value = "";
   $("custom-nom").value = "";
+  $("custom-recherche").value = "";
+  $("custom-resultats").innerHTML = "";
+  $("custom-choisie").innerHTML = "";
   delete $("custom-nom").dataset.auto;
   afficher("custom");
   majCustom();
+  CatalogueJB.charger()
+    .then(l => { $("custom-recherche-info").textContent = `${l.length} figurines JB Spielwaren (catalogue du ${new Date(CatalogueJB.date).toLocaleDateString("fr-FR")}). Sinon, collez un lien plus bas.`; })
+    .catch(() => { $("custom-recherche-info").textContent = "Catalogue JB indisponible : collez le lien de la figurine plus bas."; });
 }
+
+function chercherJB() {
+  const res = CatalogueJB.chercher($("custom-recherche").value);
+  $("custom-resultats").innerHTML = res.map((f, i) => `
+    <button class="proposition" data-jb="${i}">
+      <img src="${echapper(f.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+      <span class="nom-court">${echapper(f.nom)}</span>
+      <span class="score">${echapper(f.categorie)}</span>
+    </button>`).join("");
+  $("custom-resultats").querySelectorAll("[data-jb]").forEach(b => b.addEventListener("click", () => choisirJB(res[+b.dataset.jb])));
+}
+
+// Remplit le lien et le nom d'après la figurine choisie dans le catalogue JB
+function choisirJB(f) {
+  $("custom-lien").value = f.lien;
+  $("custom-nom").value = nomCustomPourFichier(f.nom);
+  delete $("custom-nom").dataset.auto;
+  $("custom-resultats").innerHTML = "";
+  $("custom-recherche").value = "";
+  $("custom-choisie").innerHTML = `
+    <div class="fiche">
+      <img class="photo" src="${echapper(f.image)}" alt="" onerror="this.style.visibility='hidden'">
+      <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.code)}</div></div>
+      <a href="${echapper(f.lien)}" target="_blank" rel="noopener" title="Voir la page">🔗</a>
+    </div>`;
+  majCustom();
+}
+
+let minuteurJB;
+$("custom-recherche").addEventListener("input", () => {
+  clearTimeout(minuteurJB);
+  minuteurJB = setTimeout(chercherJB, 250);
+});
 
 function majCustom() {
   const lien = lienDansTexte($("custom-lien").value);

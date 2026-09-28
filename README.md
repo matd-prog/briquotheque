@@ -29,6 +29,10 @@ Figurines custom (JB Spielwaren ou autre) : bouton « Ajouter une figurine custo
 Le QR code ouvre le lien collé (gardé dans l'onglet Customs, colonnes S à W) ; sans lien,
 l'étiquette n'a pas de QR code.
 
+Catalogue JB Spielwaren (`data/jb.tsv`) : figurines custom en vente sur jb-spielwaren.de
+(nom, catégorie, lien, adresse de la photo, sans copie des photos). Mise à jour :
+`python3 outils/catalogue_jb.py` (lit les catégories « Custom Minifigures », 1 page / 2 s).
+
 Fichiers :
 - `index.html`, `style.css` : l'écran de l'appli
 - `js/app.js` : déroulé photo → identification → ajout

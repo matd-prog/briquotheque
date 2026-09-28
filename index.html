@@ -107,6 +107,11 @@
   <!-- Figurine custom (JB Spielwaren ou autre) -->
   <section id="ecran-custom" class="ecran" hidden>
     <p class="intro">🎨 Figurine <b>custom</b> (JB Spielwaren ou autre fabricant) : elle sera rangée dans l'onglet « Customs ».</p>
+    <label for="custom-recherche" class="etiquette-champ">Chercher dans le catalogue JB Spielwaren</label>
+    <input id="custom-recherche" class="champ" type="search" autocomplete="off" placeholder="ex. clone, witch, knight…">
+    <p class="aide" id="custom-recherche-info"></p>
+    <div id="custom-resultats" class="grille"></div>
+    <div id="custom-choisie"></div>
     <label for="custom-lien" class="etiquette-champ">Lien de la page de la figurine (facultatif)</label>
     <input id="custom-lien" class="champ" type="url" inputmode="url" autocomplete="off" placeholder="https://www.jb-spielwaren.de/…">
     <p class="aide">Sur la page de la figurine : ⋮ → <b>Partager</b> → <b>Copier le lien</b>, puis collez-le ici. Le QR code de l'étiquette ouvrira cette page. Sans lien, l'étiquette n'aura pas de QR code.</p>
@@ -209,6 +214,7 @@
 <script src="js/xlsx.js"></script>
 <script src="js/recadrage.js"></script>
 <script src="js/catalogue.js"></script>
+<script src="js/catalogue_jb.js"></script>
 <script src="js/collection.js"></script>
 <script src="js/app.js"></script>
 </body>

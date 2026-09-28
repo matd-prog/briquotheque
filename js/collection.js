@@ -8,6 +8,7 @@ const Collection = {
   _tour: 0, // évite qu'un ancien affichage (plus lent) remplace le plus récent
 
   ouvrir() {
+    CatalogueJB.charger().then(() => this.rendre()).catch(() => {}); // photos des customs JB
     const onglets = Object.keys(etat.collection || {});
     if (!onglets.includes(this.onglet)) this.onglet = onglets.find(o => this._figurines(o).length) || onglets[0];
     $("collection-recherche").value = "";
@@ -105,10 +106,18 @@ const Collection = {
     return codeInvalide(c.code) ? null : urlBricklink(c.code);
   },
 
+  // Photo d'une custom : celle du catalogue JB si on la connaît, sinon un pictogramme
+  _photoCustom(c) {
+    const jb = CatalogueJB.trouver(c.code);
+    return jb && jb.image
+      ? `<img class="photo" loading="lazy" src="${echapper(jb.image)}" alt="" onerror="this.style.visibility='hidden'">`
+      : `<span class="photo-custom">🎨</span>`;
+  },
+
   _fiche(c, onglet) {
     return `
       <div class="fiche">
-        ${onglet === THEME_CUSTOMS.onglet ? `<span class="photo-custom">🎨</span>` : imageHtml({ id: c.code }, "photo")}
+        ${onglet === THEME_CUSTOMS.onglet ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
         <div class="infos">
           <div class="nom-court">${echapper(c.nom || "(sans nom)")}</div>
           <div class="code">${echapper(c.code)}</div>
