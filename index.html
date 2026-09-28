@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Étiquettes figurines</title>
+<meta name="theme-color" content="#d01012">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icones/icone-192.png">
+<link rel="apple-touch-icon" href="icones/icone-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Étiquettes figurines</h1>
+  <div id="fichier-info" class="fichier-info"></div>
+</header>
+
+<main>
+  <!-- Bandeau : modifications à enregistrer -->
+  <div id="bandeau-save" class="bandeau" hidden>
+    <span id="bandeau-texte"></span>
+    <button class="petit" data-action="enregistrer">Enregistrer</button>
+  </div>
+
+  <!-- 1. Pas encore de fichier -->
+  <section id="ecran-fichier" class="ecran">
+    <p class="intro">Pour commencer, ouvrez votre fichier Excel d'étiquettes (depuis Google Drive ou le téléphone).</p>
+    <label class="gros-bouton vert">
+      📂 Ouvrir mon fichier Excel
+      <input type="file" id="input-fichier" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
+    </label>
+  </section>
+
+  <!-- 2. Accueil -->
+  <section id="ecran-accueil" class="ecran" hidden>
+    <label class="gros-bouton rouge">
+      📷 Photographier une figurine
+      <input type="file" id="input-photo" accept="image/*" capture="environment" hidden>
+    </label>
+    <label class="gros-bouton bleu">
+      🖼️ Choisir une photo déjà prise
+      <input type="file" id="input-galerie" accept="image/*" hidden>
+    </label>
+    <button class="bouton-lien" data-action="saisie">⌨️ Saisir un code à la main</button>
+
+    <details class="outils">
+      <summary>Outils</summary>
+      <p>Refaire d'un coup les étiquettes (QR code) de toutes les figurines déjà présentes dans le fichier.</p>
+      <button class="bouton" data-action="regenerer">🔄 Régénérer toutes les étiquettes</button>
+      <div id="regen-etat"></div>
+      <hr>
+      <button class="bouton gris" data-action="changer-fichier">Utiliser un autre fichier Excel</button>
+    </details>
+  </section>
+
+  <!-- 3. Identification en cours -->
+  <section id="ecran-chargement" class="ecran" hidden>
+    <img id="photo-apercu" class="photo-apercu" alt="">
+    <p class="attente"><span class="roue"></span> <span id="texte-chargement">Identification en cours…</span></p>
+  </section>
+
+  <!-- 4. Résultat -->
+  <section id="ecran-resultat" class="ecran" hidden>
+    <div id="carte-principale" class="carte"></div>
+    <div id="zone-ajout"></div>
+    <details id="autres" class="autres">
+      <summary>Ce n'est pas elle ? Voir les autres propositions</summary>
+      <div id="liste-autres"></div>
+      <button class="bouton-lien" data-action="saisie">⌨️ Saisir le code à la main</button>
+    </details>
+    <button class="bouton gris" data-action="accueil">↩︎ Nouvelle photo</button>
+  </section>
+
+  <!-- 5. Saisie manuelle -->
+  <section id="ecran-saisie" class="ecran" hidden>
+    <label for="saisie-code" class="etiquette-champ">Code BrickLink de la figurine</label>
+    <input id="saisie-code" class="champ" placeholder="ex. SW0631" autocapitalize="characters" autocomplete="off">
+    <p class="aide">Vous ne connaissez pas le code ? <a id="lien-recherche" href="https://www.bricklink.com/catalogTree.asp?itemType=M" target="_blank" rel="noopener">Chercher sur BrickLink</a></p>
+    <button class="gros-bouton vert" data-action="valider-saisie">Valider</button>
+    <button class="bouton gris" data-action="accueil">Annuler</button>
+  </section>
+
+  <!-- 6. Confirmation -->
+  <section id="ecran-ok" class="ecran" hidden>
+    <div class="succes">✅ <span id="texte-ok"></span></div>
+    <div id="apercu-ok" class="apercu-etiquette"></div>
+    <p class="aide">Pensez à enregistrer le fichier pour le retrouver dans Google Drive.</p>
+    <button class="gros-bouton vert" data-action="enregistrer">📤 Enregistrer le fichier</button>
+    <button class="gros-bouton rouge" data-action="accueil">📷 Figurine suivante</button>
+  </section>
+
+  <!-- Enregistrement -->
+  <section id="ecran-save" class="ecran" hidden>
+    <p class="intro">Votre fichier mis à jour est prêt :</p>
+    <p class="nom-fichier" id="nom-save"></p>
+    <button class="gros-bouton vert" id="btn-partager" data-action="partager">📤 Envoyer vers Google Drive</button>
+    <a class="gros-bouton bleu" id="lien-telecharger" download>⬇️ Télécharger sur le téléphone</a>
+    <p class="aide">« Envoyer vers Google Drive » ouvre le menu de partage d'Android : choisissez <b>Drive</b>, puis le dossier de votre choix. Votre ancien fichier n'est pas effacé : le nouveau porte la date et l'heure dans son nom.</p>
+    <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
+  </section>
+</main>
+
+<dialog id="dialogue">
+  <p id="dialogue-texte"></p>
+  <div class="dialogue-boutons">
+    <button class="bouton gris" value="non" id="dialogue-non">Non</button>
+    <button class="bouton vert" value="oui" id="dialogue-oui">Oui</button>
+  </div>
+</dialog>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="lib/jszip.min.js"></script>
+<script src="lib/qrcode.js"></script>
+<script src="js/label.js"></script>
+<script src="js/camps.js"></script>
+<script src="js/xlsx.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
