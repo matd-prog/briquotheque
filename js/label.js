@@ -17,7 +17,8 @@ const THEMES = [
   { prefixes: ["col"], onglet: "Minifigs à collectionner",  couleur: "#FE8A18" },
   { prefixes: ["dis", "dp"], onglet: "Disney",              couleur: "#E4ADC8" },
   { prefixes: ["njo"], onglet: "Ninjago",                   couleur: "#BBE90B" },
-  { prefixes: ["cty"], onglet: "City",                      couleur: "#9FC3E9" },
+  // pas « City » : Excel confondrait avec un onglet « CITY » (majuscules ignorées)
+  { prefixes: ["cty", "twn"], onglet: "Town & City",        couleur: "#9FC3E9" },
   { prefixes: ["jw"],  onglet: "Jurassic World",            couleur: "#9B9A5A" },
 ];
 const THEME_AUTRES = { prefixes: [], onglet: "Autres thèmes", couleur: "#FFFFFF" };

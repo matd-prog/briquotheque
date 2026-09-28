@@ -9,7 +9,7 @@ Appli pour téléphone Android (page web installable) :
    - Star Wars : Gentils (vert), Méchants (rouge), Zone grise (camp proposé, modifiable) ;
    - autres thèmes : un onglet par thème, créé automatiquement la première fois avec la même
      mise en page (Simpsons, Seigneur des Anneaux, Harry Potter, Super-héros, Minifigs à
-     collectionner, Disney, Ninjago, City, Jurassic World, Autres thèmes). Le thème est reconnu
+     collectionner, Disney, Ninjago, Town & City, Jurassic World, Autres thèmes). Le thème est reconnu
      grâce au début du code BrickLink (sim, lor, hp…) et peut être changé à la main.
 
 Tout fonctionne dans le téléphone : le fichier Excel est ouvert depuis Google Drive, modifié

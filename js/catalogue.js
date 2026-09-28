@@ -98,7 +98,7 @@ function themeDeCategorie(categorie) {
     [/ninjago/, "Ninjago"],
     [/jurassic/, "Jurassic World"],
     [/^disney/, "Disney"],
-    [/^town|^city/, "City"],
+    [/^town|^city/, "Town & City"],
   ];
   const r = regles.find(([re]) => re.test(reste));
   if (r) return r[1];

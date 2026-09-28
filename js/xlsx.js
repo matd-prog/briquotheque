@@ -476,6 +476,9 @@ class Classeur {
   async creerOnglet(nom, modeleNom, couleur) {
     if (!ONGLETS_THEMES.includes(nom)) throw new Error(`Création interdite de l'onglet « ${nom} ».`);
     if (this.aOnglet(nom)) return;
+    // Excel ignore les majuscules dans les noms d'onglets : « City » et « CITY » seraient en conflit
+    const conflit = this.feuilles.find(f => f.nom.toLowerCase() === nom.toLowerCase());
+    if (conflit) throw new Error(`un onglet « ${conflit.nom} » existe déjà : impossible de créer « ${nom} »`);
     const src = await this._doc(this.feuille(modeleNom).chemin);
     const doc = new DOMParser().parseFromString(new XMLSerializer().serializeToString(src), "application/xml");
     const racine = doc.documentElement;
