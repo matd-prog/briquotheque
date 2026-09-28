@@ -9,8 +9,11 @@ const etat = {
   nonEnregistres: 0,   // nombre d'ajouts pas encore enregistrés
   table: [],           // lignes de la Table camps
   collection: null,    // contenu des 3 onglets colorés
+  photos: [],          // photos envoyées pour la figurine en cours (face, dos) et leurs résultats
   candidats: [],
   choisi: null,
+  theme: null,
+  origine: "photo",    // d'où viennent les propositions : "photo" ou "recherche"
   camp: null,
   dernierFichier: null,
 };
@@ -132,66 +135,96 @@ $("input-fichier").addEventListener("change", async e => {
 
 // ---------- photo et identification ----------
 
+const NB_PROPOSITIONS = 5;
+
+// Nouvelle photo (de face) : recadrage puis identification
 for (const id of ["input-photo", "input-galerie"]) {
-  $(id).addEventListener("change", e => {
+  $(id).addEventListener("change", async e => {
     const f = e.target.files[0];
     e.target.value = "";
-    if (f) identifier(f);
+    if (!f) return;
+    $("recadrage-titre").textContent = "Encadrez la figurine : glissez le cadre, ou tirez ses coins.";
+    const photo = await Recadrage.ouvrir(f).catch(() => null);
+    if (!photo) { afficher("accueil"); return; }
+    etat.photos = [];
+    identifier(photo);
   });
 }
 
-// Réduit la photo (plus rapide à envoyer)
-function reduirePhoto(fichier, max = 1280) {
-  return new Promise((ok, ko) => {
-    const img = new Image();
-    img.onload = () => {
-      const r = Math.min(1, max / Math.max(img.width, img.height));
-      const cv = document.createElement("canvas");
-      cv.width = Math.round(img.width * r); cv.height = Math.round(img.height * r);
-      cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
-      cv.toBlob(b => b ? ok(b) : ko(new Error("photo illisible")), "image/jpeg", 0.88);
-    };
-    img.onerror = () => ko(new Error("photo illisible"));
-    img.src = URL.createObjectURL(fichier);
-  });
+// Photo de dos : même figurine, pour départager les variantes
+$("input-dos").addEventListener("change", async e => {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  $("recadrage-titre").textContent = "Photo de dos : encadrez la figurine.";
+  const photo = await Recadrage.ouvrir(f).catch(() => null);
+  if (!photo) { afficher("resultat"); return; }
+  identifier(photo);
+});
+
+async function interrogerBrickognize(photo) {
+  const form = new FormData();
+  form.append("query_image", photo, "photo.jpg");
+  const rep = await fetch(BRICKOGNIZE, { method: "POST", body: form });
+  if (!rep.ok) throw new Error("Brickognize a répondu " + rep.status);
+  const donnees = await rep.json();
+  return (donnees.items || []).slice(0, 10).map(it => ({
+    id: String(it.id || "").toUpperCase(),
+    nom: it.name || "",
+    image: it.img_url || "",
+    score: typeof it.score === "number" ? it.score : null,
+    categorie: it.category || "",
+    lien: ((it.external_sites || []).find(s => /bricklink/i.test(s.name || s.url || "")) || {}).url || urlBricklink(String(it.id || "")),
+  })).filter(it => it.id);
 }
 
-async function identifier(fichier) {
-  $("photo-apercu").src = URL.createObjectURL(fichier);
-  $("texte-chargement").textContent = "Identification en cours…";
+// Combine les résultats de plusieurs photos : moyenne des scores (0 si absente d'une photo)
+function combiner(photos) {
+  const table = new Map();
+  photos.forEach(p => p.items.forEach(it => {
+    const x = table.get(it.id) || { ...it, total: 0 };
+    x.total += it.score || 0;
+    table.set(it.id, x);
+  }));
+  return [...table.values()]
+    .map(x => ({ ...x, score: x.total / photos.length }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, NB_PROPOSITIONS);
+}
+
+async function identifier(photo) {
+  const url = URL.createObjectURL(photo);
+  $("photo-apercu").src = url;
+  $("texte-chargement").textContent = etat.photos.length ? "Analyse de la photo de dos…" : "Identification en cours…";
   afficher("chargement");
   try {
-    const photo = await reduirePhoto(fichier);
-    const form = new FormData();
-    form.append("query_image", photo, "photo.jpg");
-    const rep = await fetch(BRICKOGNIZE, { method: "POST", body: form });
-    if (!rep.ok) throw new Error("Brickognize a répondu " + rep.status);
-    const donnees = await rep.json();
-    const items = (donnees.items || []).slice(0, 3).map(it => ({
-      id: String(it.id || "").toUpperCase(),
-      nom: it.name || "",
-      image: it.img_url || imageBricklink(it.id),
-      score: typeof it.score === "number" ? it.score : null,
-      categorie: it.category || "",
-      lien: ((it.external_sites || []).find(s => /bricklink/i.test(s.name || s.url || "")) || {}).url || urlBricklink(String(it.id || "")),
-    })).filter(it => it.id);
+    const items = await interrogerBrickognize(photo);
     if (!items.length) {
-      afficher("accueil");
-      await demander("Aucune figurine reconnue sur cette photo. Essayez avec la figurine seule, bien éclairée, sur un fond uni.", "OK", "Fermer");
+      afficher(etat.photos.length ? "resultat" : "accueil");
+      await demander("Aucune figurine reconnue sur cette photo. Essayez avec la figurine seule, bien éclairée, sur un fond uni, en la recadrant au plus près.", "OK", "Fermer");
       return;
     }
-    etat.candidats = items;
+    etat.photos.push({ url, items });
+    etat.origine = "photo";
+    etat.candidats = combiner(etat.photos);
     choisirCandidat(0);
   } catch (err) {
     console.error(err);
-    afficher("accueil");
-    const saisir = await demander("Impossible de joindre le service de reconnaissance (Brickognize). Vérifiez la connexion Internet.\n\nVoulez-vous saisir le code à la main ?", "Saisir le code", "Fermer");
-    if (saisir) ouvrirSaisie();
+    afficher(etat.photos.length ? "resultat" : "accueil");
+    const saisir = await demander("Impossible de joindre le service de reconnaissance (Brickognize). Vérifiez la connexion Internet.\n\nVoulez-vous chercher la figurine par son nom ?", "Chercher par nom", "Fermer");
+    if (saisir) ouvrirRecherche();
   }
 }
 
 function imageBricklink(code) {
-  return `https://img.bricklink.com/ItemImage/${typeBricklink(code)}N/0/${encodeURIComponent(code)}.png`;
+  return `https://img.bricklink.com/ItemImage/${typeBricklink(code)}N/0/${encodeURIComponent(code.toLowerCase())}.png`;
+}
+
+// Image d'une proposition : photo BrickLink, et à défaut celle de Brickognize
+function imageHtml(cand, classe = "") {
+  const secours = cand.image && cand.image !== imageBricklink(cand.id) ? cand.image : "";
+  return `<img class="${classe}" src="${echapper(imageBricklink(cand.id))}" alt="" data-secours="${echapper(secours)}"
+    onerror="if (this.dataset.secours) { this.src = this.dataset.secours; this.dataset.secours = ''; } else this.style.visibility = 'hidden'">`;
 }
 
 // « Luke Skywalker (Hoth, Printed Legs) » -> « LUKE SKYWALKER Hoth, Printed Legs » (style de votre fichier)
@@ -216,11 +249,15 @@ function ouFigurine(code) {
   return res;
 }
 
-// Thème proposé : d'abord votre Table camps, puis le code BrickLink (sw... = Star Wars)
+// Thème proposé : d'abord votre Table camps, puis la catégorie du catalogue BrickLink,
+// puis celle de Brickognize, et enfin le début du code BrickLink (sw... = Star Wars)
 function proposerTheme(cand) {
   const connu = etat.table.find(l => l.code.toUpperCase() === cand.id.toUpperCase());
   if (connu && CAMPS[connu.camp]) return STAR_WARS;
   if (connu && ONGLETS_THEMES.includes(connu.camp)) return connu.camp;
+  const fiche = Catalogue.trouver(cand.id);
+  const parCategorie = themeDeCategorie(fiche ? fiche.categorie : "") || themeDeCategorie(cand.categorie);
+  if (parCategorie) return parCategorie;
   if (estStarWars(cand)) return STAR_WARS;
   return themeDuCode(cand.id).onglet;
 }
@@ -238,16 +275,20 @@ function choisirCandidat(i) {
   etat.theme = proposerTheme(cand);
   etat.camp = proposerCamp(cand.id, cand.nom, etat.table).camp;
   const deja = ouFigurine(cand.id);
-  const score = cand.score != null ? `<div class="score">Confiance : ${Math.round(cand.score * 100)} %</div>` : "";
+  const nbPhotos = etat.photos.length;
+  const score = cand.score != null
+    ? `<div class="score">Confiance : ${Math.round(cand.score * 100)} %${nbPhotos > 1 ? ` <span class="badge">${nbPhotos} photos combinées</span>` : ""}</div>` : "";
 
   $("carte-principale").innerHTML = `
-    <div class="haut">
-      <img src="${echapper(cand.image)}" alt="" onerror="this.style.visibility='hidden'">
-      <div>
-        <div class="nom">${echapper(cand.nom || "Nom inconnu")}</div>
-        <div class="code">${echapper(cand.id)}</div>
-        ${score}
-      </div>
+    <div class="comparer">
+      ${nbPhotos ? `<figure><div class="vos-photos">${etat.photos.map(p => `<img src="${p.url}" alt="">`).join("")}</div>
+        <figcaption>${nbPhotos > 1 ? "Vos photos" : "Votre photo"}</figcaption></figure>` : ""}
+      <figure ${nbPhotos ? "" : 'style="grid-column: 1 / -1"'}>${imageHtml(cand)}<figcaption>BrickLink</figcaption></figure>
+    </div>
+    <div>
+      <div class="nom">${echapper(cand.nom || "Nom inconnu")}</div>
+      <div class="code">${echapper(cand.id)}</div>
+      ${score}
     </div>
     <a class="bouton bleu" href="${echapper(cand.lien)}" target="_blank" rel="noopener">🔗 Voir la page BrickLink</a>`;
 
@@ -285,14 +326,15 @@ function choisirCandidat(i) {
   majChoix(null);
 
   const autres = etat.candidats.map((c, j) => ({ c, j })).filter(x => x.j !== i);
-  $("autres").hidden = false;
-  $("autres").open = false;
   $("liste-autres").innerHTML = autres.length ? autres.map(({ c, j }) => `
-    <button class="mini" data-candidat="${j}">
-      <img src="${echapper(c.image)}" alt="" onerror="this.style.visibility='hidden'">
-      <span><b>${echapper(c.nom)}</b><br><span class="code">${echapper(c.id)}</span>
-      ${c.score != null ? `<span class="score"> · ${Math.round(c.score * 100)} %</span>` : ""}</span>
-    </button>`).join("") : `<p class="aide">Pas d'autre proposition.</p>`;
+    <button class="proposition" data-candidat="${j}">
+      ${imageHtml(c)}
+      <span class="nom-court">${echapper(c.nom)}</span>
+      <span class="code">${echapper(c.id)}${c.score != null ? `<span class="score"> · ${Math.round(c.score * 100)} %</span>` : ""}</span>
+    </button>`).join("") : "";
+  $("liste-autres").hidden = !autres.length;
+  // photo de dos : seulement après une première photo, et une seule fois
+  $("btn-dos").hidden = nbPhotos !== 1 || etat.origine !== "photo";
   $("liste-autres").querySelectorAll("[data-candidat]").forEach(b =>
     b.addEventListener("click", () => choisirCandidat(+b.dataset.candidat)));
   afficher("resultat");
@@ -362,6 +404,50 @@ async function ajouter() {
   }
 }
 
+// ---------- recherche par nom (catalogue BrickLink) ----------
+
+async function ouvrirRecherche() {
+  afficher("recherche");
+  $("recherche-resultats").innerHTML = "";
+  $("recherche-info").textContent = "Chargement du catalogue…";
+  try {
+    const liste = await Catalogue.charger();
+    $("recherche-info").textContent = `${liste.length.toLocaleString("fr-FR")} figurines dans le catalogue. Tapez au moins 2 lettres.`;
+    lancerRecherche();
+  } catch (e) {
+    $("recherche-info").textContent = "Le catalogue BrickLink n'est pas encore installé dans l'appli.";
+  }
+  setTimeout(() => $("recherche-texte").focus(), 50);
+}
+
+function lancerRecherche() {
+  const texte = $("recherche-texte").value;
+  const zone = $("recherche-resultats");
+  if (!Catalogue.liste || texte.trim().length < 2) { zone.innerHTML = ""; return; }
+  const res = Catalogue.chercher(texte);
+  $("recherche-info").textContent = res.length ? `${res.length >= 40 ? "40 premiers résultats" : res.length + " résultat(s)"} : touchez la bonne figurine.`
+    : "Aucune figurine trouvée. Essayez un autre mot (en anglais).";
+  zone.innerHTML = res.map((f, i) => `
+    <button class="proposition" data-resultat="${i}">
+      ${imageHtml({ id: f.code })}
+      <span class="nom-court">${echapper(f.nom)}</span>
+      <span class="code">${echapper(f.code)}</span>
+      <span class="score">${echapper(f.categorie)}${f.annee ? " · " + echapper(f.annee) : ""}</span>
+    </button>`).join("");
+  zone.querySelectorAll("[data-resultat]").forEach(b => b.addEventListener("click", () => {
+    const f = res[+b.dataset.resultat];
+    etat.candidats = [{ id: f.code, nom: f.nom, image: "", score: null, categorie: f.categorie, lien: urlBricklink(f.code) }];
+    etat.origine = "recherche";
+    choisirCandidat(0);
+  }));
+}
+
+let minuteurRecherche;
+$("recherche-texte").addEventListener("input", () => {
+  clearTimeout(minuteurRecherche);
+  minuteurRecherche = setTimeout(lancerRecherche, 250);
+});
+
 // ---------- saisie manuelle ----------
 
 function ouvrirSaisie() {
@@ -374,12 +460,14 @@ async function validerSaisie() {
   const code = $("saisie-code").value.trim().toUpperCase().replace(/\s+/g, "");
   if (!code) return;
   const connu = etat.table.find(l => l.code.toUpperCase() === code);
+  const fiche = Catalogue.trouver(code);
   etat.candidats = [{
-    id: code, nom: connu ? connu.personnage : "", image: imageBricklink(code),
-    score: null, categorie: "", lien: urlBricklink(code),
+    id: code, nom: fiche ? fiche.nom : connu ? connu.personnage : "", image: "",
+    score: null, categorie: fiche ? fiche.categorie : "", lien: urlBricklink(code),
   }];
+  etat.photos = [];
+  etat.origine = "recherche";
   choisirCandidat(0);
-  $("autres").hidden = true;
 }
 
 // ---------- enregistrement (Google Drive / téléchargement) ----------
@@ -461,6 +549,15 @@ document.addEventListener("click", async e => {
   const action = b.dataset.action;
   if (action === "accueil") afficher(etat.classeur ? "accueil" : "fichier");
   else if (action === "saisie") ouvrirSaisie();
+  else if (action === "recherche") {
+    // depuis l'accueil : nouvelle figurine, on oublie les photos précédentes ;
+    // depuis un résultat : on garde la photo pour comparer
+    if (b.closest("#ecran-accueil")) etat.photos = [];
+    ouvrirRecherche();
+  }
+  else if (action === "recadrage-ok") Recadrage.valider(false);
+  else if (action === "recadrage-entiere") Recadrage.valider(true);
+  else if (action === "recadrage-annuler") Recadrage.annuler();
   else if (action === "valider-saisie") validerSaisie();
   else if (action === "oui") ajouter();
   else if (action === "non") { afficher("accueil"); toast("Rien n'a été ajouté."); }
@@ -481,6 +578,8 @@ $("saisie-code").addEventListener("keydown", e => { if (e.key === "Enter") valid
 // ---------- démarrage ----------
 
 (async function demarrer() {
+  Recadrage.installer();
+  Catalogue.charger().catch(() => {}); // en arrière-plan : sert aussi à reconnaître le thème
   if ("serviceWorker" in navigator && location.protocol === "https:")
     navigator.serviceWorker.register("sw.js").catch(() => {});
   const m = await Memoire.lire();

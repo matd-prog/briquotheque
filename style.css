@@ -10,7 +10,7 @@ h1 { margin: 0; font-size: 21px; }
 .fichier-info { font-size: 14px; opacity: .9; margin-top: 2px; min-height: 1em; }
 main { max-width: 560px; margin: 0 auto; padding: 16px; }
 .ecran { display: flex; flex-direction: column; gap: 14px; }
-.ecran[hidden] { display: none; }
+.ecran[hidden], [hidden] { display: none !important; }
 .intro { margin: 4px 0; }
 .aide { color: var(--doux); font-size: 15px; margin: 0; }
 
@@ -52,7 +52,7 @@ main { max-width: 560px; margin: 0 auto; padding: 16px; }
 .apercu-etiquette { display: flex; justify-content: center; }
 .apercu-etiquette canvas { width: 206px; height: auto; border: 1px solid var(--bord); border-radius: 4px; image-rendering: pixelated; }
 
-.autres summary, .outils summary { cursor: pointer; color: var(--bleu); padding: 8px 0; font-weight: 600; }
+.outils summary { cursor: pointer; color: var(--bleu); padding: 8px 0; font-weight: 600; }
 .outils { background: var(--carte); border-radius: 14px; padding: 6px 14px 14px; margin-top: 18px; }
 .outils[open] { display: flex; flex-direction: column; gap: 10px; }
 .outils hr { border: 0; border-top: 1px solid var(--bord); width: 100%; }
@@ -69,3 +69,28 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .dialogue-boutons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .toast { position: fixed; left: 16px; right: 16px; bottom: 20px; background: #222; color: #fff; padding: 14px 16px; border-radius: 12px; text-align: center; font-size: 16px; }
 .toast[hidden] { display: none; }
+
+/* recadrage */
+.recadrage-zone { position: relative; align-self: center; max-width: 100%; touch-action: none; user-select: none; line-height: 0; }
+.recadrage-zone img { max-width: 100%; max-height: 60vh; display: block; }
+.recadrage-cadre { position: absolute; border: 3px solid #fff; box-shadow: 0 0 0 9999px rgba(0,0,0,.55); cursor: move; }
+.coin { position: absolute; width: 34px; height: 34px; background: #fff; border: 3px solid var(--rouge); border-radius: 50%; }
+.coin.hg { left: -18px; top: -18px; } .coin.hd { right: -18px; top: -18px; }
+.coin.bg { left: -18px; bottom: -18px; } .coin.bd { right: -18px; bottom: -18px; }
+.recadrage-zone { overflow: hidden; border-radius: 10px; padding: 0; }
+
+/* comparaison photo / propositions */
+.comparer { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.comparer figure { margin: 0; background: #fafafa; border-radius: 10px; padding: 6px; text-align: center; }
+.comparer img { width: 100%; height: 170px; object-fit: contain; }
+.comparer figcaption { font-size: 13px; color: var(--doux); }
+.vos-photos { display: flex; gap: 4px; height: 170px; }
+.vos-photos img { flex: 1; min-width: 0; height: 100%; object-fit: contain; }
+.grille { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.proposition { display: flex; flex-direction: column; gap: 4px; background: var(--carte); border: 2px solid transparent; border-radius: 12px; padding: 8px; font: inherit; text-align: left; cursor: pointer; }
+.proposition img { width: 100%; height: 120px; object-fit: contain; background: #fafafa; border-radius: 8px; }
+.proposition .nom-court { font-size: 14px; font-weight: 600; line-height: 1.25; }
+.proposition .code { font-size: 14px; }
+.sous-titre { font-weight: 700; margin: 4px 0 8px; }
+.actions-autres { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.badge { display: inline-block; background: #e7f0fb; color: var(--bleu); border-radius: 8px; padding: 2px 8px; font-size: 13px; font-weight: 600; }

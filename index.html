@@ -42,6 +42,7 @@
       🖼️ Choisir une photo déjà prise
       <input type="file" id="input-galerie" accept="image/*" hidden>
     </label>
+    <button class="gros-bouton bleu" data-action="recherche">🔍 Chercher par nom</button>
     <button class="bouton-lien" data-action="saisie">⌨️ Saisir un code à la main</button>
 
     <details class="outils">
@@ -54,6 +55,30 @@
     </details>
   </section>
 
+  <!-- Recadrage de la photo -->
+  <section id="ecran-recadrage" class="ecran" hidden>
+    <p class="intro" id="recadrage-titre">Encadrez la figurine : glissez le cadre, ou tirez ses coins.</p>
+    <div id="recadrage-zone" class="recadrage-zone">
+      <img id="recadrage-image" alt="">
+      <div id="recadrage-cadre" class="recadrage-cadre">
+        <span data-coin="hg" class="coin hg"></span><span data-coin="hd" class="coin hd"></span>
+        <span data-coin="bg" class="coin bg"></span><span data-coin="bd" class="coin bd"></span>
+      </div>
+    </div>
+    <button class="gros-bouton vert" data-action="recadrage-ok">✂️ Identifier cette zone</button>
+    <button class="bouton gris" data-action="recadrage-entiere">Utiliser toute la photo</button>
+    <button class="bouton-lien" data-action="recadrage-annuler">Annuler</button>
+  </section>
+
+  <!-- Recherche par nom -->
+  <section id="ecran-recherche" class="ecran" hidden>
+    <label for="recherche-texte" class="etiquette-champ">Nom de la figurine (en anglais, comme sur BrickLink)</label>
+    <input id="recherche-texte" class="champ" type="search" placeholder="ex. luke hoth, homer, gandalf" autocomplete="off">
+    <p class="aide" id="recherche-info"></p>
+    <div id="recherche-resultats" class="grille"></div>
+    <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
+  </section>
+
   <!-- 3. Identification en cours -->
   <section id="ecran-chargement" class="ecran" hidden>
     <img id="photo-apercu" class="photo-apercu" alt="">
@@ -64,11 +89,17 @@
   <section id="ecran-resultat" class="ecran" hidden>
     <div id="carte-principale" class="carte"></div>
     <div id="zone-ajout"></div>
-    <details id="autres" class="autres">
-      <summary>Ce n'est pas elle ? Voir les autres propositions</summary>
-      <div id="liste-autres"></div>
-      <button class="bouton-lien" data-action="saisie">⌨️ Saisir le code à la main</button>
-    </details>
+    <div id="autres" class="autres">
+      <p class="sous-titre">Pas la bonne ? Autres possibilités :</p>
+      <div id="liste-autres" class="grille"></div>
+      <div class="actions-autres">
+        <label class="bouton bleu" id="btn-dos">📷 Ajouter une photo de dos pour affiner
+          <input type="file" id="input-dos" accept="image/*" capture="environment" hidden>
+        </label>
+        <button class="bouton bleu" data-action="recherche">🔍 Chercher par nom</button>
+        <button class="bouton-lien" data-action="saisie">⌨️ Saisir le code à la main</button>
+      </div>
+    </div>
     <button class="bouton gris" data-action="accueil">↩︎ Nouvelle photo</button>
   </section>
 
@@ -116,6 +147,8 @@
 <script src="js/label.js"></script>
 <script src="js/camps.js"></script>
 <script src="js/xlsx.js"></script>
+<script src="js/recadrage.js"></script>
+<script src="js/catalogue.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
