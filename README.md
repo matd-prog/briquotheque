@@ -33,6 +33,10 @@ Catalogue JB Spielwaren (`data/jb.tsv`) : figurines custom en vente sur jb-spiel
 (nom, catégorie, lien, adresse de la photo, sans copie des photos). Mise à jour :
 `python3 outils/catalogue_jb.py` (lit les catégories « Custom Minifigures », 1 page / 2 s).
 
+Blister JB : bouton « Photographier un blister JB » ; on encadre le nom imprimé, l'appli le lit
+(Tesseract.js inclus dans lib/tesseract, lecture dans le téléphone) et propose les figurines du
+catalogue JB qui correspondent. Le n° d'exemplaire (ex. 189/250) est ajouté au nom.
+
 Fichiers :
 - `index.html`, `style.css` : l'écran de l'appli
 - `js/app.js` : déroulé photo → identification → ajout
@@ -43,4 +47,6 @@ Fichiers :
 - `js/recadrage.js` : recadrage de la photo
 - `js/collection.js` : consultation de la collection (liste, planche, recherche)
 - `js/catalogue.js` : catalogue BrickLink (recherche, thème par catégorie, mise à jour)
+- `js/blister.js` : lecture du nom sur un blister
+- `lib/tesseract/` : Tesseract.js et données anglaises (licence Apache 2.0)
 - `lib/` : JSZip (lecture/écriture .xlsx) et qrcode-generator (QR codes), licences MIT

@@ -500,22 +500,29 @@ function nomDepuisLien(lien) {
   return m ? m[1].replace(/-?custom-minifigures?$/i, "").replace(/-/g, " ").trim().toUpperCase() : "";
 }
 
-function ouvrirCustom() {
+// info : message à afficher au-dessus des résultats (ex. nom lu sur un blister) au lieu du texte habituel
+function ouvrirCustom(info) {
   $("custom-lien").value = "";
   $("custom-nom").value = "";
   $("custom-recherche").value = "";
+  $("custom-exemplaire").value = "";
   $("custom-resultats").innerHTML = "";
   $("custom-choisie").innerHTML = "";
   delete $("custom-nom").dataset.auto;
   afficher("custom");
   majCustom();
+  $("custom-recherche-info").textContent = info || "";
+  if (info) return;
   CatalogueJB.charger()
     .then(l => { $("custom-recherche-info").textContent = `${l.length} figurines JB Spielwaren (catalogue du ${new Date(CatalogueJB.date).toLocaleDateString("fr-FR")}). Sinon, collez un lien plus bas.`; })
     .catch(() => { $("custom-recherche-info").textContent = "Catalogue JB indisponible : collez le lien de la figurine plus bas."; });
 }
 
 function chercherJB() {
-  const res = CatalogueJB.chercher($("custom-recherche").value);
+  afficherResultatsJB(CatalogueJB.chercher($("custom-recherche").value));
+}
+
+function afficherResultatsJB(res) {
   $("custom-resultats").innerHTML = res.map((f, i) => `
     <button class="proposition" data-jb="${i}">
       <img src="${echapper(f.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
@@ -540,6 +547,37 @@ function choisirJB(f) {
     </div>`;
   majCustom();
 }
+
+// Blister JB : photo -> on encadre le nom -> lecture du texte -> figurines du catalogue qui correspondent
+$("input-blister").addEventListener("change", async e => {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  $("recadrage-titre").textContent = "Encadrez SEULEMENT le nom de la figurine (le petit cadre blanc du blister).";
+  const morceau = await Recadrage.ouvrir(f).catch(() => null);
+  if (!morceau) { afficher("accueil"); return; }
+  $("photo-apercu").src = URL.createObjectURL(morceau);
+  $("texte-chargement").textContent = "Lecture du nom sur le blister… (la première fois, quelques secondes)";
+  afficher("chargement");
+  let texte = "";
+  try {
+    await CatalogueJB.charger();
+    texte = await Blister.lire(morceau);
+  } catch (err) {
+    console.error(err);
+  }
+  const lu = nomDansTexte(texte);
+  const res = CatalogueJB.rapprocher(texte);
+  ouvrirCustom(res.length
+    ? `Nom lu sur le blister : « ${lu} ». Touchez la bonne figurine :`
+    : lu
+      ? `Nom lu : « ${lu} », mais aucune figurine du catalogue JB ne correspond. Corrigez le nom ci-dessous, ou cherchez-la avec un mot.`
+      : "Le nom n'a pas pu être lu. Encadrez bien le petit cadre du nom, ou cherchez la figurine avec un mot.");
+  const ex = exemplaireDansTexte(texte);
+  if (ex) $("custom-exemplaire").value = ex;
+  if (res.length) afficherResultatsJB(res);
+  else if (lu) { $("custom-nom").value = lu.toUpperCase(); majCustom(); }
+});
 
 let minuteurJB;
 $("custom-recherche").addEventListener("input", () => {
@@ -576,8 +614,9 @@ for (const id of ["custom-lien", "custom-nom"]) {
 async function ajouterCustom() {
   const lien = lienDansTexte($("custom-lien").value);
   const code = codeCustom(lien);
-  const nom = $("custom-nom").value.trim();
-  if (!nom) { await demander("Donnez un nom à la figurine.", "OK", "Fermer"); return; }
+  const exemplaire = $("custom-exemplaire").value.trim().replace(/\s*(?:of|sur|von)\s*/i, "/").replace(/\s+/g, "");
+  const nom = [$("custom-nom").value.trim(), exemplaire].filter(Boolean).join(" ");
+  if (!$("custom-nom").value.trim()) { await demander("Donnez un nom à la figurine.", "OK", "Fermer"); return; }
   const deja = ouFigurine(code);
   if (deja.length && !(await demander(`Vous avez déjà cette figurine (${deja.join(" ; ")}).\n\nL'ajouter quand même ?`))) return;
   const onglet = THEME_CUSTOMS.onglet;
