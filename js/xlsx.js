@@ -336,6 +336,24 @@ class Classeur {
       });
   }
 
+  // Images des étiquettes (colonnes A à E) : "ligne:colonne" -> image PNG (Blob), pour la consultation
+  async imagesEtiquettes(nom) {
+    const res = new Map();
+    const d = await this._dessin(nom, false);
+    if (!d) return res;
+    const rels = await this._relsDoc(d.chemin, false);
+    if (!rels) return res;
+    const cibles = {};
+    for (const r of rels.getElementsByTagNameNS(NS.pkg, "Relationship"))
+      cibles[r.getAttribute("Id")] = cheminAbsolu(d.chemin, r.getAttribute("Target"));
+    for (const a of this._ancres(d.doc)) {
+      if (a.col < 0 || a.col > 4 || !cibles[a.embed]) continue;
+      const f = this.zip.file(cibles[a.embed]);
+      if (f) res.set(`${a.row + 1}:${a.col + 1}`, new Blob([await f.async("uint8array")], { type: "image/png" }));
+    }
+    return res;
+  }
+
   // Positions (ligne, colonne 1..5) qui contiennent une image dans les colonnes A à E
   async positionsImages(nom) {
     const d = await this._dessin(nom, false);

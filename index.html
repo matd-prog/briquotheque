@@ -49,6 +49,7 @@
       <input type="file" id="input-galerie" accept="image/*" hidden>
     </label>
     <button class="gros-bouton bleu" data-action="recherche">🔍 Chercher par nom</button>
+    <button class="gros-bouton bleu-fonce" data-action="collection">📖 Ma collection</button>
     <button class="bouton-lien" data-action="saisie">⌨️ Saisir un code à la main</button>
 
     <details class="outils" id="outils">
@@ -87,6 +88,19 @@
     <button class="gros-bouton vert" data-action="recadrage-ok">✂️ Identifier cette zone</button>
     <button class="bouton gris" data-action="recadrage-entiere">Utiliser toute la photo</button>
     <button class="bouton-lien" data-action="recadrage-annuler">Annuler</button>
+  </section>
+
+  <!-- Consultation de la collection (lecture seule) -->
+  <section id="ecran-collection" class="ecran" hidden>
+    <input id="collection-recherche" class="champ" type="search" placeholder="🔍 Nom ou code…" autocomplete="off">
+    <div id="collection-onglets" class="puces"></div>
+    <div class="bascule" id="collection-bascule">
+      <button data-vue="liste" class="choisi">Liste</button>
+      <button data-vue="planche">Planche</button>
+    </div>
+    <p class="aide" id="collection-info"></p>
+    <div id="collection-contenu"></div>
+    <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
   </section>
 
   <!-- Recherche par nom -->
@@ -176,6 +190,7 @@
 <script src="js/xlsx.js"></script>
 <script src="js/recadrage.js"></script>
 <script src="js/catalogue.js"></script>
+<script src="js/collection.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

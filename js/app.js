@@ -223,7 +223,7 @@ function imageBricklink(code) {
 // Image d'une proposition : photo BrickLink, et à défaut celle de Brickognize
 function imageHtml(cand, classe = "") {
   const secours = cand.image && cand.image !== imageBricklink(cand.id) ? cand.image : "";
-  return `<img class="${classe}" src="${echapper(imageBricklink(cand.id))}" alt="" data-secours="${echapper(secours)}"
+  return `<img class="${classe}" loading="lazy" src="${echapper(imageBricklink(cand.id))}" alt="" data-secours="${echapper(secours)}"
     onerror="if (this.dataset.secours) { this.src = this.dataset.secours; this.dataset.secours = ''; } else this.style.visibility = 'hidden'">`;
 }
 
@@ -581,6 +581,7 @@ document.addEventListener("click", async e => {
   const action = b.dataset.action;
   if (action === "accueil") afficher(etat.classeur ? "accueil" : "fichier");
   else if (action === "saisie") ouvrirSaisie();
+  else if (action === "collection") Collection.ouvrir();
   else if (action === "voir-catalogue") {
     $("outils").open = true;
     $("bloc-catalogue").scrollIntoView({ behavior: "smooth" });
@@ -615,6 +616,7 @@ $("saisie-code").addEventListener("keydown", e => { if (e.key === "Enter") valid
 
 (async function demarrer() {
   Recadrage.installer();
+  Collection.installer();
   // en arrière-plan : sert à la recherche par nom et à reconnaître le thème
   Catalogue.charger().catch(() => {}).then(majInfosCatalogue);
   if ("serviceWorker" in navigator && location.protocol === "https:")

@@ -65,7 +65,7 @@ progress { width: 100%; height: 18px; }
 
 dialog { border: 0; border-radius: 16px; padding: 20px; max-width: min(92vw, 440px); }
 dialog::backdrop { background: rgba(0,0,0,.45); }
-#dialogue-texte { font-size: 18px; margin-top: 0; }
+#dialogue-texte { font-size: 18px; margin-top: 0; white-space: pre-line; }
 .dialogue-boutons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .toast { position: fixed; left: 16px; right: 16px; bottom: 20px; background: #222; color: #fff; padding: 14px 16px; border-radius: 12px; text-align: center; font-size: 16px; }
 .toast[hidden] { display: none; }
@@ -100,3 +100,25 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .etapes { padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 4px; }
 .etapes-drive .etapes { padding-left: 22px; margin: 0; display: flex; flex-direction: column; gap: 6px; font-size: 16px; }
 .etapes-drive .sous-titre { margin: 0; }
+
+/* consultation de la collection */
+.bleu-fonce { background: #1f4e8c; }
+.puces { display: flex; flex-wrap: wrap; gap: 8px; }
+.puce { display: inline-flex; align-items: center; gap: 6px; border: 2px solid var(--bord); background: #fff; border-radius: 999px;
+  padding: 6px 12px; font: inherit; font-size: 15px; cursor: pointer; }
+.puce.choisi { border-color: #000; font-weight: 700; }
+.puce .pastille { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,.25); flex: none; }
+.bascule { display: grid; grid-template-columns: 1fr 1fr; background: #e4e4e0; border-radius: 12px; padding: 4px; }
+.bascule button { border: 0; background: none; border-radius: 9px; padding: 10px; font: inherit; font-weight: 600; cursor: pointer; }
+.bascule button.choisi { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+.fiche { display: flex; gap: 12px; align-items: center; background: var(--carte); border-radius: 12px; padding: 10px; margin-bottom: 8px; }
+.fiche img.photo { width: 72px; height: 72px; object-fit: contain; flex: none; background: #fafafa; border-radius: 8px; }
+.fiche .infos { flex: 1; min-width: 0; }
+.fiche .nom-court { font-weight: 600; font-size: 15px; line-height: 1.3; overflow-wrap: anywhere; }
+.fiche .lieu { font-size: 13px; color: var(--doux); }
+.fiche a { flex: none; font-size: 22px; text-decoration: none; padding: 6px; }
+.planche { display: grid; grid-template-columns: 14.93fr 13fr 13fr 13fr 13fr; gap: 2px; background: #bbb; padding: 2px; border-radius: 6px; }
+.planche .case { position: relative; aspect-ratio: 96 / 56; border: 0; padding: 0; cursor: pointer; overflow: hidden; }
+.planche .case:nth-child(5n+1) { aspect-ratio: 109 / 56; }
+.planche .case img { position: absolute; inset: 5%; width: 90%; height: 90%; object-fit: contain; }
+.planche .case .sans { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #000; opacity: .7; padding: 2px; text-align: center; }
