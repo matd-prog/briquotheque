@@ -1,4 +1,4 @@
-# Étiquettes figurines Lego
+# Figurines LEGO
 
 Appli pour téléphone Android (page web installable) :
 

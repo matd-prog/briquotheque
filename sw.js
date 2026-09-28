@@ -1,6 +1,6 @@
 // Permet d'installer l'appli sur l'écran d'accueil et de l'ouvrir même avec un réseau faible.
 // Stratégie : toujours essayer Internet d'abord (pour avoir la dernière version), sinon la copie gardée.
-const CACHE = "etiquettes-v1";
+const CACHE = "figurines-lego-v2";
 self.addEventListener("install", e => self.skipWaiting());
 self.addEventListener("activate", e => e.waitUntil(self.clients.claim()));
 self.addEventListener("fetch", e => {
