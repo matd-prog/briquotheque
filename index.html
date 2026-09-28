@@ -144,9 +144,17 @@
   <section id="ecran-save" class="ecran" hidden>
     <p class="intro">Votre fichier mis à jour est prêt :</p>
     <p class="nom-fichier" id="nom-save"></p>
-    <button class="gros-bouton vert" id="btn-partager" data-action="partager">📤 Envoyer vers Google Drive</button>
-    <a class="gros-bouton bleu" id="lien-telecharger" download>⬇️ Télécharger sur le téléphone</a>
-    <p class="aide">« Envoyer vers Google Drive » ouvre le menu de partage d'Android : choisissez <b>Drive</b>, puis le dossier de votre choix. Votre ancien fichier n'est pas effacé : le nouveau porte la date et l'heure dans son nom.</p>
+    <a class="gros-bouton vert" id="lien-telecharger" download>⬇️ 1. Télécharger le fichier</a>
+    <div class="carte etapes-drive">
+      <p class="sous-titre">2. Le mettre dans Google Drive</p>
+      <ol class="etapes">
+        <li>Ouvrez l'appli <b>Google Drive</b>.</li>
+        <li>Touchez le bouton <b>+</b> (en bas à droite), puis <b>Importer</b>.</li>
+        <li>Choisissez <b>Téléchargements</b>, puis le fichier dont le nom est affiché ci-dessus.</li>
+      </ol>
+    </div>
+    <button class="bouton bleu" id="btn-partager" data-action="partager" hidden>📤 Ou : partager directement (Drive, e-mail…)</button>
+    <p class="aide">Votre ancien fichier n'est pas effacé : le nouveau porte la date et l'heure dans son nom.</p>
     <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
   </section>
 </main>

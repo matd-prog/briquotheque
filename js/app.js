@@ -516,7 +516,8 @@ async function preparerEnregistrement() {
   if (lien.href) URL.revokeObjectURL(lien.href);
   lien.href = URL.createObjectURL(etat.dernierFichier);
   lien.download = nom;
-  const partageOk = navigator.canShare && navigator.canShare({ files: [etat.dernierFichier] });
+  let partageOk = false;
+  try { partageOk = !!(navigator.canShare && navigator.canShare({ files: [etat.dernierFichier] })); } catch (e) {}
   $("btn-partager").hidden = !partageOk;
   afficher("save");
 }
@@ -526,7 +527,10 @@ async function partager() {
     await navigator.share({ files: [etat.dernierFichier], title: etat.dernierFichier.name });
     fichierEnregistre();
   } catch (err) {
-    if (err.name !== "AbortError") toast("Partage impossible : utilisez « Télécharger ».");
+    if (err.name === "AbortError") return; // partage annulé par vous
+    $("btn-partager").hidden = true;
+    await demander("Votre téléphone ne permet pas de partager directement ce fichier Excel.\n\n" +
+      "Touchez « 1. Télécharger le fichier », puis suivez les 3 étapes pour le mettre dans Google Drive.", "OK", "Fermer");
   }
 }
 
