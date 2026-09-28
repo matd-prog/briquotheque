@@ -42,6 +42,23 @@ const Recadrage = {
     return new Promise(ok => cv.toBlob(ok, "image/jpeg", 0.9));
   },
 
+  // Photo réduite (1280 px au plus), en JPEG, sans recadrage
+  reduire(fichier) {
+    return new Promise((ok, ko) => {
+      const img = new Image();
+      img.onload = () => {
+        const r = Math.min(1, 1280 / Math.max(img.naturalWidth, img.naturalHeight));
+        const cv = document.createElement("canvas");
+        cv.width = Math.round(img.naturalWidth * r); cv.height = Math.round(img.naturalHeight * r);
+        cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+        URL.revokeObjectURL(img.src);
+        cv.toBlob(b => b ? ok(b) : ko(new Error("photo illisible")), "image/jpeg", 0.88);
+      };
+      img.onerror = () => ko(new Error("photo illisible"));
+      img.src = URL.createObjectURL(fichier);
+    });
+  },
+
   async valider(entiere) { this._fin(await this._decouper(entiere)); },
   annuler() { this._fin(null); },
 

@@ -125,3 +125,5 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .fiche .photo-custom { width: 72px; height: 72px; flex: none; display: flex; align-items: center; justify-content: center; font-size: 34px; background: #ffe3ea; border-radius: 8px; }
 .corail { background: #d9476b; }
 .photo-apercu:not([src]) { display: none; }
+.alerte.info { background: #e7f0fb; border-left-color: var(--bleu); }
+.alerte .bouton-lien { padding: 6px 0 0; display: block; text-align: left; }

@@ -33,7 +33,7 @@ Catalogue JB Spielwaren (`data/jb.tsv`) : figurines custom en vente sur jb-spiel
 (nom, catégorie, lien, adresse de la photo, sans copie des photos). Mise à jour :
 `python3 outils/catalogue_jb.py` (lit les catégories « Custom Minifigures », 1 page / 2 s).
 
-Blister JB : bouton « Photographier un blister JB » ; on encadre le nom imprimé, l'appli le lit
+Blister JB : bouton « Photographier un blister JB » ; l'appli cherche le nom sur la photo entière (sinon on encadre le nom), le lit
 (Tesseract.js inclus dans lib/tesseract, lecture dans le téléphone) et propose les figurines du
 catalogue JB qui correspondent. Le n° d'exemplaire (ex. 189/250) est ajouté au nom.
 

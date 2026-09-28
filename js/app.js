@@ -511,6 +511,8 @@ function ouvrirCustom(info) {
   delete $("custom-nom").dataset.auto;
   afficher("custom");
   majCustom();
+  $("custom-indice").innerHTML = "";
+  $("btn-encadrer-nom").hidden = true;
   $("custom-recherche-info").textContent = info || "";
   if (info) return;
   CatalogueJB.charger()
@@ -548,36 +550,100 @@ function choisirJB(f) {
   majCustom();
 }
 
-// Blister JB : photo -> on encadre le nom -> lecture du texte -> figurines du catalogue qui correspondent
+// Blister JB : photo du blister entier -> lecture du nom sur le carton + indice Brickognize ;
+// si le nom n'est pas trouvé, on peut encadrer le nom soi-même
+let photoBlister = null;
+let indiceBlister = [];
+
 $("input-blister").addEventListener("change", async e => {
   const f = e.target.files[0];
   e.target.value = "";
   if (!f) return;
-  $("recadrage-titre").textContent = "Encadrez SEULEMENT le nom de la figurine (le petit cadre blanc du blister).";
-  const morceau = await Recadrage.ouvrir(f).catch(() => null);
-  if (!morceau) { afficher("accueil"); return; }
-  $("photo-apercu").src = URL.createObjectURL(morceau);
+  photoBlister = f;
+  $("photo-apercu").src = URL.createObjectURL(f);
   $("texte-chargement").textContent = "Lecture du nom sur le blister… (la première fois, quelques secondes)";
   afficher("chargement");
-  let texte = "";
+  const indice = indiceBrickognize(f); // en parallèle
+  let lecture = { texte: "", trouve: false };
   try {
     await CatalogueJB.charger();
-    texte = await Blister.lire(morceau);
+    lecture = await Blister.lireEntier(f, (i, n) => {
+      $("texte-chargement").textContent = `Lecture du nom sur le blister… (essai ${i} sur ${n})`;
+    });
   } catch (err) {
     console.error(err);
   }
-  const lu = nomDansTexte(texte);
-  const res = CatalogueJB.rapprocher(texte);
-  ouvrirCustom(res.length
-    ? `Nom lu sur le blister : « ${lu} ». Touchez la bonne figurine :`
-    : lu
-      ? `Nom lu : « ${lu} », mais aucune figurine du catalogue JB ne correspond. Corrigez le nom ci-dessous, ou cherchez-la avec un mot.`
-      : "Le nom n'a pas pu être lu. Encadrez bien le petit cadre du nom, ou cherchez la figurine avec un mot.");
-  const ex = exemplaireDansTexte(texte);
-  if (ex) $("custom-exemplaire").value = ex;
-  if (res.length) afficherResultatsJB(res);
-  else if (lu) { $("custom-nom").value = lu.toUpperCase(); majCustom(); }
+  afficherLectureBlister(lecture.texte, lecture.trouve, false);
+  indiceBlister = await indice;
+  afficherIndice(indiceBlister);
 });
+
+// Repli : on encadre soi-même le nom sur la photo du blister
+$("btn-encadrer-nom").addEventListener("click", async () => {
+  if (!photoBlister) return;
+  $("recadrage-titre").textContent = "Encadrez SEULEMENT le nom de la figurine (le petit cadre du blister).";
+  const morceau = await Recadrage.ouvrir(photoBlister).catch(() => null);
+  if (!morceau) { afficher("custom"); return; }
+  $("photo-apercu").src = URL.createObjectURL(morceau);
+  $("texte-chargement").textContent = "Lecture du nom…";
+  afficher("chargement");
+  let texte = "";
+  try { texte = await Blister.lire(morceau); } catch (err) { console.error(err); }
+  afficherLectureBlister(texte, CatalogueJB.rapprocher(texte).length > 0, true);
+  afficherIndice(indiceBlister);
+});
+
+function afficherLectureBlister(texte, trouve, encadre) {
+  const res = trouve ? CatalogueJB.rapprocher(texte) : [];
+  const lu = res.length ? nomDansTexte(texteAutourDuNom(texte, res[0])) : nomDansTexte(texte);
+  ouvrirCustom(res.length
+    ? `Nom trouvé sur le blister : « ${res[0].nom.replace(/\s*c[ou]s?t[ou]m\s+minifig\w*/i, "")} ». Touchez la bonne figurine :`
+    : encadre
+      ? (lu ? `Nom lu : « ${lu} », mais aucune figurine du catalogue JB ne correspond. Corrigez le nom ci-dessous, ou cherchez-la avec un mot.`
+            : "Le nom n'a pas pu être lu. Cherchez la figurine avec un mot, ou tapez son nom ci-dessous.")
+      : "Le nom n'a pas été trouvé sur la photo entière (reflet, photo floue ?). Touchez « Encadrer le nom moi-même », ou cherchez la figurine avec un mot.");
+  $("btn-encadrer-nom").hidden = !photoBlister;
+  // n° d'exemplaire : seulement s'il est lisible (il est souvent écrit à la main)
+  const ex = exemplaireDansTexte(texte);
+  if (ex && encadre) $("custom-exemplaire").value = ex;
+  if (res.length) afficherResultatsJB(res);
+  else if (encadre && lu) { $("custom-nom").value = lu.toUpperCase(); majCustom(); }
+}
+
+// Pour l'affichage : la ligne du texte lu qui contient le nom trouvé
+function texteAutourDuNom(texte, fig) {
+  const mots = normaliser(fig.nom).split(/[^a-z0-9]+/).filter(m => m.length >= 4);
+  return (texte.split("\n").find(l => mots.some(m => normaliser(l).includes(m))) || "");
+}
+
+// Indice Brickognize : figurine officielle LEGO la plus ressemblante (utile aussi pour un blister officiel)
+async function indiceBrickognize(fichier) {
+  try {
+    const photo = await Recadrage.reduire(fichier);
+    const items = await interrogerBrickognize(photo);
+    return items.slice(0, 5);
+  } catch (e) {
+    console.warn("Brickognize indisponible", e);
+    return [];
+  }
+}
+
+function afficherIndice(items) {
+  const zone = $("custom-indice");
+  if (!items || !items.length) { zone.innerHTML = ""; return; }
+  const it = items[0];
+  zone.innerHTML = `
+    <div class="alerte info">
+      🔎 Selon Brickognize, la figurine ressemble à la figurine officielle <b>${echapper(it.nom)}</b> (${echapper(it.id)}${it.score != null ? `, ${Math.round(it.score * 100)} %` : ""}).
+      <button class="bouton-lien" id="btn-officielle">C'est une figurine officielle LEGO ? Voir les propositions</button>
+    </div>`;
+  $("btn-officielle").addEventListener("click", () => {
+    etat.photos = photoBlister ? [{ url: URL.createObjectURL(photoBlister), items }] : [];
+    etat.origine = "recherche";
+    etat.candidats = items;
+    choisirCandidat(0);
+  });
+}
 
 let minuteurJB;
 $("custom-recherche").addEventListener("input", () => {
@@ -750,7 +816,7 @@ document.addEventListener("click", async e => {
   if (action === "accueil") afficher(etat.classeur ? "accueil" : "fichier");
   else if (action === "saisie") ouvrirSaisie();
   else if (action === "collection") Collection.ouvrir();
-  else if (action === "custom") ouvrirCustom();
+  else if (action === "custom") { photoBlister = null; ouvrirCustom(); }
   else if (action === "custom-oui") ajouterCustom();
   else if (action === "voir-catalogue") {
     $("outils").open = true;

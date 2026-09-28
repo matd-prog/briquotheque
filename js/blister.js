@@ -40,6 +40,7 @@ const Blister = {
   // Texte lu sur le morceau de photo : plusieurs réglages, on s'arrête dès qu'une figurine JB correspond
   async lire(blob) {
     const lecteur = await this._lecteur();
+    await lecteur.setParameters({ tessedit_pageseg_mode: "3" });
     const bitmap = await createImageBitmap(blob);
     let premier = "";
     for (const [largeur, seuil] of [[460, 0], [690, 0], [460, 150]]) {
@@ -49,6 +50,25 @@ const Blister = {
       if (CatalogueJB.rapprocher(texte).length) return texte;
     }
     return premier;
+  },
+
+  // Photo du blister entier : le nom est cherché parmi tout le texte du carton (décor, citation...).
+  // Réglages essayés dans l'ordre (essais sur blisters JB) ; on s'arrête dès qu'une figurine correspond.
+  async lireEntier(blob, progression) {
+    const lecteur = await this._lecteur();
+    const bitmap = await createImageBitmap(blob);
+    const essais = [["3", 1600, 0], ["12", 1060, 0], ["12", 1600, 150], ["3", 2000, 180]];
+    let tout = "";
+    for (let i = 0; i < essais.length; i++) {
+      const [mode, largeur, seuil] = essais[i];
+      if (progression) progression(i + 1, essais.length);
+      await lecteur.setParameters({ tessedit_pageseg_mode: mode });
+      const { data } = await lecteur.recognize(this._preparer(bitmap, Math.min(largeur, bitmap.width * 2), seuil));
+      const texte = data.text || "";
+      tout += "\n" + texte;
+      if (CatalogueJB.rapprocher(texte).length) return { texte, trouve: true };
+    }
+    return { texte: tout, trouve: false };
   },
 };
 
