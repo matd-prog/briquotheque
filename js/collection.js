@@ -123,7 +123,7 @@ const Collection = {
           <div class="code">${echapper(c.code)}</div>
           <div class="lieu">${echapper(onglet)}, case ${c.ref}${c.image ? "" : " · sans étiquette"}</div>
         </div>
-        ${this._lien(c, onglet) ? `<a href="${echapper(this._lien(c, onglet))}" target="_blank" rel="noopener" title="Voir la page">🔗</a>` : ""}
+        ${this._lien(c, onglet) ? `<a ${attributsLien(this._lien(c, onglet))} title="Voir la page">🔗</a>` : ""}
       </div>`;
   },
 
@@ -134,6 +134,8 @@ const Collection = {
     if (!lien) { await demander(`${c.nom || "(sans nom)"}\n${c.code}\n${onglet}, case ${ref}`, "OK", "Fermer"); return; }
     const voir = await demander(`${c.nom || "(sans nom)"}\n${c.code}\n${onglet}, case ${ref}`,
       onglet === THEME_CUSTOMS.onglet ? "Voir la page" : "Voir sur BrickLink", "Fermer");
-    if (voir) window.open(lien, "_blank", "noopener");
+    if (!voir) return;
+    const l = lienOuvrable(lien);
+    if (l.startsWith("intent:")) location.href = l; else window.open(l, "_blank", "noopener");
   },
 };

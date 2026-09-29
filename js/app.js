@@ -45,6 +45,19 @@ function demander(texte, oui = "Oui", non = "Non") {
   });
 }
 
+// Liens eBay sur Android : forcés dans Chrome, sinon l'application eBay (réglée sur eBay.fr)
+// les intercepte et n'y trouve pas les annonces d'eBay.de
+function lienOuvrable(lien) {
+  if (!/android/i.test(navigator.userAgent) || !/^https:\/\/(www\.)?ebay\.[a-z.]+\//i.test(lien || "")) return lien;
+  return `intent://${lien.slice(8)}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(lien)};end`;
+}
+
+// Attributs d'un lien vers une page externe (l'intent Chrome s'ouvre sans nouvel onglet)
+function attributsLien(lien) {
+  const l = lienOuvrable(lien);
+  return `href="${echapper(l)}"` + (l.startsWith("intent:") ? "" : ` target="_blank" rel="noopener"`);
+}
+
 function echapper(t) {
   return String(t ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
@@ -548,7 +561,7 @@ function choisirJB(f) {
     <div class="fiche">
       <img class="photo" src="${echapper(f.image)}" alt="" onerror="this.style.visibility='hidden'">
       <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.ebay ? "retirée de la vente, vue sur eBay.de" : f.code)}</div></div>
-      <a href="${echapper(f.lien)}" target="_blank" rel="noopener" title="${f.ebay ? "Chercher sur eBay.de" : "Voir la page"}">🔗</a>
+      <a ${attributsLien(f.lien)} title="${f.ebay ? "Chercher sur eBay.de" : "Voir la page"}">🔗</a>
     </div>`;
   majCustom();
 }
