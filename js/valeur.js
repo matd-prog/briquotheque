@@ -111,6 +111,12 @@ const Valeur = {
         parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + v;
         details.push({ ...a, v, ventes: neuf ? p.neuf_ventes : p.occasion_ventes, neuf });
       }
+      if (!details.length) {
+        $("valeur-etat").textContent = "";
+        $("valeur-resultat").innerHTML = `<div class="carte"><p>⏳ Aucun prix pour l'instant : le relevé BrickLink est sans doute encore en cours` +
+          ` (environ 1 minute par 100 articles). Touchez « Actualiser » un peu plus tard.</p></div>`;
+        return;
+      }
       const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
       details.sort((x, y) => y.v - x.v);
       $("valeur-etat").textContent = date ? `Prix du ${new Date(date).toLocaleDateString("fr-FR")} : médiane des ventes BrickLink des 6 derniers mois.` : "";
