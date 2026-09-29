@@ -35,7 +35,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   se termine), code CUS-…. Ex. Lagertha, Baron Zemo, The Daywalker, The Princess.
   Noms tirés des titres d'annonces : quelques doublons ou noms imparfaits (« Jedi Bob Movie »,
   « Vegan Milk Luke » / « Vegan Blue Milk Luke »…) ; on les corrige au besoin dans le champ Nom.
-- Liens eBay (🔗 de l'appli) : ouverts de force dans Chrome sur Android, car l'application eBay
+- Liens eBay : sur Android, deux boutons « 🌐 Chrome » et « 📱 Appli eBay » au lieu du 🔗
+  (fiche de la figurine choisie et « Ma collection »). Chrome par défaut, car l'application eBay
   du téléphone (réglée sur eBay.fr) les interceptait et ne trouvait rien (test « Zemo » du 29/09 :
   0 résultat dans l'appli eBay, 2 dans Chrome). Les QR codes des étiquettes gardent le lien normal :
   scannés avec l'appareil photo, ils peuvent encore ouvrir l'application eBay.

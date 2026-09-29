@@ -123,7 +123,7 @@ const Collection = {
           <div class="code">${echapper(c.code)}</div>
           <div class="lieu">${echapper(onglet)}, case ${c.ref}${c.image ? "" : " · sans étiquette"}</div>
         </div>
-        ${this._lien(c, onglet) ? `<a ${attributsLien(this._lien(c, onglet))} title="Voir la page">🔗</a>` : ""}
+        ${liensFiche(this._lien(c, onglet), "Voir la page")}
       </div>`;
   },
 

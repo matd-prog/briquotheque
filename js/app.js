@@ -45,17 +45,25 @@ function demander(texte, oui = "Oui", non = "Non") {
   });
 }
 
-// Liens eBay sur Android : forcés dans Chrome, sinon l'application eBay (réglée sur eBay.fr)
-// les intercepte et n'y trouve pas les annonces d'eBay.de
-function lienOuvrable(lien) {
-  if (!/android/i.test(navigator.userAgent) || !/^https:\/\/(www\.)?ebay\.[a-z.]+\//i.test(lien || "")) return lien;
-  return `intent://${lien.slice(8)}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(lien)};end`;
+// Liens eBay sur Android : ouverts au choix dans Chrome (eBay.de) ou dans l'application eBay.
+// Par défaut Chrome : l'application eBay, réglée sur eBay.fr, n'y trouve pas les annonces d'eBay.de.
+const EST_ANDROID = /android/i.test(navigator.userAgent);
+function estLienEbay(lien) { return /^https:\/\/(www\.)?ebay\.[a-z.]+\//i.test(lien || ""); }
+function lienOuvrable(lien, appli = "com.android.chrome") {
+  if (!EST_ANDROID || !estLienEbay(lien)) return lien;
+  return `intent://${lien.slice(8)}#Intent;scheme=https;package=${appli};S.browser_fallback_url=${encodeURIComponent(lien)};end`;
 }
 
-// Attributs d'un lien vers une page externe (l'intent Chrome s'ouvre sans nouvel onglet)
-function attributsLien(lien) {
-  const l = lienOuvrable(lien);
-  return `href="${echapper(l)}"` + (l.startsWith("intent:") ? "" : ` target="_blank" rel="noopener"`);
+// Lien(s) vers une page externe pour une fiche : 🔗, ou pour eBay sur Android deux boutons
+// « Chrome » et « Appli eBay » (l'intent s'ouvre sans nouvel onglet)
+function liensFiche(lien, titre) {
+  if (!lien) return "";
+  if (!EST_ANDROID || !estLienEbay(lien))
+    return `<a href="${echapper(lien)}" target="_blank" rel="noopener" title="${echapper(titre)}">🔗</a>`;
+  return `<div class="liens-ebay">
+      <a href="${echapper(lienOuvrable(lien))}" title="Ouvrir eBay.de dans Chrome">🌐 Chrome</a>
+      <a href="${echapper(lienOuvrable(lien, "com.ebay.mobile"))}" title="Ouvrir dans l'application eBay">📱 Appli eBay</a>
+    </div>`;
 }
 
 function echapper(t) {
@@ -561,7 +569,7 @@ function choisirJB(f) {
     <div class="fiche">
       <img class="photo" src="${echapper(f.image)}" alt="" onerror="this.style.visibility='hidden'">
       <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.ebay ? "retirée de la vente, vue sur eBay.de" : f.code)}</div></div>
-      <a ${attributsLien(f.lien)} title="${f.ebay ? "Chercher sur eBay.de" : "Voir la page"}">🔗</a>
+      ${liensFiche(f.lien, f.ebay ? "Chercher sur eBay.de" : "Voir la page")}
     </div>`;
   majCustom();
 }
