@@ -52,39 +52,45 @@ def mots(t):
     return {m for m in re.findall(r"[a-z0-9]+", t) if m not in MOTS_VIDES}
 
 
+def base(nom):
+    """Personnage : début du nom, avant la première virgule ou le premier tiret (« Snowtrooper »)"""
+    import re
+    return " ".join(sorted(mots(re.split(r",| - |\(", nom or "", maxsplit=1)[0])))
+
+
 def catalogue_bricklink():
-    """Figurines BrickLink de l'appli : [(code, mots du nom, année, mots de la catégorie)]"""
+    """Figurines BrickLink de l'appli : [(code, mots du nom, année, racine de la catégorie, personnage)]"""
     res = []
     with open(os.path.join(RACINE, "data", "figurines.tsv"), encoding="utf-8") as f:
         for ligne in f:
             c = ligne.rstrip("\n").split("\t")
             if len(c) >= 3 and not ligne.startswith(("#", "code\t")):
-                res.append((c[0], mots(c[1]), c[3] if len(c) > 3 else "", mots(c[2])))
+                res.append((c[0], mots(c[1]), c[3] if len(c) > 3 else "", c[2].split(" / ")[0].lower(), base(c[1])))
     return res
 
 
-def rapprocher(nom, annee, theme, catalogue, index):
-    """Code BrickLink le plus probable pour une figurine Rebrickable, et sa ressemblance (0 à 1)"""
-    m = mots(nom)
+def candidats(nom, annee, racine_theme, catalogue, index, n=6):
+    """Codes BrickLink possibles pour une figurine Rebrickable, les plus ressemblants d'abord :
+    [(ressemblance 0 à 1, code)]. Même personnage, même époque et même thème favorisés."""
+    m, b = mots(nom), base(nom)
     if not m:
-        return "", 0.0
-    candidats = set()
+        return []
+    possibles = set()
     for w in m:
-        candidats |= index.get(w, set())
-    meilleur, score = "", 0.0
-    for i in candidats:
-        code, mc, a, mt = catalogue[i]
+        possibles |= index.get(w, set())
+    res = []
+    for i in possibles:
+        code, mc, a, rc, bc = catalogue[i]
+        commun = len(m & mc)
         # part des mots en commun, et part du nom Rebrickable retrouvée dans le nom BrickLink
-        s = 0.5 * len(m & mc) / len(m | mc) + 0.5 * len(m & mc) / len(m)
-        if a and annee and a == annee:
-            s += 0.15
-        elif a and annee and abs(int(a) - int(annee)) <= 1:
-            s += 0.05
-        if theme and mt & theme:
-            s += 0.1
-        if s > score:
-            meilleur, score = code, s
-    return meilleur, min(1.0, round(score, 2))
+        s = 0.25 * commun / len(m | mc) + 0.35 * commun / len(m)
+        s += 0.25 if b and b == bc else 0
+        if a and annee:
+            ecart = abs(int(a) - int(annee))
+            s += 0.15 if ecart == 0 else 0.08 if ecart == 1 else -0.2 if ecart > 3 else 0
+        s += 0.1 if rc and racine_theme and rc == racine_theme else 0
+        res.append((round(max(0.0, min(1.0, s)), 2), code))
+    return sorted(res, reverse=True)[:n]
 
 
 def main():
@@ -121,22 +127,28 @@ def main():
     codes = {s["set_num"]: s for s in sets}
     catalogue = catalogue_bricklink()
     index = {}
-    for i, (_, mc, _, _) in enumerate(catalogue):
+    for i, (_, mc, _, _, _) in enumerate(catalogue):
         for w in mc:
             index.setdefault(w, set()).add(i)
-    rapproches = {}  # une figurine Rebrickable peut être dans plusieurs sets : un seul calcul
+    stats = []
     with open(os.path.join(RACINE, "data", "sets_figurines.tsv"), "w", encoding="utf-8") as f:
         f.write(f"#date {date}\nset\tfigurine\tquantite\tnom\tbricklink\tressemblance\n")
         for s in sorted(figs):
             if s not in codes:
                 continue
+            racine = chemin(codes[s]["theme_id"]).split(" / ")[0].lower()
+            possibles = {fig: candidats(noms_figs.get(fig, ""), codes[s]["year"], racine, catalogue, index) for fig, _ in figs[s]}
+            # un code BrickLink différent pour chaque figurine du set : les paires les plus sûres d'abord
+            choix, pris = {}, set()
+            for r, fig, code in sorted(((r, fig, c) for fig, l in possibles.items() for r, c in l), reverse=True):
+                if fig not in choix and code not in pris:
+                    choix[fig] = (code, r); pris.add(code)
             for fig, q in figs[s]:
-                if fig not in rapproches:
-                    rapproches[fig] = rapprocher(noms_figs.get(fig, ""), codes[s]["year"], mots(chemin(codes[s]["theme_id"])), catalogue, index)
-                bl, r = rapproches[fig]
-                f.write("\t".join([s, fig, str(q), propre(noms_figs.get(fig, "")), bl, str(r)]) + "\n")
-    bons = sum(1 for bl, r in rapproches.values() if r >= 0.6)
-    print(f"{len(rapproches)} figurines rapprochées du catalogue BrickLink, {bons} avec une ressemblance >= 0,6", file=sys.stderr)
+                code, r = choix.get(fig, ("", 0.0))
+                stats.append(r)
+                f.write("\t".join([s, fig, str(q), propre(noms_figs.get(fig, "")), code, str(r)]) + "\n")
+    bons = sum(1 for r in stats if r >= 0.7)
+    print(f"{len(stats)} figurines de sets, {bons} rapprochées du catalogue BrickLink avec une ressemblance >= 0,7", file=sys.stderr)
     print(f"{len(sets)} sets, {sum(1 for s in figs if s in codes)} avec figurines -> data/sets.tsv, data/sets_figurines.tsv", file=sys.stderr)
 
 

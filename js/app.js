@@ -141,7 +141,7 @@ const Memoire = {
 
 async function chargerClasseur(octets, nom, nonEnregistres = 0) {
   const cl = await Classeur.ouvrir(octets);
-  for (const o of ONGLETS_AUTORISES) cl.feuille(o); // vérifie que les 4 onglets existent
+  for (const o of [...ONGLETS_COLORES, ONGLET_TABLE]) cl.feuille(o); // vérifie que les 4 onglets existent (« Sets » : créé au besoin)
   etat.classeur = cl;
   etat.nomFichier = nom;
   etat.nonEnregistres = nonEnregistres;

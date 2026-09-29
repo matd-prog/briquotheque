@@ -17,7 +17,13 @@ const TYPE_REL = {
 };
 const ONGLETS_COLORES = ["Gentils (vert)", "Méchants (rouge)", "Zone grise"];
 const ONGLET_TABLE = "Table camps";
-const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE];
+// Sets LEGO : un tableau (une ligne par set), créé par l'appli au premier set ajouté
+const ONGLET_SETS = "Sets";
+const COLONNES_SETS = [
+  ["A", "Numéro", 11], ["B", "Nom", 38], ["C", "Année", 7], ["D", "Thème", 28], ["E", "Pièces", 8],
+  ["F", "État", 14], ["G", "Boîte", 7], ["H", "Notice", 7], ["I", "Figurines", 40], ["J", "Ajouté le", 11],
+];
+const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS];
 // Onglets de thèmes (Simpsons, Harry Potter...) : créés par l'appli, même mise en page
 const ONGLETS_THEMES = TOUS_THEMES.map(t => t.onglet);
 const ONGLET_MODELE = "Gentils (vert)";
@@ -530,7 +536,29 @@ class Classeur {
     sd.appendChild(ligne);
     const dim = enfant(racine, "dimension");
     if (dim) dim.setAttribute("ref", "A1:Q1");
+    await this._inscrireFeuille(nom, doc);
+    await this.majZoneImpression(nom, 1);
+  }
 
+  // Onglet « Sets » : tableau neuf (ligne de titres figée, largeurs de colonnes), sans modèle
+  async creerOngletSets() {
+    if (this.aOnglet(ONGLET_SETS)) return;
+    const conflit = this.feuilles.find(f => f.nom.toLowerCase() === ONGLET_SETS.toLowerCase());
+    if (conflit) throw new Error(`un onglet « ${conflit.nom} » existe déjà : impossible de créer « ${ONGLET_SETS} »`);
+    const echap = t => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    const xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="${NS.main}" xmlns:r="${NS.r}"><dimension ref="A1:J1"/>` +
+      `<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>` +
+      `<sheetFormatPr defaultRowHeight="15"/><cols>` +
+      COLONNES_SETS.map(([, , l], i) => `<col min="${i + 1}" max="${i + 1}" width="${l}" customWidth="1"/>`).join("") +
+      `</cols><sheetData><row r="1">` +
+      COLONNES_SETS.map(([c, titre]) => `<c r="${c}1" t="inlineStr"><is><t>${echap(titre)}</t></is></c>`).join("") +
+      `</row></sheetData><pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/></worksheet>`;
+    await this._inscrireFeuille(ONGLET_SETS, new DOMParser().parseFromString(xml, "application/xml"));
+  }
+
+  // Ajoute une feuille (document XML) au classeur : fichier, type, lien et nom d'onglet
+  async _inscrireFeuille(nom, doc) {
     let n = 1;
     while (this.zip.file(`xl/worksheets/sheet${n}.xml`) || this.docs[`xl/worksheets/sheet${n}.xml`]) n++;
     const chemin = `xl/worksheets/sheet${n}.xml`;
@@ -554,7 +582,6 @@ class Classeur {
     sheets.appendChild(sheet);
     this._modifie("xl/workbook.xml");
     this.feuilles.push({ nom, index: this.feuilles.length, chemin });
-    await this.majZoneImpression(nom, 1);
   }
 
   // ----- enregistrement -----
@@ -631,6 +658,30 @@ async function poserEtiquette(cl, onglet, row, col, code, lien) {
 }
 
 // Première case libre (ligne par ligne, de A à E) ; ajoute une ligne si l'onglet est plein
+// Sets de l'onglet « Sets » : [{ row, code, nom, etat, boite, notice, figurines }]
+async function lireSets(cl) {
+  if (!cl.aOnglet(ONGLET_SETS)) return [];
+  const res = [], derniere = await cl.derniereLigne(ONGLET_SETS);
+  for (let row = 2; row <= derniere; row++) {
+    const v = async l => cl.valeur(ONGLET_SETS, l + row);
+    const code = await v("A");
+    if (code) res.push({ row, code, nom: await v("B"), annee: await v("C"), theme: await v("D"), etat: await v("F"),
+                         boite: await v("G"), notice: await v("H"), figurines: await v("I") });
+  }
+  return res;
+}
+
+// Ajoute un set à l'onglet « Sets » (créé s'il n'existe pas) : une ligne à la fin du tableau
+async function ajouterSet(cl, { code, nom, annee, theme, pieces, etat, boite, notice, figurines }) {
+  await cl.creerOngletSets();
+  const row = (await cl.derniereLigne(ONGLET_SETS)) + 1;
+  const valeurs = [code, nom, annee, theme, pieces, etat, boite ? "oui" : "non", notice ? "oui" : "non",
+                   figurines || "", new Date().toLocaleDateString("fr-FR")];
+  for (let i = 0; i < valeurs.length; i++)
+    if (valeurs[i] !== "" && valeurs[i] != null) await cl.ecrireTexte(ONGLET_SETS, COLONNES_SETS[i][0] + row, String(valeurs[i]));
+  return row;
+}
+
 async function premiereCaseLibre(cl, onglet) {
   const coll = (await lireCollection(cl))[onglet];
   const libre = coll.cases.find(c => !c.code && !c.image);
