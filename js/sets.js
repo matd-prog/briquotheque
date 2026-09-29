@@ -130,7 +130,7 @@ const EcranSet = {
     const camp = code ? proposerCamp(code, cand.nom, etat.table).camp : null;
     const onglet = code ? (theme === STAR_WARS ? CAMPS[camp].onglet : theme) : null;
     const deja = code ? ouFigurine(code) : [];
-    const sur = code && (choisiParVous || f.ressemblance >= 0.7);
+    const sur = code && (choisiParVous || f.ressemblance >= 0.6);
     return { ...f, code, nomBL: cand.nom, theme, camp, onglet, deja, sur, cocher: sur && !deja.length };
   },
 

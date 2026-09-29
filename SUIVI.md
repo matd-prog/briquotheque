@@ -131,7 +131,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   étiquettes qu'une figurine seule). Catalogue : data/sets.tsv (20 090 sets) et data/sets_figurines.tsv,
   faits par outils/sets_rebrickable.py (fichiers publics Rebrickable) sur GitHub (.github/workflows/
   sets.yml, le 2 de chaque mois). Rebrickable n'a pas les codes BrickLink des figurines : rapprochés par
-  le nom (même personnage, même époque, un code par figurine d'un set) ; « à vérifier » sous 0,7.
+  le nom (même personnage, même époque, un code par figurine d'un set) ; « à vérifier » sous 0,6 (2 figurines de sets sur 3 au-dessus).
   Choix de l'utilisateur : même fichier Excel, identification par numéro, pas d'étiquettes pour les sets.
 - Variantes (29/09) : même figurine, seule la tête change (couleur de peau, homme/femme, expression),
   invisible sous un casque : l'écran de résultat d'une photo propose « 🪖 N autres versions du même
