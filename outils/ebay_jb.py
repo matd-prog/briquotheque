@@ -4,7 +4,8 @@
 JB Spielwaren est allemand : eBay.de est la place de marché où l'on trouve le plus de leurs blisters.
 Les annonces sont lues avec l'API officielle « Browse » (outils/ebay.py, clés dans EBAY_CLIENT_ID et
 EBAY_CLIENT_SECRET). Pour chaque annonce d'une seule figurine JB : titre nettoyé -> nom ; si le nom
-correspond à une figurine du catalogue du site (data/jb.tsv), elle est ignorée ; sinon elle est gardée
+correspond à une figurine du catalogue du site (data/jb.tsv) ou de brickshellcases.com
+(data/jb_brickshell.tsv, à créer avant avec outils/brickshell_jb.py), elle est ignorée ; sinon elle est gardée
 (une ligne par nom, même format que data/jb.tsv) :
   code EBAY-<n° de la 1re annonce vue>, nom, catégorie, lien = recherche eBay.de (reste valable quand
   l'annonce se termine), photo de l'annonce (adresse seulement, la photo n'est pas copiée).
@@ -22,6 +23,7 @@ RECHERCHES = ["JB Spielwaren", "JB-Spielwaren Minifigur", "JB Spielwaren Custom"
               "JB Spielwaren OVP", "JB Toys Custom Minifigure"]
 RACINE = os.path.join(os.path.dirname(__file__), "..")
 CATALOGUE = os.path.join(RACINE, "data", "jb.tsv")
+BRICKSHELL = os.path.join(RACINE, "data", "jb_brickshell.tsv")  # outils/brickshell_jb.py
 SORTIE = os.path.join(RACINE, "data", "jb_ebay.tsv")
 
 JB = re.compile(r"\bjb[\s-]?(spielwaren|toys)\b", re.I)
@@ -96,20 +98,23 @@ def dans_catalogue(titre, catalogue):
     return None
 
 
-def lire_catalogue():
+def lire_catalogue(avec_brickshell=False):
+    """Figurines du site JB (et, si demandé, de brickshellcases.com) : [(code, nom, mots essentiels)]"""
     res = []
-    with open(CATALOGUE, encoding="utf-8") as f:
-        for ligne in f:
-            if ligne.startswith("JB-"):
-                code, nom = ligne.split("\t")[:2]
-                res.append((code, nom, set(mots(nom, BRUIT_CATALOGUE))))
+    fichiers = [CATALOGUE] + ([BRICKSHELL] if avec_brickshell and os.path.exists(BRICKSHELL) else [])
+    for fichier in fichiers:
+        with open(fichier, encoding="utf-8") as f:
+            for ligne in f:
+                if re.match(r"(JB|BSC)-", ligne):
+                    code, nom = ligne.split("\t")[:2]
+                    res.append((code, nom, set(mots(nom, BRUIT_CATALOGUE))))
     # les noms les plus longs d'abord (« Chrome Black Spaceman » avant « Spaceman »)
     return sorted(res, key=lambda r: -len(r[2]))
 
 
 def categorie(titre):
     t = normaliser(titre)
-    for mots_cles, nom in [("star wars|starwars|jedi|sith|trooper|mandalorian|clone|darth|droid", "Galactic Heroes (Star Wars)"),
+    for mots_cles, nom in [("star wars|starwars|jedi|sith|trooper|mandalorian|clone|darth|droid|bounty hunter|imperial|isb", "Galactic Heroes (Star Wars)"),
                            ("marvel|batman|superman|deadpool|avengers|spider|joker|harley|dc comics", "Super Heroes"),
                            ("halloween|horror|christmas|weihnacht|easter|ostern", "Saisonnières"),
                            ("pirat", "Pirates"), ("space|astronaut", "Space")]:
@@ -139,7 +144,7 @@ def annonces():
 
 def main():
     detail = "--detail" in sys.argv
-    catalogue = lire_catalogue()
+    catalogue = lire_catalogue(avec_brickshell=True)
     stats = collections.Counter()
     nouvelles = {}  # nom normalisé -> {noms, annonces}
     vues_catalogue = set()

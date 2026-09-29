@@ -49,6 +49,16 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   même densité de QR code) ; le lien gardé dans Excel reste la recherche eBay.de. Confirmé le 29/09
   (étiquette Baron Zemo scannée : 2 annonces sur eBay.de). Les étiquettes eBay faites avant le 29/09 sont à refaire.
 
+- brickshellcases.com (29/09/2026) : 130 figurines JB en vente sur leur site (toutes collections,
+  pas seulement « jb-toys-custom-figures ») ; 58 déjà au catalogue JB, 68 autres -> data/jb_brickshell.tsv
+  (outils/brickshell_jb.py). Le nom de fichier de leurs photos donne le numéro d'article JB : 55 gardent
+  leur code JB-… (ex. Nya JB-648654818), 13 ont un code BSC-… (photo maison, ou lot « Joy, Anger… »
+  au numéro partagé : leur étiquette aura un code CUS-…). Lien : page brickshellcases (les pages JB
+  des figurines retirées renvoient une erreur 404). 55 empreintes de décor ajoutées (photos du site
+  JB, sans effet négatif sur le test des 40 photos eBay). La liste eBay passe de 223 à 193 noms.
+- Vinted : écarté (pas d'API publique, collecte automatique interdite par leurs conditions
+  d'utilisation, et site bloqué dans l'environnement).
+
 ## Fichier Excel de l'utilisateur
 
 Dernière version fournie : etiquettes_figurines_LEGO_tri-1_2026-09-28_22h04.xlsx
@@ -60,9 +70,9 @@ Point jamais vérifié : ouverture du fichier dans Excel sur ordinateur.
 ## Tâche automatique
 
 « Mise à jour catalogue JB » (trig_011Ds34iarCiCVXumdMSDeEY) : le 2 de chaque mois à 6h50
-(Paris), relance outils/catalogue_jb.py puis outils/empreintes_jb.js, puis (depuis le 29/09) outils/ebay_jb.py ;
-publie data/jb.tsv, data/jb_empreintes.tsv et data/jb_ebay.tsv s'il y a du changement.
-Les deux parties (site JB, eBay.de) sont indépendantes : l'échec de l'une ne bloque pas l'autre. Essai du 28/09 : terminé sans publication
+(Paris), relance outils/catalogue_jb.py, outils/brickshell_jb.py, outils/empreintes_jb.js, puis outils/ebay_jb.py ;
+publie data/jb.tsv, data/jb_brickshell.tsv, data/jb_empreintes.tsv et data/jb_ebay.tsv s'il y a du
+changement. Chaque source est indépendante : l'échec de l'une ne bloque pas les autres. Essai du 28/09 : terminé sans publication
 (normal), mais compte rendu non lu : on ne sait pas encore si la tâche a le droit de publier.
 
 ## Domaines autorisés dans l'environnement
@@ -74,8 +84,7 @@ refusé → ajouter *.archive.org.
 ## Prochaines étapes
 
 1. Retours de l'utilisateur sur un vrai blister (qualité, temps de lecture).
-2. brickshellcases.com (Shopify, collection « jb-toys-custom-figures ») : ajouter noms et
-   empreintes de blisters au catalogue JB (lire /collections/…/products.json, poliment).
+2. brickshellcases.com : fait le 29/09 (voir plus haut).
 3. eBay.de (la meilleure source : JB Spielwaren est allemand) : accès OK (29/09/2026).
    Clés dans EBAY_CLIENT_ID / EBAY_CLIENT_SECRET (ne jamais les afficher), jeton en Basic.
    `python3 outils/ebay_jb.py [--detail]` : ~660 annonces lues ; 160 annonces de 78 figurines déjà

@@ -42,9 +42,14 @@ de chaque photo de blister du catalogue JB, calculée par `node outils/empreinte
 même code que l'appli (`js/empreinte.js`) ; les photos ne sont pas conservées. L'appli compare la
 photo du blister à ces empreintes pour confirmer le nom lu, ou proposer les blisters ressemblants.
 
+Figurines JB revendues par brickshellcases.com (`data/jb_brickshell.tsv`, `python3 outils/brickshell_jb.py`) :
+celles qui ne sont plus sur le site JB. Leurs photos sont celles du site JB et portent le numéro d'article :
+elles gardent leur code JB-… (sinon BSC-…) ; lien vers la page brickshellcases ; empreintes du décor comprises.
+
 Figurines JB retirées de la vente (`data/jb_ebay.tsv`) : noms tirés des annonces eBay.de (API officielle
 « Browse »), avec `python3 outils/ebay_jb.py` (clés dans les variables d'environnement EBAY_CLIENT_ID et
-EBAY_CLIENT_SECRET). Les figurines déjà au catalogue JB sont écartées. Elles sont proposées dans la
+EBAY_CLIENT_SECRET). Les figurines déjà au catalogue JB ou sur brickshellcases.com sont écartées
+(lancer `brickshell_jb.py` avant). Elles sont proposées dans la
 recherche et la lecture des blisters ; le lien de l'étiquette est une recherche eBay.de, le code CUS-….
 
 Fichiers :

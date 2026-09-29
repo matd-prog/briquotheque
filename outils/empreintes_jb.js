@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Empreintes des blisters du catalogue JB -> data/jb_empreintes.tsv (code, empreinte en base64).
-// Télécharge chaque photo de data/jb.tsv (une toutes les 0,5 s), calcule son empreinte avec le
+// Télécharge chaque photo de data/jb.tsv, et de data/jb_brickshell.tsv pour les figurines dont le
+// numéro d'article JB est connu (mêmes photos que le site JB) ; pas les photos eBay (essai du 29/09 :
+// elles faussaient la comparaison). Une photo toutes les 0,5 s ; empreinte calculée avec le
 // même code que l'appli (js/empreinte.js, dans un navigateur sans écran) ; les photos ne sont pas gardées.
 //
 // Utilisation : node outils/empreintes_jb.js   (Playwright et curl nécessaires)
@@ -10,7 +12,9 @@ const fs = require("fs"), path = require("path"), { execFileSync } = require("ch
 const { chromium } = require("playwright");
 
 const racine = path.join(__dirname, "..");
-const lignes = fs.readFileSync(path.join(racine, "data/jb.tsv"), "utf8").split("\n").filter(l => l.startsWith("JB-"));
+const lireTsv = fichier => fs.existsSync(path.join(racine, fichier))
+  ? fs.readFileSync(path.join(racine, fichier), "utf8").split("\n").filter(l => l.startsWith("JB-")) : [];
+const lignes = [...lireTsv("data/jb.tsv"), ...lireTsv("data/jb_brickshell.tsv")];
 const attendre = ms => new Promise(r => setTimeout(r, ms));
 
 (async () => {

@@ -1,42 +1,56 @@
 // Catalogue des figurines custom JB Spielwaren (data/jb.tsv, créé par outils/catalogue_jb.py) :
 // code JB-<numéro d'article>, nom, catégorie, lien de la page, adresse de la photo sur leur site.
-// S'y ajoutent les figurines retirées de la vente vues sur eBay.de (data/jb_ebay.tsv) : code EBAY-…,
-// lien vers une recherche eBay.de ; une fois choisies, elles reçoivent un code CUS-… comme les autres customs.
+// S'y ajoutent deux listes facultatives de figurines plus en vente chez JB, au même format :
+// - data/jb_brickshell.tsv (outils/brickshell_jb.py) : revendues par brickshellcases.com, code JB-…
+//   quand le numéro d'article est connu (sinon BSC-…), lien vers leur page brickshellcases ;
+// - data/jb_ebay.tsv (outils/ebay_jb.py) : vues sur eBay.de, code EBAY-…, lien vers une recherche
+//   eBay.de ; une fois choisies, elles reçoivent un code CUS-… comme les autres customs.
+
+const SOURCES_JB = [
+  { source: "jb", fichier: "data/jb.tsv", codes: /^JB-/, obligatoire: true },
+  { source: "brickshell", fichier: "data/jb_brickshell.tsv", codes: /^(JB|BSC)-/ },
+  { source: "ebay", fichier: "data/jb_ebay.tsv", codes: /^EBAY-/ },
+];
 
 const CatalogueJB = {
   liste: null,
   parCode: null,
   date: null,
+  nb: { jb: 0, brickshell: 0, ebay: 0 },
   _chargement: null,
 
   charger() {
     if (!this._chargement) {
-      // figurines retirées de la vente vues sur eBay.de (data/jb_ebay.tsv, outils/ebay_jb.py) : facultatif
-      const ebay = fetch("data/jb_ebay.tsv").then(rep => rep.ok ? rep.text() : "").catch(() => "");
-      this._chargement = fetch("data/jb.tsv")
-        .then(rep => { if (!rep.ok) throw new Error("catalogue JB absent"); return rep.text(); })
-        .then(async texte => {
+      const textes = SOURCES_JB.map(s => fetch(s.fichier)
+        .then(rep => { if (rep.ok) return rep.text(); if (s.obligatoire) throw new Error("catalogue JB absent"); return ""; })
+        .catch(err => { if (s.obligatoire) throw err; return ""; }));
+      this._chargement = Promise.all(textes)
+        .then(liste => {
           this.liste = [];
           this.parCode = new Map();
-          this.nbEbay = 0;
-          const lire = (texte, ebay) => {
-            for (const ligne of texte.split("\n")) {
-              if (ligne.startsWith("#date ")) { if (!ebay) this.date = ligne.slice(6).trim(); continue; }
+          this.nb = { jb: 0, brickshell: 0, ebay: 0 };
+          SOURCES_JB.forEach(({ source, codes }, i) => {
+            for (const ligne of liste[i].split("\n")) {
+              if (ligne.startsWith("#date ")) { if (source === "jb") this.date = ligne.slice(6).trim(); continue; }
               const [code, nom, categorie, lien, image] = ligne.split("\t");
-              if (!code || !code.startsWith(ebay ? "EBAY-" : "JB-")) continue;
-              const f = { code, nom, categorie, lien, image, ebay, recherche: normaliser(`${code} ${nom} ${categorie}`) };
+              if (!code || !codes.test(code) || this.parCode.has(code.toUpperCase())) continue;
+              const f = { code, nom, categorie, lien, image, source, ebay: source === "ebay",
+                          recherche: normaliser(`${code} ${nom} ${categorie}`) };
               this.liste.push(f);
               this.parCode.set(code.toUpperCase(), f);
-              if (ebay) this.nbEbay++;
+              this.nb[source]++;
             }
-          };
-          lire(texte, false);
-          lire(await ebay, true);
+          });
           return this.liste;
         })
         .catch(err => { this._chargement = null; throw err; });
     }
     return this._chargement;
+  },
+
+  // Figurine du catalogue dont c'est le lien (pour garder son code JB-… : lien brickshellcases)
+  parLien(lien) {
+    return (lien && this.liste && this.liste.find(f => f.lien === lien)) || null;
   },
 
   // Empreintes des blisters (data/jb_empreintes.tsv, créées par outils/empreintes_jb.js)

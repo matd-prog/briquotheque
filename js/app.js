@@ -511,6 +511,9 @@ function lienDansTexte(texte) {
 function codeCustom(lien) {
   const jb = /jb-spielwaren\.[a-z]+\/.*?\/a-(\d+)/i.exec(lien);
   if (jb) return "JB-" + jb[1];
+  // figurine JB revendue par brickshellcases.com : son numéro d'article JB est connu
+  const f = CatalogueJB.parLien(lien);
+  if (f && f.code.startsWith("JB-")) return f.code;
   let max = 0;
   const codes = [...Object.values(etat.collection).flatMap(o => o.cases.map(c => c.code)), ...etat.table.map(l => l.code)];
   for (const c of codes) { const x = /^CUS-(\d+)$/i.exec(c || ""); if (x) max = Math.max(max, +x[1]); }
@@ -540,8 +543,9 @@ function ouvrirCustom(info) {
   if (info) return;
   CatalogueJB.charger()
     .then(l => {
-      const ebay = CatalogueJB.nbEbay ? ` + ${CatalogueJB.nbEbay} retirées de la vente, vues sur eBay.de` : "";
-      $("custom-recherche-info").textContent = `${l.length - CatalogueJB.nbEbay} figurines JB Spielwaren (catalogue du ${new Date(CatalogueJB.date).toLocaleDateString("fr-FR")})${ebay}. Sinon, collez un lien plus bas.`;
+      const { jb, brickshell, ebay } = CatalogueJB.nb;
+      const retirees = brickshell + ebay ? ` + ${brickshell + ebay} plus en vente chez JB (brickshellcases.com, eBay.de)` : "";
+      $("custom-recherche-info").textContent = `${jb} figurines JB Spielwaren (catalogue du ${new Date(CatalogueJB.date).toLocaleDateString("fr-FR")})${retirees}. Sinon, collez un lien plus bas.`;
     })
     .catch(() => { $("custom-recherche-info").textContent = "Catalogue JB indisponible : collez le lien de la figurine plus bas."; });
 }
@@ -555,7 +559,7 @@ function afficherResultatsJB(res) {
     <button class="proposition" data-jb="${i}">
       <img src="${echapper(f.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
       <span class="nom-court">${echapper(f.nom)}</span>
-      <span class="score">${echapper(f.ebay ? "Retirée · eBay.de" : f.categorie)}</span>
+      <span class="score">${echapper(f.ebay ? "Retirée · eBay.de" : f.source === "brickshell" ? "Retirée · brickshellcases" : f.categorie)}</span>
     </button>`).join("");
   $("custom-resultats").querySelectorAll("[data-jb]").forEach(b => b.addEventListener("click", () => choisirJB(res[+b.dataset.jb])));
 }
@@ -570,7 +574,7 @@ function choisirJB(f) {
   $("custom-choisie").innerHTML = `
     <div class="fiche">
       <img class="photo" src="${echapper(f.image)}" alt="" onerror="this.style.visibility='hidden'">
-      <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.ebay ? "retirée de la vente, vue sur eBay.de" : f.code)}</div></div>
+      <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.ebay ? "retirée de la vente, vue sur eBay.de" : f.source === "brickshell" ? `${f.code} · plus en vente chez JB, vendue par brickshellcases.com` : f.code)}</div></div>
       ${liensFiche(f.lien, f.ebay ? "Chercher sur eBay.de" : "Voir la page")}
     </div>`;
   majCustom();
