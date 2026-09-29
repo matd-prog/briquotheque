@@ -27,7 +27,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   comparaison du décor (data/jb_empreintes.tsv, 279 empreintes) + indice Brickognize.
   Essai sur « The Ring Addict » : nom trouvé et confirmé par le décor en ~3 s (ordinateur).
 
-## Prêt le 29/09/2026 sur la branche claude/lego-figurines-ebay-access-0i0wcf (pas encore sur main, donc pas en ligne)
+## Publié le 29/09/2026, à confirmer sur le téléphone
 
 - Figurines JB retirées de la vente, vues sur eBay.de (data/jb_ebay.tsv, 223 noms, créé par
   outils/ebay_jb.py) : proposées dans la recherche custom et la lecture des blisters, marquées
@@ -47,8 +47,9 @@ Point jamais vérifié : ouverture du fichier dans Excel sur ordinateur.
 ## Tâche automatique
 
 « Mise à jour catalogue JB » (trig_011Ds34iarCiCVXumdMSDeEY) : le 2 de chaque mois à 6h50
-(Paris), relance outils/catalogue_jb.py puis outils/empreintes_jb.js, publie data/jb.tsv et
-data/jb_empreintes.tsv s'il y a du changement. Essai du 28/09 : terminé sans publication
+(Paris), relance outils/catalogue_jb.py puis outils/empreintes_jb.js, puis (depuis le 29/09) outils/ebay_jb.py ;
+publie data/jb.tsv, data/jb_empreintes.tsv et data/jb_ebay.tsv s'il y a du changement.
+Les deux parties (site JB, eBay.de) sont indépendantes : l'échec de l'une ne bloque pas l'autre. Essai du 28/09 : terminé sans publication
 (normal), mais compte rendu non lu : on ne sait pas encore si la tâche a le droit de publier.
 
 ## Domaines autorisés dans l'environnement
@@ -72,7 +73,7 @@ refusé → ajouter *.archive.org.
    Constat au passage : sur 40 photos eBay de blisters du catalogue, la comparaison du décor ne met
    le bon blister en tête qu'une fois (3 fois dans les 3 premiers) ; la lecture du nom reste la
    méthode principale. Piste : recadrer sur le carton avant de calculer l'empreinte.
-   À faire : ajouter outils/ebay_jb.py à la tâche mensuelle (si l'utilisateur est d'accord).
+   Ajouté à la tâche mensuelle le 29/09/2026.
 4. Archives (web.archive.org) : anciennes figurines JB retirées de la vente.
 5. Éventuel contact avec JB Spielwaren pour une base officielle de leurs blisters.
 6. Vérifier le compte rendu de la tâche automatique ; corriger si elle ne peut pas publier.
