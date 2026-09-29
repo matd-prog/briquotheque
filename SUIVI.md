@@ -37,7 +37,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   « Vegan Milk Luke » / « Vegan Blue Milk Luke »…) ; on les corrige au besoin dans le champ Nom.
 - Liens eBay : un bouton « 🔎 eBay.de » au lieu du 🔗 (fiche de la figurine choisie et « Ma
   collection »). eBay.fr n'a presque aucune annonce JB (2 contre 646 le 29/09) : bouton « Appli
-  eBay » (eBay.fr, aucun résultat) retiré. « Chrome » passe par ebay.html, qui redirige
+  eBay » (eBay.fr, aucun résultat) retiré. Confirmé sur le téléphone le 29/09 (Zemo : 2 annonces). « Chrome » passe par ebay.html, qui redirige
   vers eBay.de sans toucher (sinon Chrome confiait le lien à l'application eBay : constaté le 29/09).
   Résultat sur le téléphone (29/09, « liens compatibles » de l'appli eBay désactivés) : l'application
   eBay s'ouvre quand même, mais sur eBay.de, avec les bonnes annonces (Zemo : 2). Objectif atteint.
