@@ -65,7 +65,7 @@ function liensFiche(lien, titre) {
   if (!EST_ANDROID || !estLienEbay(lien))
     return `<a href="${echapper(lien)}" target="_blank" rel="noopener" title="${echapper(titre)}">🔗</a>`;
   return `<div class="liens-ebay">
-      <a href="${echapper(lienOuvrable(lien))}" title="Ouvrir eBay.de dans Chrome">🌐 Chrome</a>
+      <a href="${echapper(lienOuvrable(lien))}" title="Chercher sur eBay.de">🔎 eBay.de</a>
       <a href="${echapper(lienOuvrable(lien, "com.ebay.mobile"))}" title="Ouvrir dans l'application eBay">📱 Appli eBay</a>
     </div>`;
 }
