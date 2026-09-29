@@ -36,7 +36,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   Noms tirés des titres d'annonces : quelques doublons ou noms imparfaits (« Jedi Bob Movie »,
   « Vegan Milk Luke » / « Vegan Blue Milk Luke »…) ; on les corrige au besoin dans le champ Nom.
 - Liens eBay : sur Android, deux boutons « 🌐 Chrome » et « 📱 Appli eBay » au lieu du 🔗
-  (fiche de la figurine choisie et « Ma collection »). Chrome par défaut, car l'application eBay
+  (fiche de la figurine choisie et « Ma collection »). « Chrome » passe par ebay.html, qui redirige
+  vers eBay.de sans toucher (sinon Chrome confiait le lien à l'application eBay : constaté le 29/09).
+  Chrome par défaut, car l'application eBay
   du téléphone (réglée sur eBay.fr) les interceptait et ne trouvait rien (test « Zemo » du 29/09 :
   0 résultat dans l'appli eBay, 2 dans Chrome). Les QR codes des étiquettes gardent le lien normal :
   scannés avec l'appareil photo, ils peuvent encore ouvrir l'application eBay.

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Vers eBay.de</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 24px 16px; background: #f4f4f4; color: #222; line-height: 1.4; }
+  p { max-width: 32em; }
+  .doux { color: #6b7075; font-size: 14px; }
+</style>
+</head>
+<body>
+<!-- Relais vers une recherche eBay.de, ouvert dans Chrome par l'appli (bouton « 🌐 Chrome »).
+     La redirection se fait sans toucher de l'utilisateur : Chrome reste alors sur la page eBay.de
+     au lieu de la confier à l'application eBay (réglée sur eBay.fr, qui n'y trouve rien). -->
+<p id="message">Ouverture d'eBay.de…</p>
+<p class="doux" id="aide" hidden>Si l'application eBay s'ouvre quand même : Paramètres Android →
+  Applications → eBay → Ouvrir par défaut → désactiver « Ouvrir les liens compatibles ».</p>
+<script>
+  const u = new URLSearchParams(location.search).get("u") || "";
+  // seulement des adresses eBay (pas de redirection vers n'importe quel site)
+  if (/^https:\/\/(www\.)?ebay\.(de|fr|com)\/sch\/[^\s]*$/.test(u)) {
+    setTimeout(() => location.replace(u), 300);
+    setTimeout(() => { document.getElementById("aide").hidden = false; }, 3000);
+  } else {
+    document.getElementById("message").textContent = "Lien eBay invalide.";
+  }
+</script>
+</body>
+</html>

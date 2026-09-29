@@ -47,11 +47,15 @@ function demander(texte, oui = "Oui", non = "Non") {
 
 // Liens eBay sur Android : ouverts au choix dans Chrome (eBay.de) ou dans l'application eBay.
 // Par défaut Chrome : l'application eBay, réglée sur eBay.fr, n'y trouve pas les annonces d'eBay.de.
+// Chrome confie lui-même à l'application eBay les liens eBay ouverts d'un toucher : on passe donc
+// par ebay.html, qui redirige vers eBay.de sans toucher (Chrome reste alors sur la page).
 const EST_ANDROID = /android/i.test(navigator.userAgent);
 function estLienEbay(lien) { return /^https:\/\/(www\.)?ebay\.[a-z.]+\//i.test(lien || ""); }
 function lienOuvrable(lien, appli = "com.android.chrome") {
   if (!EST_ANDROID || !estLienEbay(lien)) return lien;
-  return `intent://${lien.slice(8)}#Intent;scheme=https;package=${appli};S.browser_fallback_url=${encodeURIComponent(lien)};end`;
+  const cible = appli === "com.android.chrome"
+    ? new URL("ebay.html?u=" + encodeURIComponent(lien), location.href).href : lien;
+  return `intent://${cible.replace(/^https:\/\//, "")}#Intent;scheme=https;package=${appli};S.browser_fallback_url=${encodeURIComponent(cible)};end`;
 }
 
 // Lien(s) vers une page externe pour une fiche : 🔗, ou pour eBay sur Android deux boutons
