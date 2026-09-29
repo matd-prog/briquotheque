@@ -164,6 +164,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   en double. Valeur : une figurine des onglets de figurines n'est pas recomptée dans son set (retirée du prix du set)
   ni comme figurine de série de l'onglet Sets. Un seul fichier Excel : tout est dans le fichier principal
   (Collection_Sets.xlsx ne sert plus qu'à l'import).
+- Sets encore vendus par LEGO : prix LEGO en € (demande de l'utilisateur : la Death Star 75419 ne vaut pas 526 €
+  mais 999,99 €). Source : pages publiques Brickset (RRP, Launch/exit) lues par prix_lego.py dans l'action « Prix
+  BrickLink » -> lego.tsv (dépôt privé) ; le site LEGO refuse les lectures automatiques (403). Encore en vente =
+  fin de vente non annoncée ({t.b.a}) ou à venir.
 - Objets dérivés (« 🔑 Objet dérivé », js/objets.js) : onglet « Objets dérivés » (numéro BrickLink Gear, nom,
   type, état, quantité, remarques) ; numéro trouvé par une recherche BrickLink. Pas de catalogue Gear dans l'appli.
 - Ajout d'une mini-série entière d'un coup (nouveautés, ou « Voir toute la série » depuis la recherche).

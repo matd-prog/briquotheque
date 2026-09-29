@@ -139,6 +139,13 @@ const Valeur = {
       const lignes = (await rep.text()).split("\n").map(l => l.split("\t"));
       const entete = lignes.shift();
       const prix = new Map(lignes.filter(l => l.length === entete.length).map(l => [`${l[0]} ${l[1].toLowerCase()}`, Object.fromEntries(entete.map((c, i) => [c, l[i]]))]));
+      // Prix LEGO (Brickset) : un set encore en vente vaut son prix LEGO (fin de vente non annoncée ou à venir)
+      const lego = new Map();
+      const repLego = await this._api("/contents/lego.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+      if (repLego.ok) for (const l of (await repLego.text()).split("\n").slice(1)) {
+        const [code, prixLego, sortie, fin] = l.split("\t");
+        if (code && parseFloat(prixLego) && (!fin || fin >= new Date().toISOString().slice(0, 10))) lego.set(code.toLowerCase(), parseFloat(prixLego));
+      }
       const articles = await this._articles();
       let total = 0, sans = [], date = "";
       const parOnglet = {}, details = [];
@@ -146,14 +153,15 @@ const Valeur = {
         const p = prix.get(`${a.type} ${a.code.toLowerCase()}`);
         const neuf = (a.type === "SET" && /scell/i.test(a.etat)) || (a.type === "GEAR" && /neuf/i.test(a.etat));
         const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
-        let v = lirePrix(p, neuf) || lirePrix(p, !neuf); // pas de vente dans cet état : prix de l'autre état
-        if (!p || !v) { sans.push(a); continue; }
+        const enVente = a.type === "SET" ? lego.get(a.code.toLowerCase()) : 0;
+        let v = enVente || lirePrix(p, neuf) || lirePrix(p, !neuf); // pas de vente dans cet état : prix de l'autre état
+        if (!v) { sans.push(a); continue; }
         for (const m of a.moins || []) v -= lirePrix(prix.get(`MINIFIG ${m.code}`), false) * m.quantite;
         v = Math.max(0, v) * (a.quantite || 1);
-        if (p.date > date) date = p.date;
+        if (p && p.date > date) date = p.date;
         total += v;
         parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + v;
-        details.push({ ...a, v, ventes: neuf ? p.neuf_ventes : p.occasion_ventes, neuf });
+        details.push({ ...a, v, ventes: p ? (neuf ? p.neuf_ventes : p.occasion_ventes) : 0, neuf, enVente: !!enVente });
       }
       if (!details.length) {
         $("valeur-etat").textContent = "";
@@ -174,10 +182,10 @@ const Valeur = {
           if (!g.length) return "";
           const total = g.reduce((n, d) => n + d.v, 0);
           return `<div class="carte"><p class="sous-titre">${titre} : ${euros(total)} <span class="score">(${g.length})</span></p>
-            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.neuf ? " · neuf" : ""}${d.figsAilleurs ? ` · hors ${d.figsAilleurs} figurine(s) comptée(s) à part` : d.moins ? " · sans figurines" : ""} · ${d.ventes} ventes</span></span><b>${euros(d.v)}</b></div>`).join("")}
+            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.enVente ? " · prix LEGO (encore en vente)" : d.neuf ? " · neuf" : ""}${d.figsAilleurs ? ` · hors ${d.figsAilleurs} figurine(s) comptée(s) à part` : d.moins ? " · sans figurines" : ""}${d.enVente ? "" : ` · ${d.ventes} ventes`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
             ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
         }).join("")}
-        <p class="aide">Figurines au prix d'occasion ; sets au prix neuf s'ils sont notés « Neuf scellé », sinon d'occasion ; boîtes seules au prix des boîtes vides ; objets dérivés au prix neuf s'ils sont notés neufs ; sets sans figurines : prix du set moins celui de ses figurines ; une figurine déjà dans vos onglets de figurines n'est pas comptée une 2e fois dans son set. Customs (JB…) non valorisées.</p>`;
+        <p class="aide">Figurines au prix d'occasion ; sets encore vendus par LEGO au prix LEGO ; autres sets au prix neuf s'ils sont notés « Neuf scellé », sinon d'occasion ; boîtes seules au prix des boîtes vides ; objets dérivés au prix neuf s'ils sont notés neufs ; sets sans figurines : prix du set moins celui de ses figurines ; une figurine déjà dans vos onglets de figurines n'est pas comptée une 2e fois dans son set. Customs (JB…) non valorisées.</p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;
