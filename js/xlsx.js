@@ -24,7 +24,13 @@ const COLONNES_SETS = [
   ["F", "État", 14], ["G", "Boîte", 7], ["H", "Notice", 7], ["I", "Figurines", 40], ["J", "Ajouté le", 11],
   ["K", "Quantité", 8], ["L", "Remarques", 36],
 ];
-const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS];
+// Objets dérivés LEGO du catalogue BrickLink « Gear » (porte-clés, porte-clés lumineux, magnets…) : même principe
+const ONGLET_OBJETS = "Objets dérivés";
+const COLONNES_OBJETS = [
+  ["A", "Numéro BrickLink", 16], ["B", "Nom", 40], ["C", "Type", 20], ["D", "État", 12], ["E", "Quantité", 9],
+  ["F", "Remarques", 36], ["G", "Ajouté le", 11],
+];
+const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS, ONGLET_OBJETS];
 // Onglets de thèmes (Simpsons, Harry Potter...) : créés par l'appli, même mise en page
 const ONGLETS_THEMES = TOUS_THEMES.map(t => t.onglet);
 const ONGLET_MODELE = "Gentils (vert)";
@@ -556,20 +562,20 @@ class Classeur {
   }
 
   // Onglet « Sets » : tableau neuf (ligne de titres figée, largeurs de colonnes), sans modèle
-  async creerOngletSets() {
-    if (this.aOnglet(ONGLET_SETS)) return;
-    const conflit = this.feuilles.find(f => f.nom.toLowerCase() === ONGLET_SETS.toLowerCase());
-    if (conflit) throw new Error(`un onglet « ${conflit.nom} » existe déjà : impossible de créer « ${ONGLET_SETS} »`);
+  async creerOngletSets(nomOnglet = ONGLET_SETS, colonnes = COLONNES_SETS) {
+    if (this.aOnglet(nomOnglet)) return;
+    const conflit = this.feuilles.find(f => f.nom.toLowerCase() === nomOnglet.toLowerCase());
+    if (conflit) throw new Error(`un onglet « ${conflit.nom} » existe déjà : impossible de créer « ${nomOnglet} »`);
     const echap = t => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
     const xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<worksheet xmlns="${NS.main}" xmlns:r="${NS.r}"><dimension ref="A1:${COLONNES_SETS[COLONNES_SETS.length - 1][0]}1"/>` +
+<worksheet xmlns="${NS.main}" xmlns:r="${NS.r}"><dimension ref="A1:${colonnes[colonnes.length - 1][0]}1"/>` +
       `<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>` +
       `<sheetFormatPr defaultRowHeight="15"/><cols>` +
-      COLONNES_SETS.map(([, , l], i) => `<col min="${i + 1}" max="${i + 1}" width="${l}" customWidth="1"/>`).join("") +
+      colonnes.map(([, , l], i) => `<col min="${i + 1}" max="${i + 1}" width="${l}" customWidth="1"/>`).join("") +
       `</cols><sheetData><row r="1">` +
-      COLONNES_SETS.map(([c, titre]) => `<c r="${c}1" t="inlineStr"><is><t>${echap(titre)}</t></is></c>`).join("") +
+      colonnes.map(([c, titre]) => `<c r="${c}1" t="inlineStr"><is><t>${echap(titre)}</t></is></c>`).join("") +
       `</row></sheetData><pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/></worksheet>`;
-    await this._inscrireFeuille(ONGLET_SETS, new DOMParser().parseFromString(xml, "application/xml"));
+    await this._inscrireFeuille(nomOnglet, new DOMParser().parseFromString(xml, "application/xml"));
   }
 
   // Ajoute une feuille (document XML) au classeur : fichier, type, lien et nom d'onglet
@@ -699,6 +705,28 @@ async function ajouterSet(cl, { code, nom, annee, theme, pieces, etat, boite, no
                    figurines || "", new Date().toLocaleDateString("fr-FR"), quantite > 1 ? quantite : "", remarques || ""];
   for (let i = 0; i < valeurs.length; i++)
     if (valeurs[i] !== "" && valeurs[i] != null) await cl.ecrireTexte(ONGLET_SETS, COLONNES_SETS[i][0] + row, String(valeurs[i]));
+  return row;
+}
+
+// Objets dérivés : [{ row, code, nom, type, etat, quantite, remarques }]
+async function lireObjets(cl) {
+  if (!cl.aOnglet(ONGLET_OBJETS)) return [];
+  const res = [], derniere = await cl.derniereLigne(ONGLET_OBJETS);
+  for (let row = 2; row <= derniere; row++) {
+    const v = async l => cl.valeur(ONGLET_OBJETS, l + row);
+    const code = await v("A");
+    if (code) res.push({ row, code, nom: await v("B"), type: await v("C"), etat: await v("D"),
+                         quantite: +(await v("E")) || 1, remarques: await v("F") });
+  }
+  return res;
+}
+
+async function ajouterObjet(cl, { code, nom, type, etat, quantite, remarques }) {
+  await cl.creerOngletSets(ONGLET_OBJETS, COLONNES_OBJETS);
+  const row = (await cl.derniereLigne(ONGLET_OBJETS)) + 1;
+  const valeurs = [code, nom, type, etat, quantite > 1 ? quantite : "", remarques, new Date().toLocaleDateString("fr-FR")];
+  for (let i = 0; i < valeurs.length; i++)
+    if (valeurs[i] !== "" && valeurs[i] != null) await cl.ecrireTexte(ONGLET_OBJETS, COLONNES_OBJETS[i][0] + row, String(valeurs[i]));
   return row;
 }
 

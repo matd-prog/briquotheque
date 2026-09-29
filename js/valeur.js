@@ -5,6 +5,14 @@
 
 const DEPOT_PRIVE = "matd-prog/collection-lego-prive";
 
+// « Les plus précieux », par catégorie
+const GROUPES_VALEUR = [
+  ["🧍 Figurines les plus précieuses", d => d.type === "MINIFIG"],
+  ["🧱 Sets les plus précieux", d => d.type === "SET"],
+  ["🔑 Porte-clés et objets dérivés", d => d.type === "GEAR"],
+  ["📦 Boîtes seules", d => d.type === "BOX"],
+];
+
 const Valeur = {
   jeton: null,
 
@@ -76,6 +84,8 @@ const Valeur = {
         a.moins = figs.filter(f => f.bricklink).map(f => ({ code: f.bricklink.toLowerCase(), quantite: f.quantite || 1 }));
       res.push(a);
     }
+    for (const o of await lireObjets(etat.classeur))
+      res.push({ type: "GEAR", code: o.code, nom: o.nom || o.type, onglet: ONGLET_OBJETS, etat: o.etat, quantite: o.quantite });
     return res;
   },
 
@@ -118,7 +128,7 @@ const Valeur = {
       const parOnglet = {}, details = [];
       for (const a of articles) {
         const p = prix.get(`${a.type} ${a.code.toLowerCase()}`);
-        const neuf = a.type === "SET" && /scell/i.test(a.etat);
+        const neuf = (a.type === "SET" && /scell/i.test(a.etat)) || (a.type === "GEAR" && /neuf/i.test(a.etat));
         const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
         let v = lirePrix(p, neuf) || lirePrix(p, !neuf); // pas de vente dans cet état : prix de l'autre état
         if (!p || !v) { sans.push(a); continue; }
@@ -143,9 +153,15 @@ const Valeur = {
           <div class="score">${details.length} article(s) valorisé(s)${sans.length ? ` · ${sans.length} sans prix pour l'instant` : ""}</div></div>
         <div class="carte"><p class="sous-titre">Par onglet</p>
           ${Object.entries(parOnglet).sort((a, b) => b[1] - a[1]).map(([o, v]) => `<div class="ligne-valeur"><span>${echapper(o)}</span><b>${euros(v)}</b></div>`).join("")}</div>
-        <div class="carte"><p class="sous-titre">Les plus précieux</p>
-          ${details.slice(0, 15).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.neuf ? " · neuf" : ""}${d.type === "BOX" ? " · boîte seule" : ""}${d.moins ? " · sans figurines" : ""} · ${d.ventes} ventes</span></span><b>${euros(d.v)}</b></div>`).join("")}</div>
-        <p class="aide">Figurines au prix d'occasion ; sets au prix neuf s'ils sont notés « Neuf scellé », sinon d'occasion ; boîtes seules au prix des boîtes vides ; sets sans figurines : prix du set moins celui de ses figurines. Customs (JB…) non valorisées.</p>`;
+        ${GROUPES_VALEUR.map(([titre, test]) => {
+          const g = details.filter(test);
+          if (!g.length) return "";
+          const total = g.reduce((n, d) => n + d.v, 0);
+          return `<div class="carte"><p class="sous-titre">${titre} : ${euros(total)} <span class="score">(${g.length})</span></p>
+            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.neuf ? " · neuf" : ""}${d.moins ? " · sans figurines" : ""} · ${d.ventes} ventes</span></span><b>${euros(d.v)}</b></div>`).join("")}
+            ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
+        }).join("")}
+        <p class="aide">Figurines au prix d'occasion ; sets au prix neuf s'ils sont notés « Neuf scellé », sinon d'occasion ; boîtes seules au prix des boîtes vides ; objets dérivés au prix neuf s'ils sont notés neufs ; sets sans figurines : prix du set moins celui de ses figurines. Customs (JB…) non valorisées.</p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;

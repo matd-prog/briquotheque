@@ -67,6 +67,7 @@
     <div class="tuiles">
       <button class="tuile" data-action="collection"><span class="icone">📖</span><b>Ma collection</b><small>Liste, planches, recherche</small></button>
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Ajouter un set</b><small>Par son numéro</small></button>
+      <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
       <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base des blisters</b><small>Contribuer à la base JB</small></button>
       <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
     </div>
@@ -151,6 +152,31 @@
   </section>
 
   <!-- Valeur de la collection (js/valeur.js) : prix relevés dans le dépôt GitHub privé -->
+  <!-- Objets dérivés LEGO (catalogue BrickLink « Gear ») : onglet « Objets dérivés » (js/objets.js) -->
+  <section id="ecran-objet" class="ecran" hidden>
+    <p class="intro">🔑 <b>Objet dérivé LEGO</b> : porte-clés, porte-clés lumineux, magnet, réveil… Il est valorisé d'après
+      les ventes BrickLink, grâce à son numéro BrickLink.</p>
+    <label for="objet-nom" class="etiquette-champ">Ce que c'est</label>
+    <input id="objet-nom" class="champ" autocomplete="off" placeholder="ex. porte-clés lumineux Dark Vador">
+    <button class="bouton bleu" data-action="objet-chercher">🔎 Trouver son numéro sur BrickLink</button>
+    <p class="aide">Sur BrickLink, ouvrez le bon objet : son numéro est écrit sous le nom (« Item No »). Recopiez-le ci-dessous.</p>
+    <label for="objet-code" class="etiquette-champ">Numéro BrickLink</label>
+    <input id="objet-code" class="champ" autocomplete="off" autocapitalize="characters" placeholder="ex. 5005374 ou LGL-KE7">
+    <label for="objet-type" class="etiquette-champ">Type</label>
+    <select id="objet-type" class="champ">
+      <option>Porte-clés</option><option>Porte-clés lumineux</option><option>Lampe / torche</option><option>Magnet</option>
+      <option>Montre / réveil</option><option>Stylo / papeterie</option><option>Autre</option>
+    </select>
+    <label for="objet-etat" class="etiquette-champ">État</label>
+    <select id="objet-etat" class="champ"><option>Neuf (emballage)</option><option>Occasion</option></select>
+    <label for="objet-quantite" class="etiquette-champ">Quantité</label>
+    <input id="objet-quantite" class="champ" type="number" min="1" value="1" inputmode="numeric">
+    <label for="objet-remarques" class="etiquette-champ">Remarques (facultatif)</label>
+    <input id="objet-remarques" class="champ" autocomplete="off" placeholder="ex. carton 3, pile à changer">
+    <button class="gros-bouton vert" data-action="objet-ajouter">➕ Ajouter à ma collection</button>
+    <div id="objet-liste"></div>
+  </section>
+
   <section id="ecran-valeur" class="ecran" hidden>
     <p class="intro">💶 <b>Valeur de ma collection</b> d'après les ventes réelles BrickLink des 6 derniers mois.</p>
     <p class="aide" id="valeur-etat"></p>
@@ -336,6 +362,7 @@
 <script src="js/base.js"></script>
 <script src="js/sets.js"></script>
 <script src="js/import_sets.js"></script>
+  <script src="js/objets.js"></script>
   <script src="js/valeur.js"></script>
 </body>
 </html>

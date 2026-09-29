@@ -1,6 +1,6 @@
-# Suivi du projet « Figurines LEGO » (mis à jour le 29/09/2026)
+# Suivi du projet « Figothèque » (ex « Figurines LEGO ») (mis à jour le 29/09/2026)
 
-Appli en ligne : https://matd-prog.github.io/etiquettes_figurines/ (icône « Figs LEGO »).
+Appli en ligne : https://matd-prog.github.io/etiquettes_figurines/ (nom « Figothèque », icône tête de figurine souriante).
 Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre le travail.
 
 ## Ce qui fonctionne (publié et vérifié sur le téléphone)
@@ -138,6 +138,34 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   personnage » ; dans un set, menu des variantes pour chaque figurine. (Catalogue.variantes)
 - Mini-appli « Blisters JB » : l'ami de l'utilisateur est sur iPhone (Safari) : à vérifier, et prévoir
   l'envoi du .zip par le menu de partage (Messages, WhatsApp, AirDrop) plutôt qu'un téléchargement.
+
+## Valeur de la collection (29/09/2026)
+
+- But à terme : gestionnaire de collection commercialisable (valeur, dossier pour assureurs).
+  Choix de l'utilisateur : prix = ventes BrickLink des 6 derniers mois (pas les prix affichés).
+- Dépôt PRIVÉ matd-prog/collection-lego-prive (la collection et les prix ne vont JAMAIS dans le dépôt public) :
+  codes.txt (MINIFIG / SET / BOX / GEAR + code) -> action « Prix BrickLink » (prix.yml : le 3 du mois, ou lancée
+  par l'appli ; une seule à la fois, relevés fusionnés à l'enregistrement) -> prix_bricklink.py (API BrickLink,
+  OAuth1, 4 secrets BRICKLINK_*) -> prix.tsv (médiane pondérée par la quantité, moyenne, ventes, mini, maxi,
+  neuf et occasion ; pas redemandé avant 25 jours). Limite BrickLink : 5 000 appels/jour (2 par article).
+- Appli : case « 💶 Valeur » (js/valeur.js). Jeton GitHub (github_pat_, limité au dépôt privé) collé une fois,
+  gardé dans le téléphone (Memoire « jeton-github »). « Envoyer ma liste » dépose codes.txt et lance l'action ;
+  « Actualiser » lit prix.tsv. Règles : figurines d'occasion ; sets neufs si « Neuf scellé » ; boîte seule =
+  prix BrickLink des boîtes vides (ORIGINAL_BOX) ; set « Sans figurines » = set moins ses figurines ; figurine
+  de série (71005-1…) = prix de la figurine ; objets dérivés (GEAR) neufs si notés neufs ; codes 850353
+  (porte-clés) et 30612-1 rangés dans les onglets de figurines -> GEAR / SET ; aucun prix dans l'état voulu
+  -> prix de l'autre état. Affichage : total, par onglet, puis les plus précieux par catégorie (figurines,
+  sets, objets dérivés, boîtes). Premier relevé réel fait le 29/09 (836 articles).
+- Import d'une liste de sets (Sets -> « 📥 Importer une liste ») : js/import_sets.js ; testé sur Collection_Sets.xlsx
+  de l'utilisateur (254 lignes -> 278 articles, tout reconnu). Colonnes Quantité et Remarques (rangement : Carton 1…)
+  ajoutées à l'onglet Sets ; états « Sans figurines » et « Boîte seule (vide) ».
+- Objets dérivés (« 🔑 Objet dérivé », js/objets.js) : onglet « Objets dérivés » (numéro BrickLink Gear, nom,
+  type, état, quantité, remarques) ; numéro trouvé par une recherche BrickLink. Pas de catalogue Gear dans l'appli.
+- Ajout d'une mini-série entière d'un coup (nouveautés, ou « Voir toute la série » depuis la recherche).
+- Bouton retour : réserve de 3 étapes d'historique remise à chaque toucher (Chrome saute les étapes ajoutées
+  sans toucher l'écran) ; à confirmer sur le téléphone.
+- À faire : dossier pour l'assureur (PDF ou Excel : photo, code, nom, état, prix médian, nombre de ventes,
+  total, méthode, date).
 
 ## Fichier Excel de l'utilisateur
 
