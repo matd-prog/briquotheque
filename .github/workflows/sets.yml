@@ -1,0 +1,30 @@
+# Catalogue des sets LEGO (Rebrickable) -> data/sets.tsv et data/sets_figurines.tsv (outils/sets_rebrickable.py)
+# Tourne sur les serveurs de GitHub (Rebrickable n'est pas joignable depuis l'environnement cloud de Claude).
+# Chaque mois le 2 à 5h40 (UTC), ou à la main : onglet « Actions » -> « Catalogue des sets » -> « Run workflow ».
+name: Catalogue des sets
+
+on:
+  schedule:
+    - cron: "40 5 2 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lecture des fichiers de Rebrickable
+        run: python3 -u outils/sets_rebrickable.py
+      - name: Publication
+        run: |
+          git add data/sets.tsv data/sets_figurines.tsv
+          if git diff --cached --quiet; then echo "Rien de nouveau"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Catalogue des sets : $(grep -c '^[0-9A-Za-z]' data/sets.tsv) sets ($(date +%F))"
+          git pull --rebase origin main   # d'autres changements ont pu être publiés entre-temps
+          git push origin HEAD:main
