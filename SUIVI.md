@@ -1,4 +1,4 @@
-# Suivi du projet « Figothèque » (ex « Figurines LEGO ») (mis à jour le 29/09/2026)
+# Suivi du projet « Figothèque » (ex « Figurines LEGO ») (mis à jour le 29/09/2026 au soir)
 
 Appli en ligne : https://matd-prog.github.io/etiquettes_figurines/ (nom « Figothèque », icône tête de figurine souriante).
 Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre le travail.
@@ -215,6 +215,15 @@ cdn.shopify.com, api.ebay.com, i.ebayimg.com (accessibles). web.archive.org : en
 refusé → ajouter *.archive.org.
 
 ## Prochaines étapes
+
+Pour reprendre le 30/09 au matin :
+- L'utilisateur relance « Envoyer ma liste » (💶 Valeur) : relevé complet au nouveau format (Europe, TVA comprise,
+  rachat à neuf), ~1 135 articles ; limite BrickLink 5 000 appels/jour (arrêt propre si atteinte, suite au passage
+  suivant). Vérifier prix.tsv (15 colonnes), le compteur en direct, le total rachat à neuf / occasion.
+- Vérifier sur le téléphone : doublons supprimés, sets « Boîte seule » corrigés, Death Star 75419 unique.
+- Dossier assureur : produire le PDF réel et le relire avec l'utilisateur.
+- Mini-appli iPhone de l'ami : premier essai réel ; intégrer son .zip de blisters quand il arrive.
+- Plus tard : outil d'intégration des .zip de blisters (data/jb_perso.tsv, photos, empreintes).
 
 1. Blisters : lecture PaddleOCR validée sur le téléphone (29/09) ; à suivre sur d'autres blisters.
 2. brickshellcases.com : fait le 29/09 (voir plus haut).
