@@ -22,6 +22,7 @@ const ONGLET_SETS = "Sets";
 const COLONNES_SETS = [
   ["A", "Numéro", 11], ["B", "Nom", 38], ["C", "Année", 7], ["D", "Thème", 28], ["E", "Pièces", 8],
   ["F", "État", 14], ["G", "Boîte", 7], ["H", "Notice", 7], ["I", "Figurines", 40], ["J", "Ajouté le", 11],
+  ["K", "Quantité", 8], ["L", "Remarques", 36],
 ];
 const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS];
 // Onglets de thèmes (Simpsons, Harry Potter...) : créés par l'appli, même mise en page
@@ -209,6 +210,20 @@ class Classeur {
     }
     const tri = Object.entries(compte).sort((a, b) => b[1] - a[1]);
     return tri.length ? tri[0][0] : null;
+  }
+
+  // Toutes les cellules remplies d'un onglet, ligne par ligne : [{ row, cellules: { A: "…", B: "…" } }] (lecture seule)
+  async lignes(nom) {
+    const doc = await this._sheetDoc(nom), res = [];
+    for (const r of enfants(this._sheetData(doc), "row")) {
+      const cellules = {};
+      for (const c of enfants(r, "c")) {
+        const v = this._valeurEl(c).trim();
+        if (v) cellules[(c.getAttribute("r") || "").replace(/\d+/g, "")] = v;
+      }
+      if (Object.keys(cellules).length) res.push({ row: +r.getAttribute("r"), cellules });
+    }
+    return res;
   }
 
   async derniereLigne(nom) {
@@ -547,7 +562,7 @@ class Classeur {
     if (conflit) throw new Error(`un onglet « ${conflit.nom} » existe déjà : impossible de créer « ${ONGLET_SETS} »`);
     const echap = t => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
     const xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<worksheet xmlns="${NS.main}" xmlns:r="${NS.r}"><dimension ref="A1:J1"/>` +
+<worksheet xmlns="${NS.main}" xmlns:r="${NS.r}"><dimension ref="A1:${COLONNES_SETS[COLONNES_SETS.length - 1][0]}1"/>` +
       `<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>` +
       `<sheetFormatPr defaultRowHeight="15"/><cols>` +
       COLONNES_SETS.map(([, , l], i) => `<col min="${i + 1}" max="${i + 1}" width="${l}" customWidth="1"/>`).join("") +
@@ -666,17 +681,22 @@ async function lireSets(cl) {
     const v = async l => cl.valeur(ONGLET_SETS, l + row);
     const code = await v("A");
     if (code) res.push({ row, code, nom: await v("B"), annee: await v("C"), theme: await v("D"), etat: await v("F"),
-                         boite: await v("G"), notice: await v("H"), figurines: await v("I") });
+                         boite: await v("G"), notice: await v("H"), figurines: await v("I"),
+                         quantite: +(await v("K")) || 1, remarques: await v("L") });
   }
   return res;
 }
 
 // Ajoute un set à l'onglet « Sets » (créé s'il n'existe pas) : une ligne à la fin du tableau
-async function ajouterSet(cl, { code, nom, annee, theme, pieces, etat, boite, notice, figurines }) {
+// boite, notice : true / false, ou null si on ne sait pas
+async function ajouterSet(cl, { code, nom, annee, theme, pieces, etat, boite, notice, figurines, quantite, remarques }) {
   await cl.creerOngletSets();
+  for (const [c, titre] of COLONNES_SETS) // onglet créé avant l'ajout de nouvelles colonnes : titres manquants
+    if (!(await cl.valeur(ONGLET_SETS, c + "1"))) await cl.ecrireTexte(ONGLET_SETS, c + "1", titre);
   const row = (await cl.derniereLigne(ONGLET_SETS)) + 1;
-  const valeurs = [code, nom, annee, theme, pieces, etat, boite ? "oui" : "non", notice ? "oui" : "non",
-                   figurines || "", new Date().toLocaleDateString("fr-FR")];
+  const ouiNon = x => x == null ? "" : x ? "oui" : "non";
+  const valeurs = [code, nom, annee, theme, pieces, etat, ouiNon(boite), ouiNon(notice),
+                   figurines || "", new Date().toLocaleDateString("fr-FR"), quantite > 1 ? quantite : "", remarques || ""];
   for (let i = 0; i < valeurs.length; i++)
     if (valeurs[i] !== "" && valeurs[i] != null) await cl.ecrireTexte(ONGLET_SETS, COLONNES_SETS[i][0] + row, String(valeurs[i]));
   return row;

@@ -52,7 +52,7 @@ const CatalogueSets = {
   },
 };
 
-const ETATS_SET = ["Neuf scellé", "Monté", "Démonté (en boîte)", "Incomplet", "Autre"];
+const ETATS_SET = ["Neuf scellé", "Monté", "Démonté (en boîte)", "Sans figurines", "Incomplet", "Boîte seule (vide)", "Autre"];
 const urlImageSet = code => `https://img.bricklink.com/ItemImage/SN/0/${encodeURIComponent(code)}.png`;
 const urlBricklinkSet = code => `https://www.bricklink.com/v2/catalog/catalogitem.page?S=${encodeURIComponent(code)}`;
 

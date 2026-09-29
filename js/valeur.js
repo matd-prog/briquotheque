@@ -59,8 +59,19 @@ const Valeur = {
       for (const c of o.cases)
         if (c.code && !codeInvalide(c.code) && !/^(JB|CUS|BSC|EBAY)-/i.test(c.code))
           res.push({ type: "MINIFIG", code: c.code.toLowerCase(), nom: c.nom, onglet, etat: "" });
-    for (const s of await lireSets(etat.classeur))
-      res.push({ type: "SET", code: s.code, nom: s.nom, onglet: "Sets", etat: s.etat });
+    try { await CatalogueSets.charger(); } catch (e) { /* sans catalogue : sets comptés comme sets entiers */ }
+    for (const s of await lireSets(etat.classeur)) {
+      const code = /-\d+$/.test(s.code) ? s.code : s.code + "-1";
+      const cat = CatalogueSets.sets && CatalogueSets.sets.get(code.toLowerCase());
+      const figs = (CatalogueSets.figurines && CatalogueSets.figurines.get(code.toLowerCase())) || [];
+      const a = { type: "SET", code, nom: s.nom, onglet: "Sets", etat: s.etat, quantite: s.quantite || 1 };
+      if (/boîte seule|boite seule/i.test(s.etat)) a.type = "BOX"; // boîte vide : prix des boîtes d'origine vendues
+      else if (cat && /^Collectible Minifigures/.test(cat.theme) && figs.length === 1 && figs[0].bricklink)
+        Object.assign(a, { type: "MINIFIG", code: figs[0].bricklink.toLowerCase() }); // figurine de série : prix de la figurine
+      else if (/sans fig/i.test(s.etat)) // set sans ses figurines : prix du set moins celui de ses figurines
+        a.moins = figs.filter(f => f.bricklink).map(f => ({ code: f.bricklink.toLowerCase(), quantite: f.quantite || 1 }));
+      res.push(a);
+    }
     return res;
   },
 
@@ -68,7 +79,7 @@ const Valeur = {
   async envoyer() {
     if (!etat.classeur) { await demander("Ouvrez d'abord votre fichier Excel.", "OK", "Fermer"); return; }
     const articles = await this._articles();
-    const codes = [...new Set(articles.map(a => `${a.type} ${a.code}`))].sort();
+    const codes = [...new Set(articles.flatMap(a => [`${a.type} ${a.code}`, ...(a.moins || []).map(m => `MINIFIG ${m.code}`)]))].sort();
     $("valeur-etat").textContent = `Envoi de la liste (${codes.length} articles)…`;
     try {
       const actuel = await this._api("/contents/codes.txt");
@@ -104,8 +115,11 @@ const Valeur = {
       for (const a of articles) {
         const p = prix.get(`${a.type} ${a.code.toLowerCase()}`);
         const neuf = a.type === "SET" && /scell/i.test(a.etat);
-        const v = p ? parseFloat(neuf ? (p.neuf_median || p.neuf_moyen) : (p.occasion_median || p.occasion_moyen)) || 0 : 0;
+        const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
+        let v = lirePrix(p, neuf);
         if (!p || !v) { sans.push(a); continue; }
+        for (const m of a.moins || []) v -= lirePrix(prix.get(`MINIFIG ${m.code}`), false) * m.quantite;
+        v = Math.max(0, v) * (a.quantite || 1);
         if (p.date > date) date = p.date;
         total += v;
         parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + v;
@@ -126,8 +140,8 @@ const Valeur = {
         <div class="carte"><p class="sous-titre">Par onglet</p>
           ${Object.entries(parOnglet).sort((a, b) => b[1] - a[1]).map(([o, v]) => `<div class="ligne-valeur"><span>${echapper(o)}</span><b>${euros(v)}</b></div>`).join("")}</div>
         <div class="carte"><p class="sous-titre">Les plus précieux</p>
-          ${details.slice(0, 15).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.neuf ? " · neuf" : ""} · ${d.ventes} ventes</span></span><b>${euros(d.v)}</b></div>`).join("")}</div>
-        <p class="aide">Figurines au prix d'occasion ; sets au prix neuf s'ils sont notés « Neuf scellé », sinon d'occasion. Customs (JB…) non valorisées.</p>`;
+          ${details.slice(0, 15).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.neuf ? " · neuf" : ""}${d.type === "BOX" ? " · boîte seule" : ""}${d.moins ? " · sans figurines" : ""} · ${d.ventes} ventes</span></span><b>${euros(d.v)}</b></div>`).join("")}</div>
+        <p class="aide">Figurines au prix d'occasion ; sets au prix neuf s'ils sont notés « Neuf scellé », sinon d'occasion ; boîtes seules au prix des boîtes vides ; sets sans figurines : prix du set moins celui de ses figurines. Customs (JB…) non valorisées.</p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;

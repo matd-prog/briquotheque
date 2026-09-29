@@ -175,11 +175,14 @@
     <label for="set-numero" class="etiquette-champ">🧱 Numéro du set LEGO</label>
     <input id="set-numero" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 75192">
     <p class="aide" id="set-info"></p>
+    <label class="bouton gris">📥 Importer une liste de sets (fichier Excel)
+      <input type="file" id="input-import-sets" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
+    </label>
     <div id="set-fiche"></div>
     <div id="set-details" hidden>
       <label for="set-etat" class="etiquette-champ">État</label>
       <select id="set-etat" class="champ">
-        <option>Neuf scellé</option><option>Monté</option><option>Démonté (en boîte)</option><option>Incomplet</option><option>Autre</option>
+        <option>Neuf scellé</option><option>Monté</option><option>Démonté (en boîte)</option><option>Sans figurines</option><option>Incomplet</option><option>Boîte seule (vide)</option><option>Autre</option>
       </select>
       <label class="case-a-cocher"><input type="checkbox" id="set-boite"> Boîte d'origine</label>
       <label class="case-a-cocher"><input type="checkbox" id="set-notice"> Notice</label>
@@ -331,6 +334,7 @@
 <script src="js/app.js"></script>
 <script src="js/base.js"></script>
 <script src="js/sets.js"></script>
-<script src="js/valeur.js"></script>
+<script src="js/import_sets.js"></script>
+  <script src="js/valeur.js"></script>
 </body>
 </html>
