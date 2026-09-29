@@ -324,6 +324,21 @@ function ongletChoisi() {
   return etat.theme === STAR_WARS ? CAMPS[etat.camp].onglet : etat.theme;
 }
 
+// Autres versions du même personnage, qui ne diffèrent que par la tête (cachée par un casque sur la photo)
+function blocVariantes(code) {
+  const v = Catalogue.variantes(code).filter(f => f.code !== code.toUpperCase());
+  if (!v.length) return "";
+  return `<details class="variantes"${v.length <= 6 ? " open" : ""}>
+    <summary>🪖 ${v.length} autre${v.length > 1 ? "s" : ""} version${v.length > 1 ? "s" : ""} du même personnage (tête différente, cachée par un casque ?)</summary>
+    <div class="grille">${v.map(f => `
+      <button class="proposition" data-variante="${echapper(f.code)}">
+        ${imageHtml({ id: f.code })}
+        <span class="nom-court">${echapper(f.nom)}</span>
+        <span class="code">${echapper(f.code)}${f.annee ? ` · ${echapper(f.annee)}` : ""}</span>
+      </button>`).join("")}</div>
+  </details>`;
+}
+
 function choisirCandidat(i) {
   const cand = etat.candidats[i];
   etat.choisi = cand;
@@ -345,7 +360,14 @@ function choisirCandidat(i) {
       <div class="code">${echapper(cand.id)}</div>
       ${score}
     </div>
-    <a class="bouton bleu" href="${echapper(cand.lien)}" target="_blank" rel="noopener">🔗 Voir la page BrickLink</a>`;
+    <a class="bouton bleu" href="${echapper(cand.lien)}" target="_blank" rel="noopener">🔗 Voir la page BrickLink</a>
+    ${blocVariantes(cand.id)}`;
+  $("carte-principale").querySelectorAll("[data-variante]").forEach(b => b.addEventListener("click", () => {
+    const f = Catalogue.trouver(b.dataset.variante);
+    etat.candidats = [{ id: f.code, nom: f.nom, image: "", score: null, categorie: f.categorie, lien: urlBricklink(f.code) }, ...etat.candidats];
+    choisirCandidat(0);
+    window.scrollTo(0, 0);
+  }));
 
   const zone = $("zone-ajout");
   zone.innerHTML = `

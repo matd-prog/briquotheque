@@ -139,3 +139,8 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .case-a-cocher { display: flex; align-items: center; gap: 10px; font-size: 17px; padding: 6px 0; }
 .case-a-cocher input, .fig-set input { width: 22px; height: 22px; flex: none; }
 .fig-set { cursor: pointer; }
+
+/* Variantes d'une figurine (tête différente sous un casque) */
+.variantes summary { cursor: pointer; color: var(--bleu); font-weight: 600; padding: 8px 0; }
+.variantes .grille { margin-top: 8px; }
+.petit-champ { font-size: 13px; padding: 6px 8px; margin-top: 6px; width: 100%; }

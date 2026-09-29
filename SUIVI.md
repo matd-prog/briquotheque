@@ -124,6 +124,21 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   ses figurines avec photo. Bouton « 🆕 Nouveautés » sur l'écran de résultat d'une photo. (29/09)
   Confirmé sur le téléphone le 29/09 (minifigs Shrek).
 
+- Sets LEGO (29/09, à tester) : bouton « 🧱 Ajouter un set LEGO » (accueil) -> numéro -> fiche (nom, année,
+  thème, pièces, photo BrickLink), état, boîte, notice -> ligne dans l'onglet « Sets » du fichier Excel
+  (créé au premier set ; colonnes Numéro, Nom, Année, Thème, Pièces, État, Boîte, Notice, Figurines,
+  Ajouté le). Les figurines du set cochées sont ajoutées d'un coup à la collection (mêmes onglets et
+  étiquettes qu'une figurine seule). Catalogue : data/sets.tsv (20 090 sets) et data/sets_figurines.tsv,
+  faits par outils/sets_rebrickable.py (fichiers publics Rebrickable) sur GitHub (.github/workflows/
+  sets.yml, le 2 de chaque mois). Rebrickable n'a pas les codes BrickLink des figurines : rapprochés par
+  le nom (même personnage, même époque, un code par figurine d'un set) ; « à vérifier » sous 0,7.
+  Choix de l'utilisateur : même fichier Excel, identification par numéro, pas d'étiquettes pour les sets.
+- Variantes (29/09) : même figurine, seule la tête change (couleur de peau, homme/femme, expression),
+  invisible sous un casque : l'écran de résultat d'une photo propose « 🪖 N autres versions du même
+  personnage » ; dans un set, menu des variantes pour chaque figurine. (Catalogue.variantes)
+- Mini-appli « Blisters JB » : l'ami de l'utilisateur est sur iPhone (Safari) : à vérifier, et prévoir
+  l'envoi du .zip par le menu de partage (Messages, WhatsApp, AirDrop) plutôt qu'un téléchargement.
+
 ## Fichier Excel de l'utilisateur
 
 Dernière version fournie : etiquettes_figurines_LEGO_tri-1_2026-09-28_22h04.xlsx

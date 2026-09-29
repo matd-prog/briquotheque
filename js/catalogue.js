@@ -66,6 +66,25 @@ const Catalogue = {
   },
 
   // Tous les mots tapés doivent se retrouver dans le code, le nom ou la catégorie
+  // Variantes d'une figurine : mêmes éléments visibles, seule la tête change (couleur de peau, homme ou
+  // femme, expression du visage) ; sous un casque, une photo ne peut pas les distinguer.
+  // « Snowtrooper - Female, Printed Legs, Dark Tan Hands, Light Nougat Head, Angry Smile » et
+  // « Snowtrooper, Printed Legs, Dark Tan Hands, Cheek Lines, Lopsided Grin » : même personnage.
+  variantes(code) {
+    if (!this.liste) return [];
+    if (!this._groupes) {
+      this._groupes = new Map();
+      for (const f of this.liste) {
+        const cle = cleVariante(f);
+        if (!this._groupes.has(cle)) this._groupes.set(cle, []);
+        this._groupes.get(cle).push(f);
+      }
+    }
+    const f = this.trouver(code);
+    const groupe = f ? this._groupes.get(cleVariante(f)) || [] : [];
+    return groupe.length > 1 ? groupe.slice().sort((a, b) => (b.annee || "").localeCompare(a.annee || "") || a.code.localeCompare(b.code)) : [];
+  },
+
   // Séries récentes (catégories BrickLink dont une figurine date de cette année ou de l'an dernier),
   // les plus récentes d'abord : [{ categorie, annee, n }]. Utile quand la reconnaissance par photo
   // (Brickognize) ne connaît pas encore une nouvelle série (ex. minifigures Shrek).
@@ -103,6 +122,14 @@ const Catalogue = {
     return res.slice(0, max);
   },
 };
+
+// Nom d'une figurine sans ce qui touche à la tête (« Light Nougat Head », « Female », « Angry Smile »…),
+// précédé de la racine de sa catégorie : même clé = variantes qui ne diffèrent que par la tête
+const MOTS_TETE = /head|face|smile|frown|grin|grimace|smirk|scowl|\bfemale\b|\bmale\b|cheek|eyebrow|freckle|stubble|mouth|angry|scared|teeth|wink|lopsided|beard|goatee|moustache|mustache|sneer|determined|worried|pupils|eyelashes|lips|crooked|raised/i;
+function cleVariante(f) {
+  const morceaux = f.nom.split(/,| - |\//).map(m => m.trim().toLowerCase()).filter(m => m && !MOTS_TETE.test(m));
+  return `${(f.categorie || "").split(" / ")[0].toLowerCase()}#${morceaux.join("|")}`;
+}
 
 // Thème (Star Wars ou onglet de thème) d'après une catégorie BrickLink ou Brickognize,
 // ex. « Star Wars / Star Wars Episode 4/5/6 », « Town / City », « Super Heroes / Batman II ».

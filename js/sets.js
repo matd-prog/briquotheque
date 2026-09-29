@@ -116,17 +116,24 @@ const EcranSet = {
   // Figurines du set : code BrickLink proposé, onglet de destination, déjà dans la collection ?
   _figurines() {
     const liste = CatalogueSets.figurines.get(this.set.code.toLowerCase()) || [];
-    this.figs = liste.map(f => {
-      const fiche = f.bricklink ? Catalogue.trouver(f.bricklink) : null;
-      const code = fiche ? fiche.code : "";
-      const cand = { id: code, nom: fiche ? fiche.nom : f.nom, categorie: fiche ? fiche.categorie : "" };
-      const theme = code ? proposerTheme(cand) : null;
-      const camp = code ? proposerCamp(code, cand.nom, etat.table).camp : null;
-      const onglet = code ? (theme === STAR_WARS ? CAMPS[camp].onglet : theme) : null;
-      const deja = code ? ouFigurine(code) : [];
-      const sur = code && f.ressemblance >= 0.7;
-      return { ...f, code, nomBL: cand.nom, theme, camp, onglet, deja, sur, cocher: sur && !deja.length };
-    });
+    this.figs = liste.map(f => this._preparer(f, f.bricklink));
+    this._afficherFigurines();
+  },
+
+  // Figurine du set avec le code BrickLink choisi : thème, camp, onglet, déjà dans la collection ?
+  _preparer(f, codeBL, choisiParVous = false) {
+    const fiche = codeBL ? Catalogue.trouver(codeBL) : null;
+    const code = fiche ? fiche.code : "";
+    const cand = { id: code, nom: fiche ? fiche.nom : f.nom, categorie: fiche ? fiche.categorie : "" };
+    const theme = code ? proposerTheme(cand) : null;
+    const camp = code ? proposerCamp(code, cand.nom, etat.table).camp : null;
+    const onglet = code ? (theme === STAR_WARS ? CAMPS[camp].onglet : theme) : null;
+    const deja = code ? ouFigurine(code) : [];
+    const sur = code && (choisiParVous || f.ressemblance >= 0.7);
+    return { ...f, code, nomBL: cand.nom, theme, camp, onglet, deja, sur, cocher: sur && !deja.length };
+  },
+
+  _afficherFigurines() {
     $("set-figs-titre").textContent = this.figs.length
       ? `Figurines du set (${this.figs.reduce((n, f) => n + f.quantite, 0)}) : cochez celles à ajouter à votre collection`
       : "Aucune figurine dans ce set.";
@@ -139,9 +146,24 @@ const EcranSet = {
           <div class="lieu">${f.code ? `${echapper(f.code)} → ${echapper(f.onglet)}` : "code BrickLink inconnu : à ajouter à part (photo ou recherche)"}
             ${f.code && !f.sur ? ` · <b>à vérifier</b> (Rebrickable : « ${echapper(f.nom)} »)` : ""}
             ${f.deja.length ? ` · <b>déjà dans votre collection</b>` : ""}</div>
+          ${this._menuVariantes(f, i)}
         </div>
       </label>`).join("");
     $("set-figs").querySelectorAll("[data-fig]").forEach(c => c.addEventListener("change", () => { this.figs[+c.dataset.fig].cocher = c.checked; }));
+    $("set-figs").querySelectorAll("[data-variante-fig]").forEach(m => m.addEventListener("change", () => {
+      const i = +m.dataset.varianteFig;
+      this.figs[i] = this._preparer(this.figs[i], m.value, true);
+      this._afficherFigurines();
+    }));
+  },
+
+  // Autres versions du même personnage (tête différente, cachée par un casque) : menu pour choisir
+  _menuVariantes(f, i) {
+    const v = f.code ? Catalogue.variantes(f.code) : [];
+    if (v.length < 2) return "";
+    return `<select class="champ petit-champ" data-variante-fig="${i}" onclick="event.stopPropagation()">
+      ${v.map(x => `<option value="${echapper(x.code)}" ${x.code === f.code ? "selected" : ""}>${echapper(x.code)}${x.annee ? ` (${echapper(x.annee)})` : ""} – ${echapper(x.nom)}</option>`).join("")}
+    </select>`;
   },
 
   async ajouter() {
