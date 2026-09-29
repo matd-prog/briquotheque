@@ -129,6 +129,38 @@ const Valeur = {
     }
   },
 
+  // Lignes en double de l'onglet « Sets » (même numéro) : on garde celle qui a des remarques (rangement), sinon la 1re.
+  // Plusieurs exemplaires d'un même set : une seule ligne, avec la quantité.
+  async _doublons() {
+    const groupes = new Map();
+    for (const s of await lireSets(etat.classeur)) {
+      const g = groupes.get(s.code.toLowerCase()) || [];
+      g.push(s); groupes.set(s.code.toLowerCase(), g);
+    }
+    const res = [];
+    for (const g of groupes.values()) {
+      if (g.length < 2) continue;
+      const garde = g.find(s => s.remarques) || g[0];
+      res.push(...g.filter(s => s !== garde));
+    }
+    return res;
+  },
+
+  async supprimerDoublons() {
+    const doublons = await this._doublons();
+    if (!doublons.length) return;
+    if (!(await demander(`Supprimer ${doublons.length} ligne(s) en double de l'onglet « Sets » ?\n\n` +
+        doublons.map(d => `${d.code} ${d.nom || ""} (ligne ${d.row})`).join("\n") +
+        "\n\nPour chaque set, la ligne avec le rangement (remarques) est gardée.", "Supprimer", "Annuler"))) return;
+    for (const d of doublons) // ligne vidée : l'appli ignore les lignes sans numéro
+      for (const [c] of COLONNES_SETS) await etat.classeur.ecrireTexte(ONGLET_SETS, c + d.row, "");
+    etat.nonEnregistres++;
+    await memoriser();
+    await relireContenu();
+    toast(`${doublons.length} doublon(s) supprimé(s) ✔ Pensez à enregistrer, puis « Envoyer ma liste ».`);
+    this.afficher();
+  },
+
   // Lit prix.tsv et calcule la valeur : figurines au prix d'occasion, sets au prix neuf s'ils sont scellés
   async afficher() {
     if (!etat.classeur) { $("valeur-etat").textContent = "Ouvrez d'abord votre fichier Excel pour voir sa valeur."; return; }
@@ -156,12 +188,13 @@ const Valeur = {
         const enVente = a.type === "SET" ? lego.get(a.code.toLowerCase()) : 0;
         let v = enVente || lirePrix(p, neuf) || lirePrix(p, !neuf); // pas de vente dans cet état : prix de l'autre état
         if (!v) { sans.push(a); continue; }
+        const brut = v * (a.quantite || 1);
         for (const m of a.moins || []) v -= lirePrix(prix.get(`MINIFIG ${m.code}`), false) * m.quantite;
         v = Math.max(0, v) * (a.quantite || 1);
         if (p && p.date > date) date = p.date;
         total += v;
         parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + v;
-        details.push({ ...a, v, ventes: p ? (neuf ? p.neuf_ventes : p.occasion_ventes) : 0, neuf, enVente: !!enVente });
+        details.push({ ...a, v, ventes: p ? (neuf ? p.neuf_ventes : p.occasion_ventes) : 0, neuf, enVente: !!enVente, brut });
       }
       if (!details.length) {
         $("valeur-etat").textContent = "";
@@ -172,7 +205,10 @@ const Valeur = {
       const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
       details.sort((x, y) => y.v - x.v);
       $("valeur-etat").textContent = date ? `Prix du ${new Date(date).toLocaleDateString("fr-FR")} : médiane des ventes BrickLink des 6 derniers mois.` : "";
-      $("valeur-resultat").innerHTML = `
+      const doublons = await this._doublons();
+      $("valeur-resultat").innerHTML = (doublons.length ? `<div class="carte alerte">⚠️ <b>${doublons.length} ligne(s) en double</b> dans l'onglet « Sets » ` +
+          `(comptées deux fois) : ${echapper([...new Set(doublons.map(d => `${d.nom || d.code} ${d.code}`))].join(", "))}.` +
+          `<button class="bouton rouge" data-action="valeur-doublons">🧹 Supprimer les doublons</button></div>` : "") + `
         <div class="carte valeur-total"><div class="score">Valeur estimée de la collection</div><div class="montant">${euros(total)}</div>
           <div class="score">${details.length} article(s) valorisé(s)${sans.length ? ` · ${sans.length} sans prix pour l'instant` : ""}</div></div>
         <div class="carte"><p class="sous-titre">Par onglet</p>
@@ -182,7 +218,7 @@ const Valeur = {
           if (!g.length) return "";
           const total = g.reduce((n, d) => n + d.v, 0);
           return `<div class="carte"><p class="sous-titre">${titre} : ${euros(total)} <span class="score">(${g.length})</span></p>
-            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.enVente ? " · prix LEGO (encore en vente)" : d.neuf ? " · neuf" : ""}${d.figsAilleurs ? ` · hors ${d.figsAilleurs} figurine(s) comptée(s) à part` : d.moins ? " · sans figurines" : ""}${d.enVente ? "" : ` · ${d.ventes} ventes`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
+            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.enVente ? " · prix LEGO (encore en vente)" : d.neuf ? " · neuf" : ""}${d.figsAilleurs ? ` · set ${euros(d.brut)} dont ${d.figsAilleurs} figurine(s) déjà comptée(s) dans vos onglets de figurines` : d.moins ? " · sans figurines" : ""}${d.enVente ? "" : ` · ${d.ventes} ventes`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
             ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
         }).join("")}
         <p class="aide">Figurines au prix d'occasion ; sets encore vendus par LEGO au prix LEGO ; autres sets au prix neuf s'ils sont notés « Neuf scellé », sinon d'occasion ; boîtes seules au prix des boîtes vides ; objets dérivés au prix neuf s'ils sont notés neufs ; sets sans figurines : prix du set moins celui de ses figurines ; une figurine déjà dans vos onglets de figurines n'est pas comptée une 2e fois dans son set. Customs (JB…) non valorisées.</p>`;
@@ -202,4 +238,5 @@ document.addEventListener("click", e => {
   else if (a === "valeur-oublier") Valeur.oublierJeton();
   else if (a === "valeur-envoyer") Valeur.envoyer();
   else if (a === "valeur-actualiser") Valeur.afficher();
+  else if (a === "valeur-doublons") Valeur.supprimerDoublons();
 });
