@@ -88,8 +88,20 @@ function coinsArrondis(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
+// Recherches eBay : le QR code passe par la page relais de l'appli (ebay.html), qui ouvre eBay.de ;
+// scanné avec l'appareil photo, un lien eBay direct ouvrirait l'application eBay sur eBay.fr, qui
+// n'a presque aucune annonce JB. Adresse courte (?q=) pour un QR code peu dense.
+const SITE_APPLI = "https://matd-prog.github.io/etiquettes_figurines/";
+function texteQr(lien) {
+  const m = /^https:\/\/(?:www\.)?ebay\.de\/sch\/i\.html\?_nkw=JB\+Spielwaren\+([^&#]+)$/i.exec(lien);
+  if (m) return `${SITE_APPLI}ebay.html?q=${m[1]}`;
+  if (/^https:\/\/(www\.)?ebay\.[a-z.]+\/sch\//i.test(lien)) return `${SITE_APPLI}ebay.html?u=${encodeURIComponent(lien)}`;
+  return lien;
+}
+
 // QR code dans un carré blanc arrondi, à gauche, sur toute la hauteur
 function dessinerQr(ctx, texte, pad, cote) {
+  texte = texteQr(texte);
   const S = ECHELLE;
   ctx.fillStyle = "#fff";
   coinsArrondis(ctx, pad, pad, cote, cote, 2 * S);
