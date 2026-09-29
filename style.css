@@ -117,8 +117,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .fiche .nom-court { font-weight: 600; font-size: 15px; line-height: 1.3; overflow-wrap: anywhere; }
 .fiche .lieu { font-size: 13px; color: var(--doux); }
 .fiche a { flex: none; font-size: 22px; text-decoration: none; padding: 6px; }
-.fiche .liens-ebay { flex: none; display: flex; flex-direction: column; gap: 6px; }
-.fiche .liens-ebay a { font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 8px; background: #e7f0fb; color: var(--bleu); white-space: nowrap; }
+.fiche a.lien-ebay { font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 8px; background: #e7f0fb; color: var(--bleu); white-space: nowrap; }
 .planche { display: grid; grid-template-columns: 14.93fr 13fr 13fr 13fr 13fr; gap: 2px; background: #bbb; padding: 2px; border-radius: 6px; }
 .planche .case { position: relative; aspect-ratio: 96 / 56; border: 0; padding: 0; cursor: pointer; overflow: hidden; }
 .planche .case:nth-child(5n+1) { aspect-ratio: 109 / 56; }

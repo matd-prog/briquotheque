@@ -45,29 +45,27 @@ function demander(texte, oui = "Oui", non = "Non") {
   });
 }
 
-// Liens eBay sur Android : ouverts au choix dans Chrome (eBay.de) ou dans l'application eBay.
-// Par défaut Chrome : l'application eBay, réglée sur eBay.fr, n'y trouve pas les annonces d'eBay.de.
-// Chrome confie lui-même à l'application eBay les liens eBay ouverts d'un toucher : on passe donc
-// par ebay.html, qui redirige vers eBay.de sans toucher (Chrome reste alors sur la page).
+// Liens eBay sur Android : toujours vers eBay.de (JB Spielwaren est allemand : eBay.fr n'a
+// presque aucune annonce JB, 2 contre 646 le 29/09/2026). Ouvert d'un toucher, le lien serait
+// confié à l'application eBay, réglée sur eBay.fr, qui n'y trouve rien : on passe donc par
+// ebay.html, qui redirige vers eBay.de sans toucher ; l'application eBay s'ouvre alors sur eBay.de.
 const EST_ANDROID = /android/i.test(navigator.userAgent);
 function estLienEbay(lien) { return /^https:\/\/(www\.)?ebay\.[a-z.]+\//i.test(lien || ""); }
-function lienOuvrable(lien, appli = "com.android.chrome") {
+function lienOuvrable(lien) {
   if (!EST_ANDROID || !estLienEbay(lien)) return lien;
-  const cible = appli === "com.android.chrome"
-    ? new URL("ebay.html?u=" + encodeURIComponent(lien), location.href).href : lien;
-  return `intent://${cible.replace(/^https:\/\//, "")}#Intent;scheme=https;package=${appli};S.browser_fallback_url=${encodeURIComponent(cible)};end`;
+  const relais = new URL("ebay.html?u=" + encodeURIComponent(lien), location.href).href;
+  return `intent://${relais.replace(/^https:\/\//, "")}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(relais)};end`;
 }
 
-// Lien(s) vers une page externe pour une fiche : 🔗, ou pour eBay sur Android deux boutons
-// « Chrome » et « Appli eBay » (l'intent s'ouvre sans nouvel onglet)
+// Lien vers une page externe pour une fiche : 🔗, ou « 🔎 eBay.de » pour eBay
+// (sur Android, l'intent s'ouvre sans nouvel onglet)
 function liensFiche(lien, titre) {
   if (!lien) return "";
-  if (!EST_ANDROID || !estLienEbay(lien))
-    return `<a href="${echapper(lien)}" target="_blank" rel="noopener" title="${echapper(titre)}">🔗</a>`;
-  return `<div class="liens-ebay">
-      <a href="${echapper(lienOuvrable(lien))}" title="Chercher sur eBay.de">🔎 eBay.de</a>
-      <a href="${echapper(lienOuvrable(lien, "com.ebay.mobile"))}" title="Ouvrir dans l'application eBay">📱 Appli eBay</a>
-    </div>`;
+  const l = lienOuvrable(lien);
+  const cible = l.startsWith("intent:") ? "" : ` target="_blank" rel="noopener"`;
+  return estLienEbay(lien)
+    ? `<a class="lien-ebay" href="${echapper(l)}"${cible} title="Chercher sur eBay.de">🔎 eBay.de</a>`
+    : `<a href="${echapper(l)}"${cible} title="${echapper(titre)}">🔗</a>`;
 }
 
 function echapper(t) {
