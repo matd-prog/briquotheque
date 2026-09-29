@@ -57,8 +57,12 @@ const Valeur = {
     const res = [];
     for (const [onglet, o] of Object.entries(etat.collection || {}))
       for (const c of o.cases)
-        if (c.code && !codeInvalide(c.code) && !/^(JB|CUS|BSC|EBAY)-/i.test(c.code))
-          res.push({ type: "MINIFIG", code: c.code.toLowerCase(), nom: c.nom, onglet, etat: "" });
+        if (c.code && !/^(JB|CUS|BSC|EBAY)-/i.test(c.code)) {
+          // dans les onglets de figurines : aussi des sets (30612-1, packs) et des porte-clés ou objets (850353)
+          const type = /^\d{4,7}-\d+$/.test(c.code) ? "SET" : /^\d{5,8}$/.test(c.code) ? "GEAR" : "MINIFIG";
+          if (type === "MINIFIG" && codeInvalide(c.code)) continue;
+          res.push({ type, code: c.code.toLowerCase(), nom: c.nom, onglet, etat: "" });
+        }
     try { await CatalogueSets.charger(); } catch (e) { /* sans catalogue : sets comptés comme sets entiers */ }
     for (const s of await lireSets(etat.classeur)) {
       const code = /-\d+$/.test(s.code) ? s.code : s.code + "-1";
@@ -116,7 +120,7 @@ const Valeur = {
         const p = prix.get(`${a.type} ${a.code.toLowerCase()}`);
         const neuf = a.type === "SET" && /scell/i.test(a.etat);
         const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
-        let v = lirePrix(p, neuf);
+        let v = lirePrix(p, neuf) || lirePrix(p, !neuf); // pas de vente dans cet état : prix de l'autre état
         if (!p || !v) { sans.push(a); continue; }
         for (const m of a.moins || []) v -= lirePrix(prix.get(`MINIFIG ${m.code}`), false) * m.quantite;
         v = Math.max(0, v) * (a.quantite || 1);
