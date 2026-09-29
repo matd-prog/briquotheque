@@ -124,16 +124,37 @@ const Base = {
     }
     zip.file("base.tsv", lignes.join("\n") + "\n");
     const contenu = await zip.generateAsync({ type: "blob" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(contenu);
-    a.download = `blisters_JB_${horodatage()}.zip`;
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+    const nom = `blisters_JB_${horodatage()}.zip`;
+    const fichier = new File([contenu], nom, { type: "application/zip" });
+    // iPhone (et Android) : menu « Partager » (Messages, WhatsApp, Mail, AirDrop, Fichiers…) ; sinon téléchargement
+    let envoye = false;
+    if (navigator.canShare && navigator.canShare({ files: [fichier] })) {
+      if (await demander(`Fichier prêt : ${this.entrees.length} blister${this.entrees.length > 1 ? "s" : ""}.\n\nTouchez « Envoyer » puis choisissez Messages, ` +
+          "WhatsApp, Mail… (ou « Enregistrer dans Fichiers »).", "📤 Envoyer", "Annuler")) {
+        try {
+          await navigator.share({ files: [fichier], title: "Blisters JB", text: `${this.entrees.length} blisters JB pour la base commune` });
+          envoye = true;
+        } catch (err) {
+          if (err.name !== "AbortError") { console.error(err); envoye = this._telecharger(fichier); }
+        }
+      }
+    } else envoye = this._telecharger(fichier);
+    if (!envoye) return;
     for (const e of this.entrees) e.exporte = true;
     await Memoire.ecrire(this.entrees, "base");
     this._afficherListe();
-    await demander(`Fichier « ${a.download} » enregistré dans Téléchargements (${this.entrees.length} blisters).\n\n` +
+    toast(`${this.entrees.length} blister${this.entrees.length > 1 ? "s envoyés" : " envoyé"} ✔ Merci !`, 5000);
+  },
+
+  _telecharger(fichier) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(fichier);
+    a.download = fichier.name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+    demander(`Fichier « ${fichier.name} » enregistré dans Téléchargements.\n\n` +
       "Envoyez-le moi (ou mettez-le dans Google Drive) pour que je l'ajoute à la base de l'appli.", "OK", "Fermer");
+    return true;
   },
 
   async vider() {
@@ -145,11 +166,12 @@ const Base = {
   },
 };
 
-$("input-base").addEventListener("change", e => {
-  const f = e.target.files[0];
-  e.target.value = "";
-  if (f) Base.lirePhoto(f);
-});
+for (const id of ["input-base", "input-base-galerie"]) // appareil photo, ou photo déjà prise (galerie)
+  if ($(id)) $(id).addEventListener("change", e => {
+    const f = e.target.files[0];
+    e.target.value = "";
+    if (f) Base.lirePhoto(f);
+  });
 
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-action]");

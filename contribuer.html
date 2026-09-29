@@ -8,6 +8,9 @@
 <link rel="manifest" href="contribuer.webmanifest">
 <link rel="icon" href="icones/figotheque-192.png">
 <link rel="apple-touch-icon" href="icones/figotheque-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Blisters JB">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,11 +24,18 @@
 
 <main>
   <section id="ecran-base" class="ecran">
+    <div id="installer-iphone" class="alerte" hidden>📲 <b>Sur iPhone, installez d'abord l'appli</b> : touchez
+      <b>Partager</b> (le carré avec une flèche ⬆️, en bas de Safari), puis <b>« Sur l'écran d'accueil »</b>, puis
+      <b>Ajouter</b>. Ouvrez ensuite « Blisters JB » depuis l'écran d'accueil. Sinon, Safari peut effacer vos
+      blisters après quelques jours sans utilisation.</div>
     <p class="intro">Photographiez vos blisters JB Spielwaren <b>un par un</b>, de face. Le nom est lu tout seul :
-      vérifiez-le, puis « Ajouter à la base ». Quand vous avez fini, touchez « Exporter » : un fichier .zip est
-      créé dans vos Téléchargements, envoyez-le à Mathias. Merci !</p>
+      vérifiez-le, puis « Ajouter à la base ». Quand vous avez fini, touchez « Envoyer » et envoyez le fichier
+      à Mathias (Messages, WhatsApp, Mail…). Merci !</p>
     <label class="gros-bouton corail">📷 Photographier un blister
       <input type="file" id="input-base" accept="image/*" capture="environment" hidden>
+    </label>
+    <label class="bouton gris">🖼️ Choisir une photo déjà prise
+      <input type="file" id="input-base-galerie" accept="image/*" hidden>
     </label>
     <p class="aide" id="base-etat"></p>
     <img id="base-photo" class="photo-apercu" alt="Photo du blister">
@@ -41,8 +51,8 @@
     </div>
     <div class="carte">
       <p class="sous-titre" id="base-compte"></p>
-      <button class="bouton bleu" data-action="base-exporter" id="btn-base-exporter">⬇️ Exporter (un fichier .zip)</button>
-      <p class="aide">Les blisters restent dans le téléphone tant que vous ne les effacez pas.</p>
+      <button class="bouton bleu" data-action="base-exporter" id="btn-base-exporter">📤 Envoyer les blisters (un fichier .zip)</button>
+      <p class="aide">Les blisters restent dans le téléphone tant que vous ne les effacez pas. Envoyez-les de temps en temps : ils sont alors à l'abri.</p>
       <div id="base-liste" class="base-liste"></div>
       <button class="bouton-lien" data-action="base-vider" id="btn-base-vider">Effacer les blisters déjà exportés</button>
     </div>
@@ -134,6 +144,11 @@ const Memoire = {
 <script src="js/base.js"></script>
 <script>
   Base.ouvrir();
+  // iPhone / iPad dans Safari (pas encore installée sur l'écran d'accueil) : explication pour l'installer
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (ios && !navigator.standalone && !matchMedia("(display-mode: standalone)").matches) $("installer-iphone").hidden = false;
+  // demande au navigateur de ne pas effacer les blisters gardés dans le téléphone
+  if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 </script>
 </body>

@@ -136,8 +136,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 - Variantes (29/09) : même figurine, seule la tête change (couleur de peau, homme/femme, expression),
   invisible sous un casque : l'écran de résultat d'une photo propose « 🪖 N autres versions du même
   personnage » ; dans un set, menu des variantes pour chaque figurine. (Catalogue.variantes)
-- Mini-appli « Blisters JB » : l'ami de l'utilisateur est sur iPhone (Safari) : à vérifier, et prévoir
-  l'envoi du .zip par le menu de partage (Messages, WhatsApp, AirDrop) plutôt qu'un téléchargement.
+- Mini-appli « Blisters JB » (contribuer.html) finalisée pour l'iPhone de l'ami (29/09) : envoi du .zip par le
+  menu Partager (navigator.share : Messages, WhatsApp, Mail, AirDrop, Fichiers ; téléchargement sinon), bouton
+  « Choisir une photo déjà prise », bandeau « Sur l'écran d'accueil » dans Safari (sinon Safari peut effacer les
+  données après 7 jours sans visite), navigator.storage.persist(). Testé en iPhone simulé (Chromium) ; à
+  confirmer sur un vrai iPhone (lecture PaddleOCR en WASM, mémoire).
 
 ## Valeur de la collection (29/09/2026)
 
