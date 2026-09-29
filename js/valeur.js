@@ -151,7 +151,7 @@ const Valeur = {
     }
   },
 
-  // Avancement du relevé en direct (toutes les 5 s) : étape en cours de l'action GitHub « Prix BrickLink » et
+  // Avancement du relevé en direct (toutes les 5 s, valeur provisoire toutes les 10 s) : étape en cours de l'action GitHub « Prix BrickLink » et
   // estimation d'après le nombre d'articles à relever (~1,2 s par article BrickLink, ~3,5 s par set sur Brickset).
   // À la fin, la valeur est relue toute seule.
   async suivre() {
@@ -189,11 +189,12 @@ const Valeur = {
           ` · encore ~${Math.max(1, Math.ceil((tBL - ecoule(bl) + tLego) / 60))} min`;
         part = (f * tBL) / total;
       } else if (run.status === "in_progress") { texte = "Démarrage du relevé…"; part = 0.03; }
-      // valeur provisoire : prix enregistrés par le relevé toutes les minutes, relus toutes les 30 s
+      // valeur provisoire : prix enregistrés par le relevé toutes les 10 s, relus à chaque passage (5 s)
       if (this._runSuivi !== run.id) { this._runSuivi = run.id; this._valeurDepart = null; this._valeurLue = 0; this._cible = null; }
-      if (Date.now() - this._valeurLue > 30000) {
+      if (Date.now() - this._valeurLue > 4000) {
         this._valeurLue = Date.now();
-        const c = await this.calculer().catch(() => null);
+        // prix provisoires seulement pendant le relevé BrickLink (avant : ceux d'un relevé précédent)
+        const c = await this.calculer(!!(bl && bl.status !== "queued")).catch(() => null);
         if (c) {
           if (this._valeurDepart == null) { this._valeurDepart = c.total; this._affichee = c.total; }
           this._cible = c.total; this._nbEstimes = c.details.length;
@@ -232,7 +233,7 @@ const Valeur = {
     $("compteur-texte").textContent = `${texte} (estimation)${this._nbEstimes ? ` · ${this._nbEstimes} articles estimés` : ""}`;
   },
 
-  // Valeur affichée : avance en continu vers la dernière valeur lue (en ~25 s, jusqu'à la lecture suivante)
+  // Valeur affichée : avance en continu vers la dernière valeur lue (en quelques secondes, jusqu'à la lecture suivante)
   _animer() {
     let avant = performance.now();
     const pas = t => {
@@ -240,7 +241,7 @@ const Valeur = {
       const dt = (t - avant) / 1000; avant = t;
       if (this._cible != null) {
         const ecart = this._cible - this._affichee;
-        this._affichee += Math.abs(ecart) < 0.01 ? ecart : ecart * Math.min(1, dt / 25 * 3);
+        this._affichee += Math.abs(ecart) < 0.01 ? ecart : ecart * Math.min(1, dt / 8 * 3);
         const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
         $("compteur-valeur").textContent = euros(this._affichee);
         const hausse = this._affichee - this._valeurDepart;
@@ -301,8 +302,10 @@ const Valeur = {
 
   // Lit prix.tsv (BrickLink) et lego.tsv (prix LEGO) et calcule la valeur de chaque article :
   // { details: [{...article, v, brut, ventes, neuf, enVente}], sans, total, parOnglet, date } ; null si pas encore de prix
-  async calculer() {
-    const rep = await this._api("/contents/prix.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+  // provisoire : prix en cours de relevé (branche releve-en-cours, mise à jour toutes les 10 s), sinon ceux de main
+  async calculer(provisoire = false) {
+    let rep = provisoire ? await this._api("/contents/prix.tsv?ref=releve-en-cours", { headers: { Accept: "application/vnd.github.raw" } }) : null;
+    if (!rep || !rep.ok) rep = await this._api("/contents/prix.tsv", { headers: { Accept: "application/vnd.github.raw" } });
     if (!rep.ok) return null;
     const lignes = (await rep.text()).split("\n").map(l => l.split("\t"));
     const entete = lignes.shift();
