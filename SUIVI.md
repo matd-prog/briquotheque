@@ -66,8 +66,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   1 mot : lu exactement ; sinon 2/3) ; si rien ne correspond, le nom le plus probable du carton
   (lignes en capitales, sans « LIMITED TO… ») est repris dans le champ Nom (étiquette CUS-…).
   Les 2 autres blisters (nom trouvé seulement en encadrant) : photos pas encore reçues.
-- Bouton retour du téléphone : ramène à l'accueil depuis tout écran secondaire (annule un recadrage,
-  sans effet pendant un chargement) ; depuis l'accueil, ferme l'appli.
+- Bouton retour du téléphone : ramène à l'écran précédent (annule un recadrage, sans effet pendant
+  une lecture ; après un ajout, l'écran précédent est l'accueil) ; depuis l'accueil, question
+  « Quitter l'appli ? » (Quitter / Rester). Si le téléphone refuse la fermeture par l'appli, message
+  « Appuyez encore sur retour pour quitter ».
 
 ## Fichier Excel de l'utilisateur
 

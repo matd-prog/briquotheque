@@ -20,34 +20,40 @@ const etat = {
 
 // ---------- navigation ----------
 
-// Bouton retour du téléphone : depuis un écran secondaire, il ramène à l'accueil au lieu de fermer
-// l'appli. Pour cela, chaque passage à un écran secondaire ajoute une étape à l'historique ;
-// le retour la retire (popstate). Depuis l'accueil, le retour ferme l'appli comme d'habitude
-// (les ajouts non enregistrés sont gardés dans le téléphone).
-const ECRANS_RACINE = ["accueil", "fichier"];
-let ecranActuel = null, retourInterne = false;
+// Bouton retour du téléphone : il ramène à l'écran précédent ; depuis l'accueil, il demande s'il faut
+// quitter l'appli. Une étape « garde » est gardée dans l'historique : chaque retour la retire
+// (popstate), et on la remet aussitôt, sauf si l'on quitte. Les écrans de passage (lecture en
+// cours, recadrage) ne sont pas mémorisés ; après un ajout (écran « ok »), l'écran précédent est
+// l'accueil (pas de retour vers la figurine déjà ajoutée).
+const ECRANS_RACINE = ["accueil", "fichier"], ECRANS_PASSAGE = ["chargement", "recadrage"];
+let ecranActuel = null, pileEcrans = [];
 
-function afficher(ecran) {
-  document.querySelectorAll(".ecran").forEach(e => e.hidden = e.id !== "ecran-" + ecran);
-  window.scrollTo(0, 0);
-  ecranActuel = ecran;
-  const secondaire = !ECRANS_RACINE.includes(ecran);
-  if (secondaire && !(history.state && history.state.secondaire)) history.pushState({ secondaire: true }, "");
-  if (!secondaire && history.state && history.state.secondaire) { retourInterne = true; history.back(); }
+function armerRetour() {
+  if (!(history.state && history.state.garde)) history.pushState({ garde: true }, "");
 }
 
-window.addEventListener("popstate", () => {
-  const secondaire = !ECRANS_RACINE.includes(ecranActuel);
-  if (retourInterne) {
-    // étape retirée par afficher() ; si on est déjà reparti vers un écran secondaire, on la remet
-    retourInterne = false;
-    if (secondaire) history.pushState({ secondaire: true }, "");
-    return;
+function afficher(ecran, retour = false) {
+  document.querySelectorAll(".ecran").forEach(e => e.hidden = e.id !== "ecran-" + ecran);
+  window.scrollTo(0, 0);
+  if (ECRANS_RACINE.includes(ecran)) pileEcrans = [];
+  else if (ecran === "ok") pileEcrans = [etat.classeur ? "accueil" : "fichier"];
+  else if (!retour && ecranActuel && ecranActuel !== ecran) {
+    if (pileEcrans[pileEcrans.length - 1] === ecran) pileEcrans.pop(); // A -> B -> A : pas de boucle
+    else if (!ECRANS_PASSAGE.includes(ecranActuel)) pileEcrans.push(ecranActuel);
   }
-  if (!secondaire) return;
-  if (ecranActuel === "chargement") { history.pushState({ secondaire: true }, ""); toast("Patientez, lecture en cours…"); return; }
-  if (ecranActuel === "recadrage") { Recadrage.annuler(); return; } // l'écran suivant est choisi par l'appelant
-  afficher(etat.classeur ? "accueil" : "fichier");
+  ecranActuel = ecran;
+  armerRetour();
+}
+
+window.addEventListener("popstate", async () => {
+  if (ecranActuel === "chargement") { armerRetour(); toast("Patientez, lecture en cours…"); return; }
+  if (ecranActuel === "recadrage") { armerRetour(); Recadrage.annuler(); return; } // l'appelant choisit l'écran suivant
+  if (pileEcrans.length) { afficher(pileEcrans.pop(), true); return; }
+  // accueil : confirmation avant de quitter
+  if (!(await demander("Quitter l'appli ?", "Quitter", "Rester"))) { armerRetour(); return; }
+  window.close(); // appli installée : fermeture si le téléphone l'autorise
+  history.back(); // appli ouverte dans un onglet : retour à la page d'avant
+  setTimeout(() => toast("Appuyez encore sur retour pour quitter."), 400);
 });
 
 function toast(texte, duree = 3500) {
