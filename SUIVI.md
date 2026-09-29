@@ -53,8 +53,16 @@ refusé → ajouter *.archive.org.
 1. Retours de l'utilisateur sur un vrai blister (qualité, temps de lecture).
 2. brickshellcases.com (Shopify, collection « jb-toys-custom-figures ») : ajouter noms et
    empreintes de blisters au catalogue JB (lire /collections/…/products.json, poliment).
-3. eBay : compte développeur (developer.ebay.com) → clés rangées dans les « API credentials »
-   de l'environnement (jamais dans l'appli) → API Browse sur eBay.de (« JB Spielwaren custom »).
+3. eBay : compte développeur créé (29/09). Identifiant « eBay » ajouté dans les Identifiants API
+   de l'environnement « Par défaut » (type OAuth 2.0 client credentials, site api.ebay.com,
+   URL du jeton https://api.ebay.com/identity/v1/oauth2/token, scope
+   https://api.ebay.com/oauth/api_scope). Premier essai : refusé par eBay (« invalid_client »).
+   À vérifier par l'utilisateur : jeu de clés Production activé (exemption « Marketplace
+   Account Deletion »), App ID en Client ID et Cert ID (pas Dev ID) en Client secret, méthode
+   « Basic » ; supprimer puis recréer l'identifiant. Test : curl -H "X-EBAY-C-MARKETPLACE-ID:
+   EBAY_DE" "https://api.ebay.com/buy/browse/v1/item_summary/search?q=JB%20Spielwaren&limit=3"
+   (l'identifiant est ajouté par le proxy, il n'est jamais visible). Ensuite : API Browse sur
+   eBay.de (« JB Spielwaren custom ») → noms + empreintes de blisters.
 4. Archives (web.archive.org) : anciennes figurines JB retirées de la vente.
 5. Éventuel contact avec JB Spielwaren pour une base officielle de leurs blisters.
 6. Vérifier le compte rendu de la tâche automatique ; corriger si elle ne peut pas publier.
