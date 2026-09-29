@@ -68,6 +68,7 @@
       <button class="tuile" data-action="collection"><span class="icone">📖</span><b>Ma collection</b><small>Liste, planches, recherche</small></button>
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Ajouter un set</b><small>Par son numéro</small></button>
       <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base des blisters</b><small>Contribuer à la base JB</small></button>
+      <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
     </div>
 
     <details class="outils" id="outils">
@@ -146,6 +147,26 @@
     <div class="oui-non">
       <button class="gros-bouton gris" data-action="non">Non</button>
       <button class="gros-bouton vert" data-action="custom-oui">Oui</button>
+    </div>
+  </section>
+
+  <!-- Valeur de la collection (js/valeur.js) : prix relevés dans le dépôt GitHub privé -->
+  <section id="ecran-valeur" class="ecran" hidden>
+    <p class="intro">💶 <b>Valeur de ma collection</b> d'après les ventes réelles BrickLink des 6 derniers mois.</p>
+    <p class="aide" id="valeur-etat"></p>
+    <div id="valeur-jeton-bloc" class="carte" hidden>
+      <label for="valeur-jeton" class="etiquette-champ">Jeton d'accès GitHub (github_pat_…)</label>
+      <input id="valeur-jeton" class="champ" type="password" autocomplete="off" placeholder="github_pat_…">
+      <button class="bouton bleu" data-action="valeur-jeton">Enregistrer le jeton</button>
+      <p class="aide">Il ne sert qu'à votre dépôt privé et reste dans ce téléphone.</p>
+    </div>
+    <div id="valeur-actions" hidden>
+      <div class="tuiles">
+        <button class="tuile" data-action="valeur-envoyer"><span class="icone">📤</span><b>Envoyer ma liste</b><small>et relever les prix</small></button>
+        <button class="tuile" data-action="valeur-actualiser"><span class="icone">🔄</span><b>Actualiser</b><small>Lire les derniers prix</small></button>
+      </div>
+      <div id="valeur-resultat"></div>
+      <button class="bouton-lien" data-action="valeur-oublier">Retirer le jeton de ce téléphone</button>
     </div>
   </section>
 
@@ -310,5 +331,6 @@
 <script src="js/app.js"></script>
 <script src="js/base.js"></script>
 <script src="js/sets.js"></script>
+<script src="js/valeur.js"></script>
 </body>
 </html>
