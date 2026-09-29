@@ -196,8 +196,23 @@ const Valeur = {
         // prix provisoires seulement pendant le relevé BrickLink (avant : ceux d'un relevé précédent)
         const c = await this.calculer(!!(bl && bl.status !== "queued")).catch(() => null);
         if (c) {
-          if (this._valeurDepart == null) { this._valeurDepart = c.total; this._affichee = c.total; }
-          this._cible = c.total; this._nbEstimes = c.details.length;
+          // valeur de chaque ligne ; ce qui a changé depuis la lecture précédente est « rejoué » article par article
+          const valeurs = new Map();
+          c.details.forEach(d => { const k = `${d.type} ${d.code} ${d.onglet}`; valeurs.set(k, (valeurs.get(k) || 0) + d.v); });
+          if (this._valeurDepart == null) {
+            this._valeurDepart = this._cible = this._affichee = c.total; this._file = [];
+          } else {
+            const noms = new Map(c.details.map(d => [`${d.type} ${d.code} ${d.onglet}`, d]));
+            for (const [k, v] of valeurs) {
+              const delta = v - (this._valeurs.get(k) || 0);
+              if (Math.abs(delta) >= 0.01) this._file.push({ delta, nom: noms.get(k).nom || "", code: noms.get(k).code });
+            }
+            for (const [k, v] of this._valeurs) if (!valeurs.has(k)) this._file.push({ delta: -v, nom: "", code: k.split(" ")[1] });
+            // écart d'arrondi éventuel : dernier pas
+            const reste = c.total - this._cible - this._file.reduce((n, f) => n + f.delta, 0);
+            if (Math.abs(reste) >= 0.01) this._file.push({ delta: reste, nom: "", code: "" });
+          }
+          this._valeurs = valeurs; this._nbEstimes = c.details.length;
         }
       }
       this._compteur(part, texte);
@@ -223,6 +238,7 @@ const Valeur = {
         </svg>
         <div class="compteur-valeur" id="compteur-valeur">…</div>
         <div class="compteur-hausse" id="compteur-hausse"></div>
+        <div class="compteur-article" id="compteur-article"></div>
         <p class="score" id="compteur-texte"></p>`;
       this._animer();
     }
@@ -233,15 +249,26 @@ const Valeur = {
     $("compteur-texte").textContent = `${texte} (estimation)${this._nbEstimes ? ` · ${this._nbEstimes} articles estimés` : ""}`;
   },
 
-  // Valeur affichée : avance en continu vers la dernière valeur lue (en quelques secondes, jusqu'à la lecture suivante)
+  // Valeur affichée : les articles relevés depuis la lecture précédente sont ajoutés un par un (répartis sur ~5 s),
+  // avec leur nom ; le chiffre file vers chaque nouvelle valeur
   _animer() {
-    let avant = performance.now();
+    let avant = performance.now(), prochain = 0;
     const pas = t => {
       if (!$("compteur-valeur") || $("valeur-avancement").hidden) return;
       const dt = (t - avant) / 1000; avant = t;
+      if (this._file && this._file.length && t >= prochain) {
+        const a = this._file.shift();
+        this._cible += a.delta;
+        if (a.code && a.delta > 0) {
+          const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+          $("compteur-article").textContent = `+ ${euros(a.delta)} · ${a.nom ? a.nom + " " : ""}${a.code}`;
+          $("compteur-article").classList.remove("eclat"); void $("compteur-article").offsetWidth; $("compteur-article").classList.add("eclat");
+        }
+        prochain = t + Math.max(120, Math.min(1500, 5000 / (this._file.length + 1)));
+      }
       if (this._cible != null) {
         const ecart = this._cible - this._affichee;
-        this._affichee += Math.abs(ecart) < 0.01 ? ecart : ecart * Math.min(1, dt / 8 * 3);
+        this._affichee += Math.abs(ecart) < 0.01 ? ecart : ecart * Math.min(1, dt * 6);
         const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
         $("compteur-valeur").textContent = euros(this._affichee);
         const hausse = this._affichee - this._valeurDepart;

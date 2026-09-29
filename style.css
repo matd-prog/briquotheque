@@ -223,3 +223,6 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .compteur-pct { font-size: 18px; font-weight: bold; fill: #333; }
 .compteur-valeur { text-align: center; font-size: 34px; font-weight: 800; font-variant-numeric: tabular-nums; margin-top: 2px; }
 .compteur-hausse { text-align: center; color: var(--vert); font-weight: bold; }
+.compteur-article { text-align: center; min-height: 1.4em; color: #555; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.compteur-article.eclat { animation: eclat .6s ease-out; }
+@keyframes eclat { from { color: var(--vert); transform: scale(1.08); } to { color: #555; transform: scale(1); } }
