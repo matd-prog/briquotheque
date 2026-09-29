@@ -28,9 +28,18 @@ const etat = {
 const ECRANS_RACINE = ["accueil", "fichier"], ECRANS_PASSAGE = ["chargement", "recadrage"];
 let ecranActuel = null, pileEcrans = [];
 
+// Chrome saute (retour = sortie directe) une étape ajoutée sans que l'écran ait été touché : au démarrage
+// quand l'appli rouvre seule le fichier, ou juste après un retour. On garde donc quelques étapes d'avance,
+// ajoutées à chaque toucher, pour que plusieurs retours de suite ne fassent jamais sortir sans confirmation.
+const RESERVE_RETOUR = 3;
+const niveauRetour = () => (history.state && history.state.garde) ? (history.state.n || 1) : 0;
 function armerRetour() {
-  if (!(history.state && history.state.garde)) history.pushState({ garde: true }, "");
+  if (niveauRetour() === 0) history.pushState({ garde: true, n: 1 }, "");
 }
+for (const evt of ["click", "keydown"])
+  document.addEventListener(evt, () => {
+    for (let n = niveauRetour() + 1; n <= RESERVE_RETOUR; n++) history.pushState({ garde: true, n }, "");
+  }, true);
 
 function afficher(ecran, retour = false) {
   document.querySelectorAll(".ecran").forEach(e => e.hidden = e.id !== "ecran-" + ecran);
