@@ -559,6 +559,7 @@ function nomDepuisLien(lien) {
 
 // info : message à afficher au-dessus des résultats (ex. nom lu sur un blister) au lieu du texte habituel
 function ouvrirCustom(info) {
+  $("custom-photo").removeAttribute("src");
   $("custom-lien").value = "";
   delete $("custom-lien").dataset.ebayAuto;
   $("custom-nom").value = "";
@@ -723,6 +724,8 @@ function afficherLectureBlister(texte, trouve, encadre) {
       : "Le nom n'a pas été trouvé sur la photo entière (reflet, photo floue ?). Touchez « Encadrer le nom moi-même », ou cherchez la figurine avec un mot.";
   }
   ouvrirCustom(info);
+  // la photo du blister reste visible (déjà remise d'aplomb si le carton était de travers)
+  if (photoBlister) $("custom-photo").src = URL.createObjectURL(photoBlister);
   $("btn-encadrer-nom").hidden = !photoBlister;
   // n° d'exemplaire : seulement s'il est lisible (il est souvent écrit à la main)
   const ex = exemplaireDansTexte(texte);
