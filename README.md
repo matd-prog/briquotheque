@@ -1,4 +1,4 @@
-# Figurines LEGO
+# Figothèque (figurines et sets LEGO)
 
 Appli pour téléphone Android (page web installable) :
 
