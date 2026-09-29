@@ -71,7 +71,16 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   Ajouté : noir et blanc automatique (Otsu, le fond devient blanc : texte clair sur fond foncé),
   essai de plus sur la photo entière, et pour un nom encadré plus haut que large, essais tourné
   d'un quart de tour. Nom plausible : 8 lettres minimum (écarte « JERE DE »). À retester sur le
-  téléphone ; 3e blister : photo pas encore reçue.
+  téléphone.
+  3e photo : « BLACK KRRSANTAN » (liste eBay), blanc sur fond sombre dans un cadre : rien de lu.
+  Essais sans succès (non publiés) : tuiles, repérage automatique des cadres, effacement des traits.
+  Conclusion : Tesseract lit mal les noms en lettres très grasses, claires, encadrées (nouveau style
+  de blister). Choix de l'utilisateur (29/09) : piste 1 puis piste 2.
+  Piste 1 (faite) : si la photo entière ne donne aucun nom, l'encadrement du nom s'ouvre tout seul
+  (« Annuler » ramène aux blisters au décor ressemblant) ; essai « texte épars » ajouté au nom encadré.
+  Piste 2 (à faire) : lecture plus performante dans le téléphone (PaddleOCR via onnxruntime-web,
+  ~15 Mo téléchargés une fois). Il faut les photos originales (pleine définition) des 3 blisters :
+  celles reçues dans la conversation sont réduites à 924 x 2000.
 - Bouton retour du téléphone : ramène à l'écran précédent (annule un recadrage, sans effet pendant
   une lecture ; après un ajout, l'écran précédent est l'accueil) ; depuis l'accueil, question
   « Quitter l'appli ? » (Quitter / Rester). Si le téléphone refuse la fermeture par l'appli, message
@@ -101,7 +110,7 @@ refusé → ajouter *.archive.org.
 
 ## Prochaines étapes
 
-1. Blisters : retester Shiny Dark Lord et Chrome Golden Antagonist sur le téléphone ; photo du 3e blister à étudier.
+1. Blisters : piste 2 (PaddleOCR), avec les photos originales des 3 blisters ; retester la piste 1 sur le téléphone.
 2. brickshellcases.com : fait le 29/09 (voir plus haut).
 3. eBay.de (la meilleure source : JB Spielwaren est allemand) : accès OK (29/09/2026).
    Clés dans EBAY_CLIENT_ID / EBAY_CLIENT_SECRET (ne jamais les afficher), jeton en Basic.

@@ -56,13 +56,14 @@ const Blister = {
   // d'un quart de tour. Sans correspondance, on garde le texte où le nom paraît le plus lisible.
   async lire(blob) {
     const lecteur = await this._lecteur();
-    await lecteur.setParameters({ tessedit_pageseg_mode: "3" });
     const bitmap = await createImageBitmap(blob);
     const sources = [bitmap];
     if (bitmap.height > 1.5 * bitmap.width) sources.push(tourner(bitmap, 90), tourner(bitmap, -90));
     let meilleur = "";
     for (const source of sources) {
-      for (const [largeur, seuil] of [[460, 0], [690, 0], [460, 150], [460, "auto"], [690, "auto"]]) {
+      // mode 3 : lecture d'une page ; 11 : texte épars (lit mieux un nom dans un cadre, ex. « BLACK KRRSANTAN »)
+      for (const [largeur, seuil, mode = "3"] of [[460, 0], [690, 0], [460, 150], [460, "auto"], [690, "auto"], [690, "auto", "11"]]) {
+        await lecteur.setParameters({ tessedit_pageseg_mode: mode });
         const { data } = await lecteur.recognize(this._preparer(source, largeur, seuil));
         const texte = data.text || "";
         if (CatalogueJB.rapprocher(texte).length) return texte;

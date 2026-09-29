@@ -625,6 +625,7 @@ $("input-blister").addEventListener("change", async e => {
   $("texte-chargement").textContent = "Lecture du nom sur le blister… (la première fois, quelques secondes)";
   afficher("chargement");
   const indice = indiceBrickognize(f); // en parallèle
+  indiceEnCours = indice;
   let lecture = { texte: "", trouve: false };
   try {
     await CatalogueJB.charger();
@@ -636,6 +637,12 @@ $("input-blister").addEventListener("change", async e => {
     console.error(err);
   }
   afficherLectureBlister(lecture.texte, lecture.trouve, false);
+  // aucun nom lu sur la photo entière : on passe directement à l'encadrement du nom (annuler ramène
+  // aux blisters au décor ressemblant, déjà affichés)
+  if (!lecture.trouve && !nomProbable(lecture.texte)) {
+    encadrerNom("Le nom n'a pas pu être lu sur la photo entière. Encadrez SEULEMENT le nom de la figurine (le petit cadre du blister), ou « Annuler ».");
+    return;
+  }
   indiceBlister = await indice;
   afficherIndice(indiceBlister);
 });
@@ -652,20 +659,31 @@ async function comparerDecor(fichier) {
   }
 }
 
-// Repli : on encadre soi-même le nom sur la photo du blister
-$("btn-encadrer-nom").addEventListener("click", async () => {
+// Repli : on encadre soi-même le nom sur la photo du blister (bouton, ou directement si la photo
+// entière n'a rien donné)
+let indiceEnCours = Promise.resolve([]);
+$("btn-encadrer-nom").addEventListener("click", () =>
+  encadrerNom("Encadrez SEULEMENT le nom de la figurine (le petit cadre du blister)."));
+
+async function encadrerNom(consigne) {
   if (!photoBlister) return;
-  $("recadrage-titre").textContent = "Encadrez SEULEMENT le nom de la figurine (le petit cadre du blister).";
+  $("recadrage-titre").textContent = consigne;
   const morceau = await Recadrage.ouvrir(photoBlister).catch(() => null);
-  if (!morceau) { afficher("custom"); return; }
+  if (!morceau) {
+    afficher("custom");
+    indiceBlister = await indiceEnCours;
+    afficherIndice(indiceBlister);
+    return;
+  }
   $("photo-apercu").src = URL.createObjectURL(morceau);
   $("texte-chargement").textContent = "Lecture du nom…";
   afficher("chargement");
   let texte = "";
   try { texte = await Blister.lire(morceau); } catch (err) { console.error(err); }
   afficherLectureBlister(texte, CatalogueJB.rapprocher(texte).length > 0, true);
+  indiceBlister = await indiceEnCours;
   afficherIndice(indiceBlister);
-});
+}
 
 // Combine le nom lu et le décor : nom confirmé par le décor, ou blisters au décor ressemblant
 function afficherLectureBlister(texte, trouve, encadre) {
