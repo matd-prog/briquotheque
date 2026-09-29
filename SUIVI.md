@@ -167,6 +167,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   en double. Valeur : une figurine des onglets de figurines n'est pas recomptée dans son set (retirée du prix du set)
   ni comme figurine de série de l'onglet Sets. Un seul fichier Excel : tout est dans le fichier principal
   (Collection_Sets.xlsx ne sert plus qu'à l'import).
+- Méthode (demandée par l'utilisateur le 29/09) : figurines d'un set monté estimées une à une (prix du marché
+  BrickLink), plus le reste du set = prix du set (LEGO si encore vendu, sinon BrickLink) moins ses figurines, jamais
+  moins de 30 % du prix LEGO d'origine (PART_RESTE_SET, js/valeur.js). Figurine déjà dans les onglets de figurines :
+  comptée là, pas dans le set. Sur 48 sets chiffrés, 10 avaient des figurines valant plus que le set.
 - Sets encore vendus par LEGO : prix LEGO en € (demande de l'utilisateur : la Death Star 75419 ne vaut pas 526 €
   mais 999,99 €). Source : pages publiques Brickset (RRP, Launch/exit) lues par prix_lego.py dans l'action « Prix
   BrickLink » -> lego.tsv (dépôt privé) ; le site LEGO refuse les lectures automatiques (403). Encore en vente =

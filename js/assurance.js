@@ -57,7 +57,8 @@ const Assurance = {
     const nbPieces = details.reduce((n, d) => n + (d.quantite || 1), 0);
     const ligne = d => `<tr>
         ${photos ? `<td class="ph"><img src="https://img.bricklink.com/ItemImage/${IMAGE_BRICKLINK[d.type]}/0/${encodeURIComponent(d.code)}.png" alt="" loading="eager" onerror="this.remove()"></td>` : ""}
-        <td>${echapper(d.code)}</td><td>${echapper(d.nom || "")}${d.figsAilleurs ? `<br><small>set complet ${euros(d.brut)}, dont ${d.figsAilleurs} figurine(s) inventoriée(s) dans « Figurines »</small>` : ""}</td>
+        <td>${echapper(d.code)}</td><td>${echapper(d.nom || "")}${d.detail ? `<br><small>figurines du set ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}` +
+          `${d.figsAilleurs ? ` ; ${d.figsAilleurs} figurine(s) inventoriée(s) dans « Figurines »` : ""}${d.sansFigs ? " ; set sans ses figurines" : ""}</small>` : ""}</td>
         <td>${echapper(this._etat(d))}</td><td class="n">${d.quantite || 1}</td><td class="n">${euros(d.unitaire)}</td>
         <td><small>${echapper(this._source(d))}</small></td><td class="n"><b>${euros(d.v)}</b></td></tr>`;
     const sections = CATEGORIES_ASSURANCE.map(([titre, test]) => {
@@ -85,8 +86,10 @@ const Assurance = {
           6 derniers mois</b>, en euros (et non les prix demandés par les vendeurs) : prix « occasion » pour les figurines et
           les sets montés, prix « neuf » pour les sets neufs scellés et les objets neufs. Les sets <b>encore vendus par LEGO</b>
           sont estimés à leur <b>prix de vente public LEGO</b> (valeur de remplacement ; source : Brickset).
-          Pour éviter de compter deux fois une figurine, la valeur d'un set ne comprend pas celles de ses figurines déjà
-          inventoriées une à une dans la partie « Figurines ». Prix relevés le ${date ? new Date(date).toLocaleDateString("fr-FR") : jour}.</p>
+          Les figurines d'un set monté sont estimées <b>une à une</b> au prix du marché (elles valent souvent plus que le
+          set d'occasion lui-même), et le <b>reste du set</b> (briques, boîte, notice) à part : prix du set moins celui de
+          ses figurines, sans jamais descendre sous 30 % de son prix LEGO d'origine. Une figurine inventoriée dans la
+          partie « Figurines » n'est pas comptée une seconde fois dans son set. Prix relevés le ${date ? new Date(date).toLocaleDateString("fr-FR") : jour}.</p>
         ${sections}
         ${sans.length || customs.length ? `<h2>Articles non estimés</h2><p>${sans.length ? `${sans.length} article(s) sans vente récente connue sur BrickLink : ` +
           echapper(sans.map(a => `${a.code}${a.nom ? ` (${a.nom})` : ""}`).join(", ")) + ". " : ""}${customs.length ? `${customs.length} figurine(s) personnalisée(s) ` +
