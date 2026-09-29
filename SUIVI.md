@@ -83,12 +83,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   Tesseract s'il ne trouve rien. Sur les 3 photos (même réduites) : Shiny Dark Lord et Black
   Krrsantan trouvés (4-5 s), Chrome Golden Antagonist repris dans le champ Nom (15 s, via Tesseract :
   PaddleOCR fusionne ses deux lignes verticales). Classement : un nom lu sur une même ligne passe
-  devant des mots épars (citation « EX-BOUNTY HUNTER »). Confirmé sur le téléphone (29/09) pour
-  Chrome Golden Antagonist (nom repris).
+  devant des mots épars (citation « EX-BOUNTY HUNTER »). Confirmé sur le téléphone (29/09) : les
+  3 blisters OK sur la photo entière (Shiny Dark Lord et Black Krrsantan trouvés, lecture rapide ;
+  Chrome Golden Antagonist repris dans le champ Nom).
 - Nom lu mais absent de toutes nos listes (ex. Chrome Golden Antagonist : aucune annonce nulle part
   le 29/09, ni sous « Phasma ») : lien de l'étiquette = recherche eBay.de sur ce nom, rempli d'office
   (QR code via la page relais) ; il suit le nom si on le corrige, et cède la place au lien d'un blister
-  proposé si on en choisit un.
+  proposé si on en choisit un. Confirmé sur le téléphone le 29/09.
 - Bouton retour du téléphone : ramène à l'écran précédent (annule un recadrage, sans effet pendant
   une lecture ; après un ajout, l'écran précédent est l'accueil) ; depuis l'accueil, question
   « Quitter l'appli ? » (Quitter / Rester). Si le téléphone refuse la fermeture par l'appli, message
@@ -118,7 +119,7 @@ refusé → ajouter *.archive.org.
 
 ## Prochaines étapes
 
-1. Blisters : tester la nouvelle lecture (PaddleOCR) sur le téléphone : temps, téléchargement de 27 Mo.
+1. Blisters : lecture PaddleOCR validée sur le téléphone (29/09) ; à suivre sur d'autres blisters.
 2. brickshellcases.com : fait le 29/09 (voir plus haut).
 3. eBay.de (la meilleure source : JB Spielwaren est allemand) : accès OK (29/09/2026).
    Clés dans EBAY_CLIENT_ID / EBAY_CLIENT_SECRET (ne jamais les afficher), jeton en Basic.
