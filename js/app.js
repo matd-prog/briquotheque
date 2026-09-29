@@ -516,7 +516,10 @@ function ouvrirCustom(info) {
   $("custom-recherche-info").textContent = info || "";
   if (info) return;
   CatalogueJB.charger()
-    .then(l => { $("custom-recherche-info").textContent = `${l.length} figurines JB Spielwaren (catalogue du ${new Date(CatalogueJB.date).toLocaleDateString("fr-FR")}). Sinon, collez un lien plus bas.`; })
+    .then(l => {
+      const ebay = CatalogueJB.nbEbay ? ` + ${CatalogueJB.nbEbay} retirées de la vente, vues sur eBay.de` : "";
+      $("custom-recherche-info").textContent = `${l.length - CatalogueJB.nbEbay} figurines JB Spielwaren (catalogue du ${new Date(CatalogueJB.date).toLocaleDateString("fr-FR")})${ebay}. Sinon, collez un lien plus bas.`;
+    })
     .catch(() => { $("custom-recherche-info").textContent = "Catalogue JB indisponible : collez le lien de la figurine plus bas."; });
 }
 
@@ -529,7 +532,7 @@ function afficherResultatsJB(res) {
     <button class="proposition" data-jb="${i}">
       <img src="${echapper(f.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
       <span class="nom-court">${echapper(f.nom)}</span>
-      <span class="score">${echapper(f.categorie)}</span>
+      <span class="score">${echapper(f.ebay ? "Retirée · eBay.de" : f.categorie)}</span>
     </button>`).join("");
   $("custom-resultats").querySelectorAll("[data-jb]").forEach(b => b.addEventListener("click", () => choisirJB(res[+b.dataset.jb])));
 }
@@ -544,8 +547,8 @@ function choisirJB(f) {
   $("custom-choisie").innerHTML = `
     <div class="fiche">
       <img class="photo" src="${echapper(f.image)}" alt="" onerror="this.style.visibility='hidden'">
-      <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.code)}</div></div>
-      <a href="${echapper(f.lien)}" target="_blank" rel="noopener" title="Voir la page">🔗</a>
+      <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.ebay ? "retirée de la vente, vue sur eBay.de" : f.code)}</div></div>
+      <a href="${echapper(f.lien)}" target="_blank" rel="noopener" title="${f.ebay ? "Chercher sur eBay.de" : "Voir la page"}">🔗</a>
     </div>`;
   majCustom();
 }

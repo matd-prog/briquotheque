@@ -1,5 +1,7 @@
 // Catalogue des figurines custom JB Spielwaren (data/jb.tsv, créé par outils/catalogue_jb.py) :
 // code JB-<numéro d'article>, nom, catégorie, lien de la page, adresse de la photo sur leur site.
+// S'y ajoutent les figurines retirées de la vente vues sur eBay.de (data/jb_ebay.tsv) : code EBAY-…,
+// lien vers une recherche eBay.de ; une fois choisies, elles reçoivent un code CUS-… comme les autres customs.
 
 const CatalogueJB = {
   liste: null,
@@ -9,19 +11,27 @@ const CatalogueJB = {
 
   charger() {
     if (!this._chargement) {
+      // figurines retirées de la vente vues sur eBay.de (data/jb_ebay.tsv, outils/ebay_jb.py) : facultatif
+      const ebay = fetch("data/jb_ebay.tsv").then(rep => rep.ok ? rep.text() : "").catch(() => "");
       this._chargement = fetch("data/jb.tsv")
         .then(rep => { if (!rep.ok) throw new Error("catalogue JB absent"); return rep.text(); })
-        .then(texte => {
+        .then(async texte => {
           this.liste = [];
           this.parCode = new Map();
-          for (const ligne of texte.split("\n")) {
-            if (ligne.startsWith("#date ")) { this.date = ligne.slice(6).trim(); continue; }
-            const [code, nom, categorie, lien, image] = ligne.split("\t");
-            if (!code || !code.startsWith("JB-")) continue;
-            const f = { code, nom, categorie, lien, image, recherche: normaliser(`${code} ${nom} ${categorie}`) };
-            this.liste.push(f);
-            this.parCode.set(code.toUpperCase(), f);
-          }
+          this.nbEbay = 0;
+          const lire = (texte, ebay) => {
+            for (const ligne of texte.split("\n")) {
+              if (ligne.startsWith("#date ")) { if (!ebay) this.date = ligne.slice(6).trim(); continue; }
+              const [code, nom, categorie, lien, image] = ligne.split("\t");
+              if (!code || !code.startsWith(ebay ? "EBAY-" : "JB-")) continue;
+              const f = { code, nom, categorie, lien, image, ebay, recherche: normaliser(`${code} ${nom} ${categorie}`) };
+              this.liste.push(f);
+              this.parCode.set(code.toUpperCase(), f);
+              if (ebay) this.nbEbay++;
+            }
+          };
+          lire(texte, false);
+          lire(await ebay, true);
           return this.liste;
         })
         .catch(err => { this._chargement = null; throw err; });

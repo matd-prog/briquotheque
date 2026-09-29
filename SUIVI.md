@@ -27,6 +27,15 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   comparaison du décor (data/jb_empreintes.tsv, 279 empreintes) + indice Brickognize.
   Essai sur « The Ring Addict » : nom trouvé et confirmé par le décor en ~3 s (ordinateur).
 
+## Publié le 29/09/2026, à confirmer sur le téléphone
+
+- Figurines JB retirées de la vente, vues sur eBay.de (data/jb_ebay.tsv, 223 noms, créé par
+  outils/ebay_jb.py) : proposées dans la recherche custom et la lecture des blisters, marquées
+  « Retirée · eBay.de ». Lien de l'étiquette = recherche eBay.de (reste valable quand l'annonce
+  se termine), code CUS-…. Ex. Lagertha, Baron Zemo, The Daywalker, The Princess.
+  Noms tirés des titres d'annonces : quelques doublons ou noms imparfaits (« Jedi Bob Movie »,
+  « Vegan Milk Luke » / « Vegan Blue Milk Luke »…) ; on les corrige au besoin dans le champ Nom.
+
 ## Fichier Excel de l'utilisateur
 
 Dernière version fournie : etiquettes_figurines_LEGO_tri-1_2026-09-28_22h04.xlsx
@@ -53,13 +62,17 @@ refusé → ajouter *.archive.org.
 1. Retours de l'utilisateur sur un vrai blister (qualité, temps de lecture).
 2. brickshellcases.com (Shopify, collection « jb-toys-custom-figures ») : ajouter noms et
    empreintes de blisters au catalogue JB (lire /collections/…/products.json, poliment).
-3. eBay : accès OK (testé le 29/09/2026). Clés dans les variables d'environnement
-   EBAY_CLIENT_ID et EBAY_CLIENT_SECRET (ne jamais les afficher) ; jeton envoyé en Basic.
-   `python3 outils/ebay.py "JB Spielwaren custom" 10` → 281 annonces sur eBay.de, titres et
-   photos lisibles ; téléchargement des photos i.ebayimg.com OK (s-l1600 = grande taille).
-   L'identifiant API « eBay » de l'environnement peut être supprimé.
-   Ensuite : noms (titres nettoyés et recoupés avec data/jb.tsv) + empreintes des photos de
-   blisters, photos non conservées.
+3. eBay.de (la meilleure source : JB Spielwaren est allemand) : accès OK (29/09/2026).
+   Clés dans EBAY_CLIENT_ID / EBAY_CLIENT_SECRET (ne jamais les afficher), jeton en Basic.
+   `python3 outils/ebay_jb.py [--detail]` : ~660 annonces lues ; 160 annonces de 78 figurines déjà
+   au catalogue ; 223 figurines absentes -> data/jb_ebay.tsv ; lots et objets divers écartés.
+   Le sitemap du site JB ne liste que les articles en vente : pas de n° d'article pour les retirées.
+   Empreintes du décor à partir des photos eBay : essayées puis ABANDONNÉES (photos d'un même
+   vendeur trop semblables entre elles : elles passaient devant le bon blister dans 35 cas sur 40).
+   Constat au passage : sur 40 photos eBay de blisters du catalogue, la comparaison du décor ne met
+   le bon blister en tête qu'une fois (3 fois dans les 3 premiers) ; la lecture du nom reste la
+   méthode principale. Piste : recadrer sur le carton avant de calculer l'empreinte.
+   À faire : ajouter outils/ebay_jb.py à la tâche mensuelle (si l'utilisateur est d'accord).
 4. Archives (web.archive.org) : anciennes figurines JB retirées de la vente.
 5. Éventuel contact avec JB Spielwaren pour une base officielle de leurs blisters.
 6. Vérifier le compte rendu de la tâche automatique ; corriger si elle ne peut pas publier.

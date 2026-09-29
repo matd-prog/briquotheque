@@ -25,7 +25,7 @@ const attendre = ms => new Promise(r => setTimeout(r, ms));
     if (!image) continue;
     let octets;
     try {
-      octets = execFileSync("curl", ["-sf", "--max-time", "30", "-A", "Mozilla/5.0 (catalogue personnel de collectionneur)", image]);
+      octets = execFileSync("curl", ["-sf", "--retry", "2", "--max-time", "30", "-A", "Mozilla/5.0 (catalogue personnel de collectionneur)", image]);
     } catch (e) { erreurs++; console.error("photo inaccessible :", code); continue; }
     const type = /\.png$/i.test(image) ? "image/png" : "image/jpeg";
     const texte = await page.evaluate(async url => {

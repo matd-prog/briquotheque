@@ -42,6 +42,11 @@ de chaque photo de blister du catalogue JB, calculée par `node outils/empreinte
 même code que l'appli (`js/empreinte.js`) ; les photos ne sont pas conservées. L'appli compare la
 photo du blister à ces empreintes pour confirmer le nom lu, ou proposer les blisters ressemblants.
 
+Figurines JB retirées de la vente (`data/jb_ebay.tsv`) : noms tirés des annonces eBay.de (API officielle
+« Browse »), avec `python3 outils/ebay_jb.py` (clés dans les variables d'environnement EBAY_CLIENT_ID et
+EBAY_CLIENT_SECRET). Les figurines déjà au catalogue JB sont écartées. Elles sont proposées dans la
+recherche et la lecture des blisters ; le lien de l'étiquette est une recherche eBay.de, le code CUS-….
+
 Fichiers :
 - `index.html`, `style.css` : l'écran de l'appli
 - `js/app.js` : déroulé photo → identification → ajout
