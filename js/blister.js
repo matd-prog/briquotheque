@@ -17,39 +17,59 @@ const Blister = {
   },
 
   // Met le morceau de photo à une largeur fixe (le nom fait alors ~30 pixels de haut), en gris
-  // ou en noir et blanc, avec une marge blanche : c'est ce qui se lit le mieux (essais sur blisters JB)
+  // ou en noir et blanc, avec une marge blanche : c'est ce qui se lit le mieux (essais sur blisters JB).
+  // seuil "auto" : noir et blanc au seuil calculé pour l'image (méthode d'Otsu), la couleur la plus
+  // répandue devenant le fond blanc ; ainsi un texte clair sur fond gris ou foncé (ex. « SHINY DARK
+  // LORD » blanc sur gris) devient noir sur blanc, seul sens que la lecture sait lire.
   _preparer(bitmap, largeur, seuil) {
     const r = largeur / bitmap.width, marge = 30;
     const cv = document.createElement("canvas");
-    cv.width = Math.round(bitmap.width * r) + 2 * marge;
-    cv.height = Math.round(bitmap.height * r) + 2 * marge;
+    const l = Math.round(bitmap.width * r), h = Math.round(bitmap.height * r);
+    cv.width = l + 2 * marge;
+    cv.height = h + 2 * marge;
     const ctx = cv.getContext("2d");
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, cv.width, cv.height);
-    ctx.drawImage(bitmap, marge, marge, cv.width - 2 * marge, cv.height - 2 * marge);
-    const d = ctx.getImageData(0, 0, cv.width, cv.height), p = d.data;
-    for (let i = 0; i < p.length; i += 4) {
-      let g = 0.299 * p[i] + 0.587 * p[i + 1] + 0.114 * p[i + 2];
-      if (seuil) g = g > seuil ? 255 : 0;
-      p[i] = p[i + 1] = p[i + 2] = g;
+    ctx.drawImage(bitmap, marge, marge, l, h);
+    const d = ctx.getImageData(marge, marge, l, h), p = d.data;
+    const gris = new Uint8Array(p.length / 4);
+    for (let i = 0; i < gris.length; i++) gris[i] = 0.299 * p[4 * i] + 0.587 * p[4 * i + 1] + 0.114 * p[4 * i + 2];
+    let s = seuil, inverser = false;
+    if (seuil === "auto") {
+      s = seuilOtsu(gris);
+      let clairs = 0;
+      for (const g of gris) if (g > s) clairs++;
+      inverser = clairs < gris.length / 2;
     }
-    ctx.putImageData(d, 0, 0);
+    for (let i = 0; i < gris.length; i++) {
+      let g = gris[i];
+      if (s) g = g > s ? 255 : 0;
+      if (inverser) g = 255 - g;
+      p[4 * i] = p[4 * i + 1] = p[4 * i + 2] = g;
+    }
+    ctx.putImageData(d, marge, marge);
     return cv;
   },
 
-  // Texte lu sur le morceau de photo : plusieurs réglages, on s'arrête dès qu'une figurine JB correspond
+  // Texte lu sur le morceau de photo : plusieurs réglages, on s'arrête dès qu'une figurine JB correspond.
+  // Morceau plus haut que large (nom écrit à la verticale sur le carton) : essais aussi en le tournant
+  // d'un quart de tour. Sans correspondance, on garde le texte où le nom paraît le plus lisible.
   async lire(blob) {
     const lecteur = await this._lecteur();
     await lecteur.setParameters({ tessedit_pageseg_mode: "3" });
     const bitmap = await createImageBitmap(blob);
-    let premier = "";
-    for (const [largeur, seuil] of [[460, 0], [690, 0], [460, 150]]) {
-      const { data } = await lecteur.recognize(this._preparer(bitmap, largeur, seuil));
-      const texte = data.text || "";
-      if (!premier) premier = texte;
-      if (CatalogueJB.rapprocher(texte).length) return texte;
+    const sources = [bitmap];
+    if (bitmap.height > 1.5 * bitmap.width) sources.push(tourner(bitmap, 90), tourner(bitmap, -90));
+    let meilleur = "";
+    for (const source of sources) {
+      for (const [largeur, seuil] of [[460, 0], [690, 0], [460, 150], [460, "auto"], [690, "auto"]]) {
+        const { data } = await lecteur.recognize(this._preparer(source, largeur, seuil));
+        const texte = data.text || "";
+        if (CatalogueJB.rapprocher(texte).length) return texte;
+        if (nomProbable(texte).length > nomProbable(meilleur).length || (!meilleur.trim() && texte.trim())) meilleur = texte;
+      }
     }
-    return premier;
+    return meilleur;
   },
 
   // Photo du blister entier : le nom est cherché parmi tout le texte du carton (décor, citation...).
@@ -57,7 +77,8 @@ const Blister = {
   async lireEntier(blob, progression) {
     const lecteur = await this._lecteur();
     const bitmap = await createImageBitmap(blob);
-    const essais = [["3", 1600, 0], ["12", 1060, 0], ["12", 1600, 150], ["3", 2000, 180]];
+    // « auto » : noir et blanc automatique, pour un nom clair sur fond foncé
+    const essais = [["3", 1600, 0], ["12", 1060, 0], ["12", 1600, 150], ["3", 2000, 180], ["3", 1600, "auto"]];
     let tout = "";
     for (let i = 0; i < essais.length; i++) {
       const [mode, largeur, seuil] = essais[i];
@@ -71,6 +92,36 @@ const Blister = {
     return { texte: tout, trouve: false };
   },
 };
+
+// Image tournée d'un quart de tour (degres = 90 ou -90), sous forme de canvas
+function tourner(image, degres) {
+  const cv = document.createElement("canvas");
+  cv.width = image.height; cv.height = image.width;
+  const ctx = cv.getContext("2d");
+  ctx.translate(cv.width / 2, cv.height / 2);
+  ctx.rotate(degres * Math.PI / 180);
+  ctx.drawImage(image, -image.width / 2, -image.height / 2);
+  return cv;
+}
+
+// Seuil noir / blanc qui sépare le mieux les pixels clairs et foncés (méthode d'Otsu)
+function seuilOtsu(gris) {
+  const hist = new Array(256).fill(0);
+  for (const g of gris) hist[g]++;
+  const n = gris.length;
+  let total = 0;
+  for (let i = 0; i < 256; i++) total += i * hist[i];
+  let sommeB = 0, poidsB = 0, meilleur = 0, seuil = 128;
+  for (let t = 0; t < 256; t++) {
+    poidsB += hist[t];
+    if (!poidsB || poidsB === n) continue;
+    sommeB += t * hist[t];
+    const mB = sommeB / poidsB, mF = (total - sommeB) / (n - poidsB);
+    const v = poidsB * (n - poidsB) * (mB - mF) * (mB - mF);
+    if (v > meilleur) { meilleur = v; seuil = t; }
+  }
+  return seuil;
+}
 
 // « 189 OF 250 » -> « 189/250 »
 function exemplaireDansTexte(texte) {
@@ -103,5 +154,8 @@ function nomProbable(texte) {
     if (nom.replace(/ /g, "").length > meilleur.replace(/ /g, "").length) meilleur = nom;
     groupe = b ? [b] : [];
   }
-  return meilleur.replace(/ /g, "").length >= 6 ? meilleur : "";
+  // assez long pour être un nom : 8 lettres au moins, et deux mots de 3 lettres ou un mot de 8
+  // (écarte les restes comme « JERE DE », lu à la place de « JB-SPIELWAREN.DE »)
+  const mots = meilleur.split(" ").filter(m => m.length >= 3);
+  return meilleur.replace(/ /g, "").length >= 8 && (mots.length >= 2 || (mots[0] || "").length >= 8) ? meilleur : "";
 }

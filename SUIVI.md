@@ -65,7 +65,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   faisait proposer « Golden DJ ». Corrigé : rapprochement plus strict (noms de 1-2 mots : tous les mots ;
   1 mot : lu exactement ; sinon 2/3) ; si rien ne correspond, le nom le plus probable du carton
   (lignes en capitales, sans « LIMITED TO… ») est repris dans le champ Nom (étiquette CUS-…).
-  Les 2 autres blisters (nom trouvé seulement en encadrant) : photos pas encore reçues.
+  2e photo reçue : « SHINY DARK LORD » (dans la liste eBay), texte blanc sur gris, vertical ; photo
+  entière : rien de lu. Les photos reçues dans la conversation sont réduites (924 x 2000) : sur elles,
+  même le cadre découpé ne se lit qu'en partie (« SHINY ») ; le téléphone a la pleine définition.
+  Ajouté : noir et blanc automatique (Otsu, le fond devient blanc : texte clair sur fond foncé),
+  essai de plus sur la photo entière, et pour un nom encadré plus haut que large, essais tourné
+  d'un quart de tour. Nom plausible : 8 lettres minimum (écarte « JERE DE »). À retester sur le
+  téléphone ; 3e blister : photo pas encore reçue.
 - Bouton retour du téléphone : ramène à l'écran précédent (annule un recadrage, sans effet pendant
   une lecture ; après un ajout, l'écran précédent est l'accueil) ; depuis l'accueil, question
   « Quitter l'appli ? » (Quitter / Rester). Si le téléphone refuse la fermeture par l'appli, message
@@ -95,7 +101,7 @@ refusé → ajouter *.archive.org.
 
 ## Prochaines étapes
 
-1. Blisters : photos des 2 autres figurines retirées (nom trouvé seulement en encadrant) à étudier.
+1. Blisters : retester Shiny Dark Lord et Chrome Golden Antagonist sur le téléphone ; photo du 3e blister à étudier.
 2. brickshellcases.com : fait le 29/09 (voir plus haut).
 3. eBay.de (la meilleure source : JB Spielwaren est allemand) : accès OK (29/09/2026).
    Clés dans EBAY_CLIENT_ID / EBAY_CLIENT_SECRET (ne jamais les afficher), jeton en Basic.
