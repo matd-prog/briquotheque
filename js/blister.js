@@ -83,3 +83,25 @@ function nomDansTexte(texte) {
   const lignes = (texte || "").split("\n").map(l => (l.match(/[A-Za-z][A-Za-z'’-]{1,}/g) || []).filter(m => m.length >= 2).join(" "));
   return lignes.sort((a, b) => b.length - a.length)[0] || "";
 }
+
+// Nom le plus probable parmi tout le texte d'un blister, quand il ne correspond à aucune figurine
+// connue : lignes en capitales (le nom peut tenir sur deux lignes), sans les mentions habituelles
+// du carton. « ZZ\nCHROME GOLDEN\nANTAGONIST\nLIMITED TO 250 » -> « CHROME GOLDEN ANTAGONIST »
+function nomProbable(texte) {
+  const MENTIONS = /limited|pieces|spielwaren|designed|edition|custom|minifig|www|\.de\b|\bof\b/i;
+  const bonne = ligne => {
+    const mots = ligne.match(/\b[A-Z][A-Z'’-]*[A-Z]\b/g) || [];
+    const lettres = mots.join("").length, visibles = ligne.replace(/\s/g, "").length;
+    return mots.length && mots.some(m => m.length >= 4) && lettres >= 0.8 * visibles && !MENTIONS.test(ligne)
+      ? mots.join(" ") : "";
+  };
+  let meilleur = "", groupe = [];
+  for (const ligne of [...(texte || "").split("\n").filter(l => l.trim()), ""]) {
+    const b = bonne(ligne.trim());
+    if (b && groupe.length < 3) { groupe.push(b); continue; }
+    const nom = groupe.join(" ");
+    if (nom.replace(/ /g, "").length > meilleur.replace(/ /g, "").length) meilleur = nom;
+    groupe = b ? [b] : [];
+  }
+  return meilleur.replace(/ /g, "").length >= 6 ? meilleur : "";
+}

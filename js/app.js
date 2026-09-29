@@ -20,10 +20,35 @@ const etat = {
 
 // ---------- navigation ----------
 
+// Bouton retour du téléphone : depuis un écran secondaire, il ramène à l'accueil au lieu de fermer
+// l'appli. Pour cela, chaque passage à un écran secondaire ajoute une étape à l'historique ;
+// le retour la retire (popstate). Depuis l'accueil, le retour ferme l'appli comme d'habitude
+// (les ajouts non enregistrés sont gardés dans le téléphone).
+const ECRANS_RACINE = ["accueil", "fichier"];
+let ecranActuel = null, retourInterne = false;
+
 function afficher(ecran) {
   document.querySelectorAll(".ecran").forEach(e => e.hidden = e.id !== "ecran-" + ecran);
   window.scrollTo(0, 0);
+  ecranActuel = ecran;
+  const secondaire = !ECRANS_RACINE.includes(ecran);
+  if (secondaire && !(history.state && history.state.secondaire)) history.pushState({ secondaire: true }, "");
+  if (!secondaire && history.state && history.state.secondaire) { retourInterne = true; history.back(); }
 }
+
+window.addEventListener("popstate", () => {
+  const secondaire = !ECRANS_RACINE.includes(ecranActuel);
+  if (retourInterne) {
+    // étape retirée par afficher() ; si on est déjà reparti vers un écran secondaire, on la remet
+    retourInterne = false;
+    if (secondaire) history.pushState({ secondaire: true }, "");
+    return;
+  }
+  if (!secondaire) return;
+  if (ecranActuel === "chargement") { history.pushState({ secondaire: true }, ""); toast("Patientez, lecture en cours…"); return; }
+  if (ecranActuel === "recadrage") { Recadrage.annuler(); return; } // l'écran suivant est choisi par l'appelant
+  afficher(etat.classeur ? "accueil" : "fichier");
+});
 
 function toast(texte, duree = 3500) {
   const t = $("toast");
@@ -639,22 +664,23 @@ $("btn-encadrer-nom").addEventListener("click", async () => {
 // Combine le nom lu et le décor : nom confirmé par le décor, ou blisters au décor ressemblant
 function afficherLectureBlister(texte, trouve, encadre) {
   const res = trouve ? CatalogueJB.rapprocher(texte) : [];
-  const lu = res.length ? nomDansTexte(texteAutourDuNom(texte, res[0])) : nomDansTexte(texte);
+  // sans correspondance : nom le plus probable parmi le texte lu (figurine absente de nos listes)
+  const lu = res.length ? nomDansTexte(texteAutourDuNom(texte, res[0])) : nomProbable(texte) || (encadre ? nomDansTexte(texte) : "");
   const decor = decorBlister.map(d => d.f);
   const confirme = res.length && decor.some(d => d.code === res[0].code);
   const nomCourt = f => f.nom.replace(/\s*c[ou]s?t[ou]m\s+minifig\w*/i, "");
+  const inconnu = `Nom lu : « ${lu} ». Il n'est dans aucune de nos listes (site JB, brickshellcases, eBay.de) : il est repris ci-dessous, vérifiez-le.`;
   let info;
   if (res.length) {
     info = `Nom trouvé sur le blister : « ${nomCourt(res[0])} ».` +
       (confirme ? " ✔ Confirmé par le décor du blister." : decor.length ? " Le décor ne permet pas de le confirmer : vérifiez." : "") +
       " Touchez la bonne figurine :";
   } else if (decor.length) {
-    info = (encadre && lu ? `Nom lu : « ${lu} », sans correspondance.` : "Le nom n'a pas été trouvé sur le blister.") +
-      " Voici les blisters dont le décor ressemble le plus à votre photo ; touchez le bon, ou « Encadrer le nom moi-même » :";
+    info = (lu ? inconnu + " Si c'est l'un de ces blisters au décor ressemblant, touchez-le :"
+               : "Le nom n'a pas été trouvé sur le blister. Voici les blisters dont le décor ressemble le plus à votre photo ; touchez le bon, ou « Encadrer le nom moi-même » :");
   } else {
-    info = encadre
-      ? (lu ? `Nom lu : « ${lu} », mais aucune figurine du catalogue JB ne correspond. Corrigez le nom ci-dessous, ou cherchez-la avec un mot.`
-            : "Le nom n'a pas pu être lu. Cherchez la figurine avec un mot, ou tapez son nom ci-dessous.")
+    info = lu ? inconnu
+      : encadre ? "Le nom n'a pas pu être lu. Cherchez la figurine avec un mot, ou tapez son nom ci-dessous."
       : "Le nom n'a pas été trouvé sur la photo entière (reflet, photo floue ?). Touchez « Encadrer le nom moi-même », ou cherchez la figurine avec un mot.";
   }
   ouvrirCustom(info);
@@ -666,10 +692,10 @@ function afficherLectureBlister(texte, trouve, encadre) {
     // le nom d'abord ; s'il n'est pas confirmé, les 3 décors les plus ressemblants ensuite
     const autres = confirme ? [] : decor.filter(d => !res.some(r => r.code === d.code)).slice(0, 3);
     afficherResultatsJB([...res, ...autres]);
-  } else if (decor.length) {
-    afficherResultatsJB(decor.slice(0, 6));
-    if (encadre && lu) { $("custom-nom").value = lu.toUpperCase(); majCustom(); }
-  } else if (encadre && lu) { $("custom-nom").value = lu.toUpperCase(); majCustom(); }
+    return;
+  }
+  if (decor.length) afficherResultatsJB(decor.slice(0, 6));
+  if (lu) { $("custom-nom").value = lu.toUpperCase(); majCustom(); }
 }
 
 // Pour l'affichage : la ligne du texte lu qui contient le nom trouvé

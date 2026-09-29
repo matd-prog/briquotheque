@@ -59,6 +59,16 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 - Vinted : écarté (pas d'API publique, collecte automatique interdite par leurs conditions
   d'utilisation, et site bloqué dans l'environnement).
 
+- Blister (retour du 29/09, 3 figurines retirées) : photo entière jamais reconnue ; encadrer le nom
+  a marché 2 fois sur 3. Cas étudié (photo reçue) : « CHROME GOLDEN ANTAGONIST », absente de toutes
+  nos listes (ni site JB, ni brickshellcases, ni eBay.de). Le nom était bien lu, mais « GOLDEN » seul
+  faisait proposer « Golden DJ ». Corrigé : rapprochement plus strict (noms de 1-2 mots : tous les mots ;
+  1 mot : lu exactement ; sinon 2/3) ; si rien ne correspond, le nom le plus probable du carton
+  (lignes en capitales, sans « LIMITED TO… ») est repris dans le champ Nom (étiquette CUS-…).
+  Les 2 autres blisters (nom trouvé seulement en encadrant) : photos pas encore reçues.
+- Bouton retour du téléphone : ramène à l'accueil depuis tout écran secondaire (annule un recadrage,
+  sans effet pendant un chargement) ; depuis l'accueil, ferme l'appli.
+
 ## Fichier Excel de l'utilisateur
 
 Dernière version fournie : etiquettes_figurines_LEGO_tri-1_2026-09-28_22h04.xlsx
@@ -83,7 +93,7 @@ refusé → ajouter *.archive.org.
 
 ## Prochaines étapes
 
-1. Retours de l'utilisateur sur un vrai blister (qualité, temps de lecture).
+1. Blisters : photos des 2 autres figurines retirées (nom trouvé seulement en encadrant) à étudier.
 2. brickshellcases.com : fait le 29/09 (voir plus haut).
 3. eBay.de (la meilleure source : JB Spielwaren est allemand) : accès OK (29/09/2026).
    Clés dans EBAY_CLIENT_ID / EBAY_CLIENT_SECRET (ne jamais les afficher), jeton en Basic.

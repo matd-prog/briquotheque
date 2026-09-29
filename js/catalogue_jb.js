@@ -88,20 +88,24 @@ const CatalogueJB = {
     return this.parCode ? this.parCode.get((code || "").toUpperCase()) || null : null;
   },
 
-  // Figurines dont le nom ressemble au texte lu sur un blister (tolère les erreurs de lecture)
+  // Figurines dont le nom ressemble au texte lu sur un blister (tolère une lettre mal lue par mot).
+  // Noms de 1 ou 2 mots : tous les mots doivent être lus ; au-delà, au moins les deux tiers
+  // (sinon « GOLDEN » seul sur un blister faisait trouver « Golden DJ ») ; nom d'un seul mot : lu
+  // exactement (« CHROME » ne doit pas donner « Chromie »).
   rapprocher(texte, max = 6) {
     if (!this.liste) return [];
-    const lus = normaliser(texte).split(/[^a-z0-9]+/).filter(m => m.length >= 3);
+    const lus = normaliser(texte).split(/[^a-z0-9]+/).filter(m => m.length >= 2);
     if (!lus.length) return [];
-    const ignores = new Set(["custom", "costum", "minifigure", "minifigur", "minifig", "designed", "the", "and", "with", "von", "spielwaren"]);
+    const ignores = new Set(["custom", "costum", "minifigure", "minifigur", "minifig", "designed", "the", "and", "with", "von", "spielwaren", "by", "of"]);
     const lusUtiles = lus.filter(m => !ignores.has(m));
     const proche = (a, b) => a === b || (b.length >= 5 && distanceTexte(a, b) <= 1);
     const res = [];
     for (const f of this.liste) {
-      const mots = normaliser(f.nom).split(/[^a-z0-9]+/).filter(m => m.length >= 3 && !ignores.has(m));
-      if (!mots.length) continue;
-      const trouves = mots.filter(m => lusUtiles.some(l => proche(l, m))).length;
-      if (trouves && trouves / mots.length >= 0.5) res.push({ f, score: trouves / mots.length, trouves });
+      const mots = normaliser(f.nom).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.has(m) && !/^\d+$/.test(m));
+      if (!mots.length || !mots.some(m => m.length >= 3)) continue;
+      const trouves = mots.filter(m => lusUtiles.some(l => mots.length === 1 ? l === m : proche(l, m))).length;
+      const score = trouves / mots.length;
+      if (score >= (mots.length <= 2 ? 1 : 2 / 3)) res.push({ f, score, trouves });
     }
     res.sort((a, b) => b.score - a.score || b.trouves - a.trouves);
     return res.slice(0, max).map(r => r.f);
