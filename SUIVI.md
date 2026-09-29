@@ -1,4 +1,4 @@
-# Suivi du projet « Figurines LEGO » (mis à jour le 28/09/2026)
+# Suivi du projet « Figurines LEGO » (mis à jour le 29/09/2026)
 
 Appli en ligne : https://matd-prog.github.io/etiquettes_figurines/ (icône « Figs LEGO »).
 Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre le travail.
@@ -53,15 +53,13 @@ refusé → ajouter *.archive.org.
 1. Retours de l'utilisateur sur un vrai blister (qualité, temps de lecture).
 2. brickshellcases.com (Shopify, collection « jb-toys-custom-figures ») : ajouter noms et
    empreintes de blisters au catalogue JB (lire /collections/…/products.json, poliment).
-3. eBay : compte développeur créé (29/09), jeu de clés Production activé (exemption
-   « Marketplace Account Deletion »). L'identifiant « OAuth 2.0 client credentials » de
-   l'environnement était refusé par eBay (« invalid_client », sans doute clés envoyées dans le
-   corps et non en en-tête Basic). Solution retenue par l'utilisateur : clés dans les variables
-   d'environnement EBAY_CLIENT_ID et EBAY_CLIENT_SECRET (lues au démarrage d'une session ;
-   ne jamais les afficher). L'identifiant API « eBay » peut être supprimé.
-   Test : `python3 outils/ebay.py "JB Spielwaren custom" 10` (jeton en Basic, puis API Browse
-   sur eBay.de). Ensuite : noms (titres nettoyés et recoupés avec data/jb.tsv) + empreintes
-   des photos de blisters (i.ebayimg.com), photos non conservées.
+3. eBay : accès OK (testé le 29/09/2026). Clés dans les variables d'environnement
+   EBAY_CLIENT_ID et EBAY_CLIENT_SECRET (ne jamais les afficher) ; jeton envoyé en Basic.
+   `python3 outils/ebay.py "JB Spielwaren custom" 10` → 281 annonces sur eBay.de, titres et
+   photos lisibles ; téléchargement des photos i.ebayimg.com OK (s-l1600 = grande taille).
+   L'identifiant API « eBay » de l'environnement peut être supprimé.
+   Ensuite : noms (titres nettoyés et recoupés avec data/jb.tsv) + empreintes des photos de
+   blisters, photos non conservées.
 4. Archives (web.archive.org) : anciennes figurines JB retirées de la vente.
 5. Éventuel contact avec JB Spielwaren pour une base officielle de leurs blisters.
 6. Vérifier le compte rendu de la tâche automatique ; corriger si elle ne peut pas publier.
