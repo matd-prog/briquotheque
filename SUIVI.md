@@ -90,6 +90,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   le 29/09, ni sous « Phasma ») : lien de l'étiquette = recherche eBay.de sur ce nom, rempli d'office
   (QR code via la page relais) ; il suit le nom si on le corrige, et cède la place au lien d'un blister
   proposé si on en choisit un. Confirmé sur le téléphone le 29/09.
+- Blister photographié de travers (texte vertical) : la photo est remise d'aplomb après la lecture
+  (sens donné par PaddleOCR : rotation qui rend lisible la plupart du texte), pour l'aperçu et
+  l'encadrement du nom. Vérifié sur les photos 1 et 2 ; à confirmer sur le téléphone.
 - Bouton retour du téléphone : ramène à l'écran précédent (annule un recadrage, sans effet pendant
   une lecture ; après un ajout, l'écran précédent est l'accueil) ; depuis l'accueil, question
   « Quitter l'appli ? » (Quitter / Rester). Si le téléphone refuse la fermeture par l'appli, message

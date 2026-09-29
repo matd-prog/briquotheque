@@ -640,6 +640,15 @@ $("input-blister").addEventListener("change", async e => {
   } catch (err) {
     console.error(err);
   }
+  // blister photographié de travers (texte vertical) : la photo est remise d'aplomb pour la suite
+  // (encadrement du nom, aperçu)
+  if (lecture.sens) {
+    try {
+      const tournee = tourner(await createImageBitmap(f), lecture.sens);
+      const droite = await new Promise(ok => tournee.toBlob(ok, "image/jpeg", 0.92));
+      if (droite) { photoBlister = droite; $("photo-apercu").src = URL.createObjectURL(droite); }
+    } catch (err) { console.warn("rotation de la photo impossible", err); }
+  }
   afficherLectureBlister(lecture.texte, lecture.trouve, false);
   // aucun nom lu sur la photo entière : on passe directement à l'encadrement du nom (annuler ramène
   // aux blisters au décor ressemblant, déjà affichés)

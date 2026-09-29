@@ -87,11 +87,13 @@ const Blister = {
     // « auto » : noir et blanc automatique, pour un nom clair sur fond foncé
     const essais = [["3", 1600, 0], ["12", 1060, 0], ["12", 1600, 150], ["3", 2000, 180], ["3", 1600, "auto"]];
     const n = essais.length + 1;
-    let tout = "";
+    let tout = "", sens = 0; // sens : rotation qui remet la photo d'aplomb (d'après PaddleOCR)
     if (progression) progression(1, n);
     try {
-      const texte = (await Paddle.lignes(bitmap)).map(l => l.texte).join("\n");
-      if (CatalogueJB.rapprocher(texte).length) return { texte, trouve: true };
+      const lignes = await Paddle.lignes(bitmap);
+      const texte = lignes.map(l => l.texte).join("\n");
+      sens = Paddle.sensDominant(lignes);
+      if (CatalogueJB.rapprocher(texte).length) return { texte, trouve: true, sens };
       tout = texte;
     } catch (err) { console.warn("PaddleOCR indisponible", err); }
     const lecteur = await this._lecteur();
@@ -102,9 +104,9 @@ const Blister = {
       const { data } = await lecteur.recognize(this._preparer(bitmap, Math.min(largeur, bitmap.width * 2), seuil));
       const texte = data.text || "";
       tout += "\n" + texte;
-      if (CatalogueJB.rapprocher(texte).length) return { texte, trouve: true };
+      if (CatalogueJB.rapprocher(texte).length) return { texte, trouve: true, sens };
     }
-    return { texte: tout, trouve: false };
+    return { texte: tout, trouve: false, sens };
   },
 };
 

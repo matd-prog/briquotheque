@@ -119,7 +119,15 @@ const Paddle = {
     return { texte: texte.trim(), score: n ? somme / n : 0 };
   },
 
-  // Lignes de texte lues sur la photo, de haut en bas : [{ texte, score, x, y, l, h }]
+  // Rotation (0, 90 ou -90 degrés) qui remet d'aplomb la plupart du texte lu : sert à afficher
+  // la photo d'un blister tenu de travers dans le bon sens
+  sensDominant(lignes) {
+    const poids = { 0: 0, 90: 0, "-90": 0 };
+    for (const l of lignes) poids[l.sens] += l.texte.replace(/[^A-Za-z]/g, "").length;
+    return [90, -90].find(s => poids[s] > poids[0] && poids[s] > poids[-s]) || 0;
+  },
+
+  // Lignes de texte lues sur la photo, de haut en bas : [{ texte, score, sens, x, y, l, h }]
   async lignes(image) {
     await this.charger();
     const res = [];
@@ -133,10 +141,10 @@ const Paddle = {
         const essais = [];
         for (const sens of [90, -90]) {
           const r = tourner(cv, sens);
-          essais.push(await this._lireZone(r, 0, 0, r.width, r.height));
+          essais.push({ ...(await this._lireZone(r, 0, 0, r.width, r.height)), sens });
         }
         lu = essais.sort((a, b) => b.score - a.score)[0];
-      } else lu = await this._lireZone(image, z.x, z.y, z.l, z.h);
+      } else lu = { ...(await this._lireZone(image, z.x, z.y, z.l, z.h)), sens: 0 };
       if (lu.texte && lu.score >= 0.5) res.push({ ...lu, ...z });
     }
     return res.sort((a, b) => a.y - b.y || a.x - b.x);
