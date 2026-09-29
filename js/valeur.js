@@ -72,16 +72,32 @@ const Valeur = {
           res.push({ type, code: c.code.toLowerCase(), nom: c.nom, onglet, etat: "" });
         }
     try { await CatalogueSets.charger(); } catch (e) { /* sans catalogue : sets comptés comme sets entiers */ }
+    // Pas de doublon : une figurine rangée dans les onglets de figurines n'est pas comptée une 2e fois dans un set
+    // (elle est retirée du prix du set) ni comme figurine de série de l'onglet Sets. Chaque exemplaire ne sert qu'une fois.
+    const dispo = new Map();
+    for (const a of res) if (a.type === "MINIFIG") dispo.set(a.code, (dispo.get(a.code) || 0) + 1);
+    const prendre = code => { const n = dispo.get(code) || 0; if (n) dispo.set(code, n - 1); return n > 0; };
     for (const s of await lireSets(etat.classeur)) {
       const code = /-\d+$/.test(s.code) ? s.code : s.code + "-1";
       const cat = CatalogueSets.sets && CatalogueSets.sets.get(code.toLowerCase());
-      const figs = (CatalogueSets.figurines && CatalogueSets.figurines.get(code.toLowerCase())) || [];
+      const figs = ((CatalogueSets.figurines && CatalogueSets.figurines.get(code.toLowerCase())) || []).filter(f => f.bricklink);
       const a = { type: "SET", code, nom: s.nom, onglet: "Sets", etat: s.etat, quantite: s.quantite || 1 };
       if (/boîte seule|boite seule/i.test(s.etat)) a.type = "BOX"; // boîte vide : prix des boîtes d'origine vendues
-      else if (cat && /^Collectible Minifigures/.test(cat.theme) && figs.length === 1 && figs[0].bricklink)
-        Object.assign(a, { type: "MINIFIG", code: figs[0].bricklink.toLowerCase() }); // figurine de série : prix de la figurine
-      else if (/sans fig/i.test(s.etat)) // set sans ses figurines : prix du set moins celui de ses figurines
-        a.moins = figs.filter(f => f.bricklink).map(f => ({ code: f.bricklink.toLowerCase(), quantite: f.quantite || 1 }));
+      else if (cat && /^Collectible Minifigures/.test(cat.theme) && figs.length === 1) { // figurine de série : prix de la figurine
+        Object.assign(a, { type: "MINIFIG", code: figs[0].bricklink.toLowerCase() });
+        if (prendre(a.code)) continue; // déjà dans un onglet de figurines
+      } else if (/sans fig/i.test(s.etat)) // set sans ses figurines : prix du set moins celui de ses figurines
+        a.moins = figs.map(f => ({ code: f.bricklink.toLowerCase(), quantite: f.quantite || 1 }));
+      else if (!/scell/i.test(s.etat)) { // set complet : moins ses figurines déjà comptées dans les onglets de figurines
+        a.moins = [];
+        for (const f of figs) {
+          let q = 0;
+          for (let i = 0; i < (f.quantite || 1) * a.quantite; i++) if (prendre(f.bricklink.toLowerCase())) q++;
+          if (q) a.moins.push({ code: f.bricklink.toLowerCase(), quantite: q / a.quantite });
+        }
+        if (a.moins.length) a.figsAilleurs = a.moins.reduce((n, m) => n + m.quantite, 0);
+        else delete a.moins;
+      }
       res.push(a);
     }
     for (const o of await lireObjets(etat.classeur))
@@ -158,10 +174,10 @@ const Valeur = {
           if (!g.length) return "";
           const total = g.reduce((n, d) => n + d.v, 0);
           return `<div class="carte"><p class="sous-titre">${titre} : ${euros(total)} <span class="score">(${g.length})</span></p>
-            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.neuf ? " · neuf" : ""}${d.moins ? " · sans figurines" : ""} · ${d.ventes} ventes</span></span><b>${euros(d.v)}</b></div>`).join("")}
+            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.neuf ? " · neuf" : ""}${d.figsAilleurs ? ` · hors ${d.figsAilleurs} figurine(s) comptée(s) à part` : d.moins ? " · sans figurines" : ""} · ${d.ventes} ventes</span></span><b>${euros(d.v)}</b></div>`).join("")}
             ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
         }).join("")}
-        <p class="aide">Figurines au prix d'occasion ; sets au prix neuf s'ils sont notés « Neuf scellé », sinon d'occasion ; boîtes seules au prix des boîtes vides ; objets dérivés au prix neuf s'ils sont notés neufs ; sets sans figurines : prix du set moins celui de ses figurines. Customs (JB…) non valorisées.</p>`;
+        <p class="aide">Figurines au prix d'occasion ; sets au prix neuf s'ils sont notés « Neuf scellé », sinon d'occasion ; boîtes seules au prix des boîtes vides ; objets dérivés au prix neuf s'ils sont notés neufs ; sets sans figurines : prix du set moins celui de ses figurines ; une figurine déjà dans vos onglets de figurines n'est pas comptée une 2e fois dans son set. Customs (JB…) non valorisées.</p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;

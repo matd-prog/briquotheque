@@ -159,6 +159,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 - Import d'une liste de sets (Sets -> « 📥 Importer une liste ») : js/import_sets.js ; testé sur Collection_Sets.xlsx
   de l'utilisateur (254 lignes -> 278 articles, tout reconnu). Colonnes Quantité et Remarques (rangement : Carton 1…)
   ajoutées à l'onglet Sets ; états « Sans figurines » et « Boîte seule (vide) ».
+- Précisé par l'utilisateur (29/09) : tous ses sets sont montés, complets, avec boîte et notice (pas de boîte sans
+  set ; « sans fig » = figurines rangées avec les autres). Réimporter la liste corrige les états et vide les lignes
+  en double. Valeur : une figurine des onglets de figurines n'est pas recomptée dans son set (retirée du prix du set)
+  ni comme figurine de série de l'onglet Sets. Un seul fichier Excel : tout est dans le fichier principal
+  (Collection_Sets.xlsx ne sert plus qu'à l'import).
 - Objets dérivés (« 🔑 Objet dérivé », js/objets.js) : onglet « Objets dérivés » (numéro BrickLink Gear, nom,
   type, état, quantité, remarques) ; numéro trouvé par une recherche BrickLink. Pas de catalogue Gear dans l'appli.
 - Ajout d'une mini-série entière d'un coup (nouveautés, ou « Voir toute la série » depuis la recherche).
