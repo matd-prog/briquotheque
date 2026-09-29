@@ -116,7 +116,8 @@ const EcranSet = {
   // Figurines du set : code BrickLink proposé, onglet de destination, déjà dans la collection ?
   _figurines() {
     const liste = CatalogueSets.figurines.get(this.set.code.toLowerCase()) || [];
-    this.figs = liste.map(f => this._preparer(f, f.bricklink));
+    // une figurine qui pose problème reste affichée, sans code, plutôt que de vider toute la liste
+    this.figs = liste.map(f => { try { return this._preparer(f, f.bricklink); } catch (err) { console.warn(err); return this._preparer(f, ""); } });
     this._afficherFigurines();
   },
 
@@ -159,7 +160,8 @@ const EcranSet = {
 
   // Autres versions du même personnage (tête différente, cachée par un casque) : menu pour choisir
   _menuVariantes(f, i) {
-    const v = f.code ? Catalogue.variantes(f.code) : [];
+    let v = [];
+    try { v = f.code && Catalogue.variantes ? Catalogue.variantes(f.code) : []; } catch (err) { console.warn("variantes", err); }
     if (v.length < 2) return "";
     return `<select class="champ petit-champ" data-variante-fig="${i}" onclick="event.stopPropagation()">
       ${v.map(x => `<option value="${echapper(x.code)}" ${x.code === f.code ? "selected" : ""}>${echapper(x.code)}${x.annee ? ` (${echapper(x.annee)})` : ""} – ${echapper(x.nom)}</option>`).join("")}
