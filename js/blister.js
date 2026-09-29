@@ -1,5 +1,7 @@
-// Lecture du nom imprimé sur un blister JB Spielwaren (reconnaissance de texte dans le téléphone,
-// avec Tesseract.js inclus dans l'appli : rien n'est envoyé sur Internet).
+// Lecture du nom imprimé sur un blister JB Spielwaren (reconnaissance de texte dans le téléphone :
+// rien n'est envoyé sur Internet). D'abord PaddleOCR (js/lecture_paddle.js), bien meilleur sur les
+// noms en lettres grasses claires sur fond foncé ; puis Tesseract.js (inclus dans l'appli) s'il ne
+// trouve rien, ou s'il ne peut pas se charger.
 
 const Blister = {
   _worker: null,
@@ -55,11 +57,16 @@ const Blister = {
   // Morceau plus haut que large (nom écrit à la verticale sur le carton) : essais aussi en le tournant
   // d'un quart de tour. Sans correspondance, on garde le texte où le nom paraît le plus lisible.
   async lire(blob) {
-    const lecteur = await this._lecteur();
     const bitmap = await createImageBitmap(blob);
+    let meilleur = "";
+    try {
+      const texte = (await Paddle.lignes(bitmap)).map(l => l.texte).join("\n");
+      if (CatalogueJB.rapprocher(texte).length) return texte;
+      meilleur = texte;
+    } catch (err) { console.warn("PaddleOCR indisponible", err); }
+    const lecteur = await this._lecteur();
     const sources = [bitmap];
     if (bitmap.height > 1.5 * bitmap.width) sources.push(tourner(bitmap, 90), tourner(bitmap, -90));
-    let meilleur = "";
     for (const source of sources) {
       // mode 3 : lecture d'une page ; 11 : texte épars (lit mieux un nom dans un cadre, ex. « BLACK KRRSANTAN »)
       for (const [largeur, seuil, mode = "3"] of [[460, 0], [690, 0], [460, 150], [460, "auto"], [690, "auto"], [690, "auto", "11"]]) {
@@ -76,14 +83,21 @@ const Blister = {
   // Photo du blister entier : le nom est cherché parmi tout le texte du carton (décor, citation...).
   // Réglages essayés dans l'ordre (essais sur blisters JB) ; on s'arrête dès qu'une figurine correspond.
   async lireEntier(blob, progression) {
-    const lecteur = await this._lecteur();
     const bitmap = await createImageBitmap(blob);
     // « auto » : noir et blanc automatique, pour un nom clair sur fond foncé
     const essais = [["3", 1600, 0], ["12", 1060, 0], ["12", 1600, 150], ["3", 2000, 180], ["3", 1600, "auto"]];
+    const n = essais.length + 1;
     let tout = "";
+    if (progression) progression(1, n);
+    try {
+      const texte = (await Paddle.lignes(bitmap)).map(l => l.texte).join("\n");
+      if (CatalogueJB.rapprocher(texte).length) return { texte, trouve: true };
+      tout = texte;
+    } catch (err) { console.warn("PaddleOCR indisponible", err); }
+    const lecteur = await this._lecteur();
     for (let i = 0; i < essais.length; i++) {
       const [mode, largeur, seuil] = essais[i];
-      if (progression) progression(i + 1, essais.length);
+      if (progression) progression(i + 2, n);
       await lecteur.setParameters({ tessedit_pageseg_mode: mode });
       const { data } = await lecteur.recognize(this._preparer(bitmap, Math.min(largeur, bitmap.width * 2), seuil));
       const texte = data.text || "";

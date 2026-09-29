@@ -96,18 +96,29 @@ const CatalogueJB = {
     if (!this.liste) return [];
     const lus = normaliser(texte).split(/[^a-z0-9]+/).filter(m => m.length >= 2);
     if (!lus.length) return [];
-    const ignores = new Set(["custom", "costum", "minifigure", "minifigur", "minifig", "designed", "the", "and", "with", "von", "spielwaren", "by", "of"]);
+    const ignores = new Set(["custom", "costum", "minifigure", "minifigur", "minifig", "designed", "the", "and", "with", "von", "spielwaren", "by", "of", "bricks", "maze", "limited", "pieces"]);
     const lusUtiles = lus.filter(m => !ignores.has(m));
     const proche = (a, b) => a === b || (b.length >= 5 && distanceTexte(a, b) <= 1);
+    // mots de chaque ligne lue : un nom lu en entier sur une même ligne passe devant un nom dont les
+    // mots sont épars (ex. « BLACK KRRSANTAN » devant « EX-BOUNTY / HUNTER » d'une citation)
+    const lignes = texte.split("\n").map(l => normaliser(l).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.has(m))).filter(l => l.length);
     const res = [];
     for (const f of this.liste) {
       const mots = normaliser(f.nom).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.has(m) && !/^\d+$/.test(m));
       if (!mots.length || !mots.some(m => m.length >= 3)) continue;
-      const trouves = mots.filter(m => lusUtiles.some(l => mots.length === 1 ? l === m : proche(l, m))).length;
+      const lu = (m, liste) => liste.some(l => mots.length === 1 ? l === m : proche(l, m));
+      const trouves = mots.filter(m => lu(m, lusUtiles)).length;
       const score = trouves / mots.length;
-      if (score >= (mots.length <= 2 ? 1 : 2 / 3)) res.push({ f, score, trouves });
+      if (score < (mots.length <= 2 ? 1 : 2 / 3)) continue;
+      // meilleure ligne : part du nom qu'elle contient, puis part de la ligne occupée par le nom
+      let ligne = 0, part = 0;
+      for (const l of lignes) {
+        const n = mots.filter(m => lu(m, l)).length;
+        if (n / mots.length > ligne || (n / mots.length === ligne && n / l.length > part)) { ligne = n / mots.length; part = n / l.length; }
+      }
+      res.push({ f, score, trouves, ligne, part });
     }
-    res.sort((a, b) => b.score - a.score || b.trouves - a.trouves);
+    res.sort((a, b) => b.score - a.score || b.ligne - a.ligne || b.part - a.part || b.trouves - a.trouves);
     return res.slice(0, max).map(r => r.f);
   },
 

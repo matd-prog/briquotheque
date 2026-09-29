@@ -1,0 +1,7 @@
+Lecture de texte PaddleOCR dans le téléphone (js/lecture_paddle.js).
+
+- ort.wasm.min.js, ort-wasm-simd-threaded.mjs, ort-wasm-simd-threaded.wasm : onnxruntime-web
+  (Microsoft, licence MIT), paquet npm onnxruntime-web, dossier dist/.
+- det.onnx, rec.onnx, cles.txt : modèles PP-OCRv4 de PaddleOCR (PaddlePaddle, licence Apache 2.0),
+  tirés du paquet Python rapidocr-onnxruntime ; rec.onnx réduit aux caractères latins par
+  outils/modele_paddle.py.

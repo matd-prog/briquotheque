@@ -62,6 +62,8 @@ Fichiers :
 - `js/recadrage.js` : recadrage de la photo
 - `js/collection.js` : consultation de la collection (liste, planche, recherche)
 - `js/catalogue.js` : catalogue BrickLink (recherche, thème par catégorie, mise à jour)
-- `js/blister.js` : lecture du nom sur un blister
+- `js/blister.js` : lecture du nom sur un blister (PaddleOCR d'abord, Tesseract ensuite)
+- `js/lecture_paddle.js` et `lib/paddle/` : lecture PaddleOCR dans le téléphone (onnxruntime-web, MIT ;
+  modèles PP-OCRv4, Apache 2.0, réduits aux caractères latins par `outils/modele_paddle.py`)
 - `lib/tesseract/` : Tesseract.js et données anglaises (licence Apache 2.0)
 - `lib/` : JSZip (lecture/écriture .xlsx) et qrcode-generator (QR codes), licences MIT

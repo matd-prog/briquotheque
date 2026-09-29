@@ -622,7 +622,7 @@ $("input-blister").addEventListener("change", async e => {
   if (!f) return;
   photoBlister = f;
   $("photo-apercu").src = URL.createObjectURL(f);
-  $("texte-chargement").textContent = "Lecture du nom sur le blister… (la première fois, quelques secondes)";
+  $("texte-chargement").textContent = "Lecture du nom sur le blister… (la première fois, téléchargement de l'outil de lecture, environ 27 Mo)";
   afficher("chargement");
   const indice = indiceBrickognize(f); // en parallèle
   indiceEnCours = indice;
@@ -631,7 +631,9 @@ $("input-blister").addEventListener("change", async e => {
     await CatalogueJB.charger();
     decorBlister = await comparerDecor(f);
     lecture = await Blister.lireEntier(f, (i, n) => {
-      $("texte-chargement").textContent = `Lecture du nom sur le blister… (essai ${i} sur ${n})`;
+      $("texte-chargement").textContent = i === 1
+        ? "Lecture du nom sur le blister… (la première fois, téléchargement de l'outil de lecture, environ 27 Mo)"
+        : `Lecture du nom sur le blister… (essai ${i} sur ${n})`;
     });
   } catch (err) {
     console.error(err);
@@ -692,12 +694,14 @@ function afficherLectureBlister(texte, trouve, encadre) {
   const lu = res.length ? nomDansTexte(texteAutourDuNom(texte, res[0])) : nomProbable(texte) || (encadre ? nomDansTexte(texte) : "");
   const decor = decorBlister.map(d => d.f);
   const confirme = res.length && decor.some(d => d.code === res[0].code);
+  // décor connu seulement pour les blisters du site JB (pas pour les figurines vues sur eBay.de)
+  const decorConnu = res.length && CatalogueJB.empreintes && CatalogueJB.empreintes.has(res[0].code.toUpperCase());
   const nomCourt = f => f.nom.replace(/\s*c[ou]s?t[ou]m\s+minifig\w*/i, "");
   const inconnu = `Nom lu : « ${lu} ». Il n'est dans aucune de nos listes (site JB, brickshellcases, eBay.de) : il est repris ci-dessous, vérifiez-le.`;
   let info;
   if (res.length) {
     info = `Nom trouvé sur le blister : « ${nomCourt(res[0])} ».` +
-      (confirme ? " ✔ Confirmé par le décor du blister." : decor.length ? " Le décor ne permet pas de le confirmer : vérifiez." : "") +
+      (confirme ? " ✔ Confirmé par le décor du blister." : decor.length && decorConnu ? " Le décor ne permet pas de le confirmer : vérifiez." : "") +
       " Touchez la bonne figurine :";
   } else if (decor.length) {
     info = (lu ? inconnu + " Si c'est l'un de ces blisters au décor ressemblant, touchez-le :"

@@ -78,9 +78,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   de blister). Choix de l'utilisateur (29/09) : piste 1 puis piste 2.
   Piste 1 (faite) : si la photo entière ne donne aucun nom, l'encadrement du nom s'ouvre tout seul
   (« Annuler » ramène aux blisters au décor ressemblant) ; essai « texte épars » ajouté au nom encadré.
-  Piste 2 (à faire) : lecture plus performante dans le téléphone (PaddleOCR via onnxruntime-web,
-  ~15 Mo téléchargés une fois). Il faut les photos originales (pleine définition) des 3 blisters :
-  celles reçues dans la conversation sont réduites à 924 x 2000.
+  Piste 2 (faite le 29/09) : PaddleOCR dans le téléphone (js/lecture_paddle.js, lib/paddle/ :
+  onnxruntime-web + PP-OCRv4 ; ~27 Mo téléchargés à la première lecture). D'abord PaddleOCR, puis
+  Tesseract s'il ne trouve rien. Sur les 3 photos (même réduites) : Shiny Dark Lord et Black
+  Krrsantan trouvés (4-5 s), Chrome Golden Antagonist repris dans le champ Nom (15 s, via Tesseract :
+  PaddleOCR fusionne ses deux lignes verticales). Classement : un nom lu sur une même ligne passe
+  devant des mots épars (citation « EX-BOUNTY HUNTER »). À confirmer sur le téléphone.
 - Bouton retour du téléphone : ramène à l'écran précédent (annule un recadrage, sans effet pendant
   une lecture ; après un ajout, l'écran précédent est l'accueil) ; depuis l'accueil, question
   « Quitter l'appli ? » (Quitter / Rester). Si le téléphone refuse la fermeture par l'appli, message
@@ -110,7 +113,7 @@ refusé → ajouter *.archive.org.
 
 ## Prochaines étapes
 
-1. Blisters : piste 2 (PaddleOCR), avec les photos originales des 3 blisters ; retester la piste 1 sur le téléphone.
+1. Blisters : tester la nouvelle lecture (PaddleOCR) sur le téléphone : temps, téléchargement de 27 Mo.
 2. brickshellcases.com : fait le 29/09 (voir plus haut).
 3. eBay.de (la meilleure source : JB Spielwaren est allemand) : accès OK (29/09/2026).
    Clés dans EBAY_CLIENT_ID / EBAY_CLIENT_SECRET (ne jamais les afficher), jeton en Basic.
