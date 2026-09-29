@@ -576,8 +576,9 @@ function ouvrirCustom(info) {
   if (info) return;
   CatalogueJB.charger()
     .then(l => {
-      const { jb, brickshell, ebay } = CatalogueJB.nb;
-      const retirees = brickshell + ebay ? ` + ${brickshell + ebay} plus en vente chez JB (brickshellcases.com, eBay.de)` : "";
+      const { jb, brickshell, archive, ebay } = CatalogueJB.nb;
+      const autres = brickshell + archive + ebay;
+      const retirees = autres ? ` + ${autres} plus en vente chez JB (brickshellcases.com, archives, eBay.de)` : "";
       $("custom-recherche-info").textContent = `${jb} figurines JB Spielwaren (catalogue du ${new Date(CatalogueJB.date).toLocaleDateString("fr-FR")})${retirees}. Sinon, collez un lien plus bas.`;
     })
     .catch(() => { $("custom-recherche-info").textContent = "Catalogue JB indisponible : collez le lien de la figurine plus bas."; });
@@ -592,7 +593,7 @@ function afficherResultatsJB(res) {
     <button class="proposition" data-jb="${i}">
       <img src="${echapper(f.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
       <span class="nom-court">${echapper(f.nom)}</span>
-      <span class="score">${echapper(f.ebay ? "Retirée · eBay.de" : f.source === "brickshell" ? "Retirée · brickshellcases" : f.categorie)}</span>
+      <span class="score">${echapper(f.ebay ? "Retirée · eBay.de" : f.source === "brickshell" ? "Retirée · brickshellcases" : f.source === "archive" ? "Retirée · archives" : f.categorie)}</span>
     </button>`).join("");
   $("custom-resultats").querySelectorAll("[data-jb]").forEach(b => b.addEventListener("click", () => choisirJB(res[+b.dataset.jb])));
 }
@@ -608,7 +609,7 @@ function choisirJB(f) {
   $("custom-choisie").innerHTML = `
     <div class="fiche">
       <img class="photo" src="${echapper(f.image)}" alt="" onerror="this.style.visibility='hidden'">
-      <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.ebay ? "retirée de la vente, vue sur eBay.de" : f.source === "brickshell" ? `${f.code} · plus en vente chez JB, vendue par brickshellcases.com` : f.code)}</div></div>
+      <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.ebay ? "retirée de la vente, vue sur eBay.de" : f.source === "brickshell" ? `${f.code} · plus en vente chez JB, vendue par brickshellcases.com` : f.source === "archive" ? `${f.code} · plus en vente, retrouvée dans les archives du site JB` : f.code)}</div></div>
       ${liensFiche(f.lien, f.ebay ? "Chercher sur eBay.de" : "Voir la page")}
     </div>`;
   majCustom();

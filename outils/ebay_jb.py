@@ -24,6 +24,7 @@ RECHERCHES = ["JB Spielwaren", "JB-Spielwaren Minifigur", "JB Spielwaren Custom"
 RACINE = os.path.join(os.path.dirname(__file__), "..")
 CATALOGUE = os.path.join(RACINE, "data", "jb.tsv")
 BRICKSHELL = os.path.join(RACINE, "data", "jb_brickshell.tsv")  # outils/brickshell_jb.py
+ARCHIVE = os.path.join(RACINE, "data", "jb_archive.tsv")  # outils/archive_jb.py
 SORTIE = os.path.join(RACINE, "data", "jb_ebay.tsv")
 
 JB = re.compile(r"\bjb[\s-]?(spielwaren|toys)\b", re.I)
@@ -98,10 +99,16 @@ def dans_catalogue(titre, catalogue):
     return None
 
 
+def lien_recherche(nom):
+    """Recherche eBay.de d'une figurine JB par son nom (reste valable quand les annonces se terminent)"""
+    return "https://www.ebay.de/sch/i.html?" + urllib.parse.urlencode({"_nkw": f"JB Spielwaren {nom}"})
+
+
 def lire_catalogue(avec_brickshell=False):
-    """Figurines du site JB (et, si demandé, de brickshellcases.com) : [(code, nom, mots essentiels)]"""
+    """Figurines du site JB (et, si demandé, de brickshellcases.com et des archives du web) :
+    [(code, nom, mots essentiels)]"""
     res = []
-    fichiers = [CATALOGUE] + ([BRICKSHELL] if avec_brickshell and os.path.exists(BRICKSHELL) else [])
+    fichiers = [CATALOGUE] + ([f for f in (BRICKSHELL, ARCHIVE) if os.path.exists(f)] if avec_brickshell else [])
     for fichier in fichiers:
         with open(fichier, encoding="utf-8") as f:
             for ligne in f:
@@ -183,7 +190,7 @@ def main():
         numero = premiere["itemId"].split("|")[1]
         # photo en 500 px : assez pour l'empreinte et l'aperçu, plus légère que 1600 px
         image = re.sub(r"s-l\d+\.", "s-l500.", premiere["image"]["imageUrl"])
-        lien = "https://www.ebay.de/sch/i.html?" + urllib.parse.urlencode({"_nkw": f"JB Spielwaren {nom}"})
+        lien = lien_recherche(nom)
         champs = [f"EBAY-{numero}", nom, categorie(premiere["title"]), lien, image]
         lignes.append("\t".join(c.replace("\t", " ").replace("\n", " ") for c in champs))
     with open(SORTIE, "w", encoding="utf-8") as f:

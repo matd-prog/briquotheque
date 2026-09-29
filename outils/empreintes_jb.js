@@ -14,7 +14,8 @@ const { chromium } = require("playwright");
 const racine = path.join(__dirname, "..");
 const lireTsv = fichier => fs.existsSync(path.join(racine, fichier))
   ? fs.readFileSync(path.join(racine, fichier), "utf8").split("\n").filter(l => l.startsWith("JB-")) : [];
-const lignes = [...lireTsv("data/jb.tsv"), ...lireTsv("data/jb_brickshell.tsv")];
+// (data/jb_archive.tsv : figurines retirées retrouvées dans les archives, mêmes photos que le site JB)
+const lignes = [...lireTsv("data/jb.tsv"), ...lireTsv("data/jb_brickshell.tsv"), ...lireTsv("data/jb_archive.tsv")];
 const attendre = ms => new Promise(r => setTimeout(r, ms));
 
 (async () => {

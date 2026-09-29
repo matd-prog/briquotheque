@@ -1,0 +1,31 @@
+# Anciennes figurines JB retrouvées dans les archives du web (outils/archive_jb.py) -> data/jb_archive.tsv
+# Tourne sur les serveurs de GitHub, car Internet Archive refuse l'environnement cloud de Claude.
+# À lancer à la main : onglet « Actions » du dépôt -> « Archives JB » -> « Run workflow ».
+name: Archives JB
+
+on:
+  workflow_dispatch:
+    inputs:
+      max:
+        description: "Nombre maximal de copies archivées à lire"
+        default: "1500"
+
+permissions:
+  contents: write
+
+jobs:
+  archives:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lecture des archives
+        run: python3 outils/archive_jb.py --max "${{ github.event.inputs.max }}"
+      - name: Publication de data/jb_archive.tsv
+        run: |
+          git add data/jb_archive.tsv
+          if git diff --cached --quiet; then echo "Rien de nouveau"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Archives JB : $(grep -c '^JB-' data/jb_archive.tsv) figurines retirées ($(date +%F))"
+          git push

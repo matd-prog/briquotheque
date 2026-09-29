@@ -1,14 +1,17 @@
 // Catalogue des figurines custom JB Spielwaren (data/jb.tsv, créé par outils/catalogue_jb.py) :
 // code JB-<numéro d'article>, nom, catégorie, lien de la page, adresse de la photo sur leur site.
-// S'y ajoutent deux listes facultatives de figurines plus en vente chez JB, au même format :
+// S'y ajoutent des listes facultatives de figurines plus en vente chez JB, au même format :
 // - data/jb_brickshell.tsv (outils/brickshell_jb.py) : revendues par brickshellcases.com, code JB-…
 //   quand le numéro d'article est connu (sinon BSC-…), lien vers leur page brickshellcases ;
+// - data/jb_archive.tsv (outils/archive_jb.py) : retrouvées dans les copies archivées du site JB
+//   (web.archive.org), code JB-…, lien vers la page archivée (ou une recherche eBay.de) ;
 // - data/jb_ebay.tsv (outils/ebay_jb.py) : vues sur eBay.de, code EBAY-…, lien vers une recherche
 //   eBay.de ; une fois choisies, elles reçoivent un code CUS-… comme les autres customs.
 
 const SOURCES_JB = [
   { source: "jb", fichier: "data/jb.tsv", codes: /^JB-/, obligatoire: true },
   { source: "brickshell", fichier: "data/jb_brickshell.tsv", codes: /^(JB|BSC)-/ },
+  { source: "archive", fichier: "data/jb_archive.tsv", codes: /^JB-/ },
   { source: "ebay", fichier: "data/jb_ebay.tsv", codes: /^EBAY-/ },
 ];
 
@@ -16,7 +19,7 @@ const CatalogueJB = {
   liste: null,
   parCode: null,
   date: null,
-  nb: { jb: 0, brickshell: 0, ebay: 0 },
+  nb: { jb: 0, brickshell: 0, archive: 0, ebay: 0 },
   _chargement: null,
 
   charger() {
@@ -28,7 +31,7 @@ const CatalogueJB = {
         .then(liste => {
           this.liste = [];
           this.parCode = new Map();
-          this.nb = { jb: 0, brickshell: 0, ebay: 0 };
+          this.nb = { jb: 0, brickshell: 0, archive: 0, ebay: 0 };
           SOURCES_JB.forEach(({ source, codes }, i) => {
             for (const ligne of liste[i].split("\n")) {
               if (ligne.startsWith("#date ")) { if (source === "jb") this.date = ligne.slice(6).trim(); continue; }
