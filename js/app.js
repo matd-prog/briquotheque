@@ -560,6 +560,7 @@ function nomDepuisLien(lien) {
 // info : message à afficher au-dessus des résultats (ex. nom lu sur un blister) au lieu du texte habituel
 function ouvrirCustom(info) {
   $("custom-lien").value = "";
+  delete $("custom-lien").dataset.ebayAuto;
   $("custom-nom").value = "";
   $("custom-recherche").value = "";
   $("custom-exemplaire").value = "";
@@ -598,6 +599,7 @@ function afficherResultatsJB(res) {
 // Remplit le lien et le nom d'après la figurine choisie dans le catalogue JB
 function choisirJB(f) {
   $("custom-lien").value = f.lien;
+  delete $("custom-lien").dataset.ebayAuto;
   $("custom-nom").value = nomCustomPourFichier(f.nom);
   delete $("custom-nom").dataset.auto;
   $("custom-resultats").innerHTML = "";
@@ -697,7 +699,7 @@ function afficherLectureBlister(texte, trouve, encadre) {
   // décor connu seulement pour les blisters du site JB (pas pour les figurines vues sur eBay.de)
   const decorConnu = res.length && CatalogueJB.empreintes && CatalogueJB.empreintes.has(res[0].code.toUpperCase());
   const nomCourt = f => f.nom.replace(/\s*c[ou]s?t[ou]m\s+minifig\w*/i, "");
-  const inconnu = `Nom lu : « ${lu} ». Il n'est dans aucune de nos listes (site JB, brickshellcases, eBay.de) : il est repris ci-dessous, vérifiez-le.`;
+  const inconnu = `Nom lu : « ${lu} ». Il n'est dans aucune de nos listes (site JB, brickshellcases, eBay.de) : il est repris ci-dessous, vérifiez-le. Le QR code ouvrira une recherche eBay.de sur ce nom (sans résultat tant que personne ne la vend).`;
   let info;
   if (res.length) {
     info = `Nom trouvé sur le blister : « ${nomCourt(res[0])} ».` +
@@ -723,7 +725,14 @@ function afficherLectureBlister(texte, trouve, encadre) {
     return;
   }
   if (decor.length) afficherResultatsJB(decor.slice(0, 6));
-  if (lu) { $("custom-nom").value = lu.toUpperCase(); majCustom(); }
+  if (lu) {
+    // figurine absente de nos listes : QR code vers une recherche eBay.de sur son nom (vide pour
+    // l'instant, elle montrera les annonces dès que la figurine sera mise en vente)
+    $("custom-nom").value = lu.toUpperCase();
+    $("custom-lien").value = lienRechercheEbay(lu);
+    $("custom-lien").dataset.ebayAuto = "1";
+    majCustom();
+  }
 }
 
 // Pour l'affichage : la ligne du texte lu qui contient le nom trouvé
@@ -784,10 +793,20 @@ function majCustom() {
   });
 }
 
+// Recherche eBay.de d'une figurine JB par son nom (même forme que les liens de data/jb_ebay.tsv)
+function lienRechercheEbay(nom) {
+  const mots = nom.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()).trim();
+  return "https://www.ebay.de/sch/i.html?_nkw=" + encodeURIComponent("JB Spielwaren " + mots).replace(/%20/g, "+");
+}
+
 let minuteurCustom;
 for (const id of ["custom-lien", "custom-nom"]) {
   $(id).addEventListener("input", e => {
     if (id === "custom-nom") delete $("custom-nom").dataset.auto; // nom tapé à la main : on n'y touche plus
+    if (id === "custom-lien") delete $("custom-lien").dataset.ebayAuto; // lien tapé à la main : idem
+    // nom corrigé : la recherche eBay.de proposée d'office suit le nom
+    if (id === "custom-nom" && $("custom-lien").dataset.ebayAuto && $("custom-nom").value.trim())
+      $("custom-lien").value = lienRechercheEbay($("custom-nom").value);
     clearTimeout(minuteurCustom);
     minuteurCustom = setTimeout(majCustom, 250);
   });
