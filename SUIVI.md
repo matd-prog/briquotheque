@@ -122,6 +122,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   dans le catalogue BrickLink : colshr01-12) : « Chercher par nom » montre, case vide, les séries
   récentes (cette année et l'an dernier ; minifigs à collectionner d'abord) ; une série touchée montre
   ses figurines avec photo. Bouton « 🆕 Nouveautés » sur l'écran de résultat d'une photo. (29/09)
+  Confirmé sur le téléphone le 29/09 (minifigs Shrek).
 
 ## Fichier Excel de l'utilisateur
 
