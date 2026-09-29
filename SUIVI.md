@@ -176,8 +176,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 - Ajout d'une mini-série entière d'un coup (nouveautés, ou « Voir toute la série » depuis la recherche).
 - Bouton retour : réserve de 3 étapes d'historique remise à chaque toucher (Chrome saute les étapes ajoutées
   sans toucher l'écran) ; à confirmer sur le téléphone.
-- À faire : dossier pour l'assureur (PDF ou Excel : photo, code, nom, état, prix médian, nombre de ventes,
-  total, méthode, date).
+- Dossier pour l'assureur (« 🛡️ Dossier assureur », js/assurance.js, 29/09) : propriétaire, adresse, n° de contrat
+  (gardés dans le téléphone), résumé par catégorie, méthode d'estimation, tableaux par catégorie (photo BrickLink,
+  référence, désignation, état, quantité, prix unitaire, source du prix, valeur), articles non estimés (sans vente
+  récente, customs), attestation à signer. « Enregistrer en PDF » = menu Imprimer du téléphone (styles @media print,
+  A4) ; « Tableur (.csv) » pour Excel. Calcul commun avec l'écran Valeur (Valeur.calculer()).
 
 ## Fichier Excel de l'utilisateur
 

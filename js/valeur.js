@@ -161,41 +161,50 @@ const Valeur = {
     this.afficher();
   },
 
-  // Lit prix.tsv et calcule la valeur : figurines au prix d'occasion, sets au prix neuf s'ils sont scellés
+  // Lit prix.tsv (BrickLink) et lego.tsv (prix LEGO) et calcule la valeur de chaque article :
+  // { details: [{...article, v, brut, ventes, neuf, enVente}], sans, total, parOnglet, date } ; null si pas encore de prix
+  async calculer() {
+    const rep = await this._api("/contents/prix.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+    if (!rep.ok) return null;
+    const lignes = (await rep.text()).split("\n").map(l => l.split("\t"));
+    const entete = lignes.shift();
+    const prix = new Map(lignes.filter(l => l.length === entete.length).map(l => [`${l[0]} ${l[1].toLowerCase()}`, Object.fromEntries(entete.map((c, i) => [c, l[i]]))]));
+    // Prix LEGO (Brickset) : un set encore en vente vaut son prix LEGO (fin de vente non annoncée ou à venir)
+    const lego = new Map();
+    const repLego = await this._api("/contents/lego.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+    if (repLego.ok) for (const l of (await repLego.text()).split("\n").slice(1)) {
+      const [code, prixLego, sortie, fin] = l.split("\t");
+      if (code && parseFloat(prixLego) && (!fin || fin >= new Date().toISOString().slice(0, 10))) lego.set(code.toLowerCase(), parseFloat(prixLego));
+    }
+    const articles = await this._articles();
+    let total = 0, date = "";
+    const sans = [], parOnglet = {}, details = [];
+    for (const a of articles) {
+      const p = prix.get(`${a.type} ${a.code.toLowerCase()}`);
+      const neuf = (a.type === "SET" && /scell/i.test(a.etat)) || (a.type === "GEAR" && /neuf/i.test(a.etat));
+      const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
+      const enVente = a.type === "SET" ? lego.get(a.code.toLowerCase()) : 0;
+      let v = enVente || lirePrix(p, neuf) || lirePrix(p, !neuf); // pas de vente dans cet état : prix de l'autre état
+      if (!v) { sans.push(a); continue; }
+      const unitaire = v, brut = v * (a.quantite || 1);
+      for (const m of a.moins || []) v -= lirePrix(prix.get(`MINIFIG ${m.code}`), false) * m.quantite;
+      v = Math.max(0, v) * (a.quantite || 1);
+      if (p && p.date > date) date = p.date;
+      total += v;
+      parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + v;
+      details.push({ ...a, v, unitaire, brut, ventes: p ? (neuf ? p.neuf_ventes : p.occasion_ventes) : 0, neuf, enVente: !!enVente });
+    }
+    details.sort((x, y) => y.v - x.v);
+    return { details, sans, total, parOnglet, date };
+  },
+
   async afficher() {
     if (!etat.classeur) { $("valeur-etat").textContent = "Ouvrez d'abord votre fichier Excel pour voir sa valeur."; return; }
     $("valeur-etat").textContent = "Lecture des prix…";
     try {
-      const rep = await this._api("/contents/prix.tsv", { headers: { Accept: "application/vnd.github.raw" } });
-      if (!rep.ok) { $("valeur-etat").textContent = "Pas encore de prix : touchez « Envoyer ma liste et relever les prix »."; return; }
-      const lignes = (await rep.text()).split("\n").map(l => l.split("\t"));
-      const entete = lignes.shift();
-      const prix = new Map(lignes.filter(l => l.length === entete.length).map(l => [`${l[0]} ${l[1].toLowerCase()}`, Object.fromEntries(entete.map((c, i) => [c, l[i]]))]));
-      // Prix LEGO (Brickset) : un set encore en vente vaut son prix LEGO (fin de vente non annoncée ou à venir)
-      const lego = new Map();
-      const repLego = await this._api("/contents/lego.tsv", { headers: { Accept: "application/vnd.github.raw" } });
-      if (repLego.ok) for (const l of (await repLego.text()).split("\n").slice(1)) {
-        const [code, prixLego, sortie, fin] = l.split("\t");
-        if (code && parseFloat(prixLego) && (!fin || fin >= new Date().toISOString().slice(0, 10))) lego.set(code.toLowerCase(), parseFloat(prixLego));
-      }
-      const articles = await this._articles();
-      let total = 0, sans = [], date = "";
-      const parOnglet = {}, details = [];
-      for (const a of articles) {
-        const p = prix.get(`${a.type} ${a.code.toLowerCase()}`);
-        const neuf = (a.type === "SET" && /scell/i.test(a.etat)) || (a.type === "GEAR" && /neuf/i.test(a.etat));
-        const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
-        const enVente = a.type === "SET" ? lego.get(a.code.toLowerCase()) : 0;
-        let v = enVente || lirePrix(p, neuf) || lirePrix(p, !neuf); // pas de vente dans cet état : prix de l'autre état
-        if (!v) { sans.push(a); continue; }
-        const brut = v * (a.quantite || 1);
-        for (const m of a.moins || []) v -= lirePrix(prix.get(`MINIFIG ${m.code}`), false) * m.quantite;
-        v = Math.max(0, v) * (a.quantite || 1);
-        if (p && p.date > date) date = p.date;
-        total += v;
-        parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + v;
-        details.push({ ...a, v, ventes: p ? (neuf ? p.neuf_ventes : p.occasion_ventes) : 0, neuf, enVente: !!enVente, brut });
-      }
+      const calcul = await this.calculer();
+      if (!calcul) { $("valeur-etat").textContent = "Pas encore de prix : touchez « Envoyer ma liste et relever les prix »."; return; }
+      const { details, sans, total, parOnglet, date } = calcul;
       if (!details.length) {
         $("valeur-etat").textContent = "";
         $("valeur-resultat").innerHTML = `<div class="carte"><p>⏳ Aucun prix pour l'instant : le relevé BrickLink est sans doute encore en cours` +
@@ -203,7 +212,6 @@ const Valeur = {
         return;
       }
       const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
-      details.sort((x, y) => y.v - x.v);
       $("valeur-etat").textContent = date ? `Prix du ${new Date(date).toLocaleDateString("fr-FR")} : médiane des ventes BrickLink des 6 derniers mois.` : "";
       const doublons = await this._doublons();
       $("valeur-resultat").innerHTML = (doublons.length ? `<div class="carte alerte">⚠️ <b>${doublons.length} ligne(s) en double</b> dans l'onglet « Sets » ` +

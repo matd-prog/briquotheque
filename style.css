@@ -174,3 +174,34 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .ligne-valeur { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: 1px solid #eee; font-size: 15px; }
 .ligne-valeur:last-child { border-bottom: 0; }
 .ligne-valeur b { white-space: nowrap; }
+
+/* Dossier pour l'assureur (js/assurance.js) : lisible à l'écran, mis en page pour « Enregistrer en PDF » */
+.dossier { background: #fff; color: #111; padding: 14px; border-radius: 8px; font-size: 12px; line-height: 1.4; }
+.dossier h1 { font-size: 20px; margin: 0 0 8px; }
+.dossier h2 { font-size: 15px; margin: 18px 0 6px; border-bottom: 2px solid #d01012; padding-bottom: 3px; }
+.dossier h2 span { font-weight: normal; font-size: 12px; color: #555; }
+.dossier .entete { margin: 0 0 10px; }
+.dossier .resume { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.dossier .resume div { border: 1px solid #ccc; border-radius: 6px; padding: 6px 10px; }
+.dossier .resume small { display: block; color: #555; }
+.dossier .resume b { font-size: 16px; }
+.dossier table { width: 100%; border-collapse: collapse; }
+.dossier th, .dossier td { border-bottom: 1px solid #ddd; padding: 3px 4px; text-align: left; vertical-align: middle; }
+.dossier th { background: #f2f2f2; font-size: 11px; }
+.dossier td.n, .dossier th:nth-last-child(-n+1) { text-align: right; white-space: nowrap; }
+.dossier td.ph img { width: 40px; height: 40px; object-fit: contain; }
+.dossier tfoot td { border-top: 2px solid #999; font-weight: bold; }
+.dossier .signature { margin-top: 20px; }
+.dossier .pied { color: #777; font-size: 10px; margin-top: 20px; }
+#ecran-assurance { overflow-x: auto; }
+@media print {
+  @page { size: A4; margin: 12mm; }
+  body { background: #fff; }
+  header, #bandeau-save, .pas-imprime, .ecran:not(#ecran-assurance), #toast, dialog { display: none !important; }
+  main { padding: 0; max-width: none; }
+  .dossier { padding: 0; border-radius: 0; font-size: 10px; }
+  .dossier tr { break-inside: avoid; }
+  .dossier td.ph img { width: 28px; height: 28px; }
+  .dossier th, .dossier td { padding: 1px 4px; }
+  .dossier h2 { break-after: avoid; }
+}

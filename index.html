@@ -70,6 +70,7 @@
       <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
       <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base des blisters</b><small>Contribuer à la base JB</small></button>
       <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
+      <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
     </div>
 
     <details class="outils" id="outils">
@@ -175,6 +176,28 @@
     <input id="objet-remarques" class="champ" autocomplete="off" placeholder="ex. carton 3, pile à changer">
     <button class="gros-bouton vert" data-action="objet-ajouter">➕ Ajouter à ma collection</button>
     <div id="objet-liste"></div>
+  </section>
+
+  <!-- Dossier pour l'assureur (js/assurance.js) : inventaire estimé, à enregistrer en PDF ou en tableur -->
+  <section id="ecran-assurance" class="ecran" hidden>
+    <div class="pas-imprime">
+      <p class="intro">🛡️ <b>Dossier pour l'assureur</b> : l'inventaire complet de votre collection, article par article, avec
+        sa valeur estimée, la méthode et la date des prix. Vous l'enregistrez en PDF pour l'envoyer à votre assureur.</p>
+      <label for="assurance-nom" class="etiquette-champ">Nom du propriétaire</label>
+      <input id="assurance-nom" class="champ" autocomplete="name">
+      <label for="assurance-adresse" class="etiquette-champ">Adresse (facultatif)</label>
+      <input id="assurance-adresse" class="champ" autocomplete="street-address">
+      <label for="assurance-contrat" class="etiquette-champ">N° de contrat d'assurance (facultatif)</label>
+      <input id="assurance-contrat" class="champ" autocomplete="off">
+      <label class="case-a-cocher"><input type="checkbox" id="assurance-photos" checked> Avec les photos des articles</label>
+      <button class="gros-bouton vert" data-action="assurance-preparer">📄 Préparer le dossier</button>
+      <p class="aide" id="assurance-etat"></p>
+      <div id="assurance-sortie" class="oui-non" hidden>
+        <button class="gros-bouton bleu" data-action="assurance-imprimer">🖨️ Enregistrer en PDF</button>
+        <button class="gros-bouton gris" data-action="assurance-tableur">📊 Tableur (.csv)</button>
+      </div>
+    </div>
+    <div id="assurance-dossier"></div>
   </section>
 
   <section id="ecran-valeur" class="ecran" hidden>
@@ -364,5 +387,6 @@
 <script src="js/import_sets.js"></script>
   <script src="js/objets.js"></script>
   <script src="js/valeur.js"></script>
+  <script src="js/assurance.js"></script>
 </body>
 </html>
