@@ -37,7 +37,7 @@ const Valeur = {
     $("valeur-actions").hidden = !this.jeton;
     $("valeur-resultat").innerHTML = "";
     $("valeur-etat").textContent = this.jeton ? "" : "Collez une fois votre jeton d'accès GitHub (github_pat_…) : il reste dans ce téléphone.";
-    if (this.jeton) this.afficher();
+    if (this.jeton) { this.afficher(); this.suivre(); }
   },
 
   async enregistrerJeton() {
@@ -116,6 +116,22 @@ const Valeur = {
     const codes = [...new Set(articles.flatMap(a => [`${a.type} ${a.code}`, ...(a.figs || []).map(f => `MINIFIG ${f.code}`)]))].sort();
     $("valeur-etat").textContent = `Envoi de la liste (${codes.length} articles)…`;
     try {
+      // nombre d'articles à relever (pas encore de prix, ou prix trop ancien) : pour estimer l'avancement
+      const recent = async (fichier, jours, cle) => {
+        const r = await this._api(`/contents/${fichier}`, { headers: { Accept: "application/vnd.github.raw" } });
+        const vus = new Set();
+        if (r.ok) for (const l of (await r.text()).split("\n").slice(1)) {
+          const c = l.split("\t"), date = c[c.length - 1];
+          if (date && (Date.now() - new Date(date)) / 864e5 < jours) vus.add(cle(c));
+        }
+        return vus;
+      };
+      const prixRecents = await recent("prix.tsv", 25, c => `${c[0]} ${(c[1] || "").toLowerCase()}`);
+      const legoRecents = await recent("lego.tsv", 7, c => (c[0] || "").toLowerCase());
+      const aRelever = { n: codes.filter(c => !prixRecents.has(c.replace(/ (.*)$/, (m, x) => " " + x.toLowerCase()))).length,
+                         nLego: codes.filter(c => c.startsWith("SET ") && !legoRecents.has(c.slice(4).toLowerCase())).length,
+                         depuis: Date.now() };
+      await Memoire.ecrire(aRelever, "releve");
       const actuel = await this._api("/contents/codes.txt");
       const sha = actuel.ok ? (await actuel.json()).sha : undefined;
       const texte = `# Collection (envoyée par l'appli le ${new Date().toLocaleDateString("fr-FR")}) : codes seulement\n${codes.join("\n")}\n`;
@@ -125,12 +141,58 @@ const Valeur = {
       if (!rep.ok) throw new Error("envoi refusé");
       const lance = await this._api("/actions/workflows/prix.yml/dispatches", { method: "POST", body: JSON.stringify({ ref: "main" }) });
       if (lance.status !== 204) throw new Error("relevé des prix non lancé");
-      $("valeur-etat").textContent = `Liste envoyée (${codes.length} articles) et relevé des prix lancé. Comptez environ 1 minute par 100 nouveaux articles` +
-        " (BrickLink limite à 2 250 articles par jour : une très grande collection se relève sur plusieurs jours). Touchez ensuite « Actualiser ».";
+      $("valeur-etat").textContent = `Liste envoyée (${codes.length} articles, dont ${aRelever.n} à relever) : relevé des prix lancé.` +
+        " La valeur se mettra à jour toute seule à la fin (BrickLink limite à 2 250 articles par jour : une très grande collection se relève sur plusieurs jours).";
+      this.suivre();
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;
     }
+  },
+
+  // Avancement du relevé en direct (toutes les 5 s) : étape en cours de l'action GitHub « Prix BrickLink » et
+  // estimation d'après le nombre d'articles à relever (~1,2 s par article BrickLink, ~3,5 s par set sur Brickset).
+  // À la fin, la valeur est relue toute seule.
+  async suivre() {
+    clearTimeout(this._minuteur);
+    if (ecranActuel !== "valeur" || !this.jeton) return;
+    const zone = $("valeur-avancement");
+    try {
+      const releve = (await Memoire.lire("releve")) || { n: 0, nLego: 0, depuis: 0 };
+      const runs = await (await this._api("/actions/workflows/prix.yml/runs?per_page=1")).json();
+      const run = runs.workflow_runs && runs.workflow_runs[0];
+      if (!run || new Date(run.created_at) < releve.depuis - 60000) { zone.hidden = true; return; }
+      if (run.status === "completed") {
+        zone.hidden = true;
+        if (this._suivi) { this._suivi = false; toast(run.conclusion === "success" ? "Relevé des prix terminé ✔" : "Le relevé des prix s'est arrêté en erreur."); this.afficher(); }
+        return;
+      }
+      this._suivi = true;
+      let texte = "En attente d'un ordinateur GitHub…", part = 0.02;
+      const jobs = run.status === "queued" ? null : await (await this._api(`/actions/runs/${run.id}/jobs`)).json();
+      const etapes = (jobs && jobs.jobs && jobs.jobs[0] && jobs.jobs[0].steps) || [];
+      const etape = nom => etapes.find(e => e.name.startsWith(nom));
+      const tBL = Math.max(20, releve.n * 1.2), tLego = Math.max(10, releve.nLego * 3.5), total = tBL + tLego + 15;
+      const ecoule = e => e && e.started_at ? (Date.now() - new Date(e.started_at)) / 1000 : 0;
+      const bl = etape("Relevé des prix"), lego = etape("Prix LEGO"), fin = etape("Enregistrement");
+      if (fin && fin.status !== "queued") { texte = "Enregistrement des prix…"; part = 0.98; }
+      else if (lego && lego.status === "in_progress") {
+        const f = Math.min(0.99, ecoule(lego) / tLego);
+        texte = `Prix LEGO des sets (Brickset) : environ ${Math.round(f * releve.nLego)} sets sur ${releve.nLego}` +
+          ` · encore ~${Math.max(1, Math.ceil((tLego - ecoule(lego)) / 60))} min`;
+        part = (tBL + f * tLego) / total;
+      } else if (bl && bl.status === "in_progress") {
+        const f = Math.min(0.99, ecoule(bl) / tBL);
+        texte = `Prix BrickLink : environ ${Math.round(f * releve.n)} articles sur ${releve.n}` +
+          ` · encore ~${Math.max(1, Math.ceil((tBL - ecoule(bl) + tLego) / 60))} min`;
+        part = (f * tBL) / total;
+      } else if (run.status === "in_progress") { texte = "Démarrage du relevé…"; part = 0.03; }
+      zone.hidden = false;
+      zone.innerHTML = `<p class="sous-titre">⏳ Relevé des prix en cours</p>
+        <div class="barre-avancement"><div style="width:${Math.round(part * 100)}%"></div></div>
+        <p class="score">${echapper(texte)} (${Math.round(part * 100)} %, estimation)</p>`;
+    } catch (err) { console.warn(err); }
+    this._minuteur = setTimeout(() => this.suivre(), 5000);
   },
 
   // Lignes en double de l'onglet « Sets » (même numéro) : on garde celle qui a des remarques (rangement), sinon la 1re.
