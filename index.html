@@ -190,17 +190,27 @@
   <section id="ecran-save" class="ecran" hidden>
     <p class="intro">Votre fichier mis à jour est prêt :</p>
     <p class="nom-fichier" id="nom-save"></p>
-    <a class="gros-bouton vert" id="lien-telecharger" download>⬇️ 1. Télécharger le fichier</a>
-    <div class="carte etapes-drive">
-      <p class="sous-titre">2. Le mettre dans Google Drive</p>
-      <ol class="etapes">
-        <li>Ouvrez l'appli <b>Google Drive</b>.</li>
-        <li>Touchez le bouton <b>+</b> (en bas à droite), puis <b>Importer</b>.</li>
-        <li>Choisissez <b>Téléchargements</b>, puis le fichier dont le nom est affiché ci-dessus.</li>
-      </ol>
+    <!-- Enregistrement direct (fenêtre d'enregistrement du téléphone, Google Drive compris) : un appui
+         suffit les fois suivantes ; visible seulement si le navigateur le permet -->
+    <div id="bloc-direct" class="carte" hidden>
+      <button class="gros-bouton vert" data-action="enregistrer-direct" id="btn-direct">💾 Enregistrer</button>
+      <p class="aide" id="aide-direct"></p>
+      <button class="bouton-lien" data-action="enregistrer-ailleurs" id="btn-ailleurs" hidden>Enregistrer dans un autre fichier…</button>
     </div>
-    <button class="bouton bleu" id="btn-partager" data-action="partager" hidden>📤 Ou : partager directement (Drive, e-mail…)</button>
-    <p class="aide">Votre ancien fichier n'est pas effacé : le nouveau porte la date et l'heure dans son nom.</p>
+    <details id="bloc-telechargement" class="outils">
+      <summary id="titre-telechargement">Autre méthode : télécharger, puis importer dans Google Drive</summary>
+      <a class="gros-bouton vert" id="lien-telecharger" download>⬇️ 1. Télécharger le fichier</a>
+      <div class="carte etapes-drive">
+        <p class="sous-titre">2. Le mettre dans Google Drive</p>
+        <ol class="etapes">
+          <li>Ouvrez l'appli <b>Google Drive</b>.</li>
+          <li>Touchez le bouton <b>+</b> (en bas à droite), puis <b>Importer</b>.</li>
+          <li>Choisissez <b>Téléchargements</b>, puis le fichier dont le nom est affiché ci-dessus.</li>
+        </ol>
+      </div>
+      <button class="bouton bleu" id="btn-partager" data-action="partager" hidden>📤 Ou : partager directement (Drive, e-mail…)</button>
+      <p class="aide">Votre ancien fichier n'est pas effacé : le nouveau porte la date et l'heure dans son nom.</p>
+    </details>
     <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
   </section>
 </main>

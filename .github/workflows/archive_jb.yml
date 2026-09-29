@@ -28,4 +28,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Archives JB : $(grep -c '^JB-' data/jb_archive.tsv) figurines retirées ($(date +%F))"
-          git push
+          git pull --rebase origin main   # d'autres changements ont pu être publiés pendant la lecture
+          git push origin HEAD:main

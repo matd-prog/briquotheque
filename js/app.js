@@ -179,6 +179,7 @@ $("input-fichier").addEventListener("change", async e => {
     const octets = new Uint8Array(await f.arrayBuffer());
     await chargerClasseur(octets, f.name);
     await Memoire.ecrire({ nom: f.name, octets, nonEnregistres: 0 });
+    await Memoire.ecrire(null, "poignee"); // autre fichier : l'emplacement d'enregistrement retenu est oublié
     afficher("accueil");
     toast("Fichier ouvert ✔");
   } catch (err) {
@@ -901,7 +902,49 @@ async function preparerEnregistrement() {
   let partageOk = false;
   try { partageOk = !!(navigator.canShare && navigator.canShare({ files: [etat.dernierFichier] })); } catch (e) {}
   $("btn-partager").hidden = !partageOk;
+  // enregistrement direct : l'emplacement choisi la première fois (ex. Google Drive) est retenu
+  const poignee = ENREGISTREMENT_DIRECT ? await Memoire.lire("poignee") : null;
+  $("bloc-direct").hidden = !ENREGISTREMENT_DIRECT;
+  $("bloc-telechargement").open = !ENREGISTREMENT_DIRECT;
+  $("titre-telechargement").textContent = ENREGISTREMENT_DIRECT
+    ? "Autre méthode : télécharger, puis importer dans Google Drive" : "Télécharger, puis importer dans Google Drive";
+  $("btn-direct").textContent = poignee ? `💾 Enregistrer dans « ${poignee.name} »` : "💾 Enregistrer";
+  $("aide-direct").textContent = poignee
+    ? "Le fichier est remplacé par la nouvelle version (Google Drive garde les versions précédentes)."
+    : "La première fois, choisissez l'emplacement : touchez ☰ puis « Drive », choisissez le dossier, puis « Enregistrer ». Ensuite, un seul appui suffira.";
+  $("btn-ailleurs").hidden = !poignee;
+  // enregistrement direct : nom fixe (sans date), celui du fichier déjà choisi le cas échéant
+  if (ENREGISTREMENT_DIRECT) $("nom-save").textContent = poignee ? poignee.name : nomSansDate(nom);
   afficher("save");
+}
+
+// Enregistrement direct dans un fichier choisi une fois avec la fenêtre d'enregistrement du téléphone
+// (File System Access) ; son « adresse » est gardée dans le téléphone pour les fois suivantes
+const ENREGISTREMENT_DIRECT = "showSaveFilePicker" in window;
+const nomSansDate = nom => nom.replace(/_\d{4}-\d{2}-\d{2}_\d{2}h\d{2}\.xlsx$/i, ".xlsx");
+async function enregistrerDirect(ailleurs) {
+  let poignee = ailleurs ? null : await Memoire.lire("poignee");
+  try {
+    if (poignee && (await poignee.requestPermission({ mode: "readwrite" })) !== "granted") poignee = null;
+    if (!poignee) {
+      poignee = await window.showSaveFilePicker({
+        suggestedName: nomSansDate(etat.dernierFichier.name),
+        types: [{ description: "Fichier Excel", accept: { [etat.dernierFichier.type]: [".xlsx"] } }],
+      });
+      await Memoire.ecrire(poignee, "poignee");
+    }
+    const flux = await poignee.createWritable();
+    await flux.write(etat.dernierFichier);
+    await flux.close();
+    await fichierEnregistre(poignee.name);
+    afficher("accueil");
+  } catch (err) {
+    if (err.name === "AbortError") return; // fenêtre fermée sans enregistrer
+    console.error(err);
+    await demander(`L'enregistrement direct n'a pas marché (${err.message}).\n\n` +
+      "Utilisez l'autre méthode : « Télécharger », puis importer dans Google Drive.", "OK", "Fermer");
+    $("bloc-telechargement").open = true;
+  }
 }
 
 async function partager() {
@@ -916,9 +959,9 @@ async function partager() {
   }
 }
 
-async function fichierEnregistre() {
+async function fichierEnregistre(nom = etat.dernierFichier.name) {
   etat.nonEnregistres = 0;
-  etat.nomFichier = etat.dernierFichier.name;
+  etat.nomFichier = nom;
   await memoriser();
   await relireContenu();
   toast("Fichier enregistré ✔");
@@ -984,10 +1027,13 @@ document.addEventListener("click", async e => {
   else if (action === "non") { afficher("accueil"); toast("Rien n'a été ajouté."); }
   else if (action === "enregistrer") preparerEnregistrement();
   else if (action === "partager") partager();
+  else if (action === "enregistrer-direct") enregistrerDirect(false);
+  else if (action === "enregistrer-ailleurs") enregistrerDirect(true);
   else if (action === "regenerer") regenerer();
   else if (action === "changer-fichier") {
     if (etat.nonEnregistres && !(await demander("Des ajouts n'ont pas été enregistrés. Les abandonner ?"))) return;
     await Memoire.effacer();
+    await Memoire.ecrire(null, "poignee");
     etat.classeur = null;
     $("fichier-info").textContent = "";
     etat.nonEnregistres = 0; majBandeau();
