@@ -46,8 +46,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   0 résultat dans l'appli eBay, 2 dans Chrome). Les QR codes des étiquettes gardent le lien normal :
   scannés avec l'appareil photo, ils peuvent encore ouvrir l'application eBay.
   -> Corrigé le 29/09 : le QR code des figurines eBay contient …/ebay.html?q=<nom> (page relais,
-  même densité de QR code) ; le lien gardé dans Excel reste la recherche eBay.de. À confirmer en
-  scannant une étiquette. Les étiquettes eBay faites avant le 29/09 sont à refaire.
+  même densité de QR code) ; le lien gardé dans Excel reste la recherche eBay.de. Confirmé le 29/09
+  (étiquette Baron Zemo scannée : 2 annonces sur eBay.de). Les étiquettes eBay faites avant le 29/09 sont à refaire.
 
 ## Fichier Excel de l'utilisateur
 
