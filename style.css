@@ -144,3 +144,27 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .variantes summary { cursor: pointer; color: var(--bleu); font-weight: 600; padding: 8px 0; }
 .variantes .grille { margin-top: 8px; }
 .petit-champ { font-size: 13px; padding: 6px 8px; margin-top: 6px; width: 100%; }
+
+/* Page d'accueil : une action principale, puis des tuiles identiques rangées par rubrique */
+.action-principale { display: flex; align-items: center; gap: 14px; background: var(--rouge); color: #fff; border-radius: 18px;
+  padding: 16px 18px; min-height: 84px; cursor: pointer; box-shadow: 0 2px 8px rgba(208,16,18,.25); }
+.action-principale .icone { font-size: 26px; width: 50px; height: 50px; border-radius: 14px; background: rgba(255,255,255,.18);
+  display: flex; align-items: center; justify-content: center; flex: none; }
+.action-principale b { display: block; font-size: 19px; }
+.action-principale small { display: block; font-size: 14px; opacity: .9; margin-top: 2px; }
+.section-titre { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--doux); margin: 10px 2px -6px; }
+.tuiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tuile { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; background: var(--carte);
+  border: 1px solid var(--bord); border-radius: 16px; padding: 14px 12px 12px; min-height: 104px; color: var(--texte);
+  font: inherit; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+.tuile .icone { font-size: 20px; width: 38px; height: 38px; border-radius: 11px; background: var(--fond);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+.tuile b { font-size: 15px; line-height: 1.25; }
+.tuile small { font-size: 13px; color: var(--doux); line-height: 1.3; }
+.tuile:active, .action-principale:active { transform: translateY(1px); }
+#ecran-accueil .outils { margin-top: 6px; }
+/* Bandeaux plus sobres : fond clair, liseré de couleur, bouton rouge */
+.bandeau { background: #fff7ec; color: #6a3d00; border: 1px solid #f3d3a6; border-left: 5px solid #e08a00; }
+.bandeau .petit { background: var(--rouge); color: #fff; }
+.bandeau.bleu-fonce { background: #eef4fc; color: #16365f; border-color: #c9dbf2; border-left-color: var(--bleu); }
+.bandeau.bleu-fonce .petit { background: var(--bleu); }

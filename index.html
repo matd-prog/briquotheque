@@ -41,23 +41,34 @@
       <button class="petit" data-action="voir-catalogue">Comment ?</button>
     </div>
 
-    <label class="gros-bouton rouge">
-      📷 Photographier une figurine
+    <label class="action-principale">
+      <span class="icone">📷</span>
+      <span><b>Photographier une figurine</b><small>Reconnaissance automatique, puis étiquette</small></span>
       <input type="file" id="input-photo" accept="image/*" capture="environment" hidden>
     </label>
-    <label class="gros-bouton bleu">
-      🖼️ Choisir une photo déjà prise
-      <input type="file" id="input-galerie" accept="image/*" hidden>
-    </label>
-    <button class="gros-bouton bleu" data-action="recherche">🔍 Chercher par nom</button>
-    <button class="gros-bouton bleu-fonce" data-action="collection">📖 Ma collection</button>
-    <label class="bouton corail">📦 Photographier un blister JB
-      <input type="file" id="input-blister" accept="image/*" capture="environment" hidden>
-    </label>
-    <button class="bouton corail" data-action="custom">🎨 Ajouter une figurine custom</button>
-    <button class="bouton bleu" data-action="set">🧱 Ajouter un set LEGO</button>
-    <button class="bouton" data-action="base">📚 Base commune des blisters JB</button>
-    <button class="bouton-lien" data-action="saisie">⌨️ Saisir un code à la main</button>
+
+    <p class="section-titre">Figurines</p>
+    <div class="tuiles">
+      <label class="tuile"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Choisir dans la galerie</small>
+        <input type="file" id="input-galerie" accept="image/*" hidden></label>
+      <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Catalogue BrickLink</small></button>
+      <button class="tuile" data-action="nouveautes"><span class="icone">🆕</span><b>Nouveautés</b><small>Séries récentes</small></button>
+      <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Ex. sw0001</small></button>
+    </div>
+
+    <p class="section-titre">Customs JB Spielwaren</p>
+    <div class="tuiles">
+      <label class="tuile"><span class="icone">📦</span><b>Photographier un blister</b><small>Le nom est lu tout seul</small>
+        <input type="file" id="input-blister" accept="image/*" capture="environment" hidden></label>
+      <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
+    </div>
+
+    <p class="section-titre">Collection</p>
+    <div class="tuiles">
+      <button class="tuile" data-action="collection"><span class="icone">📖</span><b>Ma collection</b><small>Liste, planches, recherche</small></button>
+      <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Ajouter un set</b><small>Par son numéro</small></button>
+      <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base des blisters</b><small>Contribuer à la base JB</small></button>
+    </div>
 
     <details class="outils" id="outils">
       <summary>Outils</summary>
