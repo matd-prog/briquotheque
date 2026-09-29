@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+ <rect width="512" height="512" fill="#D01012"/>
+ <!-- plot (stud) -->
+ <rect x="206" y="92" width="100" height="44" rx="12" fill="#F2C300"/>
+ <rect x="206" y="92" width="100" height="16" rx="8" fill="#FFD83D"/>
+ <!-- tête -->
+ <rect x="126" y="126" width="260" height="250" rx="70" fill="#FFD500"/>
+ <clipPath id="tete"><rect x="126" y="126" width="260" height="250" rx="70"/></clipPath>
+ <rect x="126" y="126" width="56" height="250" fill="#FFE45C" opacity=".55" clip-path="url(#tete)"/>
+ <!-- cou -->
+ <rect x="196" y="368" width="120" height="40" rx="10" fill="#E0B400"/>
+ <!-- yeux + sourire -->
+ <ellipse cx="208" cy="230" rx="17" ry="22" fill="#1B1B1B"/>
+ <ellipse cx="304" cy="230" rx="17" ry="22" fill="#1B1B1B"/>
+ <circle cx="213" cy="222" r="6" fill="#fff"/><circle cx="309" cy="222" r="6" fill="#fff"/>
+ <path d="M190 292 Q256 350 322 292" fill="none" stroke="#1B1B1B" stroke-width="16" stroke-linecap="round"/>
+</svg>
