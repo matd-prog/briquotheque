@@ -19,8 +19,13 @@ jobs:
     timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
+      - name: Test d'accès à Internet Archive
+        run: |
+          curl -sS -m 30 -A "Mozilla/5.0 (catalogue personnel de collectionneur)" -o /tmp/cdx.txt -w "index des copies : %{http_code} en %{time_total} s\n" \
+            "https://web.archive.org/cdx/search/cdx?url=jb-spielwaren.de/en/custom-minifigures/&matchType=prefix&limit=3" || true
+          head -c 400 /tmp/cdx.txt || true
       - name: Lecture des archives
-        run: python3 outils/archive_jb.py --max "${{ github.event.inputs.max }}"
+        run: python3 -u outils/archive_jb.py --max "${{ github.event.inputs.max }}"
       - name: Publication de data/jb_archive.tsv
         run: |
           git add data/jb_archive.tsv

@@ -26,14 +26,14 @@ SORTIE = os.path.join(RACINE, "data", "jb_archive.tsv")
 UA = {"User-Agent": "Mozilla/5.0 (catalogue personnel de collectionneur ; figurines LEGO JB Spielwaren)"}
 
 
-def lire(url, essais=5):
+def lire(url, essais=4):
     for essai in range(essais):
         try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=90) as r:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=45) as r:
                 return r.read().decode("utf-8", "replace")
         except Exception as e:  # archive occupée : on attend de plus en plus longtemps
             print(f"    {e} ({url[:90]}…), nouvel essai", file=sys.stderr)
-            time.sleep(PAUSE * 5 * (essai + 1))
+            time.sleep(PAUSE * 3 * (essai + 1))
     return None
 
 
