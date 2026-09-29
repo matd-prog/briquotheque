@@ -172,6 +172,7 @@
     <label for="recherche-texte" class="etiquette-champ">Nom de la figurine (en anglais, comme sur BrickLink)</label>
     <input id="recherche-texte" class="champ" type="search" placeholder="ex. luke hoth, homer, gandalf" autocomplete="off">
     <p class="aide" id="recherche-info"></p>
+    <div id="recherche-nouveautes" class="suggestions"></div>
     <div id="recherche-resultats" class="grille"></div>
     <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
   </section>
@@ -194,6 +195,7 @@
           <input type="file" id="input-dos" accept="image/*" capture="environment" hidden>
         </label>
         <button class="bouton bleu" data-action="recherche">🔍 Chercher par nom</button>
+        <button class="bouton bleu" data-action="nouveautes">🆕 Nouveautés (séries récentes, pas encore reconnues en photo)</button>
         <button class="bouton-lien" data-action="saisie">⌨️ Saisir le code à la main</button>
       </div>
     </div>

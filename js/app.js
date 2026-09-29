@@ -461,27 +461,33 @@ async function ajouter() {
 
 // ---------- recherche par nom (catalogue BrickLink) ----------
 
-async function ouvrirRecherche() {
+async function ouvrirRecherche(nouveautes = false) {
   afficher("recherche");
   $("recherche-resultats").innerHTML = "";
   $("recherche-info").textContent = "Chargement du catalogue…";
   try {
     const liste = await Catalogue.charger();
-    $("recherche-info").textContent = `${liste.length.toLocaleString("fr-FR")} figurines dans le catalogue. Tapez au moins 2 lettres.`;
     lancerRecherche();
   } catch (e) {
     $("recherche-info").textContent = "Le catalogue BrickLink n'est pas encore installé dans l'appli.";
   }
-  setTimeout(() => $("recherche-texte").focus(), 50);
+  if (!nouveautes) setTimeout(() => $("recherche-texte").focus(), 50); // nouveautés : pas de clavier par-dessus
 }
 
 function lancerRecherche() {
   const texte = $("recherche-texte").value;
   const zone = $("recherche-resultats");
-  if (!Catalogue.liste || texte.trim().length < 2) { zone.innerHTML = ""; return; }
+  if (!Catalogue.liste) { zone.innerHTML = ""; return; }
+  if (texte.trim().length < 2) { zone.innerHTML = ""; afficherNouveautes(); return; }
+  $("recherche-nouveautes").innerHTML = "";
   const res = Catalogue.chercher(texte);
-  $("recherche-info").textContent = res.length ? `${res.length >= 40 ? "40 premiers résultats" : res.length + " résultat(s)"} : touchez la bonne figurine.`
-    : "Aucune figurine trouvée. Essayez un autre mot (en anglais).";
+  afficherResultatsRecherche(res, res.length ? `${res.length >= 40 ? "40 premiers résultats" : res.length + " résultat(s)"} : touchez la bonne figurine.`
+    : "Aucune figurine trouvée. Essayez un autre mot (en anglais).");
+}
+
+function afficherResultatsRecherche(res, info) {
+  const zone = $("recherche-resultats");
+  $("recherche-info").textContent = info;
   zone.innerHTML = res.map((f, i) => `
     <button class="proposition" data-resultat="${i}">
       ${imageHtml({ id: f.code })}
@@ -494,6 +500,21 @@ function lancerRecherche() {
     etat.candidats = [{ id: f.code, nom: f.nom, image: "", score: null, categorie: f.categorie, lien: urlBricklink(f.code) }];
     etat.origine = "recherche";
     choisirCandidat(0);
+  }));
+}
+
+// Séries récentes : un bouton par série ; touché, il montre toutes les figurines de la série
+function afficherNouveautes() {
+  const series = Catalogue.seriesRecentes();
+  const nomSerie = c => c.replace(/^Collectible Minifigures\s*\/\s*/i, "🎁 Minifigs ").replace(/\s*\/\s*/g, " · ");
+  $("recherche-info").textContent = series.length
+    ? "Tapez un nom (au moins 2 lettres), ou touchez une série récente :" : "Tapez au moins 2 lettres.";
+  $("recherche-nouveautes").innerHTML = series.map((s, i) =>
+    `<button class="petit" data-serie="${i}">${echapper(nomSerie(s.categorie))} <span class="score">${s.annee} · ${s.n}</span></button>`).join("");
+  $("recherche-nouveautes").querySelectorAll("[data-serie]").forEach(b => b.addEventListener("click", () => {
+    const s = series[+b.dataset.serie];
+    afficherResultatsRecherche(Catalogue.parCategorie(s.categorie), `${nomSerie(s.categorie)} (${s.annee}) : touchez la bonne figurine.`);
+    $("recherche-resultats").scrollIntoView({ behavior: "smooth" });
   }));
 }
 
@@ -1006,6 +1027,7 @@ document.addEventListener("click", async e => {
   const action = b.dataset.action;
   if (action === "accueil") afficher(etat.classeur ? "accueil" : "fichier");
   else if (action === "saisie") ouvrirSaisie();
+  else if (action === "nouveautes") { $("recherche-texte").value = ""; ouvrirRecherche(true); }
   else if (action === "collection") Collection.ouvrir();
   else if (action === "custom") { photoBlister = null; ouvrirCustom(); }
   else if (action === "custom-oui") ajouterCustom();

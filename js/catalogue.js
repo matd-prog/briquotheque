@@ -66,6 +66,30 @@ const Catalogue = {
   },
 
   // Tous les mots tapés doivent se retrouver dans le code, le nom ou la catégorie
+  // Séries récentes (catégories BrickLink dont une figurine date de cette année ou de l'an dernier),
+  // les plus récentes d'abord : [{ categorie, annee, n }]. Utile quand la reconnaissance par photo
+  // (Brickognize) ne connaît pas encore une nouvelle série (ex. minifigures Shrek).
+  seriesRecentes(max = 30) {
+    if (!this.liste) return [];
+    const depuis = String(new Date().getFullYear() - 1), series = new Map();
+    for (const f of this.liste) {
+      if (!f.categorie || (f.annee || "") < depuis) continue;
+      const s = series.get(f.categorie) || { categorie: f.categorie, annee: "", n: 0 };
+      s.n++; if (f.annee > s.annee) s.annee = f.annee;
+      series.set(f.categorie, s);
+    }
+    const collection = c => /^Collectible Minifigures/i.test(c) ? 1 : 0; // minifigs à collectionner d'abord
+    return [...series.values()].sort((a, b) => b.annee.localeCompare(a.annee) || collection(b.categorie) - collection(a.categorie) || b.n - a.n).slice(0, max);
+  },
+
+  // Figurines récentes (cette année et l'an dernier) d'une catégorie : les plus récentes d'abord,
+  // puis dans l'ordre des codes (ordre de la série)
+  parCategorie(categorie) {
+    const depuis = String(new Date().getFullYear() - 1);
+    return this.liste ? this.liste.filter(f => f.categorie === categorie && (f.annee || "") >= depuis)
+      .sort((a, b) => b.annee.localeCompare(a.annee) || a.code.localeCompare(b.code, "en", { numeric: true })) : [];
+  },
+
   chercher(texte, max = 40) {
     if (!this.liste) return [];
     const mots = normaliser(texte).split(" ").filter(Boolean);

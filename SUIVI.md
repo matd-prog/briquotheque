@@ -118,6 +118,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   tourne sur GitHub Actions (.github/workflows/archive_jb.yml, « Run workflow ») : ça marche (1er
   essai : 261 figurines vues dans 20 copies), avec des refus de connexion passagers (nouveaux essais).
 
+- Nouvelles séries pas encore reconnues en photo par Brickognize (ex. minifigures Shrek 2026, pourtant
+  dans le catalogue BrickLink : colshr01-12) : « Chercher par nom » montre, case vide, les séries
+  récentes (cette année et l'an dernier ; minifigs à collectionner d'abord) ; une série touchée montre
+  ses figurines avec photo. Bouton « 🆕 Nouveautés » sur l'écran de résultat d'une photo. (29/09)
+
 ## Fichier Excel de l'utilisateur
 
 Dernière version fournie : etiquettes_figurines_LEGO_tri-1_2026-09-28_22h04.xlsx
