@@ -35,7 +35,8 @@ const ImportSets = {
     if (/scell/.test(n)) return { etat: "Neuf scellé", boite: true, notice: true, quantite: 1 };
     if (/\bset\b/.test(n) && /sans\s*fig/.test(n)) return { etat: "Sans figurines", boite: /boite/.test(n) || null, notice: null, quantite: 1 };
     if (/\bset\b/.test(n)) return { etat: /boite/.test(n) ? "Démonté (en boîte)" : "Monté", boite: /boite/.test(n) || null, notice: null, quantite: 1 };
-    if (/boite/.test(n)) return { etat: "Boîte seule (vide)", boite: true, notice: null, quantite: nombre };
+    // « boite », « boite à plat » seuls : le set (monté, exposé) ET sa boîte rangée à part (précisé par l'utilisateur)
+    if (/boite/.test(n)) return { etat: "Monté", boite: true, notice: null, quantite: nombre };
     return { etat: "", boite: null, notice: null, quantite: 1 };
   },
 
@@ -109,18 +110,30 @@ const ImportSets = {
       if (!lignes.length) { await demander("Aucun numéro de set trouvé : il faut une colonne titrée « Number » ou « Numéro ».", "OK", "Fermer"); return; }
       const { sets, inconnus, ignores } = this.analyser(lignes);
       // déjà importés (même numéro et mêmes remarques) : pas de doublon si on importe deux fois le même fichier
-      const deja = new Set((await lireSets(etat.classeur)).map(s => `${s.code.toLowerCase()}|${s.remarques || ""}`));
-      const nouveaux = sets.filter(s => !deja.has(`${s.code.toLowerCase()}|${s.remarques}`));
-      const compte = e => sets.filter(s => s.etat === e).length;
+      // déjà importés (même numéro et mêmes remarques) : pas de doublon si on importe deux fois le même fichier ;
+      // leur état est seulement mis à jour s'il a changé (nouvelle règle de lecture des remarques)
+      const existants = new Map((await lireSets(etat.classeur)).map(s => [`${s.code.toLowerCase()}|${s.remarques || ""}`, s]));
+      const nouveaux = sets.filter(s => !existants.has(`${s.code.toLowerCase()}|${s.remarques}`));
+      const aCorriger = sets.map(s => [s, existants.get(`${s.code.toLowerCase()}|${s.remarques}`)])
+        .filter(([s, e]) => e && s.etat && e.etat !== s.etat);
+      const compte = e => sets.filter(s => s.etat === e && !/^Collectible/.test(s.theme)).length;
       const ok = await demander(`${lignes.length} lignes lues dans « ${fichier.name} ».\n\n` +
-        `${sets.length} articles : ${compte("Boîte seule (vide)")} boîtes seules, ${compte("Sans figurines")} sans figurines, ` +
-        `${compte("Neuf scellé")} scellés, ${sets.filter(s => /^Collectible/.test(s.theme)).length} minifigurines de séries…` +
-        (sets.length > nouveaux.length ? `\n${sets.length - nouveaux.length} déjà dans votre onglet « Sets » (pas ajoutés).` : "") +
+        `${sets.length} articles : ${compte("Monté")} montés (boîte à part), ${compte("Démonté (en boîte)")} en boîte, ` +
+        `${compte("Sans figurines")} sans figurines, ${compte("Neuf scellé")} scellés, ` +
+        `${sets.filter(s => /^Collectible/.test(s.theme)).length} minifigurines de séries…` +
+        (sets.length > nouveaux.length ? `\n${sets.length - nouveaux.length} déjà dans votre onglet « Sets »` +
+          (aCorriger.length ? `, dont ${aCorriger.length} dont l'état sera corrigé.` : " (inchangés).") : "") +
         (inconnus.length ? `\n\nNon reconnus (ajoutés tels quels, à vérifier) :\n${inconnus.slice(0, 10).join("\n")}${inconnus.length > 10 ? "\n…" : ""}` : "") +
         (ignores.length ? `\n\nIgnorés :\n${ignores.join("\n")}` : "") +
-        `\n\nAjouter ${nouveaux.length} articles à l'onglet « Sets » ?`, "Ajouter", "Annuler");
-      if (!ok || !nouveaux.length) return;
+        `\n\n${nouveaux.length ? `Ajouter ${nouveaux.length} articles` : "Aucun nouvel article"}` +
+        `${aCorriger.length ? ` et corriger ${aCorriger.length} états` : ""} ?`, "Valider", "Annuler");
+      if (!ok || !(nouveaux.length + aCorriger.length)) return;
       afficher("chargement");
+      for (const [s, e] of aCorriger) {
+        await etat.classeur.ecrireTexte(ONGLET_SETS, "F" + e.row, s.etat);
+        if (s.boite != null) await etat.classeur.ecrireTexte(ONGLET_SETS, "G" + e.row, s.boite ? "oui" : "non");
+      }
+      if (aCorriger.length) etat.nonEnregistres++;
       for (let i = 0; i < nouveaux.length; i++) {
         $("texte-chargement").textContent = `Ajout des sets… (${i + 1} sur ${nouveaux.length})`;
         await ajouterSet(etat.classeur, nouveaux[i]);
@@ -129,7 +142,7 @@ const ImportSets = {
       await memoriser();
       await relireContenu();
       afficher("accueil");
-      await demander(`${nouveaux.length} articles ajoutés à l'onglet « Sets ».\n\nPensez à enregistrer le fichier.`, "OK", "Fermer");
+      await demander(`${nouveaux.length} article(s) ajouté(s)${aCorriger.length ? `, ${aCorriger.length} état(s) corrigé(s)` : ""} dans l'onglet « Sets ».\n\nPensez à enregistrer le fichier.`, "OK", "Fermer");
     } catch (err) {
       console.error(err);
       const m = await Memoire.lire(); // retour à la dernière version gardée dans le téléphone
