@@ -22,6 +22,7 @@ const Valeur = {
 
   async _api(chemin, options = {}) {
     const rep = await fetch(`https://api.github.com/repos/${DEPOT_PRIVE}${chemin}`, {
+      cache: "no-store", // prix mis à jour pendant le relevé : jamais de copie gardée par le navigateur
       ...options,
       headers: { Authorization: `Bearer ${this.jeton}`, Accept: "application/vnd.github+json",
                  "X-GitHub-Api-Version": "2022-11-28", ...(options.headers || {}) },
@@ -161,9 +162,10 @@ const Valeur = {
       const releve = (await Memoire.lire("releve")) || { n: 0, nLego: 0, depuis: 0 };
       const runs = await (await this._api("/actions/workflows/prix.yml/runs?per_page=1")).json();
       const run = runs.workflow_runs && runs.workflow_runs[0];
-      if (!run || new Date(run.created_at) < releve.depuis - 60000) { zone.hidden = true; return; }
+      const cacher = () => { zone.hidden = true; zone.innerHTML = ""; };
+      if (!run || new Date(run.created_at) < releve.depuis - 60000) { cacher(); return; }
       if (run.status === "completed") {
-        zone.hidden = true;
+        cacher();
         if (this._suivi) { this._suivi = false; toast(run.conclusion === "success" ? "Relevé des prix terminé ✔" : "Le relevé des prix s'est arrêté en erreur."); this.afficher(); }
         return;
       }
@@ -187,12 +189,66 @@ const Valeur = {
           ` · encore ~${Math.max(1, Math.ceil((tBL - ecoule(bl) + tLego) / 60))} min`;
         part = (f * tBL) / total;
       } else if (run.status === "in_progress") { texte = "Démarrage du relevé…"; part = 0.03; }
-      zone.hidden = false;
-      zone.innerHTML = `<p class="sous-titre">⏳ Relevé des prix en cours</p>
-        <div class="barre-avancement"><div style="width:${Math.round(part * 100)}%"></div></div>
-        <p class="score">${echapper(texte)} (${Math.round(part * 100)} %, estimation)</p>`;
+      // valeur provisoire : prix enregistrés par le relevé toutes les minutes, relus toutes les 30 s
+      if (this._runSuivi !== run.id) { this._runSuivi = run.id; this._valeurDepart = null; this._valeurLue = 0; this._cible = null; }
+      if (Date.now() - this._valeurLue > 30000) {
+        this._valeurLue = Date.now();
+        const c = await this.calculer().catch(() => null);
+        if (c) {
+          if (this._valeurDepart == null) { this._valeurDepart = c.total; this._affichee = c.total; }
+          this._cible = c.total; this._nbEstimes = c.details.length;
+        }
+      }
+      this._compteur(part, texte);
     } catch (err) { console.warn(err); }
     this._minuteur = setTimeout(() => this.suivre(), 5000);
+  },
+
+  // Compteur façon « test de débit » : cadran (avancement du relevé, aiguille) et, dessous, la valeur provisoire
+  // qui défile en continu vers la dernière valeur lue (animation), avec la hausse depuis le début du relevé.
+  _compteur(part, texte) {
+    const zone = $("valeur-avancement");
+    zone.hidden = false;
+    if (!$("compteur-arc")) {
+      zone.innerHTML = `<p class="sous-titre">⏳ Relevé des prix en cours</p>
+        <svg class="compteur" viewBox="0 0 200 118" aria-hidden="true">
+          <path d="M20 100 A80 80 0 0 1 180 100" class="compteur-fond"/>
+          <path id="compteur-arc" d="M20 100 A80 80 0 0 1 180 100" class="compteur-arc" pathLength="100" stroke-dasharray="0 100"/>
+          ${[0, 25, 50, 75, 100].map(g => { const a = Math.PI * (1 - g / 100);
+            return `<line x1="${100 + 66 * Math.cos(a)}" y1="${100 - 66 * Math.sin(a)}" x2="${100 + 72 * Math.cos(a)}" y2="${100 - 72 * Math.sin(a)}" class="compteur-graduation"/>`; }).join("")}
+          <g id="compteur-aiguille" style="transform: rotate(-90deg)"><line x1="100" y1="100" x2="100" y2="34" class="compteur-aiguille"/></g>
+          <circle cx="100" cy="100" r="7" class="compteur-centre"/>
+          <text id="compteur-pct" x="100" y="80" text-anchor="middle" class="compteur-pct">0 %</text>
+        </svg>
+        <div class="compteur-valeur" id="compteur-valeur">…</div>
+        <div class="compteur-hausse" id="compteur-hausse"></div>
+        <p class="score" id="compteur-texte"></p>`;
+      this._animer();
+    }
+    const pct = Math.round(part * 100);
+    $("compteur-arc").setAttribute("stroke-dasharray", `${pct} 100`);
+    $("compteur-aiguille").style.transform = `rotate(${-90 + pct * 1.8}deg)`;
+    $("compteur-pct").textContent = `${pct} %`;
+    $("compteur-texte").textContent = `${texte} (estimation)${this._nbEstimes ? ` · ${this._nbEstimes} articles estimés` : ""}`;
+  },
+
+  // Valeur affichée : avance en continu vers la dernière valeur lue (en ~25 s, jusqu'à la lecture suivante)
+  _animer() {
+    let avant = performance.now();
+    const pas = t => {
+      if (!$("compteur-valeur") || $("valeur-avancement").hidden) return;
+      const dt = (t - avant) / 1000; avant = t;
+      if (this._cible != null) {
+        const ecart = this._cible - this._affichee;
+        this._affichee += Math.abs(ecart) < 0.01 ? ecart : ecart * Math.min(1, dt / 25 * 3);
+        const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+        $("compteur-valeur").textContent = euros(this._affichee);
+        const hausse = this._affichee - this._valeurDepart;
+        $("compteur-hausse").textContent = `${hausse >= 0 ? "+" : ""}${euros(hausse)} depuis le début du relevé`;
+      }
+      requestAnimationFrame(pas);
+    };
+    requestAnimationFrame(pas);
   },
 
   // Lignes en double de l'onglet « Sets » (même numéro) : on garde celle qui a des remarques (rangement), sinon la 1re.

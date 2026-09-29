@@ -209,3 +209,17 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 /* Barre d'avancement du relevé des prix (js/valeur.js) */
 .barre-avancement { height: 14px; background: #e6e6e6; border-radius: 7px; overflow: hidden; margin: 6px 0; }
 .barre-avancement div { height: 100%; background: var(--vert); transition: width 1s linear; }
+.hausse { color: var(--vert); }
+
+/* Compteur du relevé des prix, façon « test de débit » (js/valeur.js) */
+.compteur { display: block; width: 100%; max-width: 320px; margin: 4px auto 0; }
+.compteur-fond, .compteur-arc { fill: none; stroke-width: 14; stroke-linecap: round; }
+.compteur-fond { stroke: #e6e6e6; }
+.compteur-arc { stroke: var(--vert); transition: stroke-dasharray 1s linear; }
+.compteur-graduation { stroke: #999; stroke-width: 2; }
+.compteur-aiguille { stroke: #d01012; stroke-width: 4; stroke-linecap: round; }
+#compteur-aiguille { transform-origin: 100px 100px; transition: transform 1s ease-out; }
+.compteur-centre { fill: #d01012; }
+.compteur-pct { font-size: 18px; font-weight: bold; fill: #333; }
+.compteur-valeur { text-align: center; font-size: 34px; font-weight: 800; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.compteur-hausse { text-align: center; color: var(--vert); font-weight: bold; }
