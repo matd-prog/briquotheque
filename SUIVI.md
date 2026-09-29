@@ -167,6 +167,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   en double. Valeur : une figurine des onglets de figurines n'est pas recomptée dans son set (retirée du prix du set)
   ni comme figurine de série de l'onglet Sets. Un seul fichier Excel : tout est dans le fichier principal
   (Collection_Sets.xlsx ne sert plus qu'à l'import).
+- Valeur principale = coût de rachat à neuf (demande de l'utilisateur, pour l'assureur, 29/09) : prix des ventes
+  neuves BrickLink, en Europe (region=europe), TVA comprise (vat=Y), monde entier s'il n'y a eu aucune vente en
+  Europe ; prix LEGO pour les sets encore vendus ; prix d'occasion s'il n'y a eu aucune vente neuve. Valeur
+  d'occasion affichée en complément (écran Valeur, colonne du dossier assureur). prix.tsv : colonnes neuf_zone et
+  occasion_zone (europe / monde). Pendant le relevé, prix provisoires toutes les 10 s sur la branche
+  releve-en-cours (commit sans historique) : compteur façon test de débit dans l'appli, article par article.
 - Méthode (demandée par l'utilisateur le 29/09) : figurines d'un set monté estimées une à une (prix du marché
   BrickLink), plus le reste du set = prix du set (LEGO si encore vendu, sinon BrickLink) moins ses figurines, jamais
   moins de 30 % du prix LEGO d'origine (PART_RESTE_SET, js/valeur.js). Figurine déjà dans les onglets de figurines :

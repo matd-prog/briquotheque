@@ -121,9 +121,12 @@ const Valeur = {
       const recent = async (fichier, jours, cle) => {
         const r = await this._api(`/contents/${fichier}`, { headers: { Accept: "application/vnd.github.raw" } });
         const vus = new Set();
-        if (r.ok) for (const l of (await r.text()).split("\n").slice(1)) {
-          const c = l.split("\t"), date = c[c.length - 1];
-          if (date && (Date.now() - new Date(date)) / 864e5 < jours) vus.add(cle(c));
+        if (r.ok) {
+          const [entete, ...lignes] = (await r.text()).split("\n").map(l => l.split("\t"));
+          for (const c of lignes) { // ligne à l'ancien format : sera relevée à nouveau
+            const date = c[c.length - 1];
+            if (c.length === entete.length && date && (Date.now() - new Date(date)) / 864e5 < jours) vus.add(cle(c));
+          }
         }
         return vus;
       };
@@ -347,34 +350,46 @@ const Valeur = {
       if (!fin || fin >= new Date().toISOString().slice(0, 10)) lego.set(code.toLowerCase(), parseFloat(prixLego));
     }
     const articles = await this._articles();
-    let total = 0, date = "";
-    const sans = [], parOnglet = {}, details = [];
-    for (const a of articles) {
+    const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
+    // Deux valeurs par article (prix BrickLink : ventes en Europe TVA comprise, sinon monde entier) :
+    //  - rachat : ce que coûterait le rachat à neuf (prix neuf ; prix LEGO si le set est encore vendu ;
+    //    prix d'occasion s'il n'y a eu aucune vente neuve) : valeur principale, pour l'assureur ;
+    //  - occasion : revente d'occasion (neuf pour les sets scellés et objets neufs), en complément.
+    const evaluer = (a, rachat) => {
       const p = prix.get(`${a.type} ${a.code.toLowerCase()}`);
-      const neuf = (a.type === "SET" && /scell/i.test(a.etat)) || (a.type === "GEAR" && /neuf/i.test(a.etat));
-      const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
-      const enVente = a.type === "SET" ? lego.get(a.code.toLowerCase()) : 0;
-      let v = enVente || lirePrix(p, neuf) || lirePrix(p, !neuf); // pas de vente dans cet état : prix de l'autre état
-      if (!v) { sans.push(a); continue; }
-      const unitaire = v, brut = v * (a.quantite || 1), qte = a.quantite || 1;
+      const enVente = rachat && a.type === "SET" ? lego.get(a.code.toLowerCase()) : 0;
+      const neufVoulu = rachat || (a.type === "SET" && /scell/i.test(a.etat)) || (a.type === "GEAR" && /neuf/i.test(a.etat));
+      const pn = lirePrix(p, neufVoulu), pAutre = lirePrix(p, !neufVoulu);
+      let v = enVente || pn || pAutre || (!rachat && a.type === "SET" ? lego.get(a.code.toLowerCase()) || 0 : 0);
+      if (!v) return null;
+      const neuf = !enVente && (pn ? neufVoulu : !neufVoulu);
+      const unitaire = v, qte = a.quantite || 1;
       let detail = null;
       if (a.figs && a.figs.length) {
-        // figurines au prix du marché + reste du set (prix du set moins ses figurines, jamais moins de
+        // figurines une à une + reste du set (prix du set moins ses figurines, jamais moins de
         // PART_RESTE_SET du prix LEGO d'origine : briques, boîte et notice gardent une valeur)
-        const pf = f => lirePrix(prix.get(`MINIFIG ${f.code}`), false);
+        const pf = f => { const q = prix.get(`MINIFIG ${f.code}`); return lirePrix(q, rachat) || lirePrix(q, !rachat); };
         const figsSet = a.figs.reduce((n, f) => n + pf(f) * f.quantite, 0);
         const reste = Math.max(v - figsSet, PART_RESTE_SET * (prixOrigine.get(a.code.toLowerCase()) || v));
         const figsIci = a.sansFigs ? 0 : a.figs.reduce((n, f) => n + pf(f) * (f.quantite * qte - f.ailleurs), 0);
         v = reste * qte + figsIci;
         detail = { figsSet, reste, figsIci };
       } else v = v * qte;
-      if (p && p.date > date) date = p.date;
-      total += v;
-      parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + v;
-      details.push({ ...a, v, unitaire, brut, ventes: p ? (neuf ? p.neuf_ventes : p.occasion_ventes) : 0, neuf, enVente: !!enVente, detail });
+      return { v, unitaire, detail, neuf, enVente: !!enVente, date: p ? p.date : "",
+               ventes: p ? (neuf ? p.neuf_ventes : p.occasion_ventes) : 0, zone: p ? (neuf ? p.neuf_zone : p.occasion_zone) || "" : "" };
+    };
+    let total = 0, totalOccasion = 0, date = "";
+    const sans = [], parOnglet = {}, details = [];
+    for (const a of articles) {
+      const r = evaluer(a, true), o = evaluer(a, false);
+      if (!r) { sans.push(a); continue; }
+      if (r.date > date) date = r.date;
+      total += r.v; totalOccasion += o ? o.v : 0;
+      parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + r.v;
+      details.push({ ...a, ...r, brut: r.unitaire * (a.quantite || 1), vOccasion: o ? o.v : 0 });
     }
     details.sort((x, y) => y.v - x.v);
-    return { details, sans, total, parOnglet, date };
+    return { details, sans, total, totalOccasion, parOnglet, date };
   },
 
   async afficher() {
@@ -383,7 +398,7 @@ const Valeur = {
     try {
       const calcul = await this.calculer();
       if (!calcul) { $("valeur-etat").textContent = "Pas encore de prix : touchez « Envoyer ma liste et relever les prix »."; return; }
-      const { details, sans, total, parOnglet, date } = calcul;
+      const { details, sans, total, totalOccasion, parOnglet, date } = calcul;
       if (!details.length) {
         $("valeur-etat").textContent = "";
         $("valeur-resultat").innerHTML = `<div class="carte"><p>⏳ Aucun prix pour l'instant : le relevé BrickLink est sans doute encore en cours` +
@@ -391,7 +406,7 @@ const Valeur = {
         return;
       }
       const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
-      $("valeur-etat").textContent = date ? `Prix du ${new Date(date).toLocaleDateString("fr-FR")} : médiane des ventes BrickLink des 6 derniers mois.` : "";
+      $("valeur-etat").textContent = date ? `Prix du ${new Date(date).toLocaleDateString("fr-FR")} : médiane des ventes BrickLink des 6 derniers mois en Europe, TVA comprise.` : "";
       const doublons = await this._doublons();
       const boites = (await lireSets(etat.classeur)).filter(x => /boîte seule|boite seule/i.test(x.etat));
       $("valeur-resultat").innerHTML = (doublons.length ? `<div class="carte alerte">⚠️ <b>${doublons.length} ligne(s) en double</b> dans l'onglet « Sets » ` +
@@ -399,7 +414,8 @@ const Valeur = {
           `<button class="bouton rouge" data-action="valeur-doublons">🧹 Supprimer les doublons</button></div>` : "") +
         (boites.length ? `<div class="carte alerte">📦 <b>${boites.length} set(s) notés « Boîte seule (vide) »</b> dans l'onglet « Sets » : ` +
           `ils sont comptés comme des boîtes vides.<button class="bouton bleu" data-action="valeur-boites">✔ Ce sont des sets montés complets (boîte et notice)</button></div>` : "") + `
-        <div class="carte valeur-total"><div class="score">Valeur estimée de la collection</div><div class="montant">${euros(total)}</div>
+        <div class="carte valeur-total"><div class="score">Coût de rachat à neuf de la collection</div><div class="montant">${euros(total)}</div>
+          <div class="ligne-valeur"><span>Valeur d'occasion (revente)</span><b>${euros(totalOccasion)}</b></div>
           <div class="score">${details.length} article(s) valorisé(s)${sans.length ? ` · ${sans.length} sans prix pour l'instant` : ""}</div></div>
         <div class="carte"><p class="sous-titre">Par onglet</p>
           ${Object.entries(parOnglet).sort((a, b) => b[1] - a[1]).map(([o, v]) => `<div class="ligne-valeur"><span>${echapper(o)}</span><b>${euros(v)}</b></div>`).join("")}</div>
@@ -408,10 +424,10 @@ const Valeur = {
           if (!g.length) return "";
           const total = g.reduce((n, d) => n + d.v, 0);
           return `<div class="carte"><p class="sous-titre">${titre} : ${euros(total)} <span class="score">(${g.length})</span></p>
-            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.enVente ? " · prix LEGO (encore en vente)" : d.neuf ? " · neuf" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente ? "" : ` · ${d.ventes} ventes`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
+            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.enVente ? " · prix LEGO (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente ? "" : ` · ${d.ventes} ventes`} · occasion ${euros(d.vOccasion)}</span></span><b>${euros(d.v)}</b></div>`).join("")}
             ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
         }).join("")}
-        <p class="aide">Figurines au prix d'occasion ; sets encore vendus par LEGO au prix LEGO ; autres sets au prix neuf s'ils sont notés « Neuf scellé », sinon d'occasion ; boîtes seules au prix des boîtes vides ; objets dérivés au prix neuf s'ils sont notés neufs ; sets montés : figurines estimées une à une au prix du marché, plus le reste du set (prix du set moins ses figurines, au moins 30 % du prix LEGO d'origine) ; une figurine déjà dans vos onglets de figurines n'est pas comptée une 2e fois. Customs (JB…) non valorisées.</p>`;
+        <p class="aide">Valeur principale = coût de rachat à neuf : prix des ventes neuves sur BrickLink (6 derniers mois, en Europe, TVA comprise ; monde entier s'il n'y en a pas eu en Europe) ; prix LEGO pour les sets encore vendus ; prix d'occasion quand il n'y a eu aucune vente neuve. Sets montés : figurines estimées une à une, plus le reste du set (prix du set moins ses figurines, au moins 30 % du prix LEGO d'origine) ; une figurine déjà dans vos onglets de figurines n'est pas comptée une 2e fois. Valeur d'occasion : même calcul avec les ventes d'occasion. Customs (JB…) non valorisées.</p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;

@@ -24,7 +24,8 @@ const Assurance = {
 
   _source(d) {
     if (d.enVente) return "Prix LEGO (encore en vente)";
-    return `BrickLink, médiane de ${d.ventes || 0} vente(s) ${d.neuf ? "neuf" : "occasion"}`;
+    return `BrickLink, médiane de ${d.ventes || 0} vente(s) ${d.neuf ? "neuf" : "occasion (aucune vente neuve)"}, ` +
+      (d.zone === "monde" ? "monde entier" : "Europe");
   },
 
   _etat(d) {
@@ -47,7 +48,7 @@ const Assurance = {
       $("assurance-etat").textContent = "Échec : " + err.message;
       return;
     }
-    const { details, sans, total, date } = this.calcul;
+    const { details, sans, total, totalOccasion, date } = this.calcul;
     const customs = [];
     for (const [onglet, o] of Object.entries(etat.collection || {}))
       for (const c of o.cases) if (c.code && /^(JB|CUS|BSC|EBAY)-/i.test(c.code)) customs.push({ code: c.code, nom: c.nom, onglet });
@@ -60,15 +61,15 @@ const Assurance = {
         <td>${echapper(d.code)}</td><td>${echapper(d.nom || "")}${d.detail ? `<br><small>figurines du set ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}` +
           `${d.figsAilleurs ? ` ; ${d.figsAilleurs} figurine(s) inventoriée(s) dans « Figurines »` : ""}${d.sansFigs ? " ; set sans ses figurines" : ""}</small>` : ""}</td>
         <td>${echapper(this._etat(d))}</td><td class="n">${d.quantite || 1}</td><td class="n">${euros(d.unitaire)}</td>
-        <td><small>${echapper(this._source(d))}</small></td><td class="n"><b>${euros(d.v)}</b></td></tr>`;
+        <td><small>${echapper(this._source(d))}</small></td><td class="n"><b>${euros(d.v)}</b></td><td class="n">${euros(d.vOccasion)}</td></tr>`;
     const sections = CATEGORIES_ASSURANCE.map(([titre, test]) => {
       const g = details.filter(test).sort((a, b) => a.code.localeCompare(b.code, "fr", { numeric: true }));
       if (!g.length) return "";
-      const sousTotal = g.reduce((n, d) => n + d.v, 0);
+      const sousTotal = g.reduce((n, d) => n + d.v, 0), sousTotalOcc = g.reduce((n, d) => n + d.vOccasion, 0);
       return `<h2>${titre} <span>(${g.reduce((n, d) => n + (d.quantite || 1), 0)} article(s) · ${euros(sousTotal)})</span></h2>
-        <table><thead><tr>${photos ? "<th></th>" : ""}<th>Référence</th><th>Désignation</th><th>État</th><th>Qté</th><th>Prix unit.</th><th>Source du prix</th><th>Valeur</th></tr></thead>
+        <table><thead><tr>${photos ? "<th></th>" : ""}<th>Référence</th><th>Désignation</th><th>État</th><th>Qté</th><th>Prix unit.</th><th>Source du prix</th><th>Rachat à neuf</th><th>Occasion</th></tr></thead>
         <tbody>${g.map(ligne).join("")}</tbody>
-        <tfoot><tr><td colspan="${photos ? 7 : 6}">Sous-total ${titre.toLowerCase()}</td><td class="n"><b>${euros(sousTotal)}</b></td></tr></tfoot></table>`;
+        <tfoot><tr><td colspan="${photos ? 7 : 6}">Sous-total ${titre.toLowerCase()}</td><td class="n"><b>${euros(sousTotal)}</b></td><td class="n">${euros(sousTotalOcc)}</td></tr></tfoot></table>`;
     }).join("");
     $("assurance-dossier").innerHTML = `
       <div class="dossier">
@@ -76,20 +77,23 @@ const Assurance = {
         <p class="entete">${infos.nom ? `<b>Propriétaire :</b> ${echapper(infos.nom)}<br>` : ""}${infos.adresse ? `<b>Adresse :</b> ${echapper(infos.adresse)}<br>` : ""}
           ${infos.contrat ? `<b>Contrat d'assurance :</b> ${echapper(infos.contrat)}<br>` : ""}<b>Date du dossier :</b> ${jour}</p>
         <div class="resume">
-          <div><small>Valeur totale estimée</small><b>${euros(total)}</b></div>
+          <div><small>Coût de rachat à neuf</small><b>${euros(total)}</b></div>
+          <div><small>Valeur d'occasion</small><b>${euros(totalOccasion)}</b></div>
           <div><small>Articles estimés</small><b>${nbPieces}</b></div>
           ${CATEGORIES_ASSURANCE.map(([titre, test]) => { const g = details.filter(test); return g.length ? `<div><small>${titre}</small><b>${euros(g.reduce((n, d) => n + d.v, 0))}</b></div>` : ""; }).join("")}
         </div>
         <h2>Méthode d'estimation</h2>
         <p>Chaque article est identifié par sa référence dans le catalogue BrickLink (la plus grande place de marché mondiale
-          de LEGO d'occasion). Sa valeur est la <b>médiane des prix de vente réellement conclus sur BrickLink au cours des
-          6 derniers mois</b>, en euros (et non les prix demandés par les vendeurs) : prix « occasion » pour les figurines et
-          les sets montés, prix « neuf » pour les sets neufs scellés et les objets neufs. Les sets <b>encore vendus par LEGO</b>
-          sont estimés à leur <b>prix de vente public LEGO</b> (valeur de remplacement ; source : Brickset).
-          Les figurines d'un set monté sont estimées <b>une à une</b> au prix du marché (elles valent souvent plus que le
-          set d'occasion lui-même), et le <b>reste du set</b> (briques, boîte, notice) à part : prix du set moins celui de
-          ses figurines, sans jamais descendre sous 30 % de son prix LEGO d'origine. Une figurine inventoriée dans la
-          partie « Figurines » n'est pas comptée une seconde fois dans son set. Prix relevés le ${date ? new Date(date).toLocaleDateString("fr-FR") : jour}.</p>
+          de LEGO). La <b>valeur retenue est le coût de rachat à neuf</b> : la <b>médiane des prix de vente d'articles neufs
+          réellement conclus sur BrickLink au cours des 6 derniers mois, en Europe, TVA comprise</b>, en euros (et non les prix
+          demandés par les vendeurs ; ventes du monde entier quand il n'y en a eu aucune en Europe). Les sets <b>encore vendus
+          par LEGO</b> sont estimés à leur <b>prix de vente public LEGO</b> (source : Brickset). Quand un article n'a eu aucune
+          vente à l'état neuf, son prix d'occasion est retenu (indiqué dans la colonne « Source du prix »).
+          Les figurines d'un set monté sont estimées <b>une à une</b> (elles valent souvent plus que le set lui-même), et le
+          <b>reste du set</b> (briques, boîte, notice) à part : prix du set moins celui de ses figurines, sans jamais descendre
+          sous 30 % de son prix LEGO d'origine. Une figurine inventoriée dans la partie « Figurines » n'est pas comptée une
+          seconde fois dans son set. À titre d'information, la colonne « Occasion » donne la valeur de revente d'occasion
+          (même méthode, ventes d'occasion). Prix relevés le ${date ? new Date(date).toLocaleDateString("fr-FR") : jour}.</p>
         ${sections}
         ${sans.length || customs.length ? `<h2>Articles non estimés</h2><p>${sans.length ? `${sans.length} article(s) sans vente récente connue sur BrickLink : ` +
           echapper(sans.map(a => `${a.code}${a.nom ? ` (${a.nom})` : ""}`).join(", ")) + ". " : ""}${customs.length ? `${customs.length} figurine(s) personnalisée(s) ` +
@@ -101,7 +105,7 @@ const Assurance = {
         <p class="pied">Dossier établi avec l'appli Figothèque. Photos : catalogue BrickLink (photos de référence des articles).</p>
       </div>`;
     $("assurance-sortie").hidden = false;
-    $("assurance-etat").textContent = `Dossier prêt : ${nbPieces} articles, ${euros(total)}. Vérifiez-le ci-dessous, puis enregistrez-le en PDF.`;
+    $("assurance-etat").textContent = `Dossier prêt : ${nbPieces} articles, rachat à neuf ${euros(total)}. Vérifiez-le ci-dessous, puis enregistrez-le en PDF.`;
   },
 
   // Attend le chargement des photos (10 s au plus), puis ouvre le menu Imprimer (« Enregistrer en PDF »)
@@ -123,11 +127,11 @@ const Assurance = {
     if (!this.calcul) return;
     const c = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
     const nombre = v => v.toFixed(2).replace(".", ",");
-    const lignes = [["Catégorie", "Référence", "Désignation", "État", "Quantité", "Prix unitaire (€)", "Valeur retenue (€)", "Source du prix", "Rangement / onglet"].map(c).join(";")];
+    const lignes = [["Catégorie", "Référence", "Désignation", "État", "Quantité", "Prix unitaire (€)", "Rachat à neuf (€)", "Occasion (€)", "Source du prix", "Rangement / onglet"].map(c).join(";")];
     for (const [titre, test] of CATEGORIES_ASSURANCE)
       for (const d of this.calcul.details.filter(test))
-        lignes.push([titre, d.code, d.nom, this._etat(d), d.quantite || 1, nombre(d.unitaire), nombre(d.v), this._source(d), d.remarques || d.onglet].map(c).join(";"));
-    lignes.push(["Total", "", "", "", "", "", nombre(this.calcul.total), "", ""].map(c).join(";"));
+        lignes.push([titre, d.code, d.nom, this._etat(d), d.quantite || 1, nombre(d.unitaire), nombre(d.v), nombre(d.vOccasion), this._source(d), d.remarques || d.onglet].map(c).join(";"));
+    lignes.push(["Total", "", "", "", "", "", nombre(this.calcul.total), nombre(this.calcul.totalOccasion), "", ""].map(c).join(";"));
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob(["﻿" + lignes.join("\r\n")], { type: "text/csv" }));
     a.download = `inventaire_LEGO_${horodatage()}.csv`;
