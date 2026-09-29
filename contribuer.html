@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blisters JB</title>
+<meta name="theme-color" content="#d9476b">
+<link rel="manifest" href="contribuer.webmanifest">
+<link rel="icon" href="icones/icone-192.png">
+<link rel="apple-touch-icon" href="icones/icone-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- Mini-appli « Blisters JB » : seulement la base commune des blisters (photographier, vérifier le nom,
+     exporter), pour qu'un ami collectionneur l'alimente sans fichier Excel ni étiquettes.
+     Même code que l'écran « Base commune » de l'appli principale (js/base.js). -->
+<header style="background: #d9476b">
+  <h1>📚 Blisters JB</h1>
+  <div class="fichier-info">Base commune des blisters JB Spielwaren</div>
+</header>
+
+<main>
+  <section id="ecran-base" class="ecran">
+    <p class="intro">Photographiez vos blisters JB Spielwaren <b>un par un</b>, de face. Le nom est lu tout seul :
+      vérifiez-le, puis « Ajouter à la base ». Quand vous avez fini, touchez « Exporter » : un fichier .zip est
+      créé dans vos Téléchargements, envoyez-le à Mathias. Merci !</p>
+    <label class="gros-bouton corail">📷 Photographier un blister
+      <input type="file" id="input-base" accept="image/*" capture="environment" hidden>
+    </label>
+    <p class="aide" id="base-etat"></p>
+    <img id="base-photo" class="photo-apercu" alt="Photo du blister">
+    <div id="base-fiche" hidden>
+      <label for="base-nom" class="etiquette-champ">Nom imprimé sur le blister</label>
+      <input id="base-nom" class="champ" autocomplete="off" placeholder="ex. SHINY DARK LORD">
+      <div id="base-suggestions" class="suggestions"></div>
+      <label for="base-serie" class="etiquette-champ">Série limitée (facultatif)</label>
+      <input id="base-serie" class="champ" autocomplete="off" placeholder="ex. 250 (pour « LIMITED TO 250 »)">
+      <label for="base-remarque" class="etiquette-champ">Remarque (facultatif)</label>
+      <input id="base-remarque" class="champ" autocomplete="off" placeholder="ex. édition 2021, Comic Con…">
+      <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter à la base</button>
+    </div>
+    <div class="carte">
+      <p class="sous-titre" id="base-compte"></p>
+      <button class="bouton bleu" data-action="base-exporter" id="btn-base-exporter">⬇️ Exporter (un fichier .zip)</button>
+      <p class="aide">Les blisters restent dans le téléphone tant que vous ne les effacez pas.</p>
+      <div id="base-liste" class="base-liste"></div>
+      <button class="bouton-lien" data-action="base-vider" id="btn-base-vider">Effacer les blisters déjà exportés</button>
+    </div>
+  </section>
+</main>
+
+<dialog id="dialogue">
+  <p id="dialogue-texte"></p>
+  <div class="dialogue-boutons">
+    <button class="bouton gris" value="non" id="dialogue-non">Non</button>
+    <button class="bouton vert" value="oui" id="dialogue-oui">Oui</button>
+  </div>
+</dialog>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+// Petits outils de l'appli principale (js/app.js, js/camps.js), repris ici pour ne pas charger tout le reste
+const $ = id => document.getElementById(id);
+const echapper = t => String(t ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const normaliser = t => (t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
+function horodatage() {
+  const d = new Date(), z = n => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}_${z(d.getHours())}h${z(d.getMinutes())}`;
+}
+function afficher() { window.scrollTo(0, 0); } // un seul écran
+function toast(texte, duree = 3500) {
+  const t = $("toast");
+  t.textContent = texte; t.hidden = false;
+  clearTimeout(toast.minuteur);
+  toast.minuteur = setTimeout(() => t.hidden = true, duree);
+}
+function demander(texte, oui = "Oui", non = "Non") {
+  return new Promise(ok => {
+    const d = $("dialogue");
+    $("dialogue-texte").textContent = texte;
+    $("dialogue-oui").textContent = oui;
+    $("dialogue-non").textContent = non;
+    $("dialogue-oui").onclick = () => { d.close(); ok(true); };
+    $("dialogue-non").onclick = () => { d.close(); ok(false); };
+    d.oncancel = () => ok(false);
+    d.showModal();
+  });
+}
+function distanceTexte(a, b) {
+  let prec = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const cour = [i];
+    for (let j = 1; j <= b.length; j++)
+      cour[j] = Math.min(prec[j] + 1, cour[j - 1] + 1, prec[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    prec = cour;
+  }
+  return prec[b.length];
+}
+// Stockage dans le téléphone (base à part de celle de l'appli principale)
+const Memoire = {
+  _db() {
+    return new Promise((ok, ko) => {
+      const r = indexedDB.open("blisters-jb", 1);
+      r.onupgradeneeded = () => r.result.createObjectStore("donnees");
+      r.onsuccess = () => ok(r.result);
+      r.onerror = () => ko(r.error);
+    });
+  },
+  async ecrire(valeur, cle) {
+    const db = await this._db();
+    await new Promise((ok, ko) => {
+      const tx = db.transaction("donnees", "readwrite");
+      tx.objectStore("donnees").put(valeur, cle);
+      tx.oncomplete = ok; tx.onerror = () => ko(tx.error);
+    });
+  },
+  async lire(cle) {
+    try {
+      const db = await this._db();
+      return await new Promise(ok => {
+        const r = db.transaction("donnees").objectStore("donnees").get(cle);
+        r.onsuccess = () => ok(r.result || null);
+        r.onerror = () => ok(null);
+      });
+    } catch (e) { return null; }
+  },
+};
+</script>
+<script src="lib/jszip.min.js"></script>
+<script src="js/catalogue_jb.js"></script>
+<script src="lib/tesseract/tesseract.min.js"></script>
+<script src="js/lecture_paddle.js"></script>
+<script src="js/blister.js"></script>
+<script src="js/base.js"></script>
+<script>
+  Base.ouvrir();
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+</script>
+</body>
+</html>

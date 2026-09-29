@@ -1,0 +1,14 @@
+{
+  "name": "Blisters JB",
+  "short_name": "Blisters JB",
+  "lang": "fr",
+  "start_url": "./contribuer.html",
+  "scope": "./contribuer",
+  "display": "standalone",
+  "background_color": "#f4f4f2",
+  "theme_color": "#d9476b",
+  "icons": [
+    { "src": "icones/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icones/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

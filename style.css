@@ -128,3 +128,9 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .photo-apercu:not([src]) { display: none; }
 .alerte.info { background: #e7f0fb; border-left-color: var(--bleu); }
 .alerte .bouton-lien { padding: 6px 0 0; display: block; text-align: left; }
+
+/* Base commune des blisters (js/base.js) */
+.suggestions { display: flex; flex-wrap: wrap; gap: 8px; }
+.suggestions .petit { background: #e7f0fb; color: var(--bleu); }
+.base-liste { display: flex; flex-direction: column; }
+.base-liste .fiche { box-shadow: none; border: 1px solid #eee; }

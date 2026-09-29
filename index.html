@@ -30,6 +30,7 @@
       📂 Ouvrir mon fichier Excel
       <input type="file" id="input-fichier" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
     </label>
+    <button class="bouton-lien" data-action="base">📚 Seulement contribuer à la base commune des blisters JB (sans fichier Excel)</button>
   </section>
 
   <!-- 2. Accueil -->
@@ -54,6 +55,7 @@
       <input type="file" id="input-blister" accept="image/*" capture="environment" hidden>
     </label>
     <button class="bouton corail" data-action="custom">🎨 Ajouter une figurine custom</button>
+    <button class="bouton" data-action="base">📚 Base commune des blisters JB</button>
     <button class="bouton-lien" data-action="saisie">⌨️ Saisir un code à la main</button>
 
     <details class="outils" id="outils">
@@ -132,6 +134,36 @@
     <div class="oui-non">
       <button class="gros-bouton gris" data-action="non">Non</button>
       <button class="gros-bouton vert" data-action="custom-oui">Oui</button>
+    </div>
+  </section>
+
+  <!-- Base commune des blisters JB : photos et noms de vos blisters, à exporter pour enrichir la base (js/base.js) -->
+  <section id="ecran-base" class="ecran" hidden>
+    <p class="intro">📚 <b>Base commune des blisters JB</b> : photographiez vos blisters un par un. Le nom est lu tout seul :
+      vérifiez-le, puis « Ajouter à la base ». Quand vous avez fini, « Exporter » crée un fichier à m'envoyer :
+      ces blisters seront ensuite reconnus par l'appli (nom et décor).</p>
+    <label class="gros-bouton corail">📷 Photographier un blister
+      <input type="file" id="input-base" accept="image/*" capture="environment" hidden>
+    </label>
+    <p class="aide" id="base-etat"></p>
+    <img id="base-photo" class="photo-apercu" alt="Photo du blister">
+    <div id="base-fiche" hidden>
+      <label for="base-nom" class="etiquette-champ">Nom imprimé sur le blister</label>
+      <input id="base-nom" class="champ" autocomplete="off" placeholder="ex. SHINY DARK LORD">
+      <div id="base-suggestions" class="suggestions"></div>
+      <label for="base-serie" class="etiquette-champ">Série limitée (facultatif)</label>
+      <input id="base-serie" class="champ" autocomplete="off" placeholder="ex. 250 (pour « LIMITED TO 250 »)">
+      <label for="base-remarque" class="etiquette-champ">Remarque (facultatif)</label>
+      <input id="base-remarque" class="champ" autocomplete="off" placeholder="ex. édition 2021, Comic Con…">
+      <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter à la base</button>
+    </div>
+    <div class="carte">
+      <p class="sous-titre" id="base-compte"></p>
+      <button class="bouton bleu" data-action="base-exporter" id="btn-base-exporter">⬇️ Exporter (un fichier .zip)</button>
+      <p class="aide">Le fichier va dans « Téléchargements » : envoyez-le moi (ou mettez-le dans Google Drive). Les blisters
+        restent dans le téléphone tant que vous ne les effacez pas.</p>
+      <div id="base-liste" class="base-liste"></div>
+      <button class="bouton-lien" data-action="base-vider" id="btn-base-vider">Effacer les blisters déjà exportés</button>
     </div>
   </section>
 
@@ -239,5 +271,6 @@
 <script src="js/blister.js"></script>
 <script src="js/collection.js"></script>
 <script src="js/app.js"></script>
+<script src="js/base.js"></script>
 </body>
 </html>

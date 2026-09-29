@@ -100,6 +100,24 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   « Quitter l'appli ? » (Quitter / Rester). Si le téléphone refuse la fermeture par l'appli, message
   « Appuyez encore sur retour pour quitter ».
 
+- Enregistrement du fichier Excel simplifié (29/09, à tester sur le téléphone) : bouton « 💾 Enregistrer »
+  avec la fenêtre d'enregistrement du téléphone (Google Drive compris) la 1re fois, puis un seul appui
+  (même fichier remplacé ; Drive garde les versions). Emplacement oublié si on ouvre un autre fichier.
+  Visible seulement si le navigateur le permet (showSaveFilePicker) ; sinon, ancienne méthode
+  (télécharger puis importer dans Drive). Si le téléphone ne le permet pas : connexion directe à
+  Google Drive (il faudra créer un identifiant dans la console Google Cloud).
+- Base commune des blisters JB (29/09, à tester) : écran « 📚 Base commune » (accueil, et écran
+  d'ouverture sans fichier Excel) et mini-appli pour l'ami de l'utilisateur :
+  https://matd-prog.github.io/etiquettes_figurines/contribuer.html (« Blisters JB », sans Excel ni
+  étiquettes). Photo -> nom lu (vérifié/corrigé) -> « Ajouter à la base » ; série limitée lue
+  (LIMITED TO / OF). « Exporter » : blisters_JB_<date>.zip (base.tsv + photos/ réduites à 1000 px).
+  Reste à faire : outil d'intégration des .zip reçus (-> data/jb_perso.tsv + photos + empreintes).
+  L'utilisateur a ~150 blisters, son ami ~300 (beaucoup d'anciennes éditions). L'utilisateur a aussi
+  écrit à JB Spielwaren pour demander une liste officielle.
+- Archives du web : Internet Archive refuse l'environnement cloud (429). L'outil outils/archive_jb.py
+  tourne sur GitHub Actions (.github/workflows/archive_jb.yml, « Run workflow ») : ça marche (1er
+  essai : 261 figurines vues dans 20 copies), avec des refus de connexion passagers (nouveaux essais).
+
 ## Fichier Excel de l'utilisateur
 
 Dernière version fournie : etiquettes_figurines_LEGO_tri-1_2026-09-28_22h04.xlsx
@@ -137,6 +155,6 @@ refusé → ajouter *.archive.org.
    le bon blister en tête qu'une fois (3 fois dans les 3 premiers) ; la lecture du nom reste la
    méthode principale. Piste : recadrer sur le carton avant de calculer l'empreinte.
    Ajouté à la tâche mensuelle le 29/09/2026.
-4. Archives (web.archive.org) : anciennes figurines JB retirées de la vente.
+4. Archives (web.archive.org) : action GitHub « Archives JB » en place ; lancer la lecture complète.
 5. Éventuel contact avec JB Spielwaren pour une base officielle de leurs blisters.
 6. Vérifier le compte rendu de la tâche automatique ; corriger si elle ne peut pas publier.
