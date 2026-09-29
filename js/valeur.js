@@ -161,6 +161,22 @@ const Valeur = {
     this.afficher();
   },
 
+  // Sets notés « Boîte seule (vide) » -> « Monté », boîte et notice (l'utilisateur n'a aucune boîte sans son set)
+  async corrigerBoites() {
+    const boites = (await lireSets(etat.classeur)).filter(x => /boîte seule|boite seule/i.test(x.etat));
+    if (!boites.length || !(await demander(`Passer ${boites.length} set(s) de « Boîte seule (vide) » à « Monté », avec boîte et notice ?`, "Oui", "Non"))) return;
+    for (const b of boites) {
+      await etat.classeur.ecrireTexte(ONGLET_SETS, "F" + b.row, "Monté");
+      await etat.classeur.ecrireTexte(ONGLET_SETS, "G" + b.row, "oui");
+      await etat.classeur.ecrireTexte(ONGLET_SETS, "H" + b.row, "oui");
+    }
+    etat.nonEnregistres++;
+    await memoriser();
+    await relireContenu();
+    toast(`${boites.length} set(s) corrigé(s) ✔ Pensez à enregistrer, puis « Envoyer ma liste ».`, 6000);
+    this.afficher();
+  },
+
   // Lit prix.tsv (BrickLink) et lego.tsv (prix LEGO) et calcule la valeur de chaque article :
   // { details: [{...article, v, brut, ventes, neuf, enVente}], sans, total, parOnglet, date } ; null si pas encore de prix
   async calculer() {
@@ -214,9 +230,12 @@ const Valeur = {
       const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
       $("valeur-etat").textContent = date ? `Prix du ${new Date(date).toLocaleDateString("fr-FR")} : médiane des ventes BrickLink des 6 derniers mois.` : "";
       const doublons = await this._doublons();
+      const boites = (await lireSets(etat.classeur)).filter(x => /boîte seule|boite seule/i.test(x.etat));
       $("valeur-resultat").innerHTML = (doublons.length ? `<div class="carte alerte">⚠️ <b>${doublons.length} ligne(s) en double</b> dans l'onglet « Sets » ` +
           `(comptées deux fois) : ${echapper([...new Set(doublons.map(d => `${d.nom || d.code} ${d.code}`))].join(", "))}.` +
-          `<button class="bouton rouge" data-action="valeur-doublons">🧹 Supprimer les doublons</button></div>` : "") + `
+          `<button class="bouton rouge" data-action="valeur-doublons">🧹 Supprimer les doublons</button></div>` : "") +
+        (boites.length ? `<div class="carte alerte">📦 <b>${boites.length} set(s) notés « Boîte seule (vide) »</b> dans l'onglet « Sets » : ` +
+          `ils sont comptés comme des boîtes vides.<button class="bouton bleu" data-action="valeur-boites">✔ Ce sont des sets montés complets (boîte et notice)</button></div>` : "") + `
         <div class="carte valeur-total"><div class="score">Valeur estimée de la collection</div><div class="montant">${euros(total)}</div>
           <div class="score">${details.length} article(s) valorisé(s)${sans.length ? ` · ${sans.length} sans prix pour l'instant` : ""}</div></div>
         <div class="carte"><p class="sous-titre">Par onglet</p>
@@ -247,4 +266,5 @@ document.addEventListener("click", e => {
   else if (a === "valeur-envoyer") Valeur.envoyer();
   else if (a === "valeur-actualiser") Valeur.afficher();
   else if (a === "valeur-doublons") Valeur.supprimerDoublons();
+  else if (a === "valeur-boites") Valeur.corrigerBoites();
 });
