@@ -27,7 +27,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   comparaison du décor (data/jb_empreintes.tsv, 279 empreintes) + indice Brickognize.
   Essai sur « The Ring Addict » : nom trouvé et confirmé par le décor en ~3 s (ordinateur).
 
-## Publié le 29/09/2026, à confirmer sur le téléphone
+## Prêt le 29/09/2026 sur la branche claude/lego-figurines-ebay-access-0i0wcf (pas encore sur main, donc pas en ligne)
 
 - Figurines JB retirées de la vente, vues sur eBay.de (data/jb_ebay.tsv, 223 noms, créé par
   outils/ebay_jb.py) : proposées dans la recherche custom et la lecture des blisters, marquées
