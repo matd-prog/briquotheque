@@ -197,7 +197,7 @@ const EcranAchats = {
         const total = g.ex.reduce((n, a) => n + a.prix, 0);
         return `<div class="carte achat-figurine">
           <p class="sous-titre">${echapper(g.nom)}${g.ex.length > 1 ? ` <span class="badge">×${g.ex.length}</span>` : ""}</p>
-          ${jb && jb.prix && jb.source === "jb" ? `<p class="score">Encore en vente chez JB : ${this._prix(jb.prix)}</p>` : ""}
+          ${jb && jb.prix && jb.source === "jb" ? `<p class="score">${jb.epuisee ? `Épuisée chez JB (était à ${this._prix(jb.prix)})` : `Encore en vente chez JB : ${this._prix(jb.prix)}`}</p>` : ""}
           ${(e => e ? `<p class="score">eBay.de (prix demandés) : <b>${this._prix(e.med)}</b> au milieu, de ${this._prix(e.min)} à ${this._prix(e.max)}` +
             ` · ${e.n} annonce${e.n > 1 ? "s" : ""}${e.port ? ` + port ~${this._prix(e.port)}` : ""} · <a href="https://www.ebay.de/sch/i.html?_nkw=${encodeURIComponent("JB Spielwaren " + e.nom)}" target="_blank" rel="noopener">voir</a></p>` : "")(this.ebayPour(g.nom))}
           ${g.ex.sort((a, b) => a.prix - b.prix).map(a => `<div class="ligne-valeur"><span>${echapper(a.date)} · <span class="score">${echapper(a.vendeur)}</span></span>

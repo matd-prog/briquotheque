@@ -36,7 +36,8 @@ const Consulter = {
   },
 
   _source(f) {
-    return f.source === "jb" ? (f.prix ? `En vente chez JB · ${f.prix.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}` : "Catalogue JB")
+    return f.source === "jb" && f.epuisee ? `Épuisée chez JB${f.prix ? ` (était à ${f.prix.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })})` : ""}`
+      : f.source === "jb" ? (f.prix ? `En vente chez JB · ${f.prix.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}` : "Catalogue JB")
       : f.source === "album" ? "Photo de collectionneur" : f.source === "brickshell" ? "Retirée · brickshellcases"
       : f.source === "archive" ? "Retirée · archives" : "Retirée · eBay.de";
   },
@@ -45,8 +46,8 @@ const Consulter = {
     const q = $("consulter-recherche").value.trim(), filtre = $("consulter-filtre").value;
     let liste = q ? CatalogueJB.chercher(q, 100000) : CatalogueJB.liste.slice();
     const mes = f => this.mesPhotos && this.mesPhotos.has(f.code.toUpperCase());
-    if (filtre === "jb") liste = liste.filter(f => f.source === "jb");
-    else if (filtre === "retirees") liste = liste.filter(f => ["brickshell", "archive", "ebay"].includes(f.source));
+    if (filtre === "jb") liste = liste.filter(f => f.source === "jb" && !f.epuisee);
+    else if (filtre === "retirees") liste = liste.filter(f => f.epuisee || ["brickshell", "archive", "ebay"].includes(f.source));
     else if (filtre === "album") liste = liste.filter(f => f.source === "album");
     else if (filtre === "mes") liste = liste.filter(mes);
     // blisters avec photo d'abord, puis par nom

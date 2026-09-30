@@ -393,8 +393,40 @@ const Valeur = {
     }
     lots.sort((x, y) => x - y);
     const prixLot = lots.length ? lots[Math.floor(lots.length / 2)] : 0; // médiane : prix habituel d'une custom sur Whatnot
+    // prix demandés sur eBay.de (prix_ebay.tsv, outils/prix_ebay_jb.py) : coût de rachat d'une custom qu'on ne trouve plus chez JB
+    const ebay = [];
+    const repEbay = await this._api("/contents/prix_ebay.tsv", { headers: { Accept: "application/vnd.github.raw" } }).catch(() => null);
+    if (repEbay && repEbay.ok) for (const l of (await repEbay.text()).split("\n").slice(1)) {
+      const [nom, n, , med] = l.split("\t");
+      if (+n >= 2 && +med > 0) ebay.push({ nom, n: +n, med: +med, mots: new Set([...motsCustom(nom), ...(normaliser(nom).match(/\b\d{2,4}\b/g) || [])]) });
+    }
+    const prixEbay = nom => { // annonce dont tous les mots sont dans le nom, et qui couvre au moins les 3/4 du nom
+      const m = new Set([...motsCustom(nom), ...(normaliser(nom).match(/\b\d{2,4}\b/g) || [])]);
+      let best = null, sc = 0;
+      for (const e of ebay) {
+        if (!e.mots.size || ![...e.mots].every(x => m.has(x))) continue;
+        const r = e.mots.size / m.size;
+        if (r >= 0.75 && r > sc) { sc = r; best = e; }
+      }
+      return best;
+    };
     const utilises = new Set(); // chaque achat ne sert qu'à un exemplaire (plusieurs exemplaires : plusieurs achats, plusieurs prix)
+    // Custom qu'on ne peut plus acheter chez JB (épuisée, ou absente du catalogue) : coût de rachat = le plus haut entre
+    // son prix payé, le dernier prix JB et le prix demandé sur eBay.de (au moins 2 annonces)
     const prixCustom = a => {
+      const jb0 = CatalogueJB.parCode && CatalogueJB.parCode.get(a.code);
+      const r = prixCustomBase(a);
+      if (r && r.enVente) return r;
+      const jb = r && r.jb || jb0;
+      const cands = r ? [r] : [];
+      if (jb && jb.epuisee && jb.prix) cands.push({ v: jb.prix, source: "Épuisée chez JB Spielwaren : dernier prix JB" });
+      const e = prixEbay([a.nom, jb && jb.nom].filter(Boolean).join(" ")) || (jb && prixEbay(jb.nom));
+      if (e) cands.push({ v: e.med, source: `Plus en vente chez JB : prix demandé sur eBay.de (médiane de ${e.n} annonces)` });
+      if (!cands.length) return null;
+      const m = cands.reduce((x, y) => y.v > x.v ? y : x);
+      return (jb && jb.epuisee && m !== cands.find(c => /Épuisée/.test(c.source))) ? { ...m, source: m.source + " · épuisée chez JB" } : m;
+    };
+    const prixCustomBase = a => {
       let jb = CatalogueJB.parCode && CatalogueJB.parCode.get(a.code);
       const proche = (motsA, liste, motsDe) => { // élément de la liste dont le nom ressemble le plus (0,75 au moins)
         let m = null, sc = 0;
@@ -407,10 +439,10 @@ const Valeur = {
       };
       if (!jb && a.nom && !(a.achat && a.achat.lot) && CatalogueJB.liste) // sans code JB : recherche par le nom dans le catalogue JB actuel
         jb = proche(motsCustom(a.nom), CatalogueJB.liste.filter(x => x.source === "jb" && x.prix), x => x.mots || (x.mots = motsCustom(x.nom)));
-      if (jb && jb.prix && jb.source === "jb") return { v: jb.prix, source: "Prix JB Spielwaren (encore en vente)" };
+      if (jb && jb.prix && jb.source === "jb" && !jb.epuisee) return { v: jb.prix, enVente: true, source: "Prix JB Spielwaren (encore en vente)" };
       if (a.achat) { // ligne de l'onglet Customs achetées : son propre prix payé (port compris)
         const quand = /^\d{4}-\d\d-\d\d$/.test(a.achat.date) ? new Date(a.achat.date).toLocaleDateString("fr-FR") : a.achat.date;
-        return { v: a.achat.prix, source: a.achat.lot ? `Prix payé (lot ${a.achat.vendeur}, ${quand})` : `Prix d'achat (${a.achat.vendeur}, ${quand})` };
+        return { v: a.achat.prix, jb, source: a.achat.lot ? `Prix payé (lot ${a.achat.vendeur}, ${quand})` : `Prix d'achat (${a.achat.vendeur}, ${quand})` };
       }
       const mots = motsCustom([a.nom, jb && jb.nom].filter(Boolean).join(" "));
       let meilleur = null, score = 0, dejaPris = null;
@@ -423,10 +455,10 @@ const Valeur = {
       if (meilleur && score >= 0.75) {
         dejaPris = utilises.has(meilleur);
         utilises.add(meilleur);
-        return { v: meilleur.prix, achat: meilleur.article,
+        return { v: meilleur.prix, jb, achat: meilleur.article,
                  source: `Prix d'achat (${meilleur.vendeur}, ${new Date(meilleur.date).toLocaleDateString("fr-FR")}${dejaPris ? ", même prix qu'un autre exemplaire" : ""})` };
       }
-      if (prixLot) return { v: prixLot, source: `Prix d'achat habituel d'une custom sur Whatnot (médiane de ${lots.length} achats)` };
+      if (prixLot) return { v: prixLot, jb, source: `Prix d'achat habituel d'une custom sur Whatnot (médiane de ${lots.length} achats)` };
       return null;
     };
     const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
@@ -521,7 +553,7 @@ const Valeur = {
             ${c.slice(0, 40).map(a => `<div class="ligne-valeur"><span>${echapper(a.nom || "(sans nom)")} <span class="score">${echapper(a.code || "sans code")} · ${echapper(a.onglet)}</span></span></div>`).join("")}
             ${c.length > 40 ? `<p class="score">… et ${c.length - 40} autre(s)</p>` : ""}</div>` : "";
         })()}
-        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix LEGO si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente, sinon prix d'achat (reçus JB, historique Whatnot, frais de port compris), sinon prix habituel d'une custom sur Whatnot. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
+        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix LEGO si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente ; épuisés, le plus haut entre prix d'achat (reçus JB, historique Whatnot, port compris), dernier prix JB et prix demandé sur eBay.de ; sinon prix habituel d'une custom sur Whatnot. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;

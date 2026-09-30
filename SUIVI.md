@@ -273,3 +273,8 @@ Pour reprendre le 30/09 au matin :
   privé (252 noms, 83 avec annonces). Affichés dans « Mes achats customs › Par figurine » (médiane, min-max, port, lien
   vers la recherche eBay.de). Pas les ventes conclues (l'API ne les donne pas). À relancer à la demande (clés eBay de
   l'environnement cloud).
+- Customs épuisées (30/09, demande de l'utilisateur : « elles valent plus que leur prix d'achat ») : outils/catalogue_jb.py
+  relève aussi la disponibilité (« isSalable ») -> colonne dispo de data/jb.tsv (169 oui, 112 non ; dernier prix JB gardé).
+  js/valeur.js : custom en vente chez JB = prix JB ; épuisée ou hors catalogue = le plus haut entre prix payé, dernier prix
+  JB et prix demandé eBay.de (prix_ebay.tsv du dépôt privé, 2 annonces au moins). Méthode, dossier assureur, Consulter et
+  Mes achats indiquent « Épuisée chez JB ».
