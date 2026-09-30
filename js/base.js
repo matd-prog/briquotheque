@@ -13,6 +13,10 @@ const Base = {
   codeLu: "",      // code de la figurine reconnue, s'il y en a une, et son nom (nomLu)
   nomLu: "",
   verso: null,     // photo du verso (demandée à chaque blister, « Passer » possible)
+  source: null,    // photos d'origine { fichier, sens } du recto et du verso, pour recadrer à nouveau
+  sourceVerso: null,
+  cadre: null,     // cadre du blister sur la photo (fractions { x, y, l, h }), trouvé seul ou ajusté ; null = photo entière
+  cadreVerso: null,
   versoPasse: false,
   vue: "photos",   // « photos » (dernières photos) ou « compte » (exemplaires par figurine, comparés aux achats)
   entrees: [],     // [{ id, nom, numero, serie, remarque, code, date, photo, verso, exporte }]
@@ -26,7 +30,10 @@ const Base = {
   },
 
   _nouvelle() {
-    this.photo = null; this.verso = null; this.versoPasse = false; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.semblables = [];
+    this.photo = null; this.verso = null; this.versoPasse = false;
+    this.source = this.sourceVerso = this.cadre = this.cadreVerso = null;
+    if ($("base-recadrage")) $("base-recadrage").hidden = true;
+    if ($("base-recadrer-boutons")) $("base-recadrer-boutons").hidden = true; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.semblables = [];
     if ($("base-identite")) $("base-identite").innerHTML = "";
     $("base-photo").removeAttribute("src");
     if ($("base-verso")) { $("base-verso").removeAttribute("src"); $("base-verso").hidden = true; }
@@ -41,15 +48,141 @@ const Base = {
     if ($("base-bloc-excel")) $("base-bloc-excel").hidden = !(typeof etat !== "undefined" && etat.classeur);
   },
 
-  // Photo réduite (1000 px au plus), éventuellement tournée d'un quart de tour
-  async _reduire(fichier, sens) {
+  // Photo réduite (1000 px au plus), éventuellement tournée d'un quart de tour et recadrée (cadre en fractions)
+  async _reduire(fichier, sens, cadre) {
     let image = await createImageBitmap(fichier);
     if (sens) image = tourner(image, sens);
-    const k = Math.min(1, 1000 / Math.max(image.width, image.height));
+    const c = cadre || { x: 0, y: 0, l: 1, h: 1 };
+    const sx = Math.round(c.x * image.width), sy = Math.round(c.y * image.height);
+    const sw = Math.max(1, Math.round(c.l * image.width)), sh = Math.max(1, Math.round(c.h * image.height));
+    const k = Math.min(1, 1000 / Math.max(sw, sh));
     const cv = document.createElement("canvas");
-    cv.width = Math.round(image.width * k); cv.height = Math.round(image.height * k);
-    cv.getContext("2d").drawImage(image, 0, 0, cv.width, cv.height);
+    cv.width = Math.round(sw * k); cv.height = Math.round(sh * k);
+    cv.getContext("2d").drawImage(image, sx, sy, sw, sh, 0, 0, cv.width, cv.height);
     return new Promise(ok => cv.toBlob(ok, "image/jpeg", 0.82));
+  },
+
+  // Cadre du blister sur la photo : fond estimé sur le pourtour, pixels qui s'en écartent (couleur, ou contraste
+  // du carton imprimé), puis la plus longue bande de lignes et de colonnes « pleines ». null si incertain (on garde
+  // alors la photo entière ; « ✂️ Recadrer » permet d'ajuster à la main).
+  _cadreAuto(image) {
+    const L = 160, k = L / Math.max(image.width, image.height);
+    const w = Math.max(8, Math.round(image.width * k)), h = Math.max(8, Math.round(image.height * k));
+    const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+    const cx = cv.getContext("2d"); cx.drawImage(image, 0, 0, w, h);
+    const px = cx.getImageData(0, 0, w, h).data;
+    const b = Math.max(1, Math.round(Math.min(w, h) * 0.04)), bord = [[], [], []];
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++)
+      if (x < b || y < b || x >= w - b || y >= h - b) { const i = (y * w + x) * 4; for (let c = 0; c < 3; c++) bord[c].push(px[i + c]); }
+    const med = bord.map(t => t.sort((a, z) => a - z)[t.length >> 1]);
+    const masque = new Uint8Array(w * h);
+    const lum = i => px[i] * .3 + px[i + 1] * .59 + px[i + 2] * .11;
+    for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+      const i = (y * w + x) * 4;
+      const d = Math.abs(px[i] - med[0]) + Math.abs(px[i + 1] - med[1]) + Math.abs(px[i + 2] - med[2]);
+      const g = Math.abs(lum(i + 4) - lum(i - 4)) + Math.abs(lum(i + 4 * w) - lum(i - 4 * w));
+      masque[y * w + x] = d > 90 || (d > 45 && g > 25) ? 1 : 0;
+    }
+    const bande = (n, part) => { // plus longue suite d'indices « pleins » (petits trous tolérés)
+      let best = [0, -1], debut = -1, trou = 0;
+      for (let i = 0; i <= n; i++) {
+        if (i < n && part(i) > 0.18) { if (debut < 0) debut = i; trou = 0; }
+        else if (debut >= 0 && (++trou > Math.max(2, n * 0.03) || i === n)) {
+          const fin = i - trou; if (fin - debut > best[1] - best[0]) best = [debut, fin]; debut = -1; trou = 0;
+        }
+      }
+      return best;
+    };
+    const [y0, y1] = bande(h, y => { let s = 0; for (let x = 0; x < w; x++) s += masque[y * w + x]; return s / w; });
+    if (y1 - y0 < h * 0.15) return null;
+    const [x0, x1] = bande(w, x => { let s = 0; for (let y = y0; y <= y1; y++) s += masque[y * w + x]; return s / (y1 - y0 + 1); });
+    if (x1 - x0 < w * 0.15) return null;
+    const m = 0.03, c = { x: Math.max(0, x0 / w - m), y: Math.max(0, y0 / h - m) };
+    c.l = Math.min(1, (x1 + 1) / w + m) - c.x; c.h = Math.min(1, (y1 + 1) / h + m) - c.y;
+    return c.l * c.h > 0.9 || c.l * c.h < 0.06 ? null : c;
+  },
+
+  // Photo (recto ou verso) : remise d'aplomb, recadrée sur le blister si on le trouve
+  async _preparer(fichier, sens) {
+    const entiere = await this._reduire(fichier, sens);
+    let cadre = null;
+    try { cadre = this._cadreAuto(await createImageBitmap(entiere)); } catch (err) { console.warn(err); }
+    return { blob: cadre ? await this._reduire(fichier, sens, cadre) : entiere, cadre };
+  },
+
+  _boutonsRecadrer() {
+    if (!$("base-recadrer-boutons")) return;
+    $("base-recadrer-boutons").hidden = !this.source;
+    $("btn-recadrer-verso").hidden = !this.sourceVerso;
+  },
+
+  // Recadrage à la main : cadre de départ = cadre actuel (ou presque toute la photo)
+  async recadrer(quoi) {
+    const src = quoi === "verso" ? this.sourceVerso : this.source;
+    if (!src || !$("base-recadrage")) return;
+    const img = $("base-recadrage-image");
+    img.src = URL.createObjectURL(await this._reduire(src.fichier, src.sens));
+    await img.decode().catch(() => {});
+    this._cadreEdite = { ...((quoi === "verso" ? this.cadreVerso : this.cadre) || { x: 0.05, y: 0.05, l: 0.9, h: 0.9 }) };
+    this._quoiEdite = quoi;
+    $("base-recadrage-titre").textContent = `Ajustez le cadre autour du blister (${quoi}) : glissez-le, ou tirez ses coins.`;
+    $("base-recadrage").hidden = false;
+    this._dessinerCadre();
+    $("base-recadrage").scrollIntoView({ block: "start" });
+  },
+
+  _dessinerCadre() {
+    const c = this._cadreEdite, el = $("base-recadrage-cadre");
+    Object.assign(el.style, { left: c.x * 100 + "%", top: c.y * 100 + "%", width: c.l * 100 + "%", height: c.h * 100 + "%" });
+  },
+
+  async finRecadrage(choix) { // "ok", "entiere" ou "annuler"
+    $("base-recadrage").hidden = true;
+    if (choix === "annuler") return;
+    const cadre = choix === "entiere" ? null : this._cadreEdite;
+    if (this._quoiEdite === "verso") {
+      this.cadreVerso = cadre;
+      this.verso = await this._reduire(this.sourceVerso.fichier, this.sourceVerso.sens, cadre);
+      $("base-verso").src = URL.createObjectURL(this.verso);
+    } else {
+      this.cadre = cadre;
+      this.photo = await this._reduire(this.source.fichier, this.source.sens, cadre);
+      $("base-photo").src = URL.createObjectURL(this.photo);
+      // décor et ressemblances recalculés sur la nouvelle image
+      try { this.decor = CatalogueJB.classerParDecor(await createImageBitmap(this.photo), 10); } catch (err) { console.warn(err); }
+      this.semblables = await this._semblablesCollection().catch(() => []);
+      if (!$("base-fiche").hidden) this._deja();
+    }
+    window.scrollTo(0, 0);
+  },
+
+  _installerRecadrage() {
+    const zone = $("base-recadrage-zone");
+    if (!zone) return;
+    let geste = null;
+    const MIN = 0.1, borner = (v, a, b) => Math.min(b, Math.max(a, v));
+    zone.addEventListener("pointerdown", e => {
+      const poignee = e.target.closest("[data-coin]");
+      if (!poignee && !e.target.closest("#base-recadrage-cadre")) return;
+      e.preventDefault();
+      zone.setPointerCapture(e.pointerId);
+      geste = { coin: poignee ? poignee.dataset.coin : null, x0: e.clientX, y0: e.clientY, r: zone.getBoundingClientRect(), depart: { ...this._cadreEdite } };
+    });
+    zone.addEventListener("pointermove", e => {
+      if (!geste) return;
+      const dx = (e.clientX - geste.x0) / geste.r.width, dy = (e.clientY - geste.y0) / geste.r.height, d = geste.depart;
+      let { x, y, l, h } = d;
+      if (!geste.coin) { x = borner(d.x + dx, 0, 1 - d.l); y = borner(d.y + dy, 0, 1 - d.h); }
+      else {
+        if (geste.coin.includes("g")) { x = borner(d.x + dx, 0, d.x + d.l - MIN); l = d.x + d.l - x; }
+        if (geste.coin.includes("d")) l = borner(d.l + dx, MIN, 1 - d.x);
+        if (geste.coin.includes("h")) { y = borner(d.y + dy, 0, d.y + d.h - MIN); h = d.y + d.h - y; }
+        if (geste.coin.includes("b")) h = borner(d.h + dy, MIN, 1 - d.y);
+      }
+      this._cadreEdite = { x, y, l, h };
+      this._dessinerCadre();
+    });
+    for (const f of ["pointerup", "pointercancel"]) zone.addEventListener(f, () => { geste = null; });
   },
 
   // « Non numérotée » : pas de numéro ni de série limitée
@@ -71,8 +204,10 @@ const Base = {
         if (i > 1) $("base-etat").textContent = `Lecture du nom… (essai ${i} sur ${n})`;
       });
     } catch (err) { console.error(err); }
-    this.photo = await this._reduire(fichier, lecture.sens);
+    this.source = { fichier, sens: lecture.sens || 0 };
+    ({ blob: this.photo, cadre: this.cadre } = await this._preparer(fichier, this.source.sens));
     $("base-photo").src = URL.createObjectURL(this.photo);
+    this._boutonsRecadrer();
     // propositions : figurines connues dont le nom a été lu, puis le nom le plus probable du carton
     let connues = lecture.trouve ? CatalogueJB.rapprocher(lecture.texte).slice(0, 4) : [];
     // décor : blisters les plus ressemblants (catalogue et photos de collectionneurs). Un nom lu dont le décor ne
@@ -116,7 +251,9 @@ const Base = {
   },
 
   async prendreVerso(fichier) {
-    this.verso = await this._reduire(fichier, 0);
+    this.sourceVerso = { fichier, sens: 0 };
+    ({ blob: this.verso, cadre: this.cadreVerso } = await this._preparer(fichier, 0));
+    this._boutonsRecadrer();
     $("base-verso").src = URL.createObjectURL(this.verso);
     $("base-verso").hidden = false;
     this._demanderVerso();
@@ -275,7 +412,8 @@ const Base = {
     if ($("base-excel") && $("base-excel").checked && !$("base-bloc-excel").hidden && typeof ajouterCustomsDepuisBase === "function")
       compteExcel = await ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie: commun.serie.replace(/\D/g, ""), nonNumerote });
     // on garde la figurine : « Autre exemplaire » ne demande que le numéro
-    this._precedent = { nom, precision, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, serie: commun.serie,
+    this._precedent = { source: this.source, sourceVerso: this.sourceVerso, cadre: this.cadre, cadreVerso: this.cadreVerso,
+                        nom, precision, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, serie: commun.serie,
                         remarque: commun.remarque, nonNumerote };
     this._nouvelle();
     if (compteExcel) $("base-etat").textContent = compteExcel;
@@ -292,9 +430,12 @@ const Base = {
     this._nouvelle();
     if (fichier) {
       $("base-photo").src = URL.createObjectURL(fichier);
-      Object.assign(this, { photo: await this._reduire(fichier, 0), nomLu: p.nomLu, codeLu: p.codeLu });
+      const { blob, cadre } = await this._preparer(fichier, 0);
+      Object.assign(this, { photo: blob, cadre, source: { fichier, sens: 0 }, nomLu: p.nomLu, codeLu: p.codeLu });
       this._demanderVerso();
-    } else Object.assign(this, { photo: p.photo, verso: p.verso, versoPasse: !p.verso, nomLu: p.nomLu, codeLu: p.codeLu });
+    } else Object.assign(this, { photo: p.photo, verso: p.verso, versoPasse: !p.verso, nomLu: p.nomLu, codeLu: p.codeLu,
+                                 source: p.source, sourceVerso: p.sourceVerso, cadre: p.cadre, cadreVerso: p.cadreVerso });
+    this._boutonsRecadrer();
     $("base-photo").src = URL.createObjectURL(this.photo);
     if (this.verso) { $("base-verso").src = URL.createObjectURL(this.verso); $("base-verso").hidden = false; }
     $("base-nom").value = p.nom; if ($("base-precision")) $("base-precision").value = p.precision || ""; $("base-serie").value = p.serie; $("base-remarque").value = p.remarque;
@@ -555,7 +696,14 @@ document.addEventListener("click", e => {
   else if (action === "base-vider") Base.vider();
   else if (action === "base-autre") Base.autreExemplaire();
   else if (action === "base-passer-verso") Base.passerVerso();
+  else if (action === "base-recadrer-recto") Base.recadrer("recto");
+  else if (action === "base-recadrer-verso") Base.recadrer("verso");
+  else if (action === "base-recadrage-ok") Base.finRecadrage("ok");
+  else if (action === "base-recadrage-entiere") Base.finRecadrage("entiere");
+  else if (action === "base-recadrage-annuler") Base.finRecadrage("annuler");
   else if (action === "base-importer-album") Base.importerAlbum();
   else if (action === "base-vue-photos") { Base.vue = "photos"; Base._afficherListe(); }
   else if (action === "base-vue-compte") { Base.vue = "compte"; Base._afficherListe(); }
 });
+
+Base._installerRecadrage();

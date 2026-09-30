@@ -47,6 +47,21 @@
     </div>
     <p class="aide" id="base-etat"></p>
     <img id="base-photo" class="photo-apercu" alt="Photo du blister">
+    <div class="suggestions" id="base-recadrer-boutons" hidden>
+      <button class="petit" data-action="base-recadrer-recto">✂️ Recadrer le recto</button>
+      <button class="petit" data-action="base-recadrer-verso" id="btn-recadrer-verso" hidden>✂️ Recadrer le verso</button>
+    </div>
+    <div id="base-recadrage" class="carte" hidden>
+      <p class="aide" id="base-recadrage-titre">Ajustez le cadre autour du blister : glissez-le, ou tirez ses coins.</p>
+      <div id="base-recadrage-zone" class="recadrage-zone"><img id="base-recadrage-image" alt="">
+        <div id="base-recadrage-cadre" class="recadrage-cadre">
+          <span data-coin="hg" class="coin hg"></span><span data-coin="hd" class="coin hd"></span>
+          <span data-coin="bg" class="coin bg"></span><span data-coin="bd" class="coin bd"></span>
+        </div></div>
+      <button class="gros-bouton vert" data-action="base-recadrage-ok">✔ Garder ce cadre</button>
+      <button class="bouton gris" data-action="base-recadrage-entiere">Garder la photo entière</button>
+      <button class="bouton-lien" data-action="base-recadrage-annuler">Annuler</button>
+    </div>
     <div id="base-etape-verso" class="carte" hidden>
       <p><b>📷 Maintenant le verso</b> : retournez le blister (le nom se lit pendant ce temps).</p>
       <label class="gros-bouton corail">📷 Photographier le verso

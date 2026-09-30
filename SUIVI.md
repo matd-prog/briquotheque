@@ -329,3 +329,8 @@ Pour reprendre le 30/09 au matin :
 - N° en double au recensement (30/09, retour de l'utilisateur : « non » semblait effacer toute la saisie) : la question propose
   « Ajouter les N autres » (le n° en double est écarté, les autres sont ajoutés) ou « Corriger d'abord » (seul le champ en double
   est vidé, les autres n° restent). Plus d'« ajouter quand même » : un n° de série limitée est unique. Appli et mini-appli.
+- Recadrage des photos de blisters (30/09, demande de l'utilisateur) : recto et verso recadrés tout seuls sur le blister
+  (Base._cadreAuto : fond estimé sur le pourtour, écart de couleur / contraste, plus longue bande pleine en lignes et colonnes ;
+  essai sur 14 photos : 10 bien cadrées, 4 laissées entières dont 2 déjà serrées). « ✂️ Recadrer le recto / le verso » :
+  cadre à glisser et coins à tirer (départ = cadre trouvé), « Garder la photo entière », « Annuler ». Photo d'origine gardée
+  pendant la saisie (Base.source) pour recadrer à nouveau ; décor et ressemblances recalculés après recadrage. Appli et mini-appli.
