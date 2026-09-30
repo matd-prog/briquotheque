@@ -293,3 +293,8 @@ Pour reprendre le 30/09 au matin :
   doublons ignorés par id). Sur iPhone, Safari et l'appli installée ont des mémoires séparées : dans Safari avec des blisters,
   le bandeau d'installation dit de les « Envoyer → Enregistrer dans Fichiers » d'abord ; à la 1re ouverture de l'appli installée
   sans blister, question « Avez-vous déjà photographié des blisters ? » et mode d'emploi.
+- Recto + verso (30/09, demande de l'utilisateur) : dès la photo du recto, « 📷 Maintenant le verso » (pendant la lecture du nom),
+  « Passer » possible ; sans verso ni « Passer », question avant l'ajout. Liste : « sans verso » + bouton « 📷 verso » pour
+  compléter plus tard. « ➕ Autre exemplaire » : nouvelles photos recto + verso par défaut (état propre à chaque exemplaire),
+  « garder la même photo » en option. Le champ « Exemplaires » (plusieurs n° d'un coup) garde une seule photo pour tous.
+  Mêmes changements dans contribuer.html.

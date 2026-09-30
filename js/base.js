@@ -7,7 +7,8 @@ const Base = {
   photo: null,     // photo en cours (Blob JPEG réduit, remis d'aplomb)
   codeLu: "",      // code de la figurine reconnue, s'il y en a une, et son nom (nomLu)
   nomLu: "",
-  verso: null,     // photo du verso (facultative)
+  verso: null,     // photo du verso (demandée à chaque blister, « Passer » possible)
+  versoPasse: false,
   vue: "photos",   // « photos » (dernières photos) ou « compte » (exemplaires par figurine, comparés aux achats)
   entrees: [],     // [{ id, nom, numero, serie, remarque, code, date, photo, verso, exporte }]
 
@@ -20,10 +21,11 @@ const Base = {
   },
 
   _nouvelle() {
-    this.photo = null; this.verso = null; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.semblables = [];
+    this.photo = null; this.verso = null; this.versoPasse = false; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.semblables = [];
     if ($("base-identite")) $("base-identite").innerHTML = "";
     $("base-photo").removeAttribute("src");
     if ($("base-verso")) { $("base-verso").removeAttribute("src"); $("base-verso").hidden = true; }
+    for (const id of ["base-etape-verso", "base-verso-refaire", "base-autre"]) if ($(id)) $(id).hidden = true;
     $("base-fiche").hidden = true;
     $("base-etat").textContent = "";
     for (const id of ["base-nom", "base-serie", "base-remarque", "base-numero"]) if ($(id)) $(id).value = "";
@@ -54,6 +56,7 @@ const Base = {
   async lirePhoto(fichier) {
     this._nouvelle();
     $("base-photo").src = URL.createObjectURL(fichier);
+    this._demanderVerso();
     $("base-etat").textContent = "Lecture du nom… (la première fois, téléchargement de l'outil de lecture, environ 27 Mo)";
     let lecture = { texte: "", trouve: false, sens: 0 };
     try {
@@ -96,9 +99,24 @@ const Base = {
     $("base-etat").textContent = noms.length ? "Vérifiez le nom et le numéro, puis « Ajouter »."
       : "Le nom n'a pas été lu : tapez-le tel qu'il est imprimé sur le blister, ou choisissez un blister qui ressemble.";
     $("base-fiche").hidden = false;
-    if ($("btn-base-autre")) $("btn-base-autre").hidden = true;
     this._deja();
   },
+
+  // Verso : demandé à chaque blister (preuve et état pour l'assureur, photos prêtes pour une annonce)
+  _demanderVerso() {
+    if (!$("base-etape-verso")) return;
+    $("base-etape-verso").hidden = !!this.verso || this.versoPasse;
+    if ($("base-verso-refaire")) $("base-verso-refaire").hidden = !this.verso;
+  },
+
+  async prendreVerso(fichier) {
+    this.verso = await this._reduire(fichier, 0);
+    $("base-verso").src = URL.createObjectURL(this.verso);
+    $("base-verso").hidden = false;
+    this._demanderVerso();
+  },
+
+  passerVerso() { this.versoPasse = true; this._demanderVerso(); },
 
   // Numéros des exemplaires : un champ par exemplaire (le 1er garde l'id base-numero), valeurs déjà tapées conservées
   _grilleNumeros() {
@@ -109,7 +127,7 @@ const Base = {
     for (let i = champs.length; i < n; i++)
       zone.insertAdjacentHTML("beforeend", `<input class="champ numero-sup" inputmode="numeric" autocomplete="off" placeholder="n° ${i + 1}">`);
     [...zone.querySelectorAll("input")].forEach((c, i) => { if (i >= n) c.remove(); });
-    $("base-numeros-titre").textContent = n > 1 ? `N° des ${n} exemplaires` : "N° de l'exemplaire";
+    $("base-numeros-titre").textContent = n > 1 ? `N° des ${n} exemplaires (même photo pour tous)` : "N° de l'exemplaire";
     this._numerote();
   },
 
@@ -191,6 +209,8 @@ const Base = {
     const nom = $("base-nom").value.trim().toUpperCase();
     if (!this.photo) { toast("Photographiez d'abord un blister."); return; }
     if (!nom) { await demander("Tapez le nom imprimé sur le blister.", "OK", "Fermer"); return; }
+    if (!this.verso && !this.versoPasse && $("base-etape-verso") &&
+        !(await demander("Pas de photo du verso. Ajouter ce blister sans verso ?", "Ajouter sans verso", "Annuler"))) return;
     // nom corrigé à la main : le code de la figurine proposée ne vaut plus
     const code = this.codeLu && normaliser(nom) === normaliser(this.nomLu) ? this.codeLu : "";
     const nonNumerote = !!($("base-non-numerote") && $("base-non-numerote").checked);
@@ -215,21 +235,29 @@ const Base = {
     this._precedent = { nom, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, serie: commun.serie,
                         remarque: commun.remarque, nonNumerote };
     this._nouvelle();
-    if ($("btn-base-autre")) { $("btn-base-autre").hidden = false; $("btn-base-autre").textContent = `➕ Autre exemplaire de « ${nom} » (même photo)`; }
+    if ($("base-autre")) { $("base-autre").hidden = false; $("btn-base-autre").textContent = `Autre exemplaire de « ${nom} » : photographier`; }
     this._afficherListe();
   },
 
-  // Exemplaire suivant de la même figurine : nom, série, note et photo repris ; seul le numéro reste à taper
-  autreExemplaire() {
+  // Exemplaire suivant de la même figurine : nom, série et note repris ; nouvelles photos recto et verso (état et
+  // numéro propres à chaque exemplaire), ou la même photo (fichier = rien) ; seul le numéro reste à taper
+  async autreExemplaire(fichier) {
     const p = this._precedent;
     if (!p) return;
     this._nouvelle();
-    Object.assign(this, { photo: p.photo, verso: p.verso, nomLu: p.nomLu, codeLu: p.codeLu });
-    $("base-photo").src = URL.createObjectURL(p.photo);
+    if (fichier) {
+      $("base-photo").src = URL.createObjectURL(fichier);
+      Object.assign(this, { photo: await this._reduire(fichier, 0), nomLu: p.nomLu, codeLu: p.codeLu });
+      this._demanderVerso();
+    } else Object.assign(this, { photo: p.photo, verso: p.verso, versoPasse: !p.verso, nomLu: p.nomLu, codeLu: p.codeLu });
+    $("base-photo").src = URL.createObjectURL(this.photo);
+    if (this.verso) { $("base-verso").src = URL.createObjectURL(this.verso); $("base-verso").hidden = false; }
     $("base-nom").value = p.nom; $("base-serie").value = p.serie; $("base-remarque").value = p.remarque;
     if ($("base-non-numerote")) { $("base-non-numerote").checked = p.nonNumerote; this._numerote(); }
     $("base-fiche").hidden = false;
-    $("base-etat").textContent = "Même figurine : tapez seulement le numéro de cet exemplaire.";
+    $("base-etat").textContent = fichier ? "Même figurine : photographiez le verso, puis tapez le numéro de cet exemplaire."
+      : "Même figurine, même photo : tapez seulement le numéro de cet exemplaire.";
+    this.semblables = fichier ? await this._semblablesCollection().catch(() => []) : [];
     this._deja();
     if ($("base-numero") && !p.nonNumerote) $("base-numero").focus();
   },
@@ -301,10 +329,20 @@ const Base = {
         <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="">
         <div class="infos"><div class="nom-court">${echapper(e.nom)}</div>
           <div class="lieu">${echapper([e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
-            e.verso && "recto + verso", e.origine === "album" && "d'après l'album photo", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
+            e.verso ? "recto + verso" : "sans verso", e.origine === "album" && "d'après l'album photo", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
+        ${e.verso ? "" : `<label class="petit" title="Ajouter le verso">📷 verso<input type="file" accept="image/*" capture="environment" data-base-verso="${e.id}" hidden></label>`}
         <button class="petit" data-base-suppr="${e.id}" title="Retirer">✕</button>
       </div>`).join("");
     $("base-liste").querySelectorAll("[data-base-suppr]").forEach(b => b.addEventListener("click", () => this.supprimer(b.dataset.baseSuppr)));
+    $("base-liste").querySelectorAll("[data-base-verso]").forEach(c => c.addEventListener("change", async () => {
+      const f = c.files[0], e = this.entrees.find(x => x.id === c.dataset.baseVerso);
+      if (!f || !e) return;
+      e.verso = await this._reduire(f, 0);
+      e.exporte = false; // à renvoyer avec son verso
+      await Memoire.ecrire(this.entrees, "base");
+      toast(`Verso de « ${e.nom} » ajouté ✔`);
+      this._afficherListe();
+    }));
   },
 
   // Exemplaires recensés par figurine, comparés au nombre acheté (onglet « Customs achetées » du fichier Excel)
@@ -435,13 +473,17 @@ if ($("base-notes")) $("base-notes").addEventListener("click", e => {
   if (!champ.value.includes(n)) champ.value = champ.value.trim() ? `${champ.value.trim()}, ${n}` : n;
 });
 
-if ($("input-base-verso")) $("input-base-verso").addEventListener("change", async e => {
+for (const id of ["input-base-verso", "input-base-verso2"])
+  if ($(id)) $(id).addEventListener("change", e => {
+    const f = e.target.files[0];
+    e.target.value = "";
+    if (f) Base.prendreVerso(f);
+  });
+
+if ($("input-base-autre")) $("input-base-autre").addEventListener("change", e => {
   const f = e.target.files[0];
   e.target.value = "";
-  if (!f) return;
-  Base.verso = await Base._reduire(f, 0);
-  $("base-verso").src = URL.createObjectURL(Base.verso);
-  $("base-verso").hidden = false;
+  if (f) Base.autreExemplaire(f);
 });
 
 if ($("input-base-reprendre")) $("input-base-reprendre").addEventListener("change", e => {
@@ -466,6 +508,7 @@ document.addEventListener("click", e => {
   else if (action === "base-exporter") Base.exporter();
   else if (action === "base-vider") Base.vider();
   else if (action === "base-autre") Base.autreExemplaire();
+  else if (action === "base-passer-verso") Base.passerVerso();
   else if (action === "base-importer-album") Base.importerAlbum();
   else if (action === "base-vue-photos") { Base.vue = "photos"; Base._afficherListe(); }
   else if (action === "base-vue-compte") { Base.vue = "compte"; Base._afficherListe(); }

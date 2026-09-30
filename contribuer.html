@@ -40,17 +40,27 @@
     <label class="bouton gris">🖼️ Choisir une photo déjà prise
       <input type="file" id="input-base-galerie" accept="image/*" hidden>
     </label>
-    <button class="bouton bleu" id="btn-base-autre" data-action="base-autre" hidden>➕ Autre exemplaire</button>
+    <div id="base-autre" hidden>
+      <label class="gros-bouton bleu-fonce">➕ <span id="btn-base-autre">Autre exemplaire</span>
+        <input type="file" id="input-base-autre" accept="image/*" capture="environment" hidden></label>
+      <button class="bouton-lien" data-action="base-autre">ou garder la même photo (plus rapide)</button>
+    </div>
     <p class="aide" id="base-etat"></p>
     <img id="base-photo" class="photo-apercu" alt="Photo du blister">
+    <div id="base-etape-verso" class="carte" hidden>
+      <p><b>📷 Maintenant le verso</b> : retournez le blister (le nom se lit pendant ce temps).</p>
+      <label class="gros-bouton corail">📷 Photographier le verso
+        <input type="file" id="input-base-verso" accept="image/*" capture="environment" hidden></label>
+      <button class="bouton-lien" data-action="base-passer-verso">Passer (pas de verso pour ce blister)</button>
+    </div>
     <div id="base-fiche" hidden>
       <label for="base-nom" class="etiquette-champ">Nom imprimé sur le blister</label>
       <input id="base-nom" class="champ" autocomplete="off" placeholder="ex. SHINY DARK LORD">
       <div id="base-suggestions" class="suggestions"></div>
       <div id="base-identite"></div>
-      <label class="bouton gris">📷 Ajouter la photo du verso (facultatif)
-        <input type="file" id="input-base-verso" accept="image/*" capture="environment" hidden></label>
       <img id="base-verso" class="photo-apercu" alt="Verso du blister" hidden>
+      <label class="bouton gris" id="base-verso-refaire" hidden>📷 Refaire la photo du verso
+        <input type="file" id="input-base-verso2" accept="image/*" capture="environment" hidden></label>
       <p class="score" id="base-deja"></p>
       <div class="deux-champs">
         <div><label for="base-nombre" class="etiquette-champ">Exemplaires de cette figurine</label>
