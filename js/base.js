@@ -26,7 +26,9 @@ const Base = {
     $("base-fiche").hidden = true;
     $("base-etat").textContent = "";
     for (const id of ["base-nom", "base-serie", "base-remarque", "base-numero"]) if ($(id)) $(id).value = "";
+    if ($("base-nombre")) { $("base-nombre").value = 1; this._grilleNumeros(); }
     if ($("base-non-numerote")) { $("base-non-numerote").checked = false; this._numerote(); }
+    if ($("base-deja")) $("base-deja").textContent = "";
     $("base-suggestions").innerHTML = "";
   },
 
@@ -44,7 +46,8 @@ const Base = {
   // « Non numérotée » : pas de numéro ni de série limitée
   _numerote() {
     const non = $("base-non-numerote") && $("base-non-numerote").checked;
-    for (const id of ["base-numero", "base-serie"]) if ($(id)) { $(id).disabled = non; if (non) $(id).value = ""; }
+    const champs = [...($("base-numeros") ? $("base-numeros").querySelectorAll("input") : []), $("base-numero"), $("base-serie")].filter(Boolean);
+    for (const c of champs) { c.disabled = non; if (non) c.value = ""; }
   },
 
   async lirePhoto(fichier) {
@@ -89,6 +92,30 @@ const Base = {
     $("base-etat").textContent = noms.length ? "Vérifiez le nom (corrigez-le si besoin), puis « Ajouter à la base »."
       : "Le nom n'a pas été lu : tapez-le tel qu'il est imprimé sur le blister, puis « Ajouter à la base ».";
     $("base-fiche").hidden = false;
+    if ($("btn-base-autre")) $("btn-base-autre").hidden = true;
+    this._deja();
+  },
+
+  // Numéros des exemplaires : un champ par exemplaire (le 1er garde l'id base-numero), valeurs déjà tapées conservées
+  _grilleNumeros() {
+    const zone = $("base-numeros");
+    if (!zone) return;
+    const n = Math.min(99, Math.max(1, parseInt($("base-nombre").value, 10) || 1));
+    const champs = [...zone.querySelectorAll("input")];
+    for (let i = champs.length; i < n; i++)
+      zone.insertAdjacentHTML("beforeend", `<input class="champ numero-sup" inputmode="numeric" autocomplete="off" placeholder="n° ${i + 1}">`);
+    [...zone.querySelectorAll("input")].forEach((c, i) => { if (i >= n) c.remove(); });
+    $("base-numeros-titre").textContent = n > 1 ? `N° des ${n} exemplaires` : "N° de l'exemplaire";
+    this._numerote();
+  },
+
+  // « Déjà recensé » pour le nom affiché
+  _deja() {
+    if (!$("base-deja")) return;
+    const nom = normaliser($("base-nom").value);
+    const memes = nom ? this.entrees.filter(e => normaliser(e.nom) === nom) : [];
+    const nums = memes.map(e => e.numero).filter(Boolean);
+    $("base-deja").textContent = memes.length ? `Déjà recensé : ${memes.length} exemplaire${memes.length > 1 ? "s" : ""}${nums.length ? ` (n° ${nums.join(", ")})` : ""}.` : "";
   },
 
   async ajouter() {
@@ -97,20 +124,47 @@ const Base = {
     if (!nom) { await demander("Tapez le nom imprimé sur le blister.", "OK", "Fermer"); return; }
     // nom corrigé à la main : le code de la figurine proposée ne vaut plus
     const code = this.codeLu && normaliser(nom) === normaliser(this.nomLu) ? this.codeLu : "";
-    const numero = $("base-numero") ? $("base-numero").value.trim() : "";
+    const nonNumerote = !!($("base-non-numerote") && $("base-non-numerote").checked);
+    const n = $("base-nombre") ? Math.min(99, Math.max(1, parseInt($("base-nombre").value, 10) || 1)) : 1;
+    const numeros = $("base-numeros") ? [...$("base-numeros").querySelectorAll("input")].slice(0, n).map(c => c.value.trim())
+      : [$("base-numero") ? $("base-numero").value.trim() : ""];
+    while (numeros.length < n) numeros.push("");
     const memes = this.entrees.filter(e => normaliser(e.nom) === normaliser(nom));
-    const meme = numero && memes.find(e => e.numero === numero);
-    if (meme && !(await demander(`« ${nom} » n° ${numero} est déjà recensé : c'est sans doute le même blister photographié deux fois. L'ajouter quand même ?`))) return;
-    this.entrees.push({
-      id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
-      nom, numero, numerote: !($("base-non-numerote") && $("base-non-numerote").checked), serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
-      code, date: new Date().toISOString(), photo: this.photo, verso: this.verso, exporte: false,
-    });
+    const doublesSaisie = numeros.filter((x, i) => x && numeros.indexOf(x) !== i);
+    const dejaLa = numeros.filter(x => x && memes.some(e => e.numero === x));
+    if (doublesSaisie.length && !(await demander(`Le n° ${doublesSaisie.join(", ")} est tapé deux fois. Ajouter quand même ?`))) return;
+    if (dejaLa.length && !(await demander(`« ${nom} » n° ${dejaLa.join(", ")} est déjà recensé : sans doute le même blister compté deux fois. Ajouter quand même ?`))) return;
+    const commun = { nom, numerote: !nonNumerote, serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
+                     code, photo: this.photo, verso: this.verso, exporte: false };
+    for (const numero of numeros)
+      this.entrees.push({ ...commun, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
+                          numero: nonNumerote ? "" : numero, date: new Date().toISOString() });
     await Memoire.ecrire(this.entrees, "base");
-    toast(`« ${nom} » ajouté ✔ (${memes.length + 1}${memes.length ? "e" : "er"} exemplaire)`);
+    const total = memes.length + n;
+    toast(`« ${nom} » : ${n > 1 ? `${n} exemplaires ajoutés` : "ajouté"} ✔ (${total} au total)`);
+    // on garde la figurine : « Autre exemplaire » ne demande que le numéro
+    this._precedent = { nom, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, serie: commun.serie,
+                        remarque: commun.remarque, nonNumerote };
     this._nouvelle();
+    if ($("btn-base-autre")) { $("btn-base-autre").hidden = false; $("btn-base-autre").textContent = `➕ Autre exemplaire de « ${nom} » (même photo)`; }
     this._afficherListe();
   },
+
+  // Exemplaire suivant de la même figurine : nom, série, note et photo repris ; seul le numéro reste à taper
+  autreExemplaire() {
+    const p = this._precedent;
+    if (!p) return;
+    this._nouvelle();
+    Object.assign(this, { photo: p.photo, verso: p.verso, nomLu: p.nomLu, codeLu: p.codeLu });
+    $("base-photo").src = URL.createObjectURL(p.photo);
+    $("base-nom").value = p.nom; $("base-serie").value = p.serie; $("base-remarque").value = p.remarque;
+    if ($("base-non-numerote")) { $("base-non-numerote").checked = p.nonNumerote; this._numerote(); }
+    $("base-fiche").hidden = false;
+    $("base-etat").textContent = "Même figurine : tapez seulement le numéro de cet exemplaire.";
+    this._deja();
+    if ($("base-numero") && !p.nonNumerote) $("base-numero").focus();
+  },
+
 
   async supprimer(id) {
     const e = this.entrees.find(x => x.id === id);
@@ -223,6 +277,8 @@ const Base = {
 };
 
 if ($("base-non-numerote")) $("base-non-numerote").addEventListener("change", () => Base._numerote());
+if ($("base-nombre")) $("base-nombre").addEventListener("input", () => Base._grilleNumeros());
+if ($("base-nom")) $("base-nom").addEventListener("input", () => Base._deja());
 if ($("base-notes")) $("base-notes").addEventListener("click", e => {
   const b = e.target.closest("[data-note]");
   if (!b) return;
@@ -254,6 +310,7 @@ document.addEventListener("click", e => {
   else if (action === "base-ajouter") Base.ajouter();
   else if (action === "base-exporter") Base.exporter();
   else if (action === "base-vider") Base.vider();
+  else if (action === "base-autre") Base.autreExemplaire();
   else if (action === "base-vue-photos") { Base.vue = "photos"; Base._afficherListe(); }
   else if (action === "base-vue-compte") { Base.vue = "compte"; Base._afficherListe(); }
 });

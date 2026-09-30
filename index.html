@@ -302,6 +302,7 @@
     <label class="gros-bouton corail">📷 Photographier un blister
       <input type="file" id="input-base" accept="image/*" capture="environment" hidden>
     </label>
+    <button class="bouton bleu" id="btn-base-autre" data-action="base-autre" hidden>➕ Autre exemplaire</button>
     <p class="aide" id="base-etat"></p>
     <img id="base-photo" class="photo-apercu" alt="Photo du blister">
     <div id="base-fiche" hidden>
@@ -311,11 +312,16 @@
       <label class="bouton gris">📷 Ajouter la photo du verso (facultatif)
         <input type="file" id="input-base-verso" accept="image/*" capture="environment" hidden></label>
       <img id="base-verso" class="photo-apercu" alt="Verso du blister" hidden>
+      <p class="score" id="base-deja"></p>
       <div class="deux-champs">
-        <div><label for="base-numero" class="etiquette-champ">N° de l'exemplaire</label>
-          <input id="base-numero" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 143"></div>
-        <div><label for="base-serie" class="etiquette-champ">Sur (série)</label>
+        <div><label for="base-nombre" class="etiquette-champ">Exemplaires de cette figurine</label>
+          <input id="base-nombre" class="champ" type="number" inputmode="numeric" min="1" max="99" value="1"></div>
+        <div><label for="base-serie" class="etiquette-champ">Série limitée à</label>
           <input id="base-serie" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 250"></div>
+      </div>
+      <label class="etiquette-champ" id="base-numeros-titre">N° de l'exemplaire</label>
+      <div id="base-numeros" class="grille-numeros">
+        <input id="base-numero" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 143">
       </div>
       <label class="case-a-cocher"><input type="checkbox" id="base-non-numerote"> Non numérotée (pas de série limitée)</label>
       <label for="base-remarque" class="etiquette-champ">Note particulière (facultatif)</label>
