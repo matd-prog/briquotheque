@@ -555,7 +555,7 @@ const Base = {
       <input class="champ" data-modif="${cle}" value="${echapper(val || "")}" autocomplete="off" ${attrs}>`;
     ligne.outerHTML = `<div class="carte" data-fiche="${id}">
       <p class="sous-titre">✏️ Modifier ce blister</p>
-      ${champ("nom", "Nom imprimé", e.nom)}${champ("precision", "Précision (personnage, couleur…)", e.precision)}
+      ${champ("nom", "Nom imprimé", e.nom, 'autocapitalize="characters"')}${champ("precision", "Précision (personnage, couleur…)", e.precision, 'autocapitalize="characters"')}
       <div class="deux-champs"><div>${champ("numero", "N° de l'exemplaire", e.numero, 'inputmode="numeric"')}</div>
         <div>${champ("serie", "Série limitée à", e.serie, 'inputmode="numeric"')}</div></div>
       <label class="case-a-cocher"><input type="checkbox" data-modif="nonnum" ${e.numerote === false ? "checked" : ""}> Non numérotée</label>

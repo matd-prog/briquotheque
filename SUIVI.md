@@ -355,3 +355,4 @@ Pour reprendre le 30/09 au matin :
   Noms internes inchangés (Base, champ recense-*, album_photos/recensement.tsv).
 - Appui long sur une photo (30/09, capture de l'utilisateur pendant le recadrage) : plus de menu « Copier / Télécharger / Partager
   l'image » (contextmenu annulé sur les images, -webkit-touch-callout: none ; image du cadre sans pointer-events).
+- Champs Nom et Précision (saisie et fiche ✏️) : clavier en majuscules par défaut (autocapitalize="characters"), 30/09.
