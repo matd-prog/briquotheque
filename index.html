@@ -317,8 +317,16 @@
         <div><label for="base-serie" class="etiquette-champ">Sur (série)</label>
           <input id="base-serie" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 250"></div>
       </div>
-      <label for="base-remarque" class="etiquette-champ">Remarque (facultatif)</label>
-      <input id="base-remarque" class="champ" autocomplete="off" placeholder="ex. édition 2021, Comic Con…">
+      <label class="case-a-cocher"><input type="checkbox" id="base-non-numerote"> Non numérotée (pas de série limitée)</label>
+      <label for="base-remarque" class="etiquette-champ">Note particulière (facultatif)</label>
+      <input id="base-remarque" class="champ" autocomplete="off" placeholder="ex. signée par l'acteur, spécial Comic Con…">
+      <div class="suggestions" id="base-notes">
+        <button class="petit" data-note="Signée">✍️ Signée</button>
+        <button class="petit" data-note="Spécial Comic Con">🎪 Comic Con</button>
+        <button class="petit" data-note="Édition spéciale">⭐ Édition spéciale</button>
+        <button class="petit" data-note="Erreur d'impression">❗ Erreur d'impression</button>
+        <button class="petit" data-note="Cadeau / giveaway">🎁 Cadeau</button>
+      </div>
       <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter au recensement</button>
     </div>
     <div class="carte">

@@ -26,6 +26,7 @@ const Base = {
     $("base-fiche").hidden = true;
     $("base-etat").textContent = "";
     for (const id of ["base-nom", "base-serie", "base-remarque", "base-numero"]) if ($(id)) $(id).value = "";
+    if ($("base-non-numerote")) { $("base-non-numerote").checked = false; this._numerote(); }
     $("base-suggestions").innerHTML = "";
   },
 
@@ -38,6 +39,12 @@ const Base = {
     cv.width = Math.round(image.width * k); cv.height = Math.round(image.height * k);
     cv.getContext("2d").drawImage(image, 0, 0, cv.width, cv.height);
     return new Promise(ok => cv.toBlob(ok, "image/jpeg", 0.82));
+  },
+
+  // « Non numérotée » : pas de numéro ni de série limitée
+  _numerote() {
+    const non = $("base-non-numerote") && $("base-non-numerote").checked;
+    for (const id of ["base-numero", "base-serie"]) if ($(id)) { $(id).disabled = non; if (non) $(id).value = ""; }
   },
 
   async lirePhoto(fichier) {
@@ -96,7 +103,7 @@ const Base = {
     if (meme && !(await demander(`« ${nom} » n° ${numero} est déjà recensé : c'est sans doute le même blister photographié deux fois. L'ajouter quand même ?`))) return;
     this.entrees.push({
       id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
-      nom, numero, serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
+      nom, numero, numerote: !($("base-non-numerote") && $("base-non-numerote").checked), serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
       code, date: new Date().toISOString(), photo: this.photo, verso: this.verso, exporte: false,
     });
     await Memoire.ecrire(this.entrees, "base");
@@ -129,7 +136,7 @@ const Base = {
       <div class="fiche">
         <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="">
         <div class="infos"><div class="nom-court">${echapper(e.nom)}</div>
-          <div class="lieu">${echapper([e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`,
+          <div class="lieu">${echapper([e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
             e.verso && "recto + verso", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
         <button class="petit" data-base-suppr="${e.id}" title="Retirer">✕</button>
       </div>`).join("");
@@ -141,8 +148,8 @@ const Base = {
     const groupes = new Map();
     for (const e of this.entrees) {
       const k = normaliser(e.nom);
-      const g = groupes.get(k) || { nom: e.nom, numeros: [], n: 0 };
-      g.n++; if (e.numero) g.numeros.push(e.numero); groupes.set(k, g);
+      const g = groupes.get(k) || { nom: e.nom, numeros: [], notes: [], n: 0 };
+      g.n++; if (e.numero) g.numeros.push(e.numero); if (e.remarque) g.notes.push(e.remarque); groupes.set(k, g);
     }
     let achats = [];
     try { if (etat.classeur) achats = (await lireCustomsAchetees(etat.classeur)).filter(a => !/^Custom JB \(lot/.test(a.nom)); } catch (err) { console.warn(err); }
@@ -156,7 +163,7 @@ const Base = {
       nommés n'y sont pas : un blister compté sans achat correspondant vient peut-être d'un lot.</p>` + liste.map(g => {
         const a = achete(g.nom);
         const etatTxt = !a ? "" : a === g.n ? `<span class="recense-ok">= acheté ${a}</span>` : `<span class="recense-ecart">acheté ${a}</span>`;
-        return `<div class="ligne-valeur"><span>${echapper(g.nom)}${g.numeros.length ? ` <span class="score">n° ${echapper(g.numeros.join(", "))}</span>` : ""}</span>
+        return `<div class="ligne-valeur"><span>${echapper(g.nom)}${g.numeros.length ? ` <span class="score">n° ${echapper(g.numeros.join(", "))}</span>` : ""}${g.notes.length ? ` <span class="badge">${echapper(g.notes.join(" · "))}</span>` : ""}</span>
           <span><b>×${g.n}</b> ${etatTxt}</span></div>`;
       }).join("") : "";
   },
@@ -165,11 +172,11 @@ const Base = {
   async exporter() {
     if (!this.entrees.length) return;
     const zip = new JSZip();
-    const lignes = ["id\tnom\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso"];
+    const lignes = ["id\tnom\tnumerote\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso"];
     for (const e of this.entrees) {
       zip.file(`photos/${e.id}.jpg`, e.photo);
       if (e.verso) zip.file(`photos/${e.id}_verso.jpg`, e.verso);
-      lignes.push([e.id, e.nom, e.numero, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`, e.verso ? `photos/${e.id}_verso.jpg` : ""].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
+      lignes.push([e.id, e.nom, e.numerote === false ? "non" : "oui", e.numero, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`, e.verso ? `photos/${e.id}_verso.jpg` : ""].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
     }
     zip.file("base.tsv", lignes.join("\n") + "\n");
     const contenu = await zip.generateAsync({ type: "blob" });
@@ -214,6 +221,14 @@ const Base = {
     this._afficherListe();
   },
 };
+
+if ($("base-non-numerote")) $("base-non-numerote").addEventListener("change", () => Base._numerote());
+if ($("base-notes")) $("base-notes").addEventListener("click", e => {
+  const b = e.target.closest("[data-note]");
+  if (!b) return;
+  const champ = $("base-remarque"), n = b.dataset.note;
+  if (!champ.value.includes(n)) champ.value = champ.value.trim() ? `${champ.value.trim()}, ${n}` : n;
+});
 
 if ($("input-base-verso")) $("input-base-verso").addEventListener("change", async e => {
   const f = e.target.files[0];
