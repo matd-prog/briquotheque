@@ -744,16 +744,17 @@ document.addEventListener("click", e => {
 
 Base._installerRecadrage();
 
-// Champs « nombre » (exemplaires, séries, quantité) : tout le contenu est sélectionné quand on touche le champ, le chiffre
-// tapé remplace donc le 1 proposé ; champ laissé vide : il revient à sa valeur minimale.
+// Champs « nombre » (exemplaires, séries, quantité) : 1 affiché par défaut ; au toucher, le champ se vide (le 1 reste
+// visible en grisé) pour taper directement le bon nombre ; laissé vide, il reprend sa valeur d'avant.
 document.addEventListener("focusin", e => {
   const c = e.target;
-  if (c.matches && c.matches('input[type="number"]')) setTimeout(() => { try { c.select(); } catch (err) { /* navigateur sans sélection */ } }, 0);
+  if (!(c.matches && c.matches('input[type="number"]'))) return;
+  c.dataset.avant = c.value;
+  c.placeholder = c.value;
+  c.value = "";
 });
 document.addEventListener("focusout", e => {
   const c = e.target;
-  if (c.matches && c.matches('input[type="number"]') && c.value.trim() === "" && c.min) {
-    c.value = c.min;
-    c.dispatchEvent(new Event("input", { bubbles: true }));
-  }
+  if (!(c.matches && c.matches('input[type="number"]')) || c.value.trim() !== "") return;
+  c.value = c.dataset.avant || c.min || "";
 });
