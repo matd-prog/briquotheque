@@ -346,3 +346,5 @@ Pour reprendre le 30/09 au matin :
   Recherche dans la liste (#base-filtre : nom, n°, note). Panneau d'identification : « ✏️ Voir ou corriger » filtre la liste
   sur la figurine. Appli principale : n° corrigé aussi dans l'onglet Customs (nom de la case + Table camps,
   corrigerNumeroCustoms dans js/app.js). Appli et mini-appli.
+- « Non numérotée » (30/09) : cases n° et série grisées (fond gris, libellés gris, état des n° masqué), valeurs gardées
+  (décocher les retrouve) mais ignorées à l'ajout (série vidée) ; même grisage dans la fiche ✏️ de modification. Appli et mini-appli.

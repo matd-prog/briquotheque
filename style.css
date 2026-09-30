@@ -247,3 +247,6 @@ a.proposition { color: inherit; text-decoration: none; }
 /* recadrage d'un blister (recensement) : image sur toute la largeur */
 #base-recadrage-zone { width: 100%; align-self: stretch; }
 #base-recadrage-zone img { width: 100%; height: auto; max-height: none; }
+/* champs désactivés (ex. « Non numérotée » : n° et série) : bien visibles comme grisés */
+.champ:disabled { background: #e6e6e6; color: #999; border-color: #d0d0d0; }
+.grise { color: #aaa; }

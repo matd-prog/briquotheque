@@ -189,7 +189,10 @@ const Base = {
   _numerote() {
     const non = $("base-non-numerote") && $("base-non-numerote").checked;
     const champs = [...($("base-numeros") ? $("base-numeros").querySelectorAll("input") : []), $("base-numero"), $("base-serie")].filter(Boolean);
-    for (const c of champs) { c.disabled = non; if (non) c.value = ""; }
+    // grisés (valeurs gardées : décocher les retrouve ; elles sont ignorées à l'ajout)
+    for (const c of champs) { c.disabled = non; const l = c.closest("div") && c.closest("div").querySelector("label"); if (l) l.classList.toggle("grise", non); }
+    if ($("base-numeros-titre")) $("base-numeros-titre").classList.toggle("grise", non);
+    if ($("base-numeros-etat")) $("base-numeros-etat").hidden = non;
   },
 
   async lirePhoto(fichier) {
@@ -400,7 +403,7 @@ const Base = {
           `Ajouter les ${garder.length} autre${pluriel(garder)}`, "Corriger d'abord"))) { viderDoublons(); return; }
       numeros = garder; n = garder.length;
     }
-    const commun = { recadre: true, nom, precision, numerote: !nonNumerote, serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
+    const commun = { recadre: true, nom, precision, numerote: !nonNumerote, serie: nonNumerote ? "" : $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
                      code, photo: this.photo, verso: this.verso, exporte: false };
     for (const numero of numeros)
       this.entrees.push({ ...commun, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
@@ -561,7 +564,16 @@ const Base = {
     const carte = $("base-liste").querySelector(`[data-fiche="${id}"]`);
     carte.querySelector("[data-modif-annuler]").addEventListener("click", () => this._afficherListe());
     carte.querySelector("[data-modif-ok]").addEventListener("click", () => this._enregistrerModif(e, carte));
-    carte.querySelector('[data-modif="numero"]').focus();
+    const griser = () => {
+      const non = carte.querySelector('[data-modif="nonnum"]').checked;
+      for (const k of ["numero", "serie"]) {
+        const c = carte.querySelector(`[data-modif="${k}"]`);
+        c.disabled = non; c.previousElementSibling.classList.toggle("grise", non);
+      }
+    };
+    carte.querySelector('[data-modif="nonnum"]').addEventListener("change", griser);
+    griser();
+    if (e.numerote !== false) carte.querySelector('[data-modif="numero"]').focus();
   },
 
   async _enregistrerModif(e, carte) {
