@@ -262,3 +262,9 @@ Pour reprendre le 30/09 au matin :
   « Customs achetées ». Onglet « Par figurine » : exemplaires regroupés (code JB ou nom), prix payé et prix de revente
   conseillé = (payé × (1 + marge) + frais fixes) / (1 − frais %), réglages gardés dans le téléphone (défaut 11 % +
   0,30 € de frais, 20 % de marge : frais Whatnot à vérifier). Piste complète : détail des commandes demandé à JB.
+- Album photo de l'utilisateur (30/09, 992 images Google Photos, lien partagé) : tri (ventes en direct, blisters, tiles…),
+  captures de rediffusions Whatnot -> propositions_lots.tsv (dépôt privé, 70 achats reliés à une figurine), 169 photos
+  de blisters de face lues à l'œil, remises d'aplomb -> data/jb_album.tsv (63 blisters absents des catalogues, code
+  ALB-…) et data/jb_empreintes_album.tsv (empreintes de décor ; plusieurs par blister, CatalogueJB garde la meilleure).
+  Reconnaissance par le décor (une autre photo du même blister) : 36/83 en tête, contre 3/79 avec le catalogue seul.
+  Les photos elles-mêmes restent dans le dépôt privé (album_photos/blisters/).

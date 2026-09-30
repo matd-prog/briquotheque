@@ -13,13 +13,15 @@ const SOURCES_JB = [
   { source: "brickshell", fichier: "data/jb_brickshell.tsv", codes: /^(JB|BSC)-/ },
   { source: "archive", fichier: "data/jb_archive.tsv", codes: /^JB-/ },
   { source: "ebay", fichier: "data/jb_ebay.tsv", codes: /^EBAY-/ },
+  // blisters photographiés par des collectionneurs (base commune), absents des autres listes : code ALB-…
+  { source: "album", fichier: "data/jb_album.tsv", codes: /^ALB-/ },
 ];
 
 const CatalogueJB = {
   liste: null,
   parCode: null,
   date: null,
-  nb: { jb: 0, brickshell: 0, archive: 0, ebay: 0 },
+  nb: { jb: 0, brickshell: 0, archive: 0, ebay: 0, album: 0 },
   _chargement: null,
 
   charger() {
@@ -31,7 +33,7 @@ const CatalogueJB = {
         .then(liste => {
           this.liste = [];
           this.parCode = new Map();
-          this.nb = { jb: 0, brickshell: 0, archive: 0, ebay: 0 };
+          this.nb = { jb: 0, brickshell: 0, archive: 0, ebay: 0, album: 0 };
           SOURCES_JB.forEach(({ source, codes }, i) => {
             for (const ligne of liste[i].split("\n")) {
               if (ligne.startsWith("#date ")) { if (source === "jb") this.date = ligne.slice(6).trim(); continue; }
@@ -57,17 +59,22 @@ const CatalogueJB = {
     return (lien && this.liste && this.liste.find(f => f.lien === lien)) || null;
   },
 
-  // Empreintes des blisters (data/jb_empreintes.tsv, créées par outils/empreintes_jb.js)
+  // Empreintes des blisters : photos du catalogue JB (data/jb_empreintes.tsv, outils/empreintes_jb.js) et photos de
+  // collectionneurs (data/jb_empreintes_album.tsv, outils/album_blisters.py) ; plusieurs empreintes possibles par blister
   empreintes: null,
   chargerEmpreintes() {
     if (!this._chargementEmpreintes) {
-      this._chargementEmpreintes = fetch("data/jb_empreintes.tsv")
-        .then(rep => { if (!rep.ok) throw new Error("empreintes JB absentes"); return rep.text(); })
-        .then(texte => {
+      const lire = f => fetch(f).then(rep => rep.ok ? rep.text() : "").catch(() => "");
+      this._chargementEmpreintes = Promise.all([lire("data/jb_empreintes.tsv"), lire("data/jb_empreintes_album.tsv")])
+        .then(([catalogue, album]) => {
+          if (!catalogue) throw new Error("empreintes JB absentes");
           this.empreintes = new Map();
-          for (const ligne of texte.split("\n")) {
+          for (const ligne of (catalogue + "\n" + album).split("\n")) {
             const [code, e] = ligne.split("\t");
-            if (code && code.startsWith("JB-") && e) this.empreintes.set(code.toUpperCase(), empreinteDepuisTexte(e));
+            if (!code || !/^(JB|ALB)-/.test(code) || !e) continue;
+            const k = code.toUpperCase();
+            if (!this.empreintes.has(k)) this.empreintes.set(k, []);
+            this.empreintes.get(k).push(empreinteDepuisTexte(e));
           }
           return this.empreintes;
         })
@@ -82,8 +89,8 @@ const CatalogueJB = {
     const e = empreinteImage(source, false);
     const res = [];
     for (const f of this.liste) {
-      const ref = this.empreintes.get(f.code.toUpperCase());
-      if (ref) res.push({ f, score: similarite(e, ref) });
+      const refs = this.empreintes.get(f.code.toUpperCase());
+      if (refs) res.push({ f, score: Math.max(...refs.map(ref => similarite(e, ref))) });
     }
     return res.sort((a, b) => b.score - a.score).slice(0, max);
   },
