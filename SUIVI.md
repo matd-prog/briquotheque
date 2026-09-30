@@ -282,3 +282,10 @@ Pour reprendre le 30/09 au matin :
   chaque figurine en plusieurs exemplaires on garde le n° le plus bas et ceux qui ont une note ; les autres sont à vendre au
   plus haut entre revente conseillée (prix payé médian + marge + frais) et prix eBay.de, plafonné au prix JB si encore en
   vente. « Mettre à jour » écrit l'onglet Excel « À vendre » (statut et prix réel gardés ; « vendu » = sorti de la liste).
+
+## Recensement : identification à la photo (2026-09-30)
+- Après la photo d'un blister (appli principale ET mini-appli contribuer.html) : panneau « base JB » (✅ connu, source, épuisée ;
+  ❓ inconnu → 3 blisters au décor proche à toucher, sinon nouveau pour la base à l'envoi), « votre collection » (nombre
+  d'exemplaires et numéros déjà recensés), ⚠️ si une de vos photos ressemble à un blister d'un autre nom.
+- Chaque numéro tapé : « déjà recensé », « tapé deux fois » ou « nouveau ✔ ». « ➕ Autre exemplaire » garde la fiche.
+- contribuer.html reprend la fiche complète (verso, exemplaires, non numérotée, notes, vue « Par figurine »).

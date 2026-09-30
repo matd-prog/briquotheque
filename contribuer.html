@@ -29,7 +29,7 @@
       <b>Ajouter</b>. Ouvrez ensuite « Blisters JB » depuis l'écran d'accueil. Sinon, Safari peut effacer vos
       blisters après quelques jours sans utilisation.</div>
     <p class="intro">Photographiez vos blisters JB Spielwaren <b>un par un</b>, de face. Le nom est lu tout seul :
-      vérifiez-le, puis « Ajouter à la base ». Quand vous avez fini, touchez « Envoyer » et envoyez le fichier
+      vérifiez-le : l'appli vous dit s'il est déjà connu et si vous l'avez déjà photographié. Notez le numéro écrit à la main, puis « Ajouter ». Quand vous avez fini, touchez « Envoyer » et envoyez le fichier
       à Mathias (Messages, WhatsApp, Mail…). Merci !</p>
     <label class="gros-bouton corail">📷 Photographier un blister
       <input type="file" id="input-base" accept="image/*" capture="environment" hidden>
@@ -37,22 +37,50 @@
     <label class="bouton gris">🖼️ Choisir une photo déjà prise
       <input type="file" id="input-base-galerie" accept="image/*" hidden>
     </label>
+    <button class="bouton bleu" id="btn-base-autre" data-action="base-autre" hidden>➕ Autre exemplaire</button>
     <p class="aide" id="base-etat"></p>
     <img id="base-photo" class="photo-apercu" alt="Photo du blister">
     <div id="base-fiche" hidden>
       <label for="base-nom" class="etiquette-champ">Nom imprimé sur le blister</label>
       <input id="base-nom" class="champ" autocomplete="off" placeholder="ex. SHINY DARK LORD">
       <div id="base-suggestions" class="suggestions"></div>
-      <label for="base-serie" class="etiquette-champ">Série limitée (facultatif)</label>
-      <input id="base-serie" class="champ" autocomplete="off" placeholder="ex. 250 (pour « LIMITED TO 250 »)">
-      <label for="base-remarque" class="etiquette-champ">Remarque (facultatif)</label>
-      <input id="base-remarque" class="champ" autocomplete="off" placeholder="ex. édition 2021, Comic Con…">
-      <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter à la base</button>
+      <div id="base-identite"></div>
+      <label class="bouton gris">📷 Ajouter la photo du verso (facultatif)
+        <input type="file" id="input-base-verso" accept="image/*" capture="environment" hidden></label>
+      <img id="base-verso" class="photo-apercu" alt="Verso du blister" hidden>
+      <p class="score" id="base-deja"></p>
+      <div class="deux-champs">
+        <div><label for="base-nombre" class="etiquette-champ">Exemplaires de cette figurine</label>
+          <input id="base-nombre" class="champ" type="number" inputmode="numeric" min="1" max="99" value="1"></div>
+        <div><label for="base-serie" class="etiquette-champ">Série limitée à</label>
+          <input id="base-serie" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 250"></div>
+      </div>
+      <label class="etiquette-champ" id="base-numeros-titre">N° de l'exemplaire</label>
+      <div id="base-numeros" class="grille-numeros">
+        <input id="base-numero" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 143">
+      </div>
+      <p class="score" id="base-numeros-etat"></p>
+      <label class="case-a-cocher"><input type="checkbox" id="base-non-numerote"> Non numérotée (pas de série limitée)</label>
+      <label for="base-remarque" class="etiquette-champ">Note particulière (facultatif)</label>
+      <input id="base-remarque" class="champ" autocomplete="off" placeholder="ex. signée par l'acteur, spécial Comic Con…">
+      <div class="suggestions" id="base-notes">
+        <button class="petit" data-note="Signée">✍️ Signée</button>
+        <button class="petit" data-note="Spécial Comic Con">🎪 Comic Con</button>
+        <button class="petit" data-note="Édition spéciale">⭐ Édition spéciale</button>
+        <button class="petit" data-note="Erreur d'impression">❗ Erreur d'impression</button>
+        <button class="petit" data-note="Cadeau / giveaway">🎁 Cadeau</button>
+      </div>
+      <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter au recensement</button>
     </div>
     <div class="carte">
       <p class="sous-titre" id="base-compte"></p>
       <button class="bouton bleu" data-action="base-exporter" id="btn-base-exporter">📤 Envoyer les blisters (un fichier .zip)</button>
-      <p class="aide">Les blisters restent dans le téléphone tant que vous ne les effacez pas. Envoyez-les de temps en temps : ils sont alors à l'abri.</p>
+      <p class="aide">Le fichier va dans « Téléchargements » : envoyez-le moi (ou mettez-le dans Google Drive). Les blisters
+        restent dans le téléphone tant que vous ne les effacez pas.</p>
+      <div class="onglets-achats">
+        <button class="bouton actif" id="base-vue-photos" data-action="base-vue-photos">Dernières photos</button>
+        <button class="bouton" id="base-vue-compte" data-action="base-vue-compte">Par figurine</button>
+      </div>
       <div id="base-liste" class="base-liste"></div>
       <button class="bouton-lien" data-action="base-vider" id="btn-base-vider">Effacer les blisters déjà exportés</button>
     </div>

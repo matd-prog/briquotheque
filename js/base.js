@@ -20,7 +20,8 @@ const Base = {
   },
 
   _nouvelle() {
-    this.photo = null; this.verso = null; this.codeLu = ""; this.nomLu = "";
+    this.photo = null; this.verso = null; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.semblables = [];
+    if ($("base-identite")) $("base-identite").innerHTML = "";
     $("base-photo").removeAttribute("src");
     if ($("base-verso")) { $("base-verso").removeAttribute("src"); $("base-verso").hidden = true; }
     $("base-fiche").hidden = true;
@@ -70,6 +71,7 @@ const Base = {
     try {
       await CatalogueJB.chargerEmpreintes();
       const decor = CatalogueJB.classerParDecor(await createImageBitmap(this.photo), 10);
+      this.decor = decor;
       const confirme = connues.some(f => decor.some(r => r.f === f));
       const surs = decor.filter(r => r.score >= 0.95).slice(0, 2).map(r => r.f);
       connues = confirme || !surs.length ? [...connues, ...decor.slice(0, connues.length ? 1 : 3).map(r => r.f)] : [...surs, ...connues];
@@ -84,13 +86,15 @@ const Base = {
     $("base-suggestions").querySelectorAll("[data-base-nom]").forEach(b => b.addEventListener("click", () => {
       const s = noms[+b.dataset.baseNom];
       $("base-nom").value = this.nomLu = s.nom; this.codeLu = s.code;
+      this._deja();
     }));
+    this.semblables = await this._semblablesCollection().catch(() => []);
     const serie = /limited\s*to\s*(\d{2,4})|\b(?:of|von)\s*(\d{2,4})\b/i.exec(lecture.texte);
     if (serie) $("base-serie").value = serie[1] || serie[2];
     const numero = /\b(\d{1,4})\s*(?:of|von)\s*\d{2,4}\b/i.exec(lecture.texte);
     if (numero && $("base-numero")) $("base-numero").value = numero[1];
-    $("base-etat").textContent = noms.length ? "Vérifiez le nom (corrigez-le si besoin), puis « Ajouter à la base »."
-      : "Le nom n'a pas été lu : tapez-le tel qu'il est imprimé sur le blister, puis « Ajouter à la base ».";
+    $("base-etat").textContent = noms.length ? "Vérifiez le nom et le numéro, puis « Ajouter »."
+      : "Le nom n'a pas été lu : tapez-le tel qu'il est imprimé sur le blister, ou choisissez un blister qui ressemble.";
     $("base-fiche").hidden = false;
     if ($("btn-base-autre")) $("btn-base-autre").hidden = true;
     this._deja();
@@ -109,13 +113,78 @@ const Base = {
     this._numerote();
   },
 
-  // « Déjà recensé » pour le nom affiché
+  // Vos blisters déjà recensés dont le décor ressemble à la photo (même figurine photographiée, ou confusion possible)
+  async _semblablesCollection() {
+    if (typeof empreinteImage !== "function" || !this.photo || !this.entrees.length) return [];
+    const e0 = empreinteImage(await createImageBitmap(this.photo), false);
+    let calcule = false;
+    const res = [];
+    for (const e of this.entrees) {
+      if (!e.photo) continue;
+      if (!e.empreinte) { e.empreinte = empreinteEnTexte(empreinteImage(await createImageBitmap(e.photo), false)); calcule = true; }
+      const sc = similarite(e0, empreinteDepuisTexte(e.empreinte));
+      if (sc >= 0.93) res.push({ e, sc });
+    }
+    if (calcule) Memoire.ecrire(this.entrees, "base");
+    return res.sort((a, b) => b.sc - a.sc);
+  },
+
+  // Fiche d'identification : base JB (connu ? sinon blisters qui ressemblent), votre collection (exemplaires, n° déjà
+  // recensés, photos qui ressemblent), et n° tapés (déjà présents ou nouveaux)
   _deja() {
-    if (!$("base-deja")) return;
-    const nom = normaliser($("base-nom").value);
+    const zone = $("base-identite");
+    const nom = normaliser($("base-nom").value.trim());
+    const code = this.codeLu && normaliser(this.nomLu) === nom ? this.codeLu : "";
+    const f = code && CatalogueJB.trouver ? CatalogueJB.trouver(code) : null;
+    const source = f => f.source === "jb" ? (f.epuisee ? "catalogue JB, épuisée" : "catalogue JB") : f.source === "album" ? "photo de collectionneur"
+      : f.source === "brickshell" ? "retirée, brickshellcases" : f.source === "archive" ? "retirée, archives JB" : "retirée, vue sur eBay.de";
+    const carte = (x, i) => `<button class="proposition" data-base-decor="${i}">
+        ${x.image ? `<img src="${echapper(x.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">${echapper(source(x))}</div>`}
+        <span class="nom-court">${echapper(x.nom)}</span></button>`;
+    // 1. base JB
+    let jb;
+    if (f) jb = `<p>✅ <b>Dans la base JB</b> : ${echapper(f.nom)} <span class="score">(${echapper(source(f))})</span></p>`;
+    else {
+      const autres = (this.decor || []).slice(0, 3).map(r => r.f);
+      jb = `<p>❓ <b>Pas reconnu dans la base JB.</b> ${autres.length ? "Est-ce l'un de ceux-ci ? Touchez-le pour le choisir." : ""}</p>` +
+        (autres.length ? `<div class="grille">${autres.map(carte).join("")}</div>` : "") +
+        `<p class="score">Sinon, c'est un blister nouveau pour la base : gardez le nom imprimé ; il enrichira la base commune à l'envoi 📤.</p>`;
+    }
+    // 2. votre collection
     const memes = nom ? this.entrees.filter(e => normaliser(e.nom) === nom) : [];
     const nums = memes.map(e => e.numero).filter(Boolean);
-    $("base-deja").textContent = memes.length ? `Déjà recensé : ${memes.length} exemplaire${memes.length > 1 ? "s" : ""}${nums.length ? ` (n° ${nums.join(", ")})` : ""}.` : "";
+    let aussi = "";
+    try { // onglet « Customs » du fichier Excel (appli principale)
+      if (code && typeof ouFigurine === "function" && etat.collection) { const n = ouFigurine(code).length; if (n) aussi = ` · ${n} dans l'onglet Customs du fichier`; }
+    } catch (e) { /* mini-appli : pas de fichier */ }
+    const confus = (this.semblables || []).filter(x => normaliser(x.e.nom) !== nom);
+    const confusNoms = [...new Map(confus.map(x => [normaliser(x.e.nom), x.e])).values()].slice(0, 3);
+    const coll = (memes.length ? `<p>📦 <b>Dans votre collection : ${memes.length} exemplaire${memes.length > 1 ? "s" : ""}</b>${nums.length ? ` (n° ${echapper(nums.join(", "))})` : ""}${aussi}.</p>`
+        : `<p>✨ <b>Pas encore dans votre collection</b>${aussi}.</p>`) +
+      (confusNoms.length ? `<p class="alerte">⚠️ Ressemble à votre blister ${confusNoms.map(e => `« ${echapper(e.nom)} »`).join(", ")} : même figurine sous un autre nom ? Vérifiez avant d'ajouter.</p>` : "");
+    if (zone) {
+      zone.innerHTML = `<div class="carte">${jb}${coll}</div>`;
+      zone.querySelectorAll("[data-base-decor]").forEach(b => b.addEventListener("click", () => {
+        const x = (this.decor || [])[+b.dataset.baseDecor].f;
+        const court = x.nom.replace(/\s*[-–]?\s*\bc[ou]s?t[ou]m\b.*$/i, "").replace(/\s+minifig\w*.*$/i, "").trim().toUpperCase();
+        $("base-nom").value = this.nomLu = court; this.codeLu = x.code;
+        this._deja();
+      }));
+    }
+    if ($("base-deja")) $("base-deja").textContent = "";
+    this._etatNumeros();
+  },
+
+  // chaque n° tapé : déjà recensé pour cette figurine, ou nouveau
+  _etatNumeros() {
+    const z = $("base-numeros-etat");
+    if (!z) return;
+    const nom = normaliser($("base-nom").value);
+    const deja = new Set(this.entrees.filter(e => normaliser(e.nom) === nom).map(e => e.numero).filter(Boolean));
+    const tapes = $("base-numeros") ? [...$("base-numeros").querySelectorAll("input")].map(c => c.value.trim()).filter(Boolean) : [];
+    z.innerHTML = tapes.map((n, i) => deja.has(n) ? `<span class="recense-ecart">n° ${echapper(n)} déjà recensé</span>`
+      : tapes.indexOf(n) !== i ? `<span class="recense-ecart">n° ${echapper(n)} tapé deux fois</span>`
+      : `<span class="recense-ok">n° ${echapper(n)} nouveau ✔</span>`).join(" · ");
   },
 
   async ajouter() {
@@ -317,6 +386,7 @@ const Base = {
 if ($("base-non-numerote")) $("base-non-numerote").addEventListener("change", () => Base._numerote());
 if ($("base-nombre")) $("base-nombre").addEventListener("input", () => Base._grilleNumeros());
 if ($("base-nom")) $("base-nom").addEventListener("input", () => Base._deja());
+if ($("base-numeros")) $("base-numeros").addEventListener("input", () => Base._etatNumeros());
 if ($("base-notes")) $("base-notes").addEventListener("click", e => {
   const b = e.target.closest("[data-note]");
   if (!b) return;
