@@ -289,3 +289,7 @@ Pour reprendre le 30/09 au matin :
   d'exemplaires et numéros déjà recensés), ⚠️ si une de vos photos ressemble à un blister d'un autre nom.
 - Chaque numéro tapé : « déjà recensé », « tapé deux fois » ou « nouveau ✔ ». « ➕ Autre exemplaire » garde la fiche.
 - contribuer.html reprend la fiche complète (verso, exemplaires, non numérotée, notes, vue « Par figurine »).
+- Reprise des blisters (30/09) : « 📥 Reprendre des blisters déjà photographiés (.zip) » dans contribuer.html (import d'un envoi,
+  doublons ignorés par id). Sur iPhone, Safari et l'appli installée ont des mémoires séparées : dans Safari avec des blisters,
+  le bandeau d'installation dit de les « Envoyer → Enregistrer dans Fichiers » d'abord ; à la 1re ouverture de l'appli installée
+  sans blister, question « Avez-vous déjà photographié des blisters ? » et mode d'emploi.

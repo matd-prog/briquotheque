@@ -27,7 +27,10 @@
     <div id="installer-iphone" class="alerte" hidden>📲 <b>Sur iPhone, installez d'abord l'appli</b> : touchez
       <b>Partager</b> (le carré avec une flèche ⬆️, en bas de Safari), puis <b>« Sur l'écran d'accueil »</b>, puis
       <b>Ajouter</b>. Ouvrez ensuite « Blisters JB » depuis l'écran d'accueil. Sinon, Safari peut effacer vos
-      blisters après quelques jours sans utilisation.</div>
+      blisters après quelques jours sans utilisation.
+      <span id="avant-installer" hidden><br><br>⚠️ <b>Vous avez déjà <span id="avant-installer-n"></span> blister(s) ici.</b> L'appli
+      installée ne les verra pas : touchez d'abord « 📤 Envoyer les blisters » puis « Enregistrer dans Fichiers ». Dans l'appli
+      installée, touchez ensuite « 📥 Reprendre des blisters déjà photographiés ».</span></div>
     <p class="intro">Photographiez vos blisters JB Spielwaren <b>un par un</b>, de face. Le nom est lu tout seul :
       vérifiez-le : l'appli vous dit s'il est déjà connu et si vous l'avez déjà photographié. Notez le numéro écrit à la main, puis « Ajouter ». Quand vous avez fini, touchez « Envoyer » et envoyez le fichier
       à Mathias (Messages, WhatsApp, Mail…). Merci !</p>
@@ -82,6 +85,8 @@
         <button class="bouton" id="base-vue-compte" data-action="base-vue-compte">Par figurine</button>
       </div>
       <div id="base-liste" class="base-liste"></div>
+      <label class="bouton gris">📥 Reprendre des blisters déjà photographiés (.zip)
+        <input type="file" id="input-base-reprendre" accept=".zip,application/zip" hidden></label>
       <button class="bouton-lien" data-action="base-vider" id="btn-base-vider">Effacer les blisters déjà exportés</button>
     </div>
   </section>
@@ -173,10 +178,16 @@ const Memoire = {
 <script src="js/base.js"></script>
 <script src="js/occupe.js"></script>
 <script>
-  Base.ouvrir();
   // iPhone / iPad dans Safari (pas encore installée sur l'écran d'accueil) : explication pour l'installer
   const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  if (ios && !navigator.standalone && !matchMedia("(display-mode: standalone)").matches) $("installer-iphone").hidden = false;
+  const installee = navigator.standalone || matchMedia("(display-mode: standalone)").matches;
+  Base.ouvrir().then(() => {
+    if (ios && !installee) {
+      $("installer-iphone").hidden = false;
+      // blisters faits dans Safari : les emporter dans l'appli installée (stockages séparés sur iPhone)
+      if (Base.entrees.length) { $("avant-installer").hidden = false; $("avant-installer-n").textContent = Base.entrees.length; }
+    } else Base.proposerReprise();
+  });
   // demande au navigateur de ne pas effacer les blisters gardés dans le téléphone
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});

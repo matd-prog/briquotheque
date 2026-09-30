@@ -235,6 +235,47 @@ const Base = {
   },
 
 
+  // Reprendre des blisters d'un fichier .zip « Envoyer » (autre téléphone, ou Safari avant l'installation sur l'écran
+  // d'accueil : sur iPhone, l'appli installée ne voit pas ce qui a été fait dans Safari). Déjà présents : ignorés.
+  async reprendre(fichier) {
+    let zip;
+    try { zip = await JSZip.loadAsync(fichier); } catch (err) { await demander("Ce fichier n'est pas un envoi de blisters (.zip).", "OK", "Fermer"); return; }
+    const tsv = zip.file("base.tsv");
+    if (!tsv) { await demander("Ce fichier .zip ne contient pas de blisters.", "OK", "Fermer"); return; }
+    const [entete, ...lignes] = (await tsv.async("string")).split("\n").filter(l => l.trim());
+    const col = entete.split("\t");
+    const connus = new Set(this.entrees.map(e => e.id));
+    let ajoutes = 0, deja = 0;
+    for (const l of lignes) {
+      const v = {}; l.split("\t").forEach((x, i) => { v[col[i]] = x; });
+      if (!v.id || !v.nom) continue;
+      if (connus.has(v.id)) { deja++; continue; }
+      const photo = zip.file(v.photo || `photos/${v.id}.jpg`), verso = v.verso && zip.file(v.verso);
+      if (!photo) continue;
+      this.entrees.push({ id: v.id, nom: v.nom, numerote: v.numerote !== "non", numero: v.numero || "", serie: v.serie || "",
+        remarque: v.remarque || "", code: v.code || "", date: v.date || new Date().toISOString(),
+        photo: new Blob([await photo.async("arraybuffer")], { type: "image/jpeg" }),
+        verso: verso ? new Blob([await verso.async("arraybuffer")], { type: "image/jpeg" }) : null, exporte: false });
+      connus.add(v.id); ajoutes++;
+    }
+    await Memoire.ecrire(this.entrees, "base");
+    this._afficherListe();
+    await demander((ajoutes ? `${ajoutes} blister${ajoutes > 1 ? "s repris" : " repris"} ✔` : "Aucun nouveau blister dans ce fichier") + (deja ? ` (${deja} déjà dans l'appli)` : "") +
+      ".\n\nVous pouvez continuer à photographier : rien n'est perdu.", "OK", "Fermer");
+  },
+
+  // Première ouverture de l'appli installée, sans aucun blister : proposer de reprendre ceux faits avant
+  async proposerReprise() {
+    if (this.entrees.length || (await Memoire.lire("reprise-proposee"))) return;
+    await Memoire.ecrire(true, "reprise-proposee");
+    const safari = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    if (!(await demander("Avez-vous déjà photographié des blisters avant d'installer l'appli ?", "Oui, les reprendre", "Non, je commence"))) return;
+    await demander("Pour les reprendre :\n\n1. " + (safari ? "Ouvrez le lien de l'appli dans Safari (là où vous les avez photographiés)."
+      : "Ouvrez l'appli là où vous les avez photographiés.") +
+      "\n2. Touchez « 📤 Envoyer les blisters », puis « Enregistrer dans Fichiers ».\n3. Revenez ici et touchez « 📥 Reprendre des blisters déjà photographiés », " +
+      "puis choisissez ce fichier.\n\nUn fichier .zip déjà envoyé (Messages, Mail…) convient aussi : enregistrez-le dans Fichiers, puis choisissez-le.", "OK", "Fermer");
+  },
+
   async supprimer(id) {
     const e = this.entrees.find(x => x.id === id);
     if (!e || !(await demander(`Retirer « ${e.nom} » de la liste ?`))) return;
@@ -401,6 +442,12 @@ if ($("input-base-verso")) $("input-base-verso").addEventListener("change", asyn
   Base.verso = await Base._reduire(f, 0);
   $("base-verso").src = URL.createObjectURL(Base.verso);
   $("base-verso").hidden = false;
+});
+
+if ($("input-base-reprendre")) $("input-base-reprendre").addEventListener("change", e => {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (f) Base.reprendre(f);
 });
 
 for (const id of ["input-base", "input-base-galerie"]) // appareil photo, ou photo déjà prise (galerie)
