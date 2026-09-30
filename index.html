@@ -69,6 +69,7 @@
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Ajouter un set</b><small>Par son numéro</small></button>
       <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
       <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base des blisters</b><small>Contribuer à la base JB</small></button>
+      <button class="tuile" data-action="consulter"><span class="icone">🗂️</span><b>Consulter la base</b><small>Toutes les figurines JB</small></button>
       <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
       <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
       <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
@@ -248,6 +249,24 @@
     <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
   </section>
 
+  <!-- Consulter la base des figurines JB (js/consulter.js) -->
+  <section id="ecran-consulter" class="ecran" hidden>
+    <p class="intro">🗂️ <b>Base des figurines JB</b> : le catalogue JB Spielwaren, les figurines retirées retrouvées ailleurs
+      et les blisters photographiés par les collectionneurs.</p>
+    <input id="consulter-recherche" class="champ" type="search" autocomplete="off" placeholder="Chercher un nom (ex. donut, chrome, vader)">
+    <select id="consulter-filtre" class="champ">
+      <option value="tout">Toute la base</option>
+      <option value="jb">En vente chez JB</option>
+      <option value="retirees">Plus en vente (archives, brickshellcases, eBay)</option>
+      <option value="album">Photos de collectionneurs</option>
+      <option value="mes">Mes photos de blisters</option>
+    </select>
+    <p class="aide" id="consulter-info"></p>
+    <div id="consulter-liste" class="grille"></div>
+    <button class="bouton gris" id="consulter-plus" hidden>Voir plus</button>
+    <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
+  </section>
+
   <!-- Sets LEGO (js/sets.js) : numéro -> fiche, état, boîte, notice, figurines -> onglet « Sets » -->
   <section id="ecran-set" class="ecran" hidden>
     <label for="set-numero" class="etiquette-champ">🧱 Numéro du set LEGO</label>
@@ -300,6 +319,7 @@
       <p class="aide">Le fichier va dans « Téléchargements » : envoyez-le moi (ou mettez-le dans Google Drive). Les blisters
         restent dans le téléphone tant que vous ne les effacez pas.</p>
       <div id="base-liste" class="base-liste"></div>
+      <button class="bouton gris" data-action="consulter">🗂️ Consulter toute la base</button>
       <button class="bouton-lien" data-action="base-vider" id="btn-base-vider">Effacer les blisters déjà exportés</button>
     </div>
   </section>
@@ -418,5 +438,6 @@
   <script src="js/valeur.js"></script>
   <script src="js/assurance.js"></script>
   <script src="js/achats.js"></script>
+  <script src="js/consulter.js"></script>
 </body>
 </html>
