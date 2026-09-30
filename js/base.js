@@ -7,7 +7,9 @@ const Base = {
   photo: null,     // photo en cours (Blob JPEG réduit, remis d'aplomb)
   codeLu: "",      // code de la figurine reconnue, s'il y en a une, et son nom (nomLu)
   nomLu: "",
-  entrees: [],     // [{ id, nom, serie, remarque, code, date, photo, exporte }]
+  verso: null,     // photo du verso (facultative)
+  vue: "photos",   // « photos » (dernières photos) ou « compte » (exemplaires par figurine, comparés aux achats)
+  entrees: [],     // [{ id, nom, numero, serie, remarque, code, date, photo, verso, exporte }]
 
   async ouvrir() {
     this.entrees = (await Memoire.lire("base")) || [];
@@ -18,11 +20,12 @@ const Base = {
   },
 
   _nouvelle() {
-    this.photo = null; this.codeLu = ""; this.nomLu = "";
+    this.photo = null; this.verso = null; this.codeLu = ""; this.nomLu = "";
     $("base-photo").removeAttribute("src");
+    if ($("base-verso")) { $("base-verso").removeAttribute("src"); $("base-verso").hidden = true; }
     $("base-fiche").hidden = true;
     $("base-etat").textContent = "";
-    for (const id of ["base-nom", "base-serie", "base-remarque"]) $(id).value = "";
+    for (const id of ["base-nom", "base-serie", "base-remarque", "base-numero"]) if ($(id)) $(id).value = "";
     $("base-suggestions").innerHTML = "";
   },
 
@@ -51,7 +54,17 @@ const Base = {
     this.photo = await this._reduire(fichier, lecture.sens);
     $("base-photo").src = URL.createObjectURL(this.photo);
     // propositions : figurines connues dont le nom a été lu, puis le nom le plus probable du carton
-    const connues = lecture.trouve ? CatalogueJB.rapprocher(lecture.texte).slice(0, 4) : [];
+    let connues = lecture.trouve ? CatalogueJB.rapprocher(lecture.texte).slice(0, 4) : [];
+    // décor : blisters les plus ressemblants (catalogue et photos de collectionneurs). Un nom lu dont le décor ne
+    // ressemble pas passe derrière un décor presque identique (texte du carton pris pour un nom).
+    try {
+      await CatalogueJB.chargerEmpreintes();
+      const decor = CatalogueJB.classerParDecor(await createImageBitmap(this.photo), 10);
+      const confirme = connues.some(f => decor.some(r => r.f === f));
+      const surs = decor.filter(r => r.score >= 0.95).slice(0, 2).map(r => r.f);
+      connues = confirme || !surs.length ? [...connues, ...decor.slice(0, connues.length ? 1 : 3).map(r => r.f)] : [...surs, ...connues];
+      connues = connues.filter((f, i, t) => t.indexOf(f) === i).slice(0, 5);
+    } catch (err) { console.warn(err); }
     const court = f => f.nom.replace(/\s*[-–]?\s*\bc[ou]s?t[ou]m\b.*$/i, "").replace(/\s+minifig\w*.*$/i, "").trim();
     const noms = [...connues.map(f => ({ nom: court(f).toUpperCase(), code: f.code })), ...(nomProbable(lecture.texte) ? [{ nom: nomProbable(lecture.texte).toUpperCase(), code: "" }] : [])]
       .filter((s, i, t) => s.nom && t.findIndex(x => x.nom === s.nom) === i);
@@ -64,6 +77,8 @@ const Base = {
     }));
     const serie = /limited\s*to\s*(\d{2,4})|\b(?:of|von)\s*(\d{2,4})\b/i.exec(lecture.texte);
     if (serie) $("base-serie").value = serie[1] || serie[2];
+    const numero = /\b(\d{1,4})\s*(?:of|von)\s*\d{2,4}\b/i.exec(lecture.texte);
+    if (numero && $("base-numero")) $("base-numero").value = numero[1];
     $("base-etat").textContent = noms.length ? "Vérifiez le nom (corrigez-le si besoin), puis « Ajouter à la base »."
       : "Le nom n'a pas été lu : tapez-le tel qu'il est imprimé sur le blister, puis « Ajouter à la base ».";
     $("base-fiche").hidden = false;
@@ -75,15 +90,17 @@ const Base = {
     if (!nom) { await demander("Tapez le nom imprimé sur le blister.", "OK", "Fermer"); return; }
     // nom corrigé à la main : le code de la figurine proposée ne vaut plus
     const code = this.codeLu && normaliser(nom) === normaliser(this.nomLu) ? this.codeLu : "";
-    const doublon = this.entrees.find(e => normaliser(e.nom) === normaliser(nom));
-    if (doublon && !(await demander(`« ${nom} » est déjà dans la liste. L'ajouter quand même (autre photo) ?`))) return;
+    const numero = $("base-numero") ? $("base-numero").value.trim() : "";
+    const memes = this.entrees.filter(e => normaliser(e.nom) === normaliser(nom));
+    const meme = numero && memes.find(e => e.numero === numero);
+    if (meme && !(await demander(`« ${nom} » n° ${numero} est déjà recensé : c'est sans doute le même blister photographié deux fois. L'ajouter quand même ?`))) return;
     this.entrees.push({
       id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
-      nom, serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
-      code, date: new Date().toISOString(), photo: this.photo, exporte: false,
+      nom, numero, serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
+      code, date: new Date().toISOString(), photo: this.photo, verso: this.verso, exporte: false,
     });
     await Memoire.ecrire(this.entrees, "base");
-    toast(`« ${nom} » ajouté à la base ✔`);
+    toast(`« ${nom} » ajouté ✔ (${memes.length + 1}${memes.length ? "e" : "er"} exemplaire)`);
     this._nouvelle();
     this._afficherListe();
   },
@@ -99,28 +116,60 @@ const Base = {
   _afficherListe() {
     const n = this.entrees.length, attente = this.entrees.filter(e => !e.exporte).length;
     $("base-compte").textContent = n
-      ? `${n} blister${n > 1 ? "s" : ""} dans le téléphone, dont ${attente} pas encore exporté${attente > 1 ? "s" : ""}`
-      : "Aucun blister ajouté pour l'instant.";
+      ? `${n} blister${n > 1 ? "s" : ""} recensé${n > 1 ? "s" : ""}, dont ${attente} pas encore exporté${attente > 1 ? "s" : ""}`
+      : "Aucun blister recensé pour l'instant.";
     $("btn-base-exporter").hidden = !n;
     $("btn-base-vider").hidden = !this.entrees.some(e => e.exporte);
-    $("base-liste").innerHTML = this.entrees.slice().reverse().map(e => `
+    if ($("base-vue-photos")) {
+      $("base-vue-photos").classList.toggle("actif", this.vue === "photos");
+      $("base-vue-compte").classList.toggle("actif", this.vue === "compte");
+    }
+    if (this.vue === "compte") { this._afficherCompte(); return; }
+    $("base-liste").innerHTML = this.entrees.slice().reverse().slice(0, 100).map(e => `
       <div class="fiche">
         <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="">
         <div class="infos"><div class="nom-court">${echapper(e.nom)}</div>
-          <div class="lieu">${echapper([e.serie && `série ${e.serie}`, e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
+          <div class="lieu">${echapper([e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`,
+            e.verso && "recto + verso", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
         <button class="petit" data-base-suppr="${e.id}" title="Retirer">✕</button>
       </div>`).join("");
     $("base-liste").querySelectorAll("[data-base-suppr]").forEach(b => b.addEventListener("click", () => this.supprimer(b.dataset.baseSuppr)));
+  },
+
+  // Exemplaires recensés par figurine, comparés au nombre acheté (onglet « Customs achetées » du fichier Excel)
+  async _afficherCompte() {
+    const groupes = new Map();
+    for (const e of this.entrees) {
+      const k = normaliser(e.nom);
+      const g = groupes.get(k) || { nom: e.nom, numeros: [], n: 0 };
+      g.n++; if (e.numero) g.numeros.push(e.numero); groupes.set(k, g);
+    }
+    let achats = [];
+    try { if (etat.classeur) achats = (await lireCustomsAchetees(etat.classeur)).filter(a => !/^Custom JB \(lot/.test(a.nom)); } catch (err) { console.warn(err); }
+    const mots = t => motsCustom(t);
+    const achete = nom => {
+      const m = mots(nom);
+      return m.size ? achats.filter(a => { const x = mots(a.nom); return x.size && [...m].every(w => x.has(w)) && m.size / x.size >= 0.6; }).length : 0;
+    };
+    const liste = [...groupes.values()].sort((a, b) => b.n - a.n || a.nom.localeCompare(b.nom));
+    $("base-liste").innerHTML = liste.length ? `<p class="aide">« Acheté » : achats nommés de votre fichier Excel. Les achats en lot pas encore
+      nommés n'y sont pas : un blister compté sans achat correspondant vient peut-être d'un lot.</p>` + liste.map(g => {
+        const a = achete(g.nom);
+        const etatTxt = !a ? "" : a === g.n ? `<span class="recense-ok">= acheté ${a}</span>` : `<span class="recense-ecart">acheté ${a}</span>`;
+        return `<div class="ligne-valeur"><span>${echapper(g.nom)}${g.numeros.length ? ` <span class="score">n° ${echapper(g.numeros.join(", "))}</span>` : ""}</span>
+          <span><b>×${g.n}</b> ${etatTxt}</span></div>`;
+      }).join("") : "";
   },
 
   // .zip : base.tsv (id, nom, série, remarque, code reconnu, date, photo) + photos/<id>.jpg
   async exporter() {
     if (!this.entrees.length) return;
     const zip = new JSZip();
-    const lignes = ["id\tnom\tserie\tremarque\tcode\tdate\tphoto"];
+    const lignes = ["id\tnom\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso"];
     for (const e of this.entrees) {
       zip.file(`photos/${e.id}.jpg`, e.photo);
-      lignes.push([e.id, e.nom, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
+      if (e.verso) zip.file(`photos/${e.id}_verso.jpg`, e.verso);
+      lignes.push([e.id, e.nom, e.numero, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`, e.verso ? `photos/${e.id}_verso.jpg` : ""].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
     }
     zip.file("base.tsv", lignes.join("\n") + "\n");
     const contenu = await zip.generateAsync({ type: "blob" });
@@ -166,6 +215,15 @@ const Base = {
   },
 };
 
+if ($("input-base-verso")) $("input-base-verso").addEventListener("change", async e => {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  Base.verso = await Base._reduire(f, 0);
+  $("base-verso").src = URL.createObjectURL(Base.verso);
+  $("base-verso").hidden = false;
+});
+
 for (const id of ["input-base", "input-base-galerie"]) // appareil photo, ou photo déjà prise (galerie)
   if ($(id)) $(id).addEventListener("change", e => {
     const f = e.target.files[0];
@@ -181,4 +239,6 @@ document.addEventListener("click", e => {
   else if (action === "base-ajouter") Base.ajouter();
   else if (action === "base-exporter") Base.exporter();
   else if (action === "base-vider") Base.vider();
+  else if (action === "base-vue-photos") { Base.vue = "photos"; Base._afficherListe(); }
+  else if (action === "base-vue-compte") { Base.vue = "compte"; Base._afficherListe(); }
 });

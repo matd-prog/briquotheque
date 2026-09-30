@@ -295,9 +295,10 @@
 
   <!-- Base commune des blisters JB : photos et noms de vos blisters, à exporter pour enrichir la base (js/base.js) -->
   <section id="ecran-base" class="ecran" hidden>
-    <p class="intro">📚 <b>Base commune des blisters JB</b> : photographiez vos blisters un par un. Le nom est lu tout seul :
-      vérifiez-le, puis « Ajouter à la base ». Quand vous avez fini, « Envoyer » crée un fichier à m'envoyer :
-      ces blisters seront ensuite reconnus par l'appli (nom et décor).</p>
+    <p class="intro">📚 <b>Recensement des blisters JB</b> : photographiez vos blisters un par un (recto, puis verso si vous
+      voulez). Le nom est lu tout seul : vérifiez-le, notez le numéro écrit à la main (« 143 of 250 »), puis « Ajouter ».
+      L'appli compte vos exemplaires de chaque figurine et les compare à vos achats. « Envoyer » crée un fichier à
+      m'envoyer : ces blisters seront ensuite reconnus par l'appli (nom et décor).</p>
     <label class="gros-bouton corail">📷 Photographier un blister
       <input type="file" id="input-base" accept="image/*" capture="environment" hidden>
     </label>
@@ -307,17 +308,28 @@
       <label for="base-nom" class="etiquette-champ">Nom imprimé sur le blister</label>
       <input id="base-nom" class="champ" autocomplete="off" placeholder="ex. SHINY DARK LORD">
       <div id="base-suggestions" class="suggestions"></div>
-      <label for="base-serie" class="etiquette-champ">Série limitée (facultatif)</label>
-      <input id="base-serie" class="champ" autocomplete="off" placeholder="ex. 250 (pour « LIMITED TO 250 »)">
+      <label class="bouton gris">📷 Ajouter la photo du verso (facultatif)
+        <input type="file" id="input-base-verso" accept="image/*" capture="environment" hidden></label>
+      <img id="base-verso" class="photo-apercu" alt="Verso du blister" hidden>
+      <div class="deux-champs">
+        <div><label for="base-numero" class="etiquette-champ">N° de l'exemplaire</label>
+          <input id="base-numero" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 143"></div>
+        <div><label for="base-serie" class="etiquette-champ">Sur (série)</label>
+          <input id="base-serie" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 250"></div>
+      </div>
       <label for="base-remarque" class="etiquette-champ">Remarque (facultatif)</label>
       <input id="base-remarque" class="champ" autocomplete="off" placeholder="ex. édition 2021, Comic Con…">
-      <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter à la base</button>
+      <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter au recensement</button>
     </div>
     <div class="carte">
       <p class="sous-titre" id="base-compte"></p>
       <button class="bouton bleu" data-action="base-exporter" id="btn-base-exporter">📤 Envoyer les blisters (un fichier .zip)</button>
       <p class="aide">Le fichier va dans « Téléchargements » : envoyez-le moi (ou mettez-le dans Google Drive). Les blisters
         restent dans le téléphone tant que vous ne les effacez pas.</p>
+      <div class="onglets-achats">
+        <button class="bouton actif" id="base-vue-photos" data-action="base-vue-photos">Dernières photos</button>
+        <button class="bouton" id="base-vue-compte" data-action="base-vue-compte">Par figurine</button>
+      </div>
       <div id="base-liste" class="base-liste"></div>
       <button class="bouton gris" data-action="consulter">🗂️ Consulter toute la base</button>
       <button class="bouton-lien" data-action="base-vider" id="btn-base-vider">Effacer les blisters déjà exportés</button>
