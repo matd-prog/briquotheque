@@ -191,7 +191,7 @@ const Base = {
         <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="">
         <div class="infos"><div class="nom-court">${echapper(e.nom)}</div>
           <div class="lieu">${echapper([e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
-            e.verso && "recto + verso", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
+            e.verso && "recto + verso", e.origine === "album" && "d'après l'album photo", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
         <button class="petit" data-base-suppr="${e.id}" title="Retirer">✕</button>
       </div>`).join("");
     $("base-liste").querySelectorAll("[data-base-suppr]").forEach(b => b.addEventListener("click", () => this.supprimer(b.dataset.baseSuppr)));
@@ -220,6 +220,44 @@ const Base = {
         return `<div class="ligne-valeur"><span>${echapper(g.nom)}${g.numeros.length ? ` <span class="score">n° ${echapper(g.numeros.join(", "))}</span>` : ""}${g.notes.length ? ` <span class="badge">${echapper(g.notes.join(" · "))}</span>` : ""}</span>
           <span><b>×${g.n}</b> ${etatTxt}</span></div>`;
       }).join("") : "";
+  },
+
+  // Blisters identifiés sur l'album photo partagé (album_photos/recensement.tsv du dépôt privé, lu avec le jeton GitHub) :
+  // ajoutés au recensement avec leur photo, sans ceux déjà recensés (même nom et même n°, ou même nom sans n°)
+  async importerAlbum() {
+    try {
+      Valeur.jeton = Valeur.jeton || await Memoire.lire("jeton-github");
+      if (!Valeur.jeton) { await demander("Enregistrez d'abord votre jeton GitHub dans l'écran Valeur.", "OK", "Fermer"); return; }
+      const rep = await Valeur._api("/contents/album_photos/recensement.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+      if (!rep.ok) { await demander("La liste des blisters de l'album n'est pas dans votre dépôt privé.", "OK", "Fermer"); return; }
+      const album = (await rep.text()).split("\n").slice(1).filter(Boolean).map(l => {
+        const [nom, numero, serie, code, photo] = l.split("\t");
+        return { nom: nom.toUpperCase(), numero, serie, code, photo };
+      });
+      const deja = e => this.entrees.some(x => normaliser(x.nom) === normaliser(e.nom) && (e.numero ? x.numero === e.numero : true));
+      const nouveaux = album.filter(e => !deja(e));
+      if (!nouveaux.length) { await demander("Tous les blisters de votre album sont déjà dans le recensement.", "OK", "Fermer"); return; }
+      if (!(await demander(`Ajouter au recensement ${nouveaux.length} blister(s) identifiés sur vos photos (${nouveaux.filter(e => e.numero).length} avec leur n°) ?\n\n` +
+          "Ils seront marqués « d'après l'album photo » : vérifiez-les pendant votre recensement physique (un blister vendu ou donné depuis est à retirer).",
+          "Ajouter", "Annuler"))) return;
+      let i = 0;
+      for (const e of nouveaux) {
+        $("base-etat").textContent = `Reprise de l'album… (${++i} sur ${nouveaux.length})`;
+        let photo = null;
+        try {
+          const r = await Valeur._api(`/contents/album_photos/${e.photo}`, { headers: { Accept: "application/vnd.github.raw" } });
+          if (r.ok) photo = await r.blob();
+        } catch (err) { console.warn(err); }
+        if (!photo) continue;
+        this.entrees.push({ id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, nom: e.nom, numero: e.numero || "",
+          numerote: true, serie: e.serie || "", remarque: "", origine: "album", code: e.code || "", date: new Date().toISOString(),
+          photo, verso: null, exporte: true });
+      }
+      await Memoire.ecrire(this.entrees, "base");
+      $("base-etat").textContent = "";
+      toast(`${i} blister(s) de l'album ajoutés au recensement ✔`, 5000);
+      this._afficherListe();
+    } catch (err) { console.error(err); await demander("La reprise de l'album a échoué : " + err.message, "OK", "Fermer"); }
   },
 
   // .zip : base.tsv (id, nom, série, remarque, code reconnu, date, photo) + photos/<id>.jpg
@@ -311,6 +349,7 @@ document.addEventListener("click", e => {
   else if (action === "base-exporter") Base.exporter();
   else if (action === "base-vider") Base.vider();
   else if (action === "base-autre") Base.autreExemplaire();
+  else if (action === "base-importer-album") Base.importerAlbum();
   else if (action === "base-vue-photos") { Base.vue = "photos"; Base._afficherListe(); }
   else if (action === "base-vue-compte") { Base.vue = "compte"; Base._afficherListe(); }
 });
