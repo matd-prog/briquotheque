@@ -803,6 +803,38 @@ $("input-blister").addEventListener("change", async e => {
   Base.lirePhoto(f);
 });
 
+// N° corrigé dans le recensement : même correction dans l'onglet Customs (case « Nom 12/50 » et ligne de la Table camps).
+// Rend un compte rendu court, ou "" s'il n'y a rien à corriger.
+async function corrigerNumeroCustoms({ code, nom, ancien, serie, nouveau, nouvelleSerie }) {
+  if (!etat.classeur || !ancien) return "";
+  const onglet = THEME_CUSTOMS.onglet, o = etat.collection[onglet];
+  if (!o) return "";
+  const f = code && CatalogueJB.trouver ? CatalogueJB.trouver(code) : null;
+  const codeXL = code && /^JB-/i.test(code) ? code : f && f.lien ? codeCustom(f.lien) : "";
+  const ancienEchappe = String(ancien).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const fin = new RegExp(`\\s${ancienEchappe}\\s*(?:\/\\s*\\d+)?\\s*$`);
+  const cas = o.cases.find(c => c.nom && fin.test(c.nom) && (codeXL ? c.code.toUpperCase() === codeXL.toUpperCase()
+    : normaliser(c.nom).startsWith(normaliser(nom).split(" ")[0])));
+  if (!cas) return "";
+  const s = nouvelleSerie || serie;
+  const nomXL = cas.nom.replace(fin, nouveau ? ` ${nouveau}${s ? "/" + s : ""}` : "");
+  try {
+    await etat.classeur.ecrireTexte(onglet, lettreColonne(6 + cas.col) + cas.row, nomXL);
+    const derniere = await etat.classeur.derniereLigne(ONGLET_TABLE);
+    for (let r = 2; r <= derniere; r++)
+      if (String(await etat.classeur.valeur(ONGLET_TABLE, "E" + r) || "").startsWith(`${onglet}!${cas.ref} `)) {
+        await etat.classeur.ecrireTexte(ONGLET_TABLE, "B" + r, nomXL); break;
+      }
+    etat.nonEnregistres++;
+    await memoriser();
+    await relireContenu();
+    return `fichier Excel corrigé (${onglet}, case ${cas.ref}) : pensez à « Enregistrer »`;
+  } catch (err) {
+    console.error(err);
+    return "⚠️ correction du fichier Excel impossible : " + err.message;
+  }
+}
+
 // Ajout à l'onglet Customs depuis le recensement : un exemplaire par n° (« 44/150 »), n° déjà présents écartés.
 // Rend un compte rendu à afficher.
 async function ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie, nonNumerote }) {

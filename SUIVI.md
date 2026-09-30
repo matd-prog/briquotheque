@@ -341,3 +341,8 @@ Pour reprendre le 30/09 au matin :
 - Champs « nombre » (exemplaires, séries complètes, quantité d'objets) : 1 affiché par défaut ; au toucher le champ se vide
   (ancienne valeur en grisé, placeholder) ; laissé vide -> il reprend sa valeur d'avant (30/09, demande de l'utilisateur). Écouteurs focusin/focusout en fin de js/base.js
   (chargé par les deux applis).
+- Modifier un blister recensé (30/09, demande de l'utilisateur : n° mal saisi) : bouton ✏️ sur chaque ligne de la liste (nom,
+  précision, n°, série, non numérotée, note), n° déjà pris pour la même figurine refusé, blister remis « pas encore exporté ».
+  Recherche dans la liste (#base-filtre : nom, n°, note). Panneau d'identification : « ✏️ Voir ou corriger » filtre la liste
+  sur la figurine. Appli principale : n° corrigé aussi dans l'onglet Customs (nom de la case + Table camps,
+  corrigerNumeroCustoms dans js/app.js). Appli et mini-appli.

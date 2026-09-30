@@ -325,7 +325,8 @@ const Base = {
     } catch (e) { /* mini-appli : pas de fichier */ }
     const confus = (this.semblables || []).filter(x => cleFigurine(x.e.nom, x.e.precision) !== nom);
     const confusNoms = [...new Map(confus.map(x => [cleFigurine(x.e.nom, x.e.precision), x.e])).values()].slice(0, 3);
-    const coll = (memes.length ? `<p>📦 <b>Dans votre collection : ${memes.length} exemplaire${memes.length > 1 ? "s" : ""}</b>${nums.length ? ` (n° ${echapper(nums.join(", "))})` : ""}${aussi}.</p>`
+    const coll = (memes.length ? `<p>📦 <b>Dans votre collection : ${memes.length} exemplaire${memes.length > 1 ? "s" : ""}</b>${nums.length ? ` (n° ${echapper(nums.join(", "))})` : ""}${aussi}.
+        <button class="bouton-lien" data-action="base-voir-liste">✏️ Voir ou corriger</button></p>`
         : `<p>✨ <b>Pas encore dans votre collection</b>${aussi}.</p>`) +
       (autresPrecisions.length ? `<p class="score">Même nom imprimé, autres figurines déjà recensées : ${echapper(autresPrecisions.join(" · "))}. Touchez-en une si c'est la même.</p>
         <div class="suggestions">${autresPrecisions.map(x => `<button class="petit" data-base-precision="${echapper(x)}">${echapper(x)}</button>`).join("")}</div>` : "") +
@@ -515,15 +516,21 @@ const Base = {
       $("base-vue-compte").classList.toggle("actif", this.vue === "compte");
     }
     if (this.vue === "compte") { this._afficherCompte(); return; }
-    $("base-liste").innerHTML = this.entrees.slice().reverse().slice(0, 100).map(e => `
-      <div class="fiche">
+    const q = $("base-filtre") ? normaliser($("base-filtre").value.trim()) : "";
+    const trouve = e => !q || q.split(" ").every(m => normaliser([nomComplet(e), e.numero, e.serie, e.remarque].filter(Boolean).join(" ")).includes(m));
+    const liste = this.entrees.slice().reverse().filter(trouve);
+    $("base-liste").innerHTML = (q ? `<p class="aide">${liste.length} blister${liste.length > 1 ? "s" : ""} trouvé${liste.length > 1 ? "s" : ""}.</p>` : "") +
+      liste.slice(0, q ? 300 : 100).map(e => `
+      <div class="fiche" data-fiche="${e.id}">
         <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="">
         <div class="infos"><div class="nom-court">${echapper(nomComplet(e))}</div>
           <div class="lieu">${echapper([e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
             e.verso ? "recto + verso" : "sans verso", e.origine === "album" && "d'après l'album photo", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
         ${e.verso ? "" : `<label class="petit" title="Ajouter le verso">📷 verso<input type="file" accept="image/*" capture="environment" data-base-verso="${e.id}" hidden></label>`}
+        <button class="petit" data-base-modif="${e.id}" title="Modifier">✏️</button>
         <button class="petit" data-base-suppr="${e.id}" title="Retirer">✕</button>
       </div>`).join("");
+    $("base-liste").querySelectorAll("[data-base-modif]").forEach(b => b.addEventListener("click", () => this.modifier(b.dataset.baseModif)));
     $("base-liste").querySelectorAll("[data-base-suppr]").forEach(b => b.addEventListener("click", () => this.supprimer(b.dataset.baseSuppr)));
     $("base-liste").querySelectorAll("[data-base-verso]").forEach(c => c.addEventListener("change", async () => {
       const f = c.files[0], e = this.entrees.find(x => x.id === c.dataset.baseVerso);
@@ -534,6 +541,56 @@ const Base = {
       toast(`Verso de « ${nomComplet(e)} » ajouté ✔`);
       this._afficherListe();
     }));
+  },
+
+  // Modifier un blister déjà recensé (nom, précision, n°, série, note) : fiche ouverte à la place de sa ligne
+  modifier(id) {
+    const e = this.entrees.find(x => x.id === id), ligne = $("base-liste").querySelector(`[data-fiche="${id}"]`);
+    if (!e || !ligne) return;
+    const champ = (cle, titre, val, attrs = "") => `<label class="etiquette-champ">${titre}</label>
+      <input class="champ" data-modif="${cle}" value="${echapper(val || "")}" autocomplete="off" ${attrs}>`;
+    ligne.outerHTML = `<div class="carte" data-fiche="${id}">
+      <p class="sous-titre">✏️ Modifier ce blister</p>
+      ${champ("nom", "Nom imprimé", e.nom)}${champ("precision", "Précision (personnage, couleur…)", e.precision)}
+      <div class="deux-champs"><div>${champ("numero", "N° de l'exemplaire", e.numero, 'inputmode="numeric"')}</div>
+        <div>${champ("serie", "Série limitée à", e.serie, 'inputmode="numeric"')}</div></div>
+      <label class="case-a-cocher"><input type="checkbox" data-modif="nonnum" ${e.numerote === false ? "checked" : ""}> Non numérotée</label>
+      ${champ("remarque", "Note particulière", e.remarque)}
+      <button class="gros-bouton vert" data-modif-ok>✔ Enregistrer</button>
+      <button class="bouton-lien" data-modif-annuler>Annuler</button></div>`;
+    const carte = $("base-liste").querySelector(`[data-fiche="${id}"]`);
+    carte.querySelector("[data-modif-annuler]").addEventListener("click", () => this._afficherListe());
+    carte.querySelector("[data-modif-ok]").addEventListener("click", () => this._enregistrerModif(e, carte));
+    carte.querySelector('[data-modif="numero"]').focus();
+  },
+
+  async _enregistrerModif(e, carte) {
+    const v = k => carte.querySelector(`[data-modif="${k}"]`).value.trim();
+    const nonNum = carte.querySelector('[data-modif="nonnum"]').checked;
+    const nouveau = { nom: v("nom").toUpperCase(), precision: v("precision"), numero: nonNum ? "" : v("numero"),
+                      serie: nonNum ? "" : v("serie").replace(/\D/g, ""), remarque: v("remarque"), numerote: !nonNum };
+    if (!nouveau.nom) { await demander("Le nom ne peut pas être vide.", "OK", "Fermer"); return; }
+    const cle = cleFigurine(nouveau.nom, nouveau.precision);
+    const doublon = nouveau.numero && this.entrees.find(x => x !== e && x.numero === nouveau.numero && cleFigurine(x.nom, x.precision) === cle);
+    if (doublon) { await demander(`Le n° ${nouveau.numero} est déjà recensé pour « ${nomComplet(nouveau)} » : corrigez le numéro.`, "OK", "Fermer"); return; }
+    const ancien = { numero: e.numero, serie: e.serie, code: e.code, nom: e.nom };
+    if (normaliser(nouveau.nom) !== normaliser(e.nom)) e.code = ""; // autre figurine : le code reconnu ne vaut plus
+    Object.assign(e, nouveau, { exporte: false }); // à renvoyer corrigé
+    await Memoire.ecrire(this.entrees, "base");
+    let compteExcel = "";
+    if (ancien.numero !== e.numero && typeof corrigerNumeroCustoms === "function")
+      compteExcel = await corrigerNumeroCustoms({ code: ancien.code, nom: ancien.nom, ancien: ancien.numero, serie: ancien.serie, nouveau: e.numero, nouvelleSerie: e.serie });
+    toast(`« ${nomComplet(e)} » modifié ✔${compteExcel ? " · " + compteExcel : ""}`, 5000);
+    this._afficherListe();
+  },
+
+  // Figurine du panneau d'identification : liste filtrée sur elle, pour corriger un n°
+  voirDansLaListe() {
+    if (!$("base-filtre")) return;
+    $("base-filtre").value = [$("base-nom").value.trim(), $("base-precision") ? $("base-precision").value.trim() : ""].filter(Boolean).join(" ");
+    this.vue = "photos";
+    this._afficherListe();
+    $("base-filtre").scrollIntoView({ block: "start" });
   },
 
   // Exemplaires recensés par figurine, comparés au nombre acheté (onglet « Customs achetées » du fichier Excel)
@@ -687,6 +744,7 @@ if ($("base-non-numerote")) $("base-non-numerote").addEventListener("change", ()
 if ($("base-nombre")) $("base-nombre").addEventListener("input", () => Base._grilleNumeros());
 if ($("base-nom")) $("base-nom").addEventListener("input", () => Base._deja());
 if ($("base-precision")) $("base-precision").addEventListener("input", () => Base._deja());
+if ($("base-filtre")) { let m; $("base-filtre").addEventListener("input", () => { clearTimeout(m); m = setTimeout(() => { Base.vue = "photos"; Base._afficherListe(); }, 250); }); }
 if ($("base-numeros")) $("base-numeros").addEventListener("input", () => Base._etatNumeros());
 if ($("base-notes")) $("base-notes").addEventListener("click", e => {
   const b = e.target.closest("[data-note]");
@@ -733,6 +791,7 @@ document.addEventListener("click", e => {
   else if (action === "base-passer-verso") Base.passerVerso();
   else if (action === "base-recadrer-recto") Base.recadrer("recto");
   else if (action === "base-recadrer-tout") Base.recadrerTout();
+  else if (action === "base-voir-liste") Base.voirDansLaListe();
   else if (action === "base-recadrer-verso") Base.recadrer("verso");
   else if (action === "base-recadrage-ok") Base.finRecadrage("ok");
   else if (action === "base-recadrage-entiere") Base.finRecadrage("entiere");
