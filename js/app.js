@@ -519,6 +519,7 @@ async function ajouter() {
     const { w, h } = await dimensionsCase(etat.classeur, res.onglet, res.row, res.col);
     $("apercu-ok").innerHTML = "";
     $("apercu-ok").appendChild(dessinerEtiquette(code, couleur, w, h));
+    preparerSuivante(etat.origine === "photo" ? "photo" : "recherche");
     afficher("ok");
   } catch (err) {
     console.error(err);
@@ -721,6 +722,7 @@ function ouvrirCustom(info) {
   $("custom-exemplaire").value = "";
   $("custom-serie").value = "";
   $("custom-non-numerote").checked = false;
+  if ($("custom-nombre-nombre")) $("custom-nombre-nombre").value = 1; // 1 par défaut : plusieurs exemplaires, c'est l'exception
   [...$("custom-numeros").querySelectorAll("input")].slice(1).forEach(c => c.remove());
   $("custom-resultats").innerHTML = "";
   $("custom-choisie").innerHTML = "";
@@ -1054,6 +1056,7 @@ async function ajouterCustom() {
     const { w, h } = await dimensionsCase(etat.classeur, onglet, res.row, res.col);
     $("apercu-ok").innerHTML = "";
     $("apercu-ok").appendChild(dessinerEtiquette(code, THEME_CUSTOMS.couleur, w, h, lien || null));
+    preparerSuivante("custom");
     afficher("ok");
   } catch (err) {
     console.error(err);
@@ -1211,6 +1214,14 @@ async function regenerer() {
   }
 }
 
+// « Figurine suivante » : même chemin que la figurine qu'on vient d'ajouter (photo -> appareil photo tout de suite,
+// recherche par nom, custom) ; « Retour à l'accueil » pour changer de catégorie
+function preparerSuivante(chemin) {
+  etat.suivante = chemin;
+  $("btn-suivante").textContent = chemin === "photo" ? "📷 Photographier la figurine suivante"
+    : chemin === "custom" ? "🎨 Custom suivante" : "🔍 Chercher la figurine suivante";
+}
+
 // ---------- boutons ----------
 
 document.addEventListener("click", async e => {
@@ -1218,6 +1229,12 @@ document.addEventListener("click", async e => {
   if (!b) return;
   const action = b.dataset.action;
   if (action === "accueil") afficher(etat.classeur ? "accueil" : "fichier");
+  else if (action === "suivante") {
+    if (etat.suivante === "photo") { afficher("accueil"); $("input-photo").click(); } // appareil photo ouvert dans le même geste
+    else if (etat.suivante === "custom") ouvrirCustom();
+    else if (etat.suivante === "recherche") { etat.photos = []; ouvrirRecherche(); }
+    else afficher(etat.classeur ? "accueil" : "fichier");
+  }
   else if (action === "saisie") ouvrirSaisie();
   else if (action === "nouveautes") { $("recherche-texte").value = ""; ouvrirRecherche(true); }
   else if (action === "collection") Collection.ouvrir();

@@ -308,3 +308,8 @@ Pour reprendre le 30/09 au matin :
   (achats.js, champ groupe) et nom dans l'onglet Customs (« Chrome Collection – Harley Quinn, chromée rose 12/50 ») en tiennent
   compte ; autres précisions déjà recensées pour le même nom imprimé proposées à toucher. Export .zip : colonne precision (à la fin).
   La « Note particulière » (signée, Comic Con…) reste à part. Appli et mini-appli.
+- Retours du 30/09 après-midi : (3) blisters de collectionneur (ALB-…) sans image dans les propositions : photo lue dans le dépôt privé
+  (Consulter.maPhoto, album_photos/blisters.tsv, jeton GitHub) ; toujours sans image dans la mini-appli de l'ami (pas de jeton).
+  (4) Nombre d'exemplaires remis à 1 à chaque nouvelle custom (ouvrirCustom ; le recensement le faisait déjà).
+  (5) Après un ajout, « suivante » reste dans la même catégorie (preparerSuivante : photo -> appareil photo tout de suite,
+  custom -> écran custom, recherche -> recherche) + « Retour à l'accueil » ; recensement : retour en haut de l'écran après l'ajout.

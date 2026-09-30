@@ -80,6 +80,22 @@ const Consulter = {
     this._chargerImages();
   },
 
+  // Photo d'un blister (code JB-… ou ALB-…) prise dans l'album de l'utilisateur, ou "" (pas de jeton, pas de photo)
+  async maPhoto(code) {
+    await this._chargerMesPhotos();
+    const photos = this.mesPhotos && this.mesPhotos.get((code || "").toUpperCase());
+    if (!photos || !photos.length) return "";
+    const chemin = photos[0].photo;
+    try {
+      if (!this._images.has(chemin)) {
+        const rep = await Valeur._api(`/contents/album_photos/${chemin}`, { headers: { Accept: "application/vnd.github.raw" } });
+        if (!rep.ok) return "";
+        this._images.set(chemin, URL.createObjectURL(await rep.blob()));
+      }
+      return this._images.get(chemin);
+    } catch (err) { console.warn(err); return ""; }
+  },
+
   // Photos du dépôt privé : téléchargées une à une avec le jeton (pas d'adresse publique)
   async _chargerImages() {
     for (const img of $("consulter-liste").querySelectorAll("img[data-photo]:not([src])")) {

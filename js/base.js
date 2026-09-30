@@ -164,7 +164,7 @@ const Base = {
     const source = f => f.source === "jb" ? (f.epuisee ? "catalogue JB, épuisée" : "catalogue JB") : f.source === "album" ? "photo de collectionneur"
       : f.source === "brickshell" ? "retirée, brickshellcases" : f.source === "archive" ? "retirée, archives JB" : "retirée, vue sur eBay.de";
     const carte = (x, i) => `<button class="proposition" data-base-decor="${i}">
-        ${x.image ? `<img src="${echapper(x.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">${echapper(source(x))}</div>`}
+        ${x.image ? `<img src="${echapper(x.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo" data-ma-photo="${echapper(x.code)}">${echapper(source(x))}</div>`}
         <span class="nom-court">${echapper(x.nom)}</span></button>`;
     // 1. base JB
     let jb;
@@ -195,6 +195,11 @@ const Base = {
       (confusNoms.length ? `<p class="alerte">⚠️ Ressemble à votre blister ${confusNoms.map(e => `« ${echapper(nomComplet(e))} »`).join(", ")} : même figurine sous un autre nom ? Vérifiez avant d'ajouter.</p>` : "");
     if (zone) {
       zone.innerHTML = `<div class="carte">${jb}${coll}</div>`;
+      // blisters de collectionneur (sans image publique) : photo de l'album, lue dans le dépôt privé (appli principale)
+      if (typeof Consulter !== "undefined") zone.querySelectorAll("[data-ma-photo]").forEach(async d => {
+        const url = await Consulter.maPhoto(d.dataset.maPhoto);
+        if (url && d.isConnected) d.outerHTML = `<img src="${url}" alt="">`;
+      });
       zone.querySelectorAll("[data-base-precision]").forEach(b => b.addEventListener("click", () => {
         $("base-precision").value = b.dataset.basePrecision; this._deja();
       }));
@@ -257,6 +262,7 @@ const Base = {
                         remarque: commun.remarque, nonNumerote };
     this._nouvelle();
     if (compteExcel) $("base-etat").textContent = compteExcel;
+    window.scrollTo(0, 0); // « 📷 Photographier un blister » (suivant) et « Autre exemplaire » juste sous les yeux
     if ($("base-autre")) { $("base-autre").hidden = false; $("btn-base-autre").textContent = `Autre exemplaire de « ${nomComplet(commun)} » : photographier`; }
     this._afficherListe();
   },
