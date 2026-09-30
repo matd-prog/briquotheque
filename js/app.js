@@ -54,15 +54,21 @@ function afficher(ecran, retour = false) {
   armerRetour();
 }
 
+// Depuis l'accueil : « Appuyez encore sur retour pour quitter » (2,5 s). Une appli ne peut pas se fermer elle-même
+// (window.close est refusé par le téléphone) : on retire les étapes « garde » pour que le 2e retour ferme l'appli.
+let ignorerRetours = 0, minuteurSortie = null;
 window.addEventListener("popstate", async () => {
+  if (ignorerRetours > 0) { ignorerRetours--; return; } // étapes retirées par l'appli elle-même
   if (ecranActuel === "chargement") { armerRetour(); toast("Patientez, lecture en cours…"); return; }
   if (ecranActuel === "recadrage") { armerRetour(); Recadrage.annuler(); return; } // l'appelant choisit l'écran suivant
   if (pileEcrans.length) { afficher(pileEcrans.pop(), true); return; }
-  // accueil : confirmation avant de quitter
-  if (!(await demander("Quitter l'appli ?", "Quitter", "Rester"))) { armerRetour(); return; }
-  window.close(); // appli installée : fermeture si le téléphone l'autorise
-  history.back(); // appli ouverte dans un onglet : retour à la page d'avant
-  setTimeout(() => toast("Appuyez encore sur retour pour quitter."), 400);
+  // accueil : un 2e retour dans les 2,5 s ferme l'appli
+  if ($("dialogue").open) { $("dialogue-non").click(); armerRetour(); return; } // une question ouverte : retour = « non »
+  const reste = niveauRetour();
+  if (reste > 0) { ignorerRetours++; history.go(-reste); } // on descend à la page de départ : le prochain retour quitte
+  toast("Appuyez encore sur retour pour quitter.", 2500);
+  clearTimeout(minuteurSortie);
+  minuteurSortie = setTimeout(armerRetour, 2500); // pas de 2e retour : on reste dans l'appli
 });
 
 function toast(texte, duree = 3500) {

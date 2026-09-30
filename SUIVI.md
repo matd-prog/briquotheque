@@ -317,3 +317,7 @@ Pour reprendre le 30/09 au matin :
   champ texte masqué par CSS (-webkit-text-security), sans saisie automatique : Chrome ne le voit plus comme un mot de passe.
 - Photos de collectionneur aussi dans l'écran « 🎨 Figurine custom » (résultats et fiche choisie) : Consulter.completerPhotos
   (img[data-ma-photo], photo de l'album lue dans le dépôt privé). Capture de l'utilisateur : « Junkyard Fatty » sans image.
+- Quitter l'appli (30/09, anomalie : « Quitter » ne fermait pas, puis « Appuyez encore sur retour » et le retour ne faisait
+  qu'effacer le message) : le toucher sur « Quitter » rajoutait des étapes de réserve dans l'historique. Remplacé par le
+  « double retour » Android : à l'accueil, 1er retour = message 2,5 s et étapes « garde » retirées (history.go), 2e retour =
+  fermeture ; sans 2e retour, l'appli se réarme. Plus de question Quitter / Rester.
