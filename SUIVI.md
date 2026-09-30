@@ -298,3 +298,8 @@ Pour reprendre le 30/09 au matin :
   compléter plus tard. « ➕ Autre exemplaire » : nouvelles photos recto + verso par défaut (état propre à chaque exemplaire),
   « garder la même photo » en option. Le champ « Exemplaires » (plusieurs n° d'un coup) garde une seule photo pour tous.
   Mêmes changements dans contribuer.html.
+- Un seul chemin pour les blisters (30/09, anomalie relevée par l'utilisateur : pas de verso via « 📦 Photographier un blister ») :
+  la tuile 📦 ouvre le recensement (recto, verso, identification, n°). Case « Ajouter aussi à mon fichier Excel (onglet Customs,
+  avec étiquette) », cochée par défaut quand un fichier est ouvert (ajouterCustomsDepuisBase, js/app.js) : un exemplaire par n°,
+  n° déjà présents dans Customs écartés, avertissement si la figurine y est déjà. Tuile 📚 renommée « Mes blisters recensés ».
+  Perdus avec l'ancien chemin : indice Brickognize et encadrement manuel du nom (PaddleOCR lit désormais bien les noms).

@@ -58,7 +58,7 @@
 
     <p class="section-titre">Customs JB Spielwaren</p>
     <div class="tuiles">
-      <label class="tuile"><span class="icone">📦</span><b>Photographier un blister</b><small>Le nom est lu tout seul</small>
+      <label class="tuile"><span class="icone">📦</span><b>Photographier un blister</b><small>Recto, verso, n° · recensement</small>
         <input type="file" id="input-blister" accept="image/*" capture="environment" hidden></label>
       <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
     </div>
@@ -68,7 +68,7 @@
       <button class="tuile" data-action="collection"><span class="icone">📖</span><b>Ma collection</b><small>Liste, planches, recherche</small></button>
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Ajouter un set</b><small>Par son numéro ou son nom</small></button>
       <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
-      <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base des blisters</b><small>Contribuer à la base JB</small></button>
+      <button class="tuile" data-action="base"><span class="icone">📚</span><b>Mes blisters recensés</b><small>Liste, envoi à la base JB</small></button>
       <button class="tuile" data-action="consulter"><span class="icone">🗂️</span><b>Consulter la base</b><small>Toutes les figurines JB</small></button>
       <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
       <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
@@ -353,6 +353,11 @@
         <button class="petit" data-note="Édition spéciale">⭐ Édition spéciale</button>
         <button class="petit" data-note="Erreur d'impression">❗ Erreur d'impression</button>
         <button class="petit" data-note="Cadeau / giveaway">🎁 Cadeau</button>
+      </div>
+      <div id="base-bloc-excel" hidden>
+        <label class="case-a-cocher"><input type="checkbox" id="base-excel" checked> Ajouter aussi à mon fichier Excel
+          (onglet Customs, avec étiquette)</label>
+        <p class="score" id="base-excel-info"></p>
       </div>
       <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter au recensement</button>
     </div>

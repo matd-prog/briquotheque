@@ -33,6 +33,7 @@ const Base = {
     if ($("base-non-numerote")) { $("base-non-numerote").checked = false; this._numerote(); }
     if ($("base-deja")) $("base-deja").textContent = "";
     $("base-suggestions").innerHTML = "";
+    if ($("base-bloc-excel")) $("base-bloc-excel").hidden = !(typeof etat !== "undefined" && etat.classeur);
   },
 
   // Photo réduite (1000 px au plus), éventuellement tournée d'un quart de tour
@@ -174,6 +175,8 @@ const Base = {
     let aussi = "";
     try { // onglet « Customs » du fichier Excel (appli principale)
       if (code && typeof ouFigurine === "function" && etat.collection) { const n = ouFigurine(code).length; if (n) aussi = ` · ${n} dans l'onglet Customs du fichier`; }
+      if ($("base-excel-info")) $("base-excel-info").textContent = aussi
+        ? `⚠️ Déjà ${aussi.replace(/\D+/g, " ").trim().split(" ")[0]} dans l'onglet Customs : les n° déjà présents ne sont pas ajoutés ; décochez si ce blister y est déjà sans numéro.` : "";
     } catch (e) { /* mini-appli : pas de fichier */ }
     const confus = (this.semblables || []).filter(x => normaliser(x.e.nom) !== nom);
     const confusNoms = [...new Map(confus.map(x => [normaliser(x.e.nom), x.e])).values()].slice(0, 3);
@@ -231,10 +234,15 @@ const Base = {
     await Memoire.ecrire(this.entrees, "base");
     const total = memes.length + n;
     toast(`« ${nom} » : ${n > 1 ? `${n} exemplaires ajoutés` : "ajouté"} ✔ (${total} au total)`);
+    // appli principale : aussi dans l'onglet Customs du fichier Excel (case cochée)
+    let compteExcel = "";
+    if ($("base-excel") && $("base-excel").checked && !$("base-bloc-excel").hidden && typeof ajouterCustomsDepuisBase === "function")
+      compteExcel = await ajouterCustomsDepuisBase({ nom, code, numeros, serie: commun.serie.replace(/\D/g, ""), nonNumerote });
     // on garde la figurine : « Autre exemplaire » ne demande que le numéro
     this._precedent = { nom, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, serie: commun.serie,
                         remarque: commun.remarque, nonNumerote };
     this._nouvelle();
+    if (compteExcel) $("base-etat").textContent = compteExcel;
     if ($("base-autre")) { $("base-autre").hidden = false; $("btn-base-autre").textContent = `Autre exemplaire de « ${nom} » : photographier`; }
     this._afficherListe();
   },

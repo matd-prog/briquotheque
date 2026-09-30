@@ -777,47 +777,48 @@ function choisirJB(f) {
 let photoBlister = null;
 let indiceBlister = [];
 
+// « 📦 Photographier un blister » : même chemin que le recensement (recto, verso, identification, n° déjà
+// recensés) ; la figurine est ajoutée en même temps à l'onglet Customs du fichier Excel (case cochée par défaut)
 $("input-blister").addEventListener("change", async e => {
   const f = e.target.files[0];
   e.target.value = "";
   if (!f) return;
-  photoBlister = f;
-  $("photo-apercu").src = URL.createObjectURL(f);
-  $("texte-chargement").textContent = "Lecture du nom sur le blister… (la première fois, téléchargement de l'outil de lecture, environ 27 Mo)";
-  afficher("chargement");
-  const indice = indiceBrickognize(f); // en parallèle
-  indiceEnCours = indice;
-  let lecture = { texte: "", trouve: false };
+  await Base.ouvrir();
+  Base.lirePhoto(f);
+});
+
+// Ajout à l'onglet Customs depuis le recensement : un exemplaire par n° (« 44/150 »), n° déjà présents écartés.
+// Rend un compte rendu à afficher.
+async function ajouterCustomsDepuisBase({ nom, code, numeros, serie, nonNumerote }) {
+  if (!etat.classeur) return "";
+  const f = code && CatalogueJB.trouver ? CatalogueJB.trouver(code) : null;
+  const lien = f && f.lien ? f.lien : lienRechercheEbay(nom);
+  const codeXL = codeCustom(lien);
+  const nomXL = f ? nomCustomPourFichier(f.nom) : nom.replace(/\w\S*/g, m => m[0] + m.slice(1).toLowerCase());
+  const deja = numerosEnregistres(codeXL), num = x => x.split("/")[0];
+  const liste = numeros.map(x => nonNumerote || !x ? "" : serie ? `${x}/${serie}` : x);
+  const ecartes = liste.filter(x => x && Object.keys(deja).some(k => num(k) === num(x)));
+  const aAjouter = liste.filter(x => !ecartes.includes(x));
+  if (!aAjouter.length) return `Fichier Excel : n° ${ecartes.join(", ")} déjà dans l'onglet Customs, rien ajouté.`;
+  const onglet = THEME_CUSTOMS.onglet;
   try {
-    await CatalogueJB.charger();
-    decorBlister = await comparerDecor(f);
-    lecture = await Blister.lireEntier(f, (i, n) => {
-      $("texte-chargement").textContent = i === 1
-        ? "Lecture du nom sur le blister… (la première fois, téléchargement de l'outil de lecture, environ 27 Mo)"
-        : `Lecture du nom sur le blister… (essai ${i} sur ${n})`;
-    });
+    let res;
+    for (const x of aAjouter) {
+      res = await ajouterFigurine(etat.classeur, { code: codeXL, nom: [nomXL, x].filter(Boolean).join(" "), theme: onglet, lien });
+      etat.nonEnregistres++;
+    }
+    const octets = await memoriser();
+    if (!(await verifierAjout(octets, { onglet, row: res.row, col: res.col, code: codeXL }))) throw new Error("vérification après écriture échouée");
+    await relireContenu();
+    return `Fichier Excel : ${aAjouter.length > 1 ? `${aAjouter.length} exemplaires ajoutés` : "ajoutée"} dans ${onglet} (${codeXL}), avec étiquette` +
+      (ecartes.length ? ` ; n° ${ecartes.join(", ")} déjà présent(s), non ajouté(s)` : "") + ". Pensez à « Enregistrer ».";
   } catch (err) {
     console.error(err);
+    const m = await Memoire.lire();
+    if (m) await chargerClasseur(m.octets, m.nom, m.nonEnregistres);
+    return "⚠️ L'ajout au fichier Excel a échoué : " + err.message + " (le blister est bien recensé).";
   }
-  // blister photographié de travers (texte vertical) : la photo est remise d'aplomb pour la suite
-  // (encadrement du nom, aperçu)
-  if (lecture.sens) {
-    try {
-      const tournee = tourner(await createImageBitmap(f), lecture.sens);
-      const droite = await new Promise(ok => tournee.toBlob(ok, "image/jpeg", 0.92));
-      if (droite) { photoBlister = droite; $("photo-apercu").src = URL.createObjectURL(droite); }
-    } catch (err) { console.warn("rotation de la photo impossible", err); }
-  }
-  afficherLectureBlister(lecture.texte, lecture.trouve, false);
-  // aucun nom lu sur la photo entière : on passe directement à l'encadrement du nom (annuler ramène
-  // aux blisters au décor ressemblant, déjà affichés)
-  if (!lecture.trouve && !nomProbable(lecture.texte)) {
-    encadrerNom("Le nom n'a pas pu être lu sur la photo entière. Encadrez SEULEMENT le nom de la figurine (le petit cadre du blister), ou « Annuler ».");
-    return;
-  }
-  indiceBlister = await indice;
-  afficherIndice(indiceBlister);
-});
+}
 
 // Blisters du catalogue JB au décor le plus ressemblant à la photo (vide si indisponible)
 let decorBlister = [];
