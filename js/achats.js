@@ -34,18 +34,20 @@ const EcranAchats = {
     try {
       Valeur.jeton = Valeur.jeton || await Memoire.lire("jeton-github");
       if (!Valeur.jeton) return;
-      const rep = await Valeur._api("/contents/propositions_lots.tsv", { headers: { Accept: "application/vnd.github.raw" } });
-      if (!rep.ok) return;
-      this.propositions = new Map();
-      for (const l of (await rep.text()).split("\n").slice(1)) {
-        const [vente, figurine, code, photos, commande, , , confiance] = l.split("\t");
-        if (commande && figurine) this.propositions.set(commande, { vente, figurine, code, photos, confiance: (confiance || "").split(" (")[0] });
+      const [rep, eb] = await Promise.all(["propositions_lots.tsv", "prix_ebay.tsv"].map(f =>
+        Valeur._api(`/contents/${f}`, { headers: { Accept: "application/vnd.github.raw" } }).catch(() => null)));
+      if (rep && rep.ok) {
+        this.propositions = new Map();
+        for (const l of (await rep.text()).split("\n").slice(1)) {
+          const [vente, figurine, code, photos, commande, , , confiance] = l.split("\t");
+          if (commande && figurine) this.propositions.set(commande, { vente, figurine, code, photos, confiance: (confiance || "").split(" (")[0] });
+        }
       }
-      const eb = await Valeur._api("/contents/prix_ebay.tsv", { headers: { Accept: "application/vnd.github.raw" } });
-      if (eb.ok) this.ebay = (await eb.text()).split("\n").slice(1).map(l => l.split("\t"))
+      if (eb && eb.ok) this.ebay = (await eb.text()).split("\n").slice(1).map(l => l.split("\t"))
         .filter(c => +c[1] > 0).map(([nom, n, min, med, max, port, date]) => ({ nom, n: +n, min: +min, med: +med, max: +max, port: port === "" ? null : +port, date, mots: motsCustom(nom) }));
     } catch (err) { console.warn(err); }
   },
+
 
   // Prix eBay.de du nom le plus précis dont tous les mots sont dans le nom de la figurine
   ebayPour(nom) {
@@ -67,6 +69,115 @@ const EcranAchats = {
     return m ? this.propositions.get(m[1]) : null;
   },
 
+  // ---------- À vendre : pour chaque blister en plusieurs exemplaires, on garde le n° le plus bas (et ceux qui ont une
+  // note : signé, Comic Con…) ; les autres sont à vendre, au plus haut entre le prix de revente conseillé et le prix
+  // demandé sur eBay.de, sans dépasser le prix JB si la figurine y est encore vendue ----------
+  async _exemplaires() {
+    const recense = ((await Memoire.lire("base")) || []).filter(e => e.nom);
+    if (recense.length) return { source: "recensement", liste: recense.map(e => ({ nom: e.nom, numero: e.numero || "", serie: e.serie || "", code: e.code || "", note: e.remarque || "" })) };
+    const liste = [];
+    const onglet = etat.collection && etat.collection[THEME_CUSTOMS.onglet];
+    for (const c of (onglet ? onglet.cases : [])) {
+      if (!c.code) continue;
+      const m = /^(.*?)\s+(\d{1,4})\s*\/\s*(\d{1,4})\s*$/.exec(c.nom || "");
+      liste.push({ nom: m ? m[1] : c.nom || c.code, numero: m ? m[2] : "", serie: m ? m[3] : "", code: /^(JB|ALB|BSC|EBAY)-/i.test(c.code) ? c.code : "", note: "" });
+    }
+    return { source: "collection", liste };
+  },
+
+  async _listerVente() {
+    const { source, liste: tous } = await this._exemplaires();
+    // exemplaires notés « vendu » dans l'onglet « À vendre » : plus dans la collection
+    const vendus = new Set((await lireAVendre(etat.classeur).catch(() => [])).filter(x => /vendu/i.test(x.statut))
+      .map(x => `${normaliser(nomCustomPourFichier(x.nom))}|${x.numero}`));
+    const liste = tous.filter(e => !(e.numero && vendus.has(`${normaliser(nomCustomPourFichier(e.nom))}|${e.numero}`)));
+    const groupes = new Map();
+    for (const e of liste) {
+      const k = e.code ? e.code.toUpperCase() : normaliser(nomCustomPourFichier(e.nom));
+      if (!groupes.has(k)) groupes.set(k, { nom: e.nom, code: e.code, ex: [] });
+      groupes.get(k).ex.push(e);
+    }
+    const achetes = this.achats.filter(a => !this.estLot(a));
+    const paye = nom => { // prix payés des achats nommés qui correspondent à ce nom
+      const m = motsCustom(nom);
+      return achetes.filter(a => { const x = motsCustom(a.nom); return m.size && x.size && [...m].every(w => x.has(w)) && m.size / x.size >= 0.6; }).map(a => a.prix);
+    };
+    const med = l => { const t = [...l].sort((a, b) => a - b); return t.length ? t[Math.floor(t.length / 2)] : 0; };
+    const numeroDe = e => parseInt(e.numero, 10);
+    const lignes = [];
+    for (const g of groupes.values()) {
+      if (g.ex.length < 2) continue;
+      g.ex.sort((a, b) => (isNaN(numeroDe(a)) - isNaN(numeroDe(b))) || numeroDe(a) - numeroDe(b));
+      const garde = [g.ex[0], ...g.ex.slice(1).filter(e => e.note)];
+      const vendre = g.ex.filter(e => !garde.includes(e));
+      if (!vendre.length) continue;
+      const jb = (g.code && CatalogueJB.parCode && CatalogueJB.parCode.get(g.code.toUpperCase())) || null;
+      const cout = med(paye(g.nom));
+      const eb = this.ebayPour(g.nom) || (jb && this.ebayPour(jb.nom));
+      const conseille = cout ? this._revente(cout) : 0;
+      let prix = Math.max(conseille, eb ? Math.round(eb.med) : 0);
+      const enVente = jb && jb.source === "jb" && !jb.epuisee && jb.prix;
+      const plafond = enVente && prix > jb.prix;
+      if (plafond) prix = Math.floor(jb.prix);
+      if (!prix && enVente) prix = Math.floor(jb.prix); // pas d'autre repère : le prix JB
+      lignes.push({ g, garde, vendre, jb, cout, eb, conseille, prix, plafond, enVente });
+    }
+    lignes.sort((a, b) => b.prix * b.vendre.length - a.prix * a.vendre.length);
+    this._vente = lignes;
+    const nb = lignes.reduce((n, l) => n + l.vendre.length, 0);
+    const total = lignes.reduce((n, l) => n + l.prix * l.vendre.length, 0);
+    const coutTotal = lignes.reduce((n, l) => n + l.cout * l.vendre.length, 0);
+    const sansPrix = lignes.filter(l => !l.prix).length;
+    const num = e => e.numero ? `n° ${e.numero}${e.serie ? `/${e.serie}` : ""}` : "sans n°";
+    $("achats-liste").innerHTML = `<p class="aide">D'après ${source === "recensement" ? "votre recensement des blisters (écran « Base des blisters »)"
+        : "l'onglet « Customs » de votre fichier (recensez vos blisters pour une liste exacte, avec leurs numéros)"}. Pour chaque figurine en
+        plusieurs exemplaires, le n° le plus bas est gardé, ainsi que les exemplaires qui ont une note (signé, Comic Con…).</p>
+      <div class="carte valeur-total"><div class="score">${nb} exemplaire${nb > 1 ? "s" : ""} à vendre (${lignes.length} figurines)</div>
+        <div class="montant">${this._prix(total)}</div>
+        <div class="ligne-valeur"><span>Prix payé de ces exemplaires</span><b>${this._prix(coutTotal)}</b></div>
+        ${sansPrix ? `<div class="score">${sansPrix} figurine(s) sans prix connu (ni achat retrouvé, ni annonce eBay)</div>` : ""}
+        <button class="bouton vert" data-action="achats-vendre-maj">🔄 Mettre à jour la liste « À vendre » du fichier Excel</button>
+        <p class="score">${this._majVente ? `Dernière mise à jour : ${echapper(this._majVente)}` : "Cette liste se recalcule à chaque ouverture, d'après votre recensement ; « Mettre à jour » l'enregistre dans l'onglet « À vendre » (le statut « vendu » et le prix de vente réel que vous y notez sont gardés)."}</p>
+        <button class="bouton gris" data-action="achats-vendre-csv">📊 Liste pour mes annonces (.csv)</button></div>` +
+      (lignes.length ? lignes.map(l => `<div class="carte achat-figurine">
+        <p class="sous-titre">${echapper(l.g.nom)} <span class="badge">×${l.g.ex.length}</span></p>
+        <div class="ligne-valeur"><span>🏠 Garder</span><span>${echapper(l.garde.map(e => num(e) + (e.note ? ` (${e.note})` : "")).join(", "))}</span></div>
+        <div class="ligne-valeur"><span>🏷️ À vendre</span><span>${echapper(l.vendre.map(num).join(", "))}</span></div>
+        <div class="ligne-valeur"><span>Prix proposé</span><span><b>${l.prix ? this._prix(l.prix) : "?"}</b>${l.vendre.length > 1 && l.prix ? ` × ${l.vendre.length} = <b>${this._prix(l.prix * l.vendre.length)}</b>` : ""}</span></div>
+        <p class="score">${[l.cout && `payé ~${this._prix(l.cout)} → revente conseillée ${this._prix(l.conseille)}`,
+          l.eb && `eBay.de ${this._prix(l.eb.med)} (${l.eb.n} annonce${l.eb.n > 1 ? "s" : ""})`,
+          l.enVente && `encore vendue chez JB ${this._prix(l.jb.prix)}${l.plafond ? " : prix ramené au prix JB" : ""}`,
+          l.jb && l.jb.epuisee && "épuisée chez JB"].filter(Boolean).join(" · ") || "aucun prix connu : fixez-le vous-même"}</p>
+      </div>`).join("") : `<p class="aide">Aucune figurine en plusieurs exemplaires pour l'instant.</p>`);
+  },
+
+  async majVente() {
+    const lignes = [];
+    for (const x of this._vente || []) for (const e of x.vendre)
+      lignes.push({ nom: x.g.nom, numero: e.numero, serie: e.serie, prix: x.prix || "", paye: x.cout || "", ebay: x.eb ? x.eb.med : "", code: x.g.code || "" });
+    try {
+      const r = await ecrireAVendre(etat.classeur, lignes);
+      etat.nonEnregistres++;
+      await memoriser();
+      this._majVente = new Date().toLocaleString("fr-FR");
+      await demander(`Onglet « ${ONGLET_A_VENDRE} » mis à jour : ${lignes.length} exemplaire(s) à vendre` +
+        (r.vendus ? `, ${r.vendus} déjà vendu(s) gardé(s)` : "") + ".\n\nDans Excel, notez « vendu » dans la colonne Statut et le prix obtenu : ils seront gardés à la prochaine mise à jour.\n\nPensez à enregistrer le fichier.", "OK", "Fermer");
+      this._listerVente();
+    } catch (err) { console.error(err); await demander("La mise à jour a échoué : " + err.message, "OK", "Fermer"); }
+  },
+
+  exporterVente() {
+    const l = this._vente || [];
+    const lignes = [["Figurine", "N° exemplaire", "Série", "Prix proposé (€)", "Prix payé (€)", "Prix eBay.de (€)", "Garder"].join(";")];
+    for (const x of l) for (const e of x.vendre)
+      lignes.push([x.g.nom, e.numero, e.serie, x.prix || "", x.cout ? x.cout.toFixed(2) : "", x.eb ? x.eb.med.toFixed(2) : "",
+                   x.garde.map(g => g.numero || "sans n°").join(" ")].map(v => `"${String(v).replace(/"/g, '""')}"`).join(";").replace(/\./g, ","));
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["\ufeff" + lignes.join("\r\n")], { type: "text/csv" }));
+    a.download = `a_vendre_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a); a.click(); a.remove();
+  },
+
   estLot: a => /^Custom JB \(lot/.test(a.nom),
 
   async lister() {
@@ -75,6 +186,8 @@ const EcranAchats = {
     $("achats-onglet-nommer").textContent = `À nommer (${lots.length})`;
     $("achats-onglet-nommer").classList.toggle("actif", this.vue === "nommer");
     $("achats-onglet-figurines").classList.toggle("actif", this.vue === "figurines");
+    $("achats-onglet-vendre").classList.toggle("actif", this.vue === "vendre");
+    if (this.vue === "vendre") { $("achats-filtre").hidden = true; return this._listerVente(); }
     $("achats-filtre").hidden = this.vue !== "figurines";
     if (!this.achats.length) {
       $("achats-liste").innerHTML = `<p class="aide">L'onglet « ${ONGLET_CUSTOMS_ACHETEES} » est vide : dans l'écran Valeur, touchez
@@ -226,4 +339,7 @@ document.addEventListener("click", e => {
   else if (a === "achats-nommer") { EcranAchats.vue = "nommer"; EcranAchats.lister(); }
   else if (a === "achats-figurines") { EcranAchats.vue = "figurines"; EcranAchats.ouvert = null; EcranAchats.lister(); }
   else if (a === "achat-valider") EcranAchats.valider();
+  else if (a === "achats-vendre") { EcranAchats.vue = "vendre"; EcranAchats.ouvert = null; EcranAchats.lister(); }
+  else if (a === "achats-vendre-csv") EcranAchats.exporterVente();
+  else if (a === "achats-vendre-maj") EcranAchats.majVente();
 });

@@ -42,7 +42,14 @@ const COLONNES_VALEURS_DECLAREES = [
   ["A", "Article (code ou nom)", 30], ["B", "Nom", 40], ["C", "Valeur déclarée (€)", 14], ["D", "Justification", 50], ["E", "Déclarée le", 11],
   ["F", "Exemplaires concernés", 12],
 ];
-const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS, ONGLET_OBJETS, ONGLET_CUSTOMS_ACHETEES, ONGLET_VALEURS_DECLAREES];
+// Exemplaires à vendre (doubles) : liste tenue à jour depuis l'appli ; la colonne « Statut » (à vendre, réservé, vendu)
+// et le prix de vente réel peuvent être changés dans Excel, ils sont gardés à chaque mise à jour
+const ONGLET_A_VENDRE = "À vendre";
+const COLONNES_A_VENDRE = [
+  ["A", "Figurine", 40], ["B", "N° exemplaire", 10], ["C", "Série", 8], ["D", "Prix proposé (€)", 12], ["E", "Prix payé (€)", 11],
+  ["F", "Prix eBay.de (€)", 11], ["G", "Statut", 12], ["H", "Prix de vente réel (€)", 12], ["I", "Code", 16], ["J", "Mis à jour le", 11],
+];
+const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS, ONGLET_OBJETS, ONGLET_CUSTOMS_ACHETEES, ONGLET_VALEURS_DECLAREES, ONGLET_A_VENDRE];
 // Onglets de thèmes (Simpsons, Harry Potter...) : créés par l'appli, même mise en page
 const ONGLETS_THEMES = TOUS_THEMES.map(t => t.onglet);
 const ONGLET_MODELE = "Gentils (vert)";
@@ -778,6 +785,39 @@ async function declarerValeur(cl, { cle, nom, valeur, justification, exemplaires
   const valeurs = valeur > 0 ? [cle, nom || "", valeur.toFixed(2).replace(".", ","), justification || "", new Date().toLocaleDateString("fr-FR"),
                                 String(Math.max(1, exemplaires || 1))] : ["", "", "", "", "", ""];
   for (let i = 0; i < valeurs.length; i++) await cl.ecrireTexte(ONGLET_VALEURS_DECLAREES, COLONNES_VALEURS_DECLAREES[i][0] + row, String(valeurs[i]));
+}
+
+async function lireAVendre(cl) {
+  if (!cl.aOnglet(ONGLET_A_VENDRE)) return [];
+  const res = [];
+  for (const { row, cellules: c } of await cl.lignes(ONGLET_A_VENDRE))
+    if (row > 1 && c.A) res.push({ row, nom: c.A, numero: c.B || "", serie: c.C || "", prix: c.D || "", paye: c.E || "", ebay: c.F || "",
+                                   statut: c.G || "à vendre", prixReel: c.H || "", code: c.I || "", date: c.J || "" });
+  return res;
+}
+
+// Réécrit la liste : lignes calculées + lignes déjà vendues (gardées telles quelles) ; statut et prix réel conservés
+async function ecrireAVendre(cl, lignes) {
+  await cl.creerOngletSets(ONGLET_A_VENDRE, COLONNES_A_VENDRE);
+  const avant = await lireAVendre(cl);
+  const cle = x => `${(x.code || x.nom).toLowerCase()}|${x.numero}`;
+  const anciens = new Map(avant.map(x => [cle(x), x]));
+  const vendus = avant.filter(x => /vendu/i.test(x.statut));
+  const jour = new Date().toLocaleDateString("fr-FR");
+  const finales = [...lignes.filter(l => !vendus.some(v => cle(v) === cle(l))).map(l => {
+    const a = anciens.get(cle(l));
+    return { ...l, statut: a ? a.statut : "à vendre", prixReel: a ? a.prixReel : "", date: jour };
+  }), ...vendus];
+  const nbAvant = avant.length ? Math.max(...avant.map(x => x.row)) : 1;
+  const fr = v => v === "" || v == null ? "" : typeof v === "number" ? v.toFixed(2).replace(".", ",") : String(v);
+  let row = 1;
+  for (const l of finales) {
+    row++;
+    const valeurs = [l.nom, l.numero, l.serie, fr(l.prix), fr(l.paye), fr(l.ebay), l.statut, l.prixReel, l.code, l.date];
+    for (let i = 0; i < valeurs.length; i++) await cl.ecrireTexte(ONGLET_A_VENDRE, COLONNES_A_VENDRE[i][0] + row, String(valeurs[i] ?? ""));
+  }
+  for (let r = row + 1; r <= nbAvant; r++) for (const [c] of COLONNES_A_VENDRE) await cl.ecrireTexte(ONGLET_A_VENDRE, c + r, "");
+  return { lignes: finales.length, vendus: vendus.length };
 }
 
 async function ajouterObjet(cl, { code, nom, type, etat, quantite, remarques }) {

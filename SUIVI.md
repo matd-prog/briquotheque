@@ -278,3 +278,7 @@ Pour reprendre le 30/09 au matin :
   js/valeur.js : custom en vente chez JB = prix JB ; épuisée ou hors catalogue = le plus haut entre prix payé, dernier prix
   JB et prix demandé eBay.de (prix_ebay.tsv du dépôt privé, 2 annonces au moins). Méthode, dossier assureur, Consulter et
   Mes achats indiquent « Épuisée chez JB ».
+- À vendre (30/09, js/achats.js onglet « À vendre ») : d'après le recensement des blisters (sinon l'onglet Customs), pour
+  chaque figurine en plusieurs exemplaires on garde le n° le plus bas et ceux qui ont une note ; les autres sont à vendre au
+  plus haut entre revente conseillée (prix payé médian + marge + frais) et prix eBay.de, plafonné au prix JB si encore en
+  vente. « Mettre à jour » écrit l'onglet Excel « À vendre » (statut et prix réel gardés ; « vendu » = sorti de la liste).
