@@ -256,3 +256,9 @@ Pour reprendre le 30/09 au matin :
 4. Archives (web.archive.org) : action GitHub « Archives JB » en place ; lancer la lecture complète.
 5. Éventuel contact avec JB Spielwaren pour une base officielle de leurs blisters.
 6. Vérifier le compte rendu de la tâche automatique ; corriger si elle ne peut pas publier.
+- Mes achats de customs (30/09, js/achats.js, tuile « 🏷️ ») : l'utilisateur veut le prix payé de chaque figurine pour
+  revendre ses doubles avec une marge. Onglet « À nommer » : achats en lot Whatnot (« Custom JB (lot du …) », 440),
+  du plus cher au moins cher, à nommer (catalogue JB, noms déjà connus, photo du blister) → colonnes A/F/G de
+  « Customs achetées ». Onglet « Par figurine » : exemplaires regroupés (code JB ou nom), prix payé et prix de revente
+  conseillé = (payé × (1 + marge) + frais fixes) / (1 − frais %), réglages gardés dans le téléphone (défaut 11 % +
+  0,30 € de frais, 20 % de marge : frais Whatnot à vérifier). Piste complète : détail des commandes demandé à JB.

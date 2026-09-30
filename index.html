@@ -70,6 +70,7 @@
       <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
       <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base des blisters</b><small>Contribuer à la base JB</small></button>
       <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
+      <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
       <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
     </div>
 
@@ -221,6 +222,30 @@
       <div id="valeur-resultat"></div>
       <button class="bouton-lien" data-action="valeur-oublier">Retirer le jeton de ce téléphone</button>
     </div>
+  </section>
+
+  <!-- Mes achats de customs (js/achats.js) : nommer les achats en lot, prix payé et prix de revente par figurine -->
+  <section id="ecran-achats" class="ecran" hidden>
+    <p class="intro">🏷️ <b>Mes achats de customs</b> : le prix payé de chaque exemplaire (frais de port compris), pour savoir à
+      combien revendre vos doubles.</p>
+    <div class="onglets-achats">
+      <button class="bouton" id="achats-onglet-nommer" data-action="achats-nommer">À nommer</button>
+      <button class="bouton" id="achats-onglet-figurines" data-action="achats-figurines">Par figurine</button>
+    </div>
+    <details class="carte">
+      <summary>Réglages de la revente</summary>
+      <label for="achats-frais" class="etiquette-champ">Frais de vente (% du prix de vente, commission + paiement)</label>
+      <input id="achats-frais" class="champ" inputmode="decimal">
+      <label for="achats-fixe" class="etiquette-champ">Frais fixes par vente (€)</label>
+      <input id="achats-fixe" class="champ" inputmode="decimal">
+      <label for="achats-marge" class="etiquette-champ">Marge voulue (% du prix payé)</label>
+      <input id="achats-marge" class="champ" inputmode="decimal">
+      <p class="aide">Vérifiez les frais actuels sur Whatnot (ou la plateforme où vous vendez). Le prix de revente conseillé
+        vous rend le prix payé plus la marge, une fois les frais retirés (arrondi à l'euro supérieur).</p>
+    </details>
+    <label class="case-a-cocher" id="achats-filtre" hidden><input type="checkbox" id="achats-doublons"> Seulement les figurines en plusieurs exemplaires</label>
+    <div id="achats-liste"></div>
+    <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
   </section>
 
   <!-- Sets LEGO (js/sets.js) : numéro -> fiche, état, boîte, notice, figurines -> onglet « Sets » -->
@@ -392,5 +417,6 @@
   <script src="js/objets.js"></script>
   <script src="js/valeur.js"></script>
   <script src="js/assurance.js"></script>
+  <script src="js/achats.js"></script>
 </body>
 </html>
