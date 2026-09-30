@@ -242,3 +242,5 @@ a.proposition { color: inherit; text-decoration: none; }
 .bandeau-occupe[hidden] { display: none; }
 .bouton-occupe { opacity: .6; pointer-events: none; position: relative; }
 .bouton-occupe::after { content: " ⏳"; }
+/* jeton GitHub : caractères masqués sans champ « mot de passe » (sinon Chrome propose sans cesse de l'enregistrer) */
+.champ-masque { -webkit-text-security: disc; text-security: disc; }

@@ -313,3 +313,5 @@ Pour reprendre le 30/09 au matin :
   (4) Nombre d'exemplaires remis à 1 à chaque nouvelle custom (ouvrirCustom ; le recensement le faisait déjà).
   (5) Après un ajout, « suivante » reste dans la même catégorie (preparerSuivante : photo -> appareil photo tout de suite,
   custom -> écran custom, recherche -> recherche) + « Retour à l'accueil » ; recensement : retour en haut de l'écran après l'ajout.
+- « Enregistrer le mot de passe ? » (Chrome, 30/09) : venait du champ du jeton GitHub (type="password", écran Valeur). Passé en
+  champ texte masqué par CSS (-webkit-text-security), sans saisie automatique : Chrome ne le voit plus comme un mot de passe.
