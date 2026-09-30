@@ -350,3 +350,6 @@ Pour reprendre le 30/09 au matin :
   (décocher les retrouve) mais ignorées à l'ajout (série vidée) ; même grisage dans la fiche ✏️ de modification. Appli et mini-appli.
 - Recto et verso côte à côte (30/09, demande de l'utilisateur) : en haut de l'écran de recensement (.recto-verso), dès que le verso
   est pris ; dans la liste, deux vignettes (recto, verso). Appli et mini-appli.
+- Vocabulaire (30/09, choix de l'utilisateur) : « recensement » remplacé par « base de blisters » dans tout ce qui s'affiche
+  (bouton « 📚 Ajouter à ma base de blisters », tuile « Ma base de blisters », « déjà dans votre base », recherche…).
+  Noms internes inchangés (Base, champ recense-*, album_photos/recensement.tsv).

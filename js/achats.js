@@ -130,15 +130,15 @@ const EcranAchats = {
     const coutTotal = lignes.reduce((n, l) => n + l.cout * l.vendre.length, 0);
     const sansPrix = lignes.filter(l => !l.prix).length;
     const num = e => e.numero ? `n° ${e.numero}${e.serie ? `/${e.serie}` : ""}` : "sans n°";
-    $("achats-liste").innerHTML = `<p class="aide">D'après ${source === "recensement" ? "votre recensement des blisters (écran « Base des blisters »)"
-        : "l'onglet « Customs » de votre fichier (recensez vos blisters pour une liste exacte, avec leurs numéros)"}. Pour chaque figurine en
+    $("achats-liste").innerHTML = `<p class="aide">D'après ${source === "recensement" ? "votre base de blisters (écran « Ma base de blisters »)"
+        : "l'onglet « Customs » de votre fichier (photographiez vos blisters dans « Ma base de blisters » pour une liste exacte, avec leurs numéros)"}. Pour chaque figurine en
         plusieurs exemplaires, le n° le plus bas est gardé, ainsi que les exemplaires qui ont une note (signé, Comic Con…).</p>
       <div class="carte valeur-total"><div class="score">${nb} exemplaire${nb > 1 ? "s" : ""} à vendre (${lignes.length} figurines)</div>
         <div class="montant">${this._prix(total)}</div>
         <div class="ligne-valeur"><span>Prix payé de ces exemplaires</span><b>${this._prix(coutTotal)}</b></div>
         ${sansPrix ? `<div class="score">${sansPrix} figurine(s) sans prix connu (ni achat retrouvé, ni annonce eBay)</div>` : ""}
         <button class="bouton vert" data-action="achats-vendre-maj">🔄 Mettre à jour la liste « À vendre » du fichier Excel</button>
-        <p class="score">${this._majVente ? `Dernière mise à jour : ${echapper(this._majVente)}` : "Cette liste se recalcule à chaque ouverture, d'après votre recensement ; « Mettre à jour » l'enregistre dans l'onglet « À vendre » (le statut « vendu » et le prix de vente réel que vous y notez sont gardés)."}</p>
+        <p class="score">${this._majVente ? `Dernière mise à jour : ${echapper(this._majVente)}` : "Cette liste se recalcule à chaque ouverture, d'après votre base de blisters ; « Mettre à jour » l'enregistre dans l'onglet « À vendre » (le statut « vendu » et le prix de vente réel que vous y notez sont gardés)."}</p>
         <button class="bouton gris" data-action="achats-vendre-csv">📊 Liste pour mes annonces (.csv)</button></div>` +
       (lignes.length ? lignes.map(l => `<div class="carte achat-figurine">
         <p class="sous-titre">${echapper(l.g.nom)} <span class="badge">×${l.g.ex.length}</span></p>

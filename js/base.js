@@ -331,7 +331,7 @@ const Base = {
     const coll = (memes.length ? `<p>📦 <b>Dans votre collection : ${memes.length} exemplaire${memes.length > 1 ? "s" : ""}</b>${nums.length ? ` (n° ${echapper(nums.join(", "))})` : ""}${aussi}.
         <button class="bouton-lien" data-action="base-voir-liste">✏️ Voir ou corriger</button></p>`
         : `<p>✨ <b>Pas encore dans votre collection</b>${aussi}.</p>`) +
-      (autresPrecisions.length ? `<p class="score">Même nom imprimé, autres figurines déjà recensées : ${echapper(autresPrecisions.join(" · "))}. Touchez-en une si c'est la même.</p>
+      (autresPrecisions.length ? `<p class="score">Même nom imprimé, autres figurines déjà dans votre base : ${echapper(autresPrecisions.join(" · "))}. Touchez-en une si c'est la même.</p>
         <div class="suggestions">${autresPrecisions.map(x => `<button class="petit" data-base-precision="${echapper(x)}">${echapper(x)}</button>`).join("")}</div>` : "") +
       (confusNoms.length ? `<p class="alerte">⚠️ Ressemble à votre blister ${confusNoms.map(e => `« ${echapper(nomComplet(e))} »`).join(", ")} : même figurine sous un autre nom ? Vérifiez avant d'ajouter.</p>` : "");
     if (zone) {
@@ -362,7 +362,7 @@ const Base = {
     const nom = cleFigurine($("base-nom").value.trim(), $("base-precision") ? $("base-precision").value.trim() : "");
     const deja = new Set(this.entrees.filter(e => cleFigurine(e.nom, e.precision) === nom).map(e => e.numero).filter(Boolean));
     const tapes = $("base-numeros") ? [...$("base-numeros").querySelectorAll("input")].map(c => c.value.trim()).filter(Boolean) : [];
-    z.innerHTML = tapes.map((n, i) => deja.has(n) ? `<span class="recense-ecart">n° ${echapper(n)} déjà recensé</span>`
+    z.innerHTML = tapes.map((n, i) => deja.has(n) ? `<span class="recense-ecart">n° ${echapper(n)} déjà dans votre base</span>`
       : tapes.indexOf(n) !== i ? `<span class="recense-ecart">n° ${echapper(n)} tapé deux fois</span>`
       : `<span class="recense-ok">n° ${echapper(n)} nouveau ✔</span>`).join(" · ");
   },
@@ -389,7 +389,7 @@ const Base = {
       const ecarte = (x, i) => x && (dejaLa.includes(x) || numeros.indexOf(x) !== i);
       const garder = numeros.filter((x, i) => !ecarte(x, i));
       const pluriel = l => l.length > 1 ? "s" : "";
-      const txt = [dejaLa.length && `n° ${dejaLa.join(", ")} déjà recensé${pluriel(dejaLa)} pour « ${nomComplet({ nom, precision })} » (sans doute le même blister compté deux fois)`,
+      const txt = [dejaLa.length && `n° ${dejaLa.join(", ")} déjà dans votre base pour « ${nomComplet({ nom, precision })} » (sans doute le même blister compté deux fois)`,
                    doublesSaisie.length && `n° ${doublesSaisie.join(", ")} tapé deux fois`].filter(Boolean).join(" ; ");
       const champs = $("base-numeros") ? [...$("base-numeros").querySelectorAll("input")] : [];
       const viderDoublons = () => { // seuls les champs en double sont vidés
@@ -505,8 +505,8 @@ const Base = {
   _afficherListe() {
     const n = this.entrees.length, attente = this.entrees.filter(e => !e.exporte).length;
     $("base-compte").textContent = n
-      ? `${n} blister${n > 1 ? "s" : ""} recensé${n > 1 ? "s" : ""}, dont ${attente} pas encore exporté${attente > 1 ? "s" : ""}`
-      : "Aucun blister recensé pour l'instant.";
+      ? `${n} blister${n > 1 ? "s" : ""} dans votre base, dont ${attente} pas encore exporté${attente > 1 ? "s" : ""}`
+      : "Aucun blister dans votre base pour l'instant.";
     $("btn-base-exporter").hidden = !n;
     $("btn-base-vider").hidden = !this.entrees.some(e => e.exporte);
     if ($("btn-base-recadrer-tout")) {
@@ -585,7 +585,7 @@ const Base = {
     if (!nouveau.nom) { await demander("Le nom ne peut pas être vide.", "OK", "Fermer"); return; }
     const cle = cleFigurine(nouveau.nom, nouveau.precision);
     const doublon = nouveau.numero && this.entrees.find(x => x !== e && x.numero === nouveau.numero && cleFigurine(x.nom, x.precision) === cle);
-    if (doublon) { await demander(`Le n° ${nouveau.numero} est déjà recensé pour « ${nomComplet(nouveau)} » : corrigez le numéro.`, "OK", "Fermer"); return; }
+    if (doublon) { await demander(`Le n° ${nouveau.numero} est déjà dans votre base pour « ${nomComplet(nouveau)} » : corrigez le numéro.`, "OK", "Fermer"); return; }
     const ancien = { numero: e.numero, serie: e.serie, code: e.code, nom: e.nom };
     if (normaliser(nouveau.nom) !== normaliser(e.nom)) e.code = ""; // autre figurine : le code reconnu ne vaut plus
     Object.assign(e, nouveau, { exporte: false }); // à renvoyer corrigé
@@ -645,9 +645,9 @@ const Base = {
       });
       const deja = e => this.entrees.some(x => normaliser(x.nom) === normaliser(e.nom) && (e.numero ? x.numero === e.numero : true));
       const nouveaux = album.filter(e => !deja(e));
-      if (!nouveaux.length) { await demander("Tous les blisters de votre album sont déjà dans le recensement.", "OK", "Fermer"); return; }
-      if (!(await demander(`Ajouter au recensement ${nouveaux.length} blister(s) identifiés sur vos photos (${nouveaux.filter(e => e.numero).length} avec leur n°) ?\n\n` +
-          "Ils seront marqués « d'après l'album photo » : vérifiez-les pendant votre recensement physique (un blister vendu ou donné depuis est à retirer).",
+      if (!nouveaux.length) { await demander("Tous les blisters de votre album sont déjà dans votre base de blisters.", "OK", "Fermer"); return; }
+      if (!(await demander(`Ajouter à votre base de blisters ${nouveaux.length} blister(s) identifiés sur vos photos (${nouveaux.filter(e => e.numero).length} avec leur n°) ?\n\n` +
+          "Ils seront marqués « d'après l'album photo » : vérifiez-les en photographiant vos blisters (un blister vendu ou donné depuis est à retirer).",
           "Ajouter", "Annuler"))) return;
       let i = 0;
       for (const e of nouveaux) {
@@ -664,7 +664,7 @@ const Base = {
       }
       await Memoire.ecrire(this.entrees, "base");
       $("base-etat").textContent = "";
-      toast(`${i} blister(s) de l'album ajoutés au recensement ✔`, 5000);
+      toast(`${i} blister(s) de l'album ajoutés à votre base ✔`, 5000);
       this._afficherListe();
     } catch (err) { console.error(err); await demander("La reprise de l'album a échoué : " + err.message, "OK", "Fermer"); }
   },
@@ -719,7 +719,7 @@ const Base = {
   async recadrerTout() {
     const liste = this.entrees.filter(e => !e.recadre);
     if (!liste.length) return;
-    if (!(await demander(`Recadrer sur le blister les photos de ${liste.length} blister${liste.length > 1 ? "s" : ""} déjà recensé${liste.length > 1 ? "s" : ""} ?\n\n` +
+    if (!(await demander(`Recadrer sur le blister les photos de ${liste.length} blister${liste.length > 1 ? "s" : ""} déjà dans votre base ?\n\n` +
         "Les photos où le blister n'est pas trouvé avec certitude restent entières. Le recadrage ne peut pas être annulé.", "✂️ Recadrer", "Annuler"))) return;
     let recto = 0, verso = 0, i = 0;
     const couper = async blob => {
