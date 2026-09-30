@@ -116,6 +116,9 @@ const Valeur = {
       }
       res.push(a);
     }
+    for (const c of await lireCustomsAchetees(etat.classeur)) // prix payé connu (reçu, historique Whatnot)
+      res.push({ type: "CUSTOM", code: (c.code || "").toUpperCase(), nom: c.nom, onglet: ONGLET_CUSTOMS_ACHETEES, etat: "",
+                 achat: c.prix > 0 ? { prix: c.prix, vendeur: c.vendeur, date: c.date, lot: /^Custom JB \(lot/.test(c.nom) } : null });
     for (const o of await lireObjets(etat.classeur))
       res.push({ type: "GEAR", code: o.code, nom: o.nom || o.type, onglet: ONGLET_OBJETS, etat: o.etat, quantite: o.quantite });
     return res;
@@ -294,6 +297,43 @@ const Valeur = {
     requestAnimationFrame(pas);
   },
 
+  // Ajoute au fichier Excel l'onglet « Customs achetées » : figurines relevées dans les reçus JB et l'historique Whatnot
+  // (customs_achetees.tsv du dépôt privé), une ligne par exemplaire ; les lignes déjà présentes (même justificatif) sont ignorées
+  async ajouterCustoms() {
+    if (!etat.classeur) { await demander("Ouvrez d'abord votre fichier Excel.", "OK", "Fermer"); return; }
+    const rep = await this._api("/contents/customs_achetees.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+    if (!rep.ok) { await demander("La liste des customs achetées n'est pas encore prête dans votre dépôt privé.", "OK", "Fermer"); return; }
+    const toutes = (await rep.text()).split("\n").slice(1).filter(Boolean).map(l => {
+      const [date, vendeur, nom, prix, justificatif, lot] = l.split("\t");
+      return { date: date.split("-").reverse().join("/"), vendeur, nom, prix: parseFloat(prix) || 0, justificatif, remarques: lot ? "figurine dévoilée en vente en direct : nom à compléter" : "" };
+    });
+    const deja = new Set((await lireCustomsAchetees(etat.classeur)).map(c => c.justificatif));
+    const nouvelles = toutes.filter(c => !deja.has(c.justificatif));
+    const lots = nouvelles.filter(c => c.remarques).length;
+    const total = nouvelles.reduce((n, c) => n + c.prix, 0).toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+    if (!nouvelles.length) { await demander("Toutes vos customs achetées sont déjà dans l'onglet « Customs achetées ».", "OK", "Fermer"); return; }
+    if (!(await demander(`Ajouter ${nouvelles.length} figurines customs à l'onglet « ${ONGLET_CUSTOMS_ACHETEES} » (${total} payés, port compris) ?\n\n` +
+        `${nouvelles.length - lots} avec leur nom, ${lots} achetées en lots de vente en direct (« Custom JB (lot du …) » : ` +
+        "vous pourrez corriger leur nom dans le fichier).\n\nSets et figurines LEGO officiels, tuiles, briques, posters et cadeaux ne sont pas repris.",
+        "Ajouter", "Annuler"))) return;
+    afficher("chargement");
+    try {
+      await ajouterCustomsAchetees(etat.classeur, nouvelles, (i, n) => $("texte-chargement").textContent = `Ajout des customs… (${i} sur ${n})`);
+      etat.nonEnregistres++;
+      await memoriser();
+      await relireContenu();
+      afficher("valeur");
+      await demander(`${nouvelles.length} figurines ajoutées à l'onglet « ${ONGLET_CUSTOMS_ACHETEES} ».\n\nPensez à enregistrer le fichier.`, "OK", "Fermer");
+      this.afficher();
+    } catch (err) {
+      console.error(err);
+      const m = await Memoire.lire();
+      if (m) await chargerClasseur(m.octets, m.nom, m.nonEnregistres);
+      afficher("valeur");
+      await demander("L'ajout a échoué : " + err.message, "OK", "Fermer");
+    }
+  },
+
   // Lignes en double de l'onglet « Sets » (même numéro) : on garde celle qui a des remarques (rangement), sinon la 1re.
   // Plusieurs exemplaires d'un même set : une seule ligne, avec la quantité.
   async _doublons() {
@@ -388,9 +428,13 @@ const Valeur = {
         }
         return sc >= 0.75 ? m : null;
       };
-      if (!jb && a.nom && CatalogueJB.liste) // sans code JB : recherche par le nom dans le catalogue JB actuel
+      if (!jb && a.nom && !(a.achat && a.achat.lot) && CatalogueJB.liste) // sans code JB : recherche par le nom dans le catalogue JB actuel
         jb = proche(motsCustom(a.nom), CatalogueJB.liste.filter(x => x.source === "jb" && x.prix), x => x.mots || (x.mots = motsCustom(x.nom)));
       if (jb && jb.prix && jb.source === "jb") return { v: jb.prix, source: "Prix JB Spielwaren (encore en vente)" };
+      if (a.achat) { // ligne de l'onglet Customs achetées : son propre prix payé (port compris)
+        const quand = /^\d{4}-\d\d-\d\d$/.test(a.achat.date) ? new Date(a.achat.date).toLocaleDateString("fr-FR") : a.achat.date;
+        return { v: a.achat.prix, source: a.achat.lot ? `Prix payé (lot ${a.achat.vendeur}, ${quand})` : `Prix d'achat (${a.achat.vendeur}, ${quand})` };
+      }
       const mots = motsCustom([a.nom, jb && jb.nom].filter(Boolean).join(" "));
       let meilleur = null, score = 0, dejaPris = null;
       for (const x of achats) {
@@ -519,4 +563,5 @@ document.addEventListener("click", e => {
   else if (a === "valeur-actualiser") Valeur.afficher();
   else if (a === "valeur-doublons") Valeur.supprimerDoublons();
   else if (a === "valeur-boites") Valeur.corrigerBoites();
+  else if (a === "valeur-customs") Valeur.ajouterCustoms();
 });

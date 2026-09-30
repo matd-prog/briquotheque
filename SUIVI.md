@@ -186,6 +186,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   générique (figurine dévoilée en direct) : leur médiane (~23 €) sert de prix pour une custom sans achat retrouvé.
   Chaque exemplaire consomme son propre achat (plusieurs exemplaires, plusieurs prix). L'utilisateur peut aussi
   enregistrer la page des achats (images des blisters) pour la base de reconnaissance.
+- Onglet « Customs achetées » (30/09, solution choisie par l'utilisateur) : ses blisters JB n'étaient pas dans le fichier
+  Excel. customs_achetees.py (dépôt privé) tire de achats.tsv 646 figurines (206 nommées, 440 de lots « Spontane » :
+  « Custom JB (lot du …) », nom à compléter), 16 717 € payés ; écarte LEGO officiel, sets, tuiles, briques, posters,
+  cadeaux. Bouton « 📥 Ajouter mes customs achetées » (💶 Valeur) : une ligne par exemplaire (Nom, Vendeur, Date,
+  Prix payé, Justificatif, Code JB, Remarques), sans doublon (justificatif). Valeur : prix JB si encore vendue (par le
+  nom), sinon prix payé de la ligne.
 - Sets encore vendus par LEGO : prix LEGO en € (demande de l'utilisateur : la Death Star 75419 ne vaut pas 526 €
   mais 999,99 €). Source : pages publiques Brickset (RRP, Launch/exit) lues par prix_lego.py dans l'action « Prix
   BrickLink » -> lego.tsv (dépôt privé) ; le site LEGO refuse les lectures automatiques (403). Encore en vente =

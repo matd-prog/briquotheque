@@ -30,7 +30,13 @@ const COLONNES_OBJETS = [
   ["A", "Numéro BrickLink", 16], ["B", "Nom", 40], ["C", "Type", 20], ["D", "État", 12], ["E", "Quantité", 9],
   ["F", "Remarques", 36], ["G", "Ajouté le", 11],
 ];
-const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS, ONGLET_OBJETS];
+// Figurines customs achetées (reçus JB, historique Whatnot) : une ligne par exemplaire, avec son prix payé
+const ONGLET_CUSTOMS_ACHETEES = "Customs achetées";
+const COLONNES_CUSTOMS_ACHETEES = [
+  ["A", "Nom", 44], ["B", "Vendeur", 22], ["C", "Date d'achat", 12], ["D", "Prix payé (€)", 12], ["E", "Justificatif", 30],
+  ["F", "Code JB", 14], ["G", "Remarques", 30], ["H", "Ajouté le", 11],
+];
+const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS, ONGLET_OBJETS, ONGLET_CUSTOMS_ACHETEES];
 // Onglets de thèmes (Simpsons, Harry Potter...) : créés par l'appli, même mise en page
 const ONGLETS_THEMES = TOUS_THEMES.map(t => t.onglet);
 const ONGLET_MODELE = "Gentils (vert)";
@@ -719,6 +725,30 @@ async function lireObjets(cl) {
                          quantite: +(await v("E")) || 1, remarques: await v("F") });
   }
   return res;
+}
+
+// Customs achetées : [{ row, nom, vendeur, date, prix, justificatif, code, remarques }]
+async function lireCustomsAchetees(cl) {
+  if (!cl.aOnglet(ONGLET_CUSTOMS_ACHETEES)) return [];
+  const res = [];
+  for (const { row, cellules: c } of await cl.lignes(ONGLET_CUSTOMS_ACHETEES))
+    if (row > 1 && (c.A || c.F)) res.push({ row, nom: c.A || "", vendeur: c.B || "", date: c.C || "", prix: parseFloat((c.D || "").replace(",", ".")) || 0,
+                                            justificatif: c.E || "", code: c.F || "", remarques: c.G || "" });
+  return res;
+}
+
+// Ajoute des lignes à la fin de l'onglet « Customs achetées » (créé s'il n'existe pas)
+async function ajouterCustomsAchetees(cl, lignes, progression) {
+  await cl.creerOngletSets(ONGLET_CUSTOMS_ACHETEES, COLONNES_CUSTOMS_ACHETEES);
+  let row = await cl.derniereLigne(ONGLET_CUSTOMS_ACHETEES);
+  const jour = new Date().toLocaleDateString("fr-FR");
+  for (let i = 0; i < lignes.length; i++) {
+    const l = lignes[i]; row++;
+    const valeurs = [l.nom, l.vendeur, l.date, l.prix.toFixed(2).replace(".", ","), l.justificatif, l.code || "", l.remarques || "", jour];
+    for (let j = 0; j < valeurs.length; j++)
+      if (valeurs[j]) await cl.ecrireTexte(ONGLET_CUSTOMS_ACHETEES, COLONNES_CUSTOMS_ACHETEES[j][0] + row, String(valeurs[j]));
+    if (progression && i % 25 === 0) progression(i + 1, lignes.length);
+  }
 }
 
 async function ajouterObjet(cl, { code, nom, type, etat, quantite, remarques }) {
