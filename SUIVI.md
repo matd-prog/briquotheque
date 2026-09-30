@@ -338,3 +338,6 @@ Pour reprendre le 30/09 au matin :
   une fois (champ recadre) recto et verso de chaque blister déjà recensé avec Base._cadreAuto ; photo laissée entière si le
   blister n'est pas trouvé avec certitude ; irréversible (question avant). Photos d'album du dépôt privé (album_photos/blisters/)
   non recadrées : les empreintes de décor de l'album ont été calculées dessus. Appli et mini-appli.
+- Champs « nombre » (exemplaires, séries complètes, quantité d'objets) : contenu sélectionné au toucher (le chiffre tapé remplace
+  le 1), champ laissé vide -> valeur minimale (30/09, demande de l'utilisateur). Écouteurs focusin/focusout en fin de js/base.js
+  (chargé par les deux applis).

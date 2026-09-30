@@ -743,3 +743,17 @@ document.addEventListener("click", e => {
 });
 
 Base._installerRecadrage();
+
+// Champs « nombre » (exemplaires, séries, quantité) : tout le contenu est sélectionné quand on touche le champ, le chiffre
+// tapé remplace donc le 1 proposé ; champ laissé vide : il revient à sa valeur minimale.
+document.addEventListener("focusin", e => {
+  const c = e.target;
+  if (c.matches && c.matches('input[type="number"]')) setTimeout(() => { try { c.select(); } catch (err) { /* navigateur sans sélection */ } }, 0);
+});
+document.addEventListener("focusout", e => {
+  const c = e.target;
+  if (c.matches && c.matches('input[type="number"]') && c.value.trim() === "" && c.min) {
+    c.value = c.min;
+    c.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+});
