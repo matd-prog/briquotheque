@@ -8,6 +8,7 @@ const REGLAGES_REVENTE = { frais: 11, fixe: 0.3, marge: 20 }; // Whatnot : commi
 
 const EcranAchats = {
   achats: [],
+  ebay: [],                 // prix demandés sur eBay.de (prix_ebay.tsv du dépôt privé, outils/prix_ebay_jb.py)
   propositions: new Map(), // n° de commande Whatnot -> { figurine, code, confiance, photos } (propositions_lots.tsv du dépôt privé)
   vue: "nommer",
   ouvert: null,   // ligne en cours de nommage
@@ -40,7 +41,25 @@ const EcranAchats = {
         const [vente, figurine, code, photos, commande, , , confiance] = l.split("\t");
         if (commande && figurine) this.propositions.set(commande, { vente, figurine, code, photos, confiance: (confiance || "").split(" (")[0] });
       }
+      const eb = await Valeur._api("/contents/prix_ebay.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+      if (eb.ok) this.ebay = (await eb.text()).split("\n").slice(1).map(l => l.split("\t"))
+        .filter(c => +c[1] > 0).map(([nom, n, min, med, max, port, date]) => ({ nom, n: +n, min: +min, med: +med, max: +max, port: port === "" ? null : +port, date, mots: motsCustom(nom) }));
     } catch (err) { console.warn(err); }
+  },
+
+  // Prix eBay.de du nom le plus précis dont tous les mots sont dans le nom de la figurine
+  ebayPour(nom) {
+    // mots du nom + nombres (« 25 Years » ≠ « 26 years ») ; il faut presque tout le nom, pas seulement une partie
+    const mots = t => new Set([...motsCustom(t), ...(normaliser(t).match(/\b\d{2,4}\b/g) || [])]);
+    const m = mots(nom);
+    let best = null, sc = 0;
+    for (const e of this.ebay) {
+      e.tous = e.tous || mots(e.nom);
+      if (!e.tous.size || ![...e.tous].every(x => m.has(x))) continue;
+      const r = e.tous.size / m.size;
+      if (r >= 0.75 && r > sc) { sc = r; best = e; }
+    }
+    return best;
   },
 
   proposition(a) {
@@ -179,6 +198,8 @@ const EcranAchats = {
         return `<div class="carte achat-figurine">
           <p class="sous-titre">${echapper(g.nom)}${g.ex.length > 1 ? ` <span class="badge">×${g.ex.length}</span>` : ""}</p>
           ${jb && jb.prix && jb.source === "jb" ? `<p class="score">Encore en vente chez JB : ${this._prix(jb.prix)}</p>` : ""}
+          ${(e => e ? `<p class="score">eBay.de (prix demandés) : <b>${this._prix(e.med)}</b> au milieu, de ${this._prix(e.min)} à ${this._prix(e.max)}` +
+            ` · ${e.n} annonce${e.n > 1 ? "s" : ""}${e.port ? ` + port ~${this._prix(e.port)}` : ""} · <a href="https://www.ebay.de/sch/i.html?_nkw=${encodeURIComponent("JB Spielwaren " + e.nom)}" target="_blank" rel="noopener">voir</a></p>` : "")(this.ebayPour(g.nom))}
           ${g.ex.sort((a, b) => a.prix - b.prix).map(a => `<div class="ligne-valeur"><span>${echapper(a.date)} · <span class="score">${echapper(a.vendeur)}</span></span>
             <span>payé <b>${this._prix(a.prix)}</b> → revendre <b>${this._prix(this._revente(a.prix))}</b></span></div>`).join("")}
           ${g.ex.length > 1 ? `<p class="score">Total payé ${this._prix(total)} · prix moyen ${this._prix(total / g.ex.length)}</p>` : ""}

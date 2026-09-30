@@ -268,3 +268,8 @@ Pour reprendre le 30/09 au matin :
   ALB-…) et data/jb_empreintes_album.tsv (empreintes de décor ; plusieurs par blister, CatalogueJB garde la meilleure).
   Reconnaissance par le décor (une autre photo du même blister) : 36/83 en tête, contre 3/79 avec le catalogue seul.
   Les photos elles-mêmes restent dans le dépôt privé (album_photos/blisters/).
+- Prix de revente pratiqués (30/09) : outils/prix_ebay_jb.py relève les prix DEMANDÉS sur eBay.de (API Browse, annonces à
+  prix fixe, lots écartés, titre = tous les mots du nom) pour les figurines de l'utilisateur -> prix_ebay.tsv du dépôt
+  privé (252 noms, 83 avec annonces). Affichés dans « Mes achats customs › Par figurine » (médiane, min-max, port, lien
+  vers la recherche eBay.de). Pas les ventes conclues (l'API ne les donne pas). À relancer à la demande (clés eBay de
+  l'environnement cloud).
