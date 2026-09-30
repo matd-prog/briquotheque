@@ -326,3 +326,6 @@ Pour reprendre le 30/09 au matin :
   essai « recharger avec un historique d'une page » : l'historique garde les étapes suivantes, refusé aussi). Choix :
   depuis l'accueil, le retour ferme directement (aucune étape « garde » à l'accueil : desarmerRetour) ; ailleurs, le retour
   ramène à l'écran précédent. Plus de question « Quitter / Rester ».
+- N° en double au recensement (30/09, retour de l'utilisateur : « non » semblait effacer toute la saisie) : la question propose
+  « Ajouter les N autres » (le n° en double est écarté, les autres sont ajoutés) ou « Corriger d'abord » (seul le champ en double
+  est vidé, les autres n° restent). Plus d'« ajouter quand même » : un n° de série limitée est unique. Appli et mini-appli.

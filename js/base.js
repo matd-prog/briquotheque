@@ -235,16 +235,33 @@ const Base = {
     // nom corrigé à la main : le code de la figurine proposée ne vaut plus
     const code = this.codeLu && normaliser(nom) === normaliser(this.nomLu) ? this.codeLu : "";
     const nonNumerote = !!($("base-non-numerote") && $("base-non-numerote").checked);
-    const n = $("base-nombre") ? Math.min(99, Math.max(1, parseInt($("base-nombre").value, 10) || 1)) : 1;
-    const numeros = $("base-numeros") ? [...$("base-numeros").querySelectorAll("input")].slice(0, n).map(c => c.value.trim())
+    let n = $("base-nombre") ? Math.min(99, Math.max(1, parseInt($("base-nombre").value, 10) || 1)) : 1;
+    let numeros = $("base-numeros") ? [...$("base-numeros").querySelectorAll("input")].slice(0, n).map(c => c.value.trim())
       : [$("base-numero") ? $("base-numero").value.trim() : ""];
     while (numeros.length < n) numeros.push("");
     const precision = $("base-precision") ? $("base-precision").value.trim() : "";
     const memes = this.entrees.filter(e => cleFigurine(e.nom, e.precision) === cleFigurine(nom, precision));
     const doublesSaisie = numeros.filter((x, i) => x && numeros.indexOf(x) !== i);
     const dejaLa = numeros.filter(x => x && memes.some(e => e.numero === x));
-    if (doublesSaisie.length && !(await demander(`Le n° ${doublesSaisie.join(", ")} est tapé deux fois. Ajouter quand même ?`))) return;
-    if (dejaLa.length && !(await demander(`« ${nomComplet({ nom, precision })} » n° ${dejaLa.join(", ")} est déjà recensé : sans doute le même blister compté deux fois. Ajouter quand même ?`))) return;
+    // n° en double : seuls ces n° sont écartés, les autres restent saisis (et peuvent être ajoutés tout de suite)
+    if (doublesSaisie.length || dejaLa.length) {
+      const ecarte = (x, i) => x && (dejaLa.includes(x) || numeros.indexOf(x) !== i);
+      const garder = numeros.filter((x, i) => !ecarte(x, i));
+      const pluriel = l => l.length > 1 ? "s" : "";
+      const txt = [dejaLa.length && `n° ${dejaLa.join(", ")} déjà recensé${pluriel(dejaLa)} pour « ${nomComplet({ nom, precision })} » (sans doute le même blister compté deux fois)`,
+                   doublesSaisie.length && `n° ${doublesSaisie.join(", ")} tapé deux fois`].filter(Boolean).join(" ; ");
+      const champs = $("base-numeros") ? [...$("base-numeros").querySelectorAll("input")] : [];
+      const viderDoublons = () => { // seuls les champs en double sont vidés
+        champs.forEach((c, i) => { if (i < numeros.length && ecarte(numeros[i], i)) c.value = ""; });
+        const vide = champs.find((c, i) => i < numeros.length && ecarte(numeros[i], i));
+        this._etatNumeros();
+        if (vide) vide.focus();
+      };
+      if (!garder.length) { await demander(`${txt}.\n\nCorrigez le numéro, puis « Ajouter ».`, "OK", "Fermer"); viderDoublons(); return; }
+      if (!(await demander(`${txt}.\n\nAjouter les ${garder.length} autre${pluriel(garder)} exemplaire${pluriel(garder)} sans ${dejaLa.length + doublesSaisie.length > 1 ? "ces numéros" : "ce numéro"} ?`,
+          `Ajouter les ${garder.length} autre${pluriel(garder)}`, "Corriger d'abord"))) { viderDoublons(); return; }
+      numeros = garder; n = garder.length;
+    }
     const commun = { nom, precision, numerote: !nonNumerote, serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
                      code, photo: this.photo, verso: this.verso, exporte: false };
     for (const numero of numeros)
