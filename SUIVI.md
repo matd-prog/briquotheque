@@ -321,3 +321,8 @@ Pour reprendre le 30/09 au matin :
   qu'effacer le message) : le toucher sur « Quitter » rajoutait des étapes de réserve dans l'historique. Remplacé par le
   « double retour » Android : à l'accueil, 1er retour = message 2,5 s et étapes « garde » retirées (history.go), 2e retour =
   fermeture ; sans 2e retour, l'appli se réarme. Plus de question Quitter / Rester.
+- Quitter (30/09, 2e retour de l'utilisateur : le « double retour » passait l'appli en arrière-plan dès le 1er retour, sans
+  message ; il veut quitter sans 2e confirmation). Une appli web ne peut pas se fermer par un bouton (window.close refusé ;
+  essai « recharger avec un historique d'une page » : l'historique garde les étapes suivantes, refusé aussi). Choix :
+  depuis l'accueil, le retour ferme directement (aucune étape « garde » à l'accueil : desarmerRetour) ; ailleurs, le retour
+  ramène à l'écran précédent. Plus de question « Quitter / Rester ».

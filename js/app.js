@@ -20,24 +20,32 @@ const etat = {
 
 // ---------- navigation ----------
 
-// Bouton retour du téléphone : il ramène à l'écran précédent ; depuis l'accueil, il demande s'il faut
-// quitter l'appli. Une étape « garde » est gardée dans l'historique : chaque retour la retire
-// (popstate), et on la remet aussitôt, sauf si l'on quitte. Les écrans de passage (lecture en
-// cours, recadrage) ne sont pas mémorisés ; après un ajout (écran « ok »), l'écran précédent est
-// l'accueil (pas de retour vers la figurine déjà ajoutée).
+// Bouton retour du téléphone : il ramène à l'écran précédent ; depuis l'accueil, il ferme l'appli tout de suite
+// (comme toute appli Android : elle passe en arrière-plan, rien n'est perdu). Une appli web ne peut pas se fermer
+// elle-même par un bouton « Quitter » : c'est donc le retour depuis l'accueil qui ferme.
+// Hors de l'accueil, des étapes « garde » sont gardées dans l'historique : chaque retour en retire une (popstate) et
+// l'appli change d'écran. À l'accueil, il n'y en a aucune : le retour sort de l'appli. Les écrans de passage (lecture
+// en cours, recadrage) ne sont pas mémorisés ; après un ajout (écran « ok »), l'écran précédent est l'accueil.
 const ECRANS_RACINE = ["accueil", "fichier"], ECRANS_PASSAGE = ["chargement", "recadrage"];
 let ecranActuel = null, pileEcrans = [];
+const aLaRacine = () => ECRANS_RACINE.includes(ecranActuel);
 
-// Chrome saute (retour = sortie directe) une étape ajoutée sans que l'écran ait été touché : au démarrage
-// quand l'appli rouvre seule le fichier, ou juste après un retour. On garde donc quelques étapes d'avance,
-// ajoutées à chaque toucher, pour que plusieurs retours de suite ne fassent jamais sortir sans confirmation.
+// Chrome saute (retour = sortie directe) une étape ajoutée sans que l'écran ait été touché. Hors de l'accueil, on
+// garde donc quelques étapes d'avance, ajoutées à chaque toucher. À l'accueil, un toucher sur une case photo (dont
+// l'écran suivant s'ouvre plus tard, au retour de l'appareil photo) en ajoute aussi.
 const RESERVE_RETOUR = 3;
 const niveauRetour = () => (history.state && history.state.garde) ? (history.state.n || 1) : 0;
+let ignorerRetours = 0; // retours faits par l'appli elle-même (retrait des étapes à l'arrivée sur l'accueil)
 function armerRetour() {
-  if (niveauRetour() === 0) history.pushState({ garde: true, n: 1 }, "");
+  if (!aLaRacine() && niveauRetour() === 0 && !ignorerRetours) history.pushState({ garde: true, n: 1 }, "");
+}
+function desarmerRetour() {
+  const n = niveauRetour();
+  if (n > 0 && !ignorerRetours) { ignorerRetours++; history.go(-n); }
 }
 for (const evt of ["click", "keydown"])
-  document.addEventListener(evt, () => {
+  document.addEventListener(evt, e => {
+    if (aLaRacine() && !(e.target.closest && e.target.closest("label, [data-action]"))) return;
     for (let n = niveauRetour() + 1; n <= RESERVE_RETOUR; n++) history.pushState({ garde: true, n }, "");
   }, true);
 
@@ -51,24 +59,22 @@ function afficher(ecran, retour = false) {
     else if (!ECRANS_PASSAGE.includes(ecranActuel)) pileEcrans.push(ecranActuel);
   }
   ecranActuel = ecran;
-  armerRetour();
+  if (aLaRacine()) desarmerRetour(); else armerRetour();
 }
 
-// Depuis l'accueil : « Appuyez encore sur retour pour quitter » (2,5 s). Une appli ne peut pas se fermer elle-même
-// (window.close est refusé par le téléphone) : on retire les étapes « garde » pour que le 2e retour ferme l'appli.
-let ignorerRetours = 0, minuteurSortie = null;
-window.addEventListener("popstate", async () => {
-  if (ignorerRetours > 0) { ignorerRetours--; return; } // étapes retirées par l'appli elle-même
+window.addEventListener("popstate", () => {
+  if (ignorerRetours > 0) { // arrivée sur la page de départ après desarmerRetour
+    ignorerRetours--;
+    if (!aLaRacine()) armerRetour(); // entre-temps, un autre écran s'est ouvert
+    return;
+  }
+  if ($("dialogue").open) { $("dialogue-non").click(); armerRetour(); return; } // une question ouverte : retour = « non »
   if (ecranActuel === "chargement") { armerRetour(); toast("Patientez, lecture en cours…"); return; }
   if (ecranActuel === "recadrage") { armerRetour(); Recadrage.annuler(); return; } // l'appelant choisit l'écran suivant
   if (pileEcrans.length) { afficher(pileEcrans.pop(), true); return; }
-  // accueil : un 2e retour dans les 2,5 s ferme l'appli
-  if ($("dialogue").open) { $("dialogue-non").click(); armerRetour(); return; } // une question ouverte : retour = « non »
-  const reste = niveauRetour();
-  if (reste > 0) { ignorerRetours++; history.go(-reste); } // on descend à la page de départ : le prochain retour quitte
-  toast("Appuyez encore sur retour pour quitter.", 2500);
-  clearTimeout(minuteurSortie);
-  minuteurSortie = setTimeout(armerRetour, 2500); // pas de 2e retour : on reste dans l'appli
+  if (!aLaRacine()) { afficher(etat.classeur ? "accueil" : "fichier", true); return; }
+  // accueil avec des étapes restantes (case photo touchée puis appareil annulé) : on les retire, le retour suivant ferme
+  desarmerRetour();
 });
 
 function toast(texte, duree = 3500) {
