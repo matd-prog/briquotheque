@@ -334,3 +334,7 @@ Pour reprendre le 30/09 au matin :
   essai sur 14 photos : 10 bien cadrées, 4 laissées entières dont 2 déjà serrées). « ✂️ Recadrer le recto / le verso » :
   cadre à glisser et coins à tirer (départ = cadre trouvé), « Garder la photo entière », « Annuler ». Photo d'origine gardée
   pendant la saisie (Base.source) pour recadrer à nouveau ; décor et ressemblances recalculés après recadrage. Appli et mini-appli.
+- « ✂️ Recadrer les photos déjà prises (N blisters) » (30/09, demande de l'utilisateur) : sous la liste du recensement, recadre
+  une fois (champ recadre) recto et verso de chaque blister déjà recensé avec Base._cadreAuto ; photo laissée entière si le
+  blister n'est pas trouvé avec certitude ; irréversible (question avant). Photos d'album du dépôt privé (album_photos/blisters/)
+  non recadrées : les empreintes de décor de l'album ont été calculées dessus. Appli et mini-appli.

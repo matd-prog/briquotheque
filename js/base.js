@@ -399,7 +399,7 @@ const Base = {
           `Ajouter les ${garder.length} autre${pluriel(garder)}`, "Corriger d'abord"))) { viderDoublons(); return; }
       numeros = garder; n = garder.length;
     }
-    const commun = { nom, precision, numerote: !nonNumerote, serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
+    const commun = { recadre: true, nom, precision, numerote: !nonNumerote, serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
                      code, photo: this.photo, verso: this.verso, exporte: false };
     for (const numero of numeros)
       this.entrees.push({ ...commun, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
@@ -505,6 +505,11 @@ const Base = {
       : "Aucun blister recensé pour l'instant.";
     $("btn-base-exporter").hidden = !n;
     $("btn-base-vider").hidden = !this.entrees.some(e => e.exporte);
+    if ($("btn-base-recadrer-tout")) {
+      const n = this.entrees.filter(e => !e.recadre).length;
+      $("btn-base-recadrer-tout").hidden = !n;
+      $("btn-base-recadrer-tout").textContent = `✂️ Recadrer les photos déjà prises (${n} blister${n > 1 ? "s" : ""})`;
+    }
     if ($("base-vue-photos")) {
       $("base-vue-photos").classList.toggle("actif", this.vue === "photos");
       $("base-vue-compte").classList.toggle("actif", this.vue === "compte");
@@ -639,6 +644,36 @@ const Base = {
     return true;
   },
 
+  // Recadre sur le blister les photos déjà recensées (recto et verso), une seule fois par blister. Une photo où le
+  // blister n'est pas trouvé avec assez de certitude reste entière (« ✂️ » n'existe que pendant la saisie).
+  async recadrerTout() {
+    const liste = this.entrees.filter(e => !e.recadre);
+    if (!liste.length) return;
+    if (!(await demander(`Recadrer sur le blister les photos de ${liste.length} blister${liste.length > 1 ? "s" : ""} déjà recensé${liste.length > 1 ? "s" : ""} ?\n\n` +
+        "Les photos où le blister n'est pas trouvé avec certitude restent entières. Le recadrage ne peut pas être annulé.", "✂️ Recadrer", "Annuler"))) return;
+    let recto = 0, verso = 0, i = 0;
+    const couper = async blob => {
+      const cadre = this._cadreAuto(await createImageBitmap(blob));
+      return cadre ? this._reduire(blob, 0, cadre) : null;
+    };
+    for (const e of liste) {
+      $("base-etat").textContent = `Recadrage des photos… (${++i} sur ${liste.length})`;
+      try {
+        const r = e.photo && await couper(e.photo);
+        if (r) { e.photo = r; delete e.empreinte; recto++; }
+        const v = e.verso && await couper(e.verso);
+        if (v) { e.verso = v; verso++; }
+      } catch (err) { console.warn(err); }
+      e.recadre = true;
+      if (i % 20 === 0) await Memoire.ecrire(this.entrees, "base");
+    }
+    await Memoire.ecrire(this.entrees, "base");
+    $("base-etat").textContent = "";
+    this._afficherListe();
+    await demander(`Recadrage terminé : ${recto} recto${recto > 1 ? "s" : ""} et ${verso} verso${verso > 1 ? "s" : ""} recadrés.\n\n` +
+      `Les autres photos sont restées entières (blister déjà bien cadré, ou pas trouvé avec certitude).`, "OK", "Fermer");
+  },
+
   async vider() {
     const n = this.entrees.filter(e => e.exporte).length;
     if (!n || !(await demander(`Effacer du téléphone les ${n} blisters déjà exportés ? (le fichier exporté les garde)`))) return;
@@ -697,6 +732,7 @@ document.addEventListener("click", e => {
   else if (action === "base-autre") Base.autreExemplaire();
   else if (action === "base-passer-verso") Base.passerVerso();
   else if (action === "base-recadrer-recto") Base.recadrer("recto");
+  else if (action === "base-recadrer-tout") Base.recadrerTout();
   else if (action === "base-recadrer-verso") Base.recadrer("verso");
   else if (action === "base-recadrage-ok") Base.finRecadrage("ok");
   else if (action === "base-recadrage-entiere") Base.finRecadrage("entiere");
