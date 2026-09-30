@@ -3,7 +3,8 @@
 
 Lit les pages de catégories « Custom Minifigures » du site (en anglais), autorisées par
 leur robots.txt, et garde pour chaque figurine : code (JB-<numéro d'article>), nom,
-catégorie, lien de la page et adresse de la photo (la photo n'est pas copiée).
+catégorie, lien de la page, adresse de la photo (la photo n'est pas copiée) et prix de vente
+TTC en euros (figurine encore en vente : c'est son coût de rachat).
 Une page toutes les 2 secondes, pour ne pas surcharger le site.
 
 Utilisation : python3 outils/catalogue_jb.py
@@ -50,6 +51,11 @@ def figurines_de_la_page(page):
     images = {}
     for m in re.finditer(r'"urlMiddle":"(https:\\/\\/[^"]+?\\/item\\/images\\/(\d+)\\/middle\\/[^"]+)"', page):
         images.setdefault(int(m.group(2)), m.group(1).replace("\\/", "/"))
+    prix = {}  # prix de vente TTC : premier « prices.default.price » après l'identifiant de l'article
+    for m in re.finditer(r'"prices":\{"default":\{"price":\{"value":([\d.]+)', page):
+        avant = [i for pos, i in ids if pos < m.start()]
+        if avant:
+            prix.setdefault(avant[-1], m.group(1))
     for m in re.finditer(r'"texts":(\{[^{}]*"lang":"en"[^{}]*\})', page):
         avant = [i for pos, i in ids if pos < m.start()]
         if not avant:
@@ -65,6 +71,7 @@ def figurines_de_la_page(page):
             "nom": html.unescape(t.get("name1") or t.get("name2") or "").strip(),
             "lien": f"{SITE}/en/{t['urlPath']}/a-{ident}/",
             "image": images.get(ident, ""),
+            "prix": prix.get(ident, ""),
         }
     return res
 
@@ -103,9 +110,9 @@ def main():
     for ident, f in principale.items():
         catalogue.setdefault(ident, {**f, "categorie": "Autres"})
 
-    lignes = [f"#date {datetime.date.today().isoformat()}", "code\tnom\tcategorie\tlien\timage"]
+    lignes = [f"#date {datetime.date.today().isoformat()}", "code\tnom\tcategorie\tlien\timage\tprix"]
     for ident, f in sorted(catalogue.items(), key=lambda x: x[1]["nom"].lower()):
-        champs = [f"JB-{ident}", f["nom"], f["categorie"], f["lien"], f["image"]]
+        champs = [f"JB-{ident}", f["nom"], f["categorie"], f["lien"], f["image"], f.get("prix", "")]
         lignes.append("\t".join(c.replace("\t", " ").replace("\n", " ") for c in champs))
     with open(SORTIE, "w", encoding="utf-8") as fic:
         fic.write("\n".join(lignes) + "\n")

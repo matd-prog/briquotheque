@@ -9,11 +9,18 @@ const DEPOT_PRIVE = "matd-prog/collection-lego-prive";
 // jamais moins de cette part du prix LEGO d'origine
 const PART_RESTE_SET = 0.3;
 
+// Mots significatifs d'un nom de figurine custom (sans « custom minifigure », accents, ponctuation)
+function motsCustom(t) {
+  return new Set(normaliser(t).replace(/custom|minifig\w*|figurine|jb|spielwaren|mit|with|the|der|die|das|and|und/g, " ")
+    .replace(/[^a-z0-9 ]/g, " ").split(" ").filter(m => m.length > 2));
+}
+
 // « Les plus précieux », par catégorie
 const GROUPES_VALEUR = [
   ["🧍 Figurines les plus précieuses", d => d.type === "MINIFIG"],
   ["🧱 Sets les plus précieux", d => d.type === "SET"],
   ["🔑 Porte-clés et objets dérivés", d => d.type === "GEAR"],
+  ["🎨 Figurines customs (JB…)", d => d.type === "CUSTOM"],
   ["📦 Boîtes seules", d => d.type === "BOX"],
 ];
 
@@ -70,7 +77,9 @@ const Valeur = {
     const res = [];
     for (const [onglet, o] of Object.entries(etat.collection || {}))
       for (const c of o.cases)
-        if (c.code && !/^(JB|CUS|BSC|EBAY)-/i.test(c.code)) {
+        if (c.code && /^(JB|CUS|BSC|EBAY)-/i.test(c.code)) // figurine custom : pas sur BrickLink (prix JB ou prix d'achat)
+          res.push({ type: "CUSTOM", code: c.code.toUpperCase(), nom: c.nom, onglet, etat: "" });
+        else if (c.code) {
           // dans les onglets de figurines : aussi des sets (30612-1, packs) et des porte-clés ou objets (850353)
           const type = /^\d{4,7}-\d+$/.test(c.code) ? "SET" : /^\d{5,8}$/.test(c.code) ? "GEAR" : "MINIFIG";
           if (type === "MINIFIG" && codeInvalide(c.code)) continue;
@@ -114,7 +123,8 @@ const Valeur = {
   async envoyer() {
     if (!etat.classeur) { await demander("Ouvrez d'abord votre fichier Excel.", "OK", "Fermer"); return; }
     const articles = await this._articles();
-    const codes = [...new Set(articles.flatMap(a => [`${a.type} ${a.code}`, ...(a.figs || []).map(f => `MINIFIG ${f.code}`)]))].sort();
+    const codes = [...new Set(articles.filter(a => a.type !== "CUSTOM")
+      .flatMap(a => [`${a.type} ${a.code}`, ...(a.figs || []).map(f => `MINIFIG ${f.code}`)]))].sort();
     $("valeur-etat").textContent = `Envoi de la liste (${codes.length} articles)…`;
     try {
       // nombre d'articles à relever (pas encore de prix, ou prix trop ancien) : pour estimer l'avancement
@@ -350,6 +360,28 @@ const Valeur = {
       if (!fin || fin >= new Date().toISOString().slice(0, 10)) lego.set(code.toLowerCase(), parseFloat(prixLego));
     }
     const articles = await this._articles();
+    // Figurines customs : prix JB (encore en vente, catalogue de l'appli) sinon prix d'achat (achats.tsv du dépôt privé,
+    // relevé dans les reçus), rapproché par le nom
+    try { await CatalogueJB.charger(); } catch (e) { /* sans catalogue JB : prix d'achat seulement */ }
+    const achats = [];
+    const repAchats = await this._api("/contents/achats.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+    if (repAchats.ok) for (const l of (await repAchats.text()).split("\n").slice(1)) {
+      const [date, vendeur, source, article, , , ttc] = l.split("\t");
+      if (article && parseFloat(ttc) > 0) achats.push({ date, vendeur, source, article, prix: parseFloat(ttc), mots: motsCustom(article) });
+    }
+    const prixCustom = a => {
+      const jb = CatalogueJB.parCode && CatalogueJB.parCode.get(a.code);
+      if (jb && jb.prix && jb.source === "jb") return { v: jb.prix, source: "Prix JB Spielwaren (encore en vente)" };
+      const mots = motsCustom([a.nom, jb && jb.nom].filter(Boolean).join(" "));
+      let meilleur = null, score = 0;
+      for (const x of achats) {
+        const communs = [...x.mots].filter(m => mots.has(m)).length;
+        const r = communs / Math.max(1, Math.min(x.mots.size, 4));
+        if (r > score) { score = r; meilleur = x; }
+      }
+      if (meilleur && score >= 0.75) return { v: meilleur.prix, source: `Prix d'achat (${meilleur.vendeur}, ${new Date(meilleur.date).toLocaleDateString("fr-FR")})`, achat: meilleur.article };
+      return null;
+    };
     const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
     // Deux valeurs par article (prix BrickLink : ventes en Europe TVA comprise, sinon monde entier) :
     //  - rachat : ce que coûterait le rachat à neuf (prix neuf ; prix LEGO si le set est encore vendu ;
@@ -381,6 +413,14 @@ const Valeur = {
     let total = 0, totalOccasion = 0, date = "";
     const sans = [], parOnglet = {}, details = [];
     for (const a of articles) {
+      if (a.type === "CUSTOM") {
+        const c = prixCustom(a);
+        if (!c) { sans.push(a); continue; }
+        total += c.v; totalOccasion += c.v;
+        parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + c.v;
+        details.push({ ...a, v: c.v, vOccasion: c.v, unitaire: c.v, brut: c.v, sourceCustom: c.source, ventes: 0, neuf: true });
+        continue;
+      }
       const r = evaluer(a, true), o = evaluer(a, false);
       if (!r) { sans.push(a); continue; }
       if (r.date > date) date = r.date;
@@ -424,10 +464,10 @@ const Valeur = {
           if (!g.length) return "";
           const total = g.reduce((n, d) => n + d.v, 0);
           return `<div class="carte"><p class="sous-titre">${titre} : ${euros(total)} <span class="score">(${g.length})</span></p>
-            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.enVente ? " · prix LEGO (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente ? "" : ` · ${d.ventes} ventes`} · occasion ${euros(d.vOccasion)}</span></span><b>${euros(d.v)}</b></div>`).join("")}
+            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.sourceCustom ? ` · ${d.sourceCustom}` : d.enVente ? " · prix LEGO (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente || d.sourceCustom ? "" : ` · ${d.ventes} ventes · occasion ${euros(d.vOccasion)}`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
             ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
         }).join("")}
-        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix LEGO si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs non estimées. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
+        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix LEGO si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente, sinon prix d'achat retrouvé dans vos reçus. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;

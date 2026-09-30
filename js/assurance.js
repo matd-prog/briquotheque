@@ -6,9 +6,13 @@ const CATEGORIES_ASSURANCE = [
   ["Figurines", d => d.type === "MINIFIG"],
   ["Sets", d => d.type === "SET"],
   ["Objets dérivés et porte-clés", d => d.type === "GEAR"],
+  ["Figurines personnalisées (customs)", d => d.type === "CUSTOM"],
   ["Boîtes seules", d => d.type === "BOX"],
 ];
 const IMAGE_BRICKLINK = { MINIFIG: "MN", SET: "SN", GEAR: "GN", BOX: "ON" };
+// photo d'un article : BrickLink, ou pour une custom la photo du catalogue JB
+const photoArticle = d => d.type === "CUSTOM" ? ((CatalogueJB.parCode && (CatalogueJB.parCode.get(d.code) || {}).image) || "")
+  : `https://img.bricklink.com/ItemImage/${IMAGE_BRICKLINK[d.type]}/0/${encodeURIComponent(d.code)}.png`;
 
 const Assurance = {
   calcul: null,
@@ -23,6 +27,7 @@ const Assurance = {
   },
 
   _source(d) {
+    if (d.sourceCustom) return d.sourceCustom;
     if (d.enVente) return "Prix LEGO (encore en vente)";
     return `BrickLink, médiane de ${d.ventes || 0} vente(s) ${d.neuf ? "neuf" : "occasion (aucune vente neuve)"}, ` +
       (d.zone === "monde" ? "monde entier" : "Europe");
@@ -49,15 +54,15 @@ const Assurance = {
       return;
     }
     const { details, sans, total, totalOccasion, date } = this.calcul;
-    const customs = [];
-    for (const [onglet, o] of Object.entries(etat.collection || {}))
-      for (const c of o.cases) if (c.code && /^(JB|CUS|BSC|EBAY)-/i.test(c.code)) customs.push({ code: c.code, nom: c.nom, onglet });
+    // articles sans prix : LEGO sans vente récente, customs sans prix JB ni prix d'achat retrouvé
+    const customs = sans.filter(a => a.type === "CUSTOM");
+    const sansLego = sans.filter(a => a.type !== "CUSTOM");
     const photos = $("assurance-photos").checked;
     const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
     const jour = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
     const nbPieces = details.reduce((n, d) => n + (d.quantite || 1), 0);
     const ligne = d => `<tr>
-        ${photos ? `<td class="ph"><img src="https://img.bricklink.com/ItemImage/${IMAGE_BRICKLINK[d.type]}/0/${encodeURIComponent(d.code)}.png" alt="" loading="eager" onerror="this.remove()"></td>` : ""}
+        ${photos ? `<td class="ph">${photoArticle(d) ? `<img src="${echapper(photoArticle(d))}" alt="" loading="eager" onerror="this.remove()">` : ""}</td>` : ""}
         <td>${echapper(d.code)}</td><td>${echapper(d.nom || "")}${d.detail ? `<br><small>figurines du set ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}` +
           `${d.figsAilleurs ? ` ; ${d.figsAilleurs} figurine(s) inventoriée(s) dans « Figurines »` : ""}${d.sansFigs ? " ; set sans ses figurines" : ""}</small>` : ""}</td>
         <td>${echapper(this._etat(d))}</td><td class="n">${d.quantite || 1}</td><td class="n">${euros(d.unitaire)}</td>
@@ -91,14 +96,16 @@ const Assurance = {
           vente à l'état neuf, son prix d'occasion est retenu (indiqué dans la colonne « Source du prix »).
           Les figurines d'un set monté sont estimées <b>une à une</b> (elles valent souvent plus que le set lui-même), et le
           <b>reste du set</b> (briques, boîte, notice) à part : prix du set moins celui de ses figurines, sans jamais descendre
-          sous 30 % de son prix LEGO d'origine. Une figurine inventoriée dans la partie « Figurines » n'est pas comptée une
+          sous 30 % de son prix LEGO d'origine. Les <b>figurines personnalisées</b> (« customs », hors catalogue LEGO) sont
+          estimées à leur prix de vente chez leur fabricant (JB Spielwaren) si elles sont encore vendues, sinon à leur prix
+          d'achat justifié (reçu). Une figurine inventoriée dans la partie « Figurines » n'est pas comptée une
           seconde fois dans son set. À titre d'information, la colonne « Occasion » donne la valeur de revente d'occasion
           (même méthode, ventes d'occasion). Prix relevés le ${date ? new Date(date).toLocaleDateString("fr-FR") : jour}.
           Méthode détaillée, avec des exemples : <b>${echapper(new URL("methode.html", location.href).href)}</b></p>
         ${sections}
-        ${sans.length || customs.length ? `<h2>Articles non estimés</h2><p>${sans.length ? `${sans.length} article(s) sans vente récente connue sur BrickLink : ` +
-          echapper(sans.map(a => `${a.code}${a.nom ? ` (${a.nom})` : ""}`).join(", ")) + ". " : ""}${customs.length ? `${customs.length} figurine(s) personnalisée(s) ` +
-          `(« customs », hors catalogue LEGO), non estimées : ` + echapper(customs.map(c => c.nom || c.code).join(", ")) + "." : ""}</p>` : ""}
+        ${sans.length ? `<h2>Articles non estimés</h2><p>${sansLego.length ? `${sansLego.length} article(s) sans vente récente connue sur BrickLink : ` +
+          echapper(sansLego.map(a => `${a.code}${a.nom ? ` (${a.nom})` : ""}`).join(", ")) + ". " : ""}${customs.length ? `${customs.length} figurine(s) personnalisée(s) ` +
+          `(« customs », hors catalogue LEGO), plus vendues par leur fabricant et sans prix d'achat retrouvé : ` + echapper(customs.map(c => c.nom || c.code).join(", ")) + "." : ""}</p>` : ""}
         <h2>Attestation</h2>
         <p>Je soussigné(e) ${infos.nom ? echapper(infos.nom) : "………………………………"} certifie être propriétaire des articles ci-dessus,
           présents à mon domicile à la date du présent dossier.</p>

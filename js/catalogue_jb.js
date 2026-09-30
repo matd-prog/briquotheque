@@ -35,9 +35,10 @@ const CatalogueJB = {
           SOURCES_JB.forEach(({ source, codes }, i) => {
             for (const ligne of liste[i].split("\n")) {
               if (ligne.startsWith("#date ")) { if (source === "jb") this.date = ligne.slice(6).trim(); continue; }
-              const [code, nom, categorie, lien, image] = ligne.split("\t");
+              const [code, nom, categorie, lien, image, prix] = ligne.split("\t");
               if (!code || !codes.test(code) || this.parCode.has(code.toUpperCase())) continue;
-              const f = { code, nom, categorie, lien, image, source, ebay: source === "ebay",
+              // prix : prix de vente TTC relevé sur le site (figurine encore en vente), s'il est connu
+              const f = { code, nom, categorie, lien, image, prix: parseFloat(prix) || 0, source, ebay: source === "ebay",
                           recherche: normaliser(`${code} ${nom} ${categorie}`) };
               this.liste.push(f);
               this.parCode.set(code.toUpperCase(), f);
