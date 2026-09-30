@@ -36,7 +36,13 @@ const COLONNES_CUSTOMS_ACHETEES = [
   ["A", "Nom", 44], ["B", "Vendeur", 22], ["C", "Date d'achat", 12], ["D", "Prix payé (€)", 12], ["E", "Justificatif", 30],
   ["F", "Code JB", 14], ["G", "Remarques", 30], ["H", "Ajouté le", 11],
 ];
-const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS, ONGLET_OBJETS, ONGLET_CUSTOMS_ACHETEES];
+// Valeurs déclarées à la main (pièce signée, exemplaire exceptionnel…) : remplacent la valeur estimée de l'article
+const ONGLET_VALEURS_DECLAREES = "Valeurs déclarées";
+const COLONNES_VALEURS_DECLAREES = [
+  ["A", "Article (code ou nom)", 30], ["B", "Nom", 40], ["C", "Valeur déclarée (€)", 14], ["D", "Justification", 50], ["E", "Déclarée le", 11],
+  ["F", "Exemplaires concernés", 12],
+];
+const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS, ONGLET_OBJETS, ONGLET_CUSTOMS_ACHETEES, ONGLET_VALEURS_DECLAREES];
 // Onglets de thèmes (Simpsons, Harry Potter...) : créés par l'appli, même mise en page
 const ONGLETS_THEMES = TOUS_THEMES.map(t => t.onglet);
 const ONGLET_MODELE = "Gentils (vert)";
@@ -749,6 +755,29 @@ async function ajouterCustomsAchetees(cl, lignes, progression) {
       if (valeurs[j]) await cl.ecrireTexte(ONGLET_CUSTOMS_ACHETEES, COLONNES_CUSTOMS_ACHETEES[j][0] + row, String(valeurs[j]));
     if (progression && i % 25 === 0) progression(i + 1, lignes.length);
   }
+}
+
+// Valeurs déclarées : [{ row, cle, nom, valeur, justification, date }]
+async function lireValeursDeclarees(cl) {
+  if (!cl.aOnglet(ONGLET_VALEURS_DECLAREES)) return [];
+  const res = [];
+  for (const { row, cellules: c } of await cl.lignes(ONGLET_VALEURS_DECLAREES)) {
+    const valeur = parseFloat(String(c.C || "").replace(/\s/g, "").replace(",", "."));
+    if (row > 1 && c.A && valeur > 0) res.push({ row, cle: c.A, nom: c.B || "", valeur, justification: c.D || "", date: c.E || "",
+                                                exemplaires: parseInt(c.F, 10) || 1 });
+  }
+  return res;
+}
+
+// Déclare (ou remplace) la valeur d'un article ; valeur vide ou 0 : retire la déclaration
+async function declarerValeur(cl, { cle, nom, valeur, justification, exemplaires }) {
+  await cl.creerOngletSets(ONGLET_VALEURS_DECLAREES, COLONNES_VALEURS_DECLAREES);
+  if (!(await cl.valeur(ONGLET_VALEURS_DECLAREES, "F1"))) await cl.ecrireTexte(ONGLET_VALEURS_DECLAREES, "F1", COLONNES_VALEURS_DECLAREES[5][1]);
+  const existante = (await lireValeursDeclarees(cl)).find(v => v.cle.toLowerCase() === cle.toLowerCase());
+  const row = existante ? existante.row : (await cl.derniereLigne(ONGLET_VALEURS_DECLAREES)) + 1;
+  const valeurs = valeur > 0 ? [cle, nom || "", valeur.toFixed(2).replace(".", ","), justification || "", new Date().toLocaleDateString("fr-FR"),
+                                String(Math.max(1, exemplaires || 1))] : ["", "", "", "", "", ""];
+  for (let i = 0; i < valeurs.length; i++) await cl.ecrireTexte(ONGLET_VALEURS_DECLAREES, COLONNES_VALEURS_DECLAREES[i][0] + row, String(valeurs[i]));
 }
 
 async function ajouterObjet(cl, { code, nom, type, etat, quantite, remarques }) {

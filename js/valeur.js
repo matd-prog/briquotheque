@@ -491,7 +491,25 @@ const Valeur = {
     };
     let total = 0, totalOccasion = 0, date = "";
     const sans = [], parOnglet = {}, details = [];
+    // valeurs déclarées à la main (onglet « Valeurs déclarées ») : remplacent l'estimation, pour chaque exemplaire
+    const declarees = await lireValeursDeclarees(etat.classeur).catch(() => []);
+    const restants = new Map(declarees.map(d => [d, d.exemplaires])); // exemplaires encore à valoriser à la valeur déclarée
+    const declaree = a => {
+      const d = declarees.find(d => ((a.code && d.cle.toUpperCase() === a.code.toUpperCase()) ||
+        (a.nom && normaliser(d.cle) === normaliser(a.nom))) && restants.get(d) > 0);
+      if (d) restants.set(d, restants.get(d) - (a.quantite || 1));
+      return d;
+    };
     for (const a of articles) {
+      const dv = declaree(a);
+      if (dv) {
+        const v = dv.valeur * Math.min(a.quantite || 1, dv.exemplaires);
+        total += v; totalOccasion += v;
+        parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + v;
+        details.push({ ...a, v, vOccasion: v, unitaire: dv.valeur, brut: v, declaree: true, ventes: 0, neuf: true,
+                       sourceCustom: `✍️ valeur déclarée${dv.justification ? ` : ${dv.justification}` : ""}` });
+        continue;
+      }
       if (a.type === "CUSTOM") {
         const c = prixCustom(a);
         if (!c) { sans.push(a); continue; }
@@ -509,6 +527,59 @@ const Valeur = {
     }
     details.sort((x, y) => y.v - x.v);
     return { details, sans, total, totalOccasion, parOnglet, date };
+  },
+
+  // ✍️ Valeurs déclarées : liste et formulaire (article de la collection, valeur par exemplaire, justification)
+  _carteDeclarees(details, sans) {
+    const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+    const vus = new Map();
+    for (const a of [...details, ...sans]) {
+      const cle = a.code || a.nom;
+      if (cle && !vus.has(cle)) vus.set(cle, { cle, nom: a.nom || "", code: a.code || "", estim: a.declaree ? null : a.unitaire || null, declaree: a.declaree });
+    }
+    this._choixDeclarer = [...vus.values()];
+    const decl = details.filter(d => d.declaree);
+    const faites = [...new Map(decl.map(d => [d.code || d.nom, d])).values()];
+    return `<div class="carte"><p class="sous-titre">✍️ Valeurs déclarées${faites.length ? ` (${faites.length})` : ""}</p>
+      <p class="score">Pour une pièce exceptionnelle (signée, exemplaire rare…) : la valeur que vous déclarez remplace l'estimation.
+        Gardez une preuve (photo de la signature, certificat, annonce comparable).</p>
+      ${faites.map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)}${decl.filter(x => (x.code || x.nom) === (d.code || d.nom)).length > 1 ? ` ×${decl.filter(x => (x.code || x.nom) === (d.code || d.nom)).length}` : ""} <span class="score">${echapper(d.sourceCustom.replace(/^✍️ valeur déclarée :? ?/, ""))}</span></span>
+        <span><b>${euros(d.unitaire)}</b> <button class="petit" data-declaree-suppr="${echapper(d.code || d.nom)}" title="Retirer">✕</button></span></div>`).join("")}
+      <details id="declarer-bloc"><summary>➕ Déclarer une valeur</summary>
+        <label for="declarer-article" class="etiquette-champ">Article de la collection</label>
+        <input id="declarer-article" class="champ" list="declarer-liste" autocomplete="off" placeholder="Tapez le nom ou le code">
+        <datalist id="declarer-liste">${this._choixDeclarer.map(c => `<option value="${echapper(c.nom ? `${c.nom}${c.code ? ` (${c.code})` : ""}` : c.code)}">`).join("")}</datalist>
+        <label for="declarer-valeur" class="etiquette-champ">Valeur déclarée, par exemplaire (€)</label>
+        <input id="declarer-valeur" class="champ" inputmode="decimal" placeholder="ex. 250">
+        <label for="declarer-exemplaires" class="etiquette-champ">Nombre d'exemplaires concernés</label>
+        <input id="declarer-exemplaires" class="champ" inputmode="numeric" value="1">
+        <label for="declarer-justif" class="etiquette-champ">Justification</label>
+        <input id="declarer-justif" class="champ" autocomplete="off" placeholder="ex. signée par Paul Brooke, n° 12/50, certificat">
+        <button class="bouton vert" data-action="valeur-declarer">✔ Enregistrer la valeur déclarée</button>
+      </details></div>`;
+  },
+
+  async declarer() {
+    const texte = $("declarer-article").value.trim();
+    const choix = (this._choixDeclarer || []).find(c => texte === (c.nom ? `${c.nom}${c.code ? ` (${c.code})` : ""}` : c.code))
+      || (this._choixDeclarer || []).find(c => normaliser(c.nom) === normaliser(texte) || (c.code && c.code.toUpperCase() === texte.toUpperCase()));
+    const valeur = parseFloat($("declarer-valeur").value.replace(/\s/g, "").replace(",", "."));
+    if (!choix) { await demander("Choisissez l'article dans la liste proposée (tapez quelques lettres de son nom).", "OK", "Fermer"); return; }
+    if (!(valeur > 0)) { await demander("Indiquez une valeur en euros (ex. 250).", "OK", "Fermer"); return; }
+    await declarerValeur(etat.classeur, { cle: choix.code || choix.nom, nom: choix.nom, valeur, justification: $("declarer-justif").value.trim(),
+                                           exemplaires: parseInt($("declarer-exemplaires").value, 10) || 1 });
+    etat.nonEnregistres++;
+    await memoriser();
+    toast(`${choix.nom || choix.code} : ${valeur.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })} déclarés ✔ (pensez à enregistrer)`);
+    this.afficher();
+  },
+
+  async retirerDeclaree(cle) {
+    if (!(await demander(`Retirer la valeur déclarée de « ${cle} » ? L'article reprendra sa valeur estimée.`))) return;
+    await declarerValeur(etat.classeur, { cle, valeur: 0 });
+    etat.nonEnregistres++;
+    await memoriser();
+    this.afficher();
   },
 
   async afficher() {
@@ -536,6 +607,7 @@ const Valeur = {
         <div class="carte valeur-total"><div class="score">Coût de rachat à neuf de la collection</div><div class="montant">${euros(total)}</div>
           <div class="ligne-valeur"><span>Valeur d'occasion (revente)</span><b>${euros(totalOccasion)}</b></div>
           <div class="score">${details.length} article(s) valorisé(s)${sans.length ? ` · ${sans.length} sans prix pour l'instant` : ""}</div></div>
+        ${this._carteDeclarees(details, sans)}
         <div class="carte"><p class="sous-titre">Par onglet</p>
           ${Object.entries(parOnglet).sort((a, b) => b[1] - a[1]).map(([o, v]) => `<div class="ligne-valeur"><span>${echapper(o)}</span><b>${euros(v)}</b></div>`).join("")}</div>
         ${GROUPES_VALEUR.map(([titre, test]) => {
@@ -573,4 +645,9 @@ document.addEventListener("click", e => {
   else if (a === "valeur-doublons") Valeur.supprimerDoublons();
   else if (a === "valeur-boites") Valeur.corrigerBoites();
   else if (a === "valeur-customs") Valeur.ajouterCustoms();
+  else if (a === "valeur-declarer") Valeur.declarer();
+});
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-declaree-suppr]");
+  if (b) Valeur.retirerDeclaree(b.dataset.declareeSuppr);
 });
