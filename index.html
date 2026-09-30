@@ -142,11 +142,18 @@
     <p class="aide">Sur la page de la figurine : ⋮ → <b>Partager</b> → <b>Copier le lien</b>, puis collez-le ici. Le QR code de l'étiquette ouvrira cette page. Sans lien, l'étiquette n'aura pas de QR code.</p>
     <label for="custom-nom" class="etiquette-champ">Nom de la figurine</label>
     <input id="custom-nom" class="champ" autocomplete="off" placeholder="ex. CLONE TROOPER 501st">
-    <label for="custom-exemplaire" class="etiquette-champ">N° d'exemplaire (facultatif, séries limitées)</label>
-    <input id="custom-exemplaire" class="champ" autocomplete="off" placeholder="ex. 189/250">
     <p class="aide" id="custom-code"></p>
     <div class="apercu-etiquette" id="custom-apercu"></div>
     <div id="custom-alerte"></div>
+    <label class="case-a-cocher"><input type="checkbox" id="custom-non-numerote"> Non numérotée (pas de série limitée)</label>
+    <div id="custom-bloc-numeros">
+      <label for="custom-serie" class="etiquette-champ">Série limitée à</label>
+      <input id="custom-serie" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 250">
+      <label class="etiquette-champ" id="custom-numeros-titre">N° de l'exemplaire (écrit sur le blister)</label>
+      <div id="custom-numeros" class="grille-numeros">
+        <input id="custom-exemplaire" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 189">
+      </div>
+    </div>
     <p class="question">Ajouter à ma collection ?</p>
     <div class="oui-non">
       <button class="gros-bouton gris" data-action="non">Non</button>

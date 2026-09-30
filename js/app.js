@@ -304,6 +304,38 @@ function nomPourFichier(nom) {
 
 const STAR_WARS = "Star Wars";
 
+// Nombre d'exemplaires déjà dans la collection, et champ « combien en ajouter »
+function blocExemplaires(code, id) {
+  const deja = ouFigurine(code);
+  const onglets = [...new Set(deja.map(d => d.split(",")[0]))];
+  return `<div class="${deja.length ? "alerte" : "carte-info"}" id="${id}-deja">${deja.length
+      ? `📦 Vous en avez déjà <b>${deja.length} exemplaire${deja.length > 1 ? "s" : ""}</b> (${echapper(onglets.join(", "))}${deja.length <= 4 ? ` : ${echapper(deja.map(d => d.split("case ")[1]).join(", "))}` : ""}).`
+      : "✨ Nouvelle figurine : vous n'en avez pas encore."}</div>
+    <label class="etiquette-champ" for="${id}-nombre">Nombre d'exemplaires à ajouter</label>
+    <input id="${id}-nombre" class="champ" type="number" inputmode="numeric" min="1" max="99" value="1">`;
+}
+
+// Confirmation avant d'ajouter n exemplaires : doublon d'une figurine déjà enregistrée, ou vraiment plusieurs exemplaires ?
+async function confirmerExemplaires(code, nom, n) {
+  const deja = ouFigurine(code).length;
+  if (deja) return demander(`Vous avez déjà ${deja} exemplaire${deja > 1 ? "s" : ""} de « ${nom} ».\n\n` +
+    `Est-ce bien ${n > 1 ? `${n} exemplaires de plus` : "un exemplaire de plus"} que vous détenez (total ${deja + n}) ?\n\n` +
+    "Si c'est la même figurine déjà enregistrée, touchez « Annuler ».", `Oui, j'en ai ${deja + n}`, "Annuler");
+  if (n > 1) return demander(`Ajouter ${n} exemplaires de « ${nom} » ?`, `Oui, ${n} exemplaires`, "Annuler");
+  return true;
+}
+
+// Numéros d'exemplaire déjà enregistrés pour ce code (fin du nom : « … 189/250 ») : { "189/250": "Customs, case B3" }
+function numerosEnregistres(code) {
+  const c = code.toUpperCase(), res = {};
+  for (const o of Object.keys(etat.collection))
+    for (const cas of etat.collection[o].cases) {
+      const m = cas.code.toUpperCase() === c && /(\d{1,4}\/\d{1,4})\s*$/.exec(cas.nom || "");
+      if (m) res[m[1]] = `${o}, case ${cas.ref}`;
+    }
+  return res;
+}
+
 function ouFigurine(code) {
   const c = code.toUpperCase();
   const res = [];
@@ -380,7 +412,7 @@ function choisirCandidat(i) {
 
   const zone = $("zone-ajout");
   zone.innerHTML = `
-    ${deja.length ? `<div class="alerte">Déjà dans votre collection : ${echapper(deja.join(" ; "))}</div>` : ""}
+    ${blocExemplaires(cand.id, "ajout")}
     ${codeInvalide(cand.id) ? `<div class="alerte stop">Code « ${echapper(cand.id)} » : pas un vrai code BrickLink.</div>` : ""}
     <div class="apercu-etiquette" id="apercu"></div>
     <label class="etiquette-champ" for="choix-theme">Thème</label>
@@ -459,8 +491,8 @@ async function ajouter() {
     await demander(`« ${code} » n'est pas un vrai code BrickLink : impossible de créer un QR code fiable.`, "OK", "Fermer");
     return;
   }
-  const deja = ouFigurine(code);
-  if (deja.length && !(await demander(`Vous avez déjà cette figurine (${deja.join(" ; ")}).\n\nL'ajouter quand même ?`))) return;
+  const n = Math.min(99, Math.max(1, parseInt(($("ajout-nombre") || {}).value, 10) || 1));
+  if (!(await confirmerExemplaires(code, nom, n))) return;
 
   const couleur = couleurChoisie();
   $("texte-chargement").textContent = "Ajout dans le fichier…";
@@ -468,14 +500,22 @@ async function ajouter() {
   try {
     const choix = etat.theme === STAR_WARS ? { camp: etat.camp } : { theme: etat.theme };
     const nouvelOnglet = !etat.classeur.aOnglet(ongletChoisi());
-    const res = await ajouterFigurine(etat.classeur, { code, nom, ...choix });
-    etat.nonEnregistres++;
+    const cases = [];
+    let res;
+    for (let i = 0; i < n; i++) {
+      if (n > 1) $("texte-chargement").textContent = `Ajout dans le fichier… (${i + 1} sur ${n})`;
+      res = await ajouterFigurine(etat.classeur, { code, nom, ...choix });
+      cases.push(res.ref);
+      etat.nonEnregistres++;
+    }
     const octets = await memoriser();
     const ok = await verifierAjout(octets, { onglet: res.onglet, row: res.row, col: res.col, code });
     if (!ok) throw new Error("vérification après écriture échouée");
     await relireContenu();
-    $("texte-ok").textContent = `Ajoutée dans ${res.onglet}, case ${res.ref}` +
-      (nouvelOnglet ? " (nouvel onglet créé)" : res.nouvelleLigne ? " (nouvelle ligne créée)" : "");
+    const total = ouFigurine(code).length;
+    $("texte-ok").textContent = (n > 1 ? `${n} exemplaires ajoutés dans ${res.onglet}, cases ${cases.join(", ")}` : `Ajoutée dans ${res.onglet}, case ${res.ref}`) +
+      (nouvelOnglet ? " (nouvel onglet créé)" : res.nouvelleLigne ? " (nouvelle ligne créée)" : "") +
+      (total > 1 ? ` · ${total} exemplaires dans la collection` : "");
     const { w, h } = await dimensionsCase(etat.classeur, res.onglet, res.row, res.col);
     $("apercu-ok").innerHTML = "";
     $("apercu-ok").appendChild(dessinerEtiquette(code, couleur, w, h));
@@ -679,6 +719,9 @@ function ouvrirCustom(info) {
   $("custom-nom").value = "";
   $("custom-recherche").value = "";
   $("custom-exemplaire").value = "";
+  $("custom-serie").value = "";
+  $("custom-non-numerote").checked = false;
+  [...$("custom-numeros").querySelectorAll("input")].slice(1).forEach(c => c.remove());
   $("custom-resultats").innerHTML = "";
   $("custom-choisie").innerHTML = "";
   delete $("custom-nom").dataset.auto;
@@ -844,7 +887,11 @@ function afficherLectureBlister(texte, trouve, encadre) {
   $("btn-encadrer-nom").hidden = !photoBlister;
   // n° d'exemplaire : seulement s'il est lisible (il est souvent écrit à la main)
   const ex = exemplaireDansTexte(texte);
-  if (ex && encadre) $("custom-exemplaire").value = ex;
+  if (ex && encadre) {
+    const [numero, serie] = ex.split("/");
+    $("custom-exemplaire").value = numero || "";
+    if (serie) $("custom-serie").value = serie;
+  }
   if (res.length) {
     // le nom d'abord ; s'il n'est pas confirmé, les 3 décors les plus ressemblants ensuite
     const autres = confirme ? [] : decor.filter(d => !res.some(r => r.code === d.code)).slice(0, 3);
@@ -911,14 +958,33 @@ function majCustom() {
   if (propose && (!nom.value || nom.dataset.auto)) { nom.value = propose; nom.dataset.auto = "1"; }
   $("custom-code").textContent = `Code de l'étiquette : ${code}` +
     (code.startsWith("JB-") ? " (numéro d'article JB Spielwaren)" : lien ? "" : " — pas de lien : étiquette sans QR code");
-  const deja = ouFigurine(code);
-  $("custom-alerte").innerHTML = deja.length ? `<div class="alerte">Déjà dans votre collection : ${echapper(deja.join(" ; "))}</div>` : "";
+  const n = $("custom-nombre-nombre") ? $("custom-nombre-nombre").value : 1;
+  const nums = Object.keys(numerosEnregistres(code));
+  $("custom-alerte").innerHTML = blocExemplaires(code, "custom-nombre") +
+    (nums.length ? `<p class="score">N° déjà enregistrés : ${echapper(nums.join(", "))}</p>` : "");
+  $("custom-nombre-nombre").value = n;
+  $("custom-nombre-nombre").addEventListener("input", majNumerosCustom);
+  if (nums.length && !$("custom-serie").value) $("custom-serie").value = nums[0].split("/")[1];
+  majNumerosCustom();
   const onglet = etat.classeur.aOnglet(THEME_CUSTOMS.onglet) ? THEME_CUSTOMS.onglet : ONGLET_MODELE;
   dimensionsCase(etat.classeur, onglet, 1, 2).then(({ w, h }) => {
     $("custom-apercu").innerHTML = "";
     $("custom-apercu").appendChild(dessinerEtiquette(code, THEME_CUSTOMS.couleur, w, h, lien || null));
   });
 }
+
+// Un champ de numéro par exemplaire à ajouter ; « Non numérotée » les masque
+function majNumerosCustom() {
+  const zone = $("custom-numeros");
+  const n = Math.min(99, Math.max(1, parseInt(($("custom-nombre-nombre") || {}).value, 10) || 1));
+  const champs = [...zone.querySelectorAll("input")];
+  for (let i = champs.length; i < n; i++)
+    zone.insertAdjacentHTML("beforeend", `<input class="champ" inputmode="numeric" autocomplete="off" placeholder="n° ${i + 1}">`);
+  [...zone.querySelectorAll("input")].forEach((c, i) => { if (i >= n) c.remove(); });
+  $("custom-numeros-titre").textContent = n > 1 ? `N° des ${n} exemplaires (écrits sur les blisters)` : "N° de l'exemplaire (écrit sur le blister)";
+  $("custom-bloc-numeros").hidden = $("custom-non-numerote").checked;
+}
+$("custom-non-numerote").addEventListener("change", majNumerosCustom);
 
 // Recherche eBay.de d'une figurine JB par son nom (même forme que les liens de data/jb_ebay.tsv)
 function lienRechercheEbay(nom) {
@@ -942,23 +1008,48 @@ for (const id of ["custom-lien", "custom-nom"]) {
 async function ajouterCustom() {
   const lien = lienDansTexte($("custom-lien").value);
   const code = codeCustom(lien);
-  const exemplaire = $("custom-exemplaire").value.trim().replace(/\s*(?:of|sur|von)\s*/i, "/").replace(/\s+/g, "");
-  const nom = [$("custom-nom").value.trim(), exemplaire].filter(Boolean).join(" ");
+  // n° d'exemplaire : un par exemplaire ajouté, séparés par des virgules (ex. « 12/50, 31/50 »)
+  const nonNumerote = $("custom-non-numerote").checked;
+  const serie = $("custom-serie").value.trim().replace(/\D/g, "");
+  const numeros = nonNumerote ? [] : [...$("custom-numeros").querySelectorAll("input")].map(c => c.value.trim())
+    .flatMap(v => v.split(/[,;]/)).map(v => v.trim().replace(/\s*(?:of|sur|von)\s*/i, "/").replace(/\s+/g, "")).filter(Boolean)
+    .map(v => v.includes("/") ? v : serie ? `${v}/${serie}` : v);
   if (!$("custom-nom").value.trim()) { await demander("Donnez un nom à la figurine.", "OK", "Fermer"); return; }
-  const deja = ouFigurine(code);
-  if (deja.length && !(await demander(`Vous avez déjà cette figurine (${deja.join(" ; ")}).\n\nL'ajouter quand même ?`))) return;
+  const n = Math.min(99, Math.max(1, parseInt(($("custom-nombre-nombre") || {}).value, 10) || 1, numeros.length));
+  // blister numéroté : un numéro déjà enregistré est un doublon (le même blister), pas un exemplaire de plus
+  const deja = numerosEnregistres(code);
+  const num = x => x.split("/")[0];
+  const doublons = numeros.map(x => [x, Object.keys(deja).find(k => num(k) === num(x))]).filter(([, k]) => k).map(([x, k]) => `${x} (${deja[k]})`);
+  const tapesDeuxFois = numeros.filter((x, i) => numeros.findIndex(y => num(y) === num(x)) !== i);
+  if (doublons.length || tapesDeuxFois.length) {
+    await demander((doublons.length ? `Déjà enregistré : n° ${doublons.join(", ")}.\nC'est le même blister : il n'est pas ajouté une 2e fois.` : "") +
+      (tapesDeuxFois.length ? `${doublons.length ? "\n\n" : ""}N° tapé deux fois : ${tapesDeuxFois.join(", ")}.` : "") +
+      "\n\nCorrigez les numéros, puis réessayez.", "OK", "Fermer");
+    return;
+  }
+  if (!nonNumerote && numeros.length < n && !(await demander(`${n} exemplaire(s), mais ${numeros.length} numéro(s) tapé(s) : ` +
+      `les autres seront enregistrés sans numéro. Continuer ?`, "Continuer", "Annuler"))) return;
+  if (!(await confirmerExemplaires(code, $("custom-nom").value.trim(), n))) return;
+  const nomDe = i => [$("custom-nom").value.trim(), numeros[i] || (numeros.length === 1 && n === 1 ? numeros[0] : "")].filter(Boolean).join(" ");
   const onglet = THEME_CUSTOMS.onglet;
   const nouvelOnglet = !etat.classeur.aOnglet(onglet);
   $("texte-chargement").textContent = "Ajout dans le fichier…";
   $("photo-apercu").removeAttribute("src");
   afficher("chargement");
   try {
-    const res = await ajouterFigurine(etat.classeur, { code, nom, theme: onglet, lien });
-    etat.nonEnregistres++;
+    const cases = [];
+    let res;
+    for (let i = 0; i < n; i++) {
+      res = await ajouterFigurine(etat.classeur, { code, nom: nomDe(i), theme: onglet, lien });
+      cases.push(res.ref);
+      etat.nonEnregistres++;
+    }
     const octets = await memoriser();
     if (!(await verifierAjout(octets, { onglet, row: res.row, col: res.col, code }))) throw new Error("vérification après écriture échouée");
     await relireContenu();
-    $("texte-ok").textContent = `Ajoutée dans ${onglet}, case ${res.ref}` + (nouvelOnglet ? " (nouvel onglet créé)" : "");
+    const total = ouFigurine(code).length;
+    $("texte-ok").textContent = (n > 1 ? `${n} exemplaires ajoutés dans ${onglet}, cases ${cases.join(", ")}` : `Ajoutée dans ${onglet}, case ${res.ref}`) +
+      (nouvelOnglet ? " (nouvel onglet créé)" : "") + (total > 1 ? ` · ${total} exemplaires dans la collection` : "");
     const { w, h } = await dimensionsCase(etat.classeur, onglet, res.row, res.col);
     $("apercu-ok").innerHTML = "";
     $("apercu-ok").appendChild(dessinerEtiquette(code, THEME_CUSTOMS.couleur, w, h, lien || null));

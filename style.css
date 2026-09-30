@@ -233,3 +233,4 @@ a.proposition { color: inherit; text-decoration: none; }
 .recense-ok { color: var(--vert); font-weight: bold; }
 .grille-numeros { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
 .grille-numeros .champ { margin: 0; text-align: center; }
+.carte-info { background: #eef6ee; border-radius: 10px; padding: 10px 12px; margin: 8px 0; }
