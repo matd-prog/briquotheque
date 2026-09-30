@@ -3,6 +3,11 @@
 // (base.tsv + photos/) à intégrer ensuite à la base de l'appli, pour reconnaître ces blisters (nom et décor),
 // en particulier les anciennes éditions introuvables en ligne. Utilisable sans fichier Excel.
 
+// Figurine = nom imprimé + précision éventuelle (ex. « CHROME COLLECTION » + « Harley Quinn, chromée rose ») :
+// deux figurines de même nom imprimé mais de précision différente ne sont pas comptées ensemble
+const nomComplet = e => [e.nom, e.precision].filter(Boolean).join(" – ");
+const cleFigurine = (nom, precision) => normaliser([nom, precision].filter(Boolean).join(" "));
+
 const Base = {
   photo: null,     // photo en cours (Blob JPEG réduit, remis d'aplomb)
   codeLu: "",      // code de la figurine reconnue, s'il y en a une, et son nom (nomLu)
@@ -28,7 +33,7 @@ const Base = {
     for (const id of ["base-etape-verso", "base-verso-refaire", "base-autre"]) if ($(id)) $(id).hidden = true;
     $("base-fiche").hidden = true;
     $("base-etat").textContent = "";
-    for (const id of ["base-nom", "base-serie", "base-remarque", "base-numero"]) if ($(id)) $(id).value = "";
+    for (const id of ["base-nom", "base-precision", "base-serie", "base-remarque", "base-numero"]) if ($(id)) $(id).value = "";
     if ($("base-nombre")) { $("base-nombre").value = 1; this._grilleNumeros(); }
     if ($("base-non-numerote")) { $("base-non-numerote").checked = false; this._numerote(); }
     if ($("base-deja")) $("base-deja").textContent = "";
@@ -152,8 +157,9 @@ const Base = {
   // recensés, photos qui ressemblent), et n° tapés (déjà présents ou nouveaux)
   _deja() {
     const zone = $("base-identite");
-    const nom = normaliser($("base-nom").value.trim());
-    const code = this.codeLu && normaliser(this.nomLu) === nom ? this.codeLu : "";
+    const nomImprime = normaliser($("base-nom").value.trim());
+    const nom = cleFigurine($("base-nom").value.trim(), $("base-precision") ? $("base-precision").value.trim() : "");
+    const code = this.codeLu && normaliser(this.nomLu) === nomImprime ? this.codeLu : "";
     const f = code && CatalogueJB.trouver ? CatalogueJB.trouver(code) : null;
     const source = f => f.source === "jb" ? (f.epuisee ? "catalogue JB, épuisée" : "catalogue JB") : f.source === "album" ? "photo de collectionneur"
       : f.source === "brickshell" ? "retirée, brickshellcases" : f.source === "archive" ? "retirée, archives JB" : "retirée, vue sur eBay.de";
@@ -170,7 +176,9 @@ const Base = {
         `<p class="score">Sinon, c'est un blister nouveau pour la base : gardez le nom imprimé ; il enrichira la base commune à l'envoi 📤.</p>`;
     }
     // 2. votre collection
-    const memes = nom ? this.entrees.filter(e => normaliser(e.nom) === nom) : [];
+    const memes = nom ? this.entrees.filter(e => cleFigurine(e.nom, e.precision) === nom) : [];
+    const autresPrecisions = [...new Set(this.entrees.filter(e => normaliser(e.nom) === nomImprime && cleFigurine(e.nom, e.precision) !== nom)
+      .map(e => e.precision).filter(Boolean))];
     const nums = memes.map(e => e.numero).filter(Boolean);
     let aussi = "";
     try { // onglet « Customs » du fichier Excel (appli principale)
@@ -178,13 +186,18 @@ const Base = {
       if ($("base-excel-info")) $("base-excel-info").textContent = aussi
         ? `⚠️ Déjà ${aussi.replace(/\D+/g, " ").trim().split(" ")[0]} dans l'onglet Customs : les n° déjà présents ne sont pas ajoutés ; décochez si ce blister y est déjà sans numéro.` : "";
     } catch (e) { /* mini-appli : pas de fichier */ }
-    const confus = (this.semblables || []).filter(x => normaliser(x.e.nom) !== nom);
-    const confusNoms = [...new Map(confus.map(x => [normaliser(x.e.nom), x.e])).values()].slice(0, 3);
+    const confus = (this.semblables || []).filter(x => cleFigurine(x.e.nom, x.e.precision) !== nom);
+    const confusNoms = [...new Map(confus.map(x => [cleFigurine(x.e.nom, x.e.precision), x.e])).values()].slice(0, 3);
     const coll = (memes.length ? `<p>📦 <b>Dans votre collection : ${memes.length} exemplaire${memes.length > 1 ? "s" : ""}</b>${nums.length ? ` (n° ${echapper(nums.join(", "))})` : ""}${aussi}.</p>`
         : `<p>✨ <b>Pas encore dans votre collection</b>${aussi}.</p>`) +
-      (confusNoms.length ? `<p class="alerte">⚠️ Ressemble à votre blister ${confusNoms.map(e => `« ${echapper(e.nom)} »`).join(", ")} : même figurine sous un autre nom ? Vérifiez avant d'ajouter.</p>` : "");
+      (autresPrecisions.length ? `<p class="score">Même nom imprimé, autres figurines déjà recensées : ${echapper(autresPrecisions.join(" · "))}. Touchez-en une si c'est la même.</p>
+        <div class="suggestions">${autresPrecisions.map(x => `<button class="petit" data-base-precision="${echapper(x)}">${echapper(x)}</button>`).join("")}</div>` : "") +
+      (confusNoms.length ? `<p class="alerte">⚠️ Ressemble à votre blister ${confusNoms.map(e => `« ${echapper(nomComplet(e))} »`).join(", ")} : même figurine sous un autre nom ? Vérifiez avant d'ajouter.</p>` : "");
     if (zone) {
       zone.innerHTML = `<div class="carte">${jb}${coll}</div>`;
+      zone.querySelectorAll("[data-base-precision]").forEach(b => b.addEventListener("click", () => {
+        $("base-precision").value = b.dataset.basePrecision; this._deja();
+      }));
       zone.querySelectorAll("[data-base-decor]").forEach(b => b.addEventListener("click", () => {
         const x = (this.decor || [])[+b.dataset.baseDecor].f;
         const court = x.nom.replace(/\s*[-–]?\s*\bc[ou]s?t[ou]m\b.*$/i, "").replace(/\s+minifig\w*.*$/i, "").trim().toUpperCase();
@@ -200,8 +213,8 @@ const Base = {
   _etatNumeros() {
     const z = $("base-numeros-etat");
     if (!z) return;
-    const nom = normaliser($("base-nom").value);
-    const deja = new Set(this.entrees.filter(e => normaliser(e.nom) === nom).map(e => e.numero).filter(Boolean));
+    const nom = cleFigurine($("base-nom").value.trim(), $("base-precision") ? $("base-precision").value.trim() : "");
+    const deja = new Set(this.entrees.filter(e => cleFigurine(e.nom, e.precision) === nom).map(e => e.numero).filter(Boolean));
     const tapes = $("base-numeros") ? [...$("base-numeros").querySelectorAll("input")].map(c => c.value.trim()).filter(Boolean) : [];
     z.innerHTML = tapes.map((n, i) => deja.has(n) ? `<span class="recense-ecart">n° ${echapper(n)} déjà recensé</span>`
       : tapes.indexOf(n) !== i ? `<span class="recense-ecart">n° ${echapper(n)} tapé deux fois</span>`
@@ -221,29 +234,30 @@ const Base = {
     const numeros = $("base-numeros") ? [...$("base-numeros").querySelectorAll("input")].slice(0, n).map(c => c.value.trim())
       : [$("base-numero") ? $("base-numero").value.trim() : ""];
     while (numeros.length < n) numeros.push("");
-    const memes = this.entrees.filter(e => normaliser(e.nom) === normaliser(nom));
+    const precision = $("base-precision") ? $("base-precision").value.trim() : "";
+    const memes = this.entrees.filter(e => cleFigurine(e.nom, e.precision) === cleFigurine(nom, precision));
     const doublesSaisie = numeros.filter((x, i) => x && numeros.indexOf(x) !== i);
     const dejaLa = numeros.filter(x => x && memes.some(e => e.numero === x));
     if (doublesSaisie.length && !(await demander(`Le n° ${doublesSaisie.join(", ")} est tapé deux fois. Ajouter quand même ?`))) return;
-    if (dejaLa.length && !(await demander(`« ${nom} » n° ${dejaLa.join(", ")} est déjà recensé : sans doute le même blister compté deux fois. Ajouter quand même ?`))) return;
-    const commun = { nom, numerote: !nonNumerote, serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
+    if (dejaLa.length && !(await demander(`« ${nomComplet({ nom, precision })} » n° ${dejaLa.join(", ")} est déjà recensé : sans doute le même blister compté deux fois. Ajouter quand même ?`))) return;
+    const commun = { nom, precision, numerote: !nonNumerote, serie: $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
                      code, photo: this.photo, verso: this.verso, exporte: false };
     for (const numero of numeros)
       this.entrees.push({ ...commun, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
                           numero: nonNumerote ? "" : numero, date: new Date().toISOString() });
     await Memoire.ecrire(this.entrees, "base");
     const total = memes.length + n;
-    toast(`« ${nom} » : ${n > 1 ? `${n} exemplaires ajoutés` : "ajouté"} ✔ (${total} au total)`);
+    toast(`« ${nomComplet(commun)} » : ${n > 1 ? `${n} exemplaires ajoutés` : "ajouté"} ✔ (${total} au total)`);
     // appli principale : aussi dans l'onglet Customs du fichier Excel (case cochée)
     let compteExcel = "";
     if ($("base-excel") && $("base-excel").checked && !$("base-bloc-excel").hidden && typeof ajouterCustomsDepuisBase === "function")
-      compteExcel = await ajouterCustomsDepuisBase({ nom, code, numeros, serie: commun.serie.replace(/\D/g, ""), nonNumerote });
+      compteExcel = await ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie: commun.serie.replace(/\D/g, ""), nonNumerote });
     // on garde la figurine : « Autre exemplaire » ne demande que le numéro
-    this._precedent = { nom, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, serie: commun.serie,
+    this._precedent = { nom, precision, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, serie: commun.serie,
                         remarque: commun.remarque, nonNumerote };
     this._nouvelle();
     if (compteExcel) $("base-etat").textContent = compteExcel;
-    if ($("base-autre")) { $("base-autre").hidden = false; $("btn-base-autre").textContent = `Autre exemplaire de « ${nom} » : photographier`; }
+    if ($("base-autre")) { $("base-autre").hidden = false; $("btn-base-autre").textContent = `Autre exemplaire de « ${nomComplet(commun)} » : photographier`; }
     this._afficherListe();
   },
 
@@ -260,7 +274,7 @@ const Base = {
     } else Object.assign(this, { photo: p.photo, verso: p.verso, versoPasse: !p.verso, nomLu: p.nomLu, codeLu: p.codeLu });
     $("base-photo").src = URL.createObjectURL(this.photo);
     if (this.verso) { $("base-verso").src = URL.createObjectURL(this.verso); $("base-verso").hidden = false; }
-    $("base-nom").value = p.nom; $("base-serie").value = p.serie; $("base-remarque").value = p.remarque;
+    $("base-nom").value = p.nom; if ($("base-precision")) $("base-precision").value = p.precision || ""; $("base-serie").value = p.serie; $("base-remarque").value = p.remarque;
     if ($("base-non-numerote")) { $("base-non-numerote").checked = p.nonNumerote; this._numerote(); }
     $("base-fiche").hidden = false;
     $("base-etat").textContent = fichier ? "Même figurine : photographiez le verso, puis tapez le numéro de cet exemplaire."
@@ -288,7 +302,7 @@ const Base = {
       if (connus.has(v.id)) { deja++; continue; }
       const photo = zip.file(v.photo || `photos/${v.id}.jpg`), verso = v.verso && zip.file(v.verso);
       if (!photo) continue;
-      this.entrees.push({ id: v.id, nom: v.nom, numerote: v.numerote !== "non", numero: v.numero || "", serie: v.serie || "",
+      this.entrees.push({ id: v.id, nom: v.nom, precision: v.precision || "", numerote: v.numerote !== "non", numero: v.numero || "", serie: v.serie || "",
         remarque: v.remarque || "", code: v.code || "", date: v.date || new Date().toISOString(),
         photo: new Blob([await photo.async("arraybuffer")], { type: "image/jpeg" }),
         verso: verso ? new Blob([await verso.async("arraybuffer")], { type: "image/jpeg" }) : null, exporte: false });
@@ -314,7 +328,7 @@ const Base = {
 
   async supprimer(id) {
     const e = this.entrees.find(x => x.id === id);
-    if (!e || !(await demander(`Retirer « ${e.nom} » de la liste ?`))) return;
+    if (!e || !(await demander(`Retirer « ${nomComplet(e)} » de la liste ?`))) return;
     this.entrees = this.entrees.filter(x => x.id !== id);
     await Memoire.ecrire(this.entrees, "base");
     this._afficherListe();
@@ -335,7 +349,7 @@ const Base = {
     $("base-liste").innerHTML = this.entrees.slice().reverse().slice(0, 100).map(e => `
       <div class="fiche">
         <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="">
-        <div class="infos"><div class="nom-court">${echapper(e.nom)}</div>
+        <div class="infos"><div class="nom-court">${echapper(nomComplet(e))}</div>
           <div class="lieu">${echapper([e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
             e.verso ? "recto + verso" : "sans verso", e.origine === "album" && "d'après l'album photo", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
         ${e.verso ? "" : `<label class="petit" title="Ajouter le verso">📷 verso<input type="file" accept="image/*" capture="environment" data-base-verso="${e.id}" hidden></label>`}
@@ -348,7 +362,7 @@ const Base = {
       e.verso = await this._reduire(f, 0);
       e.exporte = false; // à renvoyer avec son verso
       await Memoire.ecrire(this.entrees, "base");
-      toast(`Verso de « ${e.nom} » ajouté ✔`);
+      toast(`Verso de « ${nomComplet(e)} » ajouté ✔`);
       this._afficherListe();
     }));
   },
@@ -357,8 +371,8 @@ const Base = {
   async _afficherCompte() {
     const groupes = new Map();
     for (const e of this.entrees) {
-      const k = normaliser(e.nom);
-      const g = groupes.get(k) || { nom: e.nom, numeros: [], notes: [], n: 0 };
+      const k = cleFigurine(e.nom, e.precision);
+      const g = groupes.get(k) || { nom: nomComplet(e), numeros: [], notes: [], n: 0 };
       g.n++; if (e.numero) g.numeros.push(e.numero); if (e.remarque) g.notes.push(e.remarque); groupes.set(k, g);
     }
     let achats = [];
@@ -420,11 +434,11 @@ const Base = {
   async exporter() {
     if (!this.entrees.length) return;
     const zip = new JSZip();
-    const lignes = ["id\tnom\tnumerote\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso"];
+    const lignes = ["id\tnom\tnumerote\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso\tprecision"];
     for (const e of this.entrees) {
       zip.file(`photos/${e.id}.jpg`, e.photo);
       if (e.verso) zip.file(`photos/${e.id}_verso.jpg`, e.verso);
-      lignes.push([e.id, e.nom, e.numerote === false ? "non" : "oui", e.numero, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`, e.verso ? `photos/${e.id}_verso.jpg` : ""].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
+      lignes.push([e.id, e.nom, e.numerote === false ? "non" : "oui", e.numero, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`, e.verso ? `photos/${e.id}_verso.jpg` : "", e.precision].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
     }
     zip.file("base.tsv", lignes.join("\n") + "\n");
     const contenu = await zip.generateAsync({ type: "blob" });
@@ -473,6 +487,7 @@ const Base = {
 if ($("base-non-numerote")) $("base-non-numerote").addEventListener("change", () => Base._numerote());
 if ($("base-nombre")) $("base-nombre").addEventListener("input", () => Base._grilleNumeros());
 if ($("base-nom")) $("base-nom").addEventListener("input", () => Base._deja());
+if ($("base-precision")) $("base-precision").addEventListener("input", () => Base._deja());
 if ($("base-numeros")) $("base-numeros").addEventListener("input", () => Base._etatNumeros());
 if ($("base-notes")) $("base-notes").addEventListener("click", e => {
   const b = e.target.closest("[data-note]");

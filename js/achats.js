@@ -74,7 +74,8 @@ const EcranAchats = {
   // demandé sur eBay.de, sans dépasser le prix JB si la figurine y est encore vendue ----------
   async _exemplaires() {
     const recense = ((await Memoire.lire("base")) || []).filter(e => e.nom);
-    if (recense.length) return { source: "recensement", liste: recense.map(e => ({ nom: e.nom, numero: e.numero || "", serie: e.serie || "", code: e.code || "", note: e.remarque || "" })) };
+    if (recense.length) return { source: "recensement", liste: recense.map(e => ({ nom: nomComplet(e), numero: e.numero || "", serie: e.serie || "", code: e.code || "", note: e.remarque || "",
+      groupe: e.precision ? cleFigurine(e.nom, e.precision) : "" })) };
     const liste = [];
     const onglet = etat.collection && etat.collection[THEME_CUSTOMS.onglet];
     for (const c of (onglet ? onglet.cases : [])) {
@@ -93,7 +94,7 @@ const EcranAchats = {
     const liste = tous.filter(e => !(e.numero && vendus.has(`${normaliser(nomCustomPourFichier(e.nom))}|${e.numero}`)));
     const groupes = new Map();
     for (const e of liste) {
-      const k = e.code ? e.code.toUpperCase() : normaliser(nomCustomPourFichier(e.nom));
+      const k = e.groupe || (e.code ? e.code.toUpperCase() : normaliser(nomCustomPourFichier(e.nom)));
       if (!groupes.has(k)) groupes.set(k, { nom: e.nom, code: e.code, ex: [] });
       groupes.get(k).ex.push(e);
     }

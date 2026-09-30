@@ -789,12 +789,12 @@ $("input-blister").addEventListener("change", async e => {
 
 // Ajout à l'onglet Customs depuis le recensement : un exemplaire par n° (« 44/150 »), n° déjà présents écartés.
 // Rend un compte rendu à afficher.
-async function ajouterCustomsDepuisBase({ nom, code, numeros, serie, nonNumerote }) {
+async function ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie, nonNumerote }) {
   if (!etat.classeur) return "";
   const f = code && CatalogueJB.trouver ? CatalogueJB.trouver(code) : null;
   const lien = f && f.lien ? f.lien : lienRechercheEbay(nom);
   const codeXL = codeCustom(lien);
-  const nomXL = f ? nomCustomPourFichier(f.nom) : nom.replace(/\w\S*/g, m => m[0] + m.slice(1).toLowerCase());
+  const nomXL = [f ? nomCustomPourFichier(f.nom) : nom.replace(/\w\S*/g, m => m[0] + m.slice(1).toLowerCase()), precision].filter(Boolean).join(" – ");
   const deja = numerosEnregistres(codeXL), num = x => x.split("/")[0];
   const liste = numeros.map(x => nonNumerote || !x ? "" : serie ? `${x}/${serie}` : x);
   const ecartes = liste.filter(x => x && Object.keys(deja).some(k => num(k) === num(x)));

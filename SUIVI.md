@@ -303,3 +303,8 @@ Pour reprendre le 30/09 au matin :
   avec étiquette) », cochée par défaut quand un fichier est ouvert (ajouterCustomsDepuisBase, js/app.js) : un exemplaire par n°,
   n° déjà présents dans Customs écartés, avertissement si la figurine y est déjà. Tuile 📚 renommée « Mes blisters recensés ».
   Perdus avec l'ancien chemin : indice Brickognize et encadrement manuel du nom (PaddleOCR lit désormais bien les noms).
+- Champ « Précision » (30/09, demande de l'utilisateur : blister « CHROME COLLECTION » = Harley Quinn chromée rose) : nom imprimé
+  + précision = la figurine (cleFigurine / nomComplet, js/base.js). Comptage, n° déjà recensés, « Par figurine », « À vendre »
+  (achats.js, champ groupe) et nom dans l'onglet Customs (« Chrome Collection – Harley Quinn, chromée rose 12/50 ») en tiennent
+  compte ; autres précisions déjà recensées pour le même nom imprimé proposées à toucher. Export .zip : colonne precision (à la fin).
+  La « Note particulière » (signée, Comic Con…) reste à part. Appli et mini-appli.
