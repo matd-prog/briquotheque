@@ -40,6 +40,9 @@
       <li>Les <b>figurines sont estimées une à une</b>, car elles valent souvent plus que le set entier.</li>
       <li>Un set garde une valeur pour ses <b>briques, sa boîte et sa notice</b>, même quand ses figurines valent plus que lui.</li>
       <li><b>Rien n'est compté deux fois.</b></li>
+      <li>Les <b>figurines personnalisées (customs)</b> : prix du fabricant si elles sont encore vendues ; épuisées, le plus haut
+        entre prix payé, dernier prix du fabricant et prix demandé sur eBay.de.</li>
+      <li>Une <b>valeur déclarée</b> (pièce signée, exemplaire rare) remplace l'estimation, avec sa justification.</li>
     </ul>
   </div>
 
@@ -135,14 +138,50 @@
   <h2>7. Mise à jour des prix</h2>
   <p>Les prix sont relevés automatiquement chaque mois, et à chaque demande depuis l'appli (« Envoyer ma liste »). Un prix
     BrickLink relevé depuis moins de 25 jours n'est pas redemandé ; les prix LEGO sont vérifiés chaque semaine. La date
-    des prix est indiquée dans l'appli et dans le dossier.</p>
+    des prix est indiquée dans l'appli et dans le dossier. Les prix et la disponibilité des customs JB Spielwaren, et les prix
+    demandés sur eBay.de, sont relevés à la demande.</p>
 
-  <h2>8. Les limites de l'estimation</h2>
+  <h2>8. Prix de revente et doubles à vendre</h2>
+  <p>Ces prix ne changent pas la valeur de la collection : ils servent à revendre les exemplaires en double.</p>
+  <ul>
+    <li><b>Prix de revente conseillé</b> (écran « Mes achats customs ») : le prix de vente qui rend le prix payé plus la marge
+      voulue, une fois retirés les frais de la plateforme de vente :<br>
+      <i>prix de revente = (prix payé × (1 + marge) + frais fixes) ÷ (1 − frais en %)</i>, arrondi à l'euro supérieur.
+      Les frais et la marge sont réglables (par défaut 11 % + 0,30 € de frais, 20 % de marge).</li>
+    <li><b>Prix demandé sur eBay.de</b> : prix du milieu des annonces à prix fixe en cours pour la même figurine (hors lots),
+      avec le nombre d'annonces. Ce sont des prix demandés, pas des ventes conclues : une seule annonce est un repère fragile.</li>
+    <li><b>Liste « À vendre »</b> : pour chaque figurine en plusieurs exemplaires (d'après le recensement des blisters), le
+      numéro le plus bas est gardé, ainsi que les exemplaires qui ont une note (signé, Comic Con…) ; les autres sont à vendre.
+      Prix proposé : le plus haut entre le prix de revente conseillé et le prix demandé sur eBay.de, sans dépasser le prix du
+      fabricant si la figurine y est encore vendue.</li>
+  </ul>
+  <div class="exemple">
+    <p><b>Exemple</b> : une figurine payée 21,25 € (port compris), frais 11 % + 0,30 €, marge 30 %.</p>
+    <table>
+      <tr><td>À récupérer : 21,25 € + 30 % + 0,30 €</td><td>27,93 €</td></tr>
+      <tr><td>Prix de vente : 27,93 € ÷ (1 − 11 %)</td><td>31,38 €</td></tr>
+      <tr class="total"><td>Prix de revente conseillé (arrondi)</td><td>32,00 €</td></tr>
+    </table>
+  </div>
+
+  <h2>9. Où voir chaque valeur dans l'appli</h2>
+  <ul>
+    <li><b>Valeur</b> : valeur de rachat à neuf de la collection (et d'occasion), par onglet et par catégorie ; pour chaque
+      article, la source du prix (BrickLink, prix LEGO, prix JB, prix d'achat, eBay.de, valeur déclarée).</li>
+    <li><b>Dossier assureur</b> : la même valeur, article par article avec sa source, et cette méthode.</li>
+    <li><b>Mes achats customs</b> : prix payé de chaque exemplaire, prix de revente conseillé, prix eBay.de, liste « À vendre ».</li>
+    <li><b>Consulter la base</b> : prix JB des figurines encore vendues, et « Épuisée chez JB (était à … €) ».</li>
+  </ul>
+
+  <h2>10. Les limites de l'estimation</h2>
   <ul>
     <li>C'est une <b>estimation</b> fondée sur le marché, pas une expertise article par article : l'état réel de chaque pièce
       (usure, pièce manquante) n'est pas vérifié.</li>
     <li>Pour un article très rare, peu de ventes existent : son prix est moins sûr (le nombre de ventes est indiqué dans le dossier).</li>
     <li>Les prix de collection évoluent : une estimation récente est plus fiable.</li>
+    <li>Les customs achetées en lot sans nom (vente en direct) sont comptées à leur prix payé tant qu'on ne sait pas quelle
+      figurine c'était ; une fois nommées, elles suivent la règle des customs.</li>
+    <li>Une valeur déclarée n'a de poids que si elle est justifiée (certificat, photo de la signature, vente comparable).</li>
   </ul>
 
   <p class="aide" style="margin-top: 26px">Sources : BrickLink (bricklink.com, historique des ventes des 6 derniers mois), Brickset

@@ -161,7 +161,7 @@ async function relireContenu() {
   etat.table = await lireTableCamps(etat.classeur);
   etat.collection = await lireCollection(etat.classeur);
   const nb = Object.values(etat.collection).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0);
-  $("fichier-info").textContent = `📗 ${etat.nomFichier} · ${nb} figurines`;
+  $("fichier-info").textContent = `📗 Ma collection · ${nb} figurines`; // le fichier Excel n'est qu'une sauvegarde : son nom n'est pas affiché
   majBandeau();
 }
 
@@ -1094,8 +1094,8 @@ function horodatage() {
 
 async function preparerEnregistrement() {
   const octets = await etat.classeur.enregistrer();
-  const base = etat.nomFichier.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\.xlsx$/i, "").replace(/_\d{4}-\d{2}-\d{2}_\d{2}h\d{2}$/, "");
-  const nom = `${base}_${horodatage()}.xlsx`;
+  // nom parlant, le même pour tout le monde : « Figotheque_ma_collection_<date>.xlsx » (sans date en enregistrement direct)
+  const nom = `${NOM_FICHIER}_${horodatage()}.xlsx`;
   const type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
   etat.dernierFichier = new File([octets], nom, { type });
   $("nom-save").textContent = nom;
@@ -1125,9 +1125,17 @@ async function preparerEnregistrement() {
 // Enregistrement direct dans un fichier choisi une fois avec la fenêtre d'enregistrement du téléphone
 // (File System Access) ; son « adresse » est gardée dans le téléphone pour les fois suivantes
 const ENREGISTREMENT_DIRECT = "showSaveFilePicker" in window;
+const NOM_FICHIER = "Figotheque_ma_collection";
 const nomSansDate = nom => nom.replace(/_\d{4}-\d{2}-\d{2}_\d{2}h\d{2}\.xlsx$/i, ".xlsx");
 async function enregistrerDirect(ailleurs) {
   let poignee = ailleurs ? null : await Memoire.lire("poignee");
+  // ancien fichier (ex. « etiquettes figurines LEGO … ») : on propose une fois d'enregistrer sous le nouveau nom ;
+  // l'ancien reste tel quel, en sauvegarde
+  if (poignee && !poignee.name.startsWith(NOM_FICHIER) && !(await Memoire.lire("renommage-propose"))) {
+    await Memoire.ecrire(true, "renommage-propose");
+    if (await demander(`Votre fichier s'appelle « ${poignee.name} ».\n\nL'enregistrer désormais sous un nom plus parlant, « ${NOM_FICHIER}.xlsx », ` +
+        "dans le dossier de votre choix ? L'ancien fichier reste tel quel, comme sauvegarde.", "Oui, renommer", "Garder l'ancien nom")) poignee = null;
+  }
   try {
     if (poignee && (await poignee.requestPermission({ mode: "readwrite" })) !== "granted") poignee = null;
     if (!poignee) {

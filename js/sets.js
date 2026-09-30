@@ -42,6 +42,16 @@ const CatalogueSets = {
     return this.sets.get(n) || this.sets.get(n + "-1") || null;
   },
 
+  // sets dont le nom (ou le thème) contient tous les mots tapés : les plus récents d'abord
+  chercherNom(texte, max = 30) {
+    const mots = normaliser(texte).split(/\s+/).filter(m => m.length >= 2);
+    if (!mots.length || !this.sets) return [];
+    const res = [];
+    for (const s of this.sets.values()) if (mots.every(m => s.recherche.includes(m))) res.push(s);
+    const dansNom = x => { const n = normaliser(x.nom); return mots.filter(m => n.includes(m)).length; }; // mots trouvés dans le nom d'abord
+    return res.sort((a, b) => dansNom(b) - dansNom(a) || (+b.annee || 0) - (+a.annee || 0) || (+b.pieces || 0) - (+a.pieces || 0)).slice(0, max);
+  },
+
   // autres versions du même numéro (75192-1, 75192-2…)
   versions(numero) {
     const n = (numero || "").trim().toLowerCase().replace(/-\d+$/, "");
@@ -69,7 +79,7 @@ const EcranSet = {
     $("set-info").textContent = "Chargement du catalogue des sets…";
     try {
       await Promise.all([CatalogueSets.charger(), Catalogue.charger().catch(() => {})]);
-      $("set-info").textContent = `Tapez le numéro du set (ex. 75192). Catalogue : ${CatalogueSets.sets.size.toLocaleString("fr-FR")} sets` +
+      $("set-info").textContent = `Tapez le numéro du set (ex. 75192) ou son nom (ex. étoile de la mort, millennium falcon). Catalogue : ${CatalogueSets.sets.size.toLocaleString("fr-FR")} sets` +
         (CatalogueSets.date ? ` (${new Date(CatalogueSets.date).toLocaleDateString("fr-FR")})` : "") + ".";
     } catch (e) {
       $("set-info").textContent = "Le catalogue des sets n'est pas encore disponible.";
@@ -81,6 +91,27 @@ const EcranSet = {
     const numero = $("set-numero").value;
     const versions = CatalogueSets.versions(numero);
     const s = CatalogueSets.trouver(numero);
+    // pas un numéro : recherche par le nom du set (en anglais dans le catalogue ; quelques noms français traduits)
+    if (!s && /[a-zà-ÿ]{2}/i.test(numero)) {
+      const trad = { "etoile de la mort": "death star", "faucon millenium": "millennium falcon", "faucon millennium": "millennium falcon",
+        "chasseur": "fighter", "croiseur": "destroyer", "chateau": "castle", "poudlard": "hogwarts", "bateau": "ship" };
+      let q = normaliser(numero);
+      for (const [fr, en] of Object.entries(trad)) q = q.replace(fr, en);
+      const res = CatalogueSets.chercherNom(q);
+      $("set-details").hidden = true;
+      $("set-fiche").innerHTML = res.length ? `<p class="aide">${res.length === 30 ? "30 premiers sets" : `${res.length} set(s)`} dont le nom contient « ${echapper(numero.trim())} » :</p>
+        <div class="grille">${res.map(x => `<button class="proposition" data-set="${echapper(x.code)}">
+          <img src="${urlImageSet(x.code)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+          <span class="nom-court">${echapper(x.nom)}</span>
+          <span class="code">${echapper(x.code)} <span class="score">· ${echapper([x.annee, x.pieces && `${x.pieces} pièces`].filter(Boolean).join(" · "))}</span></span>
+        </button>`).join("")}</div>` : `<p class="aide">Aucun set dont le nom contient « ${echapper(numero.trim())} ». Les noms du catalogue sont en anglais (ex. « Death Star », « Castle »).</p>`;
+      $("set-fiche").querySelectorAll("[data-set]").forEach(b => b.addEventListener("click", () => {
+        const x = CatalogueSets.trouver(b.dataset.set);
+        $("set-numero").value = x.code;
+        this.choisir(x, CatalogueSets.versions(x.code));
+      }));
+      return;
+    }
     if (!s) {
       $("set-fiche").innerHTML = numero.trim().length >= 3 ? `<p class="aide">Aucun set « ${echapper(numero.trim())} » dans le catalogue.</p>` : "";
       $("set-details").hidden = true;

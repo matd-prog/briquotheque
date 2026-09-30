@@ -66,7 +66,7 @@
     <p class="section-titre">Collection</p>
     <div class="tuiles">
       <button class="tuile" data-action="collection"><span class="icone">📖</span><b>Ma collection</b><small>Liste, planches, recherche</small></button>
-      <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Ajouter un set</b><small>Par son numéro</small></button>
+      <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Ajouter un set</b><small>Par son numéro ou son nom</small></button>
       <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
       <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base des blisters</b><small>Contribuer à la base JB</small></button>
       <button class="tuile" data-action="consulter"><span class="icone">🗂️</span><b>Consulter la base</b><small>Toutes les figurines JB</small></button>
@@ -250,7 +250,8 @@
       <label for="achats-marge" class="etiquette-champ">Marge voulue (% du prix payé)</label>
       <input id="achats-marge" class="champ" inputmode="decimal">
       <p class="aide">Vérifiez les frais actuels sur Whatnot (ou la plateforme où vous vendez). Le prix de revente conseillé
-        vous rend le prix payé plus la marge, une fois les frais retirés (arrondi à l'euro supérieur).</p>
+        vous rend le prix payé plus la marge, une fois les frais retirés (arrondi à l'euro supérieur).
+        <a href="methode.html">ℹ️ Toutes les méthodes de calcul</a></p>
     </details>
     <label class="case-a-cocher" id="achats-filtre" hidden><input type="checkbox" id="achats-doublons"> Seulement les figurines en plusieurs exemplaires</label>
     <div id="achats-liste"></div>
@@ -277,8 +278,8 @@
 
   <!-- Sets LEGO (js/sets.js) : numéro -> fiche, état, boîte, notice, figurines -> onglet « Sets » -->
   <section id="ecran-set" class="ecran" hidden>
-    <label for="set-numero" class="etiquette-champ">🧱 Numéro du set LEGO</label>
-    <input id="set-numero" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 75192">
+    <label for="set-numero" class="etiquette-champ">🧱 Numéro ou nom du set LEGO</label>
+    <input id="set-numero" class="champ" type="search" autocomplete="off" placeholder="ex. 75192 ou death star">
     <p class="aide" id="set-info"></p>
     <label class="bouton gris">📥 Importer une liste de sets (fichier Excel)
       <input type="file" id="input-import-sets" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
