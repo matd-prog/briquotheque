@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Méthode d'estimation · Figothèque</title>
+<meta name="theme-color" content="#d01012">
+<link rel="icon" href="icones/figotheque-192.png">
+<link rel="stylesheet" href="style.css">
+<style>
+  .methode { max-width: 760px; margin: 0 auto; line-height: 1.55; }
+  .methode h2 { font-size: 19px; margin: 26px 0 8px; border-bottom: 2px solid var(--rouge); padding-bottom: 4px; }
+  .methode p, .methode li { font-size: 16px; }
+  .methode ul { padding-left: 22px; }
+  .methode .exemple { background: #fff; border-left: 5px solid var(--vert); border-radius: 8px; padding: 10px 14px; margin: 12px 0; }
+  .methode .exemple table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  .methode .exemple td { padding: 3px 4px; border-bottom: 1px solid #eee; }
+  .methode .exemple td:last-child { text-align: right; white-space: nowrap; }
+  .methode .exemple tr.total td { font-weight: bold; border-top: 2px solid #999; border-bottom: 0; }
+  .methode .resume { background: #fff; border-radius: 10px; padding: 12px 16px; }
+  .methode .resume li { margin: 4px 0; }
+  .methode .retour { display: inline-block; margin: 6px 0 2px; }
+  @media print { .retour { display: none; } header { background: #fff; color: #000; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Figothèque</h1>
+  <div class="fichier-info">Comment est estimée la valeur de la collection</div>
+</header>
+<main class="methode">
+  <a class="retour" href="./" onclick="if (history.length > 1) { history.back(); return false; }">← Retour à l'appli</a>
+
+  <div class="resume">
+    <p><b>En résumé</b></p>
+    <ul>
+      <li>La collection est estimée à <b>ce que coûterait son rachat, au jour de l'estimation</b>.</li>
+      <li>Les prix viennent des <b>ventes réellement conclues</b> sur BrickLink ces <b>6 derniers mois</b>, en Europe, TVA comprise.
+        Pour un set encore vendu par LEGO, c'est son <b>prix LEGO</b>.</li>
+      <li>Les <b>figurines sont estimées une à une</b>, car elles valent souvent plus que le set entier.</li>
+      <li>Un set garde une valeur pour ses <b>briques, sa boîte et sa notice</b>, même quand ses figurines valent plus que lui.</li>
+      <li><b>Rien n'est compté deux fois.</b></li>
+    </ul>
+  </div>
+
+  <h2>1. Le principe : la valeur de rachat</h2>
+  <p>La question posée est simple : <b>si toute la collection disparaissait aujourd'hui, combien coûterait-il pour la
+    racheter à l'identique ?</b> C'est la valeur utile pour une assurance (valeur de remplacement). Elle est calculée à la
+    date indiquée dans l'appli et dans le dossier, car les prix de la collection évoluent avec le temps.</p>
+  <p>L'appli donne aussi, pour information, la <b>valeur d'occasion</b> : ce qu'on retirerait en revendant la collection,
+    ou ce que coûterait son rachat d'occasion. Elle est calculée de la même façon, avec les prix d'occasion.</p>
+
+  <h2>2. D'où viennent les prix</h2>
+  <p><b>BrickLink</b> est la plus grande place de marché de LEGO au monde : des milliers de vendeurs y vendent figurines,
+    sets et objets LEGO, neufs ou d'occasion. Chaque article y a une référence unique (par exemple <i>sw0841</i> pour une
+    figurine, <i>75192-1</i> pour un set), celle qui figure dans votre fichier.</p>
+  <ul>
+    <li><b>Les prix de ventes réellement conclues</b> sont retenus, pas les prix affichés par les vendeurs, qui peuvent être
+      exagérés.</li>
+    <li><b>Sur les 6 derniers mois</b>, pour refléter le marché actuel.</li>
+    <li><b>En Europe, TVA comprise</b>, en euros : c'est le prix qu'un acheteur français paie réellement. Pour un article
+      rare qui ne s'est pas vendu en Europe, les ventes du monde entier sont utilisées (c'est signalé).</li>
+    <li><b>Le prix du milieu (la médiane)</b> est retenu : la moitié des exemplaires se sont vendus plus cher, la moitié moins
+      cher. Une vente anormale (un lot, un set incomplet, une affaire ou un prix excessif) ne fausse donc pas l'estimation,
+      comme le ferait une moyenne.</li>
+    <li><b>Prix neuf</b> pour la valeur de rachat. Si un article ne s'est jamais vendu neuf ces 6 derniers mois, son prix
+      d'occasion est retenu à la place (c'est signalé).</li>
+  </ul>
+  <p><b>Sets encore vendus par LEGO</b> : ils sont estimés à leur <b>prix de vente public LEGO</b>, puisque c'est ce que coûterait
+    leur rachat. L'information (prix LEGO en euros, dates de sortie et de fin de vente) vient de <b>Brickset</b>, la base de
+    référence des collectionneurs. Un set est considéré comme encore vendu tant que sa fin de commercialisation n'est pas
+    passée.</p>
+
+  <h2>3. Les figurines : estimées une à une</h2>
+  <p>Chaque figurine a son propre prix de marché. C'est souvent elle qui fait la valeur d'un set : une figurine rare ou
+    exclusive peut valoir à elle seule plus que tout le set dont elle vient. Dans la collection étudiée, sur 48 sets dont
+    toutes les figurines ont un prix, <b>10 avaient des figurines qui valent plus que le set entier</b>.</p>
+
+  <h2>4. Les sets montés : figurines + reste du set</h2>
+  <p>Estimer un set monté d'après le seul prix d'un set complet le sous-estime souvent, car ce prix est tiré vers le bas
+    par des sets revendus incomplets ou sans leurs figurines. Un set est donc estimé en deux parties :</p>
+  <ul>
+    <li><b>ses figurines</b>, une à une, au prix du marché ;</li>
+    <li><b>le reste du set</b> (briques, boîte, notice) : le prix du set <b>moins</b> la valeur de ses figurines. Quand les figurines
+      valent presque autant que le set, ou plus, ce reste ne descend jamais sous <b>30 % du prix LEGO d'origine</b> du set :
+      les briques, la boîte et la notice gardent toujours une valeur.</li>
+  </ul>
+  <div class="exemple">
+    <p><b>Exemple</b> : un set qui se vend 40 €, dont les 4 figurines valent 55 € à elles seules ; il coûtait 50 € chez LEGO à sa sortie.</p>
+    <table>
+      <tr><td>Figurines, une à une</td><td>55,00 €</td></tr>
+      <tr><td>Reste du set : 40 € − 55 € est négatif, donc le minimum de 30 % × 50 €</td><td>15,00 €</td></tr>
+      <tr class="total"><td>Valeur retenue pour le set</td><td>70,00 €</td></tr>
+    </table>
+    <p>Avec le seul prix du set, il aurait été estimé 40 €.</p>
+  </div>
+  <div class="exemple">
+    <p><b>Autre exemple</b> : un set encore vendu 999,99 € chez LEGO, dont les figurines valent 546 €.</p>
+    <table>
+      <tr><td>Figurines, une à une</td><td>546,00 €</td></tr>
+      <tr><td>Reste du set : 999,99 € − 546,00 €</td><td>453,99 €</td></tr>
+      <tr class="total"><td>Valeur retenue pour le set</td><td>999,99 €</td></tr>
+    </table>
+  </div>
+
+  <h2>5. Rien n'est compté deux fois</h2>
+  <p>Quand une figurine d'un set est aussi rangée dans les onglets de figurines de la collection, elle est comptée <b>une
+    seule fois</b>, avec les figurines. Elle est alors déduite du set, qui ne compte plus que son reste (briques, boîte, notice).
+    Chaque exemplaire ne sert qu'une fois : si vous avez deux fois la même figurine, les deux sont comptées. Les lignes en
+    double dans l'onglet des sets sont signalées par l'appli pour être supprimées.</p>
+
+  <h2>6. Les autres cas</h2>
+  <ul>
+    <li><b>Sets neufs scellés</b> : prix des ventes de sets neufs (ou prix LEGO s'ils sont encore vendus). Leurs figurines, encore
+      dans la boîte, ne sont pas estimées à part.</li>
+    <li><b>Figurines des séries à collectionner</b> (Simpsons, Disney, Looney Tunes…) : prix de chaque figurine.</li>
+    <li><b>Objets dérivés LEGO</b> (porte-clés, porte-clés lumineux, magnets…) : prix BrickLink, neuf ou d'occasion selon leur état.</li>
+    <li><b>Figurines personnalisées (« customs »)</b>, par exemple celles de JB Spielwaren : elles ne sont pas des produits LEGO et
+      n'ont pas de prix de marché fiable ; elles sont listées mais <b>non estimées</b>.</li>
+    <li><b>Articles sans aucune vente</b> sur 6 mois : listés à part, sans valeur.</li>
+  </ul>
+
+  <h2>7. Mise à jour des prix</h2>
+  <p>Les prix sont relevés automatiquement chaque mois, et à chaque demande depuis l'appli (« Envoyer ma liste »). Un prix
+    BrickLink relevé depuis moins de 25 jours n'est pas redemandé ; les prix LEGO sont vérifiés chaque semaine. La date
+    des prix est indiquée dans l'appli et dans le dossier.</p>
+
+  <h2>8. Les limites de l'estimation</h2>
+  <ul>
+    <li>C'est une <b>estimation</b> fondée sur le marché, pas une expertise article par article : l'état réel de chaque pièce
+      (usure, pièce manquante) n'est pas vérifié.</li>
+    <li>Pour un article très rare, peu de ventes existent : son prix est moins sûr (le nombre de ventes est indiqué dans le dossier).</li>
+    <li>Les prix de collection évoluent : une estimation récente est plus fiable.</li>
+  </ul>
+
+  <p class="aide" style="margin-top: 26px">Sources : BrickLink (bricklink.com, historique des ventes des 6 derniers mois), Brickset
+    (brickset.com, prix de vente LEGO et dates de commercialisation). Estimation calculée par l'appli Figothèque.</p>
+  <a class="retour" href="./" onclick="if (history.length > 1) { history.back(); return false; }">← Retour à l'appli</a>
+</main>
+</body>
+</html>

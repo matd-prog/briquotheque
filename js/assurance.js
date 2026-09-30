@@ -93,7 +93,8 @@ const Assurance = {
           <b>reste du set</b> (briques, boîte, notice) à part : prix du set moins celui de ses figurines, sans jamais descendre
           sous 30 % de son prix LEGO d'origine. Une figurine inventoriée dans la partie « Figurines » n'est pas comptée une
           seconde fois dans son set. À titre d'information, la colonne « Occasion » donne la valeur de revente d'occasion
-          (même méthode, ventes d'occasion). Prix relevés le ${date ? new Date(date).toLocaleDateString("fr-FR") : jour}.</p>
+          (même méthode, ventes d'occasion). Prix relevés le ${date ? new Date(date).toLocaleDateString("fr-FR") : jour}.
+          Méthode détaillée, avec des exemples : <b>${echapper(new URL("methode.html", location.href).href)}</b></p>
         ${sections}
         ${sans.length || customs.length ? `<h2>Articles non estimés</h2><p>${sans.length ? `${sans.length} article(s) sans vente récente connue sur BrickLink : ` +
           echapper(sans.map(a => `${a.code}${a.nom ? ` (${a.nom})` : ""}`).join(", ")) + ". " : ""}${customs.length ? `${customs.length} figurine(s) personnalisée(s) ` +
