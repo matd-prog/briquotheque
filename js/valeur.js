@@ -7,7 +7,10 @@ const DEPOT_PRIVE = "matd-prog/collection-lego-prive";
 
 // Reste d'un set monté (briques, boîte, notice) quand ses figurines valent presque autant que le set, ou plus :
 // jamais moins de cette part du prix LEGO d'origine
-const PART_RESTE_SET = 0.3;
+// (0,3 jusqu'au 30/09/2026 ; test sur 57 sets : vendus sans figurines sur eBay.de à 62 % du prix LEGO en médiane)
+const PART_RESTE_SET = 0.5;
+// part retenue du prix demandé sur eBay.de pour un set sans figurines (prix demandé -> prix de vente réel)
+const PART_EBAY_SANS_FIGS = 0.85;
 
 // Mots significatifs d'un nom de figurine custom (sans « custom minifigure », accents, ponctuation)
 function motsCustom(t) {
@@ -393,6 +396,13 @@ const Valeur = {
     }
     lots.sort((x, y) => x - y);
     const prixLot = lots.length ? lots[Math.floor(lots.length / 2)] : 0; // médiane : prix habituel d'une custom sur Whatnot
+    // sets vendus sans leurs figurines sur eBay.de (prix_ebay_sets.tsv, outils/prix_ebay_sets.py) : au moins 2 annonces
+    const sansFigsEbay = new Map();
+    const repSets = await this._api("/contents/prix_ebay_sets.tsv", { headers: { Accept: "application/vnd.github.raw" } }).catch(() => null);
+    if (repSets && repSets.ok) for (const l of (await repSets.text()).split("\n").slice(1)) {
+      const [code, n, , med] = l.split("\t");
+      if (code && +n >= 2 && +med > 0) sansFigsEbay.set(code.toLowerCase(), { n: +n, med: +med });
+    }
     // prix demandés sur eBay.de (prix_ebay.tsv, outils/prix_ebay_jb.py) : coût de rachat d'une custom qu'on ne trouve plus chez JB
     const ebay = [];
     const repEbay = await this._api("/contents/prix_ebay.tsv", { headers: { Accept: "application/vnd.github.raw" } }).catch(() => null);
@@ -481,10 +491,14 @@ const Valeur = {
         // PART_RESTE_SET du prix LEGO d'origine : briques, boîte et notice gardent une valeur)
         const pf = f => { const q = prix.get(`MINIFIG ${f.code}`); return lirePrix(q, rachat) || lirePrix(q, !rachat); };
         const figsSet = a.figs.reduce((n, f) => n + pf(f) * f.quantite, 0);
-        const reste = Math.max(v - figsSet, PART_RESTE_SET * (prixOrigine.get(a.code.toLowerCase()) || v));
+        const eb = sansFigsEbay.get(a.code.toLowerCase());
+        const resteEbay = eb ? PART_EBAY_SANS_FIGS * eb.med : 0;
+        // set encore vendu par LEGO : son rachat coûte le prix LEGO, figurines comprises (pas de minimum pour le reste)
+        const reste = enVente ? v - figsSet
+          : Math.max(v - figsSet, PART_RESTE_SET * (prixOrigine.get(a.code.toLowerCase()) || v), resteEbay);
         const figsIci = a.sansFigs ? 0 : a.figs.reduce((n, f) => n + pf(f) * (f.quantite * qte - f.ailleurs), 0);
         v = reste * qte + figsIci;
-        detail = { figsSet, reste, figsIci };
+        detail = { figsSet, reste, figsIci, resteEbay: resteEbay && reste === resteEbay ? eb : null };
       } else v = v * qte;
       return { v, unitaire, detail, neuf, enVente: !!enVente, date: p ? p.date : "",
                ventes: p ? (neuf ? p.neuf_ventes : p.occasion_ventes) : 0, zone: p ? (neuf ? p.neuf_zone : p.occasion_zone) || "" : "" };
@@ -615,7 +629,7 @@ const Valeur = {
           if (!g.length) return "";
           const total = g.reduce((n, d) => n + d.v, 0);
           return `<div class="carte"><p class="sous-titre">${titre} : ${euros(total)} <span class="score">(${g.length})</span></p>
-            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.sourceCustom ? ` · ${d.sourceCustom}` : d.enVente ? " · prix LEGO (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente || d.sourceCustom ? "" : ` · ${d.ventes} ventes · occasion ${euros(d.vOccasion)}`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
+            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.sourceCustom ? ` · ${d.sourceCustom}` : d.enVente ? " · prix LEGO (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.detail.resteEbay ? ` (d'après ${d.detail.resteEbay.n} annonces eBay.de sans figurines)` : ""}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente || d.sourceCustom ? "" : ` · ${d.ventes} ventes · occasion ${euros(d.vOccasion)}`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
             ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
         }).join("")}
         ${(() => { // customs sans prix : pour comprendre pourquoi (code, nom)

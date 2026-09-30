@@ -175,7 +175,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   releve-en-cours (commit sans historique) : total en direct dans l'appli, article par article (cadran retiré le 30/09 à la demande de l'utilisateur : inutile).
 - Méthode (demandée par l'utilisateur le 29/09) : figurines d'un set monté estimées une à une (prix du marché
   BrickLink), plus le reste du set = prix du set (LEGO si encore vendu, sinon BrickLink) moins ses figurines, jamais
-  moins de 30 % du prix LEGO d'origine (PART_RESTE_SET, js/valeur.js). Figurine déjà dans les onglets de figurines :
+  moins de 50 % du prix LEGO d'origine (PART_RESTE_SET, 30 % avant le 30/09), ni moins de 85 % du prix eBay.de du set sans figurines (prix_ebay_sets.tsv, outils/prix_ebay_sets.py, 2 annonces au moins) ; set encore vendu par LEGO : prix LEGO, sans minimum. Figurine déjà dans les onglets de figurines :
   comptée là, pas dans le set. Sur 48 sets chiffrés, 10 avaient des figurines valant plus que le set.
 - Customs JB (30/09) : prix de vente JB (data/jb.tsv, colonne prix, relevée par outils/catalogue_jb.py) si encore en
   vente, sinon prix d'achat (achats.tsv du dépôt privé, relevé dans Gmail avec l'accord de l'utilisateur : confirmations

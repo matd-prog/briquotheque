@@ -96,7 +96,7 @@ const Assurance = {
           vente à l'état neuf, son prix d'occasion est retenu (indiqué dans la colonne « Source du prix »).
           Les figurines d'un set monté sont estimées <b>une à une</b> (elles valent souvent plus que le set lui-même), et le
           <b>reste du set</b> (briques, boîte, notice) à part : prix du set moins celui de ses figurines, sans jamais descendre
-          sous 30 % de son prix LEGO d'origine. Les <b>figurines personnalisées</b> (« customs », hors catalogue LEGO) sont
+          sous 50 % de son prix LEGO d'origine, ni sous 85 % du prix demandé sur eBay.de pour ce set vendu sans figurines (deux annonces au moins). Les <b>figurines personnalisées</b> (« customs », hors catalogue LEGO) sont
           estimées à leur prix de vente chez leur fabricant (JB Spielwaren) si elles sont encore vendues ; épuisées, au plus haut
           entre leur prix d'achat justifié, frais de port compris (reçus, historique d'achats Whatnot), leur dernier prix chez le
           fabricant et le prix demandé sur eBay.de (au moins deux annonces) ; à défaut, au prix habituel d'une custom
