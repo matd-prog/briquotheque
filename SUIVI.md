@@ -315,3 +315,5 @@ Pour reprendre le 30/09 au matin :
   custom -> écran custom, recherche -> recherche) + « Retour à l'accueil » ; recensement : retour en haut de l'écran après l'ajout.
 - « Enregistrer le mot de passe ? » (Chrome, 30/09) : venait du champ du jeton GitHub (type="password", écran Valeur). Passé en
   champ texte masqué par CSS (-webkit-text-security), sans saisie automatique : Chrome ne le voit plus comme un mot de passe.
+- Photos de collectionneur aussi dans l'écran « 🎨 Figurine custom » (résultats et fiche choisie) : Consulter.completerPhotos
+  (img[data-ma-photo], photo de l'album lue dans le dépôt privé). Capture de l'utilisateur : « Junkyard Fatty » sans image.

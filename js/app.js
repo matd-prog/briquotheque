@@ -750,10 +750,11 @@ function chercherJB() {
 function afficherResultatsJB(res) {
   $("custom-resultats").innerHTML = res.map((f, i) => `
     <button class="proposition" data-jb="${i}">
-      <img src="${echapper(f.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+      ${f.image ? `<img src="${echapper(f.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<img data-ma-photo="${echapper(f.code)}" alt="">`}
       <span class="nom-court">${echapper(f.nom)}</span>
       <span class="score">${echapper(f.ebay ? "Retirée · eBay.de" : f.source === "brickshell" ? "Retirée · brickshellcases" : f.source === "archive" ? "Retirée · archives" : f.source === "album" ? "Photo de collectionneur" : f.categorie)}</span>
     </button>`).join("");
+  if (typeof Consulter !== "undefined") Consulter.completerPhotos($("custom-resultats"));
   $("custom-resultats").querySelectorAll("[data-jb]").forEach(b => b.addEventListener("click", () => choisirJB(res[+b.dataset.jb])));
 }
 
@@ -767,10 +768,11 @@ function choisirJB(f) {
   $("custom-recherche").value = "";
   $("custom-choisie").innerHTML = `
     <div class="fiche">
-      <img class="photo" src="${echapper(f.image)}" alt="" onerror="this.style.visibility='hidden'">
+      ${f.image ? `<img class="photo" src="${echapper(f.image)}" alt="" onerror="this.style.visibility='hidden'">` : `<img class="photo" data-ma-photo="${echapper(f.code)}" alt="">`}
       <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.ebay ? "retirée de la vente, vue sur eBay.de" : f.source === "brickshell" ? `${f.code} · plus en vente chez JB, vendue par brickshellcases.com` : f.source === "archive" ? `${f.code} · plus en vente, retrouvée dans les archives du site JB` : f.code)}</div></div>
       ${liensFiche(f.lien, f.ebay ? "Chercher sur eBay.de" : "Voir la page")}
     </div>`;
+  if (typeof Consulter !== "undefined") Consulter.completerPhotos($("custom-choisie"));
   majCustom();
 }
 

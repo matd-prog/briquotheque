@@ -96,6 +96,12 @@ const Consulter = {
     } catch (err) { console.warn(err); return ""; }
   },
 
+  // Images vides (blisters de collectionneur, sans photo publique) : remplies avec vos photos d'album
+  completerPhotos(racine) {
+    for (const img of (racine || document).querySelectorAll("img[data-ma-photo]:not([src])"))
+      this.maPhoto(img.dataset.maPhoto).then(url => { if (url) { img.src = url; img.style.visibility = ""; } });
+  },
+
   // Photos du dépôt privé : téléchargées une à une avec le jeton (pas d'adresse publique)
   async _chargerImages() {
     for (const img of $("consulter-liste").querySelectorAll("img[data-photo]:not([src])")) {
