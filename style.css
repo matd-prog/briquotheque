@@ -250,3 +250,10 @@ a.proposition { color: inherit; text-decoration: none; }
 /* champs désactivés (ex. « Non numérotée » : n° et série) : bien visibles comme grisés */
 .champ:disabled { background: #e6e6e6; color: #999; border-color: #d0d0d0; }
 .grise { color: #aaa; }
+/* recensement : recto et verso côte à côte */
+.recto-verso { display: flex; gap: 8px; }
+.recto-verso .photo-apercu { flex: 1 1 0; min-width: 0; }
+.base-liste .fiche img.photo { width: 54px; height: 54px; }
+.base-liste .fiche img.photo.verso { margin-left: -8px; }
+.base-liste .fiche .infos { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.base-liste .fiche { gap: 8px; }

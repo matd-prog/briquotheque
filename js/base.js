@@ -525,7 +525,8 @@ const Base = {
     $("base-liste").innerHTML = (q ? `<p class="aide">${liste.length} blister${liste.length > 1 ? "s" : ""} trouvé${liste.length > 1 ? "s" : ""}.</p>` : "") +
       liste.slice(0, q ? 300 : 100).map(e => `
       <div class="fiche" data-fiche="${e.id}">
-        <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="">
+        <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="Recto">
+        ${e.verso ? `<img class="photo verso" src="${URL.createObjectURL(e.verso)}" alt="Verso">` : ""}
         <div class="infos"><div class="nom-court">${echapper(nomComplet(e))}</div>
           <div class="lieu">${echapper([e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
             e.verso ? "recto + verso" : "sans verso", e.origine === "album" && "d'après l'album photo", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>

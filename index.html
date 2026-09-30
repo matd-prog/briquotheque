@@ -317,7 +317,10 @@
       <button class="bouton-lien" data-action="base-autre">ou garder la même photo (plus rapide)</button>
     </div>
     <p class="aide" id="base-etat"></p>
-    <img id="base-photo" class="photo-apercu" alt="Photo du blister">
+    <div class="recto-verso">
+      <img id="base-photo" class="photo-apercu" alt="Recto du blister">
+      <img id="base-verso" class="photo-apercu" alt="Verso du blister" hidden>
+    </div>
     <div class="suggestions" id="base-recadrer-boutons" hidden>
       <button class="petit" data-action="base-recadrer-recto">✂️ Recadrer le recto</button>
       <button class="petit" data-action="base-recadrer-verso" id="btn-recadrer-verso" hidden>✂️ Recadrer le verso</button>
@@ -346,7 +349,6 @@
       <label for="base-precision" class="etiquette-champ">Précision : personnage, couleur… (si le nom imprimé ne suffit pas)</label>
       <input id="base-precision" class="champ" autocomplete="off" placeholder="ex. Harley Quinn, chromée rose">
       <div id="base-identite"></div>
-      <img id="base-verso" class="photo-apercu" alt="Verso du blister" hidden>
       <label class="bouton gris" id="base-verso-refaire" hidden>📷 Refaire la photo du verso
         <input type="file" id="input-base-verso2" accept="image/*" capture="environment" hidden></label>
       <p class="score" id="base-deja"></p>

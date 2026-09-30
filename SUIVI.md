@@ -348,3 +348,5 @@ Pour reprendre le 30/09 au matin :
   corrigerNumeroCustoms dans js/app.js). Appli et mini-appli.
 - « Non numérotée » (30/09) : cases n° et série grisées (fond gris, libellés gris, état des n° masqué), valeurs gardées
   (décocher les retrouve) mais ignorées à l'ajout (série vidée) ; même grisage dans la fiche ✏️ de modification. Appli et mini-appli.
+- Recto et verso côte à côte (30/09, demande de l'utilisateur) : en haut de l'écran de recensement (.recto-verso), dès que le verso
+  est pris ; dans la liste, deux vignettes (recto, verso). Appli et mini-appli.
