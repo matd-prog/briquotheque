@@ -8,6 +8,7 @@ const REGLAGES_REVENTE = { frais: 11, fixe: 0.3, marge: 20 }; // Whatnot : commi
 
 const EcranAchats = {
   achats: [],
+  propositions: new Map(), // n° de commande Whatnot -> { figurine, code, confiance, photos } (propositions_lots.tsv du dépôt privé)
   vue: "nommer",
   ouvert: null,   // ligne en cours de nommage
   choix: null,    // figurine du catalogue JB choisie { nom, code }
@@ -23,7 +24,28 @@ const EcranAchats = {
     $("achats-frais").value = r.frais; $("achats-fixe").value = r.fixe; $("achats-marge").value = r.marge;
     afficher("achats");
     CatalogueJB.charger().catch(() => {});
+    await this._chargerPropositions();
     await this.lister();
+  },
+
+  // Propositions de noms pour les achats en lot, retrouvées d'après les photos et captures des ventes en direct
+  async _chargerPropositions() {
+    try {
+      Valeur.jeton = Valeur.jeton || await Memoire.lire("jeton-github");
+      if (!Valeur.jeton) return;
+      const rep = await Valeur._api("/contents/propositions_lots.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+      if (!rep.ok) return;
+      this.propositions = new Map();
+      for (const l of (await rep.text()).split("\n").slice(1)) {
+        const [vente, figurine, code, photos, commande, , , confiance] = l.split("\t");
+        if (commande && figurine) this.propositions.set(commande, { vente, figurine, code, photos, confiance: (confiance || "").split(" (")[0] });
+      }
+    } catch (err) { console.warn(err); }
+  },
+
+  proposition(a) {
+    const m = /(\d{6,})/.exec(a.justificatif || "");
+    return m ? this.propositions.get(m[1]) : null;
   },
 
   estLot: a => /^Custom JB \(lot/.test(a.nom),
@@ -46,11 +68,11 @@ const EcranAchats = {
   _prix: v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" }),
 
   _listerLots(lots) {
-    lots.sort((a, b) => b.prix - a.prix || a.row - b.row);
+    lots.sort((a, b) => !!this.proposition(b) - !!this.proposition(a) || b.prix - a.prix || a.row - b.row);
     $("achats-liste").innerHTML = lots.length ? `<p class="aide">Du plus cher au moins cher. Retrouvez la commande dans l'appli Whatnot
       (Profil › Achats, à la date indiquée), puis touchez la ligne pour donner le nom de la figurine.</p>` +
       lots.map(a => `<div class="achat" data-achat="${a.row}">
-        <div class="ligne-valeur"><span>${echapper(a.date)} · <span class="score">${echapper(a.justificatif)}</span></span><b>${this._prix(a.prix)}</b></div>
+        <div class="ligne-valeur"><span>${echapper(a.date)} · <span class="score">${echapper(a.justificatif)}</span>${this.proposition(a) ? `<br>💡 ${echapper(this.proposition(a).figurine)} <span class="score">(${echapper(this.proposition(a).confiance)})</span>` : ""}</span><b>${this._prix(a.prix)}</b></div>
         ${this.ouvert === a.row ? this._editeur() : ""}</div>`).join("")
       : `<p class="aide">Tous vos achats ont un nom ✔</p>`;
     $("achats-liste").querySelectorAll("[data-achat] > .ligne-valeur").forEach(l => l.addEventListener("click", () => {
@@ -59,7 +81,14 @@ const EcranAchats = {
       this._listerLots(this.achats.filter(this.estLot));
       if (this.ouvert) $("achat-nom").focus();
     }));
-    if (this.ouvert) this._brancherEditeur();
+    if (this.ouvert) {
+      this._brancherEditeur();
+      const a = this.achats.find(x => x.row === this.ouvert), p = a && this.proposition(a);
+      if (p) {
+        this._afficherSuggestions([{ nom: p.figurine.replace(/\s*\(.*\)\s*$/, "").toUpperCase(), code: p.code && /^JB-/.test(p.code) ? p.code : "" }]);
+        $("achat-etat").textContent = `💡 Proposition d'après vos captures de la vente du ${p.vente} (${p.confiance}, photos ${p.photos}) : touchez-la pour la choisir.`;
+      }
+    }
   },
 
   _editeur() {
