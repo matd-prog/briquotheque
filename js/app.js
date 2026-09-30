@@ -529,21 +529,32 @@ const nomSerie = c => c.replace(/^Collectible Minifigures\s*\/\s*/i, "🎁 Minif
 // Toutes les figurines d'une série (toutes années), avec le bouton pour les ajouter d'un coup
 function afficherSerie(categorie, figs) {
   figs = figs || Catalogue.liste.filter(f => f.categorie === categorie).sort((a, b) => a.code.localeCompare(b.code, "en", { numeric: true }));
+  // série à collectionner : seulement les figurines (pas le trophée ou le socle vendus avec)
+  if (/^Collectible Minifigures/i.test(categorie) && figs.some(f => /^col/i.test(f.code))) figs = figs.filter(f => /^col/i.test(f.code));
   afficherResultatsRecherche(figs, `${nomSerie(categorie)} : ${figs.length} figurines. Touchez-en une, ou ajoutez toute la série.`);
-  $("recherche-serie").innerHTML = `<button class="gros-bouton vert">➕ Ajouter toute la série (${figs.length} figurines)</button>`;
-  $("recherche-serie").firstElementChild.addEventListener("click", () => ajouterSerie(categorie, figs));
+  $("recherche-serie").innerHTML = `<label for="serie-nombre" class="etiquette-champ">Nombre de séries complètes que vous avez</label>
+    <input id="serie-nombre" class="champ" type="number" inputmode="numeric" min="1" max="50" value="1">
+    <button class="gros-bouton vert" id="serie-ajouter">➕ Ajouter toute la série (${figs.length} figurines)</button>`;
+  $("serie-nombre").addEventListener("input", () => {
+    const n = Math.max(1, parseInt($("serie-nombre").value, 10) || 1);
+    $("serie-ajouter").textContent = n > 1 ? `➕ Ajouter ${n} séries complètes (${n * figs.length} figurines)` : `➕ Ajouter toute la série (${figs.length} figurines)`;
+  });
+  $("serie-ajouter").addEventListener("click", () => ajouterSerie(categorie, figs, Math.max(1, parseInt($("serie-nombre").value, 10) || 1)));
   $("recherche-serie").scrollIntoView({ behavior: "smooth" });
 }
 
 // Ajoute d'un coup les figurines d'une série qui ne sont pas encore dans la collection
-async function ajouterSerie(categorie, figs) {
+async function ajouterSerie(categorie, figs, series = 1) {
   const prep = figs.map(f => EcranSet._preparer({ nom: f.nom, quantite: 1, ressemblance: 1 }, f.code, true)).filter(f => f.code);
-  const nouvelles = prep.filter(f => !f.deja.length);
+  // n séries complètes : chaque figurine en n exemplaires, en comptant ceux déjà dans la collection
+  const nouvelles = prep.flatMap(f => Array(Math.max(0, series - f.deja.length)).fill(f));
   const onglets = [...new Set(nouvelles.map(f => f.onglet))];
-  if (!nouvelles.length) { await demander("Toutes les figurines de cette série sont déjà dans votre collection.", "OK", "Fermer"); return; }
-  if (!(await demander(`Ajouter ${nouvelles.length} figurine(s) de « ${nomSerie(categorie)} » ` +
+  const deja = prep.reduce((n, f) => n + Math.min(series, f.deja.length), 0);
+  if (!nouvelles.length) { await demander(series > 1 ? `Vous avez déjà ${series} exemplaires de chaque figurine de cette série.` :
+    "Toutes les figurines de cette série sont déjà dans votre collection.", "OK", "Fermer"); return; }
+  if (!(await demander(`Ajouter ${nouvelles.length} figurine(s) de « ${nomSerie(categorie)} »${series > 1 ? ` (${series} séries complètes)` : ""} ` +
       `dans l'onglet ${onglets.map(o => `« ${o} »`).join(", ")} ?` +
-      (prep.length > nouvelles.length ? `\n\n${prep.length - nouvelles.length} déjà dans votre collection : pas ajoutée(s).` : ""), "Ajouter", "Annuler"))) return;
+      (deja ? `\n\n${deja} exemplaire(s) déjà dans votre collection : pas ajouté(s).` : ""), "Ajouter", "Annuler"))) return;
   afficher("chargement");
   const ajoutees = [];
   try {
