@@ -816,6 +816,9 @@ document.addEventListener("click", e => {
 
 Base._installerRecadrage();
 
+// Appui long sur une photo : pas de menu du navigateur (copier, télécharger, partager l'image)
+document.addEventListener("contextmenu", e => { if (e.target.closest && e.target.closest("img, .recadrage-zone")) e.preventDefault(); });
+
 // Champs « nombre » (exemplaires, séries, quantité) : 1 affiché par défaut ; au toucher, le champ se vide (le 1 reste
 // visible en grisé) pour taper directement le bon nombre ; laissé vide, il reprend sa valeur d'avant.
 document.addEventListener("focusin", e => {

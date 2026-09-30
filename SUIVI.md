@@ -353,3 +353,5 @@ Pour reprendre le 30/09 au matin :
 - Vocabulaire (30/09, choix de l'utilisateur) : « recensement » remplacé par « base de blisters » dans tout ce qui s'affiche
   (bouton « 📚 Ajouter à ma base de blisters », tuile « Ma base de blisters », « déjà dans votre base », recherche…).
   Noms internes inchangés (Base, champ recense-*, album_photos/recensement.tsv).
+- Appui long sur une photo (30/09, capture de l'utilisateur pendant le recadrage) : plus de menu « Copier / Télécharger / Partager
+  l'image » (contextmenu annulé sur les images, -webkit-touch-callout: none ; image du cadre sans pointer-events).
