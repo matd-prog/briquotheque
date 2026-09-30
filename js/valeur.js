@@ -11,7 +11,7 @@ const PART_RESTE_SET = 0.3;
 
 // Mots significatifs d'un nom de figurine custom (sans « custom minifigure », accents, ponctuation)
 function motsCustom(t) {
-  return new Set(normaliser(t).replace(/custom|minifig\w*|figurine|jb|spielwaren|mit|with|the|der|die|das|and|und/g, " ")
+  return new Set(normaliser(t).replace(/\b(custom|minifig\w*|figurine?|figur|jb|spielwaren|mit|with|the|der|die|das|and|und|exklusive?|neu|new|stream\w*|edition)\b/g, " ")
     .replace(/[^a-z0-9 ]/g, " ").split(" ").filter(m => m.length > 2));
 }
 
@@ -365,12 +365,18 @@ const Valeur = {
     // Figurines customs : prix JB (encore en vente, catalogue de l'appli) sinon prix d'achat (achats.tsv du dépôt privé,
     // relevé dans les reçus), rapproché par le nom
     try { await CatalogueJB.charger(); } catch (e) { /* sans catalogue JB : prix d'achat seulement */ }
-    const achats = [];
+    const achats = [], lots = []; // achats nommés (rapprochés par le nom) ; lots Whatnot de customs non nommées
     const repAchats = await this._api("/contents/achats.tsv", { headers: { Accept: "application/vnd.github.raw" } });
     if (repAchats.ok) for (const l of (await repAchats.text()).split("\n").slice(1)) {
-      const [date, vendeur, source, article, , , ttc] = l.split("\t");
-      if (article && parseFloat(ttc) > 0) achats.push({ date, vendeur, source, article, prix: parseFloat(ttc), mots: motsCustom(article) });
+      const [date, vendeur, source, article, , qte, ttc, remarque] = l.split("\t");
+      if (!article || !(parseFloat(ttc) > 0)) continue;
+      if (remarque === "lot custom") lots.push(parseFloat(ttc));
+      else if (!remarque) // un exemplaire par quantité achetée
+        for (let i = 0; i < (+qte || 1); i++) achats.push({ date, vendeur, source, article, prix: parseFloat(ttc), mots: motsCustom(article) });
     }
+    lots.sort((x, y) => x - y);
+    const prixLot = lots.length ? lots[Math.floor(lots.length / 2)] : 0; // médiane : prix habituel d'une custom sur Whatnot
+    const utilises = new Set(); // chaque achat ne sert qu'à un exemplaire (plusieurs exemplaires : plusieurs achats, plusieurs prix)
     const prixCustom = a => {
       let jb = CatalogueJB.parCode && CatalogueJB.parCode.get(a.code);
       const proche = (motsA, liste, motsDe) => { // élément de la liste dont le nom ressemble le plus (0,75 au moins)
@@ -386,13 +392,20 @@ const Valeur = {
         jb = proche(motsCustom(a.nom), CatalogueJB.liste.filter(x => x.source === "jb" && x.prix), x => x.mots || (x.mots = motsCustom(x.nom)));
       if (jb && jb.prix && jb.source === "jb") return { v: jb.prix, source: "Prix JB Spielwaren (encore en vente)" };
       const mots = motsCustom([a.nom, jb && jb.nom].filter(Boolean).join(" "));
-      let meilleur = null, score = 0;
+      let meilleur = null, score = 0, dejaPris = null;
       for (const x of achats) {
+        if (mots.size === 1 && x.mots.size > 2) continue; // nom d'un seul mot (« VADER ») : seulement un article au nom aussi court
         const communs = [...x.mots].filter(m => mots.has(m)).length;
-        const r = communs / Math.max(1, Math.min(x.mots.size, 4));
+        const r = communs / Math.max(1, Math.min(x.mots.size, mots.size, 4)) + (utilises.has(x) ? 0 : 0.001); // un achat pas encore utilisé d'abord
         if (r > score) { score = r; meilleur = x; }
       }
-      if (meilleur && score >= 0.75) return { v: meilleur.prix, source: `Prix d'achat (${meilleur.vendeur}, ${new Date(meilleur.date).toLocaleDateString("fr-FR")})`, achat: meilleur.article };
+      if (meilleur && score >= 0.75) {
+        dejaPris = utilises.has(meilleur);
+        utilises.add(meilleur);
+        return { v: meilleur.prix, achat: meilleur.article,
+                 source: `Prix d'achat (${meilleur.vendeur}, ${new Date(meilleur.date).toLocaleDateString("fr-FR")}${dejaPris ? ", même prix qu'un autre exemplaire" : ""})` };
+      }
+      if (prixLot) return { v: prixLot, source: `Prix d'achat habituel d'une custom sur Whatnot (médiane de ${lots.length} achats)` };
       return null;
     };
     const lirePrix = (q, n) => q ? parseFloat(n ? (q.neuf_median || q.neuf_moyen) : (q.occasion_median || q.occasion_moyen)) || 0 : 0;
@@ -487,7 +500,7 @@ const Valeur = {
             ${c.slice(0, 40).map(a => `<div class="ligne-valeur"><span>${echapper(a.nom || "(sans nom)")} <span class="score">${echapper(a.code || "sans code")} · ${echapper(a.onglet)}</span></span></div>`).join("")}
             ${c.length > 40 ? `<p class="score">… et ${c.length - 40} autre(s)</p>` : ""}</div>` : "";
         })()}
-        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix LEGO si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente, sinon prix d'achat retrouvé dans vos reçus. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
+        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix LEGO si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente, sinon prix d'achat (reçus JB, historique Whatnot, frais de port compris), sinon prix habituel d'une custom sur Whatnot. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;

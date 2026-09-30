@@ -181,6 +181,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   vente, sinon prix d'achat (achats.tsv du dépôt privé, relevé dans Gmail avec l'accord de l'utilisateur : confirmations
   JB et reçus PayPal JB, prix HT × 1,2 ; les reçus PayPal Whatnot n'ont que le montant), rapproché par le nom. Piste
   suivante : prix des annonces eBay.de (indicatif) pour les customs retirées sans reçu.
+- Whatnot (30/09) : export « order report » du site (1 146 commandes, 23 902,81 €) -> whatnot_commandes.csv et
+  import_whatnot.py (dépôt privé) -> achats.tsv, prix = total payé (port et taxes compris). ~440 « lots custom » au nom
+  générique (figurine dévoilée en direct) : leur médiane (~23 €) sert de prix pour une custom sans achat retrouvé.
+  Chaque exemplaire consomme son propre achat (plusieurs exemplaires, plusieurs prix). L'utilisateur peut aussi
+  enregistrer la page des achats (images des blisters) pour la base de reconnaissance.
 - Sets encore vendus par LEGO : prix LEGO en € (demande de l'utilisateur : la Death Star 75419 ne vaut pas 526 €
   mais 999,99 €). Source : pages publiques Brickset (RRP, Launch/exit) lues par prix_lego.py dans l'action « Prix
   BrickLink » -> lego.tsv (dépôt privé) ; le site LEGO refuse les lectures automatiques (403). Encore en vente =

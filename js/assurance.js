@@ -98,7 +98,8 @@ const Assurance = {
           <b>reste du set</b> (briques, boîte, notice) à part : prix du set moins celui de ses figurines, sans jamais descendre
           sous 30 % de son prix LEGO d'origine. Les <b>figurines personnalisées</b> (« customs », hors catalogue LEGO) sont
           estimées à leur prix de vente chez leur fabricant (JB Spielwaren) si elles sont encore vendues, sinon à leur prix
-          d'achat justifié (reçu). Une figurine inventoriée dans la partie « Figurines » n'est pas comptée une
+          d'achat justifié, frais de port compris (reçus, historique d'achats Whatnot), ou à défaut au prix habituel d'une custom
+          dans cet historique (médiane des lots achetés en vente en direct). Une figurine inventoriée dans la partie « Figurines » n'est pas comptée une
           seconde fois dans son set. À titre d'information, la colonne « Occasion » donne la valeur de revente d'occasion
           (même méthode, ventes d'occasion). Prix relevés le ${date ? new Date(date).toLocaleDateString("fr-FR") : jour}.
           Méthode détaillée, avec des exemples : <b>${echapper(new URL("methode.html", location.href).href)}</b></p>
