@@ -169,8 +169,8 @@ const Valeur = {
     }
   },
 
-  // Avancement du relevé en direct (toutes les 5 s, valeur provisoire toutes les 10 s) : étape en cours de l'action GitHub « Prix BrickLink » et
-  // estimation d'après le nombre d'articles à relever (~1,2 s par article BrickLink, ~3,5 s par set sur Brickset).
+  // Relevé en direct (toutes les 5 s, valeur provisoire toutes les 10 s) : étape en cours de l'action GitHub « Prix BrickLink »
+  // et total provisoire de la collection.
   // À la fin, la valeur est relue toute seule.
   async suivre() {
     clearTimeout(this._minuteur);
@@ -188,25 +188,15 @@ const Valeur = {
         return;
       }
       this._suivi = true;
-      let texte = "En attente d'un ordinateur GitHub…", part = 0.02;
+      let texte = "En attente d'un ordinateur GitHub…";
       const jobs = run.status === "queued" ? null : await (await this._api(`/actions/runs/${run.id}/jobs`)).json();
       const etapes = (jobs && jobs.jobs && jobs.jobs[0] && jobs.jobs[0].steps) || [];
       const etape = nom => etapes.find(e => e.name.startsWith(nom));
-      const tBL = Math.max(20, releve.n * 1.2), tLego = Math.max(10, releve.nLego * 3.5), total = tBL + tLego + 15;
-      const ecoule = e => e && e.started_at ? (Date.now() - new Date(e.started_at)) / 1000 : 0;
       const bl = etape("Relevé des prix"), lego = etape("Prix LEGO"), fin = etape("Enregistrement");
-      if (fin && fin.status !== "queued") { texte = "Enregistrement des prix…"; part = 0.98; }
-      else if (lego && lego.status === "in_progress") {
-        const f = Math.min(0.99, ecoule(lego) / tLego);
-        texte = `Prix LEGO des sets (Brickset) : environ ${Math.round(f * releve.nLego)} sets sur ${releve.nLego}` +
-          ` · encore ~${Math.max(1, Math.ceil((tLego - ecoule(lego)) / 60))} min`;
-        part = (tBL + f * tLego) / total;
-      } else if (bl && bl.status === "in_progress") {
-        const f = Math.min(0.99, ecoule(bl) / tBL);
-        texte = `Prix BrickLink : environ ${Math.round(f * releve.n)} articles sur ${releve.n}` +
-          ` · encore ~${Math.max(1, Math.ceil((tBL - ecoule(bl) + tLego) / 60))} min`;
-        part = (f * tBL) / total;
-      } else if (run.status === "in_progress") { texte = "Démarrage du relevé…"; part = 0.03; }
+      if (fin && fin.status !== "queued") texte = "Enregistrement des prix…";
+      else if (lego && lego.status === "in_progress") texte = "Prix LEGO des sets (Brickset)…";
+      else if (bl && bl.status === "in_progress") texte = `Prix BrickLink (${releve.n} articles à relever)…`;
+      else if (run.status === "in_progress") texte = "Démarrage du relevé…";
       // valeur provisoire : prix enregistrés par le relevé toutes les 10 s, relus à chaque passage (5 s)
       if (this._runSuivi !== run.id) { this._runSuivi = run.id; this._valeurDepart = null; this._valeurLue = 0; this._cible = null; }
       if (Date.now() - this._valeurLue > 4000) {
@@ -233,38 +223,25 @@ const Valeur = {
           this._valeurs = valeurs; this._nbEstimes = c.details.length;
         }
       }
-      this._compteur(part, texte);
+      this._compteur(texte);
     } catch (err) { console.warn(err); }
     this._minuteur = setTimeout(() => this.suivre(), 5000);
   },
 
-  // Compteur façon « test de débit » : cadran (avancement du relevé, aiguille) et, dessous, la valeur provisoire
-  // qui défile en continu vers la dernière valeur lue (animation), avec la hausse depuis le début du relevé.
-  _compteur(part, texte) {
+  // Total de la collection en direct : la valeur provisoire défile en continu vers la dernière valeur lue (animation),
+  // avec la hausse depuis le début du relevé et le dernier article relevé.
+  _compteur(texte) {
     const zone = $("valeur-avancement");
     zone.hidden = false;
-    if (!$("compteur-arc")) {
+    if (!$("compteur-valeur")) {
       zone.innerHTML = `<p class="sous-titre">⏳ Relevé des prix en cours</p>
-        <svg class="compteur" viewBox="0 0 200 118" aria-hidden="true">
-          <path d="M20 100 A80 80 0 0 1 180 100" class="compteur-fond"/>
-          <path id="compteur-arc" d="M20 100 A80 80 0 0 1 180 100" class="compteur-arc" pathLength="100" stroke-dasharray="0 100"/>
-          ${[0, 25, 50, 75, 100].map(g => { const a = Math.PI * (1 - g / 100);
-            return `<line x1="${100 + 66 * Math.cos(a)}" y1="${100 - 66 * Math.sin(a)}" x2="${100 + 72 * Math.cos(a)}" y2="${100 - 72 * Math.sin(a)}" class="compteur-graduation"/>`; }).join("")}
-          <g id="compteur-aiguille" style="transform: rotate(-90deg)"><line x1="100" y1="100" x2="100" y2="34" class="compteur-aiguille"/></g>
-          <circle cx="100" cy="100" r="7" class="compteur-centre"/>
-          <text id="compteur-pct" x="100" y="80" text-anchor="middle" class="compteur-pct">0 %</text>
-        </svg>
         <div class="compteur-valeur" id="compteur-valeur">…</div>
         <div class="compteur-hausse" id="compteur-hausse"></div>
         <div class="compteur-article" id="compteur-article"></div>
         <p class="score" id="compteur-texte"></p>`;
       this._animer();
     }
-    const pct = Math.round(part * 100);
-    $("compteur-arc").setAttribute("stroke-dasharray", `${pct} 100`);
-    $("compteur-aiguille").style.transform = `rotate(${-90 + pct * 1.8}deg)`;
-    $("compteur-pct").textContent = `${pct} %`;
-    $("compteur-texte").textContent = `${texte} (estimation)${this._nbEstimes ? ` · ${this._nbEstimes} articles estimés` : ""}`;
+    $("compteur-texte").textContent = `${texte}${this._nbEstimes ? ` · ${this._nbEstimes} articles estimés` : ""}`;
   },
 
   // Valeur affichée : les articles relevés depuis la lecture précédente sont ajoutés un par un (répartis sur ~5 s),

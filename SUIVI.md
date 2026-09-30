@@ -172,7 +172,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   Europe ; prix LEGO pour les sets encore vendus ; prix d'occasion s'il n'y a eu aucune vente neuve. Valeur
   d'occasion affichée en complément (écran Valeur, colonne du dossier assureur). prix.tsv : colonnes neuf_zone et
   occasion_zone (europe / monde). Pendant le relevé, prix provisoires toutes les 10 s sur la branche
-  releve-en-cours (commit sans historique) : compteur façon test de débit dans l'appli, article par article.
+  releve-en-cours (commit sans historique) : total en direct dans l'appli, article par article (cadran retiré le 30/09 à la demande de l'utilisateur : inutile).
 - Méthode (demandée par l'utilisateur le 29/09) : figurines d'un set monté estimées une à une (prix du marché
   BrickLink), plus le reste du set = prix du set (LEGO si encore vendu, sinon BrickLink) moins ses figurines, jamais
   moins de 30 % du prix LEGO d'origine (PART_RESTE_SET, js/valeur.js). Figurine déjà dans les onglets de figurines :
