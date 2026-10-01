@@ -94,7 +94,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   Confirmé par l'utilisateur : le droïde doré est la « Multicolored Protocol Droid » (autre carton, doré) ; les 2
   « DROÏDE OR » sont la Special Whatnot Figure 2025 au droïde argenté, mains grises (rareté) -> corrigés dans
   data/jb_commune.tsv et album_photos/commune.tsv (rattachés à ALB-SPECIAL-WHATNOT-FIGURE-2025). 4e version vue sur
-  eBay (droïde cuivré), annonce titrée « Let's Go! » (slogan du carton) -> renommée par data/jb_exclus.tsv, nouvelle
+  eBay (droïde bronze mat), annonce titrée « Let's Go! » (slogan du carton) -> renommée par data/jb_exclus.tsv, nouvelle
   action « nom=… » (cache v56). Précision séparée aussi pour l'album et eBay (« … (droïde argent) »).
 - « Ma base de blisters » renommée « Base de blisters » (commune à tous, demande de l'utilisateur, cache v56) ;
   bouton « 📚 Je l'ai : ajouter à ma collection ».
