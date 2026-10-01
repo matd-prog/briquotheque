@@ -197,7 +197,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 @media print {
   @page { size: A4; margin: 12mm; }
   body { background: #fff; }
-  header, #bandeau-save, .pas-imprime, .ecran:not(#ecran-assurance):not(#ecran-impression), #toast, dialog { display: none !important; }
+  header, #bandeau-save, .pas-imprime, .ecran:not(#ecran-assurance):not(#ecran-impression):not(#ecran-exports), #toast, dialog { display: none !important; }
   main { padding: 0; max-width: none; }
   .dossier { padding: 0; border-radius: 0; font-size: 10px; }
   .dossier tr { break-inside: avoid; }
@@ -294,3 +294,9 @@ button.proposition { font: inherit; text-align: left; border: 0; cursor: pointer
   .page-etq .etq { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
 .colonne { display: flex; flex-direction: column; gap: 14px; }
+@media print {
+  body.impression-liste .ecran:not(#ecran-exports) { display: none !important; }
+  body:not(.impression-liste) #ecran-exports { display: none !important; }
+}
+#exp-liste table { width: 100%; border-collapse: collapse; font-size: 13px; }
+#exp-liste th, #exp-liste td { text-align: left; border-bottom: 1px solid var(--bord); padding: 2px 4px; }

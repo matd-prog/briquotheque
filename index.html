@@ -70,6 +70,7 @@
       <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
       <button class="tuile" data-action="souhaits"><span class="icone">⭐</span><b>Ma liste de souhaits</b><small>Ce que vous voulez, sorties</small></button>
       <button class="tuile" data-action="impression"><span class="icone">🖨️</span><b>Imprimer des étiquettes</b><small>À la taille de vos étiquettes</small></button>
+      <button class="tuile" data-action="exports"><span class="icone">📤</span><b>Exporter</b><small>Excel, PDF, CSV, BrickLink</small></button>
     </div>
 
     <p class="section-titre">🔎 Découvrir</p>
@@ -569,6 +570,24 @@
   </section>
   <style id="style-impression"></style>
 
+  <!-- Exports de la collection (js/exports.js) -->
+  <section id="ecran-exports" class="ecran" hidden>
+    <div class="pas-imprime colonne">
+      <p class="intro">📤 <b>Exporter ma collection</b><br><small>Une copie de toute votre collection, à garder, retravailler
+        ou partager. Votre collection n'est pas modifiée.</small></p>
+      <p class="aide" id="exp-resume"></p>
+      <button class="gros-bouton vert" data-action="export-excel">📊 Excel (.xlsx) : un onglet par catégorie</button>
+      <button class="gros-bouton bleu" data-action="export-pdf">📄 PDF : liste imprimable</button>
+      <button class="bouton gris" data-action="export-csv">🧾 CSV (tableur, toutes catégories)</button>
+      <button class="bouton gris" data-action="export-bricklink">🧱 BrickLink (XML : figurines et sets)</button>
+      <button class="bouton gris" data-action="export-sauvegarde">💾 Sauvegarde complète (.json)</button>
+      <p class="aide">Les fichiers arrivent dans « Téléchargements ». Pour le PDF, choisissez « Enregistrer au format PDF »
+        dans le menu qui s'ouvre.</p>
+      <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
+    </div>
+    <div id="exp-liste"></div>
+  </section>
+
   <!-- Liste de souhaits (js/souhaits.js) : onglet « Souhaits » du fichier Excel -->
   <section id="ecran-souhaits" class="ecran" hidden>
     <p class="intro">⭐ <b>Ma liste de souhaits</b><br><small>Les figurines, customs, sets et objets que vous voulez. Ajoutez-en depuis leur fiche (« ⭐ Ajouter à ma liste de souhaits »). Touchez un souhait pour l'ajouter à votre collection ou le retirer de la liste.</small></p>
@@ -602,6 +621,7 @@
   <script src="js/ecran_nouveautes.js"></script>
   <script src="js/souhaits.js"></script>
   <script src="js/impression.js"></script>
+  <script src="js/exports.js"></script>
   <script src="js/valeur.js"></script>
   <script src="js/assurance.js"></script>
   <script src="js/achats.js"></script>
