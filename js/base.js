@@ -228,6 +228,13 @@ const Base = {
       // (même nom lu que le premier : un décor voisin d'un autre nom ne compte pas)
       if (connues.length) this.proches = connues.filter(f => score.has(f) && lus.has(f) === lus.has(connues[0]) && note(f) >= note(connues[0]) - 0.03);
       if (this.proches.length < 2) this.proches = [];
+      // même carton : la figurine seule départage (ex. Dark Vador doré / droïde argenté / droïde noir)
+      const fig = CatalogueJB.departager(await createImageBitmap(this.photo), this.proches);
+      if (fig.length) {
+        const ordre = [...fig.map(r => r.f), ...this.proches.filter(f => !fig.some(r => r.f === f))];
+        connues = [...ordre, ...connues.filter(f => !ordre.includes(f))];
+        this.proches = ordre;
+      }
     } catch (err) { console.warn(err); }
     const noms = [...connues.map(f => ({ ...this._nomEtPrecision(f), code: f.code })),
                   ...(nomProbable(lecture.texte) ? [{ nom: nomProbable(lecture.texte).toUpperCase(), precision: "", code: "" }] : [])]

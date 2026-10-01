@@ -104,3 +104,12 @@ function empreinteFigurine(source) {
   const g = norme(grille), hs = norme(hist.map(Math.sqrt));
   return Float32Array.from([...g, ...hs].map(x => x * Math.SQRT1_2));
 }
+
+// Figurine seule au centre d'un blister (photo recadrée sur le blister) : sert à départager des blisters au même
+// carton dont seule la figurine change (ex. les « SPECIAL WHATNOT FIGURE 2025 »), le décor entier étant presque identique
+function empreinteCentreBlister(source) {
+  const w = source.width, h = source.height, c = document.createElement("canvas");
+  c.width = Math.max(1, Math.round(w * 0.36)); c.height = Math.max(1, Math.round(h * 0.62));
+  c.getContext("2d").drawImage(source, w * 0.32, h * 0.22, c.width, c.height, 0, 0, c.width, c.height);
+  return empreinteFigurine(c);
+}

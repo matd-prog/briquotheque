@@ -67,12 +67,13 @@ const BaseCommune = {
     if (!(await this.jeton())) throw new Error("pas de jeton GitHub (écran Valeur)");
     const liste = this.enAttente(entrees);
     if (!liste.length) return 0;
-    const date = new Date().toISOString().slice(0, 10), noms = [], empreintes = [], prives = [];
+    const date = new Date().toISOString().slice(0, 10), noms = [], empreintes = [], figurines = [], prives = [];
     let n = 0;
     for (const e of liste) {
       const code = e.communeCode || `BC-${e.id.toUpperCase()}`;
       const bitmap = await createImageBitmap(e.photo);
       const empreinte = empreinteEnTexte(empreinteImage(bitmap, false));
+      const empreinteFig = empreinteEnTexte(empreinteCentreBlister(bitmap));
       bitmap.close && bitmap.close();
       const recto = `album_photos/commune/${code}_recto.jpg`, verso = e.verso ? `album_photos/commune/${code}_verso.jpg` : "";
       await this._ecrire(DEPOT_PRIVE, recto, await this._blobEn64(e.photo), null, `Base commune : ${nomComplet(e)} (recto)`);
@@ -81,6 +82,7 @@ const BaseCommune = {
       // nom ; catégorie ; lien, image, prix, dispo vides ; figurine du catalogue à laquelle la rattacher (code reconnu)
       noms.push([code, propre(nomComplet(e)), "Base commune", "", "", "", "", propre(e.code)].join("\t"));
       empreintes.push(`${code}\t${empreinte}`);
+      figurines.push(`${code}\t${empreinteFig}`);
       prives.push([code, e.nom, e.precision, e.numero, e.serie, e.code, qui, date, recto.replace("album_photos/", ""), verso.replace("album_photos/", "")].map(propre).join("\t"));
       e.communeCode = code;
       n++;
@@ -98,6 +100,7 @@ const BaseCommune = {
     try {
       await ajouter(DEPOT_PUBLIC, "data/jb_commune.tsv", "code\tnom\tcategorie\tlien\timage\tprix\tdispo\trattache", noms);
       await ajouter(DEPOT_PUBLIC, "data/jb_empreintes_commune.tsv", "code\tempreinte", empreintes);
+      await ajouter(DEPOT_PUBLIC, "data/jb_empreintes_figurine.tsv", "code\tempreinte", figurines);
     } catch (err) {
       if (err.statut === 403 || err.statut === 404 || /40[34]/.test(err.message)) {
         const e2 = new Error("acces-public"); e2.cause = err; throw e2;

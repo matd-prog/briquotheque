@@ -86,6 +86,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   moins de 0,03 du premier (même nom lu, ou décor seul si rien n'est lu) : montrés en photos « 👀 se ressemblent
   presque autant ». Base commune : nom imprimé et précision séparés (decouperNomBlister, js/catalogue_jb.js).
   Essai sur la capture de l'utilisateur (Dark Vador chrome orange) : trouvé en premier, les 2 autres à côté.
+  Sur le téléphone, « droïde or » passait devant (écart 0,005 sur le blister entier). Ajout (cache v55) : empreinte de
+  la figurine seule au centre du blister, fond retiré (empreinteCentreBlister, js/empreinte.js) ->
+  data/jb_empreintes_figurine.tsv (455 photos de la base commune et de l'album, calculées le 01/10 ; ajoutée à chaque
+  envoi à la base commune) ; CatalogueJB.departager reclasse les blisters « très proches ». Essai : Vador doré 0,765,
+  droïde 0,711, noir 0,579 (avant : 0,902 / 0,897 / 0,889).
+  ⚠️ Les 2 blisters notés « SPECIAL WHATNOT FIGURE 2025 (DROÏDE OR) » montrent un droïde ARGENTÉ (comme
+  « droïde argent » de l'album) : à confirmer avec l'utilisateur.
 - Ma collection regroupée (01/10, cache v52) : une ligne par figurine (même onglet et même code ; customs : même nom
   sans le n°) avec ×N, les n° et les cases. Toucher -> menu : ➕ Ajouter un exemplaire, ➖ Retirer un exemplaire (choix
   de l'exemplaire, confirmation ; retirerFigurine dans js/xlsx.js : nom, code, lien, étiquette effacés, ligne de la

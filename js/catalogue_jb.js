@@ -91,8 +91,18 @@ const CatalogueJB = {
   chargerEmpreintes() {
     if (!this._chargementEmpreintes) {
       const lire = f => fetch(f).then(rep => rep.ok ? rep.text() : "").catch(() => "");
-      this._chargementEmpreintes = Promise.all([lire("data/jb_empreintes.tsv"), lire("data/jb_empreintes_album.tsv"), lire("data/jb_empreintes_commune.tsv")])
-        .then(([catalogue, album, commune]) => {
+      this._chargementEmpreintes = Promise.all([lire("data/jb_empreintes.tsv"), lire("data/jb_empreintes_album.tsv"), lire("data/jb_empreintes_commune.tsv"),
+                                                lire("data/jb_empreintes_figurine.tsv")])
+        .then(([catalogue, album, commune, figurine]) => {
+          // figurine seule au centre du blister (empreinteCentreBlister) : pour départager des blisters au même carton
+          this.empreintesFigurine = new Map();
+          for (const ligne of figurine.split("\n")) {
+            const [code, e] = ligne.split("\t");
+            if (!code || code === "code" || !e) continue;
+            const k = code.toUpperCase();
+            if (!this.empreintesFigurine.has(k)) this.empreintesFigurine.set(k, []);
+            this.empreintesFigurine.get(k).push(empreinteDepuisTexte(e));
+          }
           if (!catalogue) throw new Error("empreintes JB absentes");
           this.empreintes = new Map();
           for (const ligne of (catalogue + "\n" + album + "\n" + commune).split("\n")) {
@@ -107,6 +117,18 @@ const CatalogueJB = {
         .catch(err => { this._chargementEmpreintes = null; throw err; });
     }
     return this._chargementEmpreintes;
+  },
+
+  // Blisters au même carton (décor presque identique) : classés par la ressemblance de la figurine seule ;
+  // renvoie [{ f, score }] pour ceux qui ont une empreinte de figurine (au moins deux, sinon rien)
+  departager(source, fiches) {
+    if (!this.empreintesFigurine || fiches.length < 2) return [];
+    const e = empreinteCentreBlister(source);
+    const res = fiches.map(f => {
+      const refs = this.codes(f).flatMap(c => this.empreintesFigurine.get(c) || []);
+      return refs.length ? { f, score: Math.max(...refs.map(r => similarite(e, r))) } : null;
+    }).filter(Boolean);
+    return res.length >= 2 ? res.sort((a, b) => b.score - a.score) : [];
   },
 
   // Blisters du catalogue dont le décor ressemble le plus à la photo : [{ f, score }], du plus ressemblant au moins
