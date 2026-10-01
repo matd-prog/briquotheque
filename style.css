@@ -274,3 +274,5 @@ button.proposition { font: inherit; text-align: left; border: 0; cursor: pointer
 .menu-actions #menu-titre { white-space: pre-line; font-weight: 600; margin: 0 0 12px; }
 .menu-actions #menu-boutons { display: grid; gap: 8px; margin-bottom: 8px; }
 .fiche.cliquable { cursor: pointer; }
+/* accueil : second gros bouton (blister JB), juste sous celui de la figurine */
+.action-principale.action-blister { margin-top: 10px; background: #d9466f; }

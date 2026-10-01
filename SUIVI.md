@@ -63,6 +63,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 - Ma collection, photos des customs (01/10, cache v50, vérifié sur le téléphone) : codes CUS-… -> figurine JB retrouvée par le lien ou le
   nom (sans le n° « 52/150 ») ; photo du catalogue, sinon photo de « Ma base de blisters », sinon photo de l'album
   (jeton GitHub), sinon 🎨. Signalé par l'utilisateur (capture : BLACK KRRSANTAN, SHINY DARK LORD… sans photo).
+- Accueil réorganisé (01/10, cache v59) : « ➕ Ajouter à ma collection » (gros boutons Photographier une figurine /
+  un blister JB, puis photo déjà prise, nom, code, custom, set, objet dérivé), « 📖 Ma collection » (collection,
+  valeur, achats, assureur), « 🔎 Découvrir » (nouveautés, catalogue JB, base de blisters) ; Outils inchangés.
 - Écran « 🆕 Nouveautés » refait (01/10, cache v58, js/ecran_nouveautes.js) : onglets 📅 Récentes (apparues depuis
   45 jours ; sinon annonces de l'an prochain), 🧍 Figurines, 🧱 Sets, 🔑 Objets ; puces par thème (minifigs à
   collectionner par série d'abord ; « 🏪 Boutiques LEGO (BAM…) » ; objets par sorte : porte-clés, magnets…) ; filtre ;
