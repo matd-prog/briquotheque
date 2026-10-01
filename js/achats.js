@@ -130,8 +130,8 @@ const EcranAchats = {
     const coutTotal = lignes.reduce((n, l) => n + l.cout * l.vendre.length, 0);
     const sansPrix = lignes.filter(l => !l.prix).length;
     const num = e => e.numero ? `n° ${e.numero}${e.serie ? `/${e.serie}` : ""}` : "sans n°";
-    $("achats-liste").innerHTML = `<p class="aide">D'après ${source === "recensement" ? "votre base de blisters (écran « Ma base de blisters »)"
-        : "l'onglet « Customs » de votre fichier (photographiez vos blisters dans « Ma base de blisters » pour une liste exacte, avec leurs numéros)"}. Pour chaque figurine en
+    $("achats-liste").innerHTML = `<p class="aide">D'après ${source === "recensement" ? "vos blisters (écran « Base de blisters »)"
+        : "l'onglet « Customs » de votre fichier (photographiez vos blisters dans « Base de blisters » pour une liste exacte, avec leurs numéros)"}. Pour chaque figurine en
         plusieurs exemplaires, le n° le plus bas est gardé, ainsi que les exemplaires qui ont une note (signé, Comic Con…).</p>
       <div class="carte valeur-total"><div class="score">${nb} exemplaire${nb > 1 ? "s" : ""} à vendre (${lignes.length} figurines)</div>
         <div class="montant">${this._prix(total)}</div>

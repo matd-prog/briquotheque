@@ -84,7 +84,7 @@ const Consulter = {
   _source(f) {
     return f.source === "jb" && f.epuisee ? `Épuisée chez JB${f.prix ? ` (était à ${f.prix.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })})` : ""}`
       : f.source === "jb" ? (f.prix ? `En vente chez JB · ${f.prix.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}` : "Catalogue JB")
-      : f.source === "album" ? "Photo de collectionneur" : f.source === "perso" ? "Ma base de blisters · pas encore dans la base JB" : f.source === "commune" ? "Base commune (photo d'un collectionneur)"
+      : f.source === "album" ? "Photo de collectionneur" : f.source === "perso" ? "Base de blisters · pas encore dans le catalogue JB" : f.source === "commune" ? "Base commune (photo d'un collectionneur)"
       : f.source === "brickshell" ? "Retirée · brickshellcases"
       : f.source === "archive" ? "Retirée · archives" : "Retirée · eBay.de";
   },
@@ -124,7 +124,7 @@ const Consulter = {
           : voirMiennes ? `<img data-photo="${echapper(photos[0].photo)}" alt="">`
           : f.image ? `<img src="${echapper(f.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">Pas de photo</div>`}
         <span class="nom-court">${echapper(f.nom)}</span>
-        <span class="score">${echapper(this._source(f))}${miennes.length ? ` · 📚 ${miennes.length} dans ma base${nums.length ? ` (n° ${echapper(nums.join(", "))})` : ""}` : ""}${photos.length ? ` · 📷 ${photos.length} (album)` : ""}</span>
+        <span class="score">${echapper(this._source(f))}${miennes.length ? ` · 📚 ${miennes.length} à vous${nums.length ? ` (n° ${echapper(nums.join(", "))})` : ""}` : ""}${photos.length ? ` · 📷 ${photos.length} (album)` : ""}</span>
       </button>`;
     }).join("");
     $("consulter-liste").insertAdjacentHTML("beforeend", html);

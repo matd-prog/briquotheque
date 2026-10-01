@@ -260,7 +260,7 @@ const Base = {
   // Nom à écrire pour un blister du catalogue : nom imprimé (sans « Custom Minifigure »), et précision pour ceux de
   // la base commune (« SPECIAL WHATNOT FIGURE 2025 » + « DARK VADOR CHROME ORANGE »)
   _nomEtPrecision(f) {
-    if (f.nomImprime) return { nom: f.nomImprime.toUpperCase(), precision: f.precision || "" };
+    if (f.nomImprime) return { nom: f.nomImprime.toUpperCase(), precision: (f.precision || "").toUpperCase() };
     const court = f.nom.replace(/\s*[-–]?\s*\bc[ou]s?t[ou]m\b.*$/i, "").replace(/\s+minifig\w*.*$/i, "").trim();
     return { nom: court.toUpperCase(), precision: "" };
   },
@@ -748,8 +748,8 @@ const Base = {
       });
       const deja = e => this.entrees.some(x => normaliser(x.nom) === normaliser(e.nom) && (e.numero ? x.numero === e.numero : true));
       const nouveaux = album.filter(e => !deja(e));
-      if (!nouveaux.length) { await demander("Tous les blisters de votre album sont déjà dans votre base de blisters.", "OK", "Fermer"); return; }
-      if (!(await demander(`Ajouter à votre base de blisters ${nouveaux.length} blister(s) identifiés sur vos photos (${nouveaux.filter(e => e.numero).length} avec leur n°) ?\n\n` +
+      if (!nouveaux.length) { await demander("Tous les blisters de votre album sont déjà dans la base de blisters.", "OK", "Fermer"); return; }
+      if (!(await demander(`Ajouter à la base de blisters ${nouveaux.length} blister(s) identifiés sur vos photos (${nouveaux.filter(e => e.numero).length} avec leur n°) ?\n\n` +
           "Ils seront marqués « d'après l'album photo » : vérifiez-les en photographiant vos blisters (un blister vendu ou donné depuis est à retirer).",
           "Ajouter", "Annuler"))) return;
       let i = 0;

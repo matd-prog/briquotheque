@@ -961,7 +961,7 @@ async function ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie, 
     console.error(err);
     const m = await Memoire.lire();
     if (m) await chargerClasseur(m.octets, m.nom, m.nonEnregistres);
-    return "⚠️ L'ajout au fichier Excel a échoué : " + err.message + " (le blister est bien dans votre base de blisters).";
+    return "⚠️ L'ajout au fichier Excel a échoué : " + err.message + " (le blister est bien dans la base de blisters).";
   }
 }
 

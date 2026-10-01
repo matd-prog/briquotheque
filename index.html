@@ -68,7 +68,7 @@
       <button class="tuile" data-action="collection"><span class="icone">📖</span><b>Ma collection</b><small>Liste, planches, recherche</small></button>
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Ajouter un set</b><small>Par son numéro ou son nom</small></button>
       <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
-      <button class="tuile" data-action="base"><span class="icone">📚</span><b>Ma base de blisters</b><small>Liste, recherche, envoi</small></button>
+      <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base de blisters</b><small>Commune à tous : photos, reconnaissance</small></button>
       <button class="tuile" data-action="consulter"><span class="icone">🗂️</span><b>Consulter la base</b><small>Toutes les figurines JB</small></button>
       <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
       <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
@@ -308,7 +308,7 @@
 
   <!-- Base commune des blisters JB : photos et noms de vos blisters, à exporter pour enrichir la base (js/base.js) -->
   <section id="ecran-base" class="ecran" hidden>
-    <p class="intro">📚 <b>Ma base de blisters JB</b> : photographiez vos blisters un par un (recto, puis verso). Le nom est lu tout seul : vérifiez-le, notez le numéro écrit à la main (« 143 of 250 »), puis « Ajouter ».
+    <p class="intro">📚 <b>Base de blisters JB</b>, commune à tous (la vôtre, celle de votre ami, les collectionneurs) : photographiez vos blisters un par un (recto, puis verso). Le nom est lu tout seul : vérifiez-le, notez le numéro écrit à la main (« 143 of 250 »), puis « Ajouter ».
       L'appli compte vos exemplaires de chaque figurine et les compare à vos achats. « Envoyer » crée un fichier à
       m'envoyer : ces blisters seront ensuite reconnus par l'appli (nom et décor).</p>
     <label class="gros-bouton corail">📷 Photographier un blister
@@ -381,7 +381,7 @@
           (onglet Customs, avec étiquette)</label>
         <p class="score" id="base-excel-info"></p>
       </div>
-      <button class="gros-bouton vert" data-action="base-ajouter">📚 Je l'ai : ajouter à ma base de blisters</button>
+      <button class="gros-bouton vert" data-action="base-ajouter">📚 Je l'ai : ajouter à ma collection</button>
       <button class="bouton gris" data-action="base-ajouter-commune">🌐 Je ne l'ai pas : seulement pour la base commune (reconnaissance)</button>
     </div>
     <div class="carte">
@@ -397,7 +397,7 @@
         <button class="bouton actif" id="base-vue-photos" data-action="base-vue-photos">Dernières photos</button>
         <button class="bouton" id="base-vue-compte" data-action="base-vue-compte">Par figurine</button>
       </div>
-      <input id="base-filtre" class="champ" type="search" autocomplete="off" placeholder="🔍 Chercher dans ma base de blisters (nom, n°…)">
+      <input id="base-filtre" class="champ" type="search" autocomplete="off" placeholder="🔍 Chercher dans mes blisters (nom, n°…)">
       <div id="base-liste" class="base-liste"></div>
       <button class="bouton gris" data-action="base-importer-album" id="btn-base-album">📥 Reprendre les blisters de mon album photo</button>
       <button class="bouton gris" data-action="consulter">🗂️ Consulter toute la base</button>

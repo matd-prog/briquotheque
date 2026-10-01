@@ -49,10 +49,12 @@ const CatalogueJB = {
           SOURCES_JB.forEach(({ source, codes }, i) => {
             for (const ligne of liste[i].split("\n")) {
               if (ligne.startsWith("#date ")) { if (source === "jb") this.date = ligne.slice(6).trim(); continue; }
-              const [code, nom, categorie, lien, image, prix, dispo, rattache] = ligne.split("\t");
+              let [code, nom, categorie, lien, image, prix, dispo, rattache] = ligne.split("\t");
               if (!code || !codes.test(code) || this.parCode.has(code.toUpperCase())) continue;
-              const exclu = this.exclus.get(code.toUpperCase());
+              let exclu = this.exclus.get(code.toUpperCase());
               if (exclu === "retirer") continue;
+              // « nom=… » : nom corrigé (ex. annonce eBay titrée avec le slogan du carton, « Let's Go! »)
+              if (exclu && exclu.startsWith("nom=")) { nom = exclu.slice(4).trim(); exclu = ""; }
               const cleNom = normaliser(nomCustomPourFichier(nom || ""));
               // base commune : photo d'une figurine déjà connue (code reconnu au moment de la photo, ou même nom)
               const meme = (rattache && this.parCode.get(rattache.trim().toUpperCase())) || (source !== "jb" && cleNom && parNom.get(cleNom));
@@ -64,8 +66,9 @@ const CatalogueJB = {
               }
               // prix : prix de vente TTC relevé sur le site ; dispo « non » : épuisée chez JB (prix = dernier prix JB)
               // base commune : « NOM IMPRIMÉ – précision » ; le nom imprimé seul sert à la lecture du carton
-              const coupe = source === "commune" ? decouperNomBlister(nom || "") : null;
-              const f = { code, nom, nomImprime: coupe ? coupe.nom : "", precision: coupe ? coupe.precision : "", categorie, lien, image: exclu === "sans_image" ? "" : image, sansImage: exclu === "sans_image", prix: parseFloat(prix) || 0, epuisee: source === "jb" && dispo === "non", source, ebay: source === "ebay",
+              // (de même pour les photos de collectionneurs et les annonces eBay : « Special Whatnot Figure 2025 (droïde argent) »)
+              const coupe = ["commune", "album", "ebay"].includes(source) ? decouperNomBlister(nom || "") : null;
+              const f = { code, nom, nomImprime: coupe && (source === "commune" || coupe.precision) ? coupe.nom : "", precision: coupe ? coupe.precision : "", categorie, lien, image: exclu === "sans_image" ? "" : image, sansImage: exclu === "sans_image", prix: parseFloat(prix) || 0, epuisee: source === "jb" && dispo === "non", source, ebay: source === "ebay",
                           recherche: normaliser(`${code} ${nom} ${categorie}`) };
               this.liste.push(f);
               this.parCode.set(code.toUpperCase(), f);
