@@ -223,6 +223,17 @@ class Classeur {
     this._modifie(f.chemin);
   }
 
+  // Vide une cellule (garde son style, donc sa couleur)
+  async viderCellule(nom, ref) {
+    this._verifierAutorise(nom);
+    const f = this.feuille(nom), doc = await this._doc(f.chemin);
+    const c = this._celluleEl(doc, ref, false);
+    if (!c) return;
+    while (c.firstChild) c.removeChild(c.firstChild);
+    c.removeAttribute("t");
+    this._modifie(f.chemin);
+  }
+
   // Style (numéro) le plus utilisé dans une colonne pour les cellules remplies
   async styleColonne(nom, lettre, filtre) {
     const doc = await this._sheetDoc(nom), compte = {};
@@ -695,6 +706,32 @@ async function poserEtiquette(cl, onglet, row, col, code, lien) {
   const png = await canvasEnPng(dessinerEtiquette(code, couleur, w, h, lienEtiquette(onglet, lien)));
   await cl.supprimerImages(onglet, { row, col });
   await cl.ajouterImage(onglet, row, col, png, w, h, 3);
+}
+
+// Ligne de la Table camps qui décrit une case (colonne E : « onglet!B3 (appli 01/10/2026) »), ou 0
+async function ligneTableCamps(cl, onglet, ref) {
+  const derniere = await cl.derniereLigne(ONGLET_TABLE);
+  for (let r = 2; r <= derniere; r++) {
+    const e = String(await cl.valeur(ONGLET_TABLE, "E" + r) || "");
+    if (e === `${onglet}!${ref}` || e.startsWith(`${onglet}!${ref} `)) return r;
+  }
+  return 0;
+}
+
+// Retire une figurine de sa case : nom, code, lien et étiquette effacés (la case redevient libre), et sa ligne
+// de la Table camps vidée
+async function retirerFigurine(cl, onglet, row, col) {
+  for (const debut of [6, 12, 18]) await cl.viderCellule(onglet, lettreColonne(debut + col) + row);
+  await cl.supprimerImages(onglet, { row, col });
+  const r = await ligneTableCamps(cl, onglet, lettreColonne(col) + row);
+  if (r) for (const l of "ABCDE") await cl.viderCellule(ONGLET_TABLE, l + r);
+}
+
+// Change le nom d'une figurine dans sa case (ex. numéro d'exemplaire corrigé), et dans la Table camps
+async function renommerFigurine(cl, onglet, row, col, nom) {
+  await cl.ecrireTexte(onglet, lettreColonne(6 + col) + row, nom);
+  const r = await ligneTableCamps(cl, onglet, lettreColonne(col) + row);
+  if (r) await cl.ecrireTexte(ONGLET_TABLE, "B" + r, nom);
 }
 
 // Première case libre (ligne par ligne, de A à E) ; ajoute une ligne si l'onglet est plein

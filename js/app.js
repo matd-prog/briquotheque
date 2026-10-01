@@ -113,6 +113,24 @@ function choisirAction(titre, actions) {
   });
 }
 
+// Petite question avec une réponse à taper ; renvoie le texte, ou null (Annuler)
+function demanderTexte(titre, valeur = "", options = {}) {
+  return new Promise(ok => {
+    const d = $("menu-actions");
+    $("menu-titre").textContent = titre;
+    $("menu-boutons").innerHTML = `<input class="champ" id="menu-saisie" autocomplete="off" ${options.chiffres ? 'inputmode="numeric"' : ""}>
+      <button class="gros-bouton vert" data-ok>✔ Valider</button>`;
+    $("menu-saisie").value = valeur;
+    const fin = v => { if (d.open) d.close(); ok(v); };
+    $("menu-boutons").onclick = e => { if (e.target.closest("[data-ok]")) fin($("menu-saisie").value.trim()); };
+    $("menu-saisie").onkeydown = e => { if (e.key === "Enter") fin($("menu-saisie").value.trim()); };
+    $("menu-fermer").onclick = () => fin(null);
+    d.oncancel = () => ok(null);
+    d.showModal();
+    setTimeout(() => { $("menu-saisie").focus(); $("menu-saisie").select(); }, 50);
+  });
+}
+
 // Liens eBay sur Android : toujours vers eBay.de (JB Spielwaren est allemand : eBay.fr n'a
 // presque aucune annonce JB, 2 contre 646 le 29/09/2026). Ouvert d'un toucher, le lien serait
 // confié à l'application eBay, réglée sur eBay.fr, qui n'y trouve rien : on passe donc par

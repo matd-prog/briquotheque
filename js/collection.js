@@ -70,15 +70,17 @@ const Collection = {
       $("collection-info").textContent = res.length
         ? `${res.length} résultat(s) sur ${total} figurines.`
         : "Aucune figurine de votre collection ne correspond.";
-      contenu.innerHTML = res.map(c => this._fiche(c, c.onglet)).join("");
+      contenu.innerHTML = this._regrouper(res).map(g => this._fiche(g.cases[0], g.onglet, g.cases)).join("");
       if (typeof Consulter !== "undefined") Consulter.completerPhotos(contenu);
       return;
     }
 
     const figs = this._figurines(this.onglet);
     if (this.vue === "liste") {
-      $("collection-info").textContent = `${figs.length} figurine(s) dans « ${this.onglet} ». Touchez une figurine pour en ajouter un exemplaire, ou 🔗 pour voir sa page.`;
-      contenu.innerHTML = figs.map(c => this._fiche(c, this.onglet)).join("");
+      const groupes = this._regrouper(figs.map(c => ({ ...c, onglet: this.onglet })));
+      $("collection-info").textContent = `${groupes.length} figurine(s) différente(s), ${figs.length} exemplaire(s) dans « ${this.onglet} ». ` +
+        "Touchez une figurine pour ajouter, retirer un exemplaire ou corriger un numéro.";
+      contenu.innerHTML = groupes.map(g => this._fiche(g.cases[0], g.onglet, g.cases)).join("");
       if (typeof Consulter !== "undefined") Consulter.completerPhotos(contenu);
       return;
     }
@@ -140,31 +142,111 @@ const Collection = {
     return `<span class="photo-custom">🎨</span>`;
   },
 
-  _fiche(c, onglet) {
+  // Exemplaires d'une même figurine regroupés : même onglet, même code (customs : même nom, sans le n°)
+  _cle(c, onglet) {
+    return `${onglet}|${(c.code || "").toUpperCase()}` + (onglet === THEME_CUSTOMS.onglet ? `|${normaliser(this._sansNumero(c.nom))}` : "");
+  },
+  _regrouper(cases) {
+    const groupes = new Map();
+    for (const c of cases) {
+      const k = this._cle(c, c.onglet);
+      if (!groupes.has(k)) groupes.set(k, { onglet: c.onglet, cases: [] });
+      groupes.get(k).cases.push(c);
+    }
+    return [...groupes.values()];
+  },
+  _numero(c) { const m = /(\d{1,4})\s*\/\s*(\d{1,4})\s*$/.exec(c.nom || ""); return m ? `${m[1]}/${m[2]}` : ""; },
+  _groupeDe(onglet, ref) {
+    const c = etat.collection[onglet].cases.find(x => x.ref === ref);
+    if (!c || !c.code) return null;
+    const k = this._cle(c, onglet);
+    return { c, cases: etat.collection[onglet].cases.filter(x => x.code && this._cle(x, onglet) === k) };
+  },
+
+  _fiche(c, onglet, cases = [c]) {
+    const custom = onglet === THEME_CUSTOMS.onglet, n = cases.length;
+    const nums = cases.map(x => this._numero(x)).filter(Boolean);
+    const lieux = n > 1 ? `cases ${cases.map(x => x.ref).join(", ")}` : `case ${c.ref}`;
     return `
       <div class="fiche cliquable" data-onglet="${echapper(onglet)}" data-case="${c.ref}">
-        ${onglet === THEME_CUSTOMS.onglet ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
+        ${custom ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
         <div class="infos">
-          <div class="nom-court">${echapper(c.nom || "(sans nom)")}</div>
-          <div class="code">${echapper(c.code)}</div>
-          <div class="lieu">${echapper(onglet)}, case ${c.ref}${c.image ? "" : " · sans étiquette"}</div>
+          <div class="nom-court">${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
+          <div class="code">${echapper(c.code)}${nums.length ? ` · n° ${echapper(nums.join(", "))}` : ""}</div>
+          <div class="lieu">${echapper(onglet)}, ${lieux}${cases.some(x => !x.image) ? " · sans étiquette" : ""}</div>
         </div>
         ${liensFiche(this._lien(c, onglet), "Voir la page")}
       </div>`;
   },
 
-  // Figurine touchée : petit menu (exemplaire de plus sans reprendre de photo, page BrickLink ou du fabricant)
+  // Figurine touchée : petit menu (exemplaire de plus sans photo, en retirer un, corriger un n°, page BrickLink ou du fabricant)
   async _details(onglet, ref) {
-    const c = etat.collection[onglet].cases.find(x => x.ref === ref);
-    if (!c || !c.code) { toast(`Case ${ref} : vide.`); return; }
-    const n = ouFigurine(c.code).length, lien = this._lien(c, onglet);
-    const actions = ["➕ Ajouter un exemplaire" + (onglet === THEME_CUSTOMS.onglet ? " (nouveau n°)" : "")];
-    if (lien) actions.push(onglet === THEME_CUSTOMS.onglet ? "🔗 Voir la page" : "🔗 Voir sur BrickLink");
-    const i = await choisirAction(`${c.nom || "(sans nom)"}\n${c.code} · ${onglet}, case ${ref}${n > 1 ? `\n${n} exemplaires dans votre collection` : ""}`, actions);
-    if (i === 0) exemplaireEnPlus(c, onglet);
-    else if (i === 1) {
+    const g = this._groupeDe(onglet, ref);
+    if (!g) { toast(`Case ${ref} : vide.`); return; }
+    const { c, cases } = g, custom = onglet === THEME_CUSTOMS.onglet, lien = this._lien(c, onglet);
+    const nums = cases.map(x => this._numero(x)).filter(Boolean);
+    const actions = [["plus", "➕ Ajouter un exemplaire" + (custom ? " (nouveau n°)" : "")],
+                     ["moins", cases.length > 1 ? "➖ Retirer un exemplaire" : "➖ Retirer de la collection"]];
+    if (custom) actions.push(["numero", nums.length ? "✏️ Corriger un numéro" : "✏️ Indiquer le numéro"]);
+    if (lien) actions.push(["lien", custom ? "🔗 Voir la page" : "🔗 Voir sur BrickLink"]);
+    const titre = `${(custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)"}\n${c.code} · ${onglet}\n` +
+      (cases.length > 1 ? `${cases.length} exemplaires` : "1 exemplaire") + (nums.length ? ` (n° ${nums.join(", ")})` : "") +
+      ` · ${cases.length > 1 ? "cases" : "case"} ${cases.map(x => x.ref).join(", ")}`;
+    const i = await choisirAction(titre, actions.map(a => a[1]));
+    const action = i >= 0 ? actions[i][0] : "";
+    if (action === "plus") exemplaireEnPlus(c, onglet);
+    else if (action === "moins") await this._retirer(onglet, cases);
+    else if (action === "numero") await this._corrigerNumero(onglet, cases);
+    else if (action === "lien") {
       const l = lienOuvrable(lien);
       if (l.startsWith("intent:")) location.href = l; else window.open(l, "_blank", "noopener");
     }
+  },
+
+  // Exemplaire concerné : le seul, ou celui choisi dans la liste (n° et case)
+  async _choisirExemplaire(question, cases) {
+    if (cases.length === 1) return cases[0];
+    const i = await choisirAction(question, cases.map(x => `${this._numero(x) ? "n° " + this._numero(x) : "sans n°"} · case ${x.ref}`));
+    return i >= 0 ? cases[i] : null;
+  },
+
+  async _modifierFichier(faire, message) {
+    try {
+      await faire();
+      etat.nonEnregistres++;
+      await memoriser();
+      await relireContenu();
+      toast(`${message} ✔ (pensez à « Enregistrer »)`, 4500);
+    } catch (err) {
+      console.error(err);
+      const m = await Memoire.lire();
+      if (m) await chargerClasseur(m.octets, m.nom, m.nonEnregistres);
+      await demander("La modification a échoué : " + err.message, "OK", "Fermer");
+    }
+    this.rendre();
+  },
+
+  async _retirer(onglet, cases) {
+    const x = await this._choisirExemplaire("Quel exemplaire retirer ?", cases);
+    if (!x) return;
+    const quoi = `« ${x.nom || x.code} » (${onglet}, case ${x.ref})`;
+    if (!(await demander(`Retirer ${quoi} de votre collection ?\n\nSon étiquette est effacée et la case redevient libre.`, "Retirer", "Annuler"))) return;
+    await this._modifierFichier(() => retirerFigurine(etat.classeur, onglet, x.row, x.col), `${quoi} retiré`);
+  },
+
+  async _corrigerNumero(onglet, cases) {
+    const x = await this._choisirExemplaire("Quel exemplaire corriger ?", cases);
+    if (!x) return;
+    const ancien = this._numero(x), serie = ancien.split("/")[1] || (cases.map(y => this._numero(y)).find(Boolean) || "").split("/")[1] || "";
+    const saisi = await demanderTexte(`Numéro de cet exemplaire (case ${x.ref})${serie ? `, série limitée à ${serie}` : ""} :`, ancien || (serie ? "/" + serie : ""), { chiffres: true });
+    if (saisi == null) return;
+    const m = /^(\d{1,4})\s*(?:\/\s*(\d{1,4}))?$/.exec(saisi);
+    if (!m) { await demander(`« ${saisi} » : tapez un numéro, par exemple 52 ou 52/150.`, "OK", "Fermer"); return; }
+    const nouveau = `${+m[1]}${m[2] || serie ? "/" + (m[2] || serie) : ""}`;
+    if (nouveau === ancien) return;
+    const pris = cases.find(y => y !== x && this._numero(y) === nouveau);
+    if (pris) { await demander(`Le n° ${nouveau} est déjà enregistré (case ${pris.ref}).`, "OK", "Fermer"); return; }
+    const nom = `${this._sansNumero(x.nom)} ${nouveau}`.trim();
+    await this._modifierFichier(() => renommerFigurine(etat.classeur, onglet, x.row, x.col, nom), `Case ${x.ref} : n° ${nouveau}`);
   },
 };
