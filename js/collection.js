@@ -188,6 +188,7 @@ const Collection = {
     const actions = [["plus", "➕ Ajouter un exemplaire" + (custom ? " (nouveau n°)" : "")],
                      ["moins", cases.length > 1 ? "➖ Retirer un exemplaire" : "➖ Retirer de la collection"]];
     if (custom) actions.push(["numero", nums.length ? "✏️ Corriger un numéro" : "✏️ Indiquer le numéro"]);
+    actions.push(["nom", "🔤 Renommer" + (cases.length > 1 ? ` (les ${cases.length} exemplaires)` : "")]);
     if (lien) actions.push(["lien", custom ? "🔗 Voir la page" : "🔗 Voir sur BrickLink"]);
     const titre = `${(custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)"}\n${c.code} · ${onglet}\n` +
       (cases.length > 1 ? `${cases.length} exemplaires` : "1 exemplaire") + (nums.length ? ` (n° ${nums.join(", ")})` : "") +
@@ -197,6 +198,7 @@ const Collection = {
     if (action === "plus") exemplaireEnPlus(c, onglet);
     else if (action === "moins") await this._retirer(onglet, cases);
     else if (action === "numero") await this._corrigerNumero(onglet, cases);
+    else if (action === "nom") await this._renommer(onglet, cases);
     else if (action === "lien") {
       const l = lienOuvrable(lien);
       if (l.startsWith("intent:")) location.href = l; else window.open(l, "_blank", "noopener");
@@ -232,6 +234,20 @@ const Collection = {
     const quoi = `« ${x.nom || x.code} » (${onglet}, case ${x.ref})`;
     if (!(await demander(`Retirer ${quoi} de votre collection ?\n\nSon étiquette est effacée et la case redevient libre.`, "Retirer", "Annuler"))) return;
     await this._modifierFichier(() => retirerFigurine(etat.classeur, onglet, x.row, x.col), `${quoi} retiré`);
+  },
+
+  // Nouveau nom pour tous les exemplaires de la figurine (customs : chaque exemplaire garde son n°)
+  async _renommer(onglet, cases) {
+    const custom = onglet === THEME_CUSTOMS.onglet, actuel = custom ? this._sansNumero(cases[0].nom) : cases[0].nom;
+    const saisi = await demanderTexte(`Nouveau nom${cases.length > 1 ? ` (pour les ${cases.length} exemplaires)` : ""}${custom ? ", sans le numéro" : ""} :`, actuel || "");
+    if (saisi == null || !saisi.trim() || saisi.trim() === actuel) return;
+    const nom = saisi.trim().replace(/\s+/g, " ");
+    await this._modifierFichier(async () => {
+      for (const x of cases) {
+        const num = custom ? this._numero(x) : "";
+        await renommerFigurine(etat.classeur, onglet, x.row, x.col, num ? `${nom} ${num}` : nom);
+      }
+    }, `Renommé « ${nom} »${cases.length > 1 ? ` (${cases.length} exemplaires)` : ""}`);
   },
 
   async _corrigerNumero(onglet, cases) {

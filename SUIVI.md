@@ -102,7 +102,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   sans le n°) avec ×N, les n° et les cases. Toucher -> menu : ➕ Ajouter un exemplaire, ➖ Retirer un exemplaire (choix
   de l'exemplaire, confirmation ; retirerFigurine dans js/xlsx.js : nom, code, lien, étiquette effacés, ligne de la
   Table camps vidée, la case redevient libre), ✏️ Corriger un numéro (customs ; renommerFigurine : case et Table
-  camps), 🔗 page. Planche : même menu. Le n° corrigé ici ne change pas la base de blisters (sens inverse seulement).
+  camps), 🔤 Renommer (tous les exemplaires ; customs : chacun garde son n° ; cache v57), 🔗 page. Planche : même menu. Le n° corrigé ici ne change pas la base de blisters (sens inverse seulement).
 - Doublons du catalogue JB fusionnés (01/10, cache v51) : même nom dans plusieurs listes (surtout eBay.de + photos de
   collectionneurs, ex. Black Krrsantan, Shiny Dark Lord) -> une seule fiche (celle de la première liste), les autres
   codes en alias (CatalogueJB.codes : photos d'album, empreintes, trouver). 580 -> 560 fiches. Les doublons entre deux
