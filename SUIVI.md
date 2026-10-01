@@ -77,6 +77,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   - « 📥 Ajouter un envoi de blisters (.zip) » : « De moi » (retour dans ma base) ou « D'un ami » (base commune seulement).
   ⚠️ Le jeton GitHub doit aussi donner accès au dépôt public (Contents : lecture et écriture), sinon message avec la
   marche à suivre ; les photos partent quand même dans le dépôt privé.
+  Fait le 01/10 : jeton étendu au dépôt public par l'utilisateur, premier envoi : 286 blisters (441 photos dans le
+  dépôt privé) ; 261 rattachés à une figurine connue, 25 sans code -> 15 nouvelles fiches « Base commune » ; 147 fiches
+  du catalogue ont maintenant aussi les photos de l'utilisateur comme référence pour la comparaison du décor.
 - Ma collection regroupée (01/10, cache v52) : une ligne par figurine (même onglet et même code ; customs : même nom
   sans le n°) avec ×N, les n° et les cases. Toucher -> menu : ➕ Ajouter un exemplaire, ➖ Retirer un exemplaire (choix
   de l'exemplaire, confirmation ; retirerFigurine dans js/xlsx.js : nom, code, lien, étiquette effacés, ligne de la
