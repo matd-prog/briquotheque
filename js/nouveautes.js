@@ -51,9 +51,10 @@ const Nouveautes = {
     try {
       const r = await fetch("data/prix_fr.tsv");
       if (r.ok) for (const l of (await r.text()).split("\n")) {
-        const [code, prix] = l.split("\t");
+        const [code, prix, meilleur] = l.split("\t");
         const s = code && this.sorties.get(code.toLowerCase());
         if (s && +prix) s.prix = prix;
+        if (s && +meilleur) s.meilleur = meilleur; // meilleur prix du moment chez un marchand français
       }
     } catch (err) { console.warn(err); }
     if (!this.sorties.size) return;
@@ -61,7 +62,7 @@ const Nouveautes = {
     for (const n of this.liste) {
       if (n.type === "set" || n.type === "objet") {
         const s = this.sorties.get(n.code.toLowerCase());
-        if (s) { n.sortie = s.sortie; n.prix = s.prix; connus.add(n.code.toLowerCase()); }
+        if (s) { n.sortie = s.sortie; n.prix = s.prix; n.meilleur = s.meilleur; connus.add(n.code.toLowerCase()); }
       } else if (n.type === "figurine") {
         const dates = (n.sets || "").split(" ").map(c => (this.sorties.get(c.toLowerCase()) || {}).sortie).filter(Boolean).sort();
         if (dates.length) n.sortie = dates[0];
@@ -70,7 +71,7 @@ const Nouveautes = {
     for (const s of this.sorties.values()) {
       if (connus.has(s.code.toLowerCase())) continue;
       const n = { type: "set", code: s.code, bricklink: s.code, nom: s.nom, theme: [s.theme, s.sousTheme].filter(Boolean).join(" / "),
-                  annee: s.annee, image: s.image, vu_le: "", sets: "", sortie: s.sortie, prix: s.prix, brickset: true };
+                  annee: s.annee, image: s.image, vu_le: "", sets: "", sortie: s.sortie, prix: s.prix, meilleur: s.meilleur, brickset: true };
       n.recherche = normaliser(`${n.code} ${n.nom} ${n.theme}`);
       this.liste.push(n);
     }

@@ -68,8 +68,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   suivante : thème, sous-thème, sortie, fin, pièces, figurines, image). Écran Nouveautés : onglet « 📅 Par mois »
   (mois choisi, sorties classées par thème, sets puis figurines ; une figurine prend la date de son premier set).
   PRIX : toujours le prix public FRANÇAIS (choix de l'utilisateur ; seuls les prix JB Spielwaren sont allemands).
-  Brickset n'a que le prix LEGO allemand : non gardé. outils/prix_lego_fr.py essaie la page produit de lego.com/fr-fr
-  (sets sortis depuis 60 jours ou à venir) -> data/prix_fr.tsv ; si le site LEGO refuse, pas de prix affiché.
+  Brickset n'a que le prix LEGO allemand : non gardé. lego.com/fr-fr refuse (403, même depuis GitHub). Source retenue :
+  Avenue de la Brique (comparateur français ; /recherche/<numéro> -> fiche ; « 59.99 € | chez LEGO » = prix public
+  LEGO France ; itemprop lowPrice = meilleur prix du moment). outils/prix_lego_fr.py -> data/prix_fr.tsv (code, prix,
+  meilleur, url, date), sets sortis depuis 60 jours ou à venir, 150 par nuit, relus après 7 jours. Essais de structure :
+  outils/sonde_prix_fr.py + .github/workflows/sonde.yml (à la main). HOTH BRICKS joignable aussi (BAM du mois ?).
   ⚠️ La valorisation (dépôt privé prix_lego.py) utilise encore le « RRP € » de Brickset, c.-à-d. le prix allemand :
   à basculer sur le prix français.
 - Accueil réorganisé (01/10, cache v59, vérifié sur le téléphone) : « ➕ Ajouter à ma collection » (gros boutons Photographier une figurine /

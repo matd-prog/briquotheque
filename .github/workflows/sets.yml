@@ -37,8 +37,8 @@ jobs:
         env:
           BRICKSET_KEY: ${{ secrets.BRICKSET_KEY }}
         run: python3 -u outils/brickset_sorties.py
-      - name: Prix français (site LEGO France)
-        continue-on-error: true   # le site LEGO peut refuser la lecture : rien n'est inventé
+      - name: Prix français (Avenue de la Brique)
+        continue-on-error: true   # Avenue de la Brique peut refuser la lecture : rien n'est inventé
         run: python3 -u outils/prix_lego_fr.py
       - name: Empreintes des nouvelles figurines
         run: |

@@ -76,7 +76,7 @@ const EcranNouveautes = {
       const themes = [...parTheme.entries()].sort((a, b) => b[1].filter(n => n.type === "set").length - a[1].filter(n => n.type === "set").length || b[1].length - a[1].length);
       const nSets = liste.filter(n => n.type === "set").length, nFigs = liste.filter(n => n.type === "figurine").length;
       let i0 = 0; const ordreAffiche = [];
-      $("nv-contenu").innerHTML = `<p class="aide">Sorties de ${this.mois ? nomMois(this.mois) : "?"} : ${nSets} set(s), ${nFigs} nouvelle(s) figurine(s). Dates : Brickset.</p>` +
+      $("nv-contenu").innerHTML = `<p class="aide">Sorties de ${this.mois ? nomMois(this.mois) : "?"} : ${nSets} set(s), ${nFigs} nouvelle(s) figurine(s). Dates : Brickset ; prix français : Avenue de la Brique (prix LEGO France, et meilleur prix du moment).</p>` +
         themes.map(([th, l]) => { const g = this._grille(l, i0); i0 += l.length; ordreAffiche.push(...l);
           return `<p class="sous-titre">${echapper(th)} <span class="score">${l.filter(n => n.type === "set").length} set(s), ${l.filter(n => n.type === "figurine").length} figurine(s)</span></p>${g}`; }).join("");
       return this._brancher(ordreAffiche);
@@ -124,7 +124,8 @@ const EcranNouveautes = {
         <span class="code">${echapper(detail)}</span>
         <span class="score">${echapper(this.onglet === "mois" ? { figurine: "Figurine", set: "Set", objet: "Objet" }[n.type] : this._theme(n))}${
           n.sortie ? ` · sortie le ${new Date(n.sortie + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}`
-          : n.vu_le ? ` · vu le ${new Date(n.vu_le).toLocaleDateString("fr-FR")}` : ` · ${echapper(n.annee)}`}${n.prix ? ` · ${(+n.prix).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}` : ""}</span>
+          : n.vu_le ? ` · vu le ${new Date(n.vu_le).toLocaleDateString("fr-FR")}` : ` · ${echapper(n.annee)}`}${n.prix ? ` · LEGO ${(+n.prix).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}` : ""}${
+          n.meilleur && (!n.prix || +n.meilleur < +n.prix) ? ` · dès ${(+n.meilleur).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}` : ""}</span>
       </button>`;
     }).join("")}</div>`;
   },
