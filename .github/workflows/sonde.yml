@@ -1,0 +1,11 @@
+# Essai ponctuel (à la main) : lecture des prix français sur Avenue de la Brique (outils/sonde_prix_fr.py).
+name: Essai prix français
+on:
+  workflow_dispatch:
+jobs:
+  sonde:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -u outils/sonde_prix_fr.py
