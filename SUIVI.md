@@ -73,6 +73,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   LEGO France ; itemprop lowPrice = meilleur prix du moment). outils/prix_lego_fr.py -> data/prix_fr.tsv (code, prix,
   meilleur, url, date), sets sortis depuis 60 jours ou à venir, 150 par nuit, relus après 7 jours. Essais de structure :
   outils/sonde_prix_fr.py + .github/workflows/sonde.yml (à la main). HOTH BRICKS joignable aussi (BAM du mois ?).
+  Premier relevé (01/10, cache v61) : 66 sets, 62 avec le prix LEGO France, 56 avec un meilleur prix (ex. 76347 Quinjet
+  59,99 € / dès 46,89 € ; 75457 Executor 749,99 €). Écran « Par mois » : « LEGO 59,99 € · dès 46,89 € ».
   ⚠️ La valorisation (dépôt privé prix_lego.py) utilise encore le « RRP € » de Brickset, c.-à-d. le prix allemand :
   à basculer sur le prix français.
 - Accueil réorganisé (01/10, cache v59, vérifié sur le téléphone) : « ➕ Ajouter à ma collection » (gros boutons Photographier une figurine /
