@@ -25,6 +25,25 @@ const CatalogueObjets = {
     const mots = normaliser(texte).split(" ").filter(Boolean);
     return mots.length ? this.liste.filter(o => mots.every(m => o.recherche.includes(m))).slice(0, max) : [];
   },
+  // Porte-clés lumineux qui ressemblent à la photo (empreintes des photos du catalogue, data/objets_empreintes.tsv) :
+  // la photo entière et sa moitié basse (la figurine, sans l'étiquette), la meilleure des deux ressemblances
+  _empreintes: null,
+  async semblables(fichier, max = 6) {
+    if (!this._empreintes) this._empreintes = fetch("data/objets_empreintes.tsv").then(r => r.ok ? r.text() : "").then(t =>
+      new Map(t.split("\n").slice(1).filter(Boolean).map(l => { const [c, e] = l.split("\t"); return [c, empreinteDepuisTexte(e)]; }))).catch(() => new Map());
+    const emp = await this._empreintes;
+    if (!emp.size) return [];
+    const bm = await createImageBitmap(fichier);
+    const bas = document.createElement("canvas");
+    bas.width = bm.width; bas.height = Math.round(bm.height * 0.6);
+    bas.getContext("2d").drawImage(bm, 0, bm.height - bas.height, bm.width, bas.height, 0, 0, bas.width, bas.height);
+    const e1 = empreinteFigurine(bm), e2 = empreinteFigurine(bas);
+    bm.close && bm.close();
+    return this.liste.filter(o => emp.has(o.code))
+      .map(o => ({ o, s: Math.max(similarite(e1, emp.get(o.code)), similarite(e2, emp.get(o.code))) }))
+      .sort((a, b) => b.s - a.s).slice(0, max).map(x => x.o);
+  },
+
   // Référence lue sur l'emballage (« KE48H ») : la même, sinon le même numéro avec une autre lettre de fin
   parReference(ref) {
     const r = ref.toUpperCase(), sans = r.replace(/[A-Z]$/, "");
@@ -107,17 +126,24 @@ const EcranObjet = {
     let ref = "";
     try { [ref] = await Promise.all([lireReferenceObjet(fichier), CatalogueObjets.charger()]); }
     catch (err) { console.error(err); }
+    const res = ref ? CatalogueObjets.parReference(ref) : [];
+    if (res.length === 1) { this.choisir(res[0]); toast(`Référence ${ref} reconnue ✔`); return; }
+    if (res.length) { this.proposer(res, `Référence lue : <b>${echapper(ref)}</b>. Touche le bon :`); return; }
+    // référence absente du catalogue (souvent rangé sous un numéro LEGO, ex. 5005667) : comparaison des photos
+    const proches = await CatalogueObjets.semblables(fichier).catch(err => { console.warn(err); return []; });
+    const lienBL = ref ? ` <a href="https://www.bricklink.com/v2/search.page?q=${encodeURIComponent(ref)}#T=G" target="_blank" rel="noopener">Chercher ${echapper(ref)} sur BrickLink</a>` : "";
+    if (proches.length) {
+      this.proposer(proches, (ref ? `Référence lue : <b>${echapper(ref)}</b>, mais le catalogue range cet objet sous un autre numéro. ` : "Référence pas trouvée sur la photo. ") +
+        `Voici les porte-clés lumineux qui ressemblent : touche le bon.${lienBL}`);
+      return;
+    }
     if (!ref) {
       $("objet-nouveautes").innerHTML = "";
       await demander("Je n'ai pas trouvé la référence sur la photo. Photographie la face avant, de près, bien à plat : la référence (ex. « KE48H ») est écrite au-dessus du code-barres.\n\nTu peux aussi taper le nom ou la référence.", "OK", "Fermer");
       return;
     }
-    const res = CatalogueObjets.parReference(ref);
-    if (res.length === 1) { this.choisir(res[0]); toast(`Référence ${ref} reconnue ✔`); return; }
-    if (res.length) { this.proposer(res, `Référence lue : <b>${echapper(ref)}</b>. Touche le bon :`); return; }
-    $("objet-code").value = "LGL-" + ref;
-    $("objet-nouveautes").innerHTML = `<p class="aide" style="grid-column: 1 / -1">Référence lue : <b>${echapper(ref)}</b>, pas encore dans le catalogue.
-      Numéro BrickLink probable : LGL-${echapper(ref)}. <a href="https://www.bricklink.com/v2/search.page?q=${encodeURIComponent(ref)}#T=G" target="_blank" rel="noopener">Vérifier sur BrickLink</a></p>`;
+    $("objet-nouveautes").innerHTML = `<p class="aide" style="grid-column: 1 / -1">Référence lue : <b>${echapper(ref)}</b>, pas trouvée dans le catalogue.
+      Tape son nom en anglais (ex. « ghost key light »), ou${lienBL}.</p>`;
   },
 
   chercher() {

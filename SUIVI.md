@@ -55,6 +55,15 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   (Tesseract, par bandes agrandies, photo droite puis tournée) et retrouve l'objet ; ou recherche par nom/référence.
   Essai sur les photos de l'utilisateur : KE48H (fantôme) et KE247H (Dark Vador blanc) lus (12 à 27 s) ;
   le dos de l'étiquette ne porte pas la référence.
+  Premier catalogue réel : 7 970 objets, 206 porte-clés lumineux. Beaucoup sont rangés sous un numéro LEGO
+  (ex. fantôme KE48H = « Ghost Key Light » 5005667) : référence absente -> comparaison de la photo avec les
+  porte-clés lumineux (data/objets_empreintes.tsv, outils/empreintes_nouveautes.js) ; plus de numéro deviné.
+- Exemplaire de plus sans reprendre de photo (01/10, cache v47) :
+  - Ma collection : toucher une figurine (liste ou planche) -> menu « ➕ Ajouter un exemplaire » / « 🔗 Voir… »
+    (choisirAction, exemplaireEnPlus dans js/app.js) : écran de résultat avec le même onglet et le même nom ;
+    customs : écran Custom avec la même figurine (série reprise), il reste le n° à taper ;
+  - base de blisters (les deux applis) : bouton ➕ sur chaque blister, et dans la visionneuse (Base.exemplaireDe) :
+    mêmes photos, nom, précision, série, note ; seul le n° à taper.
 
 ## Publié le 29/09/2026, à confirmer sur le téléphone
 

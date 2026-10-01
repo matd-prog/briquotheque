@@ -70,6 +70,7 @@ window.addEventListener("popstate", () => {
   }
   if ($("dialogue").open) { $("dialogue-non").click(); armerRetour(); return; } // une question ouverte : retour = « non »
   if (typeof Visionneuse !== "undefined" && Visionneuse.fermer()) { armerRetour(); return; } // photos en grand : retour = fermer
+  if ($("menu-actions").open) { $("menu-fermer").click(); armerRetour(); return; } // menu ouvert : retour = fermer
   if (ecranActuel === "chargement") { armerRetour(); toast("Patientez, lecture en cours…"); return; }
   if (ecranActuel === "recadrage") { armerRetour(); Recadrage.annuler(); return; } // l'appelant choisit l'écran suivant
   if (pileEcrans.length) { afficher(pileEcrans.pop(), true); return; }
@@ -94,6 +95,20 @@ function demander(texte, oui = "Oui", non = "Non") {
     $("dialogue-oui").onclick = () => { d.close(); ok(true); };
     $("dialogue-non").onclick = () => { d.close(); ok(false); };
     d.oncancel = () => ok(false);
+    d.showModal();
+  });
+}
+
+// Petit menu : un bouton par action ; renvoie le numéro de l'action touchée, ou -1 (Fermer, retour)
+function choisirAction(titre, actions) {
+  return new Promise(ok => {
+    const d = $("menu-actions");
+    $("menu-titre").textContent = titre;
+    $("menu-boutons").innerHTML = actions.map((a, i) => `<button class="gros-bouton ${i ? "bleu" : "vert"}" data-i="${i}">${echapper(a)}</button>`).join("");
+    const fin = i => { if (d.open) d.close(); ok(i); };
+    $("menu-boutons").onclick = e => { const b = e.target.closest("[data-i]"); if (b) fin(+b.dataset.i); };
+    $("menu-fermer").onclick = () => fin(-1);
+    d.oncancel = () => ok(-1);
     d.showModal();
   });
 }
@@ -561,6 +576,39 @@ async function ajouter() {
     afficher("resultat");
     await demander("L'ajout a échoué : " + err.message, "OK", "Fermer");
   }
+}
+
+// Un exemplaire de plus d'une figurine déjà dans la collection, sans reprendre de photo : écran de résultat avec le
+// même onglet (camp ou thème) et le même nom ; customs : écran Custom avec la même figurine, il reste le n° à taper
+function exemplaireEnPlus(c, onglet) {
+  etat.photos = [];
+  if (onglet === THEME_CUSTOMS.onglet) {
+    ouvrirCustom("Exemplaire de plus : tape son numéro.");
+    const jb = typeof CatalogueJB !== "undefined" && CatalogueJB.trouver(c.code);
+    if (jb) choisirJB(jb);
+    else {
+      $("custom-lien").value = c.lien || "";
+      $("custom-nom").value = (c.nom || "").replace(/\s*\d{1,4}\/\d{1,4}\s*$/, "");
+      majCustom();
+    }
+    const serie = /\d{1,4}\/(\d{1,4})\s*$/.exec(c.nom || "");
+    if (serie) $("custom-serie").value = serie[1];
+    majNumerosCustom && majNumerosCustom();
+    setTimeout(() => $("custom-exemplaire").focus(), 100);
+    return;
+  }
+  const fiche = Catalogue.trouver(c.code);
+  etat.candidats = [{ id: c.code.toUpperCase(), nom: fiche ? fiche.nom : c.nom, image: "", score: null,
+                      categorie: fiche ? fiche.categorie : "", lien: urlBricklink(c.code) }];
+  etat.origine = "collection";
+  choisirCandidat(0);
+  // même rangement que l'exemplaire déjà là
+  const camp = Object.entries(CAMPS).find(([, x]) => x.onglet === onglet);
+  if (camp) { etat.theme = STAR_WARS; etat.camp = camp[0]; } else etat.theme = onglet;
+  if ($("choix-theme")) $("choix-theme").value = etat.theme;
+  if (c.nom) $("champ-nom").value = c.nom;
+  majChoix("Même rangement que l'exemplaire que tu as déjà.");
+  window.scrollTo(0, 0);
 }
 
 // ---------- recherche par nom (catalogue BrickLink) ----------

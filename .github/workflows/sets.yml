@@ -38,7 +38,7 @@ jobs:
           node outils/empreintes_nouveautes.js
       - name: Publication
         run: |
-          git add data/sets.tsv data/sets_figurines.tsv data/nouveautes.tsv data/nouveautes_empreintes.tsv data/objets.tsv
+          git add data/sets.tsv data/sets_figurines.tsv data/nouveautes.tsv data/nouveautes_empreintes.tsv data/objets.tsv data/objets_empreintes.tsv
           # seule la date a changé : rien à publier
           if ! git diff --cached -U0 | grep -q '^[+-][^+#-]'; then echo "Rien de nouveau"; exit 0; fi
           git config user.name "github-actions[bot]"

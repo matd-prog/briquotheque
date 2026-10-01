@@ -426,6 +426,21 @@ const Base = {
     this._afficherListe();
   },
 
+  // Exemplaire de plus d'un blister déjà dans la base (nouveau n°), sans reprendre de photo : mêmes photos, nom,
+  // précision, série et note ; seul le numéro reste à taper (on peut aussi reprendre une photo)
+  exemplaireDe(id) {
+    const e = this.entrees.find(x => x.id === id);
+    if (!e) return;
+    this._precedent = { photo: e.photo, verso: e.verso, nom: e.nom, precision: e.precision || "", code: e.code || "",
+                        nomLu: e.nom, codeLu: e.code || "", serie: e.serie || "", remarque: e.remarque || "", nonNumerote: e.numerote === false,
+                        source: null, sourceVerso: null, cadre: null, cadreVerso: null };
+    this.autreExemplaire();
+    $("base-etat").textContent = "Exemplaire de plus, mêmes photos : tape seulement son numéro, puis « Ajouter ». Pour prendre des photos de cet exemplaire, touche « Autre exemplaire … : photographier ».";
+    if ($("base-autre")) { $("base-autre").hidden = false; $("btn-base-autre").textContent = `Autre exemplaire de « ${nomComplet(e)} » : photographier`; }
+    $("base-fiche").scrollIntoView({ block: "start" });
+    if ($("base-numero") && e.numerote !== false) setTimeout(() => $("base-numero").focus(), 300);
+  },
+
   // Exemplaire suivant de la même figurine : nom, série et note repris ; nouvelles photos recto et verso (état et
   // numéro propres à chaque exemplaire), ou la même photo (fichier = rien) ; seul le numéro reste à taper
   async autreExemplaire(fichier) {
@@ -530,14 +545,17 @@ const Base = {
           <div class="lieu">${echapper([e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
             e.verso ? "recto + verso" : "sans verso", e.origine === "album" && "d'après l'album photo", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
         ${e.verso ? "" : `<label class="petit" title="Ajouter le verso">📷 verso<input type="file" accept="image/*" capture="environment" data-base-verso="${e.id}" hidden></label>`}
+        <button class="petit" data-base-plus="${e.id}" title="Ajouter un exemplaire (nouveau n°), même photo">➕</button>
         <button class="petit" data-base-modif="${e.id}" title="Modifier">✏️</button>
         <button class="petit" data-base-suppr="${e.id}" title="Retirer">✕</button>
       </div>`).join("");
     $("base-liste").querySelectorAll("[data-base-voir]").forEach(im => im.addEventListener("click", () => {
       const e = this.entrees.find(x => x.id === im.dataset.baseVoir);
-      if (e) Visionneuse.ouvrir(nomComplet(e), Base.imagesBlister(e));
+      if (e) Visionneuse.ouvrir(nomComplet(e), Base.imagesBlister(e), "", "",
+        [{ texte: "➕ Ajouter un exemplaire (nouveau n°)", faire: () => this.exemplaireDe(e.id) }]);
     }));
     $("base-liste").querySelectorAll("[data-base-modif]").forEach(b => b.addEventListener("click", () => this.modifier(b.dataset.baseModif)));
+    $("base-liste").querySelectorAll("[data-base-plus]").forEach(b => b.addEventListener("click", () => this.exemplaireDe(b.dataset.basePlus)));
     $("base-liste").querySelectorAll("[data-base-suppr]").forEach(b => b.addEventListener("click", () => this.supprimer(b.dataset.baseSuppr)));
     $("base-liste").querySelectorAll("[data-base-verso]").forEach(c => c.addEventListener("change", async () => {
       const f = c.files[0], e = this.entrees.find(x => x.id === c.dataset.baseVerso);
@@ -847,7 +865,7 @@ document.addEventListener("focusout", e => {
 // Visionneuse : une fiche plein écran avec plusieurs photos en grand (recto, verso, photos de collectionneur…).
 // images : [{ src (adresse, ou promesse d'adresse ; vide = photo retirée), legende }]
 const Visionneuse = {
-  ouvrir(titre, images, lien, lienTexte) {
+  ouvrir(titre, images, lien, lienTexte, actions = []) {
     let d = $("visionneuse");
     if (!d) {
       d = document.createElement("dialog");
@@ -858,8 +876,10 @@ const Visionneuse = {
     }
     d.innerHTML = `<div class="visionneuse-tete"><b>${echapper(titre)}</b><button class="petit" data-fermer>✕ Fermer</button></div>
       ${lien ? `<a class="bouton bleu" href="${echapper(lien)}" target="_blank" rel="noopener">🔗 ${echapper(lienTexte || "Voir la page")}</a>` : ""}
+      ${actions.map((a, i) => `<button class="gros-bouton vert" data-vaction="${i}">${echapper(a.texte)}</button>`).join("")}
       <div class="visionneuse-images">${images.length ? images.map((im, i) => `<figure><img data-vi="${i}" alt="">
         <figcaption>${echapper(im.legende || "")}</figcaption></figure>`).join("") : `<p class="aide">Pas de photo.</p>`}</div>`;
+    d.querySelectorAll("[data-vaction]").forEach(b => b.addEventListener("click", () => { d.close(); actions[+b.dataset.vaction].faire(); }));
     images.forEach(async (im, i) => {
       const el = d.querySelector(`img[data-vi="${i}"]`);
       let src = "";

@@ -268,3 +268,9 @@ img { -webkit-touch-callout: none; -webkit-user-drag: none; user-select: none; }
 .visionneuse-images img { width: 100%; border-radius: 10px; background: #000; display: block; }
 .visionneuse-images figcaption { font-size: 14px; color: #555; margin-top: 4px; }
 button.proposition { font: inherit; text-align: left; border: 0; cursor: pointer; }
+/* petit menu d'actions (figurine touchée dans Ma collection) */
+.menu-actions { width: min(92vw, 420px); border: 0; border-radius: 14px; padding: 16px; }
+.menu-actions::backdrop { background: rgba(0,0,0,.5); }
+.menu-actions #menu-titre { white-space: pre-line; font-weight: 600; margin: 0 0 12px; }
+.menu-actions #menu-boutons { display: grid; gap: 8px; margin-bottom: 8px; }
+.fiche.cliquable { cursor: pointer; }

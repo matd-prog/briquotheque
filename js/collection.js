@@ -34,6 +34,7 @@ const Collection = {
       this.rendre();
     });
     $("collection-contenu").addEventListener("click", e => {
+      if (e.target.closest("a")) return; // lien 🔗 de la fiche
       const b = e.target.closest("[data-case]");
       if (b) this._details(b.dataset.onglet, b.dataset.case);
     });
@@ -74,7 +75,7 @@ const Collection = {
 
     const figs = this._figurines(this.onglet);
     if (this.vue === "liste") {
-      $("collection-info").textContent = `${figs.length} figurine(s) dans « ${this.onglet} ». Touchez 🔗 pour voir sa page (BrickLink, ou le fabricant pour les customs).`;
+      $("collection-info").textContent = `${figs.length} figurine(s) dans « ${this.onglet} ». Touche une figurine pour en ajouter un exemplaire, ou 🔗 pour voir sa page.`;
       contenu.innerHTML = figs.map(c => this._fiche(c, this.onglet)).join("");
       return;
     }
@@ -116,7 +117,7 @@ const Collection = {
 
   _fiche(c, onglet) {
     return `
-      <div class="fiche">
+      <div class="fiche cliquable" data-onglet="${echapper(onglet)}" data-case="${c.ref}">
         ${onglet === THEME_CUSTOMS.onglet ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
         <div class="infos">
           <div class="nom-court">${echapper(c.nom || "(sans nom)")}</div>
@@ -127,15 +128,18 @@ const Collection = {
       </div>`;
   },
 
+  // Figurine touchée : petit menu (exemplaire de plus sans reprendre de photo, page BrickLink ou du fabricant)
   async _details(onglet, ref) {
     const c = etat.collection[onglet].cases.find(x => x.ref === ref);
     if (!c || !c.code) { toast(`Case ${ref} : vide.`); return; }
-    const lien = this._lien(c, onglet);
-    if (!lien) { await demander(`${c.nom || "(sans nom)"}\n${c.code}\n${onglet}, case ${ref}`, "OK", "Fermer"); return; }
-    const voir = await demander(`${c.nom || "(sans nom)"}\n${c.code}\n${onglet}, case ${ref}`,
-      onglet === THEME_CUSTOMS.onglet ? "Voir la page" : "Voir sur BrickLink", "Fermer");
-    if (!voir) return;
-    const l = lienOuvrable(lien);
-    if (l.startsWith("intent:")) location.href = l; else window.open(l, "_blank", "noopener");
+    const n = ouFigurine(c.code).length, lien = this._lien(c, onglet);
+    const actions = ["➕ Ajouter un exemplaire" + (onglet === THEME_CUSTOMS.onglet ? " (nouveau n°)" : "")];
+    if (lien) actions.push(onglet === THEME_CUSTOMS.onglet ? "🔗 Voir la page" : "🔗 Voir sur BrickLink");
+    const i = await choisirAction(`${c.nom || "(sans nom)"}\n${c.code} · ${onglet}, case ${ref}${n > 1 ? `\n${n} exemplaires dans ta collection` : ""}`, actions);
+    if (i === 0) exemplaireEnPlus(c, onglet);
+    else if (i === 1) {
+      const l = lienOuvrable(lien);
+      if (l.startsWith("intent:")) location.href = l; else window.open(l, "_blank", "noopener");
+    }
   },
 };
