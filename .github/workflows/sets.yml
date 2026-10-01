@@ -37,6 +37,9 @@ jobs:
         env:
           BRICKSET_KEY: ${{ secrets.BRICKSET_KEY }}
         run: python3 -u outils/brickset_sorties.py
+      - name: Prix français (site LEGO France)
+        continue-on-error: true   # le site LEGO peut refuser la lecture : rien n'est inventé
+        run: python3 -u outils/prix_lego_fr.py
       - name: Empreintes des nouvelles figurines
         run: |
           npm install --no-save playwright@1
@@ -45,7 +48,7 @@ jobs:
       - name: Publication
         run: |
           git add data/sets.tsv data/sets_figurines.tsv data/nouveautes.tsv data/nouveautes_empreintes.tsv data/objets.tsv
-          if [ -f data/sorties.tsv ]; then git add data/sorties.tsv; fi
+          for f in data/sorties.tsv data/prix_fr.tsv; do if [ -f $f ]; then git add $f; fi; done
           # seule la date a changé : rien à publier
           if ! git diff --cached -U0 | grep -q '^[+-][^+#-]'; then echo "Rien de nouveau"; exit 0; fi
           git config user.name "github-actions[bot]"

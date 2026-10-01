@@ -63,6 +63,15 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 - Ma collection, photos des customs (01/10, cache v50, vérifié sur le téléphone) : codes CUS-… -> figurine JB retrouvée par le lien ou le
   nom (sans le n° « 52/150 ») ; photo du catalogue, sinon photo de « Ma base de blisters », sinon photo de l'album
   (jeton GitHub), sinon 🎨. Signalé par l'utilisateur (capture : BLACK KRRSANTAN, SHINY DARK LORD… sans photo).
+- Dates de sortie Brickset (01/10, cache v60) : clé API dans le secret GitHub BRICKSET_KEY (créée par l'utilisateur,
+  compte Brickset « barjo44 ») ; outils/brickset_sorties.py -> data/sorties.tsv chaque nuit (sets de l'année et de la
+  suivante : thème, sous-thème, sortie, fin, pièces, figurines, image). Écran Nouveautés : onglet « 📅 Par mois »
+  (mois choisi, sorties classées par thème, sets puis figurines ; une figurine prend la date de son premier set).
+  PRIX : toujours le prix public FRANÇAIS (choix de l'utilisateur ; seuls les prix JB Spielwaren sont allemands).
+  Brickset n'a que le prix LEGO allemand : non gardé. outils/prix_lego_fr.py essaie la page produit de lego.com/fr-fr
+  (sets sortis depuis 60 jours ou à venir) -> data/prix_fr.tsv ; si le site LEGO refuse, pas de prix affiché.
+  ⚠️ La valorisation (dépôt privé prix_lego.py) utilise encore le « RRP € » de Brickset, c.-à-d. le prix allemand :
+  à basculer sur le prix français.
 - Accueil réorganisé (01/10, cache v59, vérifié sur le téléphone) : « ➕ Ajouter à ma collection » (gros boutons Photographier une figurine /
   un blister JB, puis photo déjà prise, nom, code, custom, set, objet dérivé), « 📖 Ma collection » (collection,
   valeur, achats, assureur), « 🔎 Découvrir » (nouveautés, catalogue JB, base de blisters) ; Outils inchangés.

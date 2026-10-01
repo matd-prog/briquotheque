@@ -38,11 +38,24 @@ const Nouveautes = {
     let texte = "";
     try { const r = await fetch("data/sorties.tsv"); if (r.ok) texte = await r.text(); } catch (err) { console.warn(err); }
     this.sorties = new Map();
+    let col = null; // colonnes lues par leur nom (la colonne « prix » allemand d'un ancien fichier est ignorée)
     for (const l of texte.split("\n")) {
-      const [code, nom, theme, sousTheme, annee, sortie, fin, pieces, figurines, prix, image] = l.replace(/\r$/, "").split("\t");
-      if (!code || code === "code" || code.startsWith("#")) continue;
-      this.sorties.set(code.toLowerCase(), { code, nom, theme, sousTheme, annee, sortie, fin, pieces, figurines, prix, image });
+      const c = l.replace(/\r$/, "").split("\t");
+      if (c[0] === "code") { col = c; continue; }
+      if (!col || !c[0] || c[0].startsWith("#")) continue;
+      const v = k => c[col.indexOf(k)] || "";
+      this.sorties.set(c[0].toLowerCase(), { code: c[0], nom: v("nom"), theme: v("theme"), sousTheme: v("sous_theme"), annee: v("annee"),
+        sortie: v("sortie"), fin: v("fin"), pieces: v("pieces"), figurines: v("figurines"), image: v("image") });
     }
+    // prix public LEGO France (data/prix_fr.tsv, outils/prix_lego_fr.py) ; jamais le prix allemand
+    try {
+      const r = await fetch("data/prix_fr.tsv");
+      if (r.ok) for (const l of (await r.text()).split("\n")) {
+        const [code, prix] = l.split("\t");
+        const s = code && this.sorties.get(code.toLowerCase());
+        if (s && +prix) s.prix = prix;
+      }
+    } catch (err) { console.warn(err); }
     if (!this.sorties.size) return;
     const connus = new Set();
     for (const n of this.liste) {

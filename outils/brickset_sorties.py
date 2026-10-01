@@ -2,14 +2,15 @@
 """Sorties LEGO avec leur date (Brickset) -> data/sorties.tsv
 
 Brickset (https://brickset.com) donne pour chaque set sa date de sortie (launchDate), sa date de fin, son thème et
-sous-thème, ses pièces, son nombre de figurines et son prix public en Allemagne. Rebrickable (outils/nouveautes_rebrickable.py)
+sous-thème, ses pièces et son nombre de figurines. (Son prix en euros est celui de LEGO Allemagne : pas gardé,
+l'appli affiche les prix français, outils/prix_lego_fr.py.) Rebrickable (outils/nouveautes_rebrickable.py)
 ne donne que l'année : l'appli s'en sert pour classer les nouveautés par mois de sortie.
 
 Accès officiel par l'API v3 de Brickset, avec une clé gratuite : variable d'environnement BRICKSET_KEY (secret GitHub
 du même nom, jamais écrit dans le dépôt ni affiché). Sans clé, l'outil ne fait rien.
 Sets de l'année et de la suivante (déjà annoncés) ; de janvier à mars, aussi ceux de l'an dernier.
 
-Colonnes : code (« 75412-1 »), nom, thème, sous-thème, année, sortie (AAAA-MM-JJ), fin, pièces, figurines, prix (€, DE), image.
+Colonnes : code (« 75412-1 »), nom, thème, sous-thème, année, sortie (AAAA-MM-JJ), fin, pièces, figurines, image.
 Utilisation : BRICKSET_KEY=… python3 outils/brickset_sorties.py
 """
 import datetime, json, os, sys, urllib.parse, urllib.request
@@ -60,14 +61,13 @@ def main():
             page += 1
     lignes = []
     for s in sets:
-        prix = ((s.get("LEGOCom") or {}).get("DE") or {}).get("retailPrice") or ""
         code = f"{s.get('number')}-{s.get('numberVariant') or 1}"
         lignes.append([code, propre(s.get("name")), propre(s.get("theme")), propre(s.get("subtheme")), propre(s.get("year")),
                        jour(s.get("launchDate")), jour(s.get("exitDate")), propre(s.get("pieces") or ""), propre(s.get("minifigs") or ""),
-                       propre(prix), propre((s.get("image") or {}).get("imageURL"))])
+                       propre((s.get("image") or {}).get("imageURL"))])
     lignes.sort(key=lambda l: (l[5] or "9999", l[2], l[0]))
     with open(SORTIE, "w", encoding="utf-8") as f:
-        f.write(f"#date {aujourdhui.isoformat()}\ncode\tnom\ttheme\tsous_theme\tannee\tsortie\tfin\tpieces\tfigurines\tprix\timage\n")
+        f.write(f"#date {aujourdhui.isoformat()}\ncode\tnom\ttheme\tsous_theme\tannee\tsortie\tfin\tpieces\tfigurines\timage\n")
         for l in lignes:
             f.write("\t".join(l) + "\n")
     avec = sum(1 for l in lignes if l[5])
