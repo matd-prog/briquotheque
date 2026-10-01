@@ -69,6 +69,7 @@
       <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
       <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
       <button class="tuile" data-action="souhaits"><span class="icone">⭐</span><b>Ma liste de souhaits</b><small>Ce que vous voulez, sorties</small></button>
+      <button class="tuile" data-action="impression"><span class="icone">🖨️</span><b>Imprimer des étiquettes</b><small>À la taille de vos étiquettes</small></button>
     </div>
 
     <p class="section-titre">🔎 Découvrir</p>
@@ -523,6 +524,51 @@
   <div id="menu-boutons"></div>
   <button class="bouton gris" id="menu-fermer">Fermer</button>
 </dialog>
+  <!-- Impression d'étiquettes à la taille choisie (js/impression.js) -->
+  <section id="ecran-impression" class="ecran" hidden>
+    <div class="pas-imprime colonne">
+      <p class="intro">🖨️ <b>Imprimer des étiquettes</b><br><small>Sur une planche d'étiquettes autocollantes (A4) ou une
+        imprimante d'étiquettes en rouleau. Choisissez le modèle de vos étiquettes, ou entrez vos propres mesures.</small></p>
+      <p class="sous-titre">1. Quelles étiquettes ?</p>
+      <div id="imp-sources" class="puces"></div>
+      <label class="case-a-cocher"><input type="checkbox" id="imp-nouvelles" checked> Seulement celles pas encore imprimées</label>
+      <p class="aide" id="imp-compte"></p>
+      <div id="imp-reglages" class="colonne">
+        <p class="sous-titre">2. Format des étiquettes</p>
+        <select id="imp-modele" class="champ" aria-label="Modèle d'étiquettes"></select>
+        <div class="grille-reglages">
+          <label>Papier<select id="imp-page" class="champ"><option value="A4">A4</option><option value="Lettre">Lettre (US)</option><option value="rouleau">Rouleau (une étiquette par page)</option></select></label>
+          <label>Largeur (mm)<input id="imp-l" class="champ" inputmode="decimal"></label>
+          <label>Hauteur (mm)<input id="imp-h" class="champ" inputmode="decimal"></label>
+        </div>
+        <div class="grille-reglages" id="imp-marges">
+          <label>Marge du haut (mm)<input id="imp-mh" class="champ" inputmode="decimal"></label>
+          <label>Marge de gauche (mm)<input id="imp-mg" class="champ" inputmode="decimal"></label>
+          <label>Espace entre colonnes (mm)<input id="imp-eh" class="champ" inputmode="decimal"></label>
+          <label>Espace entre lignes (mm)<input id="imp-ev" class="champ" inputmode="decimal"></label>
+        </div>
+        <p class="aide" id="imp-planche"></p>
+        <div id="imp-depart-bloc"><label>Commencer à l'étiquette n° (planche déjà entamée)<input id="imp-depart" class="champ" type="number" inputmode="numeric" min="1" value="1"></label></div>
+        <p class="sous-titre">3. Contenu</p>
+        <label class="case-a-cocher"><input type="checkbox" id="imp-qr"> QR code (page BrickLink, ou du fabricant pour une custom)</label>
+        <label class="case-a-cocher"><input type="checkbox" id="imp-nom"> Nom de la figurine sous le code</label>
+        <label class="case-a-cocher"><input type="checkbox" id="imp-couleur"> Couleur du thème en fond (décochez pour une imprimante noir et blanc)</label>
+        <label class="case-a-cocher"><input type="checkbox" id="imp-traits"> Traits de découpe (papier ordinaire)</label>
+      </div>
+      <p class="aide">Conseil : imprimez d'abord une page sur papier ordinaire et posez-la sur la planche, à contre-jour, pour
+        vérifier l'alignement. Imprimez toujours en taille réelle (100 %), sans marges.</p>
+      <div class="oui-non">
+        <button class="gros-bouton gris" data-imp="apercu">👁️ Aperçu</button>
+        <button class="gros-bouton vert" data-imp="imprimer">🖨️ Imprimer / PDF</button>
+      </div>
+      <p class="aide" id="imp-etat"></p>
+      <button class="bouton-lien" data-imp="oublier">Tout remettre « à imprimer »</button>
+      <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
+    </div>
+    <div id="imp-feuilles"></div>
+  </section>
+  <style id="style-impression"></style>
+
   <!-- Liste de souhaits (js/souhaits.js) : onglet « Souhaits » du fichier Excel -->
   <section id="ecran-souhaits" class="ecran" hidden>
     <p class="intro">⭐ <b>Ma liste de souhaits</b><br><small>Les figurines, customs, sets et objets que vous voulez. Ajoutez-en depuis leur fiche (« ⭐ Ajouter à ma liste de souhaits »). Touchez un souhait pour l'ajouter à votre collection ou le retirer de la liste.</small></p>
@@ -555,6 +601,7 @@
   <script src="js/objets.js"></script>
   <script src="js/ecran_nouveautes.js"></script>
   <script src="js/souhaits.js"></script>
+  <script src="js/impression.js"></script>
   <script src="js/valeur.js"></script>
   <script src="js/assurance.js"></script>
   <script src="js/achats.js"></script>

@@ -197,7 +197,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 @media print {
   @page { size: A4; margin: 12mm; }
   body { background: #fff; }
-  header, #bandeau-save, .pas-imprime, .ecran:not(#ecran-assurance), #toast, dialog { display: none !important; }
+  header, #bandeau-save, .pas-imprime, .ecran:not(#ecran-assurance):not(#ecran-impression), #toast, dialog { display: none !important; }
   main { padding: 0; max-width: none; }
   .dossier { padding: 0; border-radius: 0; font-size: 10px; }
   .dossier tr { break-inside: avoid; }
@@ -276,3 +276,21 @@ button.proposition { font: inherit; text-align: left; border: 0; cursor: pointer
 .fiche.cliquable { cursor: pointer; }
 /* accueil : second gros bouton (blister JB), juste sous celui de la figurine */
 .action-principale.action-blister { margin-top: 10px; background: #d9466f; }
+
+/* Impression d'étiquettes (js/impression.js) : pages à la taille réelle, réduites à l'écran pour l'aperçu */
+.grille-reglages { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
+.grille-reglages label { font-size: 14px; font-weight: 600; display: flex; flex-direction: column; gap: 4px; }
+#imp-feuilles { display: flex; flex-direction: column; gap: 12px; zoom: var(--zoom-etq, 1); }
+.page-etq { position: relative; background: #fff; box-shadow: 0 1px 6px rgba(0,0,0,.25); overflow: hidden; }
+.page-etq .etq { position: absolute; display: block; }
+.page-etq .etq.trait { outline: 0.1mm dashed #999; }
+@media print {
+  body.impression-etiquettes main { padding: 0; margin: 0; max-width: none; }
+  body.impression-etiquettes .ecran:not(#ecran-impression) { display: none !important; }
+  body.impression-etiquettes #imp-feuilles { zoom: 1; gap: 0; display: block; }
+  body.impression-etiquettes .page-etq { box-shadow: none; break-after: page; page-break-after: always; }
+  body.impression-etiquettes .page-etq:last-child { break-after: auto; page-break-after: auto; }
+  body:not(.impression-etiquettes) #ecran-impression { display: none !important; }
+  .page-etq .etq { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+.colonne { display: flex; flex-direction: column; gap: 14px; }
