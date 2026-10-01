@@ -68,6 +68,7 @@
       <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
       <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
       <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
+      <button class="tuile" data-action="souhaits"><span class="icone">⭐</span><b>Ma liste de souhaits</b><small>Ce que vous voulez, sorties</small></button>
     </div>
 
     <p class="section-titre">🔎 Découvrir</p>
@@ -522,6 +523,13 @@
   <div id="menu-boutons"></div>
   <button class="bouton gris" id="menu-fermer">Fermer</button>
 </dialog>
+  <!-- Liste de souhaits (js/souhaits.js) : onglet « Souhaits » du fichier Excel -->
+  <section id="ecran-souhaits" class="ecran" hidden>
+    <p class="intro">⭐ <b>Ma liste de souhaits</b><br><small>Les figurines, customs, sets et objets que vous voulez. Ajoutez-en depuis leur fiche (« ⭐ Ajouter à ma liste de souhaits »). Touchez un souhait pour l'ajouter à votre collection ou le retirer de la liste.</small></p>
+    <p class="aide" id="sh-info"></p>
+    <div id="sh-contenu"></div>
+    <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
+  </section>
 
 <div id="toast" class="toast" hidden></div>
 
@@ -546,6 +554,7 @@
 <script src="js/import_sets.js"></script>
   <script src="js/objets.js"></script>
   <script src="js/ecran_nouveautes.js"></script>
+  <script src="js/souhaits.js"></script>
   <script src="js/valeur.js"></script>
   <script src="js/assurance.js"></script>
   <script src="js/achats.js"></script>

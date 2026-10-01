@@ -49,7 +49,13 @@ const COLONNES_A_VENDRE = [
   ["A", "Figurine", 40], ["B", "N° exemplaire", 10], ["C", "Série", 8], ["D", "Prix proposé (€)", 12], ["E", "Prix payé (€)", 11],
   ["F", "Prix eBay.de (€)", 11], ["G", "Statut", 12], ["H", "Prix de vente réel (€)", 12], ["I", "Code", 16], ["J", "Mis à jour le", 11],
 ];
-const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS, ONGLET_OBJETS, ONGLET_CUSTOMS_ACHETEES, ONGLET_VALEURS_DECLAREES, ONGLET_A_VENDRE];
+// Liste de souhaits (js/souhaits.js) : figurines officielles, customs, sets et objets dérivés voulus
+const ONGLET_SOUHAITS = "Souhaits";
+const COLONNES_SOUHAITS = [
+  ["A", "Type", 11], ["B", "Code", 18], ["C", "Nom", 44], ["D", "Thème / série", 28], ["E", "Sortie", 11],
+  ["F", "Remarques", 30], ["G", "Ajouté le", 11],
+];
+const ONGLETS_AUTORISES = [...ONGLETS_COLORES, ONGLET_TABLE, ONGLET_SETS, ONGLET_OBJETS, ONGLET_SOUHAITS, ONGLET_CUSTOMS_ACHETEES, ONGLET_VALEURS_DECLAREES, ONGLET_A_VENDRE];
 // Onglets de thèmes (Simpsons, Harry Potter...) : créés par l'appli, même mise en page
 const ONGLETS_THEMES = TOUS_THEMES.map(t => t.onglet);
 const ONGLET_MODELE = "Gentils (vert)";
@@ -762,6 +768,32 @@ async function ajouterSet(cl, { code, nom, annee, theme, pieces, etat, boite, no
   for (let i = 0; i < valeurs.length; i++)
     if (valeurs[i] !== "" && valeurs[i] != null) await cl.ecrireTexte(ONGLET_SETS, COLONNES_SETS[i][0] + row, String(valeurs[i]));
   return row;
+}
+
+// Liste de souhaits : [{ row, type, code, nom, theme, sortie, remarques, ajoute }]
+async function lireSouhaits(cl) {
+  if (!cl.aOnglet(ONGLET_SOUHAITS)) return [];
+  const res = [], derniere = await cl.derniereLigne(ONGLET_SOUHAITS);
+  for (let row = 2; row <= derniere; row++) {
+    const v = async l => cl.valeur(ONGLET_SOUHAITS, l + row);
+    const code = await v("B"), nom = await v("C");
+    if (code || nom) res.push({ row, type: await v("A"), code, nom, theme: await v("D"), sortie: await v("E"),
+                                remarques: await v("F"), ajoute: await v("G") });
+  }
+  return res;
+}
+
+async function ajouterSouhait(cl, { type, code, nom, theme, sortie, remarques }) {
+  await cl.creerOngletSets(ONGLET_SOUHAITS, COLONNES_SOUHAITS);
+  const row = (await cl.derniereLigne(ONGLET_SOUHAITS)) + 1;
+  const valeurs = [type, code, nom, theme, sortie, remarques, new Date().toLocaleDateString("fr-FR")];
+  for (let i = 0; i < valeurs.length; i++)
+    if (valeurs[i]) await cl.ecrireTexte(ONGLET_SOUHAITS, COLONNES_SOUHAITS[i][0] + row, String(valeurs[i]));
+  return row;
+}
+
+async function retirerSouhait(cl, row) {
+  for (const [c] of COLONNES_SOUHAITS) await cl.viderCellule(ONGLET_SOUHAITS, c + row);
 }
 
 // Objets dérivés : [{ row, code, nom, type, etat, quantite, remarques }]

@@ -78,7 +78,7 @@ const EcranSet = {
     afficher("set");
     $("set-info").textContent = "Chargement du catalogue des sets…";
     try {
-      await Promise.all([CatalogueSets.charger(), Catalogue.charger().catch(() => {})]);
+      await Promise.all([CatalogueSets.charger(), Catalogue.charger().catch(() => {}), typeof Nouveautes !== "undefined" ? Nouveautes.charger().catch(() => {}) : null]);
       $("set-info").textContent = `Tapez le numéro du set (ex. 75192) ou son nom (ex. étoile de la mort, millennium falcon). Catalogue : ${CatalogueSets.sets.size.toLocaleString("fr-FR")} sets` +
         (CatalogueSets.date ? ` (${new Date(CatalogueSets.date).toLocaleDateString("fr-FR")})` : "") + ".";
     } catch (e) {
@@ -112,6 +112,10 @@ const EcranSet = {
       }));
       return;
     }
+    // set annoncé ou tout juste sorti, pas encore dans le catalogue Rebrickable : fiche tirée des nouveautés (Brickset)
+    const nv = !s && typeof Nouveautes !== "undefined" && Nouveautes.liste.find(n => n.type === "set" &&
+      n.code.toLowerCase() === numero.trim().toLowerCase().replace(/^(\d+)$/, "$1-1"));
+    if (nv) return this.choisir({ code: nv.code, nom: nv.nom, annee: nv.annee, theme: nv.theme, pieces: "", image: nv.image }, []);
     if (!s) {
       $("set-fiche").innerHTML = numero.trim().length >= 3 ? `<p class="aide">Aucun set « ${echapper(numero.trim())} » dans le catalogue.</p>` : "";
       $("set-details").hidden = true;
@@ -126,7 +130,7 @@ const EcranSet = {
     $("set-fiche").innerHTML = `
       <div class="carte">
         <div class="haut">
-          <img src="${urlImageSet(s.code)}" alt="" onerror="this.style.visibility='hidden'">
+          <img src="${echapper(s.image || urlImageSet(s.code))}" alt="" onerror="this.style.visibility='hidden'">
           <div><div class="nom">${echapper(s.nom)}</div><div class="code">${echapper(s.code)}</div>
             <div class="score">${echapper([s.annee, s.theme, s.pieces && `${s.pieces} pièces`].filter(Boolean).join(" · "))}</div></div>
         </div>
@@ -134,6 +138,7 @@ const EcranSet = {
           `<button class="petit" data-version="${echapper(v.code)}">${echapper(v.code)}${v.code === s.code ? " ✔" : ""}</button>`).join("")}</div>` : ""}
         ${deja.length ? `<div class="alerte">Déjà dans votre onglet « Sets » (ligne ${deja.map(d => d.row).join(", ")}).</div>` : ""}
         <a class="bouton bleu" href="${urlBricklinkSet(s.code)}" target="_blank" rel="noopener">🔗 Voir la page BrickLink</a>
+        ${typeof Souhaits !== "undefined" ? Souhaits.bouton("Set", s.code.replace(/-1$/, ""), s.nom, s.theme || "") : ""}
       </div>`;
     $("set-fiche").querySelectorAll("[data-version]").forEach(b => b.addEventListener("click", () =>
       this.choisir(CatalogueSets.trouver(b.dataset.version), versions)));

@@ -118,7 +118,8 @@ const EcranObjet = {
     else if (/clock|watch/i.test(o.nom)) $("objet-type").value = "Montre / réveil";
     $("objet-nouveautes").innerHTML = `<div class="carte" style="grid-column: 1 / -1">${o.image ? `<img src="${echapper(o.image)}" alt="" style="max-width:120px;float:right">` : ""}
       <b>${echapper(o.nom)}</b><br><span class="score">${echapper(o.reference)} · ${echapper(o.annee)} · numéro BrickLink : ${echapper(o.bricklink)}</span>
-      <br><a href="https://www.bricklink.com/v2/search.page?q=${encodeURIComponent(o.reference || o.bricklink)}#T=G" target="_blank" rel="noopener">Vérifier sur BrickLink</a></div>`;
+      <br><a href="https://www.bricklink.com/v2/search.page?q=${encodeURIComponent(o.reference || o.bricklink)}#T=G" target="_blank" rel="noopener">Vérifier sur BrickLink</a>
+      ${typeof Souhaits !== "undefined" ? Souhaits.bouton("Objet", o.bricklink, o.nom, o.theme || "") : ""}</div>`;
   },
 
   // Photo de l'étiquette : lecture de la référence (ex. KE48H) puis recherche dans le catalogue

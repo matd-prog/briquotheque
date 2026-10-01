@@ -1,4 +1,4 @@
-# Suivi du projet « Figothèque » (ex « Figurines LEGO ») (mis à jour le 29/09/2026 au soir)
+# Suivi du projet « Figothèque » (ex « Figurines LEGO ») (mis à jour le 01/10/2026)
 
 Appli en ligne : https://matd-prog.github.io/etiquettes_figurines/ (nom « Figothèque », icône tête de figurine souriante).
 Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre le travail.
@@ -75,8 +75,17 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   outils/sonde_prix_fr.py + .github/workflows/sonde.yml (à la main). HOTH BRICKS joignable aussi (BAM du mois ?).
   Premier relevé (01/10, cache v61) : 66 sets, 62 avec le prix LEGO France, 56 avec un meilleur prix (ex. 76347 Quinjet
   59,99 € / dès 46,89 € ; 75457 Executor 749,99 €). Écran « Par mois » : « LEGO 59,99 € · dès 46,89 € ».
-  ⚠️ La valorisation (dépôt privé prix_lego.py) utilise encore le « RRP € » de Brickset, c.-à-d. le prix allemand :
-  à basculer sur le prix français.
+  Valorisation basculée sur le prix français (01/10, cache v62) : prix_lego.py (dépôt privé) ajoute la colonne prix_fr
+  (Avenue de la Brique) à lego.tsv ; valeur.js n'utilise plus que prix_fr pour « encore en vente » (le prix allemand
+  sert seulement de plancher pour le prix d'origine). Il faut relancer « 📤 Envoyer ma liste » (💶 Valeur) pour que
+  lego.tsv reçoive la colonne.
+- Liste de souhaits (01/10, cache v63, js/souhaits.js) : onglet Excel « Souhaits » (Type, Code, Nom, Thème / série,
+  Sortie, Remarques, Ajouté le). Bouton « ⭐ Ajouter à ma liste de souhaits » sur les fiches figurine, custom, set et
+  objet ; tuile « ⭐ Ma liste de souhaits » (rubrique Ma collection) : souhaits par type, date de sortie (nouveautés),
+  ✅ si déjà dans la collection ; toucher = « Je l'ai : ajouter » (écran d'ajout prérempli) ou « Retirer ».
+  Nouveautés : ⭐ sur les articles souhaités et sur les puces de mois, bandeau « ⭐ N article(s) de votre liste de
+  souhaits sort(ent) ce mois-ci ». Les sets annoncés absents du catalogue Rebrickable (Brickset seul) ont maintenant
+  une fiche (avant : « Aucun set dans le catalogue »).
 - Accueil réorganisé (01/10, cache v59, vérifié sur le téléphone) : « ➕ Ajouter à ma collection » (gros boutons Photographier une figurine /
   un blister JB, puis photo déjà prise, nom, code, custom, set, objet dérivé), « 📖 Ma collection » (collection,
   valeur, achats, assureur), « 🔎 Découvrir » (nouveautés, catalogue JB, base de blisters) ; Outils inchangés.

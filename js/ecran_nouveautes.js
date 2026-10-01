@@ -15,6 +15,7 @@ const EcranNouveautes = {
     $("nv-contenu").innerHTML = `<p class="aide">Chargement des nouveautés…</p>`;
     await Promise.all([Nouveautes.charger(), CatalogueSets.charger().catch(() => {}), Catalogue.charger().catch(() => {})]);
     await this._chargerPossedes();
+    if (typeof Souhaits !== "undefined") await Souhaits.charger();
     this.rendre();
   },
 
@@ -29,6 +30,14 @@ const EcranNouveautes = {
     if (n.type === "figurine") return typeof ouFigurine === "function" && etat.collection ? ouFigurine(Nouveautes.codeAppli(n)).length : 0;
     if (n.type === "set") return this._possedes.sets.has(n.code.toLowerCase()) ? 1 : 0;
     return this._possedes.objets.has(String(n.bricklink || n.code).toUpperCase()) ? 1 : 0;
+  },
+
+  // Article de la liste de souhaits (js/souhaits.js) ?
+  _souhaite(n) {
+    if (typeof Souhaits === "undefined" || !Souhaits.liste.length) return false;
+    if (n.type === "figurine") return Souhaits.contient("Figurine", Nouveautes.codeAppli(n)) || (n.bricklink && Souhaits.contient("Figurine", n.bricklink));
+    if (n.type === "set") return Souhaits.contient("Set", n.code.replace(/-1$/, "")) || Souhaits.contient("Set", n.code);
+    return Souhaits.contient("Objet", n.bricklink || n.code);
   },
 
   // Thème d'un article : le thème principal (« Star Wars ») ; les séries de minifigs à collectionner gardent leur
@@ -66,7 +75,7 @@ const EcranNouveautes = {
       const actuel = new Date().toISOString().slice(0, 7);
       const voisins = tousMois.filter(m => m >= tousMois.find(x => x >= actuel.slice(0, 4) + "-01") || "");
       if (!parMois.has(this.mois)) this.mois = parMois.has(actuel) ? actuel : (tousMois.find(m => m > actuel) || tousMois[tousMois.length - 1] || "");
-      $("nv-themes").innerHTML = voisins.map(m => `<button class="puce ${m === this.mois ? "choisi" : ""}" data-nv-mois="${m}">${m === actuel ? "📍 " : ""}${nomMois(m)} (${parMois.get(m).length})</button>`).join("");
+      $("nv-themes").innerHTML = voisins.map(m => `<button class="puce ${m === this.mois ? "choisi" : ""}" data-nv-mois="${m}">${m === actuel ? "📍 " : ""}${nomMois(m)} (${parMois.get(m).length})${parMois.get(m).some(n => this._souhaite(n) && !this._possede(n)) ? " ⭐" : ""}</button>`).join("");
       const liste = (parMois.get(this.mois) || []).slice();
       const ordre = { set: 0, figurine: 1, objet: 2 };
       const parTheme = new Map();
@@ -76,7 +85,9 @@ const EcranNouveautes = {
       const themes = [...parTheme.entries()].sort((a, b) => b[1].filter(n => n.type === "set").length - a[1].filter(n => n.type === "set").length || b[1].length - a[1].length);
       const nSets = liste.filter(n => n.type === "set").length, nFigs = liste.filter(n => n.type === "figurine").length;
       let i0 = 0; const ordreAffiche = [];
-      $("nv-contenu").innerHTML = `<p class="aide">Sorties de ${this.mois ? nomMois(this.mois) : "?"} : ${nSets} set(s), ${nFigs} nouvelle(s) figurine(s). Dates : Brickset ; prix français : Avenue de la Brique (prix LEGO France, et meilleur prix du moment).</p>` +
+      const voulus = liste.filter(n => this._souhaite(n) && !this._possede(n));
+      const bandeau = voulus.length ? `<div class="alerte info">⭐ <b>${voulus.length} article(s) de votre liste de souhaits ${this.mois === actuel ? "sort(ent) ce mois-ci" : this.mois > actuel ? `sort(ent) en ${nomMois(this.mois)}` : `est (sont) sorti(s) en ${nomMois(this.mois)}`}</b> : ${voulus.map(n => echapper(n.nom)).join(", ")}.</div>` : "";
+      $("nv-contenu").innerHTML = bandeau + `<p class="aide">Sorties de ${this.mois ? nomMois(this.mois) : "?"} : ${nSets} set(s), ${nFigs} nouvelle(s) figurine(s). Dates : Brickset ; prix français : Avenue de la Brique (prix LEGO France, et meilleur prix du moment).</p>` +
         themes.map(([th, l]) => { const g = this._grille(l, i0); i0 += l.length; ordreAffiche.push(...l);
           return `<p class="sous-titre">${echapper(th)} <span class="score">${l.filter(n => n.type === "set").length} set(s), ${l.filter(n => n.type === "figurine").length} figurine(s)</span></p>${g}`; }).join("");
       return this._brancher(ordreAffiche);
@@ -120,7 +131,7 @@ const EcranNouveautes = {
         : n.type === "figurine" ? (n.bricklink || n.code) : (n.bricklink || n.code);
       return `<button class="proposition" data-nv-i="${i}">
         ${n.image ? `<img src="${echapper(n.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">Pas de photo</div>`}
-        <span class="nom-court">${this._possede(n) ? "✅ " : ""}${echapper(n.nom)}</span>
+        <span class="nom-court">${this._possede(n) ? "✅ " : this._souhaite(n) ? "⭐ " : ""}${echapper(n.nom)}</span>
         <span class="code">${echapper(detail)}</span>
         <span class="score">${echapper(this.onglet === "mois" ? { figurine: "Figurine", set: "Set", objet: "Objet" }[n.type] : this._theme(n))}${
           n.sortie ? ` · sortie le ${new Date(n.sortie + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}`

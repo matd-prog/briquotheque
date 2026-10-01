@@ -467,6 +467,7 @@ function choisirCandidat(i) {
       ${score}
     </div>
     <a class="bouton bleu" href="${echapper(cand.lien)}" target="_blank" rel="noopener">🔗 Voir la page ${/rebrickable/.test(cand.lien) ? "Rebrickable" : "BrickLink"}</a>
+    ${typeof Souhaits !== "undefined" ? Souhaits.bouton("Figurine", cand.id, cand.nom, cand.categorie || "") : ""}
     ${blocVariantes(cand.id)}`;
   $("carte-principale").querySelectorAll("[data-variante]").forEach(b => b.addEventListener("click", () => {
     const f = Catalogue.trouver(b.dataset.variante);
@@ -880,7 +881,8 @@ function choisirJB(f) {
       ${f.image ? `<img class="photo" src="${echapper(f.image)}" alt="" onerror="this.style.visibility='hidden'">` : `<img class="photo" data-ma-photo="${echapper(f.code)}" alt="">`}
       <div class="infos"><div class="nom-court">${echapper(f.nom)}</div><div class="lieu">${echapper(f.categorie)} · ${echapper(f.ebay ? "retirée de la vente, vue sur eBay.de" : f.source === "brickshell" ? `${f.code} · plus en vente chez JB, vendue par brickshellcases.com` : f.source === "archive" ? `${f.code} · plus en vente, retrouvée dans les archives du site JB` : f.code)}</div></div>
       ${liensFiche(f.lien, f.ebay ? "Chercher sur eBay.de" : "Voir la page")}
-    </div>`;
+    </div>
+    ${typeof Souhaits !== "undefined" ? Souhaits.bouton("Custom", f.code, f.nom, f.categorie || "") : ""}`;
   if (typeof Consulter !== "undefined") Consulter.completerPhotos($("custom-choisie"));
   majCustom();
 }
