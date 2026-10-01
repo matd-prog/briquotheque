@@ -1146,6 +1146,7 @@ code	nom	annee	theme	pieces	figurines
 11376-1	Ford Model T	2026	Icons	1060	0
 11377-1	The Lord of the Rings: Minas Tirith	2026	Icons	8278	12
 11378-1	Douglas DC-3 PAN AM Airliner	2026	Icons	1903	4
+11379-1	Bookstore: Book Nook	2026	Icons	1690	0
 1138-1	Replacement Rubber Wheel Treads for Trains	1981	Service Packs / Train	8	0
 11380-1	Road Bike	2026	Icons	1015	0
 11381-1	Jaguar E-type	2026	Icons	1682	0
@@ -1154,6 +1155,7 @@ code	nom	annee	theme	pieces	figurines
 11384-1	Golden Retriever Puppy	2026	Icons	2102	0
 11385-1	Star Trek: U.S.S. Enterprise NCC-1701 Bridge	2026	Icons	1701	8
 11386-1	SpongeBob SquarePants: Bikini Bottom	2026	Icons	1794	4
+11387-1	Holiday House	2026	Seasonal / Christmas	1354	0
 11389-1	Project Hail Mary	2026	Icons	830	2
 1139-1	Motor-Mount Plate with Magnetic Couplers	1981	Service Packs / Train	5	0
 114-1	Universal Building Set	1977	Universal Building Set	390	0
@@ -2742,7 +2744,9 @@ code	nom	annee	theme	pieces	figurines
 21369-1	The X-Files	2026	LEGO Ideas and CUUSOO	1478	8
 2137-1	Swamp Boat	1997	Universal Building Set / Basic	8	0
 21370-1	E.T. the Extra-Terrestrial	2026	LEGO Ideas and CUUSOO	1226	0
+21371-1	Wallace & Gromit	2026	LEGO Ideas and CUUSOO	1038	0
 21372-1	La Catrina	2026	LEGO Ideas and CUUSOO	1212	0
+21373-1	Downton Abbey	2026	LEGO Ideas and CUUSOO	4712	0
 21376-1	Orange Cat	2026	LEGO Ideas and CUUSOO	1755	0
 2138-1	Helicopter	1997	Universal Building Set / Basic	8	0
 2139-1	Steam Liner	1996	Universal Building Set / Basic	12	0
@@ -5477,6 +5481,7 @@ code	nom	annee	theme	pieces	figurines
 40001-1	Santa Claus	2009	Seasonal / Christmas	42	0
 40002-1	Christmas Tree	2009	Seasonal / Christmas	61	0
 40003-1	Snowman	2009	Seasonal / Christmas	44	0
+4000351-1	FIFA World Cup Official Trophy – Champions Edition	2026	Editions	2845	0
 40004-1	Heart 2010	2010	Seasonal / Valentine	26	0
 40005-1	Bunny	2010	Seasonal / Easter	82	0
 4000502-1	Braille Bricks Toolkit (Brazilian Portuguese)	2024	Educational and Dacta	340	0
@@ -6318,13 +6323,19 @@ code	nom	annee	theme	pieces	figurines
 4086-1	Large Bucket (Explore)	2002	Duplo / Basic Set	90	0
 40860-1	Toy Story	2026	Brickheadz	528	0
 40861-1	Sulley, Mike and Boo Figures	2026	Brickheadz	303	0
+40862-1	Holiday Ornament Selection 2	2026	Seasonal / Christmas	179	0
 40863-1	Easter Egg Basket	2026	Seasonal / Easter	216	0
 40864-1	Fortune Master	2025	Chinese Traditional Festivals	386	0
+40865-1	Buddy the Elf	2026	Seasonal / Christmas	713	0
+40866-1	Santa's Holiday Sleigh Adventure	2026	Seasonal / Christmas	187	0
 40867-1	Love Letters	2026	Seasonal / Valentine	345	0
+40868-1	Up-Scaled Red Minifigure	2026	Pokémon	930	0
 4087-1	Basic Flexible Bucket, Large (Explore)	2002	Duplo / Basic Set	91	0
 40871-1	Gift Box Celebration	2026	Seasonal	224	0
 40872-1	Halloween Pumpkin Lantern	2026	Seasonal / Halloween	323	1
 40873-1	Colorful Lantern	2026	Seasonal / Halloween	286	0
+40874-1	Santa's Holiday Countdown	2026	Seasonal / Christmas	873	0
+40875-1	Up-Scaled Mrs. Claus Minifigure	2026	Seasonal / Christmas	904	0
 40878-1	Teenage Mutant Ninja Turtles Figures	2026	Brickheadz	567	0
 40879-1	Eleven, Max, Demogorgon and Holly Figures	2026	Brickheadz	584	0
 4088-1	Clown Bucket (Explore)	2002	Duplo / Basic Set	90	0
@@ -6341,6 +6352,8 @@ code	nom	annee	theme	pieces	figurines
 40893-1	Grond	2026	Icons	307	2
 40894-1	Koenigsegg Sadair's Spear Steering Wheel	2026	Technic	228	0
 40896-1	The X-Files: Scully's Lab	2026	LEGO Ideas and CUUSOO	221	1
+40897-1	Darth Vader's LIGHTSABER	2026	Star Wars	174	0
+40899-1	Astro Bot	2026	Other	276	0
 409-1	38 Slimbricks Assorted Sizes (The Building Toy)	1965	System / Samsonite	38	0
 4090-1	Motion Madness	2003	Creator / Inventor	243	0
 40900-1	Scary Haunted Tree	2026	Seasonal / Halloween	218	0
@@ -6373,6 +6386,7 @@ code	nom	annee	theme	pieces	figurines
 40954-1	Germany Postcard	2026	Creator	240	0
 40955-1	Maersk Dual-Fuel Container Vessel	2026	Other	1516	0
 40957-1	Spring Wreath	2026	Seasonal / Easter	747	0
+40958-1	Christmas Stocking	2026	Seasonal / Christmas	342	0
 4096-1	Micro Wheels	2003	Creator / Designer Sets	216	0
 4097-1	Mini Robots	2003	Creator / Designer Sets	229	0
 40972-1	Crocs	2026	Promotional	7	1
@@ -11270,6 +11284,7 @@ code	nom	annee	theme	pieces	figurines
 6397163-1	The LEGO Store (Chengdu) - Tile	2022	LEGO Brand Store	1	0
 6398-1	Central Precinct HQ	1993	Town / Classic Town	635	5
 6399-1	Airport Shuttle	1990	Town / Classic Town	786	9
+6399467-1	Chengdu, China Brand Store Opening Associate	2022	LEGO Brand Store	129	0
 6399469-1	Bonn Brand Store Opening Associate Figure	2021	LEGO Brand Store	129	0
 6399471-1	Wroclaw Brand Store Opening Associate Figure	2021	LEGO Brand Store	129	0
 640-1	Fire Truck	1971	Legoland / Fire	45	0
@@ -11993,6 +12008,7 @@ code	nom	annee	theme	pieces	figurines
 668-1	1:87 Ford Taunus 17M	1964	System / HO 1:87 Vehicles	1	0
 6680-1	Ambulance	1981	Town / Classic Town	63	2
 66802-1	Ultimate Formula 1 Collector's Pack	2025	Speed Champions	1	0
+6680481-1	Baroque Works Mosaic	2026	One Piece	89	0
 6681-1	Police Van	1981	Town / Classic Town	81	1
 6682-1	Cement Mixer	1985	Town / Classic Town	90	1
 6683-1	Burger Stand	1983	Town / Classic Town	69	2
@@ -14066,6 +14082,7 @@ code	nom	annee	theme	pieces	figurines
 72151-1	Eevee	2026	Pokémon	587	0
 72152-1	Pikachu and Poké Ball	2026	Pokémon	2050	0
 72153-1	Venusaur, Charizard and Blastoise	2026	Pokémon	6838	0
+72154-1	Iconic Trainer Moments Poké Ball	2026	Pokémon	2386	0
 72155-1	Berry Bash with Bulbasaur and Bidoof	2026	Pokémon	240	0
 72156-1	Trainer's Buggy Adventure with Squirtle	2026	Pokémon	320	0
 72157-1	Charmander and Geodude's Cavern Clash	2026	Pokémon	198	0
@@ -14098,6 +14115,7 @@ code	nom	annee	theme	pieces	figurines
 7224-1	Santa, Tree, and Present	2003	Seasonal / Christmas / Creator	34	0
 723-1	Diesel Locomotive	1970	Train / 12V	97	0
 723-2	Diesel Locomotive with DB Sticker	1974	Train / 12V	96	0
+72306-1	PlayStation	2026	Other	1911	0
 7235-1	Police Motorcycle (Black Sticker Version)	2005	City / Police	29	1
 7235-2	Police Motorcycle (Blue Sticker Version)	2008	City / Police	29	1
 7236-1	Police Car (Black Sticker Version)	2005	City / Police	60	1
@@ -14765,6 +14783,7 @@ code	nom	annee	theme	pieces	figurines
 75454-1	Imperial Remnant AT-AT with INT-4	2026	Star Wars	1453	7
 75455-1	Boba Fett	2026	Star Wars	1544	1
 75456-1	Star Wars Advent Calendar 2026	2026	Seasonal / Advent / Star Wars	292	7
+75457-1	Executor Super Star Destroyer	2026	Star Wars	6130	0
 75458-1	Imperial Remnant AT-RT Driver Helmet	2026	Star Wars	775	0
 75459-1	Imperial Lambda-Class Shuttle	2026	Star Wars	961	5
 7546-1	Tropical Breeze Jewels 'n' More	2006	Clikits	73	0
@@ -15471,6 +15490,8 @@ code	nom	annee	theme	pieces	figurines
 76784-1	Black Dahlia Flower	2025	Wednesday	358	2
 76785-1	Thing's Apartment	2025	Wednesday	828	1
 76786-1	Morticia's Cottage	2025	Wednesday	1002	4
+76787-1	Wednesday Backpack	2026	Wednesday	401	0
+76788-1	Nevermore Academy	2026	Wednesday	890	0
 7679-1	Republic Fighter Tank	2008	Star Wars	596	2
 7680-1	The Twilight - Limited Edition	2008	Star Wars	887	4
 7681-1	Separatist Spider Droid	2008	Star Wars	214	5

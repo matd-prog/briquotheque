@@ -1,6 +1,5 @@
 #date 2026-10-01
 type	code	bricklink	ressemblance	nom	theme	annee	image	vu_le	sets
-figurine	fig-018156		0.48	Nutcracker	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018156.jpg		40958-1
 figurine	fig-018153		0.44	Firefighter, Black Fire Suit, Pilot Helmet	City / Fire	2026	https://cdn.rebrickable.com/media/sets/fig-018153.jpg		L0002227-1
 figurine	fig-018151		0.49	Retro Video Game Batman	Super Heroes DC / Batman	2026	https://cdn.rebrickable.com/media/sets/fig-018151.jpg		30762-1
 figurine	fig-018149		0.45	Falcon, Neck Bracket	Books / Activity Books with LEGO Parts	2026	https://cdn.rebrickable.com/media/sets/fig-018149.jpg		9788325349042-1
@@ -528,7 +527,7 @@ figurine	fig-017515		0.59	Police Officer, Reddish Brown Torso, Black Legs, Brigh
 figurine	fig-017514		0.56	Police Officer, Black Torso, Dark Blue Legs, Black Hair	City / Police	2026	https://cdn.rebrickable.com/media/sets/fig-017514.jpg		60508-1
 figurine	fig-017513		0.53	Police Officer, Vibrant Yellow Torso, Dark Blue Legs, Dark Orange Hair	City / Police	2026	https://cdn.rebrickable.com/media/sets/fig-017513.jpg		60508-1
 figurine	fig-017512		0.49	F1 ACADEMY Driver, Black Suit, White Helmet	Speed Champions	2026	https://cdn.rebrickable.com/media/sets/fig-017512.jpg		77258-1
-figurine	fig-017511		0.41	Football Fan	Editions	2026	https://cdn.rebrickable.com/media/sets/fig-017511.jpg		4000351-1 43020-1
+figurine	fig-017511		0.41	Football Fan	Editions	2026	https://cdn.rebrickable.com/media/sets/fig-017511.jpg		43020-1
 figurine	fig-017510		0.67	Sandtrooper, Black Pauldron, Sienna Brown Head	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-017510.jpg		75425-1
 figurine	fig-017509	sw1512	0.9	Obi-Wan Kenobi, Old (SMART Play)	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-017509.jpg		75425-1
 figurine	fig-017507	sw1513	0.7	Greedo, Sand Green Skin (SMART Play)	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-017507.jpg		75425-1
@@ -926,8 +925,8 @@ figurine	fig-017053		0.47	Monkey Suit	Collectible Minifigures / Series 28 Minifi
 figurine	fig-017052		0.47	Goldfish Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017052.jpg		71051-3
 figurine	fig-017051		0.47	Cat Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017051.jpg		71051-2
 figurine	fig-017050		0.47	Peacock Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017050.jpg		71051-1
-objet	LGLLP61-1	LGLLP61		Heart Night Light	Gear / Houseware	2027	https://cdn.rebrickable.com/media/sets/lgllp61-1.jpg		
-objet	LGLKE262H-1	LGLKE262H		Rechargeable Minifigure Key Light (All Colors)	Gear / Key Chain	2027	https://cdn.rebrickable.com/media/sets/lglke262h-1.jpg		
+objet	LGLLP61-1	LGL-LP61		Heart Night Light	Gear / Houseware	2027	https://cdn.rebrickable.com/media/sets/lgllp61-1.jpg		
+objet	LGLKE262H-1	LGL-KE262H		Rechargeable Minifigure Key Light (All Colors)	Gear / Key Chain	2027	https://cdn.rebrickable.com/media/sets/lglke262h-1.jpg		
 objet	9781797248042-1	9781797248042		Botanicals: 30 Postcards	Gear / Stationery and Office Supplies	2027	https://cdn.rebrickable.com/media/sets/9781797248042-1.jpg		
 objet	9781797248035-1	9781797248035		Botanicals Stationery Set	Gear / Stationery and Office Supplies	2027	https://cdn.rebrickable.com/media/sets/9781797248035-1.jpg		
 objet	9781797247571-1	9781797247571		48-Piece Giant Floor Puzzle: Dinosaurs	Gear / Tabletop Games and Puzzles	2027	https://cdn.rebrickable.com/media/sets/9781797247571-1.jpg		
@@ -979,20 +978,20 @@ objet	MAGNET-6	MAGNET-6		Shanghai Magnet - Red	Gear / Magnets	2026	https://cdn.r
 objet	MAGNET-5	MAGNET-5		Shanghai Magnet - Pattern	Gear / Magnets	2026	https://cdn.rebrickable.com/media/sets/magnet-5.jpg		
 objet	MAGNET-4	MAGNET-4		Shanghai Magnet - Heart	Gear / Magnets	2026	https://cdn.rebrickable.com/media/sets/magnet-4.jpg		
 objet	MAGNET-3	MAGNET-3		Munich Magnet - Heart	Gear / Magnets	2026	https://cdn.rebrickable.com/media/sets/magnet-3.jpg		
-objet	LGLKE261H-1	LGLKE261H		Skeleton Girl Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke261h-1.jpg		
-objet	LGLKE260H-1	LGLKE260H		Reindeer Costume Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke260h-1.jpg		
-objet	LGLKE259H-1	LGLKE259H		Chicken Skater Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke259h-1.jpg		
-objet	LGLKE258H-1	LGLKE258H		Cupid Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke258h-1.jpg		
-objet	LGLKE257H-1	LGLKE257H		Love Bear Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke257h-1.jpg		
-objet	LGLKE256H-1	LGLKE256H		Chili Costume Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke256h-1.jpg		
-objet	LGLKE254H-1	LGLKE254H		Drift Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke254h-1.jpg		
-objet	LGLKE253H-1	LGLKE253H		Cuddle Team Leader Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke253h-1.jpg		
-objet	LGLKE252H-1	LGLKE252H		Peely Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke252h-1.jpg		
-objet	LGLKE250H-1	LGLKE250H		C-3PO Holiday Sweater Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke250h-1.jpg		
-objet	LGLKE248H-1	LGLKE248H		R2-D2 Holiday Sweater Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke248h-1.jpg		
-objet	LGLKE246H-1	LGLKE246H		Chicken Suit Guy Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke246h-1.jpg		
-objet	LGLKE228H-1	LGLKE228H		Mei Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke228h-1.jpg		
-objet	LGLKE227H-1	LGLKE227H		Monkie Kid Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke227h-1.jpg		
+objet	LGLKE261H-1	LGL-KE261H		Skeleton Girl Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke261h-1.jpg		
+objet	LGLKE260H-1	LGL-KE260H		Reindeer Costume Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke260h-1.jpg		
+objet	LGLKE259H-1	LGL-KE259H		Chicken Skater Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke259h-1.jpg		
+objet	LGLKE258H-1	LGL-KE258H		Cupid Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke258h-1.jpg		
+objet	LGLKE257H-1	LGL-KE257H		Love Bear Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke257h-1.jpg		
+objet	LGLKE256H-1	LGL-KE256H		Chili Costume Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke256h-1.jpg		
+objet	LGLKE254H-1	LGL-KE254H		Drift Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke254h-1.jpg		
+objet	LGLKE253H-1	LGL-KE253H		Cuddle Team Leader Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke253h-1.jpg		
+objet	LGLKE252H-1	LGL-KE252H		Peely Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke252h-1.jpg		
+objet	LGLKE250H-1	LGL-KE250H		C-3PO Holiday Sweater Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke250h-1.jpg		
+objet	LGLKE248H-1	LGL-KE248H		R2-D2 Holiday Sweater Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke248h-1.jpg		
+objet	LGLKE246H-1	LGL-KE246H		Chicken Suit Guy Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke246h-1.jpg		
+objet	LGLKE228H-1	LGL-KE228H		Mei Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke228h-1.jpg		
+objet	LGLKE227H-1	LGL-KE227H		Monkie Kid Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke227h-1.jpg		
 objet	LAMP-1	LAMP		Brick 1 x 1 Round Lamp	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/lamp-1.jpg		
 objet	L0002294-1	L0002294		Dump Truck	Technic	2026	https://cdn.rebrickable.com/media/sets/l0002294-1.jpg		
 objet	L0002271-1	L0002271		Batman	Super Heroes DC / Batman	2026	https://cdn.rebrickable.com/media/sets/l0002271-1.jpg		
@@ -1094,15 +1093,10 @@ objet	81313-1	81313		Ninjago: Dragons Rising Bottle (580ml)	Gear / Houseware	202
 objet	81308-1	81308		Ninjago: Dragons Rising Cutlery Set	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/81308-1.jpg		
 objet	81307-2	81307-2		Ninjago: Dragons Rising Cup	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/81307-2.jpg		
 objet	81301-1	81301		Ninjago: Dragons Rising Bottle (420ml)	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/81301-1.jpg		
-objet	76788-1	76788		Nevermore Academy	Wednesday	2026	https://cdn.rebrickable.com/media/sets/76788-1.jpg		
-objet	76787-1	76787		Wednesday Backpack	Wednesday	2026	https://cdn.rebrickable.com/media/sets/76787-1.jpg		
 objet	76352-1	76352		Avengers: Doomsday New Avengers Tower	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/76352-1.jpg		
 objet	76348-1	76348		Epic Battle: Avengers: Doomsday	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/76348-1.jpg		
 objet	76347-1	76347		Avengers: Doomsday Quinjet	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/76347-1.jpg		
 objet	757894517489-1	757894517489		Multicolour Brick Lunch Bag	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/757894517489-1.jpg		
-objet	75457-1	75457		Executor Super Star Destroyer	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75457-1.jpg		
-objet	72306-1	72306		PlayStation	Other	2026	https://cdn.rebrickable.com/media/sets/72306-1.jpg		
-objet	72154-1	72154		Iconic Trainer Moments Poké Ball	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72154-1.jpg		
 objet	713588-1	713588		Axolotl Bag Charm	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/713588-1.jpg		
 objet	71053-15	71053-15		Shrek Series - Tower Box	Collectible Minifigures / Shrek	2026	https://cdn.rebrickable.com/media/sets/71053-15.jpg		
 objet	71053-14	71053-14		Shrek Series - Sealed Box	Collectible Minifigures / Shrek	2026	https://cdn.rebrickable.com/media/sets/71053-14.jpg		
@@ -1125,7 +1119,6 @@ objet	66817-1	66817		Hearts & Flowers Gift Set	Seasonal / Valentine	2026	https:/
 objet	66815-1	66815		Shrek Series - 6 Pack	Collectible Minifigures / Shrek	2026	https://cdn.rebrickable.com/media/sets/66815-1.jpg		
 objet	66814-1	66814		Series 29 - 6 Pack	Collectible Minifigures / Series 29 Minifigures	2026	https://cdn.rebrickable.com/media/sets/66814-1.jpg		
 objet	66813-1	66813		Series 28 - 6 Pack	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/66813-1.jpg		
-objet	6680481-1	6680481		Baroque Works Mosaic	One Piece	2026	https://cdn.rebrickable.com/media/sets/6680481-1.jpg		
 objet	6680480-1	6680480		Jolly Roger Mosaic	One Piece	2026	https://cdn.rebrickable.com/media/sets/6680480-1.jpg		
 objet	6671868-1	6671868		Yellow Pencil	LEGO Brand Store	2026	https://cdn.rebrickable.com/media/sets/6671868-1.jpg		
 objet	6665196-1	6665196		Panda Zoo	LEGO Brand Store	2026	https://cdn.rebrickable.com/media/sets/6665196-1.jpg		
@@ -1432,23 +1425,13 @@ objet	42233-0	42233-0		Mighty Machines Series 1 - Random Box	Technic	2026	https:
 objet	41480805-1	41480805		Spring Flowers Steel Bottle	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/41480805-1.jpg		
 objet	41480804-1	41480804		Brick Art Line Steel Bottle	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/41480804-1.jpg		
 objet	41480800-1	41480800		Steel Bottle (All Colors)	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/41480800-1.jpg		
-objet	40958-1	40958		Christmas Stocking	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40958-1.jpg		
-objet	40899-1	40899		Astro Bot	Other	2026	https://cdn.rebrickable.com/media/sets/40899-1.jpg		
-objet	40897-1	40897		Darth Vader's LIGHTSABER	Star Wars	2026	https://cdn.rebrickable.com/media/sets/40897-1.jpg		
 objet	40880-1	40880		Avengers: Doomsday Heroes & Villain	Brickheadz	2026	https://cdn.rebrickable.com/media/sets/40880-1.jpg		
-objet	40875-1	40875		Up-Scaled Mrs. Claus Minifigure	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40875-1.jpg		
-objet	40874-1	40874		Santa's Holiday Countdown	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40874-1.jpg		
-objet	40868-1	40868		Up-Scaled Red Minifigure	Pokémon	2026	https://cdn.rebrickable.com/media/sets/40868-1.jpg		
-objet	40866-1	40866		Santa's Holiday Sleigh Adventure	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40866-1.jpg		
-objet	40865-1	40865		Buddy the Elf	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40865-1.jpg		
-objet	40862-1	40862		Holiday Ornament Selection 2	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40862-1.jpg		
 objet	40480805-1	40480805		Spring Flowers Thermo Bottle	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/40480805-1.jpg		
 objet	40480804-1	40480804		Brick Art Line Thermo Bottle	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/40480804-1.jpg		
 objet	40450807-1	40450807		Spring Flower Mug	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/40450807-1.jpg		
 objet	40450806-1	40450806		Brick Art Line Mug	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/40450806-1.jpg		
 objet	40390800-1	40390800		Storage Brick 2 x 2 Felt (All Colors)	Gear / Storage	2026	https://cdn.rebrickable.com/media/sets/40390800-1.jpg		
 objet	40380800-1	40380800		Storage Head L Felt (Boy)	Gear / Storage	2026	https://cdn.rebrickable.com/media/sets/40380800-1.jpg		
-objet	4000351-1	4000351		FIFA World Cup Official Trophy – Champions Edition	Editions	2026	https://cdn.rebrickable.com/media/sets/4000351-1.jpg		
 objet	354160-1	354160		Friends Jones Space Cat Plush	Gear / Plush Toys	2026	https://cdn.rebrickable.com/media/sets/354160-1.jpg		
 objet	30989-1	30989		Multicolour Stainless Steel Bottle (515ml)	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/30989-1.jpg		
 objet	30977-1	30977		Multicolour Mug	Gear / Houseware	2026	https://cdn.rebrickable.com/media/sets/30977-1.jpg		
@@ -1459,8 +1442,6 @@ objet	2DI00237-1	2DI00237		Minecraft Trading Cards Series 3: On Fire - Starter-P
 objet	2DD00088-2	2DD00088-2		Minecraft Trading Cards Series 3: On Fire - Sealed Box (36 Packs)	Gear	2026	https://cdn.rebrickable.com/media/sets/2dd00088-2.jpg		
 objet	2DD00088-1	2DD00088		Minecraft Trading Cards Series 3: On Fire - Booster Pack	Gear	2026	https://cdn.rebrickable.com/media/sets/2dd00088-1.jpg		
 objet	2DD00084-1	2DD00084		Minecraft Trading Cards Series 3 On Fire - Starterpack (German Version)	Gear	2026	https://cdn.rebrickable.com/media/sets/2dd00084-1.jpg		
-objet	21373-1	21373		Downton Abbey	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/21373-1.jpg		
-objet	21371-1	21371		Wallace & Gromit	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/21371-1.jpg		
 objet	211873100-1	211873100		Adult's Create Clogs - White	Gear / Clothing & Footwear	2026	https://cdn.rebrickable.com/media/sets/211873100-1.jpg		
 objet	211873001-1	211873001		Adult's Create Clogs - Black	Gear / Clothing & Footwear	2026	https://cdn.rebrickable.com/media/sets/211873001-1.jpg		
 objet	21065-1	21065		Sagrada Família	Architecture	2026	https://cdn.rebrickable.com/media/sets/21065-1.jpg		
@@ -1562,8 +1543,6 @@ objet	114592-1	114592		Paris Magnet - Heart	Gear / Magnets	2026	https://cdn.rebr
 objet	114590-1	114590		Paris Magnet - Girl	Gear / Magnets	2026	https://cdn.rebrickable.com/media/sets/114590-1.jpg		
 objet	114589-1	114589		Paris Magnet - Man with Dog and Baguette	Gear / Magnets	2026	https://cdn.rebrickable.com/media/sets/114589-1.jpg		
 objet	11390-1	11390		Dragon Ball: Shenron & Goku	Icons	2026	https://cdn.rebrickable.com/media/sets/11390-1.jpg		
-objet	11387-1	11387		Holiday House	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/11387-1.jpg		
-objet	11379-1	11379		Bookstore: Book Nook	Icons	2026	https://cdn.rebrickable.com/media/sets/11379-1.jpg		
 objet	113560-1	113560		Star Wars Grogu Cap	Gear / Clothing & Footwear	2026	https://cdn.rebrickable.com/media/sets/113560-1.jpg		
 objet	113559-1	113559		Star Wars The Mandalorian Pop-Up Pencil Case	Gear / Stationery and Office Supplies	2026	https://cdn.rebrickable.com/media/sets/113559-1.jpg		
 objet	113557-1	113557		Grogu Collectible Coin	Gear	2026	https://cdn.rebrickable.com/media/sets/113557-1.jpg		
@@ -1743,6 +1722,8 @@ set	77081-1	77081-1		KIT	Fortnite	2026	https://cdn.rebrickable.com/media/sets/77
 set	77080-1	77080-1		Supply Drop	Fortnite	2026	https://cdn.rebrickable.com/media/sets/77080-1.jpg		
 set	77079-1	77079-1		Tomatohead	Fortnite	2026	https://cdn.rebrickable.com/media/sets/77079-1.jpg		
 set	77059-1	77059-1		Timmy & Tommy's Fun Day Out	Animal Crossing	2026	https://cdn.rebrickable.com/media/sets/77059-1.jpg		
+set	76788-1	76788-1		Nevermore Academy	Wednesday	2026	https://cdn.rebrickable.com/media/sets/76788-1.jpg		
+set	76787-1	76787-1		Wednesday Backpack	Wednesday	2026	https://cdn.rebrickable.com/media/sets/76787-1.jpg		
 set	76478-1	76478-1		Book Nook: Dumbledore's Office	Harry Potter	2026	https://cdn.rebrickable.com/media/sets/76478-1.jpg		
 set	76477-1	76477-1		Norbert: Hagrid's Baby Dragon	Harry Potter	2026	https://cdn.rebrickable.com/media/sets/76477-1.jpg		
 set	76476-1	76476-1		The Ministry of Magic – Collectors' Edition	Harry Potter	2026	https://cdn.rebrickable.com/media/sets/76476-1.jpg		
@@ -1793,6 +1774,7 @@ set	75461-1	75461-1		Up-Scaled Darth Vader Minifigure	Star Wars	2026	https://cdn
 set	75460-1	75460-1		New Republic X-Wing Starfighter	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75460-1.jpg		
 set	75459-1	75459-1		Imperial Lambda-Class Shuttle	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75459-1.jpg		
 set	75458-1	75458-1		Imperial Remnant AT-RT Driver Helmet	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75458-1.jpg		
+set	75457-1	75457-1		Executor Super Star Destroyer	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75457-1.jpg		
 set	75456-1	75456-1		Star Wars Advent Calendar 2026	Seasonal / Advent / Star Wars	2026	https://cdn.rebrickable.com/media/sets/75456-1.jpg		
 set	75455-1	75455-1		Boba Fett	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75455-1.jpg		
 set	75454-1	75454-1		Imperial Remnant AT-AT with INT-4	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75454-1.jpg		
@@ -1823,6 +1805,7 @@ set	75421-1	75421-1		Darth Vader’s TIE Fighter	Star Wars	2026	https://cdn.rebr
 set	75420-1	75420-1		Luke's Landspeeder	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75420-1.jpg		
 set	72537-1	72537-1		Derpy Tiger and Sussie Bird	KPop Demon Hunters	2026	https://cdn.rebrickable.com/media/sets/72537-1.jpg		
 set	72423-1	72423-1		Shrek, Donkey & Puss in Boots	Shrek	2026	https://cdn.rebrickable.com/media/sets/72423-1.jpg		
+set	72306-1	72306-1		PlayStation	Other	2026	https://cdn.rebrickable.com/media/sets/72306-1.jpg		
 set	72168-1	72168-1		Rayquaza	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72168-1.jpg		
 set	72167-1	72167-1		Charizard vs. Jolteon Ultimate Battle	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72167-1.jpg		
 set	72166-1	72166-1		Cubone and Gengar's Spooky Showdown	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72166-1.jpg		
@@ -1837,6 +1820,7 @@ set	72158-1	72158-1		Sprigatito, Fuecoco and Quaxly Battle	Pokémon	2026	https:/
 set	72157-1	72157-1		Charmander and Geodude's Cavern Clash	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72157-1.jpg		
 set	72156-1	72156-1		Trainer's Buggy Adventure with Squirtle	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72156-1.jpg		
 set	72155-1	72155-1		Berry Bash with Bulbasaur and Bidoof	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72155-1.jpg		
+set	72154-1	72154-1		Iconic Trainer Moments Poké Ball	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72154-1.jpg		
 set	72153-1	72153-1		Venusaur, Charizard and Blastoise	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72153-1.jpg		
 set	72152-1	72152-1		Pikachu and Poké Ball	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72152-1.jpg		
 set	72151-1	72151-1		Eevee	Pokémon	2026	https://cdn.rebrickable.com/media/sets/72151-1.jpg		
@@ -1907,6 +1891,7 @@ set	71051-12	71051-12		Parrot Suit	Collectible Minifigures / Series 28 Minifigur
 set	71051-11	71051-11		Lion Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/71051-11.jpg		
 set	71051-10	71051-10		Rabbit Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/71051-10.jpg		
 set	71051-1	71051-1		Peacock Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/71051-1.jpg		
+set	6680481-1	6680481-1		Baroque Works Mosaic	One Piece	2026	https://cdn.rebrickable.com/media/sets/6680481-1.jpg		
 set	6674871-1	6674871-1		Tall ship	LEGO Brand Store	2026	https://cdn.rebrickable.com/media/sets/6674871-1.jpg		
 set	6670926-1	6670926-1		I [Heart] LEGO Store Promenade Temecula Tile	LEGO Brand Store	2026	https://cdn.rebrickable.com/media/sets/6670926-1.jpg		
 set	6670924-1	6670924-1		I [Heart] LEGO Store Markville Shopping Centre Tile	LEGO Brand Store	2026	https://cdn.rebrickable.com/media/sets/6670924-1.jpg		
@@ -2141,6 +2126,7 @@ set	42218-1	42218-1		John Deere 1470H Wheeled Harvester	Technic	2026	https://cdn
 set	40975-1	40975-1		Mini Hogwarts Castle	Harry Potter	2026	https://cdn.rebrickable.com/media/sets/40975-1.jpg		
 set	40973-1	40973-1		Crocs Multi	Promotional	2026	https://cdn.rebrickable.com/media/sets/40973-1.jpg		
 set	40972-1	40972-1		Crocs	Promotional	2026	https://cdn.rebrickable.com/media/sets/40972-1.jpg		
+set	40958-1	40958-1		Christmas Stocking	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40958-1.jpg		
 set	40957-1	40957-1		Spring Wreath	Seasonal / Easter	2026	https://cdn.rebrickable.com/media/sets/40957-1.jpg		
 set	40955-1	40955-1		Maersk Dual-Fuel Container Vessel	Other	2026	https://cdn.rebrickable.com/media/sets/40955-1.jpg		
 set	40954-1	40954-1		Germany Postcard	Creator	2026	https://cdn.rebrickable.com/media/sets/40954-1.jpg		
@@ -2168,6 +2154,8 @@ set	40905-1	40905-1		Birthday Cupcake	Seasonal	2026	https://cdn.rebrickable.com/
 set	40902-1	40902-1		Tribute to Leonardo da Vinci	Other	2026	https://cdn.rebrickable.com/media/sets/40902-1.jpg		
 set	40901-1	40901-1		Ministry Munchies & The Daily Prophet Stands	Harry Potter	2026	https://cdn.rebrickable.com/media/sets/40901-1.jpg		
 set	40900-1	40900-1		Scary Haunted Tree	Seasonal / Halloween	2026	https://cdn.rebrickable.com/media/sets/40900-1.jpg		
+set	40899-1	40899-1		Astro Bot	Other	2026	https://cdn.rebrickable.com/media/sets/40899-1.jpg		
+set	40897-1	40897-1		Darth Vader's LIGHTSABER	Star Wars	2026	https://cdn.rebrickable.com/media/sets/40897-1.jpg		
 set	40896-1	40896-1		The X-Files: Scully's Lab	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/40896-1.jpg		
 set	40894-1	40894-1		Koenigsegg Sadair's Spear Steering Wheel	Technic	2026	https://cdn.rebrickable.com/media/sets/40894-1.jpg		
 set	40893-1	40893-1		Grond	Icons	2026	https://cdn.rebrickable.com/media/sets/40893-1.jpg		
@@ -2181,11 +2169,17 @@ set	40883-1	40883-1		Halloween Skull Candle	Seasonal / Halloween	2026	https://cd
 set	40881-1	40881-1		Supply Llama & Fishstick Figures	Brickheadz	2026	https://cdn.rebrickable.com/media/sets/40881-1.jpg		
 set	40879-1	40879-1		Eleven, Max, Demogorgon and Holly Figures	Brickheadz	2026	https://cdn.rebrickable.com/media/sets/40879-1.jpg		
 set	40878-1	40878-1		Teenage Mutant Ninja Turtles Figures	Brickheadz	2026	https://cdn.rebrickable.com/media/sets/40878-1.jpg		
+set	40875-1	40875-1		Up-Scaled Mrs. Claus Minifigure	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40875-1.jpg		
+set	40874-1	40874-1		Santa's Holiday Countdown	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40874-1.jpg		
 set	40873-1	40873-1		Colorful Lantern	Seasonal / Halloween	2026	https://cdn.rebrickable.com/media/sets/40873-1.jpg		
 set	40872-1	40872-1		Halloween Pumpkin Lantern	Seasonal / Halloween	2026	https://cdn.rebrickable.com/media/sets/40872-1.jpg		
 set	40871-1	40871-1		Gift Box Celebration	Seasonal	2026	https://cdn.rebrickable.com/media/sets/40871-1.jpg		
+set	40868-1	40868-1		Up-Scaled Red Minifigure	Pokémon	2026	https://cdn.rebrickable.com/media/sets/40868-1.jpg		
 set	40867-1	40867-1		Love Letters	Seasonal / Valentine	2026	https://cdn.rebrickable.com/media/sets/40867-1.jpg		
+set	40866-1	40866-1		Santa's Holiday Sleigh Adventure	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40866-1.jpg		
+set	40865-1	40865-1		Buddy the Elf	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40865-1.jpg		
 set	40863-1	40863-1		Easter Egg Basket	Seasonal / Easter	2026	https://cdn.rebrickable.com/media/sets/40863-1.jpg		
+set	40862-1	40862-1		Holiday Ornament Selection 2	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/40862-1.jpg		
 set	40861-1	40861-1		Sulley, Mike and Boo Figures	Brickheadz	2026	https://cdn.rebrickable.com/media/sets/40861-1.jpg		
 set	40860-1	40860-1		Toy Story	Brickheadz	2026	https://cdn.rebrickable.com/media/sets/40860-1.jpg		
 set	40859-1	40859-1		Golden Age Superman and Batman Figures	Brickheadz	2026	https://cdn.rebrickable.com/media/sets/40859-1.jpg		
@@ -2195,6 +2189,7 @@ set	40507-1	40507-1		I ❤️ Billund	LEGO Exclusive	2026	https://cdn.rebrickabl
 set	4000703-1	4000703-1		SMART Sitrus Berry Tag	Pokémon	2026	https://cdn.rebrickable.com/media/sets/4000703-1.jpg		
 set	4000702-1	4000702-1		SMART Trophy Tag	Pokémon	2026	https://cdn.rebrickable.com/media/sets/4000702-1.jpg		
 set	4000701-1	4000701-1		SMART Oran Berry Tag	Pokémon	2026	https://cdn.rebrickable.com/media/sets/4000701-1.jpg		
+set	4000351-1	4000351-1		FIFA World Cup Official Trophy – Champions Edition	Editions	2026	https://cdn.rebrickable.com/media/sets/4000351-1.jpg		
 set	4000049-1	4000049-1		Vintage LEGO Logo	LEGO Exclusive	2026	https://cdn.rebrickable.com/media/sets/4000049-1.jpg		
 set	4000048-1	4000048-1		Bugatti Type 35	LEGO Exclusive	2026	https://cdn.rebrickable.com/media/sets/4000048-1.jpg		
 set	31394-1	31394-1		Cute Animals: Red Panda	Creator / Creator 3-in-1	2026	https://cdn.rebrickable.com/media/sets/31394-1.jpg		
@@ -2263,7 +2258,9 @@ set	21584-1	21584-1		Nether & End Portal Journey	Minecraft	2026	https://cdn.rebr
 set	21583-1	21583-1		Steve's Taiga Adventure	Minecraft	2026	https://cdn.rebrickable.com/media/sets/21583-1.jpg		
 set	21582-1	21582-1		Chicken Jockey	Minecraft	2026	https://cdn.rebrickable.com/media/sets/21582-1.jpg		
 set	21376-1	21376-1		Orange Cat	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/21376-1.jpg		
+set	21373-1	21373-1		Downton Abbey	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/21373-1.jpg		
 set	21372-1	21372-1		La Catrina	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/21372-1.jpg		
+set	21371-1	21371-1		Wallace & Gromit	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/21371-1.jpg		
 set	21370-1	21370-1		E.T. the Extra-Terrestrial	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/21370-1.jpg		
 set	21369-1	21369-1		The X-Files	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/21369-1.jpg		
 set	21368-1	21368-1		Peanuts: Snoopy's Doghouse	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/21368-1.jpg		
@@ -2290,6 +2287,7 @@ set	11503-1	11503-1		Flower Wall	Botanicals	2026	https://cdn.rebrickable.com/med
 set	11502-1	11502-1		Sunflower Bouquet	Botanicals	2026	https://cdn.rebrickable.com/media/sets/11502-1.jpg		
 set	11501-1	11501-1		Tulip Bouquet	Botanicals	2026	https://cdn.rebrickable.com/media/sets/11501-1.jpg		
 set	11389-1	11389-1		Project Hail Mary	Icons	2026	https://cdn.rebrickable.com/media/sets/11389-1.jpg		
+set	11387-1	11387-1		Holiday House	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/11387-1.jpg		
 set	11386-1	11386-1		SpongeBob SquarePants: Bikini Bottom	Icons	2026	https://cdn.rebrickable.com/media/sets/11386-1.jpg		
 set	11385-1	11385-1		Star Trek: U.S.S. Enterprise NCC-1701 Bridge	Icons	2026	https://cdn.rebrickable.com/media/sets/11385-1.jpg		
 set	11384-1	11384-1		Golden Retriever Puppy	Icons	2026	https://cdn.rebrickable.com/media/sets/11384-1.jpg		
@@ -2297,6 +2295,7 @@ set	11383-1	11383-1		Mayor Manor	Icons	2026	https://cdn.rebrickable.com/media/se
 set	11382-1	11382-1		Hubble Space Telescope	Icons	2026	https://cdn.rebrickable.com/media/sets/11382-1.jpg		
 set	11381-1	11381-1		Jaguar E-type	Icons	2026	https://cdn.rebrickable.com/media/sets/11381-1.jpg		
 set	11380-1	11380-1		Road Bike	Icons	2026	https://cdn.rebrickable.com/media/sets/11380-1.jpg		
+set	11379-1	11379-1		Bookstore: Book Nook	Icons	2026	https://cdn.rebrickable.com/media/sets/11379-1.jpg		
 set	11378-1	11378-1		Douglas DC-3 PAN AM Airliner	Icons	2026	https://cdn.rebrickable.com/media/sets/11378-1.jpg		
 set	11377-1	11377-1		The Lord of the Rings: Minas Tirith	Icons	2026	https://cdn.rebrickable.com/media/sets/11377-1.jpg		
 set	11376-1	11376-1		Ford Model T	Icons	2026	https://cdn.rebrickable.com/media/sets/11376-1.jpg		
