@@ -60,6 +60,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   n'était pas dans les 10 premiers : objets blancs, fond clair). Référence absente (cache v48) : l'utilisateur tape
   le nom, les porte-clés lumineux d'abord, touche le bon ; la correspondance référence -> objet est gardée dans le
   téléphone (Memoire « objets-references ») et reconnue directement la fois suivante. Plus de numéro deviné.
+- Ma collection, photos des customs (01/10, cache v50) : codes CUS-… -> figurine JB retrouvée par le lien ou le
+  nom (sans le n° « 52/150 ») ; photo du catalogue, sinon photo de « Ma base de blisters », sinon photo de l'album
+  (jeton GitHub), sinon 🎨. Signalé par l'utilisateur (capture : BLACK KRRSANTAN, SHINY DARK LORD… sans photo).
 - Exemplaire de plus sans reprendre de photo (01/10, cache v47) :
   - Ma collection : toucher une figurine (liste ou planche) -> menu « ➕ Ajouter un exemplaire » / « 🔗 Voir… »
     (choisirAction, exemplaireEnPlus dans js/app.js) : écran de résultat avec le même onglet et le même nom ;

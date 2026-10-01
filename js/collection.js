@@ -9,6 +9,7 @@ const Collection = {
 
   ouvrir() {
     CatalogueJB.charger().then(() => this.rendre()).catch(() => {}); // photos des customs JB
+    this._chargerMesBlisters().then(() => this.rendre()).catch(() => {});
     const onglets = Object.keys(etat.collection || {});
     if (!onglets.includes(this.onglet)) this.onglet = onglets.find(o => this._figurines(o).length) || onglets[0];
     $("collection-recherche").value = "";
@@ -70,6 +71,7 @@ const Collection = {
         ? `${res.length} résultat(s) sur ${total} figurines.`
         : "Aucune figurine de votre collection ne correspond.";
       contenu.innerHTML = res.map(c => this._fiche(c, c.onglet)).join("");
+      if (typeof Consulter !== "undefined") Consulter.completerPhotos(contenu);
       return;
     }
 
@@ -77,6 +79,7 @@ const Collection = {
     if (this.vue === "liste") {
       $("collection-info").textContent = `${figs.length} figurine(s) dans « ${this.onglet} ». Touchez une figurine pour en ajouter un exemplaire, ou 🔗 pour voir sa page.`;
       contenu.innerHTML = figs.map(c => this._fiche(c, this.onglet)).join("");
+      if (typeof Consulter !== "undefined") Consulter.completerPhotos(contenu);
       return;
     }
 
@@ -107,12 +110,34 @@ const Collection = {
     return codeInvalide(c.code) ? null : urlBricklink(c.code);
   },
 
-  // Photo d'une custom : celle du catalogue JB si on la connaît, sinon un pictogramme
+  // Photos de « Ma base de blisters » (gardées dans le téléphone), par nom de figurine
+  _mesBlisters: new Map(),
+  async _chargerMesBlisters() {
+    const m = new Map();
+    for (const e of ((await Memoire.lire("base")) || []).filter(e => e.photo && e.nom))
+      for (const k of [normaliser(e.nom), normaliser(nomComplet(e))]) if (!m.has(k)) m.set(k, e.photo);
+    this._mesBlisters = m;
+  },
+
+  // Figurine du catalogue JB d'une custom : par son code (JB-…), son lien, ou son nom (codes CUS-… : « BLACK KRRSANTAN 52/150 »)
+  _jbDe(c) {
+    if (!CatalogueJB.liste) return null;
+    const parCode = CatalogueJB.trouver(c.code) || CatalogueJB.parLien(c.lien);
+    if (parCode) return parCode;
+    if (!this._jbParNom) this._jbParNom = new Map(CatalogueJB.liste.map(f => [normaliser(nomCustomPourFichier(f.nom)), f]));
+    return this._jbParNom.get(normaliser(this._sansNumero(c.nom))) || null;
+  },
+  _sansNumero(nom) { return (nom || "").replace(/\s*\d{1,4}\s*\/\s*\d{1,4}\s*$/, "").trim(); },
+
+  // Photo d'une custom : celle du catalogue JB, sinon votre photo de blister (base de blisters, puis album
+  // photo du dépôt privé), sinon un pictogramme
   _photoCustom(c) {
-    const jb = CatalogueJB.trouver(c.code);
-    return jb && jb.image
-      ? `<img class="photo" loading="lazy" src="${echapper(jb.image)}" alt="" onerror="this.style.visibility='hidden'">`
-      : `<span class="photo-custom">🎨</span>`;
+    const jb = this._jbDe(c);
+    if (jb && jb.image) return `<img class="photo" loading="lazy" src="${echapper(jb.image)}" alt="" onerror="this.style.visibility='hidden'">`;
+    const mien = this._mesBlisters.get(normaliser(this._sansNumero(c.nom)));
+    if (mien) { const u = URL.createObjectURL(mien); this._urls.push(u); return `<img class="photo" src="${u}" alt="">`; }
+    if (jb) return `<img class="photo" data-ma-photo="${echapper(jb.code)}" alt="" style="visibility:hidden">`;
+    return `<span class="photo-custom">🎨</span>`;
   },
 
   _fiche(c, onglet) {
