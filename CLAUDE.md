@@ -9,4 +9,6 @@
   plusieurs fois, Mathias l'a signalé à chaque fois. Relire chaque message avant de l'envoyer.
 - Toute évolution touchant les blisters JB (recensement, base commune) s'applique aussi à la mini-appli de l'ami
   (contribuer.html), et son mode d'emploi (brouillon Gmail) est mis à jour en conséquence.
+- **Prix : toujours le prix public français** (LEGO France, vendeurs français…). Seuls les prix de JB Spielwaren
+  sont allemands. Jamais de prix allemand ou étranger présenté comme prix de référence.
 - Voir SUIVI.md pour l'état du projet. Données privées (prix, achats, photos) : dépôt privé uniquement.
