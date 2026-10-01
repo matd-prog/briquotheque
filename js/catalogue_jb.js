@@ -63,7 +63,9 @@ const CatalogueJB = {
                 continue;
               }
               // prix : prix de vente TTC relevé sur le site ; dispo « non » : épuisée chez JB (prix = dernier prix JB)
-              const f = { code, nom, categorie, lien, image: exclu === "sans_image" ? "" : image, sansImage: exclu === "sans_image", prix: parseFloat(prix) || 0, epuisee: source === "jb" && dispo === "non", source, ebay: source === "ebay",
+              // base commune : « NOM IMPRIMÉ – précision » ; le nom imprimé seul sert à la lecture du carton
+              const coupe = source === "commune" ? decouperNomBlister(nom || "") : null;
+              const f = { code, nom, nomImprime: coupe ? coupe.nom : "", precision: coupe ? coupe.precision : "", categorie, lien, image: exclu === "sans_image" ? "" : image, sansImage: exclu === "sans_image", prix: parseFloat(prix) || 0, epuisee: source === "jb" && dispo === "non", source, ebay: source === "ebay",
                           recherche: normaliser(`${code} ${nom} ${categorie}`) };
               this.liste.push(f);
               this.parCode.set(code.toUpperCase(), f);
@@ -143,7 +145,7 @@ const CatalogueJB = {
     const lignes = texte.split("\n").map(l => normaliser(l).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.has(m))).filter(l => l.length);
     const res = [];
     for (const f of this.liste) {
-      const mots = normaliser(f.nom).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.has(m) && !/^\d+$/.test(m));
+      const mots = normaliser(f.nomImprime || f.nom).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.has(m) && !/^\d+$/.test(m));
       if (!mots.length || !mots.some(m => m.length >= 3)) continue;
       const lu = (m, liste) => liste.some(l => mots.length === 1 ? l === m : proche(l, m));
       const trouves = mots.filter(m => lu(m, lusUtiles)).length;
@@ -170,6 +172,12 @@ const CatalogueJB = {
 };
 
 // « Alien Prosecutor Custom Minifigure » -> « ALIEN PROSECUTOR » (style de votre fichier)
+// « SPECIAL WHATNOT FIGURE 2025 – DARK VADOR CHROME ORANGE » ou « … 2025 (DROÏDE OR) » -> nom imprimé et précision
+function decouperNomBlister(nom) {
+  let m = /^(.*?)\s+–\s+(.+)$/.exec(nom) || /^(.*?)\s*\(([^()]+)\)\s*$/.exec(nom);
+  return m ? { nom: m[1].trim(), precision: m[2].trim() } : { nom: nom.trim(), precision: "" };
+}
+
 function nomCustomPourFichier(nom) {
   const court = nom.replace(/\s*\bc[ou]s?t[ou]m\s+minifig(ure|ur)?s?\b/i, "").replace(/\s+/g, " ").trim();
   const m = /^(.*?)\s+(designed by .*|\d+ of \d+|halloween .*|christmas .*)$/i.exec(court);

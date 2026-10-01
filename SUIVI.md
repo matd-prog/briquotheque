@@ -80,6 +80,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   Fait le 01/10 : jeton étendu au dépôt public par l'utilisateur, premier envoi : 286 blisters (441 photos dans le
   dépôt privé) ; 261 rattachés à une figurine connue, 25 sans code -> 15 nouvelles fiches « Base commune » ; 147 fiches
   du catalogue ont maintenant aussi les photos de l'utilisateur comme référence pour la comparaison du décor.
+- Reconnaissance nom + décor (01/10, cache v54) : chaque blister du catalogue reçoit la ressemblance de son décor
+  (0,8 sans empreinte) + 0,06 si son nom a été lu ; même nom imprimé (ex. 3 « SPECIAL WHATNOT FIGURE 2025 »
+  de la base commune) : le décor départage, la précision est remplie (« DARK VADOR CHROME ORANGE »). Blisters à
+  moins de 0,03 du premier (même nom lu, ou décor seul si rien n'est lu) : montrés en photos « 👀 se ressemblent
+  presque autant ». Base commune : nom imprimé et précision séparés (decouperNomBlister, js/catalogue_jb.js).
+  Essai sur la capture de l'utilisateur (Dark Vador chrome orange) : trouvé en premier, les 2 autres à côté.
 - Ma collection regroupée (01/10, cache v52) : une ligne par figurine (même onglet et même code ; customs : même nom
   sans le n°) avec ×N, les n° et les cases. Toucher -> menu : ➕ Ajouter un exemplaire, ➖ Retirer un exemplaire (choix
   de l'exemplaire, confirmation ; retirerFigurine dans js/xlsx.js : nom, code, lien, étiquette effacés, ligne de la

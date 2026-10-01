@@ -33,7 +33,7 @@ const Base = {
     this.photo = null; this.verso = null; this.versoPasse = false;
     this.source = this.sourceVerso = this.cadre = this.cadreVerso = null;
     if ($("base-recadrage")) $("base-recadrage").hidden = true;
-    if ($("base-recadrer-boutons")) $("base-recadrer-boutons").hidden = true; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.semblables = [];
+    if ($("base-recadrer-boutons")) $("base-recadrer-boutons").hidden = true; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.proches = []; this.semblables = [];
     if ($("base-identite")) $("base-identite").innerHTML = "";
     $("base-photo").removeAttribute("src");
     if ($("base-verso")) { $("base-verso").removeAttribute("src"); $("base-verso").hidden = true; }
@@ -212,27 +212,31 @@ const Base = {
     $("base-photo").src = URL.createObjectURL(this.photo);
     this._boutonsRecadrer();
     // propositions : figurines connues dont le nom a été lu, puis le nom le plus probable du carton
-    let connues = lecture.trouve ? CatalogueJB.rapprocher(lecture.texte).slice(0, 4) : [];
-    // décor : blisters les plus ressemblants (catalogue et photos de collectionneurs). Un nom lu dont le décor ne
-    // ressemble pas passe derrière un décor presque identique (texte du carton pris pour un nom).
+    let connues = lecture.trouve ? CatalogueJB.rapprocher(lecture.texte, 8) : [];
+    const lus = new Set(connues); // blisters dont le nom a été lu sur le carton
+    // nom lu et décor ensemble : chaque blister a la ressemblance de son décor (0,8 s'il n'a pas d'empreinte), plus un
+    // bonus si son nom a été lu. Même nom imprimé (ex. trois « SPECIAL WHATNOT FIGURE 2025 ») : le décor départage.
+    this.proches = [];
     try {
       await CatalogueJB.chargerEmpreintes();
-      const decor = CatalogueJB.classerParDecor(await createImageBitmap(this.photo), 10);
-      this.decor = decor;
-      const confirme = connues.some(f => decor.some(r => r.f === f));
-      const surs = decor.filter(r => r.score >= 0.95).slice(0, 2).map(r => r.f);
-      connues = confirme || !surs.length ? [...connues, ...decor.slice(0, connues.length ? 1 : 3).map(r => r.f)] : [...surs, ...connues];
-      connues = connues.filter((f, i, t) => t.indexOf(f) === i).slice(0, 5);
+      const tous = CatalogueJB.classerParDecor(await createImageBitmap(this.photo), 100000);
+      this.decor = tous.slice(0, 10);
+      const score = new Map(tous.map(r => [r.f, r.score]));
+      const note = f => (score.has(f) ? score.get(f) : 0.8) + (lus.has(f) ? 0.06 : 0);
+      connues = [...new Set([...connues, ...tous.slice(0, connues.length ? 3 : 5).map(r => r.f)])].sort((a, b) => note(b) - note(a)).slice(0, 5);
+      // plusieurs blisters presque aussi ressemblants : à départager à l'œil (photos)
+      // (même nom lu que le premier : un décor voisin d'un autre nom ne compte pas)
+      if (connues.length) this.proches = connues.filter(f => score.has(f) && lus.has(f) === lus.has(connues[0]) && note(f) >= note(connues[0]) - 0.03);
+      if (this.proches.length < 2) this.proches = [];
     } catch (err) { console.warn(err); }
-    const court = f => f.nom.replace(/\s*[-–]?\s*\bc[ou]s?t[ou]m\b.*$/i, "").replace(/\s+minifig\w*.*$/i, "").trim();
-    const noms = [...connues.map(f => ({ nom: court(f).toUpperCase(), code: f.code })), ...(nomProbable(lecture.texte) ? [{ nom: nomProbable(lecture.texte).toUpperCase(), code: "" }] : [])]
-      .filter((s, i, t) => s.nom && t.findIndex(x => x.nom === s.nom) === i);
-    if (noms.length) { $("base-nom").value = this.nomLu = noms[0].nom; this.codeLu = noms[0].code; }
+    const noms = [...connues.map(f => ({ ...this._nomEtPrecision(f), code: f.code })),
+                  ...(nomProbable(lecture.texte) ? [{ nom: nomProbable(lecture.texte).toUpperCase(), precision: "", code: "" }] : [])]
+      .filter((s, i, t) => s.nom && t.findIndex(x => x.nom === s.nom && x.precision === s.precision) === i);
+    if (noms.length) this._choisirNom(noms[0]);
     $("base-suggestions").innerHTML = noms.length > 1
-      ? noms.map((s, i) => `<button class="petit" data-base-nom="${i}">${echapper(s.nom)}</button>`).join("") : "";
+      ? noms.map((s, i) => `<button class="petit" data-base-nom="${i}">${echapper(nomComplet(s))}</button>`).join("") : "";
     $("base-suggestions").querySelectorAll("[data-base-nom]").forEach(b => b.addEventListener("click", () => {
-      const s = noms[+b.dataset.baseNom];
-      $("base-nom").value = this.nomLu = s.nom; this.codeLu = s.code;
+      this._choisirNom(noms[+b.dataset.baseNom]);
       this._deja();
     }));
     this.semblables = await this._semblablesCollection().catch(() => []);
@@ -244,6 +248,18 @@ const Base = {
       : "Le nom n'a pas été lu : tapez-le tel qu'il est imprimé sur le blister, ou choisissez un blister qui ressemble.";
     $("base-fiche").hidden = false;
     this._deja();
+  },
+
+  // Nom à écrire pour un blister du catalogue : nom imprimé (sans « Custom Minifigure »), et précision pour ceux de
+  // la base commune (« SPECIAL WHATNOT FIGURE 2025 » + « DARK VADOR CHROME ORANGE »)
+  _nomEtPrecision(f) {
+    if (f.nomImprime) return { nom: f.nomImprime.toUpperCase(), precision: f.precision || "" };
+    const court = f.nom.replace(/\s*[-–]?\s*\bc[ou]s?t[ou]m\b.*$/i, "").replace(/\s+minifig\w*.*$/i, "").trim();
+    return { nom: court.toUpperCase(), precision: "" };
+  },
+  _choisirNom(s) {
+    $("base-nom").value = this.nomLu = s.nom; this.codeLu = s.code;
+    if ($("base-precision") && (s.precision || s.code)) $("base-precision").value = s.precision || "";
   },
 
   // Verso : demandé à chaque blister (preuve et état pour l'assureur, photos prêtes pour une annonce)
@@ -302,13 +318,17 @@ const Base = {
     const code = this.codeLu && normaliser(this.nomLu) === nomImprime ? this.codeLu : "";
     const f = code && CatalogueJB.trouver ? CatalogueJB.trouver(code) : null;
     const source = f => f.source === "jb" ? (f.epuisee ? "catalogue JB, épuisée" : "catalogue JB") : f.source === "album" ? "photo de collectionneur"
-      : f.source === "brickshell" ? "retirée, brickshellcases" : f.source === "archive" ? "retirée, archives JB" : "retirée, vue sur eBay.de";
-    const carte = (x, i) => `<button class="proposition" data-base-decor="${i}">
+      : f.source === "brickshell" ? "retirée, brickshellcases" : f.source === "archive" ? "retirée, archives JB"
+      : f.source === "commune" ? "base commune" : "retirée, vue sur eBay.de";
+    const carte = (x, i, sorte = "decor") => `<button class="proposition" data-base-${sorte}="${i}">
         ${x.image ? `<img src="${echapper(x.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo" data-ma-photo="${echapper(x.code)}">${echapper(source(x))}</div>`}
         <span class="nom-court">${echapper(x.nom)}</span></button>`;
     // 1. base JB
     let jb;
-    if (f) jb = `<p>✅ <b>Dans la base JB</b> : ${echapper(f.nom)} <span class="score">(${echapper(source(f))})</span></p>`;
+    const proches = (this.proches || []).filter(x => x !== f);
+    if (f) jb = `<p>✅ <b>Reconnu</b> : ${echapper(f.nom)} <span class="score">(${echapper(source(f))})</span></p>` +
+      (proches.length ? `<p class="alerte">👀 D'autres blisters se ressemblent presque autant : vérifiez la figurine, et touchez la bonne si ce n'est pas celle-ci.</p>
+        <div class="grille">${proches.map((x, i) => carte(x, i, "proche")).join("")}</div>` : "");
     else {
       const autres = (this.decor || []).slice(0, 3).map(r => r.f);
       jb = `<p>❓ <b>Pas reconnu dans la base JB.</b> ${autres.length ? "Est-ce l'un de ceux-ci ? Touchez-le pour le choisir." : ""}</p>` +
@@ -346,8 +366,12 @@ const Base = {
       }));
       zone.querySelectorAll("[data-base-decor]").forEach(b => b.addEventListener("click", () => {
         const x = (this.decor || [])[+b.dataset.baseDecor].f;
-        const court = x.nom.replace(/\s*[-–]?\s*\bc[ou]s?t[ou]m\b.*$/i, "").replace(/\s+minifig\w*.*$/i, "").trim().toUpperCase();
-        $("base-nom").value = this.nomLu = court; this.codeLu = x.code;
+        this._choisirNom({ ...this._nomEtPrecision(x), code: x.code });
+        this._deja();
+      }));
+      zone.querySelectorAll("[data-base-proche]").forEach(b => b.addEventListener("click", () => {
+        const x = proches[+b.dataset.baseProche];
+        this._choisirNom({ ...this._nomEtPrecision(x), code: x.code });
         this._deja();
       }));
     }
