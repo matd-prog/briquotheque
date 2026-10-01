@@ -1,6 +1,8 @@
 # Consignes pour Claude
 
 - **Tutoyer** l'utilisateur (Mathias), à sa demande, dans tous les messages, sans exception.
+  Les textes de l'appli, eux, restent au « vous » (choix de Mathias, 01/10/2026) : le tutoiement, c'est seulement
+  dans nos échanges.
 - Écrire **uniquement en français** avec l'utilisateur : réponses, messages pendant le travail, explications, e-mails,
   messages de commit compris. Jamais d'anglais, **même pour une phrase courte** du genre « je publie », « je teste »
   ou « j'attends le résultat » entre deux étapes : ces petits messages ont déjà été écrits en anglais par erreur

@@ -435,7 +435,7 @@ const Base = {
                         nomLu: e.nom, codeLu: e.code || "", serie: e.serie || "", remarque: e.remarque || "", nonNumerote: e.numerote === false,
                         source: null, sourceVerso: null, cadre: null, cadreVerso: null };
     this.autreExemplaire();
-    $("base-etat").textContent = "Exemplaire de plus, mêmes photos : tape seulement son numéro, puis « Ajouter ». Pour prendre des photos de cet exemplaire, touche « Autre exemplaire … : photographier ».";
+    $("base-etat").textContent = "Exemplaire de plus, mêmes photos : tapez seulement son numéro, puis « Ajouter ». Pour prendre des photos de cet exemplaire, touchez « Autre exemplaire … : photographier ».";
     if ($("base-autre")) { $("base-autre").hidden = false; $("btn-base-autre").textContent = `Autre exemplaire de « ${nomComplet(e)} » : photographier`; }
     $("base-fiche").scrollIntoView({ block: "start" });
     if ($("base-numero") && e.numerote !== false) setTimeout(() => $("base-numero").focus(), 300);

@@ -91,7 +91,7 @@ const EcranObjet = {
     // d'abord les porte-clés lumineux si la référence lue en est un (KE…)
     let res = CatalogueObjets.chercher(q, 30);
     if (/^KE/.test(this._refLue || "")) res = res.filter(o => /light/i.test(o.nom)).concat(res.filter(o => !/light/i.test(o.nom)));
-    this.proposer(res.slice(0, 8), this._refLue ? `Référence lue : <b>${echapper(this._refLue)}</b>. Touche le bon :` : "");
+    this.proposer(res.slice(0, 8), this._refLue ? `Référence lue : <b>${echapper(this._refLue)}</b>. Touchez le bon :` : "");
   },
 
   proposer(res, info = "") {
@@ -130,10 +130,10 @@ const EcranObjet = {
     catch (err) { console.error(err); }
     const res = ref ? CatalogueObjets.parReference(ref) : [];
     if (res.length === 1) { this.choisir(res[0]); toast(`Référence ${ref} reconnue ✔`); return; }
-    if (res.length) { this.proposer(res, `Référence lue : <b>${echapper(ref)}</b>. Touche le bon :`); return; }
+    if (res.length) { this.proposer(res, `Référence lue : <b>${echapper(ref)}</b>. Touchez le bon :`); return; }
     if (!ref) {
       $("objet-nouveautes").innerHTML = "";
-      await demander("Je n'ai pas trouvé la référence sur la photo. Photographie la face avant, de près, bien à plat : la référence (ex. « KE48H ») est écrite au-dessus du code-barres.\n\nTu peux aussi taper le nom ou la référence.", "OK", "Fermer");
+      await demander("Référence pas trouvée sur la photo. Photographiez la face avant, de près, bien à plat : la référence (ex. « KE48H ») est écrite au-dessus du code-barres.\n\nVous pouvez aussi taper le nom ou la référence.", "OK", "Fermer");
       return;
     }
     // référence absente du catalogue (souvent rangé sous un numéro LEGO, ex. fantôme KE48H = 5005667) : l'utilisateur
@@ -141,8 +141,8 @@ const EcranObjet = {
     this._refLue = ref;
     $("objet-nom").value = "";
     $("objet-nouveautes").innerHTML = `<p class="aide" style="grid-column: 1 / -1">Référence lue : <b>${echapper(ref)}</b>. Le catalogue range
-      cet objet sous un autre numéro : tape son nom en anglais ci-dessus (ex. « ghost », « vader ») et touche le bon.
-      Je retiendrai que ${echapper(ref)} = cet objet.
+      cet objet sous un autre numéro : tapez son nom en anglais ci-dessus (ex. « ghost », « vader ») et touchez le bon.
+      L'appli retiendra que ${echapper(ref)} = cet objet.
       <a href="https://www.bricklink.com/v2/search.page?q=${encodeURIComponent(ref)}#T=G" target="_blank" rel="noopener">Chercher ${echapper(ref)} sur BrickLink</a></p>`;
     $("objet-nom").focus();
   },

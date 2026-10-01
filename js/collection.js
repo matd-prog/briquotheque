@@ -75,7 +75,7 @@ const Collection = {
 
     const figs = this._figurines(this.onglet);
     if (this.vue === "liste") {
-      $("collection-info").textContent = `${figs.length} figurine(s) dans « ${this.onglet} ». Touche une figurine pour en ajouter un exemplaire, ou 🔗 pour voir sa page.`;
+      $("collection-info").textContent = `${figs.length} figurine(s) dans « ${this.onglet} ». Touchez une figurine pour en ajouter un exemplaire, ou 🔗 pour voir sa page.`;
       contenu.innerHTML = figs.map(c => this._fiche(c, this.onglet)).join("");
       return;
     }
@@ -135,7 +135,7 @@ const Collection = {
     const n = ouFigurine(c.code).length, lien = this._lien(c, onglet);
     const actions = ["➕ Ajouter un exemplaire" + (onglet === THEME_CUSTOMS.onglet ? " (nouveau n°)" : "")];
     if (lien) actions.push(onglet === THEME_CUSTOMS.onglet ? "🔗 Voir la page" : "🔗 Voir sur BrickLink");
-    const i = await choisirAction(`${c.nom || "(sans nom)"}\n${c.code} · ${onglet}, case ${ref}${n > 1 ? `\n${n} exemplaires dans ta collection` : ""}`, actions);
+    const i = await choisirAction(`${c.nom || "(sans nom)"}\n${c.code} · ${onglet}, case ${ref}${n > 1 ? `\n${n} exemplaires dans votre collection` : ""}`, actions);
     if (i === 0) exemplaireEnPlus(c, onglet);
     else if (i === 1) {
       const l = lienOuvrable(lien);

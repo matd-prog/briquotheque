@@ -583,7 +583,7 @@ async function ajouter() {
 function exemplaireEnPlus(c, onglet) {
   etat.photos = [];
   if (onglet === THEME_CUSTOMS.onglet) {
-    ouvrirCustom("Exemplaire de plus : tape son numéro.");
+    ouvrirCustom("Exemplaire de plus : tapez son numéro.");
     const jb = typeof CatalogueJB !== "undefined" && CatalogueJB.trouver(c.code);
     if (jb) choisirJB(jb);
     else {
@@ -607,7 +607,7 @@ function exemplaireEnPlus(c, onglet) {
   if (camp) { etat.theme = STAR_WARS; etat.camp = camp[0]; } else etat.theme = onglet;
   if ($("choix-theme")) $("choix-theme").value = etat.theme;
   if (c.nom) $("champ-nom").value = c.nom;
-  majChoix("Même rangement que l'exemplaire que tu as déjà.");
+  majChoix("Même rangement que l'exemplaire que vous avez déjà.");
   window.scrollTo(0, 0);
 }
 
