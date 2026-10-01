@@ -56,8 +56,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   Essai sur les photos de l'utilisateur : KE48H (fantôme) et KE247H (Dark Vador blanc) lus (12 à 27 s) ;
   le dos de l'étiquette ne porte pas la référence.
   Premier catalogue réel : 7 970 objets, 206 porte-clés lumineux. Beaucoup sont rangés sous un numéro LEGO
-  (ex. fantôme KE48H = « Ghost Key Light » 5005667) : référence absente -> comparaison de la photo avec les
-  porte-clés lumineux (data/objets_empreintes.tsv, outils/empreintes_nouveautes.js) ; plus de numéro deviné.
+  (ex. fantôme KE48H = « Ghost Key Light » 5005667). Comparaison des photos essayée puis abandonnée (le fantôme
+  n'était pas dans les 10 premiers : objets blancs, fond clair). Référence absente (cache v48) : l'utilisateur tape
+  le nom, les porte-clés lumineux d'abord, touche le bon ; la correspondance référence -> objet est gardée dans le
+  téléphone (Memoire « objets-references ») et reconnue directement la fois suivante. Plus de numéro deviné.
 - Exemplaire de plus sans reprendre de photo (01/10, cache v47) :
   - Ma collection : toucher une figurine (liste ou planche) -> menu « ➕ Ajouter un exemplaire » / « 🔗 Voir… »
     (choisirAction, exemplaireEnPlus dans js/app.js) : écran de résultat avec le même onglet et le même nom ;

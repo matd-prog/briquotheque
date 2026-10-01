@@ -25,28 +25,20 @@ const CatalogueObjets = {
     const mots = normaliser(texte).split(" ").filter(Boolean);
     return mots.length ? this.liste.filter(o => mots.every(m => o.recherche.includes(m))).slice(0, max) : [];
   },
-  // Porte-clés lumineux qui ressemblent à la photo (empreintes des photos du catalogue, data/objets_empreintes.tsv) :
-  // la photo entière et sa moitié basse (la figurine, sans l'étiquette), la meilleure des deux ressemblances
-  _empreintes: null,
-  async semblables(fichier, max = 6) {
-    if (!this._empreintes) this._empreintes = fetch("data/objets_empreintes.tsv").then(r => r.ok ? r.text() : "").then(t =>
-      new Map(t.split("\n").slice(1).filter(Boolean).map(l => { const [c, e] = l.split("\t"); return [c, empreinteDepuisTexte(e)]; }))).catch(() => new Map());
-    const emp = await this._empreintes;
-    if (!emp.size) return [];
-    const bm = await createImageBitmap(fichier);
-    const bas = document.createElement("canvas");
-    bas.width = bm.width; bas.height = Math.round(bm.height * 0.6);
-    bas.getContext("2d").drawImage(bm, 0, bm.height - bas.height, bm.width, bas.height, 0, 0, bas.width, bas.height);
-    const e1 = empreinteFigurine(bm), e2 = empreinteFigurine(bas);
-    bm.close && bm.close();
-    return this.liste.filter(o => emp.has(o.code))
-      .map(o => ({ o, s: Math.max(similarite(e1, emp.get(o.code)), similarite(e2, emp.get(o.code))) }))
-      .sort((a, b) => b.s - a.s).slice(0, max).map(x => x.o);
-  },
-
   // Référence lue sur l'emballage (« KE48H ») : la même, sinon le même numéro avec une autre lettre de fin
+  // Références confirmées une fois par l'utilisateur (« KE48H » -> 5005667-1) : gardées dans le téléphone
+  confirmees: {},
+  async chargerConfirmees() {
+    try { this.confirmees = (await Memoire.lire("objets-references")) || {}; } catch (err) { this.confirmees = {}; }
+  },
+  async confirmer(ref, o) {
+    this.confirmees[ref.toUpperCase()] = o.code;
+    try { await Memoire.ecrire(this.confirmees, "objets-references"); } catch (err) { console.warn(err); }
+  },
   parReference(ref) {
     const r = ref.toUpperCase(), sans = r.replace(/[A-Z]$/, "");
+    const conf = this.confirmees[r] && this.liste.find(o => o.code === this.confirmees[r]);
+    if (conf) return [conf];
     const exacts = this.liste.filter(o => o.reference === r);
     return exacts.length ? exacts : this.liste.filter(o => o.reference.replace(/[A-Z]$/, "") === sans);
   },
@@ -94,9 +86,12 @@ const EcranObjet = {
   // Objets dérivés (catalogue complet) dont le nom ou la référence correspond à ce qui est tapé : un toucher remplit le numéro
   async suggerer() {
     const q = $("objet-nom").value.trim();
-    if (q.length < 2) { $("objet-nouveautes").innerHTML = ""; return; }
+    if (q.length < 2) { if (!this._refLue) $("objet-nouveautes").innerHTML = ""; return; }
     await CatalogueObjets.charger();
-    this.proposer(CatalogueObjets.chercher(q));
+    // d'abord les porte-clés lumineux si la référence lue en est un (KE…)
+    let res = CatalogueObjets.chercher(q, 30);
+    if (/^KE/.test(this._refLue || "")) res = res.filter(o => /light/i.test(o.nom)).concat(res.filter(o => !/light/i.test(o.nom)));
+    this.proposer(res.slice(0, 8), this._refLue ? `Référence lue : <b>${echapper(this._refLue)}</b>. Touche le bon :` : "");
   },
 
   proposer(res, info = "") {
@@ -109,6 +104,12 @@ const EcranObjet = {
   },
 
   choisir(o) {
+    // référence lue sur l'étiquette mais rangée sous un autre numéro : retenue pour la prochaine fois
+    if (this._refLue && o.reference !== this._refLue) {
+      CatalogueObjets.confirmer(this._refLue, o);
+      toast(`Retenu : la référence ${this._refLue} = « ${o.nom} » (reconnue directement la prochaine fois)`, 5000);
+    }
+    this._refLue = "";
     $("objet-nom").value = o.nom;
     $("objet-code").value = o.bricklink;
     if (/light|lampe|torch/i.test(o.nom)) $("objet-type").value = "Porte-clés lumineux";
@@ -124,26 +125,26 @@ const EcranObjet = {
   async photo(fichier) {
     $("objet-nouveautes").innerHTML = `<p class="aide" style="grid-column: 1 / -1">⏳ Lecture de l'étiquette… (jusqu'à une demi-minute)</p>`;
     let ref = "";
-    try { [ref] = await Promise.all([lireReferenceObjet(fichier), CatalogueObjets.charger()]); }
+    this._refLue = "";
+    try { [ref] = await Promise.all([lireReferenceObjet(fichier), CatalogueObjets.charger(), CatalogueObjets.chargerConfirmees()]); }
     catch (err) { console.error(err); }
     const res = ref ? CatalogueObjets.parReference(ref) : [];
     if (res.length === 1) { this.choisir(res[0]); toast(`Référence ${ref} reconnue ✔`); return; }
     if (res.length) { this.proposer(res, `Référence lue : <b>${echapper(ref)}</b>. Touche le bon :`); return; }
-    // référence absente du catalogue (souvent rangé sous un numéro LEGO, ex. 5005667) : comparaison des photos
-    const proches = await CatalogueObjets.semblables(fichier).catch(err => { console.warn(err); return []; });
-    const lienBL = ref ? ` <a href="https://www.bricklink.com/v2/search.page?q=${encodeURIComponent(ref)}#T=G" target="_blank" rel="noopener">Chercher ${echapper(ref)} sur BrickLink</a>` : "";
-    if (proches.length) {
-      this.proposer(proches, (ref ? `Référence lue : <b>${echapper(ref)}</b>, mais le catalogue range cet objet sous un autre numéro. ` : "Référence pas trouvée sur la photo. ") +
-        `Voici les porte-clés lumineux qui ressemblent : touche le bon.${lienBL}`);
-      return;
-    }
     if (!ref) {
       $("objet-nouveautes").innerHTML = "";
       await demander("Je n'ai pas trouvé la référence sur la photo. Photographie la face avant, de près, bien à plat : la référence (ex. « KE48H ») est écrite au-dessus du code-barres.\n\nTu peux aussi taper le nom ou la référence.", "OK", "Fermer");
       return;
     }
-    $("objet-nouveautes").innerHTML = `<p class="aide" style="grid-column: 1 / -1">Référence lue : <b>${echapper(ref)}</b>, pas trouvée dans le catalogue.
-      Tape son nom en anglais (ex. « ghost key light »), ou${lienBL}.</p>`;
+    // référence absente du catalogue (souvent rangé sous un numéro LEGO, ex. fantôme KE48H = 5005667) : l'utilisateur
+    // tape le nom et touche le bon ; la correspondance est retenue
+    this._refLue = ref;
+    $("objet-nom").value = "";
+    $("objet-nouveautes").innerHTML = `<p class="aide" style="grid-column: 1 / -1">Référence lue : <b>${echapper(ref)}</b>. Le catalogue range
+      cet objet sous un autre numéro : tape son nom en anglais ci-dessus (ex. « ghost », « vader ») et touche le bon.
+      Je retiendrai que ${echapper(ref)} = cet objet.
+      <a href="https://www.bricklink.com/v2/search.page?q=${encodeURIComponent(ref)}#T=G" target="_blank" rel="noopener">Chercher ${echapper(ref)} sur BrickLink</a></p>`;
+    $("objet-nom").focus();
   },
 
   chercher() {

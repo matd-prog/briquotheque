@@ -14,14 +14,11 @@ const racine = path.join(__dirname, "..");
 const SORTIE = path.join(racine, "data/nouveautes_empreintes.tsv");
 const attendre = ms => new Promise(r => setTimeout(r, ms));
 
-// Deux jeux : les nouvelles figurines (data/nouveautes.tsv) et les porte-clés lumineux de tous les temps
-// (data/objets.tsv -> data/objets_empreintes.tsv), pour les reconnaître en photo quand la référence imprimée
-// sur l'étiquette n'est pas celle du catalogue (ex. KE48H, rangé sous le numéro LEGO 5005667).
+// (Essai du 01/10 avec les porte-clés lumineux, data/objets_empreintes.tsv : abandonné, la comparaison des
+// photos ne retrouvait pas le bon porte-clés ; ils sont reconnus par la référence de l'étiquette.)
 const lire = f => fs.existsSync(path.join(racine, f)) ? fs.readFileSync(path.join(racine, f), "utf8").split("\n").map(l => l.split("\t")) : [];
 const JEUX = [
   { sortie: SORTIE, liste: lire("data/nouveautes.tsv").filter(c => c[0] === "figurine" && c[7]).map(c => ({ code: c[1], image: c[7] })) },
-  { sortie: path.join(racine, "data/objets_empreintes.tsv"),
-    liste: lire("data/objets.tsv").filter(c => c[6] && /key ?light|key ?chain light/i.test(c[3] || "")).map(c => ({ code: c[0], image: c[6] })) },
 ];
 
 (async () => {
