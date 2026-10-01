@@ -45,6 +45,13 @@ const Consulter = {
                          recherche: normaliser(nomComplet(l[0])), perso: l });
   },
 
+  // Photos de l'album (dépôt privé) d'une figurine, sous son code et ses alias
+  _album(f) {
+    if (!this.mesPhotos) return [];
+    const codes = f.alias ? CatalogueJB.codes(f) : [f.code.toUpperCase()];
+    return codes.flatMap(c => this.mesPhotos.get(c) || []);
+  },
+
   _miennes(f) { return f.perso || this.maBase.get(f.code.toUpperCase()) || []; },
 
   async _chargerMesPhotos() {
@@ -78,7 +85,7 @@ const Consulter = {
     let liste = q ? CatalogueJB.chercher(q, 100000) : CatalogueJB.liste.slice();
     const nq = normaliser(q);
     liste = liste.concat(this.persos.filter(f => !nq || nq.split(" ").every(m => f.recherche.includes(m))));
-    const mes = f => (this.mesPhotos && this.mesPhotos.has(f.code.toUpperCase())) || this._miennes(f).length > 0;
+    const mes = f => this._album(f).length > 0 || this._miennes(f).length > 0;
     if (filtre === "jb") liste = liste.filter(f => f.source === "jb" && !f.epuisee);
     else if (filtre === "retirees") liste = liste.filter(f => f.epuisee || ["brickshell", "archive", "ebay"].includes(f.source));
     else if (filtre === "album") liste = liste.filter(f => f.source === "album");
@@ -97,7 +104,7 @@ const Consulter = {
 
   suite() {
     const lot = this.resultats.slice(this.affichees, this.affichees + this.PAR_PAGE);
-    const mes = f => (this.mesPhotos && this.mesPhotos.get(f.code.toUpperCase())) || [];
+    const mes = f => this._album(f);
     const debut = this.affichees;
     const html = lot.map((f, k) => {
       const photos = mes(f), miennes = this._miennes(f);
@@ -120,7 +127,8 @@ const Consulter = {
   // Photo d'un blister (code JB-… ou ALB-…) prise dans l'album de l'utilisateur, ou "" (pas de jeton, pas de photo)
   async maPhoto(code) {
     await this._chargerMesPhotos();
-    const photos = this.mesPhotos && this.mesPhotos.get((code || "").toUpperCase());
+    const f = CatalogueJB.trouver(code);
+    const photos = f ? this._album(f) : (this.mesPhotos && this.mesPhotos.get((code || "").toUpperCase()));
     if (!photos || !photos.length) return "";
     const chemin = photos[0].photo;
     try {
@@ -143,7 +151,7 @@ const Consulter = {
   fiche(f) {
     const images = [];
     for (const e of this._miennes(f)) images.push(...Base.imagesBlister(e).map(im => ({ ...im, legende: "Mon blister · " + im.legende })));
-    const album = (this.mesPhotos && this.mesPhotos.get(f.code.toUpperCase())) || [];
+    const album = this._album(f);
     album.forEach((ph, i) => images.push({ src: this._imageAlbum(ph.photo),
       legende: `Photo de collectionneur ${i + 1}/${album.length}${ph.numero ? ` · n° ${ph.numero}` : ""}` }));
     if (f.image) images.push({ src: f.image, legende: this._source(f) });

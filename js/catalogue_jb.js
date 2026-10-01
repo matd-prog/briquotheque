@@ -41,6 +41,9 @@ const CatalogueJB = {
           this.liste = [];
           this.parCode = new Map();
           this.nb = { jb: 0, brickshell: 0, archive: 0, ebay: 0, album: 0 };
+          // même figurine dans plusieurs listes (ex. vue sur eBay.de et photographiée par un collectionneur) : une
+          // seule fiche, celle de la première liste ; les autres codes deviennent ses alias (photos d'album, empreintes)
+          const parNom = new Map();
           SOURCES_JB.forEach(({ source, codes }, i) => {
             for (const ligne of liste[i].split("\n")) {
               if (ligne.startsWith("#date ")) { if (source === "jb") this.date = ligne.slice(6).trim(); continue; }
@@ -48,11 +51,20 @@ const CatalogueJB = {
               if (!code || !codes.test(code) || this.parCode.has(code.toUpperCase())) continue;
               const exclu = this.exclus.get(code.toUpperCase());
               if (exclu === "retirer") continue;
+              const cleNom = normaliser(nomCustomPourFichier(nom || ""));
+              const meme = source !== "jb" && cleNom && parNom.get(cleNom);
+              if (meme) {
+                (meme.alias = meme.alias || []).push(code);
+                this.parCode.set(code.toUpperCase(), meme);
+                if (!meme.image && image && exclu !== "sans_image") meme.image = image;
+                continue;
+              }
               // prix : prix de vente TTC relevé sur le site ; dispo « non » : épuisée chez JB (prix = dernier prix JB)
               const f = { code, nom, categorie, lien, image: exclu === "sans_image" ? "" : image, sansImage: exclu === "sans_image", prix: parseFloat(prix) || 0, epuisee: source === "jb" && dispo === "non", source, ebay: source === "ebay",
                           recherche: normaliser(`${code} ${nom} ${categorie}`) };
               this.liste.push(f);
               this.parCode.set(code.toUpperCase(), f);
+              if (cleNom && !parNom.has(cleNom)) parNom.set(cleNom, f);
               this.nb[source]++;
             }
           });
@@ -99,11 +111,14 @@ const CatalogueJB = {
     const res = [];
     for (const f of this.liste) {
       if (f.sansImage) continue; // empreinte calculée sur une image fausse
-      const refs = this.empreintes.get(f.code.toUpperCase());
-      if (refs) res.push({ f, score: Math.max(...refs.map(ref => similarite(e, ref))) });
+      const refs = this.codes(f).flatMap(c => this.empreintes.get(c) || []);
+      if (refs.length) res.push({ f, score: Math.max(...refs.map(ref => similarite(e, ref))) });
     }
     return res.sort((a, b) => b.score - a.score).slice(0, max);
   },
+
+  // Code de la fiche et ses alias (même figurine dans une autre liste), en majuscules
+  codes(f) { return [f.code, ...(f.alias || [])].map(c => c.toUpperCase()); },
 
   trouver(code) {
     return this.parCode ? this.parCode.get((code || "").toUpperCase()) || null : null;

@@ -63,6 +63,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 - Ma collection, photos des customs (01/10, cache v50, vérifié sur le téléphone) : codes CUS-… -> figurine JB retrouvée par le lien ou le
   nom (sans le n° « 52/150 ») ; photo du catalogue, sinon photo de « Ma base de blisters », sinon photo de l'album
   (jeton GitHub), sinon 🎨. Signalé par l'utilisateur (capture : BLACK KRRSANTAN, SHINY DARK LORD… sans photo).
+- Doublons du catalogue JB fusionnés (01/10, cache v51) : même nom dans plusieurs listes (surtout eBay.de + photos de
+  collectionneurs, ex. Black Krrsantan, Shiny Dark Lord) -> une seule fiche (celle de la première liste), les autres
+  codes en alias (CatalogueJB.codes : photos d'album, empreintes, trouver). 580 -> 560 fiches. Les doublons entre deux
+  articles JB (JB-… et JB-…, ex. Schwabenstein 2024 Pirate) sont gardés : peut-être deux éditions.
 - Exemplaire de plus sans reprendre de photo (01/10, cache v47) :
   - Ma collection : toucher une figurine (liste ou planche) -> menu « ➕ Ajouter un exemplaire » / « 🔗 Voir… »
     (choisirAction, exemplaireEnPlus dans js/app.js) : écran de résultat avec le même onglet et le même nom ;
