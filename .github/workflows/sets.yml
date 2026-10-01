@@ -1,6 +1,7 @@
 # Catalogue des sets LEGO et nouveautés (Rebrickable) -> data/sets.tsv, data/sets_figurines.tsv
 # (outils/sets_rebrickable.py), data/nouveautes.tsv (outils/nouveautes_rebrickable.py) et
-# data/nouveautes_empreintes.tsv (outils/empreintes_nouveautes.js), data/objets.tsv (tous les objets dérivés).
+# data/nouveautes_empreintes.tsv (outils/empreintes_nouveautes.js), data/objets.tsv (tous les objets dérivés),
+# data/sorties.tsv (outils/brickset_sorties.py : dates de sortie Brickset, clé dans le secret BRICKSET_KEY).
 # Tourne sur les serveurs de GitHub (Rebrickable n'est pas joignable depuis l'environnement cloud de Claude).
 # Chaque jour à 4h50 (UTC), pour qu'une sortie soit connue dès son arrivée en magasin, ou à la main :
 # onglet « Actions » -> « Catalogue des sets et nouveautés » -> « Run workflow ».
@@ -31,6 +32,11 @@ jobs:
         run: python3 -u outils/sets_rebrickable.py /tmp/rb
       - name: Nouveautés
         run: python3 -u outils/nouveautes_rebrickable.py /tmp/rb
+      - name: Dates de sortie (Brickset)
+        continue-on-error: true   # Brickset indisponible : le reste est publié quand même
+        env:
+          BRICKSET_KEY: ${{ secrets.BRICKSET_KEY }}
+        run: python3 -u outils/brickset_sorties.py
       - name: Empreintes des nouvelles figurines
         run: |
           npm install --no-save playwright@1
@@ -39,6 +45,7 @@ jobs:
       - name: Publication
         run: |
           git add data/sets.tsv data/sets_figurines.tsv data/nouveautes.tsv data/nouveautes_empreintes.tsv data/objets.tsv
+          if [ -f data/sorties.tsv ]; then git add data/sorties.tsv; fi
           # seule la date a changé : rien à publier
           if ! git diff --cached -U0 | grep -q '^[+-][^+#-]'; then echo "Rien de nouveau"; exit 0; fi
           git config user.name "github-actions[bot]"
