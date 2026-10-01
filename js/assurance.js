@@ -92,7 +92,7 @@ const Assurance = {
           de LEGO). La <b>valeur retenue est le coût de rachat à neuf</b> : la <b>médiane des prix de vente d'articles neufs
           réellement conclus sur BrickLink au cours des 6 derniers mois, en Europe, TVA comprise</b>, en euros (et non les prix
           demandés par les vendeurs ; ventes du monde entier quand il n'y en a eu aucune en Europe). Les sets <b>encore vendus
-          par LEGO</b> sont estimés à leur <b>prix de vente public LEGO</b> (source : Brickset). Quand un article n'a eu aucune
+          par LEGO</b> sont estimés à leur <b>prix de vente public LEGO en France</b> (source : Avenue de la Brique, comparateur de prix français ; dates de commercialisation : Brickset). Quand un article n'a eu aucune
           vente à l'état neuf, son prix d'occasion est retenu (indiqué dans la colonne « Source du prix »).
           Les figurines d'un set monté sont estimées <b>une à une</b> (elles valent souvent plus que le set lui-même), et le
           <b>reste du set</b> (briques, boîte, notice) à part : prix du set moins celui de ses figurines, sans jamais descendre

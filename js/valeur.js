@@ -197,7 +197,7 @@ const Valeur = {
       const etape = nom => etapes.find(e => e.name.startsWith(nom));
       const bl = etape("Relevé des prix"), lego = etape("Prix LEGO"), fin = etape("Enregistrement");
       if (fin && fin.status !== "queued") texte = "Enregistrement des prix…";
-      else if (lego && lego.status === "in_progress") texte = "Prix LEGO des sets (Brickset)…";
+      else if (lego && lego.status === "in_progress") texte = "Prix LEGO France des sets (Avenue de la Brique) et dates (Brickset)…";
       else if (bl && bl.status === "in_progress") texte = `Prix BrickLink (${releve.n} articles à relever)…`;
       else if (run.status === "in_progress") texte = "Démarrage du relevé…";
       // valeur provisoire : prix enregistrés par le relevé toutes les 10 s, relus à chaque passage (5 s)
@@ -372,14 +372,22 @@ const Valeur = {
     const lignes = (await rep.text()).split("\n").map(l => l.split("\t"));
     const entete = lignes.shift();
     const prix = new Map(lignes.filter(l => l.length === entete.length).map(l => [`${l[0]} ${l[1].toLowerCase()}`, Object.fromEntries(entete.map((c, i) => [c, l[i]]))]));
-    // Prix LEGO (Brickset) : un set encore en vente vaut son prix LEGO (fin de vente non annoncée ou à venir)
-    const lego = new Map(), prixOrigine = new Map(); // prix LEGO des sets encore en vente ; prix LEGO d'origine de tous
+    // Prix public LEGO FRANCE (lego.tsv, colonne prix_fr : Avenue de la Brique ; dates de vente : Brickset). Un set encore
+    // en vente vaut son prix LEGO France (fin de vente non annoncée ou à venir) ; sans prix français, il est estimé comme
+    // un set retiré (ventes BrickLink) : jamais le prix allemand (règle de l'utilisateur, 01/10/2026). Le prix allemand
+    // (colonne prix_lego) ne sert plus que de prix d'origine pour le plancher du reste d'un set, faute de prix français.
+    const lego = new Map(), prixOrigine = new Map(); // prix LEGO France des sets encore en vente ; prix LEGO d'origine de tous
     const repLego = await this._api("/contents/lego.tsv", { headers: { Accept: "application/vnd.github.raw" } });
-    if (repLego.ok) for (const l of (await repLego.text()).split("\n").slice(1)) {
-      const [code, prixLego, sortie, fin] = l.split("\t");
-      if (!code || !parseFloat(prixLego)) continue;
-      prixOrigine.set(code.toLowerCase(), parseFloat(prixLego));
-      if (!fin || fin >= new Date().toISOString().slice(0, 10)) lego.set(code.toLowerCase(), parseFloat(prixLego));
+    if (repLego.ok) {
+      const [entete, ...lignesLego] = (await repLego.text()).split("\n");
+      const col = entete.split("\t"), i = k => col.indexOf(k);
+      for (const l of lignesLego) {
+        const c = l.split("\t"), code = (c[0] || "").toLowerCase();
+        const fr = i("prix_fr") >= 0 ? parseFloat(c[i("prix_fr")]) : NaN, de = parseFloat(c[i("prix_lego")]), fin = c[i("fin")] || "";
+        if (!code || !(fr || de)) continue;
+        prixOrigine.set(code, fr || de);
+        if (fr && (!fin || fin >= new Date().toISOString().slice(0, 10))) lego.set(code, fr);
+      }
     }
     const articles = await this._articles();
     // Figurines customs : prix JB (encore en vente, catalogue de l'appli) sinon prix d'achat (achats.tsv du dépôt privé,
@@ -629,7 +637,7 @@ const Valeur = {
           if (!g.length) return "";
           const total = g.reduce((n, d) => n + d.v, 0);
           return `<div class="carte"><p class="sous-titre">${titre} : ${euros(total)} <span class="score">(${g.length})</span></p>
-            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.sourceCustom ? ` · ${d.sourceCustom}` : d.enVente ? " · prix LEGO (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.detail.resteEbay ? ` (d'après ${d.detail.resteEbay.n} annonces eBay.de sans figurines)` : ""}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente || d.sourceCustom ? "" : ` · ${d.ventes} ventes · occasion ${euros(d.vOccasion)}`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
+            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.sourceCustom ? ` · ${d.sourceCustom}` : d.enVente ? " · prix LEGO France (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.detail.resteEbay ? ` (d'après ${d.detail.resteEbay.n} annonces eBay.de sans figurines)` : ""}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente || d.sourceCustom ? "" : ` · ${d.ventes} ventes · occasion ${euros(d.vOccasion)}`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
             ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
         }).join("")}
         ${(() => { // customs sans prix : pour comprendre pourquoi (code, nom)
@@ -639,7 +647,7 @@ const Valeur = {
             ${c.slice(0, 40).map(a => `<div class="ligne-valeur"><span>${echapper(a.nom || "(sans nom)")} <span class="score">${echapper(a.code || "sans code")} · ${echapper(a.onglet)}</span></span></div>`).join("")}
             ${c.length > 40 ? `<p class="score">… et ${c.length - 40} autre(s)</p>` : ""}</div>` : "";
         })()}
-        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix LEGO si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente ; épuisés, le plus haut entre prix d'achat (reçus JB, historique Whatnot, port compris), dernier prix JB et prix demandé sur eBay.de ; sinon prix habituel d'une custom sur Whatnot. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
+        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix public LEGO France si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente ; épuisés, le plus haut entre prix d'achat (reçus JB, historique Whatnot, port compris), dernier prix JB et prix demandé sur eBay.de ; sinon prix habituel d'une custom sur Whatnot. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;
