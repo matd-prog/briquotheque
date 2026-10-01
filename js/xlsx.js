@@ -664,6 +664,7 @@ function ongletsEtiquettes(cl) {
 
 // Lit les onglets d'étiquettes : pour chaque case, le code, le nom et la présence d'une image
 async function lireCollection(cl) {
+  if (cl.estBase) return cl.figLireCollection(); // base de données de l'appli (js/base_collection.js)
   const res = {};
   for (const nom of ongletsEtiquettes(cl)) {
     const derniere = await cl.derniereLigneEtiquettes(nom);
@@ -683,6 +684,7 @@ async function lireCollection(cl) {
 }
 
 async function lireTableCamps(cl) {
+  if (cl.estBase) return cl.figLireTable();
   const derniere = await cl.derniereLigne(ONGLET_TABLE);
   const lignes = [];
   for (let row = 2; row <= derniere; row++) {
@@ -695,6 +697,7 @@ async function lireTableCamps(cl) {
 }
 
 async function dimensionsCase(cl, onglet, row, col, marge = 3) {
+  if (cl.estBase) return { ...TAILLE_ETIQUETTE_BASE };
   return {
     w: (await cl.largeurColonnePx(onglet, col)) - 2 * marge,
     h: (await cl.hauteurLignePx(onglet, row)) - 2 * marge,
@@ -707,6 +710,7 @@ function lienEtiquette(onglet, lien) {
 }
 
 async function poserEtiquette(cl, onglet, row, col, code, lien) {
+  if (cl.estBase) return; // étiquettes dessinées à l'affichage et à l'impression
   const couleur = couleurOnglet(onglet);
   const { w, h } = await dimensionsCase(cl, onglet, row, col);
   const png = await canvasEnPng(dessinerEtiquette(code, couleur, w, h, lienEtiquette(onglet, lien)));
@@ -716,6 +720,7 @@ async function poserEtiquette(cl, onglet, row, col, code, lien) {
 
 // Ligne de la Table camps qui décrit une case (colonne E : « onglet!B3 (appli 01/10/2026) »), ou 0
 async function ligneTableCamps(cl, onglet, ref) {
+  if (cl.estBase) return 0;
   const derniere = await cl.derniereLigne(ONGLET_TABLE);
   for (let r = 2; r <= derniere; r++) {
     const e = String(await cl.valeur(ONGLET_TABLE, "E" + r) || "");
@@ -727,6 +732,7 @@ async function ligneTableCamps(cl, onglet, ref) {
 // Retire une figurine de sa case : nom, code, lien et étiquette effacés (la case redevient libre), et sa ligne
 // de la Table camps vidée
 async function retirerFigurine(cl, onglet, row, col) {
+  if (cl.estBase) return cl.figRetirer(row);
   for (const debut of [6, 12, 18]) await cl.viderCellule(onglet, lettreColonne(debut + col) + row);
   await cl.supprimerImages(onglet, { row, col });
   const r = await ligneTableCamps(cl, onglet, lettreColonne(col) + row);
@@ -735,6 +741,7 @@ async function retirerFigurine(cl, onglet, row, col) {
 
 // Change le nom d'une figurine dans sa case (ex. numéro d'exemplaire corrigé), et dans la Table camps
 async function renommerFigurine(cl, onglet, row, col, nom) {
+  if (cl.estBase) return cl.figRenommer(row, nom);
   await cl.ecrireTexte(onglet, lettreColonne(6 + col) + row, nom);
   const r = await ligneTableCamps(cl, onglet, lettreColonne(col) + row);
   if (r) await cl.ecrireTexte(ONGLET_TABLE, "B" + r, nom);
@@ -899,6 +906,7 @@ async function ajouterObjet(cl, { code, nom, type, etat, quantite, remarques }) 
 }
 
 async function premiereCaseLibre(cl, onglet) {
+  if (cl.estBase) return { row: 0, col: 1, nouvelleLigne: false };
   const coll = (await lireCollection(cl))[onglet];
   const libre = coll.cases.find(c => !c.code && !c.image);
   if (libre) return { row: libre.row, col: libre.col, nouvelleLigne: false };
@@ -922,6 +930,7 @@ async function premiereCaseLibre(cl, onglet) {
 
 // camp : Gentil / Méchant / Zone grise pour Star Wars ; theme : onglet de thème pour les autres
 async function ajouterFigurine(cl, { code, nom, camp, theme, lien }) {
+  if (cl.estBase) return cl.figAjouter({ code, nom, camp, theme, lien });
   const onglet = camp ? CAMPS[camp].onglet : theme;
   if (!cl.aOnglet(onglet)) await cl.creerOnglet(onglet, ONGLET_MODELE, couleurOnglet(onglet));
   const pos = await premiereCaseLibre(cl, onglet);
@@ -944,6 +953,7 @@ async function ajouterFigurine(cl, { code, nom, camp, theme, lien }) {
 }
 
 async function majFiltreTable(cl, derniere) {
+  if (cl.estBase) return;
   const f = cl.feuille(ONGLET_TABLE), doc = await cl._doc(f.chemin);
   const af = doc.getElementsByTagNameNS(NS.main, "autoFilter")[0];
   if (af) {
@@ -959,6 +969,7 @@ async function majFiltreTable(cl, derniere) {
 
 // Régénère toutes les étiquettes des onglets d'étiquettes (Star Wars + thèmes)
 async function regenererTout(cl, progression) {
+  if (cl.estBase) return { faites: Object.values(cl.figLireCollection()).reduce((s, o) => s + o.cases.length, 0), ignorees: [] };
   const coll = await lireCollection(cl);
   const onglets = Object.keys(coll);
   const rapport = { faites: 0, ignorees: [] };
@@ -981,6 +992,7 @@ async function regenererTout(cl, progression) {
 
 // Relit le fichier enregistré pour vérifier que l'étiquette est bien à sa place
 async function verifierAjout(octets, { onglet, row, col, code }) {
+  if (!octets && etat.classeur && etat.classeur.estBase) return true; // base : écrit directement
   const cl = await Classeur.ouvrir(octets);
   const codeLu = await cl.valeur(onglet, lettreColonne(12 + col) + row);
   const images = await cl.positionsImages(onglet);

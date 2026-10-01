@@ -154,6 +154,22 @@ async function creerXlsx(feuilles) {
   return zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
 }
 
+// Reprise d'une sauvegarde .json dans la base de l'appli (changement de téléphone, retour en arrière)
+$("input-sauvegarde").addEventListener("change", async e => {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  try {
+    const contenu = JSON.parse(await f.text());
+    if (contenu.application !== "Figothèque" || !Array.isArray(contenu.base))
+      throw new Error("ce n'est pas une sauvegarde de la collection rangée dans l'appli (une sauvegarde faite avec un fichier Excel se reprend avec le fichier Excel lui-même)");
+    await demarrerBase(true, contenu.base);
+  } catch (err) {
+    console.error(err);
+    await demander("Impossible de restaurer cette sauvegarde : " + err.message, "OK", "Fermer");
+  }
+});
+
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-action^='export']");
   if (!b) return;

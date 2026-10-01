@@ -300,3 +300,4 @@ button.proposition { font: inherit; text-align: left; border: 0; cursor: pointer
 }
 #exp-liste table { width: 100%; border-collapse: collapse; font-size: 13px; }
 #exp-liste th, #exp-liste td { text-align: left; border-bottom: 1px solid var(--bord); padding: 2px 4px; }
+body.mode-base .excel-seul { display: none !important; }

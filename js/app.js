@@ -79,7 +79,15 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
+// Base de données de l'appli : rien à « Enregistrer », la mention est retirée des messages
+function sansEnregistrer(texte) {
+  if (!(etat.classeur && etat.classeur.estBase)) return texte;
+  return String(texte).replace(/\s*\(pensez à « Enregistrer »\)/g, "").replace(/\s*[:.]?\s*[Pp]ensez à « Enregistrer »\.?/g, ".")
+    .replace(/fichier Excel corrigé/g, "collection corrigée");
+}
+
 function toast(texte, duree = 3500) {
+  texte = sansEnregistrer(texte);
   const t = $("toast");
   t.textContent = texte; t.hidden = false;
   clearTimeout(toast.minuteur);
@@ -194,9 +202,10 @@ const Memoire = {
 
 // ---------- fichier Excel ----------
 
+// octets absents : la collection est dans la base de données de l'appli (js/base_collection.js), sans fichier Excel
 async function chargerClasseur(octets, nom, nonEnregistres = 0) {
-  const cl = await Classeur.ouvrir(octets);
-  for (const o of [...ONGLETS_COLORES, ONGLET_TABLE]) cl.feuille(o); // vérifie que les 4 onglets existent (« Sets » : créé au besoin)
+  const cl = octets ? await Classeur.ouvrir(octets) : await BaseCollection.ouvrir();
+  if (octets) for (const o of [...ONGLETS_COLORES, ONGLET_TABLE]) cl.feuille(o); // vérifie que les 4 onglets existent (« Sets » : créé au besoin)
   etat.classeur = cl;
   etat.nomFichier = nom;
   etat.nonEnregistres = nonEnregistres;
@@ -207,7 +216,8 @@ async function relireContenu() {
   etat.table = await lireTableCamps(etat.classeur);
   etat.collection = await lireCollection(etat.classeur);
   const nb = Object.values(etat.collection).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0);
-  $("fichier-info").textContent = `📗 Ma collection · ${nb} figurines`; // le fichier Excel n'est qu'une sauvegarde : son nom n'est pas affiché
+  $("fichier-info").textContent = `${etat.classeur.estBase ? "🗄️" : "📗"} Ma collection · ${nb} figurines`;
+  document.body.classList.toggle("mode-base", !!etat.classeur.estBase); // le fichier Excel n'est qu'une sauvegarde : son nom n'est pas affiché
   majBandeau();
 }
 
@@ -219,6 +229,12 @@ function majBandeau() {
 
 // Sauvegarde dans la mémoire du téléphone après chaque modification
 async function memoriser() {
+  if (etat.classeur.estBase) { // base de données : déjà écrit, rien à « Enregistrer »
+    await etat.classeur.attendre();
+    etat.nonEnregistres = 0;
+    majBandeau();
+    return null;
+  }
   const octets = await etat.classeur.enregistrer();
   await Memoire.ecrire({ nom: etat.nomFichier, octets, nonEnregistres: etat.nonEnregistres });
   // on repart du fichier tout juste écrit, pour être sûr de travailler sur ce qui est enregistré
@@ -580,7 +596,7 @@ async function ajouter() {
     await relireContenu();
     const total = ouFigurine(code).length;
     $("texte-ok").textContent = (n > 1 ? `${n} exemplaires ajoutés dans ${res.onglet}, cases ${cases.join(", ")}` : `Ajoutée dans ${res.onglet}, case ${res.ref}`) +
-      (nouvelOnglet ? " (nouvel onglet créé)" : res.nouvelleLigne ? " (nouvelle ligne créée)" : "") +
+      (nouvelOnglet && !etat.classeur.estBase ? " (nouvel onglet créé)" : res.nouvelleLigne ? " (nouvelle ligne créée)" : "") +
       (total > 1 ? ` · ${total} exemplaires dans la collection` : "");
     const { w, h } = await dimensionsCase(etat.classeur, res.onglet, res.row, res.col);
     $("apercu-ok").innerHTML = "";
@@ -918,16 +934,11 @@ async function corrigerNumeroCustoms({ code, nom, ancien, serie, nouveau, nouvel
   const s = nouvelleSerie || serie;
   const nomXL = cas.nom.replace(fin, nouveau ? ` ${nouveau}${s ? "/" + s : ""}` : "");
   try {
-    await etat.classeur.ecrireTexte(onglet, lettreColonne(6 + cas.col) + cas.row, nomXL);
-    const derniere = await etat.classeur.derniereLigne(ONGLET_TABLE);
-    for (let r = 2; r <= derniere; r++)
-      if (String(await etat.classeur.valeur(ONGLET_TABLE, "E" + r) || "").startsWith(`${onglet}!${cas.ref} `)) {
-        await etat.classeur.ecrireTexte(ONGLET_TABLE, "B" + r, nomXL); break;
-      }
+    await renommerFigurine(etat.classeur, onglet, cas.row, cas.col, nomXL); // case et ligne de la Table camps
     etat.nonEnregistres++;
     await memoriser();
     await relireContenu();
-    return `fichier Excel corrigé (${onglet}, case ${cas.ref}) : pensez à « Enregistrer »`;
+    return sansEnregistrer(`fichier Excel corrigé (${onglet}, case ${cas.ref}) : pensez à « Enregistrer »`);
   } catch (err) {
     console.error(err);
     return "⚠️ correction du fichier Excel impossible : " + err.message;
@@ -1242,6 +1253,7 @@ function horodatage() {
 }
 
 async function preparerEnregistrement() {
+  if (etat.classeur.estBase) return Exports.ouvrir(); // base de données : enregistrée au fur et à mesure ; ici, les exports
   const octets = await etat.classeur.enregistrer();
   // nom parlant, le même pour tout le monde : « Figotheque_ma_collection_<date>.xlsx » (sans date en enregistrement direct)
   const nom = `${NOM_FICHIER}_${horodatage()}.xlsx`;
@@ -1407,6 +1419,8 @@ document.addEventListener("click", async e => {
   else if (action === "enregistrer-direct") enregistrerDirect(false);
   else if (action === "enregistrer-ailleurs") enregistrerDirect(true);
   else if (action === "regenerer") regenerer();
+  else if (action === "base-creer") demarrerBase(false);
+  else if (action === "base-depuis-excel") $("input-excel-base").click();
   else if (action === "changer-fichier") {
     if (etat.nonEnregistres && !(await demander("Des ajouts n'ont pas été enregistrés. Les abandonner ?"))) return;
     await Memoire.effacer();
@@ -1419,6 +1433,38 @@ document.addEventListener("click", async e => {
 });
 $("saisie-code").addEventListener("keydown", e => { if (e.key === "Enter") validerSaisie(); });
 
+// ---------- base de données de l'appli (version sans Excel) ----------
+
+async function demarrerBase(remplacer, enregistrements) {
+  if (etat.nonEnregistres && !(await demander("Des ajouts n'ont pas été enregistrés dans le fichier Excel. Les abandonner ?"))) return;
+  try {
+    const base = await BaseCollection.ouvrir();
+    const n = (await base.exporter()).filter(e => e.table !== "_onglets").length;
+    if (remplacer && n && !(await demander(`La base de l'appli contient déjà ${n} article(s). Les remplacer par le contenu du fichier Excel ?`, "Remplacer", "Annuler"))) return;
+    if (remplacer) await base.remplacerTout(enregistrements);
+    await Memoire.ecrire({ base: true, nom: "Base de l'appli", nonEnregistres: 0 });
+    await chargerClasseur(null, "Base de l'appli", 0);
+    afficher("accueil");
+    toast(remplacer ? `Collection reprise dans la base de l'appli ✔ (${enregistrements.length} enregistrements)` : "Collection ouverte ✔ : chaque ajout est enregistré tout de suite", 5000);
+  } catch (err) {
+    console.error(err);
+    await demander("Impossible d'ouvrir la base de l'appli : " + err.message, "OK", "Fermer");
+  }
+}
+
+$("input-excel-base").addEventListener("change", async e => {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  try {
+    const enregistrements = await BaseCollection.depuisExcel(new Uint8Array(await f.arrayBuffer()));
+    await demarrerBase(true, enregistrements);
+  } catch (err) {
+    console.error(err);
+    await demander("Impossible de reprendre ce fichier : " + err.message, "OK", "Fermer");
+  }
+});
+
 // ---------- démarrage ----------
 
 (async function demarrer() {
@@ -1429,7 +1475,7 @@ $("saisie-code").addEventListener("keydown", e => { if (e.key === "Enter") valid
   if ("serviceWorker" in navigator && location.protocol === "https:")
     navigator.serviceWorker.register("sw.js").catch(() => {});
   const m = await Memoire.lire();
-  if (m && m.octets) {
+  if (m && (m.octets || m.base)) {
     try {
       await chargerClasseur(m.octets, m.nom, m.nonEnregistres || 0);
       afficher("accueil");
