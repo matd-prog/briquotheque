@@ -525,8 +525,7 @@ const Base = {
     $("base-liste").innerHTML = (q ? `<p class="aide">${liste.length} blister${liste.length > 1 ? "s" : ""} trouvé${liste.length > 1 ? "s" : ""}.</p>` : "") +
       liste.slice(0, q ? 300 : 100).map(e => `
       <div class="fiche" data-fiche="${e.id}">
-        <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="Recto">
-        ${e.verso ? `<img class="photo verso" src="${URL.createObjectURL(e.verso)}" alt="Verso">` : ""}
+        <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="Recto" data-base-voir="${e.id}" title="Voir le recto et le verso">
         <div class="infos"><div class="nom-court">${echapper(nomComplet(e))}</div>
           <div class="lieu">${echapper([e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
             e.verso ? "recto + verso" : "sans verso", e.origine === "album" && "d'après l'album photo", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
@@ -534,6 +533,10 @@ const Base = {
         <button class="petit" data-base-modif="${e.id}" title="Modifier">✏️</button>
         <button class="petit" data-base-suppr="${e.id}" title="Retirer">✕</button>
       </div>`).join("");
+    $("base-liste").querySelectorAll("[data-base-voir]").forEach(im => im.addEventListener("click", () => {
+      const e = this.entrees.find(x => x.id === im.dataset.baseVoir);
+      if (e) Visionneuse.ouvrir(nomComplet(e), Base.imagesBlister(e));
+    }));
     $("base-liste").querySelectorAll("[data-base-modif]").forEach(b => b.addEventListener("click", () => this.modifier(b.dataset.baseModif)));
     $("base-liste").querySelectorAll("[data-base-suppr]").forEach(b => b.addEventListener("click", () => this.supprimer(b.dataset.baseSuppr)));
     $("base-liste").querySelectorAll("[data-base-verso]").forEach(c => c.addEventListener("change", async () => {
@@ -545,6 +548,13 @@ const Base = {
       toast(`Verso de « ${nomComplet(e)} » ajouté ✔`);
       this._afficherListe();
     }));
+  },
+
+  // Recto et verso d'un blister de la base, pour la visionneuse
+  imagesBlister(e) {
+    const qui = [e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, e.numerote === false && "non numérotée", e.remarque].filter(Boolean).join(" · ");
+    return [{ src: URL.createObjectURL(e.photo), legende: `Recto${qui ? " · " + qui : ""}` },
+            ...(e.verso ? [{ src: URL.createObjectURL(e.verso), legende: `Verso${qui ? " · " + qui : ""}` }] : [])];
   },
 
   // Modifier un blister déjà recensé (nom, précision, n°, série, note) : fiche ouverte à la place de sa ligne
@@ -833,3 +843,42 @@ document.addEventListener("focusout", e => {
   if (!(c.matches && c.matches('input[type="number"]')) || c.value.trim() !== "") return;
   c.value = c.dataset.avant || c.min || "";
 });
+
+// Visionneuse : une fiche plein écran avec plusieurs photos en grand (recto, verso, photos de collectionneur…).
+// images : [{ src (adresse, ou promesse d'adresse ; vide = photo retirée), legende }]
+const Visionneuse = {
+  ouvrir(titre, images, lien, lienTexte) {
+    let d = $("visionneuse");
+    if (!d) {
+      d = document.createElement("dialog");
+      d.id = "visionneuse";
+      d.className = "visionneuse";
+      document.body.appendChild(d);
+      d.addEventListener("click", ev => { if (ev.target.closest("[data-fermer]") || ev.target === d) d.close(); });
+    }
+    d.innerHTML = `<div class="visionneuse-tete"><b>${echapper(titre)}</b><button class="petit" data-fermer>✕ Fermer</button></div>
+      ${lien ? `<a class="bouton bleu" href="${echapper(lien)}" target="_blank" rel="noopener">🔗 ${echapper(lienTexte || "Voir la page")}</a>` : ""}
+      <div class="visionneuse-images">${images.length ? images.map((im, i) => `<figure><img data-vi="${i}" alt="">
+        <figcaption>${echapper(im.legende || "")}</figcaption></figure>`).join("") : `<p class="aide">Pas de photo.</p>`}</div>`;
+    images.forEach(async (im, i) => {
+      const el = d.querySelector(`img[data-vi="${i}"]`);
+      let src = "";
+      try { src = await im.src; } catch (err) { console.warn(err); }
+      if (!el) return;
+      if (src) el.src = src; else el.closest("figure").remove();
+    });
+    if (!d.open) {
+      d.showModal();
+      // Sans la gestion du retour de l'appli principale (mini-appli) : le retour ferme les photos au lieu de quitter
+      if (typeof armerRetour === "undefined") {
+        history.pushState({ visionneuse: true }, "");
+        const surRetour = () => { window.removeEventListener("popstate", surRetour); d.close(); };
+        window.addEventListener("popstate", surRetour);
+        d.addEventListener("close", () => { window.removeEventListener("popstate", surRetour);
+          if (history.state && history.state.visionneuse) history.back(); }, { once: true });
+      }
+    }
+    d.scrollTop = 0;
+  },
+  fermer() { const d = $("visionneuse"); if (d && d.open) { d.close(); return true; } return false; },
+};

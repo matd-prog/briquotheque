@@ -27,6 +27,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   comparaison du décor (data/jb_empreintes.tsv, 279 empreintes) + indice Brickognize.
   Essai sur « The Ring Addict » : nom trouvé et confirmé par le décor en ~3 s (ordinateur).
 
+- Photos en grand (01/10/2026, cache v44) : dans la liste de la base de blisters, la vignette
+  montre le recto seul ; la toucher ouvre une page avec le recto et le verso (aussi dans la
+  mini-appli). Dans Consulter, toucher une vignette ouvre sa fiche : mes blisters (recto et
+  verso), toutes les photos de collectionneur (ex. « 📷 4 »), la photo du catalogue et le lien
+  vers sa page. Le retour (ou ✕ Fermer) referme la page.
+
 ## Publié le 29/09/2026, à confirmer sur le téléphone
 
 - Figurines JB retirées de la vente, vues sur eBay.de (data/jb_ebay.tsv, 223 noms, créé par

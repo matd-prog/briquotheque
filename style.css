@@ -254,9 +254,17 @@ a.proposition { color: inherit; text-decoration: none; }
 .recto-verso { display: flex; gap: 8px; }
 .recto-verso .photo-apercu { flex: 1 1 0; min-width: 0; }
 .base-liste .fiche img.photo { width: 54px; height: 54px; }
-.base-liste .fiche img.photo.verso { margin-left: -8px; }
+.base-liste .fiche img.photo[data-base-voir] { cursor: zoom-in; }
 .base-liste .fiche .infos { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .base-liste .fiche { gap: 8px; }
 /* pas de menu « Copier / Télécharger / Partager l'image » à l'appui long sur les photos (gênant pendant le recadrage) */
 img { -webkit-touch-callout: none; -webkit-user-drag: none; user-select: none; }
 .recadrage-zone img { pointer-events: none; }
+/* visionneuse : photos en grand (recto, verso, photos de collectionneur) */
+.visionneuse { width: 100%; max-width: 640px; max-height: 100%; height: 100%; margin: auto; padding: 12px; border: 0; border-radius: 0; background: var(--fond, #f4f3f1); }
+.visionneuse::backdrop { background: rgba(0,0,0,.6); }
+.visionneuse-tete { display: flex; justify-content: space-between; align-items: center; gap: 10px; position: sticky; top: -12px; background: inherit; padding: 6px 0; z-index: 1; }
+.visionneuse-images figure { margin: 10px 0; }
+.visionneuse-images img { width: 100%; border-radius: 10px; background: #000; display: block; }
+.visionneuse-images figcaption { font-size: 14px; color: #555; margin-top: 4px; }
+button.proposition { font: inherit; text-align: left; border: 0; cursor: pointer; }

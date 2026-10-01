@@ -98,18 +98,18 @@ const Consulter = {
   suite() {
     const lot = this.resultats.slice(this.affichees, this.affichees + this.PAR_PAGE);
     const mes = f => (this.mesPhotos && this.mesPhotos.get(f.code.toUpperCase())) || [];
-    const html = lot.map(f => {
+    const debut = this.affichees;
+    const html = lot.map((f, k) => {
       const photos = mes(f), miennes = this._miennes(f);
       const voirMiennes = (miennes.length || photos.length) && ($("consulter-filtre").value === "mes" || !f.image);
-      const lien = f.lien ? `href="${echapper(f.lien)}" target="_blank" rel="noopener"` : "";
       const nums = miennes.map(e => e.numero).filter(Boolean);
-      return `<a class="proposition" ${lien}>
+      return `<button class="proposition" data-fiche="${debut + k}">
         ${voirMiennes && miennes.length ? `<img src="${URL.createObjectURL(miennes[0].photo)}" alt="">`
           : voirMiennes ? `<img data-photo="${echapper(photos[0].photo)}" alt="">`
           : f.image ? `<img src="${echapper(f.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">Pas de photo</div>`}
         <span class="nom-court">${echapper(f.nom)}</span>
         <span class="score">${echapper(this._source(f))}${miennes.length ? ` · 📚 ${miennes.length} dans ma base${nums.length ? ` (n° ${echapper(nums.join(", "))})` : ""}` : ""}${photos.length ? ` · 📷 ${photos.length} (album)` : ""}</span>
-      </a>`;
+      </button>`;
     }).join("");
     $("consulter-liste").insertAdjacentHTML("beforeend", html);
     this.affichees += lot.length;
@@ -139,6 +139,26 @@ const Consulter = {
       this.maPhoto(img.dataset.maPhoto).then(url => { if (url) { img.src = url; img.style.visibility = ""; } });
   },
 
+  // Fiche d'une figurine : mes blisters (recto et verso), photos de l'album, photo du catalogue, lien vers sa page
+  fiche(f) {
+    const images = [];
+    for (const e of this._miennes(f)) images.push(...Base.imagesBlister(e).map(im => ({ ...im, legende: "Mon blister · " + im.legende })));
+    const album = (this.mesPhotos && this.mesPhotos.get(f.code.toUpperCase())) || [];
+    album.forEach((ph, i) => images.push({ src: this._imageAlbum(ph.photo),
+      legende: `Photo de collectionneur ${i + 1}/${album.length}${ph.numero ? ` · n° ${ph.numero}` : ""}` }));
+    if (f.image) images.push({ src: f.image, legende: this._source(f) });
+    Visionneuse.ouvrir(f.nom, images, f.lien, f.ebay ? "Chercher sur eBay.de" : "Voir sa page");
+  },
+
+  async _imageAlbum(chemin) {
+    if (!this._images.has(chemin)) {
+      const rep = await Valeur._api(`/contents/album_photos/${chemin}`, { headers: { Accept: "application/vnd.github.raw" } });
+      if (!rep.ok) return "";
+      this._images.set(chemin, URL.createObjectURL(await rep.blob()));
+    }
+    return this._images.get(chemin);
+  },
+
   // Photos du dépôt privé : téléchargées une à une avec le jeton (pas d'adresse publique)
   async _chargerImages() {
     for (const img of $("consulter-liste").querySelectorAll("img[data-photo]:not([src])")) {
@@ -160,6 +180,10 @@ if ($("consulter-recherche")) {
   $("consulter-recherche").addEventListener("input", () => { clearTimeout(minuteur); minuteur = setTimeout(() => Consulter.lister(), 250); });
   $("consulter-filtre").addEventListener("change", () => Consulter.lister());
   $("consulter-plus").addEventListener("click", () => Consulter.suite());
+  $("consulter-liste").addEventListener("click", e => {
+    const b = e.target.closest("[data-fiche]");
+    if (b) Consulter.fiche(Consulter.resultats[+b.dataset.fiche]);
+  });
 }
 
 document.addEventListener("click", e => {

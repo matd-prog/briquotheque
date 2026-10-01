@@ -69,6 +69,7 @@ window.addEventListener("popstate", () => {
     return;
   }
   if ($("dialogue").open) { $("dialogue-non").click(); armerRetour(); return; } // une question ouverte : retour = « non »
+  if (typeof Visionneuse !== "undefined" && Visionneuse.fermer()) { armerRetour(); return; } // photos en grand : retour = fermer
   if (ecranActuel === "chargement") { armerRetour(); toast("Patientez, lecture en cours…"); return; }
   if (ecranActuel === "recadrage") { armerRetour(); Recadrage.annuler(); return; } // l'appelant choisit l'écran suivant
   if (pileEcrans.length) { afficher(pileEcrans.pop(), true); return; }
