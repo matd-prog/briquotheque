@@ -1,11 +1,14 @@
-# Catalogue des sets LEGO (Rebrickable) -> data/sets.tsv et data/sets_figurines.tsv (outils/sets_rebrickable.py)
+# Catalogue des sets LEGO et nouveautés (Rebrickable) -> data/sets.tsv, data/sets_figurines.tsv
+# (outils/sets_rebrickable.py), data/nouveautes.tsv (outils/nouveautes_rebrickable.py) et
+# data/nouveautes_empreintes.tsv (outils/empreintes_nouveautes.js).
 # Tourne sur les serveurs de GitHub (Rebrickable n'est pas joignable depuis l'environnement cloud de Claude).
-# Chaque mois le 2 à 5h40 (UTC), ou à la main : onglet « Actions » -> « Catalogue des sets » -> « Run workflow ».
-name: Catalogue des sets
+# Chaque jour à 4h50 (UTC), pour qu'une sortie soit connue dès son arrivée en magasin, ou à la main :
+# onglet « Actions » -> « Catalogue des sets et nouveautés » -> « Run workflow ».
+name: Catalogue des sets et nouveautés
 
 on:
   schedule:
-    - cron: "40 5 2 * *"
+    - cron: "50 4 * * *"
   workflow_dispatch:
 
 permissions:
@@ -14,17 +17,32 @@ permissions:
 jobs:
   sets:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-      - name: Lecture des fichiers de Rebrickable
-        run: python3 -u outils/sets_rebrickable.py
+      - name: Téléchargement des fichiers de Rebrickable
+        run: |
+          mkdir -p /tmp/rb
+          for f in sets themes inventories inventory_minifigs minifigs; do
+            curl -sfL --retry 3 -A "Mozilla/5.0 (catalogue personnel de collectionneur LEGO)" \
+              -o /tmp/rb/$f.csv.gz https://cdn.rebrickable.com/media/downloads/$f.csv.gz
+          done
+      - name: Catalogue des sets
+        run: python3 -u outils/sets_rebrickable.py /tmp/rb
+      - name: Nouveautés
+        run: python3 -u outils/nouveautes_rebrickable.py /tmp/rb
+      - name: Empreintes des nouvelles figurines
+        run: |
+          npm install --no-save playwright@1
+          npx playwright install chromium
+          node outils/empreintes_nouveautes.js
       - name: Publication
         run: |
-          git add data/sets.tsv data/sets_figurines.tsv
-          if git diff --cached --quiet; then echo "Rien de nouveau"; exit 0; fi
+          git add data/sets.tsv data/sets_figurines.tsv data/nouveautes.tsv data/nouveautes_empreintes.tsv
+          # seule la date a changé : rien à publier
+          if ! git diff --cached -U0 | grep -q '^[+-][^+#-]'; then echo "Rien de nouveau"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Catalogue des sets : $(grep -c '^[0-9A-Za-z]' data/sets.tsv) sets ($(date +%F))"
+          git commit -m "Catalogue des sets et nouveautés : $(grep -c '^[0-9A-Za-z]' data/sets.tsv) sets, $(grep -cE '^(figurine|set|objet)	' data/nouveautes.tsv) nouveautés ($(date +%F))"
           git pull --rebase origin main   # d'autres changements ont pu être publiés entre-temps
           git push origin HEAD:main

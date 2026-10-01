@@ -51,3 +51,56 @@ function similarite(a, b) {
   for (let i = 0; i < a.length; i++) s += a[i] * b[i];
   return s;
 }
+
+// « Empreinte » d'une figurine (photo prise, ou photo officielle sur fond blanc) : le fond (couleur des bords)
+// est retiré, la figurine est recadrée au plus près, puis on garde ses couleurs de haut en bas (tête, buste,
+// jambes) et leur répartition. Sert à retrouver une nouveauté que Brickognize ne connaît pas encore.
+const EMPREINTE_FIG_L = 3, EMPREINTE_FIG_H = 6, EMPREINTE_FIG_TAILLE = 72;
+
+function empreinteFigurine(source) {
+  const T = EMPREINTE_FIG_TAILLE, w = source.width, h = source.height, k = T / Math.max(w, h);
+  const cv = document.createElement("canvas");
+  cv.width = Math.max(1, Math.round(w * k)); cv.height = Math.max(1, Math.round(h * k));
+  const ctx = cv.getContext("2d");
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(source, 0, 0, cv.width, cv.height);
+  const W = cv.width, H = cv.height, p = ctx.getImageData(0, 0, W, H).data;
+
+  // fond : médiane des pixels du bord
+  const bord = [];
+  for (let x = 0; x < W; x++) bord.push(x, x + (H - 1) * W);
+  for (let y = 1; y < H - 1; y++) bord.push(y * W, y * W + W - 1);
+  const med = c => { const v = bord.map(i => p[i * 4 + c]).sort((a, b) => a - b); return v[v.length >> 1]; };
+  const fond = [med(0), med(1), med(2)];
+  const garde = new Uint8Array(W * H);
+  let x0 = W, y0 = H, x1 = -1, y1 = -1;
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const i = (y * W + x) * 4;
+    const d = Math.abs(p[i] - fond[0]) + Math.abs(p[i + 1] - fond[1]) + Math.abs(p[i + 2] - fond[2]);
+    if (d > 70) { garde[y * W + x] = 1; x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
+  }
+  if (x1 < 0) { x0 = 0; y0 = 0; x1 = W - 1; y1 = H - 1; garde.fill(1); }
+
+  const nl = EMPREINTE_FIG_L, nh = EMPREINTE_FIG_H;
+  const grille = new Float64Array(nl * nh * 3), poids = new Float64Array(nl * nh), hist = new Float64Array(108);
+  for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
+    if (!garde[y * W + x]) continue;
+    const i = (y * W + x) * 4;
+    const r = p[i] / 255, g = p[i + 1] / 255, b = p[i + 2] / 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+    let t = 0;
+    if (d) t = max === r ? ((g - b) / d + 6) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    const teinte = t / 6, sat = max ? d / max : 0, val = max;
+    const cx = Math.min(nl - 1, Math.floor((x - x0) / (x1 - x0 + 1) * nl)), cy = Math.min(nh - 1, Math.floor((y - y0) / (y1 - y0 + 1) * nh));
+    const c = cy * nl + cx;
+    grille[c * 3] += Math.cos(teinte * 2 * Math.PI) * sat;
+    grille[c * 3 + 1] += Math.sin(teinte * 2 * Math.PI) * sat;
+    grille[c * 3 + 2] += val;
+    poids[c]++;
+    hist[Math.min(11, Math.floor(teinte * 12)) * 9 + Math.min(2, Math.floor(sat * 3)) * 3 + Math.min(2, Math.floor(val * 3))]++;
+  }
+  for (let c = 0; c < nl * nh; c++) if (poids[c]) for (let j = 0; j < 3; j++) grille[c * 3 + j] /= poids[c];
+  const norme = v => { const s = Math.sqrt(v.reduce((a, x) => a + x * x, 0)) || 1; return v.map(x => x / s); };
+  const g = norme(grille), hs = norme(hist.map(Math.sqrt));
+  return Float32Array.from([...g, ...hs].map(x => x * Math.SQRT1_2));
+}

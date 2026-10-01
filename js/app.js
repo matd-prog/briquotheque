@@ -274,9 +274,15 @@ async function identifier(photo) {
   $("photo-apercu").src = url;
   $("texte-chargement").textContent = etat.photos.length ? "Analyse de la photo de dos…" : "Identification en cours…";
   afficher("chargement");
+  // nouvelles figurines qui ressemblent (Brickognize ne les connaît souvent pas encore) : première photo seulement
+  const premiere = !etat.photos.length;
+  const pSemblables = premiere && typeof Nouveautes !== "undefined"
+    ? Nouveautes.semblables(photo).catch(err => { console.warn(err); return []; }) : Promise.resolve([]);
   try {
     const items = await interrogerBrickognize(photo);
-    if (!items.length) {
+    const proches = await pSemblables;
+    const semblables = proches.map(x => Nouveautes.candidat(x.n));
+    if (!items.length && !semblables.length) {
       afficher(etat.photos.length ? "resultat" : "accueil");
       await demander("Aucune figurine reconnue sur cette photo. Essayez avec la figurine seule, bien éclairée, sur un fond uni, en la recadrant au plus près.", "OK", "Fermer");
       return;
@@ -284,6 +290,16 @@ async function identifier(photo) {
     etat.photos.push({ url, items });
     etat.origine = "photo";
     etat.candidats = combiner(etat.photos);
+    // Brickognize peu sûr : les nouveautés qui ressemblent sont proposées aussi (en premier s'il n'a rien trouvé)
+    if (premiere && !(etat.candidats[0] && etat.candidats[0].score >= 0.85)) {
+      const deja = new Set(etat.candidats.map(c => c.id));
+      etat.semblables = semblables.filter(c => !deja.has(c.id));
+      // nouveauté très ressemblante et Brickognize hésitant : la nouveauté passe devant
+      const devant = proches.length && proches[0].s >= 0.8 && !(etat.candidats[0] && etat.candidats[0].score >= 0.5);
+      etat.candidats = !items.length ? etat.semblables
+        : devant ? [...etat.semblables, ...etat.candidats] : [...etat.candidats, ...etat.semblables];
+    } else if (premiere) etat.semblables = [];
+    else etat.candidats = [...etat.candidats, ...(etat.semblables || []).filter(c => !etat.candidats.some(x => x.id === c.id))];
     choisirCandidat(0);
   } catch (err) {
     console.error(err);
@@ -294,6 +310,8 @@ async function identifier(photo) {
 }
 
 function imageBricklink(code) {
+  const f = /^fig-/i.test(code) && typeof Catalogue !== "undefined" && Catalogue.trouver(code);
+  if (f && f.image) return f.image;   // nouvelle figurine pas encore sur BrickLink : photo Rebrickable
   return `https://img.bricklink.com/ItemImage/${typeBricklink(code)}N/0/${encodeURIComponent(code.toLowerCase())}.png`;
 }
 
@@ -407,14 +425,15 @@ function choisirCandidat(i) {
     <div class="comparer">
       ${nbPhotos ? `<figure><div class="vos-photos">${etat.photos.map(p => `<img src="${p.url}" alt="">`).join("")}</div>
         <figcaption>${nbPhotos > 1 ? "Vos photos" : "Votre photo"}</figcaption></figure>` : ""}
-      <figure ${nbPhotos ? "" : 'style="grid-column: 1 / -1"'}>${imageHtml(cand)}<figcaption>BrickLink</figcaption></figure>
+      <figure ${nbPhotos ? "" : 'style="grid-column: 1 / -1"'}>${imageHtml(cand)}<figcaption>${cand.nouveaute ? "Photo officielle" : "BrickLink"}</figcaption></figure>
     </div>
     <div>
       <div class="nom">${echapper(cand.nom || "Nom inconnu")}</div>
       <div class="code">${echapper(cand.id)}</div>
+      ${cand.nouveaute || /^fig-/i.test(cand.id) ? `<div class="score">🆕 Nouveauté LEGO${/^fig-/i.test(cand.id) ? " · pas encore de code BrickLink (code Rebrickable)" : ""}</div>` : ""}
       ${score}
     </div>
-    <a class="bouton bleu" href="${echapper(cand.lien)}" target="_blank" rel="noopener">🔗 Voir la page BrickLink</a>
+    <a class="bouton bleu" href="${echapper(cand.lien)}" target="_blank" rel="noopener">🔗 Voir la page ${/rebrickable/.test(cand.lien) ? "Rebrickable" : "BrickLink"}</a>
     ${blocVariantes(cand.id)}`;
   $("carte-principale").querySelectorAll("[data-variante]").forEach(b => b.addEventListener("click", () => {
     const f = Catalogue.trouver(b.dataset.variante);
@@ -461,7 +480,7 @@ function choisirCandidat(i) {
     <button class="proposition" data-candidat="${j}">
       ${imageHtml(c)}
       <span class="nom-court">${echapper(c.nom)}</span>
-      <span class="code">${echapper(c.id)}${c.score != null ? `<span class="score"> · ${Math.round(c.score * 100)} %</span>` : ""}</span>
+      <span class="code">${echapper(c.id)}${c.score != null ? `<span class="score"> · ${Math.round(c.score * 100)} %</span>` : ""}${c.nouveaute ? `<span class="score"> · 🆕 nouveauté</span>` : ""}</span>
     </button>`).join("") : "";
   $("liste-autres").hidden = !autres.length;
   // photo de dos : seulement après une première photo, et une seule fois
@@ -656,8 +675,19 @@ function afficherNouveautes() {
   const series = Catalogue.seriesRecentes();
   $("recherche-info").textContent = series.length
     ? "Tapez un nom (au moins 2 lettres), ou touchez une série récente :" : "Tapez au moins 2 lettres.";
-  $("recherche-nouveautes").innerHTML = series.map((s, i) =>
+  const nFig = typeof Nouveautes !== "undefined" ? Nouveautes.liste.filter(n => n.type === "figurine").length : 0;
+  $("recherche-nouveautes").innerHTML = (typeof Nouveautes !== "undefined" ? `<p class="aide nouveautes-maj">🆕 Sorties LEGO ${
+      Nouveautes.date ? `à jour du ${echapper(Nouveautes.dateLisible())} (${nFig} nouvelles figurines)` : "pas encore chargées"}
+      <button class="petit" data-actualiser-nouveautes>🔄 Actualiser</button></p>` : "") +
+    series.map((s, i) =>
     `<button class="petit" data-serie="${i}">${echapper(nomSerie(s.categorie))} <span class="score">${s.annee} · ${s.n}</span></button>`).join("");
+  const maj = $("recherche-nouveautes").querySelector("[data-actualiser-nouveautes]");
+  if (maj) maj.addEventListener("click", async () => {
+    maj.disabled = true; maj.textContent = "Actualisation…";
+    await Nouveautes.actualiser();
+    toast(Nouveautes.date ? `Nouveautés à jour du ${Nouveautes.dateLisible()} ✔` : "Nouveautés indisponibles (réseau ?)");
+    lancerRecherche();
+  });
   $("recherche-nouveautes").querySelectorAll("[data-serie]").forEach(b => b.addEventListener("click", () => {
     const s = series[+b.dataset.serie];
     afficherSerie(s.categorie, Catalogue.parCategorie(s.categorie));

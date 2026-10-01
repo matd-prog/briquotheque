@@ -32,6 +32,23 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   comparaison du décor (data/jb_empreintes.tsv, 279 empreintes) + indice Brickognize.
   Essai sur « The Ring Addict » : nom trouvé et confirmé par le décor en ~3 s (ordinateur).
 
+- Nouveautés LEGO automatiques (01/10/2026, cache v45) : chaque jour à 4h50 UTC, l'action « Catalogue des sets
+  et nouveautés » (.github/workflows/sets.yml, avant : le 2 du mois) relit Rebrickable : data/sets.tsv,
+  data/sets_figurines.tsv, data/nouveautes.tsv (outils/nouveautes_rebrickable.py : figurines, sets, objets dérivés
+  de l'année, et de l'an dernier de janvier à mars ; date de première apparition gardée d'un passage à l'autre)
+  et data/nouveautes_empreintes.tsv (outils/empreintes_nouveautes.js : empreinte de la photo officielle de
+  chaque nouvelle figurine, empreinteFigurine de js/empreinte.js : fond retiré, couleurs tête/buste/jambes).
+  Dans l'appli (js/nouveautes.js) :
+  - les nouvelles figurines s'ajoutent à la recherche par nom et aux séries récentes, sous leur code BrickLink
+    s'il est déjà sûr (ressemblance du nom >= 0,7), sinon sous leur code Rebrickable (FIG-…, lien et photo
+    Rebrickable). À faire plus tard : remplacer ces codes FIG-… par le code BrickLink une fois connu ;
+  - photo d'une figurine : si Brickognize n'est pas sûr (< 85 %), les 4 nouveautés les plus ressemblantes
+    sont proposées (« 🆕 nouveauté ») ; devant s'il hésite (< 50 %) et qu'une nouveauté ressemble à 80 % ou plus ;
+  - « 🆕 Nouveautés » : date de mise à jour et bouton « 🔄 Actualiser » ;
+  - Objet dérivé : en tapant le nom, les objets dérivés récents proposés ; un toucher remplit le numéro.
+  Essai avec des figurines dessinées : 5 sur 5 bien retrouvées ; à vérifier avec de vraies photos.
+  En attente : photos d'un porte-clés lumineux dans son emballage (lecture du numéro sur la boîte).
+
 ## Publié le 29/09/2026, à confirmer sur le téléphone
 
 - Figurines JB retirées de la vente, vues sur eBay.de (data/jb_ebay.tsv, 223 noms, créé par

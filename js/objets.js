@@ -5,8 +5,31 @@ const EcranObjet = {
   async ouvrir() {
     for (const id of ["objet-nom", "objet-code", "objet-remarques"]) $(id).value = "";
     $("objet-quantite").value = 1;
+    $("objet-nouveautes").innerHTML = "";
     afficher("objet");
     this.lister();
+  },
+
+  // Objets dérivés récents (nouveautés Rebrickable) dont le nom correspond à ce qui est tapé : un toucher remplit le numéro
+  async suggerer() {
+    const zone = $("objet-nouveautes"), q = $("objet-nom").value.trim();
+    if (q.length < 2 || typeof Nouveautes === "undefined") { zone.innerHTML = ""; return; }
+    await Nouveautes.charger();
+    const res = Nouveautes.chercherObjets(q);
+    zone.innerHTML = res.map((n, i) => `<button class="proposition" data-objet-nouveau="${i}">
+        ${n.image ? `<img src="${echapper(n.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">Pas de photo</div>`}
+        <span class="nom-court">${echapper(n.nom)}</span>
+        <span class="code">${echapper(n.bricklink)}</span><span class="score">🆕 ${echapper(n.annee)}</span></button>`).join("");
+    zone.querySelectorAll("[data-objet-nouveau]").forEach(b => b.addEventListener("click", () => {
+      const n = res[+b.dataset.objetNouveau];
+      $("objet-nom").value = n.nom;
+      $("objet-code").value = n.bricklink;
+      if (/light|lampe|torch/i.test(n.nom)) $("objet-type").value = "Porte-clés lumineux";
+      else if (/key ?chain|porte/i.test(n.nom)) $("objet-type").value = "Porte-clés";
+      else if (/magnet/i.test(n.nom)) $("objet-type").value = "Magnet";
+      zone.innerHTML = "";
+      toast("Numéro rempli : vérifiez-le sur BrickLink si besoin.");
+    }));
   },
 
   chercher() {
@@ -50,3 +73,8 @@ document.addEventListener("click", e => {
   else if (a === "objet-chercher") EcranObjet.chercher();
   else if (a === "objet-ajouter") EcranObjet.ajouter();
 });
+
+{
+  let minuteur;
+  $("objet-nom").addEventListener("input", () => { clearTimeout(minuteur); minuteur = setTimeout(() => EcranObjet.suggerer(), 250); });
+}

@@ -19,6 +19,7 @@ const Catalogue = {
           texte = await rep.text();
         }
         this._lire(texte);
+        if (typeof Nouveautes !== "undefined") this._ajouterNouveautes(await Nouveautes.charger());
         return this.liste;
       })().catch(err => { this._chargement = null; throw err; });
     }
@@ -59,6 +60,20 @@ const Catalogue = {
     this._chargement = null;
     await this.charger();
     return this.liste.length;
+  },
+
+  // Nouvelles figurines (Rebrickable) absentes du catalogue BrickLink de l'appli : ajoutées pour la recherche,
+  // sous leur code BrickLink s'il est déjà connu, sinon sous leur code Rebrickable (FIG-…)
+  _ajouterNouveautes(liste) {
+    for (const n of liste) {
+      if (n.type !== "figurine") continue;
+      const code = Nouveautes.codeAppli(n);
+      if (this.parCode.has(code)) continue;
+      const f = { code, nom: n.nom, categorie: n.theme, annee: n.annee, image: n.image, nouveaute: true };
+      f.recherche = normaliser(`${f.code} ${f.nom} ${f.categorie}`);
+      this.liste.push(f);
+      this.parCode.set(code, f);
+    }
   },
 
   trouver(code) {

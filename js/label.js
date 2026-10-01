@@ -54,6 +54,8 @@ function typeBricklink(code) {
 }
 
 function urlBricklink(code) {
+  // nouvelle figurine pas encore sur BrickLink : sa page Rebrickable (js/nouveautes.js)
+  if (/^fig-\d+$/i.test(code)) return `https://rebrickable.com/minifigs/${code.toLowerCase()}/`;
   return "https://www.bricklink.com/v2/catalog/catalogitem.page?" +
     typeBricklink(code) + "=" + encodeURIComponent(code.toLowerCase());
 }
