@@ -381,10 +381,15 @@
           (onglet Customs, avec étiquette)</label>
         <p class="score" id="base-excel-info"></p>
       </div>
-      <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter à ma base de blisters</button>
+      <button class="gros-bouton vert" data-action="base-ajouter">📚 Je l'ai : ajouter à ma base de blisters</button>
+      <button class="bouton gris" data-action="base-ajouter-commune">🌐 Je ne l'ai pas : seulement pour la base commune (reconnaissance)</button>
     </div>
     <div class="carte">
       <p class="sous-titre" id="base-compte"></p>
+      <p class="score" id="base-commune-etat"></p>
+      <button class="bouton bleu" data-action="base-commune-envoyer" id="btn-base-commune" hidden>🌐 Envoyer à la base commune</button>
+      <label class="bouton gris">📥 Ajouter un envoi de blisters (.zip de votre ami, ou le vôtre)
+        <input type="file" id="input-base-reprendre" accept=".zip,application/zip" hidden></label>
       <button class="bouton bleu" data-action="base-exporter" id="btn-base-exporter">📤 Envoyer les blisters (un fichier .zip)</button>
       <p class="aide">Le fichier va dans « Téléchargements » : envoyez-le moi (ou mettez-le dans Google Drive). Les blisters
         restent dans le téléphone tant que vous ne les effacez pas.</p>
@@ -518,6 +523,7 @@
 <script src="js/collection.js"></script>
 <script src="js/app.js"></script>
 <script src="js/base.js"></script>
+<script src="js/base_commune.js"></script>
 <script src="js/sets.js"></script>
 <script src="js/import_sets.js"></script>
   <script src="js/objets.js"></script>

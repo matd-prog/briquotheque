@@ -63,6 +63,20 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 - Ma collection, photos des customs (01/10, cache v50, vérifié sur le téléphone) : codes CUS-… -> figurine JB retrouvée par le lien ou le
   nom (sans le n° « 52/150 ») ; photo du catalogue, sinon photo de « Ma base de blisters », sinon photo de l'album
   (jeton GitHub), sinon 🎨. Signalé par l'utilisateur (capture : BLACK KRRSANTAN, SHINY DARK LORD… sans photo).
+- Base commune de reconnaissance (01/10, cache v53, demande de l'utilisateur) : la base de blisters sert à reconnaître
+  TOUS les blisters (les miens, ceux de l'ami, des collectionneurs), possédés ou non ; la collection (Excel) = ce que
+  je possède seulement ; celle de l'ami reste dans son appli. js/base_commune.js :
+  - à chaque photo, « 📚 Je l'ai » (comme avant, n°, Excel) ou « 🌐 Je ne l'ai pas : seulement pour la base commune »
+    (entrée possede:false, sans n°, hors collection et hors comptes) ; les deux applis ;
+  - appli principale (jeton GitHub) : envoi automatique après chaque ajout, sinon bouton « 🌐 Envoyer à la base
+    commune » : photos -> dépôt privé album_photos/commune/BC-…_recto/_verso.jpg + album_photos/commune.tsv (n°, qui,
+    date) ; noms et empreintes -> dépôt public data/jb_commune.tsv et data/jb_empreintes_commune.tsv (pas de photo) ;
+  - CatalogueJB : source « commune » (codes BC-…), rattachée à la figurine connue (code reconnu, ou même nom) sinon
+    nouvelle fiche ; ses empreintes servent à la comparaison du décor (essai : le même blister ressort en tête à 1,00) ;
+    Consulter montre leurs photos (jeton) ;
+  - « 📥 Ajouter un envoi de blisters (.zip) » : « De moi » (retour dans ma base) ou « D'un ami » (base commune seulement).
+  ⚠️ Le jeton GitHub doit aussi donner accès au dépôt public (Contents : lecture et écriture), sinon message avec la
+  marche à suivre ; les photos partent quand même dans le dépôt privé.
 - Ma collection regroupée (01/10, cache v52) : une ligne par figurine (même onglet et même code ; customs : même nom
   sans le n°) avec ×N, les n° et les cases. Toucher -> menu : ➕ Ajouter un exemplaire, ➖ Retirer un exemplaire (choix
   de l'exemplaire, confirmation ; retirerFigurine dans js/xlsx.js : nom, code, lien, étiquette effacés, ligne de la

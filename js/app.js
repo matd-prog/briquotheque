@@ -844,8 +844,8 @@ function ouvrirCustom(info) {
   if (info) return;
   CatalogueJB.charger()
     .then(l => {
-      const { jb, brickshell, archive, ebay, album } = CatalogueJB.nb;
-      const autres = brickshell + archive + ebay + album;
+      const { jb, brickshell, archive, ebay, album, commune } = CatalogueJB.nb;
+      const autres = brickshell + archive + ebay + album + (commune || 0);
       const retirees = autres ? ` + ${autres} plus en vente chez JB (brickshellcases.com, archives, eBay.de, photos de collectionneurs)` : "";
       $("custom-recherche-info").textContent = `${jb} figurines JB Spielwaren (catalogue du ${new Date(CatalogueJB.date).toLocaleDateString("fr-FR")})${retirees}. Sinon, collez un lien plus bas.`;
     })

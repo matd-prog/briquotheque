@@ -25,7 +25,7 @@ const Consulter = {
   async _chargerMaBase() {
     this.maBase = new Map(); this.persos = [];
     let entrees = [];
-    try { entrees = ((await Memoire.lire("base")) || []).filter(e => e.photo && e.nom); } catch (err) { console.warn(err); }
+    try { entrees = ((await Memoire.lire("base")) || []).filter(e => e.photo && e.nom && e.possede !== false); } catch (err) { console.warn(err); }
     const parNom = new Map(CatalogueJB.liste.map(f => [normaliser(nomCustomPourFichier(f.nom)), f]));
     const groupes = new Map();
     for (const e of entrees) {
@@ -69,13 +69,22 @@ const Consulter = {
         if (!this.mesPhotos.has(k)) this.mesPhotos.set(k, []);
         this.mesPhotos.get(k).push({ photo, nom, numero });
       }
+      // photos de la base commune (album_photos/commune.tsv, js/base_commune.js)
+      const rc = await Valeur._api("/contents/album_photos/commune.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+      if (rc.ok) for (const l of (await rc.text()).split("\n").slice(1)) {
+        const [code, nom, , numero, serie, , , , photo] = l.split("\t");
+        if (!code || !photo) continue;
+        const k = code.toUpperCase();
+        if (!this.mesPhotos.has(k)) this.mesPhotos.set(k, []);
+        this.mesPhotos.get(k).push({ photo, nom, numero: numero ? `${numero}${serie ? "/" + serie : ""}` : "" });
+      }
     } catch (err) { console.warn(err); }
   },
 
   _source(f) {
     return f.source === "jb" && f.epuisee ? `Épuisée chez JB${f.prix ? ` (était à ${f.prix.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })})` : ""}`
       : f.source === "jb" ? (f.prix ? `En vente chez JB · ${f.prix.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}` : "Catalogue JB")
-      : f.source === "album" ? "Photo de collectionneur" : f.source === "perso" ? "Ma base de blisters · pas encore dans la base JB"
+      : f.source === "album" ? "Photo de collectionneur" : f.source === "perso" ? "Ma base de blisters · pas encore dans la base JB" : f.source === "commune" ? "Base commune (photo d'un collectionneur)"
       : f.source === "brickshell" ? "Retirée · brickshellcases"
       : f.source === "archive" ? "Retirée · archives" : "Retirée · eBay.de";
   },

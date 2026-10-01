@@ -15,13 +15,15 @@ const SOURCES_JB = [
   { source: "ebay", fichier: "data/jb_ebay.tsv", codes: /^EBAY-/ },
   // blisters photographiés par des collectionneurs (base commune), absents des autres listes : code ALB-…
   { source: "album", fichier: "data/jb_album.tsv", codes: /^ALB-/ },
+  // base commune : blisters photographiés dans les applis (js/base_commune.js), possédés ou non : code BC-…
+  { source: "commune", fichier: "data/jb_commune.tsv", codes: /^BC-/ },
 ];
 
 const CatalogueJB = {
   liste: null,
   parCode: null,
   date: null,
-  nb: { jb: 0, brickshell: 0, archive: 0, ebay: 0, album: 0 },
+  nb: { jb: 0, brickshell: 0, archive: 0, ebay: 0, album: 0, commune: 0 },
   _chargement: null,
 
   charger() {
@@ -40,19 +42,20 @@ const CatalogueJB = {
           }
           this.liste = [];
           this.parCode = new Map();
-          this.nb = { jb: 0, brickshell: 0, archive: 0, ebay: 0, album: 0 };
+          this.nb = { jb: 0, brickshell: 0, archive: 0, ebay: 0, album: 0, commune: 0 };
           // même figurine dans plusieurs listes (ex. vue sur eBay.de et photographiée par un collectionneur) : une
           // seule fiche, celle de la première liste ; les autres codes deviennent ses alias (photos d'album, empreintes)
           const parNom = new Map();
           SOURCES_JB.forEach(({ source, codes }, i) => {
             for (const ligne of liste[i].split("\n")) {
               if (ligne.startsWith("#date ")) { if (source === "jb") this.date = ligne.slice(6).trim(); continue; }
-              const [code, nom, categorie, lien, image, prix, dispo] = ligne.split("\t");
+              const [code, nom, categorie, lien, image, prix, dispo, rattache] = ligne.split("\t");
               if (!code || !codes.test(code) || this.parCode.has(code.toUpperCase())) continue;
               const exclu = this.exclus.get(code.toUpperCase());
               if (exclu === "retirer") continue;
               const cleNom = normaliser(nomCustomPourFichier(nom || ""));
-              const meme = source !== "jb" && cleNom && parNom.get(cleNom);
+              // base commune : photo d'une figurine déjà connue (code reconnu au moment de la photo, ou même nom)
+              const meme = (rattache && this.parCode.get(rattache.trim().toUpperCase())) || (source !== "jb" && cleNom && parNom.get(cleNom));
               if (meme) {
                 (meme.alias = meme.alias || []).push(code);
                 this.parCode.set(code.toUpperCase(), meme);
@@ -86,13 +89,13 @@ const CatalogueJB = {
   chargerEmpreintes() {
     if (!this._chargementEmpreintes) {
       const lire = f => fetch(f).then(rep => rep.ok ? rep.text() : "").catch(() => "");
-      this._chargementEmpreintes = Promise.all([lire("data/jb_empreintes.tsv"), lire("data/jb_empreintes_album.tsv")])
-        .then(([catalogue, album]) => {
+      this._chargementEmpreintes = Promise.all([lire("data/jb_empreintes.tsv"), lire("data/jb_empreintes_album.tsv"), lire("data/jb_empreintes_commune.tsv")])
+        .then(([catalogue, album, commune]) => {
           if (!catalogue) throw new Error("empreintes JB absentes");
           this.empreintes = new Map();
-          for (const ligne of (catalogue + "\n" + album).split("\n")) {
+          for (const ligne of (catalogue + "\n" + album + "\n" + commune).split("\n")) {
             const [code, e] = ligne.split("\t");
-            if (!code || !/^(JB|ALB)-/.test(code) || !e) continue;
+            if (!code || !/^(JB|ALB|BC)-/.test(code) || !e) continue;
             const k = code.toUpperCase();
             if (!this.empreintes.has(k)) this.empreintes.set(k, []);
             this.empreintes.get(k).push(empreinteDepuisTexte(e));

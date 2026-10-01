@@ -367,6 +367,26 @@ const Base = {
       : `<span class="recense-ok">n° ${echapper(n)} nouveau ✔</span>`).join(" · ");
   },
 
+  // Blister que l'on n'a pas : seulement pour la base commune de reconnaissance (pas de n°, pas dans la collection)
+  async ajouterCommune() {
+    const nom = $("base-nom").value.trim().toUpperCase();
+    if (!this.photo) { toast("Photographiez d'abord un blister."); return; }
+    if (!nom) { await demander("Tapez le nom imprimé sur le blister.", "OK", "Fermer"); return; }
+    const precision = $("base-precision") ? $("base-precision").value.trim() : "";
+    const code = this.codeLu && normaliser(nom) === normaliser(this.nomLu) ? this.codeLu : "";
+    this.entrees.push({ id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, recadre: true, nom, precision, numerote: false,
+                        numero: "", serie: "", remarque: $("base-remarque").value.trim(), code, photo: this.photo, verso: this.verso,
+                        exporte: false, possede: false, date: new Date().toISOString() });
+    await Memoire.ecrire(this.entrees, "base");
+    toast(`« ${nomComplet({ nom, precision })} » ajouté à la base commune ✔ (pas dans votre collection)`, 4500);
+    this._precedent = null;
+    this._nouvelle();
+    if ($("base-autre")) $("base-autre").hidden = true;
+    window.scrollTo(0, 0);
+    this._afficherListe();
+    if (typeof BaseCommune !== "undefined") BaseCommune.envoyerEnFond(this);
+  },
+
   async ajouter() {
     const nom = $("base-nom").value.trim().toUpperCase();
     if (!this.photo) { toast("Photographiez d'abord un blister."); return; }
@@ -381,7 +401,7 @@ const Base = {
       : [$("base-numero") ? $("base-numero").value.trim() : ""];
     while (numeros.length < n) numeros.push("");
     const precision = $("base-precision") ? $("base-precision").value.trim() : "";
-    const memes = this.entrees.filter(e => cleFigurine(e.nom, e.precision) === cleFigurine(nom, precision));
+    const memes = this.entrees.filter(e => e.possede !== false && cleFigurine(e.nom, e.precision) === cleFigurine(nom, precision));
     const doublesSaisie = numeros.filter((x, i) => x && numeros.indexOf(x) !== i);
     const dejaLa = numeros.filter(x => x && memes.some(e => e.numero === x));
     // n° en double : seuls ces n° sont écartés, les autres restent saisis (et peuvent être ajoutés tout de suite)
@@ -424,6 +444,7 @@ const Base = {
     window.scrollTo(0, 0); // « 📷 Photographier un blister » (suivant) et « Autre exemplaire » juste sous les yeux
     if ($("base-autre")) { $("base-autre").hidden = false; $("btn-base-autre").textContent = `Autre exemplaire de « ${nomComplet(commun)} » : photographier`; }
     this._afficherListe();
+    if (typeof BaseCommune !== "undefined") BaseCommune.envoyerEnFond(this);
   },
 
   // Exemplaire de plus d'un blister déjà dans la base (nouveau n°), sans reprendre de photo : mêmes photos, nom,
@@ -477,6 +498,23 @@ const Base = {
     if (!tsv) { await demander("Ce fichier .zip ne contient pas de blisters.", "OK", "Fermer"); return; }
     const [entete, ...lignes] = (await tsv.async("string")).split("\n").filter(l => l.trim());
     const col = entete.split("\t");
+    // appli principale : l'envoi d'un ami va seulement dans la base commune (sa collection reste la sienne)
+    const ami = typeof BaseCommune !== "undefined" &&
+      !(await demander("Ce fichier de blisters vient de qui ?\n\n• De vous (photos faites avant, ou sur un autre téléphone) : ils reviennent dans votre collection.\n" +
+        "• D'un ami : ses blisters vont seulement dans la base commune de reconnaissance.", "De moi", "D'un ami"));
+    if (ami) {
+      const envoi = [];
+      for (const l of lignes) {
+        const v = {}; l.split("\t").forEach((x, i) => { v[col[i]] = x; });
+        const photo = v.id && v.nom && zip.file(v.photo || `photos/${v.id}.jpg`), verso = v.verso && zip.file(v.verso);
+        if (!photo) continue;
+        envoi.push({ id: "A" + v.id, nom: v.nom, precision: v.precision || "", numero: v.numero || "", serie: v.serie || "", code: v.code || "",
+          photo: new Blob([await photo.async("arraybuffer")], { type: "image/jpeg" }),
+          verso: verso ? new Blob([await verso.async("arraybuffer")], { type: "image/jpeg" }) : null });
+      }
+      await BaseCommune.ajouterEnvoiAmi(envoi);
+      return;
+    }
     const connus = new Set(this.entrees.map(e => e.id));
     let ajoutes = 0, deja = 0;
     for (const l of lignes) {
@@ -488,7 +526,7 @@ const Base = {
       this.entrees.push({ id: v.id, nom: v.nom, precision: v.precision || "", numerote: v.numerote !== "non", numero: v.numero || "", serie: v.serie || "",
         remarque: v.remarque || "", code: v.code || "", date: v.date || new Date().toISOString(),
         photo: new Blob([await photo.async("arraybuffer")], { type: "image/jpeg" }),
-        verso: verso ? new Blob([await verso.async("arraybuffer")], { type: "image/jpeg" }) : null, exporte: false });
+        verso: verso ? new Blob([await verso.async("arraybuffer")], { type: "image/jpeg" }) : null, exporte: false, possede: v.possede !== "non" });
       connus.add(v.id); ajoutes++;
     }
     await Memoire.ecrire(this.entrees, "base");
@@ -518,10 +556,16 @@ const Base = {
   },
 
   _afficherListe() {
-    const n = this.entrees.length, attente = this.entrees.filter(e => !e.exporte).length;
+    const n = this.entrees.length, attente = this.entrees.filter(e => !e.exporte).length, pasAMoi = this.entrees.filter(e => e.possede === false).length;
     $("base-compte").textContent = n
-      ? `${n} blister${n > 1 ? "s" : ""} dans votre base, dont ${attente} pas encore exporté${attente > 1 ? "s" : ""}`
+      ? `${n - pasAMoi} blister${n - pasAMoi > 1 ? "s" : ""} à vous${pasAMoi ? ` + ${pasAMoi} pour la base commune seulement` : ""}` +
+        (typeof BaseCommune === "undefined" ? `, dont ${attente} pas encore exporté${attente > 1 ? "s" : ""}` : "")
       : "Aucun blister dans votre base pour l'instant.";
+    if ($("base-commune-etat") && typeof BaseCommune !== "undefined") {
+      const a = BaseCommune.enAttente(this.entrees).length;
+      $("base-commune-etat").textContent = a ? `🌐 ${a} blister${a > 1 ? "s" : ""} pas encore dans la base commune.` : n ? "🌐 Tous vos blisters sont dans la base commune ✔" : "";
+      $("btn-base-commune").hidden = !a;
+    }
     $("btn-base-exporter").hidden = !n;
     $("btn-base-vider").hidden = !this.entrees.some(e => e.exporte);
     if ($("btn-base-recadrer-tout")) {
@@ -542,8 +586,8 @@ const Base = {
       <div class="fiche" data-fiche="${e.id}">
         <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="Recto" data-base-voir="${e.id}" title="Voir le recto et le verso">
         <div class="infos"><div class="nom-court">${echapper(nomComplet(e))}</div>
-          <div class="lieu">${echapper([e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
-            e.verso ? "recto + verso" : "sans verso", e.origine === "album" && "d'après l'album photo", e.code, e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
+          <div class="lieu">${echapper([e.possede === false && "pas à moi, pour la base commune", e.possede !== false && e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
+            e.verso ? "recto + verso" : "sans verso", e.origine === "album" && "d'après l'album photo", e.code, typeof BaseCommune !== "undefined" ? (e.commune ? "🌐 dans la base commune" : "🌐 en attente") : e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
         ${e.verso ? "" : `<label class="petit" title="Ajouter le verso">📷 verso<input type="file" accept="image/*" capture="environment" data-base-verso="${e.id}" hidden></label>`}
         <button class="petit" data-base-plus="${e.id}" title="Ajouter un exemplaire (nouveau n°), même photo">➕</button>
         <button class="petit" data-base-modif="${e.id}" title="Modifier">✏️</button>
@@ -637,7 +681,7 @@ const Base = {
   // Exemplaires recensés par figurine, comparés au nombre acheté (onglet « Customs achetées » du fichier Excel)
   async _afficherCompte() {
     const groupes = new Map();
-    for (const e of this.entrees) {
+    for (const e of this.entrees.filter(e => e.possede !== false)) {
       const k = cleFigurine(e.nom, e.precision);
       const g = groupes.get(k) || { nom: nomComplet(e), numeros: [], notes: [], n: 0 };
       g.n++; if (e.numero) g.numeros.push(e.numero); if (e.remarque) g.notes.push(e.remarque); groupes.set(k, g);
@@ -701,11 +745,11 @@ const Base = {
   async exporter() {
     if (!this.entrees.length) return;
     const zip = new JSZip();
-    const lignes = ["id\tnom\tnumerote\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso\tprecision"];
+    const lignes = ["id\tnom\tnumerote\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso\tprecision\tpossede"];
     for (const e of this.entrees) {
       zip.file(`photos/${e.id}.jpg`, e.photo);
       if (e.verso) zip.file(`photos/${e.id}_verso.jpg`, e.verso);
-      lignes.push([e.id, e.nom, e.numerote === false ? "non" : "oui", e.numero, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`, e.verso ? `photos/${e.id}_verso.jpg` : "", e.precision].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
+      lignes.push([e.id, e.nom, e.numerote === false ? "non" : "oui", e.numero, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`, e.verso ? `photos/${e.id}_verso.jpg` : "", e.precision, e.possede === false ? "non" : "oui"].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
     }
     zip.file("base.tsv", lignes.join("\n") + "\n");
     const contenu = await zip.generateAsync({ type: "blob" });
@@ -826,6 +870,8 @@ document.addEventListener("click", e => {
   const action = b.dataset.action;
   if (action === "base") Base.ouvrir();
   else if (action === "base-ajouter") Base.ajouter();
+  else if (action === "base-ajouter-commune") Base.ajouterCommune();
+  else if (action === "base-commune-envoyer") BaseCommune.envoyerTout(Base);
   else if (action === "base-exporter") Base.exporter();
   else if (action === "base-vider") Base.vider();
   else if (action === "base-autre") Base.autreExemplaire();
