@@ -26,11 +26,18 @@ const CatalogueJB = {
 
   charger() {
     if (!this._chargement) {
+      // éléments écartés après vérification des images (data/jb_exclus.tsv) : pas des blisters, ou image fausse
+      const exclus = fetch("data/jb_exclus.tsv").then(rep => rep.ok ? rep.text() : "").catch(() => "");
       const textes = SOURCES_JB.map(s => fetch(s.fichier)
         .then(rep => { if (rep.ok) return rep.text(); if (s.obligatoire) throw new Error("catalogue JB absent"); return ""; })
         .catch(err => { if (s.obligatoire) throw err; return ""; }));
-      this._chargement = Promise.all(textes)
-        .then(liste => {
+      this._chargement = Promise.all([exclus, ...textes])
+        .then(([texteExclus, ...liste]) => {
+          this.exclus = new Map();
+          for (const l of texteExclus.split("\n")) {
+            const [code, action] = l.split("\t");
+            if (code && !code.startsWith("#") && action) this.exclus.set(code.trim().toUpperCase(), action.trim());
+          }
           this.liste = [];
           this.parCode = new Map();
           this.nb = { jb: 0, brickshell: 0, archive: 0, ebay: 0, album: 0 };
@@ -39,8 +46,10 @@ const CatalogueJB = {
               if (ligne.startsWith("#date ")) { if (source === "jb") this.date = ligne.slice(6).trim(); continue; }
               const [code, nom, categorie, lien, image, prix, dispo] = ligne.split("\t");
               if (!code || !codes.test(code) || this.parCode.has(code.toUpperCase())) continue;
+              const exclu = this.exclus.get(code.toUpperCase());
+              if (exclu === "retirer") continue;
               // prix : prix de vente TTC relevé sur le site ; dispo « non » : épuisée chez JB (prix = dernier prix JB)
-              const f = { code, nom, categorie, lien, image, prix: parseFloat(prix) || 0, epuisee: source === "jb" && dispo === "non", source, ebay: source === "ebay",
+              const f = { code, nom, categorie, lien, image: exclu === "sans_image" ? "" : image, sansImage: exclu === "sans_image", prix: parseFloat(prix) || 0, epuisee: source === "jb" && dispo === "non", source, ebay: source === "ebay",
                           recherche: normaliser(`${code} ${nom} ${categorie}`) };
               this.liste.push(f);
               this.parCode.set(code.toUpperCase(), f);
@@ -89,6 +98,7 @@ const CatalogueJB = {
     const e = empreinteImage(source, false);
     const res = [];
     for (const f of this.liste) {
+      if (f.sansImage) continue; // empreinte calculée sur une image fausse
       const refs = this.empreintes.get(f.code.toUpperCase());
       if (refs) res.push({ f, score: Math.max(...refs.map(ref => similarite(e, ref))) });
     }

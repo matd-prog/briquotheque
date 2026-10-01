@@ -356,3 +356,10 @@ Pour reprendre le 30/09 au matin :
 - Appui long sur une photo (30/09, capture de l'utilisateur pendant le recadrage) : plus de menu « Copier / Télécharger / Partager
   l'image » (contextmenu annulé sur les images, -webkit-touch-callout: none ; image du cadre sans pointer-events).
 - Champs Nom et Précision (saisie et fiche ✏️) : clavier en majuscules par défaut (autocapitalize="characters"), 30/09.
+- Consulter la base (01/10, retours de l'utilisateur) : (1) ses blisters photographiés dans l'appli (Memoire « base ») apparaissent :
+  rattachés à la figurine du catalogue (code, sinon même nom) avec « 📚 N dans ma base (n° …) », photo à lui affichée dans le filtre
+  « Mes photos de blisters » ou si le catalogue n'a pas d'image ; blisters absents du catalogue = fiches « Ma base de blisters · pas
+  encore dans la base JB » (cherchables). (2) Vérification visuelle des ~600 images de la base : 13 éléments qui ne sont pas des
+  blisters retirés (bannières, brique, boîtes, ticket, tuile, diorama, packs) et 3 images fausses enlevées (Birthday Girl, Jedi Bob
+  Movie, Temple Guard) : data/jb_exclus.tsv (code, retirer|sans_image, raison), lu par CatalogueJB.charger, donc valable aussi après
+  la mise à jour mensuelle des catalogues. Les images de jb_archive (web.archive.org) n'ont pas pu être vérifiées (inaccessibles).
