@@ -52,7 +52,7 @@
       <label class="tuile"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Choisir dans la galerie</small>
         <input type="file" id="input-galerie" accept="image/*" hidden></label>
       <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Catalogue BrickLink</small></button>
-      <button class="tuile" data-action="nouveautes"><span class="icone">🆕</span><b>Nouveautés</b><small>Séries récentes</small></button>
+      <button class="tuile" data-action="nouveautes"><span class="icone">🆕</span><b>Nouveautés</b><small>Sorties LEGO par thème</small></button>
       <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Ex. sw0001</small></button>
     </div>
 
@@ -162,6 +162,22 @@
   </section>
 
   <!-- Valeur de la collection (js/valeur.js) : prix relevés dans le dépôt GitHub privé -->
+  <!-- Nouveautés LEGO (js/ecran_nouveautes.js) : sorties de l'année par thème, relues chaque nuit (Rebrickable) -->
+  <section id="ecran-nouveautes" class="ecran" hidden>
+    <p class="intro">🆕 <b>Nouveautés LEGO</b> <span class="score" id="nv-maj"></span>
+      <button class="petit" id="nv-actualiser">🔄 Actualiser</button></p>
+    <input id="nv-recherche" class="champ" type="search" autocomplete="off" placeholder="🔍 Filtrer (ex. shrek, vador, 75412)">
+    <div class="bascule" id="nv-onglets">
+      <button data-nv="recents" class="choisi">📅 Récentes</button>
+      <button data-nv="figurines">🧍 Figurines</button>
+      <button data-nv="sets">🧱 Sets</button>
+      <button data-nv="objets">🔑 Objets</button>
+    </div>
+    <div id="nv-themes" class="puces"></div>
+    <div id="nv-contenu"></div>
+    <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
+  </section>
+
   <!-- Objets dérivés LEGO (catalogue BrickLink « Gear ») : onglet « Objets dérivés » (js/objets.js) -->
   <section id="ecran-objet" class="ecran" hidden>
     <p class="intro">🔑 <b>Objet dérivé LEGO</b> : porte-clés, porte-clés lumineux, magnet, réveil… Il est valorisé d'après
@@ -435,7 +451,7 @@
           <input type="file" id="input-dos" accept="image/*" capture="environment" hidden>
         </label>
         <button class="bouton bleu" data-action="recherche">🔍 Chercher par nom</button>
-        <button class="bouton bleu" data-action="nouveautes">🆕 Nouveautés (séries récentes, pas encore reconnues en photo)</button>
+        <button class="bouton bleu" data-action="nouveautes-series">🆕 Nouveautés (séries récentes, pas encore reconnues en photo)</button>
         <button class="bouton-lien" data-action="saisie">⌨️ Saisir le code à la main</button>
       </div>
     </div>
@@ -527,6 +543,7 @@
 <script src="js/sets.js"></script>
 <script src="js/import_sets.js"></script>
   <script src="js/objets.js"></script>
+  <script src="js/ecran_nouveautes.js"></script>
   <script src="js/valeur.js"></script>
   <script src="js/assurance.js"></script>
   <script src="js/achats.js"></script>

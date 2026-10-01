@@ -1379,7 +1379,8 @@ document.addEventListener("click", async e => {
     else afficher(etat.classeur ? "accueil" : "fichier");
   }
   else if (action === "saisie") ouvrirSaisie();
-  else if (action === "nouveautes") { $("recherche-texte").value = ""; ouvrirRecherche(true); }
+  else if (action === "nouveautes") EcranNouveautes.ouvrir();
+  else if (action === "nouveautes-series") { $("recherche-texte").value = ""; ouvrirRecherche(true); }
   else if (action === "collection") Collection.ouvrir();
   else if (action === "custom") { photoBlister = null; ouvrirCustom(); }
   else if (action === "custom-oui") ajouterCustom();

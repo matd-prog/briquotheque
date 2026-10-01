@@ -63,6 +63,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 - Ma collection, photos des customs (01/10, cache v50, vérifié sur le téléphone) : codes CUS-… -> figurine JB retrouvée par le lien ou le
   nom (sans le n° « 52/150 ») ; photo du catalogue, sinon photo de « Ma base de blisters », sinon photo de l'album
   (jeton GitHub), sinon 🎨. Signalé par l'utilisateur (capture : BLACK KRRSANTAN, SHINY DARK LORD… sans photo).
+- Écran « 🆕 Nouveautés » refait (01/10, cache v58, js/ecran_nouveautes.js) : onglets 📅 Récentes (apparues depuis
+  45 jours ; sinon annonces de l'an prochain), 🧍 Figurines, 🧱 Sets, 🔑 Objets ; puces par thème (minifigs à
+  collectionner par série d'abord ; « 🏪 Boutiques LEGO (BAM…) » ; objets par sorte : porte-clés, magnets…) ; filtre ;
+  ✅ si déjà dans la collection ; toucher -> écran d'ajout (figurine), « Ajouter un set », « Objet dérivé ».
+  L'ancien bouton « séries récentes » de l'écran de résultat d'une photo reste (action nouveautes-series).
+  Étape 2 en attente : clé Brickset (secret GitHub BRICKSET_KEY, à créer par l'utilisateur) pour le mois de sortie
+  exact par thème ; BAM du mois : vérifier si Brickset les liste, sinon un site d'actualités.
 - Base commune de reconnaissance (01/10, cache v53, demande de l'utilisateur) : la base de blisters sert à reconnaître
   TOUS les blisters (les miens, ceux de l'ami, des collectionneurs), possédés ou non ; la collection (Excel) = ce que
   je possède seulement ; celle de l'ami reste dans son appli. js/base_commune.js :
