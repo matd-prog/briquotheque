@@ -78,7 +78,8 @@ def main():
 
     def est_objet(s):
         racine = chemin(s["theme_id"]).split(" / ")[0].lower()
-        return racine in RACINES_OBJETS or "key chain" in chemin(s["theme_id"]).lower() or int(s.get("num_parts") or 0) == 0
+        # (pas « 0 pièce » : un set annoncé n'a pas encore son inventaire chez Rebrickable, ex. 76347 Quinjet Avengers)
+        return racine in RACINES_OBJETS or "key chain" in chemin(s["theme_id"]).lower()
 
     # tous les objets dérivés, toutes années (porte-clés, porte-clés lumineux, magnets…) -> data/objets.tsv
     objets = [s for s in d["sets"] if chemin(s["theme_id"]).split(" / ")[0].lower() not in RACINES_EXCLUES and est_objet(s)]
