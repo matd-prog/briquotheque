@@ -25,11 +25,44 @@ const Nouveautes = {
           n.recherche = normaliser(`${n.code} ${n.bricklink} ${n.nom} ${n.theme}`);
           this.liste.push(n);
         }
-        return this.liste;
-      }).catch(err => { console.warn(err); this.liste = []; return this.liste; });
+        return this._ajouterSorties();
+      }).then(() => this.liste).catch(err => { console.warn(err); return this.liste; });
     }
     return this._chargement;
   },
+
+  // Dates de sortie (data/sorties.tsv, Brickset, outils/brickset_sorties.py) : chaque set reçoit sa date de sortie,
+  // chaque figurine celle du premier set qui la contient ; les sets annoncés que Rebrickable n'a pas encore sont ajoutés
+  sorties: new Map(),
+  async _ajouterSorties() {
+    let texte = "";
+    try { const r = await fetch("data/sorties.tsv"); if (r.ok) texte = await r.text(); } catch (err) { console.warn(err); }
+    this.sorties = new Map();
+    for (const l of texte.split("\n")) {
+      const [code, nom, theme, sousTheme, annee, sortie, fin, pieces, figurines, prix, image] = l.replace(/\r$/, "").split("\t");
+      if (!code || code === "code" || code.startsWith("#")) continue;
+      this.sorties.set(code.toLowerCase(), { code, nom, theme, sousTheme, annee, sortie, fin, pieces, figurines, prix, image });
+    }
+    if (!this.sorties.size) return;
+    const connus = new Set();
+    for (const n of this.liste) {
+      if (n.type === "set" || n.type === "objet") {
+        const s = this.sorties.get(n.code.toLowerCase());
+        if (s) { n.sortie = s.sortie; n.prix = s.prix; connus.add(n.code.toLowerCase()); }
+      } else if (n.type === "figurine") {
+        const dates = (n.sets || "").split(" ").map(c => (this.sorties.get(c.toLowerCase()) || {}).sortie).filter(Boolean).sort();
+        if (dates.length) n.sortie = dates[0];
+      }
+    }
+    for (const s of this.sorties.values()) {
+      if (connus.has(s.code.toLowerCase())) continue;
+      const n = { type: "set", code: s.code, bricklink: s.code, nom: s.nom, theme: [s.theme, s.sousTheme].filter(Boolean).join(" / "),
+                  annee: s.annee, image: s.image, vu_le: "", sets: "", sortie: s.sortie, prix: s.prix, brickset: true };
+      n.recherche = normaliser(`${n.code} ${n.nom} ${n.theme}`);
+      this.liste.push(n);
+    }
+  },
+
 
   // Code sous lequel l'appli range la nouveauté : BrickLink s'il est connu, sinon celui de Rebrickable (FIG-…)
   codeAppli(n) { return (n.bricklink || n.code).toUpperCase(); },

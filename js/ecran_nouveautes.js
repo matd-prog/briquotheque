@@ -4,8 +4,9 @@
 // s'il est déjà dans la collection (✅) ; un toucher l'ouvre pour l'ajouter.
 
 const EcranNouveautes = {
-  onglet: "recents",
+  onglet: "mois",
   theme: "",
+  mois: "",
   _possedes: { sets: new Set(), objets: new Set() },
 
   async ouvrir() {
@@ -55,7 +56,33 @@ const EcranNouveautes = {
     const trouve = n => !q || q.split(" ").every(m => n.recherche.includes(m) || normaliser(this._theme(n)).includes(m));
     const recent = (a, b) => (b.vu_le || "").localeCompare(a.vu_le || "") || (b.annee || "").localeCompare(a.annee || "") || a.code.localeCompare(b.code, "en", { numeric: true });
 
-    if (this.onglet === "recents") {
+    // Par mois de sortie (Brickset) : un mois choisi, ses sorties classées par thème (sets puis figurines)
+    if (this.onglet === "mois" && Nouveautes.sorties && Nouveautes.sorties.size) {
+      const nomMois = m => new Date(m + "-01T12:00:00").toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+      const datees = Nouveautes.liste.filter(n => n.sortie && trouve(n));
+      const parMois = new Map();
+      for (const n of datees) { const m = n.sortie.slice(0, 7); if (!parMois.has(m)) parMois.set(m, []); parMois.get(m).push(n); }
+      const tousMois = [...parMois.keys()].sort();
+      const actuel = new Date().toISOString().slice(0, 7);
+      const voisins = tousMois.filter(m => m >= tousMois.find(x => x >= actuel.slice(0, 4) + "-01") || "");
+      if (!parMois.has(this.mois)) this.mois = parMois.has(actuel) ? actuel : (tousMois.find(m => m > actuel) || tousMois[tousMois.length - 1] || "");
+      $("nv-themes").innerHTML = voisins.map(m => `<button class="puce ${m === this.mois ? "choisi" : ""}" data-nv-mois="${m}">${m === actuel ? "📍 " : ""}${nomMois(m)} (${parMois.get(m).length})</button>`).join("");
+      const liste = (parMois.get(this.mois) || []).slice();
+      const ordre = { set: 0, figurine: 1, objet: 2 };
+      const parTheme = new Map();
+      for (const n of liste.sort((a, b) => ordre[a.type] - ordre[b.type] || a.sortie.localeCompare(b.sortie) || a.code.localeCompare(b.code, "en", { numeric: true }))) {
+        const th = this._theme(n); if (!parTheme.has(th)) parTheme.set(th, []); parTheme.get(th).push(n);
+      }
+      const themes = [...parTheme.entries()].sort((a, b) => b[1].filter(n => n.type === "set").length - a[1].filter(n => n.type === "set").length || b[1].length - a[1].length);
+      const nSets = liste.filter(n => n.type === "set").length, nFigs = liste.filter(n => n.type === "figurine").length;
+      let i0 = 0; const ordreAffiche = [];
+      $("nv-contenu").innerHTML = `<p class="aide">Sorties de ${this.mois ? nomMois(this.mois) : "?"} : ${nSets} set(s), ${nFigs} nouvelle(s) figurine(s). Dates : Brickset.</p>` +
+        themes.map(([th, l]) => { const g = this._grille(l, i0); i0 += l.length; ordreAffiche.push(...l);
+          return `<p class="sous-titre">${echapper(th)} <span class="score">${l.filter(n => n.type === "set").length} set(s), ${l.filter(n => n.type === "figurine").length} figurine(s)</span></p>${g}`; }).join("");
+      return this._brancher(ordreAffiche);
+    }
+
+    if (this.onglet === "mois") {
       $("nv-themes").innerHTML = "";
       const depuis = new Date(Date.now() - 45 * 864e5).toISOString().slice(0, 10);
       let liste = Nouveautes.liste.filter(n => n.vu_le && n.vu_le >= depuis && trouve(n)).sort(recent);
@@ -86,8 +113,8 @@ const EcranNouveautes = {
     this._brancher(liste);
   },
 
-  _grille(liste) {
-    return `<div class="grille">${liste.map((n, i) => {
+  _grille(liste, depart = 0) {
+    return `<div class="grille">${liste.map((n, k) => { const i = depart + k;
       const s = n.type === "set" && CatalogueSets.sets ? CatalogueSets.sets.get(n.code.toLowerCase()) : null;
       const detail = n.type === "set" ? [n.code, s && s.pieces && `${s.pieces} pièces`, s && s.nbFigurines && `👤 ${s.nbFigurines}`].filter(Boolean).join(" · ")
         : n.type === "figurine" ? (n.bricklink || n.code) : (n.bricklink || n.code);
@@ -95,7 +122,9 @@ const EcranNouveautes = {
         ${n.image ? `<img src="${echapper(n.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">Pas de photo</div>`}
         <span class="nom-court">${this._possede(n) ? "✅ " : ""}${echapper(n.nom)}</span>
         <span class="code">${echapper(detail)}</span>
-        <span class="score">${echapper(this.onglet === "recents" ? `${{ figurine: "Figurine", set: "Set", objet: "Objet" }[n.type]} · ${this._theme(n)}` : this._theme(n))}${n.vu_le ? ` · vu le ${new Date(n.vu_le).toLocaleDateString("fr-FR")}` : ` · ${echapper(n.annee)}`}</span>
+        <span class="score">${echapper(this.onglet === "mois" ? { figurine: "Figurine", set: "Set", objet: "Objet" }[n.type] : this._theme(n))}${
+          n.sortie ? ` · sortie le ${new Date(n.sortie + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}`
+          : n.vu_le ? ` · vu le ${new Date(n.vu_le).toLocaleDateString("fr-FR")}` : ` · ${echapper(n.annee)}`}${n.prix ? ` · ${(+n.prix).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}` : ""}</span>
       </button>`;
     }).join("")}</div>`;
   },
@@ -142,6 +171,8 @@ if ($("ecran-nouveautes")) {
     if (b) { EcranNouveautes.onglet = b.dataset.nv; EcranNouveautes.theme = ""; EcranNouveautes.rendre(); }
   });
   $("nv-themes").addEventListener("click", e => {
+    const m = e.target.closest("[data-nv-mois]");
+    if (m) { EcranNouveautes.mois = m.dataset.nvMois; EcranNouveautes.rendre(); return; }
     const b = e.target.closest("[data-nv-theme]");
     if (b) { EcranNouveautes.theme = b.dataset.nvTheme; EcranNouveautes.rendre(); window.scrollTo(0, $("nv-contenu").offsetTop - 80); }
   });
