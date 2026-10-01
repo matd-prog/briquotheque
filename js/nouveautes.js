@@ -72,13 +72,6 @@ const Nouveautes = {
       .sort((a, b) => b.s - a.s).slice(0, max);
   },
 
-  // Objets dérivés (porte-clés, porte-clés lumineux…) dont le nom ou le numéro contient tous les mots tapés
-  chercherObjets(texte, max = 8) {
-    const mots = normaliser(texte).split(" ").filter(Boolean);
-    if (!mots.length) return [];
-    return this.liste.filter(n => n.type === "objet" && mots.every(m => n.recherche.includes(m))).slice(0, max);
-  },
-
   // Relit les nouveautés publiées (sans attendre la copie gardée dans le téléphone)
   async actualiser() {
     await this.charger(true);

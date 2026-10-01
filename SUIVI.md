@@ -47,7 +47,14 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   - « 🆕 Nouveautés » : date de mise à jour et bouton « 🔄 Actualiser » ;
   - Objet dérivé : en tapant le nom, les objets dérivés récents proposés ; un toucher remplit le numéro.
   Essai avec des figurines dessinées : 5 sur 5 bien retrouvées ; à vérifier avec de vraies photos.
-  En attente : photos d'un porte-clés lumineux dans son emballage (lecture du numéro sur la boîte).
+  Premier passage réel (01/10) : 2 338 nouveautés (926 figurines dont 492 avec code BrickLink, 727 sets,
+  685 objets dérivés), 583 empreintes de figurines.
+- Objets dérivés (01/10, cache v46) : data/objets.tsv = tous les objets dérivés Rebrickable, toutes années
+  (numéro BrickLink probable : « LGLKE48H-1 » -> « LGL-KE48H », à vérifier ; référence imprimée « KE48H »).
+  Écran Objet dérivé : « 📷 Photographier l'étiquette (face avant) » lit la référence au-dessus du code-barres
+  (Tesseract, par bandes agrandies, photo droite puis tournée) et retrouve l'objet ; ou recherche par nom/référence.
+  Essai sur les photos de l'utilisateur : KE48H (fantôme) et KE247H (Dark Vador blanc) lus (12 à 27 s) ;
+  le dos de l'étiquette ne porte pas la référence.
 
 ## Publié le 29/09/2026, à confirmer sur le téléphone
 

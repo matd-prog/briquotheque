@@ -32,6 +32,20 @@ RACINES_OBJETS = {"gear", "key chain", "key chains", "magnets", "clocks and watc
 RACINES_EXCLUES = {"books", "supplemental", "service packs", "bulk bricks"}
 
 
+def code_bricklink_objet(code):
+    """Numéro Rebrickable d'un objet dérivé -> numéro BrickLink probable : « 853744-1 » -> « 853744 » ;
+    porte-clés lumineux (fabriqués par IQ) « LGLKE48H-1 » -> « LGL-KE48H » (à vérifier sur BrickLink)"""
+    c = code[:-2] if code.endswith("-1") else code
+    return "LGL-" + c[3:] if c.upper().startswith("LGL") and not c.upper().startswith("LGL-") else c
+
+
+def reference_objet(code):
+    """Référence imprimée sur l'emballage : « LGLKE48H-1 » -> « KE48H » (celle que l'appli lit sur la photo)"""
+    import re
+    c = code[:-2] if code.endswith("-1") else code
+    return re.sub(r"^LGL-?", "", c.upper())
+
+
 def anciennes():
     """Lignes du passage précédent : code -> dict"""
     res = {}
@@ -62,6 +76,19 @@ def main():
             noms.insert(0, themes[tid]["name"]); tid = themes[tid]["parent_id"]
         return " / ".join(noms)
 
+    def est_objet(s):
+        racine = chemin(s["theme_id"]).split(" / ")[0].lower()
+        return racine in RACINES_OBJETS or "key chain" in chemin(s["theme_id"]).lower() or int(s.get("num_parts") or 0) == 0
+
+    # tous les objets dérivés, toutes années (porte-clés, porte-clés lumineux, magnets…) -> data/objets.tsv
+    objets = [s for s in d["sets"] if chemin(s["theme_id"]).split(" / ")[0].lower() not in RACINES_EXCLUES and est_objet(s)]
+    with open(os.path.join(RACINE, "data", "objets.tsv"), "w", encoding="utf-8") as f:
+        f.write(f"#date {aujourdhui.isoformat()}\ncode\tbricklink\treference\tnom\ttheme\tannee\timage\n")
+        for s in sorted(objets, key=lambda s: (s["year"], s["set_num"]), reverse=True):
+            f.write("\t".join([s["set_num"], code_bricklink_objet(s["set_num"]), reference_objet(s["set_num"]), propre(s["name"]),
+                               propre(chemin(s["theme_id"])), s["year"], s.get("img_url", "")]) + "\n")
+    print(f"{len(objets)} objets dérivés (toutes années) -> data/objets.tsv", file=sys.stderr)
+
     def garder(code, annee):
         vu = avant.get(code, {}).get("vu_le", "")
         if annee and annee.isdigit() and int(annee) >= annee_min:
@@ -81,8 +108,8 @@ def main():
         racine = chemin(s["theme_id"]).split(" / ")[0].lower()
         if racine in RACINES_EXCLUES or not garder(s["set_num"], s["year"]):
             continue
-        objet = racine in RACINES_OBJETS or "key chain" in chemin(s["theme_id"]).lower() or int(s.get("num_parts") or 0) == 0
-        bl = s["set_num"][:-2] if objet and s["set_num"].endswith("-1") else s["set_num"]
+        objet = est_objet(s)
+        bl = code_bricklink_objet(s["set_num"]) if objet else s["set_num"]
         lignes.append({"type": "objet" if objet else "set", "code": s["set_num"], "bricklink": bl, "ressemblance": "",
                        "nom": propre(s["name"]), "theme": propre(chemin(s["theme_id"])), "annee": s["year"],
                        "image": s.get("img_url", ""), "vu_le": date_vue(s["set_num"]), "sets": ""})

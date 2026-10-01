@@ -166,8 +166,11 @@
   <section id="ecran-objet" class="ecran" hidden>
     <p class="intro">🔑 <b>Objet dérivé LEGO</b> : porte-clés, porte-clés lumineux, magnet, réveil… Il est valorisé d'après
       les ventes BrickLink, grâce à son numéro BrickLink.</p>
+    <label class="gros-bouton vert">📷 Photographier l'étiquette (face avant)
+      <input type="file" id="input-objet-photo" accept="image/*" capture="environment" hidden></label>
+    <p class="aide">L'appli lit la référence imprimée au-dessus du code-barres (ex. KE48H) et retrouve l'objet. Ou tape son nom :</p>
     <label for="objet-nom" class="etiquette-champ">Ce que c'est</label>
-    <input id="objet-nom" class="champ" autocomplete="off" placeholder="ex. porte-clés lumineux Dark Vador">
+    <input id="objet-nom" class="champ" autocomplete="off" placeholder="ex. ghost key light, vader, KE48H">
     <div id="objet-nouveautes" class="grille"></div>
     <button class="bouton bleu" data-action="objet-chercher">🔎 Trouver son numéro sur BrickLink</button>
     <p class="aide">Sur BrickLink, ouvrez le bon objet : son numéro est écrit sous le nom (« Item No »). Recopiez-le ci-dessous.</p>

@@ -1,6 +1,68 @@
 // Objets dérivés LEGO du catalogue BrickLink « Gear » (porte-clés, porte-clés lumineux, magnets…) :
 // onglet « Objets dérivés » du fichier Excel, valorisés comme les sets (js/valeur.js, type GEAR).
 
+// Catalogue de tous les objets dérivés (data/objets.tsv, fait chaque jour depuis Rebrickable par
+// outils/nouveautes_rebrickable.py) : numéro BrickLink probable, référence imprimée sur l'emballage (ex. KE48H)
+const CatalogueObjets = {
+  liste: [],
+  _chargement: null,
+  charger() {
+    if (!this._chargement) {
+      this._chargement = fetch("data/objets.tsv").then(r => r.ok ? r.text() : "").then(texte => {
+        this.liste = [];
+        for (const l of texte.split("\n")) {
+          const [code, bricklink, reference, nom, theme, annee, image] = l.replace(/\r$/, "").split("\t");
+          if (!code || code === "code" || code.startsWith("#") || !nom) continue;
+          this.liste.push({ code, bricklink, reference: (reference || "").toUpperCase(), nom, theme, annee, image,
+                            recherche: normaliser(`${bricklink} ${reference} ${nom} ${theme}`) });
+        }
+        return this.liste;
+      }).catch(err => { this._chargement = null; console.warn(err); return []; });
+    }
+    return this._chargement;
+  },
+  chercher(texte, max = 8) {
+    const mots = normaliser(texte).split(" ").filter(Boolean);
+    return mots.length ? this.liste.filter(o => mots.every(m => o.recherche.includes(m))).slice(0, max) : [];
+  },
+  // Référence lue sur l'emballage (« KE48H ») : la même, sinon le même numéro avec une autre lettre de fin
+  parReference(ref) {
+    const r = ref.toUpperCase(), sans = r.replace(/[A-Z]$/, "");
+    const exacts = this.liste.filter(o => o.reference === r);
+    return exacts.length ? exacts : this.liste.filter(o => o.reference.replace(/[A-Z]$/, "") === sans);
+  },
+};
+
+// Référence d'un porte-clés lumineux sur la photo de l'emballage (« KE48H », au-dessus du code-barres) :
+// lecture du texte dans le téléphone (Tesseract, comme les blisters), par bandes agrandies, photo droite
+// puis tournée d'un quart de tour (étiquette photographiée de côté).
+async function lireReferenceObjet(fichier) {
+  const bm = await createImageBitmap(fichier);
+  const lecteur = await Blister._lecteur();
+  const motif = /\b(?:LGL-?)?(KE|LGL|TO|LED|KC)\s?-?(\d{2,3}[A-Z]?)\b/i;
+  for (const angle of [0, 90, 270]) {
+    const [l, h] = angle % 180 ? [bm.height, bm.width] : [bm.width, bm.height];
+    const k = Math.min(1, 2400 / Math.max(l, h));
+    const cv = document.createElement("canvas");
+    cv.width = Math.round(l * k); cv.height = Math.round(h * k);
+    const x = cv.getContext("2d");
+    x.translate(cv.width / 2, cv.height / 2); x.rotate(angle * Math.PI / 180);
+    x.drawImage(bm, -bm.width * k / 2, -bm.height * k / 2, bm.width * k, bm.height * k);
+    const n = 4, hb = cv.height / n;
+    for (let i = 0; i < n; i++) {
+      const y0 = Math.max(0, i * hb - hb * 0.25), hh = Math.min(cv.height - y0, hb * 1.5);
+      const z = 1800 / cv.width, bande = document.createElement("canvas");
+      bande.width = 1800; bande.height = Math.round(hh * z);
+      bande.getContext("2d").drawImage(cv, 0, y0, cv.width, hh, 0, 0, bande.width, bande.height);
+      const { data } = await lecteur.recognize(bande);
+      const m = motif.exec(data.text || "");
+      if (m) { bm.close && bm.close(); return (m[1] + m[2]).toUpperCase(); }
+    }
+  }
+  bm.close && bm.close();
+  return "";
+}
+
 const EcranObjet = {
   async ouvrir() {
     for (const id of ["objet-nom", "objet-code", "objet-remarques"]) $(id).value = "";
@@ -10,26 +72,52 @@ const EcranObjet = {
     this.lister();
   },
 
-  // Objets dérivés récents (nouveautés Rebrickable) dont le nom correspond à ce qui est tapé : un toucher remplit le numéro
+  // Objets dérivés (catalogue complet) dont le nom ou la référence correspond à ce qui est tapé : un toucher remplit le numéro
   async suggerer() {
-    const zone = $("objet-nouveautes"), q = $("objet-nom").value.trim();
-    if (q.length < 2 || typeof Nouveautes === "undefined") { zone.innerHTML = ""; return; }
-    await Nouveautes.charger();
-    const res = Nouveautes.chercherObjets(q);
-    zone.innerHTML = res.map((n, i) => `<button class="proposition" data-objet-nouveau="${i}">
-        ${n.image ? `<img src="${echapper(n.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">Pas de photo</div>`}
-        <span class="nom-court">${echapper(n.nom)}</span>
-        <span class="code">${echapper(n.bricklink)}</span><span class="score">🆕 ${echapper(n.annee)}</span></button>`).join("");
-    zone.querySelectorAll("[data-objet-nouveau]").forEach(b => b.addEventListener("click", () => {
-      const n = res[+b.dataset.objetNouveau];
-      $("objet-nom").value = n.nom;
-      $("objet-code").value = n.bricklink;
-      if (/light|lampe|torch/i.test(n.nom)) $("objet-type").value = "Porte-clés lumineux";
-      else if (/key ?chain|porte/i.test(n.nom)) $("objet-type").value = "Porte-clés";
-      else if (/magnet/i.test(n.nom)) $("objet-type").value = "Magnet";
-      zone.innerHTML = "";
-      toast("Numéro rempli : vérifiez-le sur BrickLink si besoin.");
-    }));
+    const q = $("objet-nom").value.trim();
+    if (q.length < 2) { $("objet-nouveautes").innerHTML = ""; return; }
+    await CatalogueObjets.charger();
+    this.proposer(CatalogueObjets.chercher(q));
+  },
+
+  proposer(res, info = "") {
+    const zone = $("objet-nouveautes"), an = String(new Date().getFullYear());
+    zone.innerHTML = (info ? `<p class="aide" style="grid-column: 1 / -1">${info}</p>` : "") + res.map((o, i) => `<button class="proposition" data-objet-choix="${i}">
+        ${o.image ? `<img src="${echapper(o.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">Pas de photo</div>`}
+        <span class="nom-court">${echapper(o.nom)}</span>
+        <span class="code">${echapper(o.reference || o.bricklink)}</span><span class="score">${o.annee >= an ? "🆕 " : ""}${echapper(o.annee)}</span></button>`).join("");
+    zone.querySelectorAll("[data-objet-choix]").forEach(b => b.addEventListener("click", () => this.choisir(res[+b.dataset.objetChoix])));
+  },
+
+  choisir(o) {
+    $("objet-nom").value = o.nom;
+    $("objet-code").value = o.bricklink;
+    if (/light|lampe|torch/i.test(o.nom)) $("objet-type").value = "Porte-clés lumineux";
+    else if (/key ?chain|porte|key ?ring/i.test(o.nom)) $("objet-type").value = "Porte-clés";
+    else if (/magnet/i.test(o.nom)) $("objet-type").value = "Magnet";
+    else if (/clock|watch/i.test(o.nom)) $("objet-type").value = "Montre / réveil";
+    $("objet-nouveautes").innerHTML = `<div class="carte" style="grid-column: 1 / -1">${o.image ? `<img src="${echapper(o.image)}" alt="" style="max-width:120px;float:right">` : ""}
+      <b>${echapper(o.nom)}</b><br><span class="score">${echapper(o.reference)} · ${echapper(o.annee)} · numéro BrickLink : ${echapper(o.bricklink)}</span>
+      <br><a href="https://www.bricklink.com/v2/search.page?q=${encodeURIComponent(o.reference || o.bricklink)}#T=G" target="_blank" rel="noopener">Vérifier sur BrickLink</a></div>`;
+  },
+
+  // Photo de l'étiquette : lecture de la référence (ex. KE48H) puis recherche dans le catalogue
+  async photo(fichier) {
+    $("objet-nouveautes").innerHTML = `<p class="aide" style="grid-column: 1 / -1">⏳ Lecture de l'étiquette… (jusqu'à une demi-minute)</p>`;
+    let ref = "";
+    try { [ref] = await Promise.all([lireReferenceObjet(fichier), CatalogueObjets.charger()]); }
+    catch (err) { console.error(err); }
+    if (!ref) {
+      $("objet-nouveautes").innerHTML = "";
+      await demander("Je n'ai pas trouvé la référence sur la photo. Photographie la face avant, de près, bien à plat : la référence (ex. « KE48H ») est écrite au-dessus du code-barres.\n\nTu peux aussi taper le nom ou la référence.", "OK", "Fermer");
+      return;
+    }
+    const res = CatalogueObjets.parReference(ref);
+    if (res.length === 1) { this.choisir(res[0]); toast(`Référence ${ref} reconnue ✔`); return; }
+    if (res.length) { this.proposer(res, `Référence lue : <b>${echapper(ref)}</b>. Touche le bon :`); return; }
+    $("objet-code").value = "LGL-" + ref;
+    $("objet-nouveautes").innerHTML = `<p class="aide" style="grid-column: 1 / -1">Référence lue : <b>${echapper(ref)}</b>, pas encore dans le catalogue.
+      Numéro BrickLink probable : LGL-${echapper(ref)}. <a href="https://www.bricklink.com/v2/search.page?q=${encodeURIComponent(ref)}#T=G" target="_blank" rel="noopener">Vérifier sur BrickLink</a></p>`;
   },
 
   chercher() {
@@ -77,4 +165,9 @@ document.addEventListener("click", e => {
 {
   let minuteur;
   $("objet-nom").addEventListener("input", () => { clearTimeout(minuteur); minuteur = setTimeout(() => EcranObjet.suggerer(), 250); });
+  $("input-objet-photo").addEventListener("change", e => {
+    const f = e.target.files[0];
+    e.target.value = "";
+    if (f) EcranObjet.photo(f);
+  });
 }
