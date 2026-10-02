@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v108 (02/10) : PHOTOS COUCHÉES SUR IPHONE (Mathias : pas de rotation automatique sur la version iPhone). Safari ne
+    tient pas toujours compte du sens EXIF dans createImageBitmap (les <img> oui). js/orientation.js (chargé en premier,
+    deux applis) : test au démarrage avec une photo 4×2 « à tourner » ; si elle n'est pas tournée, chaque photo passe par
+    une <img> redessinée sur un canvas. Sans effet sur Android/Chrome. Vérifié par simulation (EXIF ignoré) : 400×200 ->
+    200×400 ; pas encore vu sur un vrai iPhone.
   · v107 (02/10) : étiquette retirée de l'écran « Ajoutée » (collection dans l'appli ; Mathias : elle ne sert qu'au
     moment d'imprimer, écran Impression). Gardée avec un fichier Excel.
   · v106 (02/10) : ÉCRAN « AJOUTÉE » REFAIT (demande de Mathias). Message court (« Ajoutée à votre collection
