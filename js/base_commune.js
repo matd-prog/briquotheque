@@ -3,7 +3,8 @@
 // les deux applis.
 // - dépôt public (lu par les deux applis, sans jeton) : data/jb_commune.tsv (code BC-…, nom ; même format que les
 //   autres listes du catalogue JB, js/catalogue_jb.js) et data/jb_empreintes_commune.tsv (empreinte du décor,
-//   js/empreinte.js) : des noms et des empreintes seulement, pas de photo ;
+//   js/empreinte.js), data/jb_versos.tsv (texte imprimé au dos, js/catalogue_jb.js) : des noms, des empreintes et
+//   des textes seulement, pas de photo ;
 // - dépôt privé : les photos (album_photos/commune/BC-…_recto.jpg, _verso.jpg) et album_photos/commune.tsv
 //   (numéro, qui l'a envoyé, date).
 // Seule l'appli principale envoie (jeton GitHub de l'écran Valeur, qui doit donner accès aux deux dépôts) ;
@@ -70,11 +71,26 @@ const BaseCommune = {
     const enAttente = this.enAttente(entrees);
     if (!enAttente.length) return 0;
     const cle = t => normaliser(t).replace(/[^a-z0-9]+/g, " ").trim();
-    const connues = new Set();
+    const connues = new Map(), avecVerso = new Set(); // nom -> figurine de la base commune ; figurines au verso déjà lu
     try {
-      const { texte } = await this._lire(DEPOT_PUBLIC, "data/jb_commune.tsv");
-      for (const l of texte.split("\n").slice(1)) { const nom = l.split("\t")[1]; if (nom) connues.add(cle(nom)); }
+      const [{ texte }, versos] = await Promise.all([this._lire(DEPOT_PUBLIC, "data/jb_commune.tsv"), this._lire(DEPOT_PUBLIC, "data/jb_versos.tsv")]);
+      for (const l of texte.split("\n").slice(1)) { const [code, nom, , , , , , rattache] = l.split("\t"); if (nom) connues.set(cle(nom), (rattache || "").trim() || code); }
+      for (const l of versos.texte.split("\n").slice(1)) { const code = l.split("\t")[0]; if (code) avecVerso.add(code.toUpperCase()); }
     } catch (err) { console.warn("base commune : liste des noms illisible", err); }
+    // texte du verso (data/jb_versos.tsv, public : c'est le texte imprimé au dos), lu au besoin
+    const versos = [];
+    const texteDuVerso = async e => {
+      if (!e.versoTexte && e.verso && typeof Paddle !== "undefined") {
+        try { e.versoTexte = texteVerso((await Paddle.lignes(await createImageBitmap(e.verso))).map(l => l.texte).join("\n")); }
+        catch (err) { console.warn("verso illisible", err); }
+      }
+      return texteVerso(e.versoTexte || "").split("\n").map(l => l.replace(/[\t\/]/g, " ").trim()).filter(Boolean).join(" / ");
+    };
+    const ajouterVerso = async (code, e) => {
+      if (!code || avecVerso.has(code.toUpperCase()) || !e || !e.verso) return;
+      const t = await texteDuVerso(e);
+      if (t.length >= 20) { versos.push(`${code}\t${t}`); avecVerso.add(code.toUpperCase()); }
+    };
     const groupes = new Map(); // figurine -> exemplaires en attente
     for (const e of enAttente) {
       const k = cle(nomComplet(e));
@@ -83,12 +99,21 @@ const BaseCommune = {
     }
     const liste = [], doublons = [];
     for (const [k, g] of groupes) {
-      if (connues.has(k)) { doublons.push(...g); continue; } // déjà dans la base commune
+      if (connues.has(k)) { // déjà dans la base commune : seulement le texte du verso, s'il manque
+        doublons.push(...g);
+        const e = g.find(x => x.verso);
+        await ajouterVerso(e && e.code || connues.get(k), e);
+        continue;
+      }
       const rep = g.find(e => e.verso) || g[0]; // de préférence un exemplaire photographié recto et verso
       liste.push(rep);
       doublons.push(...g.filter(e => e !== rep));
     }
-    if (!liste.length) { for (const e of doublons) e.commune = true; return 0; }
+    if (!liste.length) {
+      if (versos.length) await this._ajouterVersos(versos).catch(err => console.warn("base commune : versos", err));
+      for (const e of doublons) e.commune = true;
+      return 0;
+    }
     const date = new Date().toISOString().slice(0, 10), noms = [], empreintes = [], figurines = [], prives = [];
     let n = 0;
     for (const e of liste) {
@@ -106,23 +131,18 @@ const BaseCommune = {
       empreintes.push(`${code}\t${empreinte}`);
       figurines.push(`${code}\t${empreinteFig}`);
       prives.push([code, e.nom, e.precision, e.numero, e.serie, e.code, qui, date, recto.replace("album_photos/", ""), verso.replace("album_photos/", "")].map(propre).join("\t"));
+      await ajouterVerso(propre(e.code) || code, e);
       e.communeCode = code;
       n++;
       if (progression) progression(n, liste.length);
     }
-    // listes : une seule écriture par fichier pour tout l'envoi
-    const ajouter = async (depot, chemin, entete, lignes) => {
-      const { texte, sha } = await this._lire(depot, chemin);
-      const base = texte.trim() ? texte.replace(/\n*$/, "\n") : entete + "\n";
-      const deja = new Set(base.split("\n").map(l => l.split("\t")[0]));
-      const nouvelles = lignes.filter(l => !deja.has(l.split("\t")[0])); // envoi précédent interrompu
-      if (nouvelles.length) await this._ecrire(depot, chemin, this._texteEn64(base + nouvelles.join("\n") + "\n"), sha, `Base commune : ${nouvelles.length} blister(s)`);
-    };
+    const ajouter = (...a) => this._ajouterLignes(...a);
     await ajouter(DEPOT_PRIVE, "album_photos/commune.tsv", "code\tnom\tprecision\tnumero\tserie\tcode_catalogue\tqui\tdate\tphoto\tverso", prives);
     try {
       await ajouter(DEPOT_PUBLIC, "data/jb_commune.tsv", "code\tnom\tcategorie\tlien\timage\tprix\tdispo\trattache", noms);
       await ajouter(DEPOT_PUBLIC, "data/jb_empreintes_commune.tsv", "code\tempreinte", empreintes);
       await ajouter(DEPOT_PUBLIC, "data/jb_empreintes_figurine.tsv", "code\tempreinte", figurines);
+      if (versos.length) await this._ajouterVersos(versos);
     } catch (err) {
       if (err.statut === 403 || err.statut === 404 || /40[34]/.test(err.message)) {
         const e2 = new Error("acces-public"); e2.cause = err; throw e2;
@@ -132,6 +152,16 @@ const BaseCommune = {
     for (const e of [...liste, ...doublons]) e.commune = true;
     return n;
   },
+
+  // listes : une seule écriture par fichier pour tout l'envoi
+  async _ajouterLignes(depot, chemin, entete, lignes) {
+    const { texte, sha } = await this._lire(depot, chemin);
+    const base = texte.trim() ? texte.replace(/\n*$/, "\n") : entete + "\n";
+    const deja = new Set(base.split("\n").map(l => l.split("\t")[0]));
+    const nouvelles = lignes.filter(l => !deja.has(l.split("\t")[0])); // envoi précédent interrompu
+    if (nouvelles.length) await this._ecrire(depot, chemin, this._texteEn64(base + nouvelles.join("\n") + "\n"), sha, `Base commune : ${nouvelles.length} blister(s)`);
+  },
+  _ajouterVersos(lignes) { return this._ajouterLignes(DEPOT_PUBLIC, "data/jb_versos.tsv", "code\ttexte", lignes); },
 
   // Envoi discret après un ajout (appli principale, avec jeton) ; une erreur n'empêche rien : réessayé plus tard
   async envoyerEnFond(base) {

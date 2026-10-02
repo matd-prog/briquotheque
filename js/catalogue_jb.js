@@ -153,6 +153,59 @@ const CatalogueJB = {
     return res.sort((a, b) => b.score - a.score).slice(0, max);
   },
 
+  // Textes imprimés au dos des blisters (data/jb_versos.tsv : code de la figurine, texte du verso lu par l'appli,
+  // lignes séparées par « / »). Le dos raconte souvent l'histoire de la figurine (« THE FORMIDABLE DARK-FORCE WARLORD
+  // DARTH DONUT… ») : il aide à la reconnaître. Comparaison par morceaux de 4 lettres (la lecture colle souvent des
+  // mots entre eux), un morceau commun à beaucoup de versos comptant peu.
+  versos: null,
+  chargerVersos() {
+    if (!this._chargementVersos) {
+      this._chargementVersos = Promise.all([this.charger(), fetch("data/jb_versos.tsv").then(rep => rep.ok ? rep.text() : "").catch(() => "")])
+        .then(([, texte]) => {
+          const parFiche = new Map();
+          for (const ligne of texte.split("\n").slice(1)) {
+            const [code, t] = ligne.split("\t");
+            const f = code && t && this.trouver(code.trim());
+            if (!f) continue;
+            if (!parFiche.has(f)) parFiche.set(f, new Set());
+            for (const g of morceauxVerso(t.replace(/ \/ /g, "\n"))) parFiche.get(f).add(g);
+          }
+          const df = new Map();
+          for (const s of parFiche.values()) for (const g of s) df.set(g, (df.get(g) || 0) + 1);
+          const n = parFiche.size;
+          this.versos = { parFiche, n, poids: g => Math.log(n / (df.get(g) || 1)) };
+          return this.versos;
+        })
+        .catch(err => { this._chargementVersos = null; throw err; });
+    }
+    return this._chargementVersos;
+  },
+
+  // Figurines dont le verso ressemble au texte lu au dos d'un blister : { fiches, generique }. Texte commun à
+  // beaucoup de figurines (« THIS CHROME COLLECTION IS EXCLUSIVELY AVAILABLE… ») : aucune n'est proposée
+  // (generique vrai). Même histoire pour deux ou trois figurines (variantes de couleur) : elles sont toutes proposées.
+  rapprocherVerso(texte) {
+    const v = this.versos;
+    const propre = texteVerso(texte || "");
+    // textes connus communs à toute une série (Whatnot : « … EXCLUSIVELY AVAILABLE DURING OUR WHATNOT STREAMS »)
+    if (/WHATNOTSTREAM/.test(lettresVerso(propre))) return { fiches: [], generique: true };
+    const lus = morceauxVerso(propre);
+    if (!v || !v.n || lus.size < 20) return { fiches: [], generique: false };
+    let total = 0;
+    for (const g of lus) total += v.poids(g);
+    const res = [];
+    for (const [f, s] of v.parFiche) {
+      let commun = 0;
+      for (const g of lus) if (s.has(g)) commun += v.poids(g);
+      res.push({ f, score: total ? commun / total : 0 });
+    }
+    res.sort((a, b) => b.score - a.score);
+    if (!res.length || res[0].score < 0.25) return { fiches: [], generique: false };
+    const proches = res.filter(r => r.score >= 0.8 * res[0].score);
+    if (proches.length > 3) return { fiches: [], generique: true };
+    return { fiches: proches.map(r => r.f), generique: false, score: res[0].score };
+  },
+
   // Code de la fiche et ses alias (même figurine dans une autre liste), en majuscules
   codes(f) { return [f.code, ...(f.alias || [])].map(c => c.toUpperCase()); },
 
@@ -219,6 +272,24 @@ function nomCustomPourFichier(nom) {
   const court = nom.replace(/\s*\bc[ou]s?t[ou]m\s+minifig(ure|ur)?s?\b/i, "").replace(/\s+/g, " ").trim();
   const m = /^(.*?)\s+(designed by .*|\d+ of \d+|halloween .*|christmas .*)$/i.exec(court);
   return m ? `${m[1].toUpperCase()} ${m[2]}` : court.toUpperCase();
+}
+
+// Texte du verso sans les mentions communes à tous les blisters (avertissement « choking hazard », « not an official
+// LEGO product », logo JB…) ni les bouts trop courts ; une ligne par ligne lue
+function texteVerso(texte) {
+  const commun = /WARNING|CHOKING|HAZARD|SMALLPART|CHILDREN|YEARSOR|INDIVIDUAL|OFFICIAL|LEGOPRODUCT|POSTPROCESS|PROCESSEDLEGO|LEGOBRICK|SPIEL|TENDEN|INEDIB|WWWJB|NOTFORCHILD|ALLERGEN|ERSTICK|KLEINTEILE|VERSCHLUCK/;
+  return String(texte).split("\n").map(l => l.trim())
+    .filter(l => { const L = lettresVerso(l); return L.length >= 8 && !commun.test(L); }).join("\n");
+}
+function lettresVerso(l) { return l.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().replace(/[^A-Z]/g, ""); }
+// Morceaux de 4 lettres de chaque ligne
+function morceauxVerso(texte) {
+  const res = new Set();
+  for (const l of String(texte).split("\n")) {
+    const L = lettresVerso(l);
+    for (let i = 0; i + 4 <= L.length; i++) res.add(L.slice(i, i + 4));
+  }
+  return res;
 }
 
 // Nombre de lettres à changer pour passer d'un mot à l'autre (distance de Levenshtein)

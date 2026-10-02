@@ -125,6 +125,16 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v103 (02/10) : TEXTE DU VERSO POUR RECONNAÎTRE LA FIGURINE (idée de Mathias : au dos, certaines figurines ont leur
+    histoire, « THE FORMIDABLE DARK-FORCE WARLORD DARTH DONUT… »). Le verso est lu (PaddleOCR) après le recto ; mentions
+    communes retirées (texteVerso : choking hazard, not an official LEGO product, logo JB…) ; comparaison par morceaux de
+    4 lettres pondérés (la lecture colle des mots). « 📜 Le texte du verso confirme : X » ou « ce serait plutôt : [X] »
+    (bouton). Texte générique (Whatnot, même texte sur plus de 3 figurines) : rien. Même histoire pour 2-3 variantes
+    (ex. Homer) : toutes proposées. data/jb_versos.tsv (public : code de la figurine, texte imprimé) : 73 textes / 71
+    figurines, tirés des 159 versos de la base commune ; essai « un verso retiré » : 107 justes, 0 faux, 16 sans
+    réponse (génériques ou variantes). Envoi base commune : texte du verso ajouté (lu au besoin), aussi pour une
+    figurine déjà connue sans texte. Export .zip : colonne texte_verso. Bouton « Passer » du verso supprimé (deux
+    applis) : verso demandé à chaque blister, confirmation pour ajouter sans verso.
   · v102 (02/10) : IMPORT DE SCANS EN PDF (scanner de documents de l'iPhone, app Fichiers ou Notes : il enregistre en PDF,
     pas dans Photos). Base._pagesDesPdf : chaque page -> photo JPEG (2000 px), dans l'ordre des pages ; pdf.js 4.10.38
     (Mozilla, build « legacy » pour Safari) dans lib/pdfjs, chargé seulement au premier PDF. Champs galerie et série :

@@ -31,7 +31,8 @@ const Base = {
   },
 
   _nouvelle() {
-    this.photo = null; this.verso = null; this.versoPasse = false;
+    this.photo = null; this.verso = null; this.versoPasse = false; this.versoTexte = "";
+    if ($("base-verso-info")) { $("base-verso-info").hidden = true; $("base-verso-info").innerHTML = ""; }
     this.source = this.sourceVerso = this.cadre = this.cadreVerso = null;
     if ($("base-recadrage")) $("base-recadrage").hidden = true;
     if ($("base-recadrer-boutons")) $("base-recadrer-boutons").hidden = true; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.proches = []; this.semblables = [];
@@ -405,6 +406,7 @@ const Base = {
       this.cadreVerso = cadre;
       this.verso = await this._reduire(this.sourceVerso.fichier, this.sourceVerso.sens, cadre);
       $("base-verso").src = URL.createObjectURL(this.verso);
+      this._lireVerso();
     } else {
       this.cadre = cadre;
       this.photo = await this._reduire(this.source.fichier, this.source.sens, cadre);
@@ -456,7 +458,13 @@ const Base = {
     if ($("base-numeros-etat")) $("base-numeros-etat").hidden = non;
   },
 
-  async lirePhoto(fichier) {
+  // la lecture du verso attend la fin de celle du recto (un seul outil de lecture à la fois)
+  lirePhoto(fichier) {
+    this._lectureRecto = this._lirePhoto(fichier);
+    return this._lectureRecto;
+  },
+
+  async _lirePhoto(fichier) {
     this._nouvelle();
     $("base-photo").src = URL.createObjectURL(fichier);
     this._demanderVerso();
@@ -516,6 +524,7 @@ const Base = {
       : "Le nom n'a pas été lu : tapez-le tel qu'il est imprimé sur le blister, ou choisissez un blister qui ressemble.";
     $("base-fiche").hidden = false;
     this._deja();
+    if (this.versoTexte) this._afficherVerso();
   },
 
   // Nom à écrire pour un blister du catalogue : nom imprimé (sans « Custom Minifigure »), et précision pour ceux de
@@ -544,6 +553,57 @@ const Base = {
     $("base-verso").src = URL.createObjectURL(this.verso);
     $("base-verso").hidden = false;
     this._demanderVerso();
+    this._lireVerso();
+  },
+
+  // Texte du dos du blister, lu pendant qu'on remplit la fiche : il raconte souvent l'histoire de la figurine et
+  // aide à la reconnaître (data/jb_versos.tsv) ; il est gardé avec le blister et envoyé à la base commune
+  async _lireVerso() {
+    const verso = this.verso;
+    if (!verso || typeof Paddle === "undefined") return;
+    this.versoTexte = "";
+    try {
+      if (this._lectureRecto) await this._lectureRecto.catch(() => {});
+      if (this.verso !== verso) return; // autre photo entre-temps
+      let lignes = await Paddle.lignes(await createImageBitmap(verso));
+      // presque rien lu : le recadrage a pu couper le texte, essai sur la photo entière
+      if (lignes.length < 3 && this.sourceVerso && this.verso === verso) {
+        const entiere = await Paddle.lignes(await createImageBitmap(await this._reduire(this.sourceVerso.fichier, this.sourceVerso.sens, null)));
+        if (entiere.length > lignes.length) lignes = entiere;
+      }
+      if (this.verso !== verso) return;
+      this.versoTexte = texteVerso(lignes.map(l => l.texte).join("\n"));
+      await CatalogueJB.chargerVersos();
+      if (this.verso === verso) this._afficherVerso();
+    } catch (err) { console.warn("verso : lecture impossible", err); }
+  },
+
+  // Figurine(s) dont le dos porte le même texte : confirmation du nom choisi, ou proposition(s) à toucher.
+  // Nom pas encore trouvé et une seule figurine : elle est choisie.
+  _afficherVerso() {
+    const info = $("base-verso-info");
+    if (!info) return;
+    const { fiches } = CatalogueJB.rapprocherVerso(this.versoTexte);
+    info.hidden = !fiches.length;
+    if (!fiches.length) { info.innerHTML = ""; return; }
+    const noms = fiches.map(f => ({ ...this._nomEtPrecision(f), code: f.code }));
+    const actuel = $("base-nom").value.trim().toUpperCase();
+    const choisie = fiches.find(f => (this.codeLu && CatalogueJB.codes(f).includes(this.codeLu.toUpperCase())) ||
+      (actuel && normaliser(this._nomEtPrecision(f).nom) === normaliser(actuel) && fiches.length === 1));
+    if (!actuel && fiches.length === 1 && !$("base-fiche").hidden) { this._choisirNom(noms[0]); this._deja(); }
+    if (choisie || (!actuel && fiches.length === 1)) {
+      const autres = noms.filter((s, i) => fiches[i] !== (choisie || fiches[0]));
+      info.innerHTML = `📜 Le texte du verso confirme : <b>${echapper(nomComplet(noms[fiches.indexOf(choisie || fiches[0])]))}</b>` +
+        (autres.length ? ` (même texte que : ${autres.map(s => echapper(nomComplet(s))).join(", ")})` : "");
+      return;
+    }
+    info.innerHTML = `📜 D'après le texte du verso, ce serait plutôt${fiches.length > 1 ? " l'une de celles-ci" : ""} : ` +
+      noms.map((s, i) => `<button class="petit" data-base-verso-nom="${i}">${echapper(nomComplet(s))}</button>`).join(" ");
+    info.querySelectorAll("[data-base-verso-nom]").forEach(b => b.addEventListener("click", () => {
+      this._choisirNom(noms[+b.dataset.baseVersoNom]);
+      this._deja();
+      this._afficherVerso();
+    }));
   },
 
   passerVerso() { this.versoPasse = true; this._demanderVerso(); },
@@ -743,7 +803,7 @@ const Base = {
     const precision = $("base-precision") ? $("base-precision").value.trim() : "";
     const code = this.codeLu && normaliser(nom) === normaliser(this.nomLu) ? this.codeLu : "";
     this.entrees.push({ id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, recadre: true, nom, precision, numerote: false,
-                        numero: "", serie: "", remarque: $("base-remarque").value.trim(), code, photo: this.photo, verso: this.verso,
+                        numero: "", serie: "", remarque: $("base-remarque").value.trim(), code, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte || "",
                         exporte: false, possede: false, date: new Date().toISOString() });
     await Memoire.ecrire(this.entrees, "base");
     toast(`« ${nomComplet({ nom, precision })} » ajouté à la base commune ✔ (pas dans votre collection)`, 4500);
@@ -761,7 +821,7 @@ const Base = {
     if (!this.photo) { toast("Photographiez d'abord un blister."); return; }
     if (!nom) { await demander("Tapez le nom imprimé sur le blister.", "OK", "Fermer"); return; }
     if (!this.verso && !this.versoPasse && $("base-etape-verso") &&
-        !(await demander("Pas de photo du verso. Ajouter ce blister sans verso ?", "Ajouter sans verso", "Annuler"))) return;
+        !(await demander("Pas de photo du verso. Le verso est demandé pour chaque blister : son texte aide à reconnaître la figurine.\n\nAjouter quand même ce blister sans verso ?", "Ajouter sans verso", "Prendre le verso"))) return;
     // nom corrigé à la main : le code de la figurine proposée ne vaut plus
     const code = this.codeLu && normaliser(nom) === normaliser(this.nomLu) ? this.codeLu : "";
     const nonNumerote = !!($("base-non-numerote") && $("base-non-numerote").checked);
@@ -793,7 +853,7 @@ const Base = {
       numeros = garder; n = garder.length;
     }
     const commun = { recadre: true, nom, precision, numerote: !nonNumerote, serie: nonNumerote ? "" : $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
-                     code, photo: this.photo, verso: this.verso, exporte: false };
+                     code, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte || "", exporte: false };
     for (const numero of numeros)
       this.entrees.push({ ...commun, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
                           numero: nonNumerote ? "" : numero, date: new Date().toISOString() });
@@ -817,7 +877,7 @@ const Base = {
     }
     // on garde la figurine : « Autre exemplaire » ne demande que le numéro
     this._precedent = { source: this.source, sourceVerso: this.sourceVerso, cadre: this.cadre, cadreVerso: this.cadreVerso,
-                        nom, precision, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, serie: commun.serie,
+                        nom, precision, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte, serie: commun.serie,
                         remarque: commun.remarque, nonNumerote };
     this._nouvelle();
     if (compteExcel) $("base-etat").textContent = compteExcel;
@@ -833,7 +893,7 @@ const Base = {
   exemplaireDe(id) {
     const e = this.entrees.find(x => x.id === id);
     if (!e) return;
-    this._precedent = { photo: e.photo, verso: e.verso, nom: e.nom, precision: e.precision || "", code: e.code || "",
+    this._precedent = { photo: e.photo, verso: e.verso, versoTexte: e.versoTexte || "", nom: e.nom, precision: e.precision || "", code: e.code || "",
                         nomLu: e.nom, codeLu: e.code || "", serie: e.serie || "", remarque: e.remarque || "", nonNumerote: e.numerote === false,
                         source: null, sourceVerso: null, cadre: null, cadreVerso: null };
     this.autreExemplaire();
@@ -854,7 +914,7 @@ const Base = {
       const { blob, cadre } = await this._preparer(fichier, 0);
       Object.assign(this, { photo: blob, cadre, source: { fichier, sens: 0 }, nomLu: p.nomLu, codeLu: p.codeLu });
       this._demanderVerso();
-    } else Object.assign(this, { photo: p.photo, verso: p.verso, versoPasse: !p.verso, nomLu: p.nomLu, codeLu: p.codeLu,
+    } else Object.assign(this, { photo: p.photo, verso: p.verso, versoTexte: p.versoTexte || "", versoPasse: !p.verso, nomLu: p.nomLu, codeLu: p.codeLu,
                                  source: p.source, sourceVerso: p.sourceVerso, cadre: p.cadre, cadreVerso: p.cadreVerso });
     this._boutonsRecadrer();
     $("base-photo").src = URL.createObjectURL(this.photo);
@@ -891,7 +951,8 @@ const Base = {
         if (!photo) continue;
         envoi.push({ id: "A" + v.id, nom: v.nom, precision: v.precision || "", numero: v.numero || "", serie: v.serie || "", code: v.code || "",
           photo: new Blob([await photo.async("arraybuffer")], { type: "image/jpeg" }),
-          verso: verso ? new Blob([await verso.async("arraybuffer")], { type: "image/jpeg" }) : null });
+          verso: verso ? new Blob([await verso.async("arraybuffer")], { type: "image/jpeg" }) : null,
+          versoTexte: (v.texte_verso || "").replace(/ \/ /g, "\n") });
       }
       await BaseCommune.ajouterEnvoiAmi(envoi);
       return;
@@ -907,7 +968,8 @@ const Base = {
       this.entrees.push({ id: v.id, nom: v.nom, precision: v.precision || "", numerote: v.numerote !== "non", numero: v.numero || "", serie: v.serie || "",
         remarque: v.remarque || "", code: v.code || "", date: v.date || new Date().toISOString(),
         photo: new Blob([await photo.async("arraybuffer")], { type: "image/jpeg" }),
-        verso: verso ? new Blob([await verso.async("arraybuffer")], { type: "image/jpeg" }) : null, exporte: false, possede: v.possede !== "non" });
+        verso: verso ? new Blob([await verso.async("arraybuffer")], { type: "image/jpeg" }) : null, versoTexte: (v.texte_verso || "").replace(/ \/ /g, "\n"),
+        exporte: false, possede: v.possede !== "non" });
       connus.add(v.id); ajoutes++;
     }
     await Memoire.ecrire(this.entrees, "base");
@@ -1126,11 +1188,12 @@ const Base = {
   async exporter() {
     if (!this.entrees.length) return;
     const zip = new JSZip();
-    const lignes = ["id\tnom\tnumerote\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso\tprecision\tpossede"];
+    const lignes = ["id\tnom\tnumerote\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso\tprecision\tpossede\ttexte_verso"];
     for (const e of this.entrees) {
       zip.file(`photos/${e.id}.jpg`, e.photo);
       if (e.verso) zip.file(`photos/${e.id}_verso.jpg`, e.verso);
-      lignes.push([e.id, e.nom, e.numerote === false ? "non" : "oui", e.numero, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`, e.verso ? `photos/${e.id}_verso.jpg` : "", e.precision, e.possede === false ? "non" : "oui"].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
+      lignes.push([e.id, e.nom, e.numerote === false ? "non" : "oui", e.numero, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`, e.verso ? `photos/${e.id}_verso.jpg` : "", e.precision, e.possede === false ? "non" : "oui",
+                  String(e.versoTexte || "").split("\n").join(" / ")].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
     }
     zip.file("base.tsv", lignes.join("\n") + "\n");
     const contenu = await zip.generateAsync({ type: "blob" });
