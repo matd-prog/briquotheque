@@ -489,6 +489,9 @@
       <summary class="sous-titre">📋 Plusieurs figurines d'un coup</summary>
       <p class="aide">Tapez ou collez plusieurs codes BrickLink, séparés par des espaces, des virgules ou des retours à la
         ligne (ex. « SH0015 SH0036, SH0065 »). L'appli vous montre chaque figurine avant d'ajouter.</p>
+      <label class="bouton gris">📷 Lire les codes sur des photos (vitrines, présentoirs…)
+        <input type="file" id="input-plusieurs-photo" accept="image/*" multiple hidden></label>
+      <p class="score" id="plusieurs-photo-etat"></p>
       <textarea id="plusieurs-codes" class="champ" rows="4" autocapitalize="characters" autocomplete="off" spellcheck="false"
         placeholder="SH0015 SH0036 SH0065…"></textarea>
       <button class="bouton bleu" data-action="verifier-plusieurs">Vérifier la liste</button>

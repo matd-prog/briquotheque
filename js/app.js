@@ -93,7 +93,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v87"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v88"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -1438,6 +1438,77 @@ async function ajouterPlusieurs() {
     await demander(`L'ajout s'est arrêté après ${fait} figurine(s) sur ${total} : ${err.message}`, "OK", "Fermer");
   }
 }
+// Codes lus sur des photos de vitrines ou de présentoirs (étiquettes avec le code BrickLink). La photo est lue par
+// morceaux qui se chevauchent : le lecteur réduit chaque image à 1280 px, une vitrine entière rendrait les étiquettes
+// trop petites. Seuls les codes du catalogue BrickLink sont gardés ; un code vu sur plusieurs photos compte une fois.
+const MORCEAU_PHOTO = 1100, CHEVAUCHEMENT = 220;
+function codesDuTexte(texte) {
+  const res = [];
+  const chiffre = x => x.replace(/O/g, "0").replace(/[IL]/g, "1").replace(/S/g, "5").replace(/Z/g, "2").replace(/B/g, "8");
+  for (const m of texte.toUpperCase().matchAll(/\b([A-Z]{2,4})[\s\-]?([0-9OILSZB]{3,4})([A-Z]{0,3})\b/g)) {
+    // 3 ou 4 chiffres (le lecteur confond parfois O/0, I/1, L/1, S/5, Z/2, B/8), puis un suffixe éventuel (« as », « s »)
+    const essais = [];
+    for (const k of [m[2].length, 3]) {
+      if (k > m[2].length) continue;
+      const corps = m[1] + chiffre(m[2].slice(0, k)), suite = m[2].slice(k) + m[3];
+      if (/\D/.test(corps.slice(m[1].length))) continue;
+      essais.push(corps + suite, corps);
+    }
+    // « SHO072 » : le 0 lu comme la lettre O, rattachée au préfixe
+    if (/[OIL]$/.test(m[1]) && m[1].length > 2 && m[2].length === 3) {
+      const corps = m[1].slice(0, -1) + chiffre(m[1].slice(-1) + m[2]);
+      if (!/\D/.test(corps.slice(m[1].length - 1))) essais.push(corps + m[3], corps);
+    }
+    const bon = essais.find(c => Catalogue.trouver(c));
+    if (bon) res.push(bon);
+  }
+  return res;
+}
+async function lireCodesPhotos(fichiers) {
+  if (!fichiers.length) return;
+  const etatLecture = $("plusieurs-photo-etat");
+  await Catalogue.charger().catch(() => {});
+  if (!Catalogue.liste) { await demander("Le catalogue BrickLink n'est pas encore installé dans l'appli : impossible de reconnaître les codes.", "OK", "Fermer"); return; }
+  const trouves = new Set();
+  try {
+    etatLecture.textContent = "Préparation du lecteur de texte (la première fois : environ 27 Mo à télécharger)…";
+    await Paddle.charger();
+    for (let f = 0; f < fichiers.length; f++) {
+      const image = await createImageBitmap(fichiers[f]);
+      const pas = MORCEAU_PHOTO - CHEVAUCHEMENT;
+      const xs = [], ys = [];
+      for (let x = 0; ; x += pas) { xs.push(Math.min(x, Math.max(0, image.width - MORCEAU_PHOTO))); if (x + MORCEAU_PHOTO >= image.width) break; }
+      for (let y = 0; ; y += pas) { ys.push(Math.min(y, Math.max(0, image.height - MORCEAU_PHOTO))); if (y + MORCEAU_PHOTO >= image.height) break; }
+      let n = 0;
+      for (const y of ys) for (const x of xs) {
+        n++;
+        etatLecture.textContent = `Lecture de la photo ${f + 1} sur ${fichiers.length}… (${Math.round(100 * n / (xs.length * ys.length))} %) · ${trouves.size} code(s) trouvé(s)`;
+        const cv = document.createElement("canvas");
+        cv.width = Math.min(MORCEAU_PHOTO, image.width); cv.height = Math.min(MORCEAU_PHOTO, image.height);
+        cv.getContext("2d").drawImage(image, x, y, cv.width, cv.height, 0, 0, cv.width, cv.height);
+        for (const l of await Paddle.lignes(cv)) codesDuTexte(l.texte).forEach(c => trouves.add(c));
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    etatLecture.textContent = "";
+    await demander("La lecture de la photo a échoué : " + err.message, "OK", "Fermer");
+    return;
+  }
+  const deja = new Set($("plusieurs-codes").value.toUpperCase().split(/[\s,;]+/).filter(Boolean));
+  const nouveaux = [...trouves].filter(c => !deja.has(c)).sort();
+  etatLecture.textContent = `${trouves.size} code(s) lu(s) sur ${fichiers.length > 1 ? `les ${fichiers.length} photos` : "la photo"}` +
+    (trouves.size - nouveaux.length ? ` (${trouves.size - nouveaux.length} déjà dans la liste)` : "") +
+    ". Vérifiez la liste : une étiquette cachée ou floue peut manquer, ajoutez son code à la main.";
+  if (nouveaux.length) $("plusieurs-codes").value = ($("plusieurs-codes").value.trim() + " " + nouveaux.join(" ")).trim();
+  await verifierPlusieurs();
+}
+if ($("input-plusieurs-photo")) $("input-plusieurs-photo").addEventListener("change", e => {
+  const f = [...e.target.files];
+  e.target.value = "";
+  lireCodesPhotos(f);
+});
+
 document.addEventListener("change", e => {
   const c = e.target.closest("[data-plusieurs]");
   if (c && listePlusieurs[+c.dataset.plusieurs]) { listePlusieurs[+c.dataset.plusieurs].coche = c.checked; rendrePlusieurs(); }

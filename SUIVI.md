@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v88 (02/10) : « 📷 Lire les codes sur des photos (vitrines, présentoirs…) » dans « Plusieurs figurines d'un coup » :
+    PaddleOCR par morceaux de 1100 px (chevauchement 220 ; 800 et 1280 testés, pas mieux), codes reconnus seulement s'ils
+    sont au catalogue (confusions O/0, I/1, S/5… corrigées, suffixes « as »/« s »), dédoublonnés entre photos, ajoutés à la
+    liste à vérifier. Essai sur les 4 photos de l'armurerie Iron Man : 60 justes sur 63 en 44 s (SH0254 et SH0612 de biais
+    manqués, SH0072a lu SH0072), 1 lecture en trop (SH0223, étiquette coupée).
   · v87 (02/10) : AJOUT EN MASSE — écran « ⌨️ Saisir un code » → « 📋 Plusieurs figurines d'un coup » : codes collés
     (espaces, virgules, retours), liste vérifiée (nom catalogue, onglet proposé comme pour un ajout seul, « déjà N dans
     votre collection » et inconnues décochées), puis un bouton « ➕ Ajouter N figurines ». Un code répété = N exemplaires.
