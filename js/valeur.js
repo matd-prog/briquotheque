@@ -200,7 +200,7 @@ const Valeur = {
       if (!run || new Date(run.created_at) < releve.depuis - 60000) { cacher(); return; }
       if (run.status === "completed") {
         cacher();
-        if (this._suivi) { this._suivi = false; toast(run.conclusion === "success" ? "Relevé des prix terminé ✔" : "Le relevé des prix s'est arrêté en erreur."); this.afficher(); }
+        if (this._suivi) { this._suivi = false; this._bandeau(); toast(run.conclusion === "success" ? "Relevé des prix terminé ✔" : "Le relevé des prix s'est arrêté en erreur."); this.afficher(); }
         return;
       }
       this._suivi = true;
@@ -239,6 +239,8 @@ const Valeur = {
           this._valeurs = valeurs; this._nbEstimes = c.details.length;
         }
       }
+      this._texteReleve = texte;
+      this._bandeau();
       this._compteur(texte);
     } catch (err) { console.warn(err); }
     this._minuteur = setTimeout(() => this.suivre(), 5000);
@@ -649,13 +651,31 @@ const Valeur = {
       <p class="score">Trait plein : rachat à neuf ; pointillés : occasion. ${h.length} relevés.</p></div>`;
   },
 
+  // Bandeau d'état : « actualisation en cours » tant qu'un calcul ou un relevé des prix tourne (le total peut encore
+  // changer), puis « valeur à jour »
+  _bandeau() {
+    const b = $("valeur-bandeau"), enCours = (this._calculs || 0) > 0 || !!this._suivi;
+    b.hidden = !enCours && !this._aJour;
+    b.className = "bandeau " + (enCours ? "en-cours" : "a-jour");
+    b.textContent = enCours ? `⏳ Actualisation en cours : le total peut encore changer${this._suivi && this._texteReleve ? ` (${this._texteReleve.replace(/…$/, "")})` : ""}…`
+      : `✅ Valeur à jour${this._aJour && this._aJour.date ? ` · prix du ${new Date(this._aJour.date).toLocaleDateString("fr-FR")}` : ""}`;
+    $("valeur-resultat").classList.toggle("provisoire", enCours);
+  },
+
   async afficher() {
+    this._calculs = (this._calculs || 0) + 1;
+    this._bandeau();
+    try { await this._afficher(); } finally { this._calculs--; this._bandeau(); }
+  },
+
+  async _afficher() {
     if (!etat.classeur) { $("valeur-etat").textContent = "Ouvrez d'abord votre fichier Excel pour voir sa valeur."; return; }
     $("valeur-etat").textContent = "Lecture des prix…";
     try {
       const calcul = await this.calculer();
       if (!calcul) { $("valeur-etat").textContent = "Pas encore de prix : touchez « Envoyer ma liste et relever les prix »."; return; }
       const { details, sans, total, totalOccasion, parOnglet, date } = calcul;
+      this._aJour = { date };
       if (!details.length) {
         $("valeur-etat").textContent = "";
         $("valeur-resultat").innerHTML = `<div class="carte"><p>⏳ Aucun prix pour l'instant : le relevé BrickLink est sans doute encore en cours` +
