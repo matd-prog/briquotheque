@@ -1429,6 +1429,7 @@ document.addEventListener("click", async e => {
   else if (action === "enregistrer-ailleurs") enregistrerDirect(true);
   else if (action === "regenerer") regenerer();
   else if (action === "base-creer") demarrerBase(false);
+  else if (action === "revenir-excel") revenirExcel();
   else if (action === "base-depuis-excel") $("input-excel-base").click();
   else if (action === "changer-fichier") {
     if (etat.nonEnregistres && !(await demander("Des ajouts n'ont pas été enregistrés. Les abandonner ?"))) return;
@@ -1445,8 +1446,13 @@ $("saisie-code").addEventListener("keydown", e => { if (e.key === "Enter") valid
 // ---------- base de données de l'appli (version sans Excel) ----------
 
 async function demarrerBase(remplacer, enregistrements) {
-  if (etat.nonEnregistres && !(await demander("Des ajouts n'ont pas été enregistrés dans le fichier Excel. Les abandonner ?"))) return;
+  const depuisExcel = etat.classeur && !etat.classeur.estBase;
+  if (depuisExcel && !(await demander("Quitter votre fichier Excel pour la collection rangée dans l'appli (une autre collection, " +
+      "distincte de votre fichier) ? Votre fichier Excel reste gardé : « 📗 Revenir à mon fichier Excel » dans les Outils.", "Oui, changer", "Non, rester sur Excel"))) return;
   try {
+    // le fichier Excel ouvert (ajouts non enregistrés compris) est gardé, pour y revenir d'un appui
+    const m = await Memoire.lire();
+    if (m && m.octets) await Memoire.ecrire(m, "classeur_excel");
     const base = await BaseCollection.ouvrir();
     const n = (await base.exporter()).filter(e => e.table !== "_onglets").length;
     if (remplacer && n && !(await demander(`La base de l'appli contient déjà ${n} article(s). Les remplacer par le contenu du fichier Excel ?`, "Remplacer", "Annuler"))) return;
@@ -1459,6 +1465,20 @@ async function demarrerBase(remplacer, enregistrements) {
     console.error(err);
     await demander("Impossible d'ouvrir la base de l'appli : " + err.message, "OK", "Fermer");
   }
+}
+
+// Retour au fichier Excel gardé dans le téléphone (celui ouvert avant de passer à la collection de l'appli)
+async function revenirExcel() {
+  const m = await Memoire.lire("classeur_excel");
+  if (!m || !m.octets) { // pas de copie gardée : choisir le fichier (Google Drive ou téléphone)
+    toast("Choisissez votre fichier Excel (Google Drive ou téléphone)", 4000);
+    $("input-fichier").click();
+    return;
+  }
+  await Memoire.ecrire(m);
+  await chargerClasseur(m.octets, m.nom, m.nonEnregistres || 0);
+  afficher("accueil");
+  toast(`Fichier Excel rouvert ✔ (${Object.values(etat.collection).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0)} figurines)`, 4500);
 }
 
 $("input-excel-base").addEventListener("change", async e => {

@@ -95,7 +95,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   · 02/10 matin : le téléphone a envoyé 2 listes VIDES (« 0 articles ») au dépôt privé -> lego.tsv vidé par le relevé,
     valeur réduite aux customs. codes.txt et lego.tsv remis (commit 4d70e24 du dépôt privé) ; garde-fou ajouté dans
     valeur.js (refus d'une liste vide, confirmation si moins de la moitié de la précédente). Cause à confirmer avec Mathias
-    (quelle collection était ouverte : 📗 Excel ou 🗄️ appli ?).
+    Cause confirmée : le téléphone était sur la collection de l’appli (🗄️, vide). Ajouté (v69) : confirmation avant de
+    quitter Excel, copie du fichier Excel gardée (Memoire « classeur_excel »), bandeau « 📗 Utiliser mon fichier Excel ».
   · À voir avec Mathias : qui propose la mise à jour du catalogue BrickLink (figurines, et aussi les sets).
   À FAIRE : document de plan « version diffusable » (synchro cloud Supabase, comptes, conditions Brickognize/BrickLink,
   valeur sans dépôt privé, nom/marque), alertes, multi-figurines par photo, vitrine partagée.
