@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v95 (02/10) : doublons retirés des listes publiques de la base commune (data/jb_commune.tsv, jb_empreintes_commune.tsv,
+    jb_empreintes_figurine.tsv : 290 -> 164 blisters, 1 par figurine, de préférence avec verso ; rattachement au catalogue
+    recopié s'il était sur un doublon). Photos et lignes du dépôt privé (album_photos/commune.tsv, n° des exemplaires)
+    gardées. catalogue_jb.js : le nom imprimé d'un blister rattaché à une autre fiche devient un autre nom de cette fiche
+    (nomsImprimes : lecture du carton et recherche) ; avant, il n'était gardé que par hasard, via un doublon non rattaché.
   · v94 (02/10) : BASE COMMUNE, UNE PHOTO PAR FIGURINE (Mathias : plusieurs exemplaires d'un blister ne changent que le n°).
     BaseCommune.envoyer regroupe par nom + précision : un seul exemplaire envoyé (de préférence avec verso), les autres
     marqués traités ; figurine déjà dans data/jb_commune.tsv : rien d'envoyé. Vaut aussi pour l'import d'un envoi d'ami.

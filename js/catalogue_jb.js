@@ -60,6 +60,12 @@ const CatalogueJB = {
               const meme = (rattache && this.parCode.get(rattache.trim().toUpperCase())) || (source !== "jb" && cleNom && parNom.get(cleNom));
               if (meme) {
                 (meme.alias = meme.alias || []).push(code);
+                // nom imprimé sur le carton (base commune, album) : gardé comme autre nom, pour la lecture et la recherche
+                const imprime = ["commune", "album"].includes(source) ? decouperNomBlister(nom || "").nom : "";
+                if (imprime && normaliser(imprime) !== normaliser(meme.nomImprime || meme.nom)) {
+                  (meme.nomsImprimes = meme.nomsImprimes || []).push(imprime);
+                  meme.recherche += " " + normaliser(imprime);
+                }
                 this.parCode.set(code.toUpperCase(), meme);
                 if (!meme.image && image && exclu !== "sans_image") meme.image = image;
                 continue;
@@ -170,19 +176,25 @@ const CatalogueJB = {
     const lignes = texte.split("\n").map(l => normaliser(l).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.has(m))).filter(l => l.length);
     const res = [];
     for (const f of this.liste) {
-      const mots = normaliser(f.nomImprime || f.nom).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.has(m) && !/^\d+$/.test(m));
-      if (!mots.length || !mots.some(m => m.length >= 3)) continue;
-      const lu = (m, liste) => liste.some(l => mots.length === 1 ? l === m : proche(l, m));
-      const trouves = mots.filter(m => lu(m, lusUtiles)).length;
-      const score = trouves / mots.length;
-      if (score < (mots.length <= 2 ? 1 : 2 / 3)) continue;
-      // meilleure ligne : part du nom qu'elle contient, puis part de la ligne occupée par le nom
-      let ligne = 0, part = 0;
-      for (const l of lignes) {
-        const n = mots.filter(m => lu(m, l)).length;
-        if (n / mots.length > ligne || (n / mots.length === ligne && n / l.length > part)) { ligne = n / mots.length; part = n / l.length; }
+      // son nom, et les autres noms imprimés sur des cartons de la même figurine (base commune) : le meilleur compte
+      let meilleur = null;
+      for (const nomF of [f.nomImprime || f.nom, ...(f.nomsImprimes || [])]) {
+        const mots = normaliser(nomF).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.has(m) && !/^\d+$/.test(m));
+        if (!mots.length || !mots.some(m => m.length >= 3)) continue;
+        const lu = (m, liste) => liste.some(l => mots.length === 1 ? l === m : proche(l, m));
+        const trouves = mots.filter(m => lu(m, lusUtiles)).length;
+        const score = trouves / mots.length;
+        if (score < (mots.length <= 2 ? 1 : 2 / 3)) continue;
+        // meilleure ligne : part du nom qu'elle contient, puis part de la ligne occupée par le nom
+        let ligne = 0, part = 0;
+        for (const l of lignes) {
+          const n = mots.filter(m => lu(m, l)).length;
+          if (n / mots.length > ligne || (n / mots.length === ligne && n / l.length > part)) { ligne = n / mots.length; part = n / l.length; }
+        }
+        const r = { f, score, trouves, ligne, part };
+        if (!meilleur || r.score > meilleur.score || (r.score === meilleur.score && r.ligne > meilleur.ligne)) meilleur = r;
       }
-      res.push({ f, score, trouves, ligne, part });
+      if (meilleur) res.push(meilleur);
     }
     res.sort((a, b) => b.score - a.score || b.ligne - a.ligne || b.part - a.part || b.trouves - a.trouves);
     return res.slice(0, max).map(r => r.f);
