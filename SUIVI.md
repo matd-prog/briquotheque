@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v86 (02/10) : CORRECTION mini-appli de l'ami (contribuer.html) : son Memoire.ecrire ne renvoyait rien, alors que
+    Base.ajouter (depuis v77) attend true -> « 📚 Ajouter à ma collection » affichait toujours « n'a pas pu être
+    enregistré ». Aligné sur js/app.js (true/false + message). Vérif complète avant envoi à l'ami : photo recto/verso,
+    lecture du nom, n°, ajout, « pas à moi », export .zip, import « D'un ami » dans l'appli principale (envoi GitHub
+    simulé : bons dépôts briquotheque / briquotheque-prive), affichage iPhone. Aucun lien cassé.
   · v85 (02/10) : ARBORESCENCE des menus à gauche sur grand écran (≥ 1000 px : ordinateur, tablette en largeur),
     js/arborescence.js. Construite à partir de l'accueil (rubriques, gros boutons, tuiles, puis Outils) : un menu ajouté
     à l'accueil y apparaît seul ; un clic « touche » le bouton de l'accueil. Écran affiché mis en évidence. Cachée sur

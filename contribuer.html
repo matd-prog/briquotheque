@@ -182,13 +182,24 @@ const Memoire = {
       r.onerror = () => ko(r.error);
     });
   },
+  // renvoie true si c'est enregistré, false sinon (message affiché), comme dans l'appli principale (js/app.js)
   async ecrire(valeur, cle) {
-    const db = await this._db();
-    await new Promise((ok, ko) => {
-      const tx = db.transaction("donnees", "readwrite");
-      tx.objectStore("donnees").put(valeur, cle);
-      tx.oncomplete = ok; tx.onerror = () => ko(tx.error);
-    });
+    try {
+      const db = await this._db();
+      await new Promise((ok, ko) => {
+        const tx = db.transaction("donnees", "readwrite");
+        tx.objectStore("donnees").put(valeur, cle);
+        tx.oncomplete = ok; tx.onerror = () => ko(tx.error);
+        tx.onabort = () => ko(tx.error || new Error("écriture annulée par le téléphone"));
+      });
+      return true;
+    } catch (e) {
+      console.warn("Mémoire indisponible", e);
+      toast(e && e.name === "QuotaExceededError"
+        ? "⚠️ Mémoire du téléphone pleine : l'enregistrement a échoué. Libérez de la place (photos, applis), puis réessayez."
+        : "⚠️ Enregistrement dans le téléphone impossible : " + (e && e.message || e), 7000);
+      return false;
+    }
   },
   async lire(cle) {
     try {
