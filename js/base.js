@@ -571,8 +571,12 @@ const Base = {
         const entiere = await Paddle.lignes(await createImageBitmap(await this._reduire(this.sourceVerso.fichier, this.sourceVerso.sens, null)));
         if (entiere.length > lignes.length) lignes = entiere;
       }
+      const texte = texteVerso(lignes.map(l => l.texte).join("\n"));
+      // blister déjà ajouté pendant la lecture : son texte lui est donné
+      const ajoutes = this.entrees.filter(e => e.verso === verso && !e.versoTexte);
+      if (ajoutes.length) { for (const e of ajoutes) e.versoTexte = texte; await Memoire.ecrire(this.entrees, "base"); }
       if (this.verso !== verso) return;
-      this.versoTexte = texteVerso(lignes.map(l => l.texte).join("\n"));
+      this.versoTexte = texte;
       await CatalogueJB.chargerVersos();
       if (this.verso === verso) this._afficherVerso();
     } catch (err) { console.warn("verso : lecture impossible", err); }

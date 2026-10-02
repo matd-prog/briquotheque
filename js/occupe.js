@@ -30,6 +30,7 @@ const Occupe = {
   },
 
   appui(bouton) {
+    if (this.bouton && this.bouton !== bouton) this._degriser(this.bouton); // ancien bouton : plus suivi
     this.bouton = bouton;
     this.depuis = Date.now();
     if (!this.actif) { clearTimeout(this._minuteur); this._minuteur = setTimeout(() => this._verifier(), 300); }
@@ -40,8 +41,13 @@ const Occupe = {
   // laissait sa tuile grisée et intouchable, même de retour à l'accueil.
   liberer() {
     clearTimeout(this._limite);
-    if (this.bouton) { this.bouton.classList.remove("bouton-occupe"); this.bouton.removeAttribute("aria-busy"); }
+    this._degriser();
     this.bouton = null;
+  },
+
+  // bouton redevenu normal (sans bouton : tous ceux restés grisés, ex. un bouton touché pendant un autre travail)
+  _degriser(bouton) {
+    for (const b of bouton ? [bouton] : document.querySelectorAll(".bouton-occupe")) { b.classList.remove("bouton-occupe"); b.removeAttribute("aria-busy"); }
   },
 
   _dialogueOuvert: () => { const d = document.getElementById("dialogue"); return !!(d && d.open); },
@@ -82,7 +88,7 @@ const Occupe = {
       }
     } else {
       this.actif = false;
-      if (this.bouton) { this.bouton.classList.remove("bouton-occupe"); this.bouton.removeAttribute("aria-busy"); }
+      this._degriser();
       this.bouton = null; this.depuis = 0;
       if (this._dialogueOuvert()) { b.hidden = true; return; } // l'appli attend une réponse : pas de « terminé »
       b.className = "bandeau-occupe fini";

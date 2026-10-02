@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v104 (02/10) : BUG « Ajouter à ma collection ⏳ » bloqué (capture de Mathias) : la lecture du verso (v103) occupait
+    le téléphone sans laisser passer les appuis (PaddleOCR enchaîne les lignes sans rendre la main). Pause entre deux
+    lignes (lecture_paddle.js) ; une lecture à la fois (file d'attente Paddle.lignes) ; blister ajouté avant la fin de
+    la lecture : il reçoit son texte ensuite. Occupe : un bouton touché pendant un autre travail restait grisé ⏳ pour
+    toujours (seul le dernier était dégrisé) ; tous les boutons grisés sont maintenant dégrisés.
   · v103 (02/10) : TEXTE DU VERSO POUR RECONNAÎTRE LA FIGURINE (idée de Mathias : au dos, certaines figurines ont leur
     histoire, « THE FORMIDABLE DARK-FORCE WARLORD DARTH DONUT… »). Le verso est lu (PaddleOCR) après le recto ; mentions
     communes retirées (texteVerso : choking hazard, not an official LEGO product, logo JB…) ; comparaison par morceaux de

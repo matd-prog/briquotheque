@@ -128,10 +128,20 @@ const Paddle = {
   },
 
   // Lignes de texte lues sur la photo, de haut en bas : [{ texte, score, sens, x, y, l, h }]
-  async lignes(image) {
+  // une lecture à la fois (le verso peut encore se lire quand le blister suivant est photographié)
+  lignes(image) {
+    const lecture = (this._file || Promise.resolve()).then(() => this._lignes(image));
+    this._file = lecture.catch(() => {});
+    return lecture;
+  },
+
+  async _lignes(image) {
     await this.charger();
     const res = [];
     for (const z of await this._zones(image)) {
+      // pause entre deux lignes : les appuis de l'utilisateur passent pendant une longue lecture (verso lu pendant
+      // qu'on remplit la fiche ; sans elle, « Ajouter » restait bloqué ⏳ jusqu'à la fin de la lecture)
+      await new Promise(ok => setTimeout(ok, 0));
       let lu;
       if (z.h > 1.5 * z.l) {
         // texte vertical : on essaie les deux sens de rotation, on garde la lecture la plus sûre
