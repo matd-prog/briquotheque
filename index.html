@@ -25,22 +25,20 @@
 
   <!-- 1. Pas encore de fichier -->
   <section id="ecran-fichier" class="ecran" hidden>
-    <p class="intro">Bienvenue ! Votre collection peut être rangée directement dans l'appli (le plus simple), ou dans
-      votre fichier Excel d'étiquettes.</p>
-    <button class="gros-bouton rouge" data-action="base-creer">🗄️ Ma collection dans l'appli<br><small>Enregistrée au fur et à mesure, sans fichier</small></button>
-    <label class="gros-bouton vert">
-      📂 Ouvrir mon fichier Excel
+    <p class="intro">Bienvenue ! Votre collection est rangée directement dans l'appli et enregistrée au fur et à mesure.</p>
+    <button class="gros-bouton rouge" data-action="base-creer">🗄️ Commencer ma collection</button>
+    <button class="gros-bouton vert" data-action="base-depuis-excel">📥 Reprendre ma collection d'un fichier Excel</button>
+    <label class="bouton-lien">Continuer avec un fichier Excel (ancienne méthode)
       <input type="file" id="input-fichier" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
     </label>
-    <button class="bouton-lien" data-action="base-depuis-excel">📥 Reprendre mon fichier Excel dans l'appli (sans Excel ensuite)</button>
     <input type="file" id="input-excel-base" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
     <button class="bouton-lien" data-action="base">📚 Seulement contribuer à la base commune des blisters JB (sans fichier Excel)</button>
   </section>
 
   <!-- 2. Accueil -->
   <section id="ecran-accueil" class="ecran" hidden>
-    <div class="bandeau base-seul"><span>🗄️ Collection rangée dans l'appli</span>
-      <button class="petit" data-action="revenir-excel">📗 Utiliser mon fichier Excel</button></div>
+    <div class="bandeau base-vide-seul"><span>🗄️ Votre collection est vide</span>
+      <button class="petit" data-action="base-depuis-excel">📥 Reprendre d'un fichier Excel</button></div>
     <!-- Rappel : catalogue BrickLink à mettre à jour (à partir du 2 du mois) -->
     <div id="bandeau-catalogue" class="bandeau bleu-fonce" hidden>
       <span>📚 Catalogue BrickLink à mettre à jour</span>
@@ -107,8 +105,12 @@
       <div id="regen-etat"></div>
       <hr>
       <button class="bouton gris" data-action="changer-fichier">Utiliser un autre fichier Excel</button>
-      <button class="bouton gris" data-action="base-depuis-excel">🗄️ Reprendre mon fichier Excel dans la base de l'appli</button>
-      <button class="bouton gris excel-seul" data-action="base-creer">🗄️ Ouvrir la collection rangée dans l'appli</button>
+      <button class="gros-bouton rouge excel-seul" data-action="migrer-base">🗄️ Passer à la base de données (reprend ce fichier Excel)</button>
+      <label class="case-a-cocher base-seul"><input type="checkbox" id="reglage-camps"> Star Wars rangé par camps : Gentils (vert), Méchants (rouge), Zone grise — étiquettes de couleur</label>
+      <button class="bouton gris base-seul" data-action="base-depuis-excel">📥 Reprendre un fichier Excel (remplace la collection)</button>
+      <p class="aide base-seul" id="info-sauvegarde"></p>
+      <button class="bouton bleu base-seul" data-action="sauvegarde-en-ligne">☁️ Sauvegarder en ligne maintenant (dépôt privé)</button>
+      <button class="bouton gris base-seul" data-action="restaurer-en-ligne">☁️ Restaurer la sauvegarde en ligne</button>
       <button class="gros-bouton vert base-seul" data-action="revenir-excel">📗 Revenir à mon fichier Excel</button>
     </details>
   </section>

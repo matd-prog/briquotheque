@@ -217,7 +217,9 @@ async function relireContenu() {
   etat.collection = await lireCollection(etat.classeur);
   const nb = Object.values(etat.collection).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0);
   $("fichier-info").textContent = `${etat.classeur.estBase ? "🗄️" : "📗"} Ma collection · ${nb} figurines`;
-  document.body.classList.toggle("mode-base", !!etat.classeur.estBase); // le fichier Excel n'est qu'une sauvegarde : son nom n'est pas affiché
+  document.body.classList.toggle("mode-base", !!etat.classeur.estBase);
+  document.body.classList.toggle("base-vide", !!etat.classeur.estBase && !nb);
+  if (etat.classeur.estBase) { $("reglage-camps").checked = etat.classeur.campsSW; majInfoSauvegarde(); } // le fichier Excel n'est qu'une sauvegarde : son nom n'est pas affiché
   majBandeau();
 }
 
@@ -439,7 +441,7 @@ function proposerTheme(cand) {
 }
 
 // Collection rangée dans l'appli (version diffusable) : un seul onglet Star Wars, sans camps
-const swUnique = () => !!(etat.classeur && etat.classeur.estBase);
+const swUnique = () => !!(etat.classeur && etat.classeur.estBase && !etat.classeur.campsSW);
 function couleurChoisie() {
   if (etat.theme === STAR_WARS && swUnique()) return THEME_STAR_WARS_UNIQUE.couleur;
   return etat.theme === STAR_WARS ? CAMPS[etat.camp].couleur : couleurOnglet(etat.theme);
@@ -1430,6 +1432,9 @@ document.addEventListener("click", async e => {
   else if (action === "regenerer") regenerer();
   else if (action === "base-creer") demarrerBase(false);
   else if (action === "revenir-excel") revenirExcel();
+  else if (action === "migrer-base") migrerVersBase();
+  else if (action === "sauvegarde-en-ligne") sauvegardeEnLigne();
+  else if (action === "restaurer-en-ligne") restaurerEnLigne();
   else if (action === "base-depuis-excel") $("input-excel-base").click();
   else if (action === "changer-fichier") {
     if (etat.nonEnregistres && !(await demander("Des ajouts n'ont pas été enregistrés. Les abandonner ?"))) return;
@@ -1445,9 +1450,9 @@ $("saisie-code").addEventListener("keydown", e => { if (e.key === "Enter") valid
 
 // ---------- base de données de l'appli (version sans Excel) ----------
 
-async function demarrerBase(remplacer, enregistrements) {
+async function demarrerBase(remplacer, enregistrements, sansConfirmation) {
   const depuisExcel = etat.classeur && !etat.classeur.estBase;
-  if (depuisExcel && !(await demander("Quitter votre fichier Excel pour la collection rangée dans l'appli (une autre collection, " +
+  if (depuisExcel && !sansConfirmation && !(await demander("Quitter votre fichier Excel pour la collection rangée dans l'appli (une autre collection, " +
       "distincte de votre fichier) ? Votre fichier Excel reste gardé : « 📗 Revenir à mon fichier Excel » dans les Outils.", "Oui, changer", "Non, rester sur Excel"))) return;
   try {
     // le fichier Excel ouvert (ajouts non enregistrés compris) est gardé, pour y revenir d'un appui
@@ -1467,6 +1472,60 @@ async function demarrerBase(remplacer, enregistrements) {
   }
 }
 
+// Reprise d'un fichier Excel dans la base : garder ou non le classement Star Wars par camps (étiquettes de couleur)
+async function avecCamps(enregistrements) {
+  if (!enregistrements.some(e => e.table === TABLE_FIGURINES && e.camp)) return enregistrements;
+  const oui = await demander("Vos figurines Star Wars sont rangées par camp (Gentils en vert, Méchants en rouge, Zone grise). " +
+    "Garder ce classement, avec les étiquettes de couleur ? (Sinon : un seul onglet « Star Wars » ; réglable ensuite dans les Outils.)", "Garder les camps", "Un seul onglet");
+  return [...enregistrements.filter(e => e.table !== "_reglages" || e.id !== "camps_star_wars"), { table: "_reglages", id: "camps_star_wars", valeur: oui }];
+}
+
+// Passage à la base de données avec le fichier Excel ouvert (ajouts pas encore enregistrés compris)
+async function migrerVersBase() {
+  if (!etat.classeur || etat.classeur.estBase) return;
+  if (!(await demander("Passer à la base de données de l'appli ? Tout le contenu de votre fichier Excel y est repris (figurines, " +
+      "sets, objets, souhaits, achats…). Ensuite, chaque ajout est enregistré tout de suite, sans fichier à enregistrer. " +
+      "Votre fichier Excel reste intact, et l'export Excel reste possible (📤 Exporter).", "Oui, passer à la base", "Annuler"))) return;
+  try {
+    const octets = await etat.classeur.enregistrer();
+    await Memoire.ecrire({ nom: etat.nomFichier, octets, nonEnregistres: etat.nonEnregistres }); // copie gardée (retour possible)
+    etat.classeur = await Classeur.ouvrir(octets);
+    const enregistrements = await avecCamps(await BaseCollection.depuisExcel(octets));
+    await demarrerBase(true, enregistrements, true);
+  } catch (err) {
+    console.error(err);
+    await demander("Le passage à la base de données a échoué : " + err.message, "OK", "Fermer");
+  }
+}
+
+// Sauvegarde en ligne (dépôt privé) : à la demande, et restauration (nouveau téléphone, données effacées)
+async function sauvegardeEnLigne() {
+  try {
+    const date = await etat.classeur.sauvegarderEnLigne(true);
+    if (!date) return demander("Pas de jeton GitHub dans ce téléphone : enregistrez-le d'abord dans 💶 Valeur. Sinon, faites une sauvegarde .json (📤 Exporter).", "OK", "Fermer");
+    majInfoSauvegarde();
+    toast("Collection sauvegardée en ligne ✔");
+  } catch (err) { await demander("La sauvegarde en ligne a échoué : " + err.message, "OK", "Fermer"); }
+}
+async function restaurerEnLigne() {
+  try {
+    const c = await BaseCollection.lireSauvegardeEnLigne();
+    if (!c || !Array.isArray(c.base)) return demander("Aucune sauvegarde en ligne pour l'instant.", "OK", "Fermer");
+    const n = c.base.filter(e => e.table === TABLE_FIGURINES).length;
+    if (!(await demander(`Sauvegarde du ${new Date(c.date).toLocaleString("fr-FR")} : ${n} figurines. Remplacer la collection de ce téléphone par cette sauvegarde ?`, "Restaurer", "Annuler"))) return;
+    await demarrerBase(true, c.base, true);
+  } catch (err) { await demander("La restauration a échoué : " + err.message, "OK", "Fermer"); }
+}
+async function majInfoSauvegarde() {
+  const d = await Memoire.lire("sauvegarde_en_ligne");
+  $("info-sauvegarde").textContent = d ? `Dernière sauvegarde en ligne : ${new Date(d).toLocaleString("fr-FR")}` : "Pas encore de sauvegarde en ligne.";
+}
+// l'appli passe en arrière-plan (téléphone verrouillé, autre appli) : sauvegarde en ligne tout de suite si besoin
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden" && etat.classeur && etat.classeur.estBase)
+    etat.classeur.sauvegarderEnLigne().catch(err => console.warn("Sauvegarde en ligne", err));
+});
+
 // Retour au fichier Excel gardé dans le téléphone (celui ouvert avant de passer à la collection de l'appli)
 async function revenirExcel() {
   const m = await Memoire.lire("classeur_excel");
@@ -1481,12 +1540,20 @@ async function revenirExcel() {
   toast(`Fichier Excel rouvert ✔ (${Object.values(etat.collection).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0)} figurines)`, 4500);
 }
 
+$("reglage-camps").addEventListener("change", async () => {
+  if (!etat.classeur || !etat.classeur.estBase) return;
+  etat.classeur.reglerCampsSW($("reglage-camps").checked);
+  await etat.classeur.attendre();
+  await relireContenu();
+  toast($("reglage-camps").checked ? "Star Wars rangé par camps (Gentils, Méchants, Zone grise) ✔" : "Un seul onglet « Star Wars » ✔", 4000);
+});
+
 $("input-excel-base").addEventListener("change", async e => {
   const f = e.target.files[0];
   e.target.value = "";
   if (!f) return;
   try {
-    const enregistrements = await BaseCollection.depuisExcel(new Uint8Array(await f.arrayBuffer()));
+    const enregistrements = await avecCamps(await BaseCollection.depuisExcel(new Uint8Array(await f.arrayBuffer())));
     await demarrerBase(true, enregistrements);
   } catch (err) {
     console.error(err);

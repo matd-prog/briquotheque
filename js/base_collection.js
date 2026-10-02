@@ -42,10 +42,21 @@ class BaseCollection {
     });
     db.close();
     for (const e of tout) b._table(e.table).set(e.id, e);
-    // un seul onglet Star Wars (pas de camps) : figurines rangées par camp avant ce choix, regroupées
-    const anciennes = [...b._table(TABLE_FIGURINES).values()].filter(f => ONGLETS_COLORES.includes(f.onglet));
-    for (const f of anciennes) b._poser(TABLE_FIGURINES, f.id, { ...f, onglet: THEME_STAR_WARS_UNIQUE.onglet });
+    // Star Wars : toujours rangé dans « Star Wars » avec son camp à part (anciennes figurines rangées par onglet de camp)
+    const camps = Object.fromEntries(Object.entries(CAMPS).map(([camp, c]) => [c.onglet, camp]));
+    for (const f of [...b._table(TABLE_FIGURINES).values()].filter(f => camps[f.onglet]))
+      b._poser(TABLE_FIGURINES, f.id, { ...f, onglet: THEME_STAR_WARS_UNIQUE.onglet, camp: f.camp || camps[f.onglet] });
     return b;
+  }
+
+  // Réglage « Star Wars rangé par camps » (Gentils vert, Méchants rouge, Zone grise) : étiquettes de couleur par camp.
+  // Sans ce réglage (par défaut), un seul onglet « Star Wars ». Le camp de chaque figurine est gardé dans tous les cas.
+  get campsSW() { const r = this._table("_reglages").get("camps_star_wars"); return !!(r && r.valeur); }
+  reglerCampsSW(oui) { this._poser("_reglages", "camps_star_wars", { valeur: !!oui }); }
+
+  // Onglet où la figurine est montrée : son camp si le réglage est actif, sinon son onglet
+  _ongletAffiche(f) {
+    return f.onglet === THEME_STAR_WARS_UNIQUE.onglet && this.campsSW && CAMPS[f.camp] ? CAMPS[f.camp].onglet : f.onglet;
   }
 
   _table(nom) { if (!this.tables.has(nom)) this.tables.set(nom, new Map()); return this.tables.get(nom); }
@@ -62,6 +73,7 @@ class BaseCollection {
       });
       db.close();
     }).catch(err => { console.error(err); toast("⚠️ Écriture dans la base impossible : " + err.message, 6000); });
+    this._planifierSauvegarde();
     return this._file;
   }
   attendre() { return this._file; }
@@ -85,13 +97,13 @@ class BaseCollection {
 
   aOnglet(nom) {
     if (nom === THEME_STAR_WARS_UNIQUE.onglet || nom === ONGLET_TABLE) return true;
-    if (ONGLETS_COLORES.includes(nom)) return false;
+    if (ONGLETS_COLORES.includes(nom)) return this.campsSW;
     if (this._colonnes(nom)) return this._table(nom).size > 0 || this._table("_onglets").has(nom);
     return [...this._table(TABLE_FIGURINES).values()].some(f => f.onglet === nom) || this._table("_onglets").has(nom);
   }
   feuille(nom) { return { nom }; }
   get feuilles() {
-    return [THEME_STAR_WARS_UNIQUE.onglet, ONGLET_TABLE, ...ONGLETS_THEMES, ...Object.keys(TABLES_BASE)].filter(o => this.aOnglet(o)).map(nom => ({ nom }));
+    return [...ONGLETS_COLORES, THEME_STAR_WARS_UNIQUE.onglet, ONGLET_TABLE, ...ONGLETS_THEMES, ...Object.keys(TABLES_BASE)].filter(o => this.aOnglet(o)).map(nom => ({ nom }));
   }
 
   async valeur(nom, ref) {
@@ -139,12 +151,14 @@ class BaseCollection {
   // ----- figurines -----
 
   _figs(onglet) {
-    return [...this._table(TABLE_FIGURINES).values()].filter(f => !onglet || f.onglet === onglet).sort((a, b) => a.id - b.id);
+    return [...this._table(TABLE_FIGURINES).values()].filter(f => !onglet || this._ongletAffiche(f) === onglet).sort((a, b) => a.id - b.id);
   }
 
   figLireCollection() {
     const res = {};
-    for (const nom of [THEME_STAR_WARS_UNIQUE.onglet, ...ONGLETS_THEMES.filter(o => this.aOnglet(o))]) {
+    const sw = this.campsSW ? [...ONGLETS_COLORES, ...(this._figs(THEME_STAR_WARS_UNIQUE.onglet).length ? [THEME_STAR_WARS_UNIQUE.onglet] : [])]
+      : [THEME_STAR_WARS_UNIQUE.onglet];
+    for (const nom of [...sw, ...ONGLETS_THEMES.filter(o => this.aOnglet(o))]) {
       const cases = this._figs(nom).map(f => ({ row: f.id, col: 1, ref: `n°${f.id}`, code: f.code, nom: f.nom || "", lien: f.lien || "", image: true }));
       res[nom] = { derniere: cases.length, cases };
     }
@@ -152,14 +166,15 @@ class BaseCollection {
   }
 
   figLireTable() {
-    return this._figs().map(f => ({ row: f.id, code: f.code, personnage: f.nom || "", camp: f.camp || f.onglet, statut: "Confirmé", origine: `${f.onglet}!n°${f.id}` }));
+    return this._figs().map(f => ({ row: f.id, code: f.code, personnage: f.nom || "", camp: f.camp || f.onglet, statut: "Confirmé", origine: `${this._ongletAffiche(f)}!n°${f.id}` }));
   }
 
   figAjouter({ code, nom, camp, theme, lien }) {
-    const onglet = camp ? THEME_STAR_WARS_UNIQUE.onglet : theme; // un seul onglet Star Wars, sans camps
+    const onglet = camp ? THEME_STAR_WARS_UNIQUE.onglet : theme;
     const id = this._prochainId(TABLE_FIGURINES);
-    this._poser(TABLE_FIGURINES, id, { onglet, code, nom: nom || "", lien: lien || "", camp: "", ajoute: new Date().toLocaleDateString("fr-FR") });
-    return { onglet, ref: `n°${id}`, row: id, col: 1, nouvelleLigne: false };
+    const f = this._poser(TABLE_FIGURINES, id, { onglet, code, nom: nom || "", lien: lien || "", camp: camp && this.campsSW ? camp : "",
+                                                ajoute: new Date().toLocaleDateString("fr-FR") });
+    return { onglet: this._ongletAffiche(f), ref: `n°${id}`, row: id, col: 1, nouvelleLigne: false };
   }
 
   figRetirer(row) { this._enlever(TABLE_FIGURINES, row); }
@@ -179,6 +194,46 @@ class BaseCollection {
   async ajouterImage() {}
 
   // ----- sauvegarde, reprise -----
+
+  // Sauvegarde en ligne automatique (une minute après la dernière modification, et quand l'appli passe en arrière-plan)
+  // dans le dépôt GitHub PRIVÉ, si un jeton y donne accès (celui de 💶 Valeur) : sauvegarde/collection.json
+  _planifierSauvegarde() {
+    this._aSauver = true;
+    clearTimeout(this._minuteur);
+    this._minuteur = setTimeout(() => this.sauvegarderEnLigne().catch(err => console.warn("Sauvegarde en ligne", err)), 60000);
+  }
+
+  async sauvegarderEnLigne(forcer) {
+    if (!this._aSauver && !forcer) return null;
+    const jeton = await Memoire.lire("jeton-github");
+    if (!jeton || typeof DEPOT_PRIVE === "undefined") return null;
+    this._aSauver = false;
+    await this.attendre();
+    const url = `https://api.github.com/repos/${DEPOT_PRIVE}/contents/sauvegarde/collection.json`;
+    const entetes = { Authorization: `Bearer ${jeton}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
+    const actuel = await fetch(url, { headers: entetes, cache: "no-store" });
+    const sha = actuel.ok ? (await actuel.json()).sha : undefined;
+    const contenu = { application: "Figothèque", version: 1, date: new Date().toISOString(), base: await this.exporter() };
+    const octets = new TextEncoder().encode(JSON.stringify(contenu));
+    let bin = ""; for (let i = 0; i < octets.length; i += 8192) bin += String.fromCharCode(...octets.subarray(i, i + 8192));
+    const n = contenu.base.filter(e => e.table === TABLE_FIGURINES).length;
+    const rep = await fetch(url, { method: "PUT", headers: entetes, body: JSON.stringify({
+      message: `Sauvegarde de la collection (${n} figurines)`, content: btoa(bin), sha }) });
+    if (!rep.ok) { this._aSauver = true; throw new Error(`GitHub a répondu ${rep.status}`); }
+    await Memoire.ecrire(contenu.date, "sauvegarde_en_ligne");
+    return contenu.date;
+  }
+
+  // Contenu de la sauvegarde en ligne (pour la restaurer), ou null
+  static async lireSauvegardeEnLigne() {
+    const jeton = await Memoire.lire("jeton-github");
+    if (!jeton || typeof DEPOT_PRIVE === "undefined") throw new Error("pas de jeton GitHub dans ce téléphone (💶 Valeur)");
+    const rep = await fetch(`https://api.github.com/repos/${DEPOT_PRIVE}/contents/sauvegarde/collection.json`, { cache: "no-store",
+      headers: { Authorization: `Bearer ${jeton}`, Accept: "application/vnd.github.raw", "X-GitHub-Api-Version": "2022-11-28" } });
+    if (rep.status === 404) return null;
+    if (!rep.ok) throw new Error(`GitHub a répondu ${rep.status}`);
+    return rep.json();
+  }
 
   async exporter() { return [...this.tables.values()].flatMap(t => [...t.values()]).map(({ cle, ...e }) => e); }
 

@@ -97,6 +97,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     valeur.js (refus d'une liste vide, confirmation si moins de la moitié de la précédente). Cause à confirmer avec Mathias
     Cause confirmée : le téléphone était sur la collection de l’appli (🗄️, vide). Ajouté (v69) : confirmation avant de
     quitter Excel, copie du fichier Excel gardée (Memoire « classeur_excel »), bandeau « 📗 Utiliser mon fichier Excel ».
+  · DÉCISION de Mathias (02/10) : une seule version, sur la BASE DE DONNÉES (plus d'Excel) ; sa seule différence :
+    réglage « Star Wars rangé par camps » (Outils, case à cocher ; table _reglages/camps_star_wars de la base). Le camp de
+    chaque figurine est toujours gardé (champ camp) ; onglet stocké « Star Wars », onglet affiché = camp si réglage actif.
+    v70 : bouton « 🗄️ Passer à la base de données (reprend ce fichier Excel) » dans les Outils (mode Excel), question
+    « garder les camps ? » à la reprise ; écran de départ : « Commencer ma collection » / « Reprendre d'un fichier Excel »,
+    Excel = ancienne méthode. Sauvegarde en ligne automatique (1 min après une modif, et à la mise en arrière-plan) dans
+    le dépôt privé : sauvegarde/collection.json (jeton de 💶 Valeur) ; boutons Sauvegarder / Restaurer dans les Outils.
   · À voir avec Mathias : qui propose la mise à jour du catalogue BrickLink (figurines, et aussi les sets).
   À FAIRE : document de plan « version diffusable » (synchro cloud Supabase, comptes, conditions Brickognize/BrickLink,
   valeur sans dépôt privé, nom/marque), alertes, multi-figurines par photo, vitrine partagée.
