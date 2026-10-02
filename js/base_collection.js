@@ -53,6 +53,10 @@ class BaseCollection {
   // Sans ce réglage (par défaut), un seul onglet « Star Wars ». Le camp de chaque figurine est gardé dans tous les cas.
   get campsSW() { const r = this._table("_reglages").get("camps_star_wars"); return !!(r && r.valeur); }
   reglerCampsSW(oui) { this._poser("_reglages", "camps_star_wars", { valeur: !!oui }); }
+  // Réglages gardés dans la base (donc dans les sauvegardes) : format des étiquettes…
+  aReglage(id) { return this._table("_reglages").has(id); }
+  reglage(id) { const r = this._table("_reglages").get(id); return r ? r.valeur : null; }
+  reglerValeur(id, valeur) { this._poser("_reglages", id, { valeur }); }
 
   // Onglet où la figurine est montrée : son camp si le réglage est actif, sinon son onglet
   _ongletAffiche(f) {
@@ -268,6 +272,11 @@ class BaseCollection {
       }
       e.push({ table: "_onglets", id: nom });
     }
+    // mesures d'impression des étiquettes du fichier (au millimètre), gardées pour l'écran « Imprimer des étiquettes »
+    try {
+      const fmt = typeof formatDepuisExcel === "function" ? await formatDepuisExcel(cl) : null;
+      if (fmt) e.push({ table: "_reglages", id: "format_etiquettes_excel", valeur: fmt });
+    } catch (err) { console.warn("Mesures d'impression du fichier Excel", err); }
     return e;
   }
 }

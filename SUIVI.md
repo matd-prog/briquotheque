@@ -104,6 +104,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « garder les camps ? » à la reprise ; écran de départ : « Commencer ma collection » / « Reprendre d'un fichier Excel »,
     Excel = ancienne méthode. Sauvegarde en ligne automatique (1 min après une modif, et à la mise en arrière-plan) dans
     le dépôt privé : sauvegarde/collection.json (jeton de 💶 Valeur) ; boutons Sauvegarder / Restaurer dans les Outils.
+  · v71 : case « camps » cachée aux autres utilisateurs (visible seulement si la base a le réglage, posé à la reprise
+    d'un fichier Excel rangé par camps). Mesures d'impression exactes du fichier Excel (formatDepuisExcel, impression.js :
+    largeur des colonnes A-E règle Excel Calibri 11, hauteur de ligne, étiquette à 3 px du bord, marges, échelle,
+    centrage) gardées dans la base (_reglages/format_etiquettes_excel) à la reprise, modèle « Mes étiquettes (mesures de
+    mon fichier Excel) » ; le format choisi est aussi gardé dans la base (_reglages/format_etiquettes). À valider par une
+    impression d'essai de Mathias (règle en main), réglable au centième de mm.
   · À voir avec Mathias : qui propose la mise à jour du catalogue BrickLink (figurines, et aussi les sets).
   À FAIRE : document de plan « version diffusable » (synchro cloud Supabase, comptes, conditions Brickognize/BrickLink,
   valeur sans dépôt privé, nom/marque), alertes, multi-figurines par photo, vitrine partagée.

@@ -219,7 +219,12 @@ async function relireContenu() {
   $("fichier-info").textContent = `${etat.classeur.estBase ? "🗄️" : "📗"} Ma collection · ${nb} figurines`;
   document.body.classList.toggle("mode-base", !!etat.classeur.estBase);
   document.body.classList.toggle("base-vide", !!etat.classeur.estBase && !nb);
-  if (etat.classeur.estBase) { $("reglage-camps").checked = etat.classeur.campsSW; majInfoSauvegarde(); } // le fichier Excel n'est qu'une sauvegarde : son nom n'est pas affiché
+  if (etat.classeur.estBase) {
+    // réglage propre à Mathias : visible seulement si sa collection l'a déjà (reprise de son fichier Excel rangé par camps)
+    $("bloc-reglage-camps").hidden = !etat.classeur.aReglage("camps_star_wars");
+    $("reglage-camps").checked = etat.classeur.campsSW;
+    majInfoSauvegarde();
+  } // le fichier Excel n'est qu'une sauvegarde : son nom n'est pas affiché
   majBandeau();
 }
 

@@ -22,6 +22,42 @@ const MODELES_ETIQUETTES = [
   { id: "libre-a4", nom: "Papier A4 ordinaire (à découper) : 40 × 20 mm", page: "A4", l: 40, h: 20, mh: 10, mg: 10, eh: 2, ev: 2 },
 ];
 
+// Mesures d'impression exactes des étiquettes d'un fichier Excel de l'appli : largeur des colonnes A à E et hauteur
+// des lignes (cases), étiquette posée à 3 pixels du bord de sa case, marges et échelle de la mise en page Excel
+// (pageSetup), centrage éventuel. Résultat en millimètres, au centième.
+async function formatDepuisExcel(cl) {
+  const onglet = [...ONGLETS_COLORES, ...ONGLETS_THEMES].find(o => cl.aOnglet(o));
+  if (!onglet) return null;
+  const doc = await cl._sheetDoc(onglet), tous = n => [...doc.getElementsByTagNameNS(NS.main, n)];
+  const fmt = tous("sheetFormatPr")[0], ps = tous("pageSetup")[0], pm = tous("pageMargins")[0], po = tous("printOptions")[0];
+  const pr = tous("pageSetUpPr")[0];
+  const largeur = col => { let w = null;
+    for (const c of tous("col")) if (+c.getAttribute("min") <= col && col <= +c.getAttribute("max")) w = +c.getAttribute("width");
+    if (w == null) w = fmt && fmt.getAttribute("defaultColWidth") ? +fmt.getAttribute("defaultColWidth") : 8.43;
+    return Math.trunc(((256 * w + Math.trunc(128 / 7)) / 256) * 7); }; // pixels, police Calibri 11 (règle d'Excel)
+  const ligne1 = tous("row").find(r => r.getAttribute("r") === "1");
+  const pt = +(ligne1 && ligne1.getAttribute("ht")) || +(fmt && fmt.getAttribute("defaultRowHeight")) || HAUTEUR_LIGNE;
+  const colsPx = [1, 2, 3, 4, 5].map(largeur), hPx = Math.floor(pt * 96 / 72), MARGE = 3;
+  const lettre = ps && ps.getAttribute("paperSize") === "1";
+  const paysage = ps && ps.getAttribute("orientation") === "landscape";
+  let [pw, ph] = lettre ? PAGES.Lettre : PAGES.A4;
+  if (paysage) [pw, ph] = [ph, pw];
+  const pouce = (a, def) => (pm && pm.getAttribute(a) != null ? +pm.getAttribute(a) : def) * 25.4;
+  const ml = pouce("left", 0.7), mr = pouce("right", 0.7), mt = pouce("top", 0.75), mb = pouce("bottom", 0.75);
+  const pxMm = 25.4 / 96, contenu = colsPx.reduce((a, b) => a + b, 0) * pxMm;
+  let s = ps && ps.getAttribute("scale") ? +ps.getAttribute("scale") / 100 : 1;
+  if (pr && pr.getAttribute("fitToPage") === "1" && ps && ps.getAttribute("fitToWidth") !== "0") s = Math.min(1, (pw - ml - mr) / contenu);
+  const x0 = po && po.getAttribute("horizontalCentered") === "1" ? (pw - contenu * s) / 2 : ml;
+  const r2 = v => Math.round(v * 100) / 100;
+  const l = r2((colsPx[0] - 2 * MARGE) * pxMm * s), h = r2((hPx - 2 * MARGE) * pxMm * s);
+  const pasV = pt * 25.4 / 72 * s;
+  const f = { id: "excel", page: lettre ? "Lettre" : "A4", l, h, mg: r2(x0 + MARGE * pxMm * s), mh: r2(mt + MARGE * pxMm * s),
+    eh: r2(colsPx[1] * pxMm * s - l), ev: r2(pasV - h), cols: 5, lignes: Math.max(1, Math.floor((ph - mt - mb + 0.01) / pasV)) };
+  const mm = v => String(v).replace(".", ",");
+  f.nom = `Mes étiquettes (mesures de mon fichier Excel) : ${mm(l)} × ${mm(h)} mm`;
+  return f;
+}
+
 const Impression = {
   format: null,      // { modele, page, l, h, mh, mg, eh, ev, qr, nom, couleur, traits }
   choix: new Set(),  // sources cochées : nom d'onglet, « Sets », « Objets dérivés »
@@ -31,30 +67,27 @@ const Impression = {
   async ouvrir() {
     afficher("impression");
     $("imp-feuilles").innerHTML = "";
-    const f = await Memoire.lire("format_etiquettes");
+    const base = etat.classeur && etat.classeur.estBase ? etat.classeur : null;
+    const f = (base && base.reglage("format_etiquettes")) || await Memoire.lire("format_etiquettes");
     this.imprimees = new Set((await Memoire.lire("etiquettes_imprimees")) || []);
     this._excel = await this._formatExcel();
-    this.format = f || this._depuisModele(this._excel || MODELES_ETIQUETTES[0]);
+    this.format = f ? { ...f } : this._depuisModele(this._excel || MODELES_ETIQUETTES[0]);
     await this._chargerArticles();
     if (!this.choix.size) this._sources().forEach(s => this.choix.add(s.nom));
     this._remplirFormulaire();
     this.majCompte();
   },
 
-  // Taille des cases du fichier Excel (cases d'étiquettes A à E de la première planche)
+  // Mesures exactes des étiquettes du fichier Excel ouvert, ou celles gardées dans la base lors de la reprise du fichier
   async _formatExcel() {
-    if (!etat.classeur || etat.classeur.estBase || typeof dimensionsCase !== "function") return null;
-    try {
-      const onglet = ongletsEtiquettes(etat.classeur).find(o => etat.classeur.aOnglet(o));
-      const { w, h } = await dimensionsCase(etat.classeur, onglet, 1, 1, 0);
-      if (!(w > 10 && h > 10)) return null;
-      const l = Math.round(w / MM_EN_PX * 10) / 10, hh = Math.round(h / MM_EN_PX * 10) / 10;
-      return { id: "excel", nom: `Comme mon fichier Excel : ${String(l).replace(".", ",")} × ${String(hh).replace(".", ",")} mm`, page: "A4", l, h: hh, mh: 10, mg: 10, eh: 0, ev: 0 };
-    } catch (err) { console.warn(err); return null; }
+    if (etat.classeur && etat.classeur.estBase) return etat.classeur.reglage("format_etiquettes_excel");
+    if (!etat.classeur) return null;
+    try { return await formatDepuisExcel(etat.classeur); } catch (err) { console.warn(err); return null; }
   },
 
   _depuisModele(m) {
     return { modele: m.id, page: m.page, l: m.l, h: m.h, mh: m.mh ?? 10, mg: m.mg ?? 10, eh: m.eh ?? 2, ev: m.ev ?? 2,
+             cols: m.cols || 0, lignes: m.lignes || 0,
              qr: true, nom: false, couleur: true, traits: m.page !== "rouleau" && !/^avery/.test(m.id) };
   },
 
@@ -113,6 +146,7 @@ const Impression = {
   // Colonnes et lignes par page, d'après la taille des étiquettes, les marges (symétriques) et les espaces
   _grille(f = this.format) {
     if (f.page === "rouleau") return { cols: 1, lignes: 1 };
+    if (f.cols && f.lignes) return { cols: f.cols, lignes: f.lignes }; // disposition fixée (mesures du fichier Excel)
     const [pw, ph] = PAGES[f.page] || PAGES.A4;
     const cols = Math.max(1, Math.floor((pw - 2 * f.mg + f.eh + 0.05) / (f.l + f.eh)));
     const lignes = Math.max(1, Math.floor((ph - 2 * f.mh + f.ev + 0.05) / (f.h + f.ev)));
@@ -142,10 +176,11 @@ const Impression = {
       for (const k of ["l", "h", "mh", "mg", "eh", "ev"]) f[k] = nombre("imp-" + k);
       f.l = Math.max(10, f.l); f.h = Math.max(8, f.h);
       for (const k of ["qr", "nom", "couleur", "traits"]) f[k] = $("imp-" + k).checked;
-      if (/^imp-(page|l|h|mh|mg|eh|ev)$/.test(champ)) { f.modele = "perso"; $("imp-modele").value = "perso"; }
+      if (/^imp-(page|l|h|mh|mg|eh|ev)$/.test(champ)) { f.modele = "perso"; $("imp-modele").value = "perso"; f.cols = f.lignes = 0; }
     }
     this._majPlanche();
     Memoire.ecrire(this.format, "format_etiquettes");
+    if (etat.classeur && etat.classeur.estBase) etat.classeur.reglerValeur("format_etiquettes", { ...this.format });
   },
 
   majCompte() {
