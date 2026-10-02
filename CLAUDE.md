@@ -11,4 +11,7 @@
   (contribuer.html), et son mode d'emploi (brouillon Gmail) est mis à jour en conséquence.
 - **Prix : toujours le prix public français** (LEGO France, vendeurs français…). Seuls les prix de JB Spielwaren
   sont allemands. Jamais de prix allemand ou étranger présenté comme prix de référence.
+- **Instructions GitHub (ou tout site en anglais)** : le navigateur de Mathias traduit les pages en français. Donner les
+  noms des menus et boutons **en français tels que traduits** (ex. « Paramètres », « Secrets et variables »,
+  « Nouveau secret de référentiel »), avec le nom anglais d'origine entre parenthèses.
 - Voir SUIVI.md pour l'état du projet. Données privées (prix, achats, photos) : dépôt privé uniquement.
