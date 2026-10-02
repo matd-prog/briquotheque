@@ -125,6 +125,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v89 (02/10) : ajout en masse : tout est coché au départ (même hors catalogue), sauf « déjà dans votre collection » ;
+    boutons « ✅ Tout cocher » / « Tout décocher » (demande de Mathias : décocher plutôt que cocher une par une).
   · v88 (02/10) : « 📷 Lire les codes sur des photos (vitrines, présentoirs…) » dans « Plusieurs figurines d'un coup » :
     PaddleOCR par morceaux de 1100 px (chevauchement 220 ; 800 et 1280 testés, pas mieux), codes reconnus seulement s'ils
     sont au catalogue (confusions O/0, I/1, S/5… corrigées, suffixes « as »/« s »), dédoublonnés entre photos, ajoutés à la

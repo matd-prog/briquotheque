@@ -93,7 +93,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v88"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v89"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -1386,7 +1386,8 @@ async function verifierPlusieurs() {
     const fiche = Catalogue.trouver(code), deja = ouFigurine(code).length;
     const nom = fiche ? fiche.nom : "";
     const theme = codeInvalide(code) ? "" : proposerTheme({ id: code, nom, categorie: fiche ? fiche.categorie : "" });
-    return { code, n, nom, theme, deja, fiche: !!fiche, invalide: codeInvalide(code), coche: !!fiche && !deja && !codeInvalide(code) };
+    // tout est coché au départ, sauf ce qui est déjà dans la collection (exemplaire en plus : à cocher soi-même)
+    return { code, n, nom, theme, deja, fiche: !!fiche, invalide: codeInvalide(code), coche: !deja && !codeInvalide(code) };
   });
   rendrePlusieurs();
 }
@@ -1394,7 +1395,9 @@ function rendrePlusieurs() {
   const l = listePlusieurs, nb = l.filter(x => x.coche).reduce((s, x) => s + x.n, 0);
   const onglet = x => x.theme === STAR_WARS ? (swUnique() ? THEME_STAR_WARS_UNIQUE.onglet : "Star Wars (camp proposé)") : x.theme;
   $("plusieurs-liste").innerHTML = `
-    <p class="aide">${l.length} code(s) : ${l.filter(x => x.coche).length} coché(s). Décochez ce que vous ne voulez pas ajouter.</p>
+    <p class="aide">${l.length} code(s) : ${l.filter(x => x.coche).length} coché(s). Décochez ce que vous ne voulez pas ajouter${l.some(x => x.deja) ? " ; celles déjà dans votre collection sont décochées (cochez-les pour un exemplaire de plus)" : ""}.</p>
+    <div class="suggestions"><button class="petit" data-action="plusieurs-tout">✅ Tout cocher</button>
+      <button class="petit" data-action="plusieurs-rien">Tout décocher</button></div>
     ${l.map((x, i) => `<label class="case-a-cocher ligne-plusieurs">
       <input type="checkbox" data-plusieurs="${i}"${x.coche ? " checked" : ""}${x.invalide ? " disabled" : ""}>
       <span><b>${echapper(x.code)}</b>${x.n > 1 ? ` × ${x.n}` : ""} ${x.nom ? echapper(x.nom) : ""}
@@ -1656,6 +1659,10 @@ document.addEventListener("click", async e => {
   else if (action === "valider-saisie") validerSaisie();
   else if (action === "verifier-plusieurs") verifierPlusieurs();
   else if (action === "ajouter-plusieurs") ajouterPlusieurs();
+  else if (action === "plusieurs-tout" || action === "plusieurs-rien") {
+    listePlusieurs.forEach(x => { if (!x.invalide) x.coche = action === "plusieurs-tout"; });
+    rendrePlusieurs();
+  }
   else if (action === "oui") ajouter();
   else if (action === "non") { afficher("accueil"); toast("Rien n'a été ajouté."); }
   else if (action === "enregistrer") preparerEnregistrement();
