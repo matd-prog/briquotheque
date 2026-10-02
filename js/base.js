@@ -459,13 +459,23 @@ const Base = {
     for (const numero of numeros)
       this.entrees.push({ ...commun, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
                           numero: nonNumerote ? "" : numero, date: new Date().toISOString() });
-    await Memoire.ecrire(this.entrees, "base");
+    $("base-etat").textContent = "Enregistrement du blister dans le téléphone…";
+    if (!(await Memoire.ecrire(this.entrees, "base"))) {
+      this.entrees.splice(this.entrees.length - numeros.length, numeros.length); // pas enregistré : retiré de la liste
+      $("base-etat").textContent = "⚠️ Le blister n'a pas pu être enregistré dans le téléphone (voir le message). Réessayez.";
+      return;
+    }
     const total = memes.length + n;
     toast(`« ${nomComplet(commun)} » : ${n > 1 ? `${n} exemplaires ajoutés` : "ajouté"} ✔ (${total} au total)`);
     // appli principale : aussi dans l'onglet Customs du fichier Excel (case cochée)
     let compteExcel = "";
-    if ($("base-excel") && $("base-excel").checked && !$("base-bloc-excel").hidden && typeof ajouterCustomsDepuisBase === "function")
-      compteExcel = await ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie: commun.serie.replace(/\D/g, ""), nonNumerote });
+    if ($("base-excel") && $("base-excel").checked && !$("base-bloc-excel").hidden && typeof ajouterCustomsDepuisBase === "function") {
+      $("base-etat").textContent = "Ajout à votre collection (Customs)…";
+      try { // jamais bloqué : au plus 30 s
+        compteExcel = await Promise.race([ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie: commun.serie.replace(/\D/g, ""), nonNumerote }),
+          new Promise(ok => setTimeout(() => ok("⚠️ L'ajout aux Customs prend trop de temps : vérifiez Ma collection, et réessayez si besoin."), 30000))]);
+      } catch (err) { console.error(err); compteExcel = "⚠️ L'ajout aux Customs a échoué : " + err.message; }
+    }
     // on garde la figurine : « Autre exemplaire » ne demande que le numéro
     this._precedent = { source: this.source, sourceVerso: this.sourceVerso, cadre: this.cadre, cadreVerso: this.cadreVerso,
                         nom, precision, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, serie: commun.serie,

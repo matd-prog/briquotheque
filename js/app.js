@@ -169,33 +169,47 @@ function echapper(t) {
 // ---------- mémoire du téléphone (le fichier survit si la page se recharge) ----------
 
 const Memoire = {
+  // une seule connexion, gardée (avant : une nouvelle à chaque lecture ou écriture, jamais refermée)
   _db() {
-    return new Promise((ok, ko) => {
+    if (!this._connexion) this._connexion = new Promise((ok, ko) => {
       const r = indexedDB.open("etiquettes-figurines", 1);
       r.onupgradeneeded = () => r.result.createObjectStore("donnees");
-      r.onsuccess = () => ok(r.result);
-      r.onerror = () => ko(r.error);
+      r.onsuccess = () => { const db = r.result; db.onclose = db.onversionchange = () => { this._connexion = null; db.close(); }; ok(db); };
+      r.onerror = () => { this._connexion = null; ko(r.error); };
     });
+    return this._connexion;
   },
+  // Écriture : une transaction annulée (ex. mémoire du téléphone pleine) ne bloque plus l'appli : erreur signalée
   async ecrire(valeur, cle = "classeur") {
     try {
       const db = await this._db();
       await new Promise((ok, ko) => {
         const tx = db.transaction("donnees", "readwrite");
         tx.objectStore("donnees").put(valeur, cle);
-        tx.oncomplete = ok; tx.onerror = () => ko(tx.error);
+        tx.oncomplete = ok;
+        tx.onerror = () => ko(tx.error);
+        tx.onabort = () => ko(tx.error || new Error("écriture annulée par le téléphone"));
       });
-    } catch (e) { console.warn("Mémoire indisponible", e); }
+      return true;
+    } catch (e) {
+      console.warn("Mémoire indisponible", e);
+      this._connexion = null;
+      if (typeof toast === "function") toast(e && e.name === "QuotaExceededError"
+        ? "⚠️ Mémoire du téléphone pleine : l'enregistrement a échoué. Libérez de la place (photos, applis), puis réessayez."
+        : "⚠️ Enregistrement dans le téléphone impossible : " + (e && e.message || e), 7000);
+      return false;
+    }
   },
   async lire(cle = "classeur") {
     try {
       const db = await this._db();
       return await new Promise(ok => {
-        const r = db.transaction("donnees").objectStore("donnees").get(cle);
+        const tx = db.transaction("donnees"), r = tx.objectStore("donnees").get(cle);
         r.onsuccess = () => ok(r.result || null);
         r.onerror = () => ok(null);
+        tx.onabort = () => ok(null);
       });
-    } catch (e) { return null; }
+    } catch (e) { this._connexion = null; return null; }
   },
   async effacer() { await this.ecrire(null); },
 };

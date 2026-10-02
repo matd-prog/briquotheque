@@ -74,13 +74,15 @@ class BaseCollection {
         (ecrire || []).forEach(e => st.put(e));
         (supprimer || []).forEach(c => st.delete(c));
         tx.oncomplete = ok; tx.onerror = () => ko(tx.error);
+        tx.onabort = () => ko(tx.error || new Error("écriture annulée par le téléphone (mémoire pleine ?)"));
       });
       db.close();
-    }).catch(err => { console.error(err); toast("⚠️ Écriture dans la base impossible : " + err.message, 6000); });
+    }).catch(err => { console.error(err); toast("⚠️ Écriture dans la base impossible : " + err.message, 7000); });
     this._planifierSauvegarde();
     return this._file;
   }
-  attendre() { return this._file; }
+  // fin des écritures en cours (au plus 20 s : l'appli ne reste jamais bloquée)
+  attendre() { return Promise.race([this._file, new Promise(ok => setTimeout(ok, 20000))]); }
 
   _poser(table, id, e) {
     const rec = { ...e, cle: `${table}|${id}`, table, id };

@@ -2,7 +2,7 @@
 // Stratégie : toujours essayer Internet d'abord (pour avoir la dernière version), sinon la copie gardée.
 // cache: "no-cache" : on redemande toujours au serveur si le fichier a changé (GitHub Pages
 // autorise sinon le téléphone à garder une ancienne version 10 minutes)
-const CACHE = "figurines-lego-v75";
+const CACHE = "figurines-lego-v76";
 self.addEventListener("install", e => self.skipWaiting());
 self.addEventListener("activate", e => e.waitUntil(self.clients.claim()));
 self.addEventListener("fetch", e => {
