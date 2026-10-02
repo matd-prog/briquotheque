@@ -7,17 +7,17 @@ const Catalogue = {
   date: null,          // date du catalogue (AAAA-MM-JJ)
   _chargement: null,
 
-  // Priorité au catalogue mis à jour depuis le téléphone ; sinon celui livré avec l'appli
+  // Le plus récent entre le catalogue de l'appli (data/figurines.tsv, complété chaque mois par l'API BrickLink :
+  // catalogue_bricklink.py du dépôt privé) et celui importé à la main dans le téléphone
   charger() {
     if (!this._chargement) {
       this._chargement = (async () => {
         const perso = await Memoire.lire("catalogue");
-        let texte = perso && perso.texte;
-        if (!texte) {
-          const rep = await fetch("data/figurines.tsv");
-          if (!rep.ok) throw new Error("catalogue absent");
-          texte = await rep.text();
-        }
+        let texte = null;
+        try { const rep = await fetch("data/figurines.tsv"); if (rep.ok) texte = await rep.text(); } catch (err) { console.warn(err); }
+        const dateDe = t => ((/^#date (\S+)/m.exec(t || "") || [])[1] || "");
+        if (perso && perso.texte && (!texte || dateDe(perso.texte) > dateDe(texte))) texte = perso.texte;
+        if (!texte) throw new Error("catalogue absent");
         this._lire(texte);
         if (typeof Nouveautes !== "undefined") this._ajouterNouveautes(await Nouveautes.charger());
         return this.liste;
@@ -41,13 +41,12 @@ const Catalogue = {
     }
   },
 
-  // Rappel à partir du 2 du mois si le catalogue date d'un mois précédent (ou s'il n'y en a pas)
+  // Catalogue mis à jour tout seul chaque mois : rappel seulement s'il a plus de deux mois (mise à jour en panne)
   aMettreAJour(aujourdhui = new Date()) {
-    if (aujourdhui.getDate() < 2) return false;
     if (!this.date) return true;
     const mois = aujourdhui.getFullYear() * 12 + aujourdhui.getMonth();
     const [a, m] = this.date.split("-").map(Number);
-    return a * 12 + (m - 1) < mois;
+    return a * 12 + (m - 1) < mois - 2;
   },
 
   // Transforme le fichier téléchargé sur BrickLink (Minifigures.txt, séparé par des tabulations)

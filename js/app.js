@@ -812,6 +812,41 @@ async function majInfosCatalogue() {
   $("bandeau-catalogue").hidden = !Catalogue.aMettreAJour();
 }
 
+// « 🔄 Tout mettre à jour » : relit tous les catalogues de l'appli (figurines, sets, nouveautés et objets, customs JB) ;
+// avec le jeton GitHub de 💶 Valeur, lance aussi la recherche des nouvelles figurines BrickLink (dépôt privé)
+async function toutMettreAJour(bouton) {
+  bouton.disabled = true;
+  const etat_ = t => $("maj-etat").textContent = t;
+  etat_("Relecture des catalogues…");
+  let lance = false;
+  try {
+    const jeton = await Memoire.lire("jeton-github");
+    if (jeton && typeof DEPOT_PRIVE !== "undefined") {
+      const rep = await fetch(`https://api.github.com/repos/${DEPOT_PRIVE}/actions/workflows/catalogue.yml/dispatches`, { method: "POST",
+        headers: { Authorization: `Bearer ${jeton}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" },
+        body: JSON.stringify({ ref: "main" }) });
+      lance = rep.ok;
+    }
+  } catch (err) { console.warn(err); }
+  try {
+    Catalogue._chargement = null;
+    if (typeof CatalogueSets !== "undefined") CatalogueSets._chargement = null;
+    if (typeof CatalogueJB !== "undefined") CatalogueJB._chargement = null;
+    if (typeof CatalogueObjets !== "undefined") { CatalogueObjets._chargement = null; CatalogueObjets.liste = []; }
+    await Promise.all([
+      typeof Nouveautes !== "undefined" ? Nouveautes.actualiser() : null,
+      typeof CatalogueSets !== "undefined" ? CatalogueSets.charger().catch(() => {}) : null,
+      typeof CatalogueJB !== "undefined" ? CatalogueJB.charger().catch(() => {}) : null,
+    ]);
+    Catalogue._chargement = null;
+    await majInfosCatalogue();
+    etat_(`✔ Catalogues relus.${lance ? " Recherche des nouvelles figurines BrickLink lancée : elles arrivent dans quelques minutes (touchez de nouveau ce bouton plus tard)." : ""}`);
+  } catch (err) {
+    etat_("Échec : " + err.message);
+  }
+  bouton.disabled = false;
+}
+
 $("input-catalogue").addEventListener("change", async e => {
   const f = e.target.files[0];
   e.target.value = "";
@@ -1438,6 +1473,7 @@ document.addEventListener("click", async e => {
   else if (action === "base-creer") demarrerBase(false);
   else if (action === "revenir-excel") revenirExcel();
   else if (action === "migrer-base") migrerVersBase();
+  else if (action === "tout-mettre-a-jour") toutMettreAJour(b);
   else if (action === "sauvegarde-en-ligne") sauvegardeEnLigne();
   else if (action === "restaurer-en-ligne") restaurerEnLigne();
   else if (action === "base-depuis-excel") $("input-excel-base").click();

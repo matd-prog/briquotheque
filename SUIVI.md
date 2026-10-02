@@ -110,7 +110,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     centrage) gardées dans la base (_reglages/format_etiquettes_excel) à la reprise, modèle « Mes étiquettes (mesures de
     mon fichier Excel) » ; le format choisi est aussi gardé dans la base (_reglages/format_etiquettes). À valider par une
     impression d'essai de Mathias (règle en main), réglable au centième de mm.
-  · À voir avec Mathias : qui propose la mise à jour du catalogue BrickLink (figurines, et aussi les sets).
+  · Mises à jour en un bouton (v74) : BrickLink exige désormais une connexion compte LEGO (identity.lego.com, protection
+    anti-robots) pour télécharger son catalogue -> abandon du téléchargement. Nouvelles figurines par l'API BrickLink
+    (mêmes clés que les prix) : catalogue_bricklink.py + .github/workflows/catalogue.yml du DÉPÔT PRIVÉ (mensuel le 2,
+    ou bouton) : subsets des sets récents avec figurines (data/sets.tsv) -> ajoute à data/figurines.tsv du dépôt public.
+    Secret à créer par Mathias dans le dépôt privé : JETON_DEPOT_PUBLIC (jeton avec écriture sur etiquettes_figurines).
+    Appli : catalogue = le plus récent entre data/figurines.tsv et l'import manuel ; Outils « 🔄 Tout mettre à jour »
+    (relit tout, lance catalogue.yml) ; import manuel replié en secours ; rappel seulement si catalogue > 2 mois.
   À FAIRE : document de plan « version diffusable » (synchro cloud Supabase, comptes, conditions Brickognize/BrickLink,
   valeur sans dépôt privé, nom/marque), alertes, multi-figurines par photo, vitrine partagée.
 - Liste de souhaits (01/10, cache v63, js/souhaits.js) : onglet Excel « Souhaits » (Type, Code, Nom, Thème / série,

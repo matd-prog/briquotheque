@@ -88,8 +88,13 @@
     <details class="outils" id="outils">
       <summary>Outils</summary>
       <div id="bloc-catalogue" class="bloc-catalogue">
-        <p class="sous-titre">📚 Catalogue BrickLink (recherche par nom)</p>
+        <p class="sous-titre">🔄 Mises à jour</p>
+        <p class="aide">Les catalogues se mettent à jour tout seuls : sets, nouveautés, objets dérivés et prix LEGO France
+          chaque nuit ; nouvelles figurines BrickLink chaque mois. Ce bouton les relit tout de suite.</p>
         <p class="aide" id="catalogue-info"></p>
+        <button class="gros-bouton vert" data-action="tout-mettre-a-jour">🔄 Tout mettre à jour</button>
+        <p class="aide" id="maj-etat"></p>
+        <details class="aide"><summary>Mettre à jour le catalogue BrickLink à la main (secours)</summary>
         <ol class="aide etapes">
           <li>Connectez-vous sur BrickLink, puis ouvrez la <a href="https://www.bricklink.com/catalogDownload.asp" target="_blank" rel="noopener">page de téléchargement du catalogue</a>.</li>
           <li>Choisissez <b>Catalog Items</b>, <b>Minifigures</b>, <b>Tab-Delimited File</b> (cochez <b>Year Released</b> si proposé), puis <b>Download</b>.</li>
@@ -98,6 +103,7 @@
         <label class="bouton">📥 Mettre à jour le catalogue BrickLink
           <input type="file" id="input-catalogue" hidden>
         </label>
+        </details>
       </div>
       <hr>
       <p class="excel-seul">Refaire d'un coup les étiquettes (QR code) de toutes les figurines déjà présentes dans le fichier.</p>
