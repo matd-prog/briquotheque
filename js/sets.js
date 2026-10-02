@@ -149,6 +149,7 @@ const EcranSet = {
     // pas un numéro : recherche par le nom du set (en anglais dans le catalogue ; quelques noms français traduits)
     if (!s && /[a-zà-ÿ]{2}/i.test(numero)) {
       const trad = { "etoile de la mort": "death star", "faucon millenium": "millennium falcon", "faucon millennium": "millennium falcon",
+        "encyclopedie": "encyclopedia", "dictionnaire visuel": "visual dictionary", "dictionnaire": "dictionary",
         "chasseur": "fighter", "croiseur": "destroyer", "chateau": "castle", "poudlard": "hogwarts", "bateau": "ship" };
       let q = normaliser(numero);
       for (const [fr, en] of Object.entries(trad)) q = q.replace(fr, en);

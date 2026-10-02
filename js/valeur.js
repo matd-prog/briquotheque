@@ -531,6 +531,16 @@ const Valeur = {
       const neufVoulu = rachat || (a.type === "SET" && /scell/i.test(a.etat)) || (a.type === "GEAR" && /neuf/i.test(a.etat));
       const pn = lirePrix(p, neufVoulu), pAutre = lirePrix(p, !neufVoulu);
       let v = enVente || pn || pAutre || (!rachat && a.type === "SET" ? lego.get(a.code.toLowerCase()) || 0 : 0);
+      if (!v && a.figs && a.figs.length && !a.sansFigs) {
+        // livre ou magazine avec figurine exclusive (encyclopédie, dictionnaire visuel…) : BrickLink le range dans ses
+        // « Books », sans prix sous ce numéro ; on compte au moins ses figurines, une à une
+        const pf = f => { const q = prix.get(`MINIFIG ${f.code}`); return lirePrix(q, rachat) || lirePrix(q, !rachat); };
+        const figsIci = a.figs.reduce((n, f) => n + pf(f) * (f.quantite * (a.quantite || 1) - f.ailleurs), 0);
+        const figsSet = a.figs.reduce((n, f) => n + pf(f) * f.quantite, 0);
+        if (!figsSet) return null;
+        return { v: figsIci, unitaire: figsSet, detail: { figsSet, reste: 0, figsIci, seulementFigs: true }, neuf: rachat, enVente: false,
+                 date: "", ventes: 0, zone: "" };
+      }
       if (!v) return null;
       const neuf = !enVente && (pn ? neufVoulu : !neufVoulu);
       const unitaire = v, qte = a.quantite || 1;
@@ -738,7 +748,7 @@ const Valeur = {
           if (!g.length) return "";
           const total = g.reduce((n, d) => n + d.v, 0);
           return `<div class="carte"><p class="sous-titre">${titre} : ${euros(total)} <span class="score">(${g.length})</span></p>
-            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${d.marque ? `${echapper(d.marque)} ` : ""}${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.sourceCustom ? ` · ${d.sourceCustom}` : d.enVente ? " · prix LEGO France (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.detail.resteEbay ? ` (d'après ${d.detail.resteEbay.n} annonces eBay.de sans figurines)` : ""}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente || d.sourceCustom ? "" : ` · ${d.ventes} ventes · occasion ${euros(d.vOccasion)}`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
+            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${d.marque ? `${echapper(d.marque)} ` : ""}${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.sourceCustom ? ` · ${d.sourceCustom}` : d.enVente ? " · prix LEGO France (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail && d.detail.seulementFigs ? ` · figurine(s) seulement (${euros(d.detail.figsSet)}) : pas de prix BrickLink pour le livre lui-même${d.figsAilleurs ? ` ; ${d.figsAilleurs} figurine(s) déjà comptée(s) dans vos onglets` : ""}` : d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.detail.resteEbay ? ` (d'après ${d.detail.resteEbay.n} annonces eBay.de sans figurines)` : ""}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente || d.sourceCustom || (d.detail && d.detail.seulementFigs) ? "" : ` · ${d.ventes} ventes · occasion ${euros(d.vOccasion)}`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
             ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
         }).join("")}
         ${(() => { // autres marques sans prix : ni annonce eBay.fr, ni prix payé

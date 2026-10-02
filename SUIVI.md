@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v93 (02/10) : LIVRES avec figurine exclusive (encyclopédies, dictionnaires visuels… : 549 livres au catalogue des
+    sets Rebrickable, thème « Books », dont 443 avec figurine) : ajoutés par la tuile Set (recherche en français :
+    « encyclopédie », « dictionnaire visuel » traduits). BrickLink les range dans ses « Books » sous d'autres numéros : sans
+    prix du livre, la valeur compte au moins ses figurines une à une (avant : article « sans prix », figurine perdue).
   · v92 (02/10) : autres marques = SETS seulement (Mathias : leurs figurines sont des accessoires) : choix du type retiré.
     Youmko, Pantasy, Reobrix en tête de liste (Mathias a Youmko YM011 Nazgûl/Fell Beast et YM014 Oscorp Tower ; une tour de
     l'horloge de Retour vers le futur et l'église des Simpsons, marque à confirmer : Reobrix 55012 « The Clock Tower » ?).
