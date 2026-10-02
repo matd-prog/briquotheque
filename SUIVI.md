@@ -125,6 +125,14 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v97 (02/10) : RECADRAGE QUEL QUE SOIT LE FOND (Mathias : « il faut qu'il se cadre par rapport au bord du blister »).
+    Banc d'essai : 24 blisters de l'album collés sur 6 fonds (plaque perforée, bois, carreaux, cyan, sombre, journal) +
+    41 photos réelles. Essayés et écartés : traits droits (bords du rectangle) seuls, puis en couleur (cyan réglé, mais
+    trompés par les fonds à motifs) ; « motif » seul (coupe le bas du carton sur les vraies photos). Retenu :
+    _cadreFondUni (ex-_cadreAuto v96) d'abord ; _cadreMotif (fond appris sur le pourtour par carrés de 8 px : couleur,
+    contraste, quarts ; seuil = variété du fond ; extension aux carrés voisins à 65 % du seuil ; proportions 0,8-2,2)
+    seulement s'il échoue : pas de cadre, cadre à côté (recouvrement < 50 %), ou plus de 1,8 fois plus grand avec une
+    bande en plus faite de fond. Carreaux : 0 -> 0,66-0,85 ; réelles : inchangées sauf 6 photos gardées entières, cadrées.
   · v96 (02/10) : RECADRAGE AUTOMATIQUE des blisters amélioré (photo de Mathias sur plaque perforée : photo entière gardée).
     Base._cadreAuto combine _cadreContraste (ancienne méthode) et _cadreZone (masque débruité 5×5 + plus grande zone d'un
     seul tenant) : l'ancienne gardée si elle englobe la nouvelle sans dépasser 1,6 fois sa surface. Essai sur la plaque +

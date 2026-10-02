@@ -62,12 +62,113 @@ const Base = {
     return new Promise(ok => cv.toBlob(ok, "image/jpeg", 0.82));
   },
 
-  // Cadre du blister sur la photo, par deux méthodes ; null si incertain (on garde alors la photo entière ;
-  // « ✂️ Recadrer » permet d'ajuster à la main). La 2e (zone d'un seul tenant) trouve le blister sur un fond chargé
+  // Cadre du blister sur la photo, quel que soit le fond ; null si incertain (on garde alors la photo entière ;
+  // « ✂️ Recadrer » permet d'ajuster à la main). Fond uni ou peu chargé : _cadreFondUni, juste sur les photos réelles.
+  // Il est remplacé par _cadreMotif (fond appris sur le pourtour, couleur ET motif) quand il échoue nettement : pas de
+  // cadre, cadre à côté du blister (carreaux, lignes), ou cadre bien plus grand dont la bande en plus est du fond.
+  // Essai du 02/10/2026 : 24 photos sur 6 fonds (plaque perforée, bois, carreaux, cyan, sombre, journal) : plus aucun
+  // échec (carreaux : 0 -> 0,66-0,85 de recouvrement) ; 41 photos réelles : inchangées, sauf 6 gardées entières
+  // jusqu'ici, maintenant cadrées sur les bords du blister.
+  _cadreAuto(image) {
+    const c = this._cadreFondUni(image), m = this._cadreMotif(image), info = this._dernierMotif;
+    if (!m) return c; if (!c) return m;
+    const inter = Math.max(0, Math.min(c.x + c.l, m.x + m.l) - Math.max(c.x, m.x)) * Math.max(0, Math.min(c.y + c.h, m.y + m.h) - Math.max(c.y, m.y));
+    if (inter < 0.5 * m.l * m.h) return m; // le cadre actuel est à côté du blister (fond à motifs)
+    if (c.l * c.h <= 1.8 * m.l * m.h) return c;
+    // cadre actuel beaucoup plus grand : la bande ajoutée est-elle du fond (il déborde) ou encore du blister ?
+    const { ecartFond, seuil, bw, bh, T, w, h } = info;
+    let n = 0, differents = 0;
+    for (let by = 0; by < bh; by++) for (let bx = 0; bx < bw; bx++) {
+      const x = (bx + 0.5) * T / w, y = (by + 0.5) * T / h;
+      const dansC = x >= c.x && x <= c.x + c.l && y >= c.y && y <= c.y + c.h, dansM = x >= m.x && x <= m.x + m.l && y >= m.y && y <= m.y + m.h;
+      if (dansC && !dansM) { n++; if (ecartFond[by * bw + bx] >= 0.3 * seuil) differents++; }
+    }
+    return !n || differents / n >= 0.35 ? c : m;
+  },
+
+  // Fond appris sur le pourtour de la photo, par carrés de 8 pixels (couleur, contraste, couleurs des quatre quarts) :
+  // le blister = la grande zone de carrés qui ne ressemblent à aucun carré du pourtour (franchement différents, puis
+  // ceux un peu différents qui les touchent). Garde l'écart au fond de chaque carré pour _cadreAuto.
+  _cadreMotif(image) {
+    const L = 256, k = L / Math.max(image.width, image.height);
+    const w = Math.max(32, Math.round(image.width * k)), h = Math.max(32, Math.round(image.height * k));
+    const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+    const cx = cv.getContext("2d"); cx.drawImage(image, 0, 0, w, h);
+    const px = cx.getImageData(0, 0, w, h).data;
+    const T = 8, bw = Math.floor(w / T), bh = Math.floor(h / T);
+    // empreinte d'un carré : couleur moyenne, contraste (écart type) et couleurs moyennes de ses quatre quarts
+    const carre = (bx, by) => {
+      const f = [], quarts = [[0, 0], [4, 0], [0, 4], [4, 4]];
+      let m = [0, 0, 0], m2 = [0, 0, 0];
+      for (const [qx, qy] of quarts) {
+        const q = [0, 0, 0];
+        for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) {
+          const i = ((by * T + qy + y) * w + bx * T + qx + x) * 4;
+          for (let c = 0; c < 3; c++) { q[c] += px[i + c]; m[c] += px[i + c]; m2[c] += px[i + c] * px[i + c]; }
+        }
+        f.push(...q.map(v => v / 16));
+      }
+      m = m.map(v => v / 64);
+      const et = m2.map((v, c) => Math.sqrt(Math.max(0, v / 64 - m[c] * m[c])));
+      return [...m, ...et.map(v => v * 1.5), ...f.map(v => v * 0.35)];
+    };
+    const F = [];
+    for (let by = 0; by < bh; by++) for (let bx = 0; bx < bw; bx++) F.push(carre(bx, by));
+    const dist = (a, b) => { let s = 0; for (let i = 0; i < a.length; i++) s += Math.abs(a[i] - b[i]); return s; };
+    const fond = [];
+    for (let by = 0; by < bh; by++) for (let bx = 0; bx < bw; bx++)
+      if (bx === 0 || by === 0 || bx === bw - 1 || by === bh - 1) fond.push(F[by * bw + bx]);
+    // seuil : variété du fond lui-même (distance de chaque carré du pourtour à son plus proche voisin du pourtour)
+    const proches = fond.map((a, i) => { let d = 1e9; fond.forEach((b, j) => { if (i !== j) d = Math.min(d, dist(a, b)); }); return d; }).sort((a, b) => a - b);
+    const seuil = Math.max(60, 2.2 * proches[Math.floor(proches.length * 0.9)]);
+    // écart de chaque carré au fond : franchement différent (sûr) ou un peu différent (gardé s'il touche une partie sûre)
+    const ecartFond = new Float32Array(bw * bh);
+    for (let i = 0; i < bw * bh; i++) { let d = 1e9; for (const b of fond) d = Math.min(d, dist(F[i], b)); ecartFond[i] = d; }
+    const blister = new Uint8Array(bw * bh), pileH = [];
+    for (let i = 0; i < bw * bh; i++) if (ecartFond[i] >= seuil) { blister[i] = 1; pileH.push(i); }
+    const bas = 0.65 * seuil;
+    while (pileH.length) {
+      const i = pileH.pop(), x = i % bw, y = (i - x) / bw;
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const X = x + dx, Y = y + dy, j = Y * bw + X;
+        if (X >= 0 && Y >= 0 && X < bw && Y < bh && !blister[j] && ecartFond[j] >= bas) { blister[j] = 1; pileH.push(j); }
+      }
+    }
+    // plus grande zone d'un seul tenant (carrés voisins, diagonales comprises)
+    const zone = new Int32Array(bw * bh).fill(-1); let meilleure = -1, taille = 0, n = 0;
+    for (let d = 0; d < bw * bh; d++) {
+      if (!blister[d] || zone[d] >= 0) continue;
+      const pile = [d]; zone[d] = n; let t = 0;
+      while (pile.length) {
+        const i = pile.pop(), x = i % bw, y = (i - x) / bw; t++;
+        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+          const X = x + dx, Y = y + dy, j = Y * bw + X;
+          if (X >= 0 && Y >= 0 && X < bw && Y < bh && blister[j] && zone[j] < 0) { zone[j] = n; pile.push(j); }
+        }
+      }
+      if (t > taille) { taille = t; meilleure = n; }
+      n++;
+    }
+    if (meilleure < 0 || taille < bw * bh * 0.04) return null;
+    // cadre de la zone, en ignorant les quelques carrés qui dépassent (ombre, reflet) : 2 % de chaque côté
+    const xs = [], ys = [];
+    for (let i = 0; i < bw * bh; i++) if (zone[i] === meilleure) { xs.push(i % bw); ys.push(Math.floor(i / bw)); }
+    xs.sort((a, b) => a - b); ys.sort((a, b) => a - b);
+    const q = (t, p) => t[Math.min(t.length - 1, Math.floor(t.length * p))];
+    const x0 = q(xs, 0.01), x1 = q(xs, 0.99) + 1, y0 = q(ys, 0.01), y1 = q(ys, 0.99) + 1;
+    const c = { x: Math.max(0, (x0 * T) / w - 0.01), y: Math.max(0, (y0 * T) / h - 0.01) };
+    c.l = Math.min(1, (x1 * T) / w + 0.01) - c.x; c.h = Math.min(1, (y1 * T) / h + 0.01) - c.y;
+    // proportions d'un blister (plus large que haut, ou presque carré) : un cadre étroit et tout en hauteur est une erreur
+    const forme = (c.l * image.width) / (c.h * image.height);
+    this._dernierMotif = { ecartFond, seuil, bw, bh, T, w, h };
+    return c.l * c.h > 0.95 || c.l * c.h < 0.05 || forme < 0.8 || forme > 2.2 ? null : c;
+  },
+
+  // Fond uni ou peu chargé, par deux méthodes : la 2e (zone d'un seul tenant) trouve le blister sur un fond chargé
   // (plaque perforée, nappe, bois) où la 1re renonce ; la 1re garde mieux un carton dont une partie ressemble au fond
   // (ciel clair devant un mur clair) : on la préfère quand elle englobe la 2e sans être beaucoup plus grande.
   // Essai du 02/10/2026 : plaque perforée recadrée (avant : photo entière), 40 photos de l'album identiques ou mieux.
-  _cadreAuto(image) {
+  _cadreFondUni(image) {
     const a = this._cadreContraste(image), z = this._cadreZone(image);
     if (!z) return a;
     if (!a) return z;
