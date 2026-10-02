@@ -28,8 +28,8 @@ const Exports = {
     feuilles.push({ nom: "Customs", titre: "Customs", lignes: customs,
       colonnes: [["Code", 16], ["Nom", 48], ["N° d'exemplaire", 14], ["Lien (fabricant ou eBay)", 50], ["Case", 8]] });
     const lire = async f => { try { return cl ? await f(cl) : []; } catch (err) { console.warn(err); return []; } };
-    feuilles.push({ nom: "Sets", titre: "Sets", lignes: (await lire(lireSets)).map(s => [s.code, s.nom, s.annee, s.theme, s.etat, s.boite, s.notice, s.figurines, s.quantite || 1, s.remarques]),
-      colonnes: [["Numéro", 11], ["Nom", 40], ["Année", 7], ["Thème", 20], ["État", 14], ["Boîte", 7], ["Notice", 7], ["Figurines", 30], ["Quantité", 9], ["Remarques", 30]] });
+    feuilles.push({ nom: "Sets", titre: "Sets", lignes: (await lire(lireSets)).map(s => [s.code, s.nom, s.annee, s.theme, s.etat, s.boite, s.notice, s.figurines, s.quantite || 1, s.remarques, s.marque || "LEGO", s.prixPaye || ""]),
+      colonnes: [["Numéro", 11], ["Nom", 40], ["Année", 7], ["Thème", 20], ["État", 14], ["Boîte", 7], ["Notice", 7], ["Figurines", 30], ["Quantité", 9], ["Remarques", 30], ["Marque", 14], ["Prix payé (€)", 12]] });
     feuilles.push({ nom: "Objets dérivés", titre: "Objets dérivés", lignes: (await lire(lireObjets)).map(o => [o.code, o.nom, o.type, o.etat, o.quantite || 1, o.remarques]),
       colonnes: [["Code", 14], ["Nom", 40], ["Type", 18], ["État", 14], ["Quantité", 9], ["Remarques", 30]] });
     feuilles.push({ nom: "Souhaits", titre: "Souhaits", lignes: (await lire(lireSouhaits)).map(s => [s.type, s.code, s.nom, s.theme, s.sortie, s.remarques, s.ajoute]),

@@ -75,6 +75,13 @@ const EcranSet = {
     $("set-numero").value = "";
     $("set-fiche").innerHTML = "";
     $("set-details").hidden = true;
+    // marque : LEGO par défaut ; la dernière autre marque choisie reste proposée pendant la session (plusieurs Cobi à la suite)
+    $("set-marque").innerHTML = ["LEGO", ...MARQUES_ALTERNATIVES].map(m => `<option>${echapper(m)}</option>`).join("") +
+      `<option value="autre">Autre marque…</option>`;
+    $("set-marque").value = this.marqueRetenue || "LEGO";
+    if (this.marqueAutre) { $("set-marque").value = "autre"; $("set-marque-autre").value = this.marqueAutre.trim(); }
+    for (const id of ["set-m-numero", "set-m-nom", "set-m-pieces", "set-m-annee", "set-m-prix"]) $(id).value = "";
+    this.majMarque();
     afficher("set");
     $("set-info").textContent = "Chargement du catalogue des sets…";
     try {
@@ -84,7 +91,53 @@ const EcranSet = {
     } catch (e) {
       $("set-info").textContent = "Le catalogue des sets n'est pas encore disponible.";
     }
-    setTimeout(() => $("set-numero").focus(), 50);
+    setTimeout(() => $(estLego({ marque: this.marque() }) ? "set-numero" : "set-m-numero").focus(), 50);
+  },
+
+  marque() {
+    const v = $("set-marque").value;
+    return v === "autre" ? $("set-marque-autre").value.trim() : v;
+  },
+
+  // LEGO : recherche dans le catalogue ; autre marque : saisie à la main (état, boîte, notice gardés ; pas de figurines)
+  majMarque() {
+    const autre = $("set-marque").value === "autre", lego = !autre && $("set-marque").value === "LEGO";
+    $("set-marque-autre").hidden = !autre;
+    $("set-bloc-lego").hidden = !lego;
+    $("set-bloc-marque").hidden = lego;
+    if (lego) { $("set-details").hidden = !this.set; return; }
+    this.set = null; this.figs = [];
+    $("set-figs-titre").textContent = ""; $("set-figs").innerHTML = "";
+    $("set-etat").value = ETATS_SET[0]; $("set-boite").checked = true; $("set-notice").checked = true;
+    $("set-details").hidden = false;
+  },
+
+  async ajouterMarque() {
+    const marque = this.marque();
+    const numero = $("set-m-numero").value.trim(), nom = $("set-m-nom").value.trim();
+    if (!marque) { await demander("Tapez le nom de la marque.", "OK", "Fermer"); return; }
+    if (!numero && !nom) { await demander("Indiquez au moins le numéro ou le nom de l'article.", "OK", "Fermer"); return; }
+    const prixPaye = parseFloat($("set-m-prix").value.replace(/\s|€/g, "").replace(",", ".")) || 0;
+    const code = numero || nom;
+    const deja = (await lireSets(etat.classeur)).some(x => !estLego(x) && x.marque.toLowerCase() === marque.toLowerCase() && x.code.toLowerCase() === code.toLowerCase());
+    if (deja && !(await demander(`${marque} ${code} est déjà dans votre collection. L'ajouter quand même (autre exemplaire) ?`))) return;
+    $("texte-chargement").textContent = "Ajout…";
+    afficher("chargement");
+    try {
+      await ajouterSet(etat.classeur, { code, nom: nom || `${marque} ${numero}`, annee: $("set-m-annee").value.trim(), theme: $("set-m-type").value,
+        pieces: $("set-m-pieces").value.trim(), etat: $("set-etat").value, boite: $("set-boite").checked, notice: $("set-notice").checked,
+        marque, prixPaye });
+      etat.nonEnregistres++;
+      await memoriser();
+      await relireContenu();
+      afficher("accueil");
+      await demander(`${marque} ${numero ? numero + " " : ""}${nom ? `« ${nom} » ` : ""}ajouté à votre collection (avec vos sets).\n\n` +
+        "Sa valeur sera estimée d'après les annonces eBay France au prochain relevé des prix" + (prixPaye ? ", sinon d'après votre prix payé." : "."), "OK", "Fermer");
+    } catch (err) {
+      console.error(err);
+      afficher("set");
+      await demander("L'ajout a échoué : " + err.message, "OK", "Fermer");
+    }
   },
 
   chercher() {
@@ -205,6 +258,7 @@ const EcranSet = {
   },
 
   async ajouter() {
+    if (!estLego({ marque: this.marque() })) return this.ajouterMarque();
     if (!this.set) return;
     const s = this.set, choisies = this.figs.filter(f => f.cocher && f.code);
     const deja = (await lireSets(etat.classeur)).some(x => x.code.toLowerCase() === s.code.toLowerCase());
@@ -242,6 +296,13 @@ const EcranSet = {
     }
   },
 };
+
+$("set-marque").addEventListener("change", () => {
+  EcranSet.marqueRetenue = $("set-marque").value === "autre" ? "LEGO" : $("set-marque").value;
+  EcranSet.marqueAutre = $("set-marque").value === "autre" ? $("set-marque-autre").value.trim() || " " : "";
+  EcranSet.majMarque();
+});
+$("set-marque-autre").addEventListener("input", () => { EcranSet.marqueAutre = $("set-marque-autre").value.trim() || " "; });
 
 let minuteurSet;
 $("set-numero").addEventListener("input", () => {

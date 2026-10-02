@@ -22,8 +22,14 @@ const ONGLET_SETS = "Sets";
 const COLONNES_SETS = [
   ["A", "Numéro", 11], ["B", "Nom", 38], ["C", "Année", 7], ["D", "Thème", 28], ["E", "Pièces", 8],
   ["F", "État", 14], ["G", "Boîte", 7], ["H", "Notice", 7], ["I", "Figurines", 40], ["J", "Ajouté le", 11],
-  ["K", "Quantité", 8], ["L", "Remarques", 36],
+  ["K", "Quantité", 8], ["L", "Remarques", 36], ["M", "Marque", 14], ["N", "Prix payé (€)", 12],
 ];
+// Marques de briques autres que LEGO (sets ajoutés à la main, valeur d'après eBay.fr ou le prix payé)
+const MARQUES_ALTERNATIVES = ["Cobi", "BlueBrixx", "CaDA", "Mould King", "Lumibricks", "Pantasy", "JMBricklayer", "Reobrix",
+  "Xingbao", "Sembo", "Keeppley", "Blokees", "Wange", "Sluban", "Qman", "Gobricks"];
+const estLego = s => !s || !s.marque || /^lego$/i.test(String(s.marque).trim());
+// Recherche eBay France d'un article d'une autre marque (lien de l'étiquette, comparaison des prix)
+const urlEbayMarque = s => `https://www.ebay.fr/sch/i.html?_nkw=${encodeURIComponent(`${s.marque} ${s.code}`).replace(/%20/g, "+")}`;
 // Objets dérivés LEGO du catalogue BrickLink « Gear » (porte-clés, porte-clés lumineux, magnets…) : même principe
 const ONGLET_OBJETS = "Objets dérivés";
 const COLONNES_OBJETS = [
@@ -757,21 +763,23 @@ async function lireSets(cl) {
     const code = await v("A");
     if (code) res.push({ row, code, nom: await v("B"), annee: await v("C"), theme: await v("D"), etat: await v("F"),
                          boite: await v("G"), notice: await v("H"), figurines: await v("I"),
-                         quantite: +(await v("K")) || 1, remarques: await v("L") });
+                         quantite: +(await v("K")) || 1, remarques: await v("L"), marque: String((await v("M")) || "").trim(),
+                         prixPaye: parseFloat(String((await v("N")) || "").replace(/\s/g, "").replace(",", ".")) || 0 });
   }
   return res;
 }
 
 // Ajoute un set à l'onglet « Sets » (créé s'il n'existe pas) : une ligne à la fin du tableau
 // boite, notice : true / false, ou null si on ne sait pas
-async function ajouterSet(cl, { code, nom, annee, theme, pieces, etat, boite, notice, figurines, quantite, remarques }) {
+async function ajouterSet(cl, { code, nom, annee, theme, pieces, etat, boite, notice, figurines, quantite, remarques, marque, prixPaye }) {
   await cl.creerOngletSets();
   for (const [c, titre] of COLONNES_SETS) // onglet créé avant l'ajout de nouvelles colonnes : titres manquants
     if (!(await cl.valeur(ONGLET_SETS, c + "1"))) await cl.ecrireTexte(ONGLET_SETS, c + "1", titre);
   const row = (await cl.derniereLigne(ONGLET_SETS)) + 1;
   const ouiNon = x => x == null ? "" : x ? "oui" : "non";
   const valeurs = [code, nom, annee, theme, pieces, etat, ouiNon(boite), ouiNon(notice),
-                   figurines || "", new Date().toLocaleDateString("fr-FR"), quantite > 1 ? quantite : "", remarques || ""];
+                   figurines || "", new Date().toLocaleDateString("fr-FR"), quantite > 1 ? quantite : "", remarques || "",
+                   marque && !/^lego$/i.test(marque) ? marque : "", prixPaye > 0 ? String(prixPaye).replace(".", ",") : ""];
   for (let i = 0; i < valeurs.length; i++)
     if (valeurs[i] !== "" && valeurs[i] != null) await cl.ecrireTexte(ONGLET_SETS, COLONNES_SETS[i][0] + row, String(valeurs[i]));
   return row;

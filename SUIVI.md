@@ -125,6 +125,14 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v91 (02/10) : AUTRES MARQUES (demande de Mathias, pistes 1 et 2 de l'étude du 02/10 : Merlins Bricks SetDB couvre 92
+    marques mais en site web, sans API connue). Écran Set : choix de la marque (LEGO par défaut, liste MARQUES_ALTERNATIVES,
+    « Autre marque… ») ; hors LEGO : saisie à la main (type, numéro, nom, pièces, année, prix payé, état/boîte/notice).
+    Onglet Sets : colonnes M « Marque » et N « Prix payé (€) ». Valeur : type MARQUE, hors liste BrickLink ; rachat = prix du
+    milieu des annonces eBay.fr (2 au moins, prix_ebay_marques.tsv du dépôt privé), occasion 85 % ; sinon prix payé.
+    outils/prix_ebay_marques.py (EBAY_FR, marque + numéro dans le titre, « COB2661 » accepté ; essai 9/9 articles réels
+    trouvés). Lancé par prix.yml du dépôt privé si les secrets EBAY_CLIENT_ID / EBAY_CLIENT_SECRET y sont (sinon sauté).
+    Aussi : étiquettes (lien eBay.fr, couleur bleue), exports (marque, prix payé), dossier assureur, statistiques.
   · v90 (02/10) : CORRECTION tuile Valeur grisée ⏳ et intouchable (js/occupe.js : le suivi du relevé des prix
     interroge GitHub en continu, le travail ne semblait jamais fini). Le bouton grisé est libéré au changement d'écran
     (Occupe.liberer dans afficher) et au plus tard 45 s après l'appui.

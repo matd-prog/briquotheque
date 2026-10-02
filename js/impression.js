@@ -121,7 +121,8 @@ const Impression = {
       for (const s of await lireSets(etat.classeur)) {
         const code = /-\d+$/.test(s.code) ? s.code : s.code + "-1";
         for (let k = 0; k < (s.quantite || 1); k++)
-          res.push({ source: ONGLET_SETS, cle: `${ONGLET_SETS}|${s.row}|${s.code}|${k}`, code: s.code, nom: s.nom || "", couleur: "#ffd500", lien: urlBricklinkSet(code) });
+          res.push({ source: ONGLET_SETS, cle: `${ONGLET_SETS}|${s.row}|${s.code}|${k}`, code: s.code, nom: estLego(s) ? s.nom || "" : `${s.marque} · ${s.nom || ""}`,
+                     couleur: estLego(s) ? "#ffd500" : "#9fc5e8", lien: estLego(s) ? urlBricklinkSet(code) : urlEbayMarque(s) });
       }
     } catch (err) { console.warn(err); }
     try {

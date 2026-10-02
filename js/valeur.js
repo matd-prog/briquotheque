@@ -24,6 +24,7 @@ const GROUPES_VALEUR = [
   ["🧱 Sets les plus précieux", d => d.type === "SET"],
   ["🔑 Porte-clés et objets dérivés", d => d.type === "GEAR"],
   ["🎨 Figurines customs (JB…)", d => d.type === "CUSTOM"],
+  ["🏷️ Autres marques (Cobi, BlueBrixx…)", d => d.type === "MARQUE"],
   ["📦 Boîtes seules", d => d.type === "BOX"],
 ];
 
@@ -97,6 +98,11 @@ const Valeur = {
     for (const a of res) if (a.type === "MINIFIG") dispo.set(a.code, (dispo.get(a.code) || 0) + 1);
     const prendre = code => { const n = dispo.get(code) || 0; if (n) dispo.set(code, n - 1); return n > 0; };
     for (const s of await lireSets(etat.classeur)) {
+      if (!estLego(s)) { // autre marque : pas sur BrickLink ; valeur d'après eBay.fr (prix_ebay_marques.tsv) ou le prix payé
+        res.push({ type: "MARQUE", code: s.code, nom: s.nom, marque: s.marque, onglet: "Sets", etat: s.etat, quantite: s.quantite || 1,
+                   prixPaye: s.prixPaye || 0 });
+        continue;
+      }
       const code = /-\d+$/.test(s.code) ? s.code : s.code + "-1";
       const cat = CatalogueSets.sets && CatalogueSets.sets.get(code.toLowerCase());
       const figs = ((CatalogueSets.figurines && CatalogueSets.figurines.get(code.toLowerCase())) || []).filter(f => f.bricklink);
@@ -131,7 +137,7 @@ const Valeur = {
   async envoyer() {
     if (!etat.classeur) { await demander("Ouvrez d'abord votre collection.", "OK", "Fermer"); return; }
     const articles = await this._articles();
-    const codes = [...new Set(articles.filter(a => a.type !== "CUSTOM")
+    const codes = [...new Set(articles.filter(a => a.type !== "CUSTOM" && a.type !== "MARQUE")
       .flatMap(a => [`${a.type} ${a.code}`, ...(a.figs || []).map(f => `MINIFIG ${f.code}`)]))].sort();
     // garde-fou : une liste vide (ou beaucoup plus courte que la précédente) effacerait les prix déjà relevés
     const ouvert = etat.classeur.estBase ? "la collection rangée dans l'appli" : "le fichier Excel ouvert";
@@ -334,8 +340,9 @@ const Valeur = {
   async _doublons() {
     const groupes = new Map();
     for (const s of await lireSets(etat.classeur)) {
-      const g = groupes.get(s.code.toLowerCase()) || [];
-      g.push(s); groupes.set(s.code.toLowerCase(), g);
+      const cle = `${estLego(s) ? "" : s.marque}|${s.code}`.toLowerCase(); // même numéro chez deux marques : pas un doublon
+      const g = groupes.get(cle) || [];
+      g.push(s); groupes.set(cle, g);
     }
     const res = [];
     for (const g of groupes.values()) {
@@ -443,6 +450,22 @@ const Valeur = {
       }
       return best;
     };
+    // autres marques (Cobi, BlueBrixx…) : prix demandés sur eBay.fr (prix_ebay_marques.tsv, outils/prix_ebay_marques.py),
+    // au moins 2 annonces ; rachat = prix du milieu des annonces, occasion = 85 % ; sinon le prix payé
+    const ebayMarques = new Map();
+    const repMarques = await this._api("/contents/prix_ebay_marques.tsv", { headers: { Accept: "application/vnd.github.raw" } }).catch(() => null);
+    if (repMarques && repMarques.ok) for (const l of (await repMarques.text()).split("\n").slice(1)) {
+      const [marque, code, n, mini, med, maxi] = l.split("\t");
+      if (code && +n >= 2 && +med > 0) ebayMarques.set(`${marque}|${code}`.toLowerCase(), { n: +n, med: +med, mini: +mini, maxi: +maxi });
+    }
+    const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+    const prixMarque = a => {
+      const e = ebayMarques.get(`${a.marque}|${a.code}`.toLowerCase()), q = a.quantite || 1;
+      if (e) return { r: e.med * q, o: PART_EBAY_SANS_FIGS * e.med * q, unitaire: e.med,
+                      source: `Annonces eBay France (${e.n}, de ${euros(e.mini)} à ${euros(e.maxi)})` };
+      if (a.prixPaye > 0) return { r: a.prixPaye * q, o: a.prixPaye * q, unitaire: a.prixPaye, source: "Prix payé" };
+      return null;
+    };
     const utilises = new Set(); // chaque achat ne sert qu'à un exemplaire (plusieurs exemplaires : plusieurs achats, plusieurs prix)
     // Custom qu'on ne peut plus acheter chez JB (épuisée, ou absente du catalogue) : coût de rachat = le plus haut entre
     // son prix payé, le dernier prix JB et le prix demandé sur eBay.de (au moins 2 annonces)
@@ -545,6 +568,14 @@ const Valeur = {
         parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + v;
         details.push({ ...a, v, vOccasion: v, unitaire: dv.valeur, brut: v, declaree: true, ventes: 0, neuf: true,
                        sourceCustom: `✍️ valeur déclarée${dv.justification ? ` : ${dv.justification}` : ""}` });
+        continue;
+      }
+      if (a.type === "MARQUE") {
+        const m = prixMarque(a);
+        if (!m) { sans.push(a); continue; }
+        total += m.r; totalOccasion += m.o;
+        parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + m.r;
+        details.push({ ...a, v: m.r, vOccasion: m.o, unitaire: m.unitaire, brut: m.r, sourceCustom: m.source, ventes: 0, neuf: true });
         continue;
       }
       if (a.type === "CUSTOM") {
@@ -704,9 +735,15 @@ const Valeur = {
           if (!g.length) return "";
           const total = g.reduce((n, d) => n + d.v, 0);
           return `<div class="carte"><p class="sous-titre">${titre} : ${euros(total)} <span class="score">(${g.length})</span></p>
-            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.sourceCustom ? ` · ${d.sourceCustom}` : d.enVente ? " · prix LEGO France (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.detail.resteEbay ? ` (d'après ${d.detail.resteEbay.n} annonces eBay.de sans figurines)` : ""}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente || d.sourceCustom ? "" : ` · ${d.ventes} ventes · occasion ${euros(d.vOccasion)}`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
+            ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${d.marque ? `${echapper(d.marque)} ` : ""}${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.sourceCustom ? ` · ${d.sourceCustom}` : d.enVente ? " · prix LEGO France (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.detail.resteEbay ? ` (d'après ${d.detail.resteEbay.n} annonces eBay.de sans figurines)` : ""}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente || d.sourceCustom ? "" : ` · ${d.ventes} ventes · occasion ${euros(d.vOccasion)}`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
             ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
         }).join("")}
+        ${(() => { // autres marques sans prix : ni annonce eBay.fr, ni prix payé
+          const m = sans.filter(a => a.type === "MARQUE");
+          return m.length ? `<div class="carte"><p class="sous-titre">🏷️ Autres marques sans prix (${m.length})</p>
+            <p class="score">Pas encore d'annonces eBay France relevées, et pas de prix payé indiqué :</p>
+            ${m.slice(0, 40).map(a => `<div class="ligne-valeur"><span>${echapper(a.marque)} ${echapper(a.code)} <span class="score">${a.nom && a.nom !== `${a.marque} ${a.code}` ? echapper(a.nom) : ""}</span></span></div>`).join("")}</div>` : "";
+        })()}
         ${(() => { // customs sans prix : pour comprendre pourquoi (code, nom)
           const c = sans.filter(a => a.type === "CUSTOM");
           return c.length ? `<div class="carte"><p class="sous-titre">🎨 Customs sans prix (${c.length})</p>
@@ -714,7 +751,7 @@ const Valeur = {
             ${c.slice(0, 40).map(a => `<div class="ligne-valeur"><span>${echapper(a.nom || "(sans nom)")} <span class="score">${echapper(a.code || "sans code")} · ${echapper(a.onglet)}</span></span></div>`).join("")}
             ${c.length > 40 ? `<p class="score">… et ${c.length - 40} autre(s)</p>` : ""}</div>` : "";
         })()}
-        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix public LEGO France si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente ; épuisés, le plus haut entre prix d'achat (reçus JB, historique Whatnot, port compris), dernier prix JB et prix demandé sur eBay.de ; sinon prix habituel d'une custom sur Whatnot. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
+        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix public LEGO France si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente ; épuisés, le plus haut entre prix d'achat (reçus JB, historique Whatnot, port compris), dernier prix JB et prix demandé sur eBay.de ; sinon prix habituel d'une custom sur Whatnot. Autres marques (Cobi, BlueBrixx…) : prix du milieu des annonces eBay France (2 au moins), sinon votre prix payé. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;

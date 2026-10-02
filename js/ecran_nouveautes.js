@@ -21,7 +21,7 @@ const EcranNouveautes = {
 
   async _chargerPossedes() {
     const sets = new Set(), objets = new Set();
-    try { if (etat.classeur) for (const s of await lireSets(etat.classeur)) sets.add(String(s.code || "").toLowerCase()); } catch (err) { console.warn(err); }
+    try { if (etat.classeur) for (const s of (await lireSets(etat.classeur)).filter(estLego)) sets.add(String(s.code || "").toLowerCase()); } catch (err) { console.warn(err); }
     try { if (etat.classeur) for (const o of await lireObjets(etat.classeur)) objets.add(String(o.code || "").toUpperCase()); } catch (err) { console.warn(err); }
     this._possedes = { sets, objets };
   },

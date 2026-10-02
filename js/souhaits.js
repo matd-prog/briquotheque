@@ -44,7 +44,7 @@ const Souhaits = {
   // set : onglet Sets ; objet : onglet Objets dérivés)
   async _possedes() {
     const sets = new Set(), objets = new Set(), customs = new Set();
-    try { for (const s of await lireSets(etat.classeur)) sets.add(String(s.code).toLowerCase().replace(/-1$/, "")); } catch (err) { /* pas d'onglet */ }
+    try { for (const s of (await lireSets(etat.classeur)).filter(estLego)) sets.add(String(s.code).toLowerCase().replace(/-1$/, "")); } catch (err) { /* pas d'onglet */ }
     try { for (const o of await lireObjets(etat.classeur)) objets.add(String(o.code).toUpperCase()); } catch (err) { /* pas d'onglet */ }
     try {
       await CatalogueJB.charger();

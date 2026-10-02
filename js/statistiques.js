@@ -48,6 +48,9 @@ const Statistiques = {
         <div class="ligne-valeur"><span>Figurines différentes</span><b>${possedes.size}</b></div>
         ${customs ? `<div class="ligne-valeur"><span>dont customs</span><b>${customs[1]}</b></div>` : ""}
         <div class="ligne-valeur"><span>Sets</span><b>${sets.reduce((s, x) => s + (x.quantite || 1), 0)}</b></div>
+        ${(() => { const a = sets.filter(s => !estLego(s)); if (!a.length) return "";
+          const parMarque = new Map(); for (const s of a) parMarque.set(s.marque, (parMarque.get(s.marque) || 0) + (s.quantite || 1));
+          return `<div class="ligne-valeur"><span>dont autres marques</span><b>${[...parMarque].map(([m, n]) => `${echapper(m)} ${n}`).join(" · ")}</b></div>`; })()}
         <div class="ligne-valeur"><span>Objets dérivés</span><b>${objets.reduce((s, x) => s + (x.quantite || 1), 0)}</b></div>
         <div class="ligne-valeur"><span>Souhaits</span><b>${Souhaits.liste.length}</b></div></div>
       <div class="carte"><p class="sous-titre">🗂️ Par onglet</p>
