@@ -22,6 +22,23 @@ const MODELES_ETIQUETTES = [
   { id: "libre-a4", nom: "Papier A4 ordinaire (à découper) : 40 × 20 mm", page: "A4", l: 40, h: 20, mh: 10, mg: 10, eh: 2, ev: 2 },
 ];
 
+// Étiquettes à coller sur une pièce LEGO : 8 mm par tenon moins 0,2 mm de jeu (tuile 2×4 = 15,8 × 31,8 mm), hauteur
+// d'une brique 9,6 mm (face d'une brique 1×N). Étiquette 0,4 mm plus petite de chaque côté pour ne pas déborder.
+// Papier autocollant pleine page A4, à découper (traits de découpe).
+const RETRAIT_PIECE = 0.4;
+const PIECES_LEGO = [
+  ["tuile-1x2", "Tuile 1×2", 2, 1], ["tuile-1x3", "Tuile 1×3", 3, 1], ["tuile-1x4", "Tuile 1×4", 4, 1], ["tuile-1x6", "Tuile 1×6", 6, 1],
+  ["tuile-1x8", "Tuile 1×8", 8, 1], ["tuile-2x2", "Tuile 2×2", 2, 2], ["tuile-2x3", "Tuile 2×3", 3, 2], ["tuile-2x4", "Tuile 2×4", 4, 2],
+  ["tuile-2x6", "Tuile 2×6", 6, 2], ["face-brique-1x2", "Face d'une brique 1×2", 2, 1.2], ["face-brique-1x4", "Face d'une brique 1×4", 4, 1.2],
+  ["face-brique-1x6", "Face d'une brique 1×6", 6, 1.2],
+].map(([id, nom, a, b]) => {
+  const L = a * 8 - 0.2, H = b === 1.2 ? 9.6 : b * 8 - 0.2;
+  const l = Math.round((L - 2 * RETRAIT_PIECE) * 10) / 10, h = Math.round((H - 2 * RETRAIT_PIECE) * 10) / 10;
+  const mm = v => String(v).replace(".", ",");
+  return { id: "lego-" + id, nom: `Pièce LEGO : ${nom} (${mm(L)} × ${mm(H)} mm) → étiquette ${mm(l)} × ${mm(h)} mm`, page: "A4", l, h, mh: 10, mg: 10, eh: 2, ev: 2 };
+});
+MODELES_ETIQUETTES.push(...PIECES_LEGO);
+
 // Mesures d'impression exactes des étiquettes d'un fichier Excel de l'appli : largeur des colonnes A à E et hauteur
 // des lignes (cases), étiquette posée à 3 pixels du bord de sa case, marges et échelle de la mise en page Excel
 // (pageSetup), centrage éventuel. Résultat en millimètres, au centième.
