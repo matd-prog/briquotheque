@@ -1,4 +1,4 @@
-# Figothèque (figurines et sets LEGO)
+# Briquothèque (figurines et sets LEGO, ex « Figothèque »)
 
 Appli pour téléphone Android (page web installable) :
 
