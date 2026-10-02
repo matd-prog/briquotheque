@@ -110,6 +110,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     centrage) gardées dans la base (_reglages/format_etiquettes_excel) à la reprise, modèle « Mes étiquettes (mesures de
     mon fichier Excel) » ; le format choisi est aussi gardé dans la base (_reglages/format_etiquettes). À valider par une
     impression d'essai de Mathias (règle en main), réglable au centième de mm.
+  · Étiquettes de Mathias : collées sur la grande face inclinée d'une pente 33° 3×4 (BrickLink 3297, face ≈ 31,8 × 18 mm).
+    Il GARDE les mesures de son fichier Excel (26,19 × 13,23 mm, modèle « Mes étiquettes… ») : un peu de marge, voulu
+    (évite que l'étiquette frotte et se décolle). Ne pas changer.
   · Mises à jour en un bouton (v74) : BrickLink exige désormais une connexion compte LEGO (identity.lego.com, protection
     anti-robots) pour télécharger son catalogue -> abandon du téléchargement. Nouvelles figurines par l'API BrickLink
     (mêmes clés que les prix) : catalogue_bricklink.py + .github/workflows/catalogue.yml du DÉPÔT PRIVÉ (mensuel le 2,
