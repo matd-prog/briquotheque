@@ -93,7 +93,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v86"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v87"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -1370,6 +1370,79 @@ async function validerSaisie() {
   choisirCandidat(0);
 }
 
+// Plusieurs figurines d'un coup (écran Saisir un code) : liste de codes collée, vérifiée puis ajoutée en une fois,
+// chacune dans l'onglet qu'elle aurait eu une par une. Un code répété = autant d'exemplaires. Déjà dans la collection
+// ou absente du catalogue : décochée au départ.
+let listePlusieurs = [];
+async function verifierPlusieurs() {
+  const codes = $("plusieurs-codes").value.toUpperCase().split(/[\s,;]+/).filter(Boolean);
+  const zone = $("plusieurs-liste");
+  if (!codes.length) { zone.innerHTML = `<p class="aide">Tapez d'abord les codes.</p>`; return; }
+  zone.innerHTML = `<p class="aide">Vérification…</p>`;
+  await Catalogue.charger().catch(() => {});
+  const parCode = new Map();
+  for (const c of codes) parCode.set(c, (parCode.get(c) || 0) + 1);
+  listePlusieurs = [...parCode].map(([code, n]) => {
+    const fiche = Catalogue.trouver(code), deja = ouFigurine(code).length;
+    const nom = fiche ? fiche.nom : "";
+    const theme = codeInvalide(code) ? "" : proposerTheme({ id: code, nom, categorie: fiche ? fiche.categorie : "" });
+    return { code, n, nom, theme, deja, fiche: !!fiche, invalide: codeInvalide(code), coche: !!fiche && !deja && !codeInvalide(code) };
+  });
+  rendrePlusieurs();
+}
+function rendrePlusieurs() {
+  const l = listePlusieurs, nb = l.filter(x => x.coche).reduce((s, x) => s + x.n, 0);
+  const onglet = x => x.theme === STAR_WARS ? (swUnique() ? THEME_STAR_WARS_UNIQUE.onglet : "Star Wars (camp proposé)") : x.theme;
+  $("plusieurs-liste").innerHTML = `
+    <p class="aide">${l.length} code(s) : ${l.filter(x => x.coche).length} coché(s). Décochez ce que vous ne voulez pas ajouter.</p>
+    ${l.map((x, i) => `<label class="case-a-cocher ligne-plusieurs">
+      <input type="checkbox" data-plusieurs="${i}"${x.coche ? " checked" : ""}${x.invalide ? " disabled" : ""}>
+      <span><b>${echapper(x.code)}</b>${x.n > 1 ? ` × ${x.n}` : ""} ${x.nom ? echapper(x.nom) : ""}
+        <small class="score">${x.invalide ? "⚠️ pas un code BrickLink" : !x.fiche ? "❓ pas dans le catalogue BrickLink de l'appli" : "→ " + echapper(onglet(x))}
+        ${x.deja ? ` · 📦 déjà ${x.deja} dans votre collection` : ""}</small></span></label>`).join("")}
+    <button class="gros-bouton vert" data-action="ajouter-plusieurs"${nb ? "" : " disabled"}>➕ Ajouter ${nb} figurine${nb > 1 ? "s" : ""}</button>`;
+}
+async function ajouterPlusieurs() {
+  const choisies = listePlusieurs.filter(x => x.coche);
+  const total = choisies.reduce((s, x) => s + x.n, 0);
+  if (!total) return;
+  const deja = choisies.filter(x => x.deja);
+  if (deja.length && !(await demander(`${deja.length} de ces figurines sont déjà dans votre collection (${deja.map(x => x.code).join(", ")}) : ` +
+      "un exemplaire de plus sera ajouté pour chacune. Continuer ?", "Oui, ajouter", "Annuler"))) return;
+  $("texte-chargement").textContent = "Ajout des figurines…";
+  afficher("chargement");
+  let fait = 0;
+  const onglets = new Set();
+  try {
+    for (const x of choisies) {
+      const nom = x.nom || x.code;
+      const choix = x.theme === STAR_WARS ? { camp: proposerCamp(x.code, nom, etat.table).camp } : { theme: x.theme };
+      for (let i = 0; i < x.n; i++) {
+        $("texte-chargement").textContent = `Ajout des figurines… (${fait + 1} sur ${total})`;
+        const res = await ajouterFigurine(etat.classeur, { code: x.code, nom, ...choix });
+        onglets.add(res.onglet);
+        fait++; etat.nonEnregistres++;
+      }
+    }
+    await memoriser();
+    await relireContenu();
+    $("plusieurs-codes").value = ""; $("plusieurs-liste").innerHTML = ""; listePlusieurs = [];
+    afficher("accueil");
+    await demander(`${fait} figurine${fait > 1 ? "s ajoutées" : " ajoutée"} ✔ (onglet${onglets.size > 1 ? "s" : ""} ${[...onglets].join(", ")}).\n\n` +
+      "Leurs étiquettes s'impriment depuis « 🖨️ Imprimer des étiquettes ».", "OK", "Fermer");
+  } catch (err) {
+    console.error(err);
+    await relireContenu().catch(() => {});
+    afficher("saisie");
+    await verifierPlusieurs(); // les figurines déjà ajoutées apparaissent « déjà dans votre collection » (décochées)
+    await demander(`L'ajout s'est arrêté après ${fait} figurine(s) sur ${total} : ${err.message}`, "OK", "Fermer");
+  }
+}
+document.addEventListener("change", e => {
+  const c = e.target.closest("[data-plusieurs]");
+  if (c && listePlusieurs[+c.dataset.plusieurs]) { listePlusieurs[+c.dataset.plusieurs].coche = c.checked; rendrePlusieurs(); }
+});
+
 // ---------- enregistrement (Google Drive / téléchargement) ----------
 
 function horodatage() {
@@ -1510,6 +1583,8 @@ document.addEventListener("click", async e => {
   else if (action === "recadrage-entiere") Recadrage.valider(true);
   else if (action === "recadrage-annuler") Recadrage.annuler();
   else if (action === "valider-saisie") validerSaisie();
+  else if (action === "verifier-plusieurs") verifierPlusieurs();
+  else if (action === "ajouter-plusieurs") ajouterPlusieurs();
   else if (action === "oui") ajouter();
   else if (action === "non") { afficher("accueil"); toast("Rien n'a été ajouté."); }
   else if (action === "enregistrer") preparerEnregistrement();

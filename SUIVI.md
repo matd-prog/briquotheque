@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v87 (02/10) : AJOUT EN MASSE — écran « ⌨️ Saisir un code » → « 📋 Plusieurs figurines d'un coup » : codes collés
+    (espaces, virgules, retours), liste vérifiée (nom catalogue, onglet proposé comme pour un ajout seul, « déjà N dans
+    votre collection » et inconnues décochées), puis un bouton « ➕ Ajouter N figurines ». Un code répété = N exemplaires.
+    Testé sur une copie de la collection de Mathias avec ses 63 Iron Man (photos de sa vitrine) : 53 ajoutées, 10 déjà là.
   · Site (02/10) : depuis le renommage, GitHub ne relançait plus la publication Pages après un envoi -> tâche
     .github/workflows/site.yml (à chaque envoi sur main : POST pages/builds avec GITHUB_TOKEN). Testée : OK.
   · v86 (02/10) : CORRECTION mini-appli de l'ami (contribuer.html) : son Memoire.ecrire ne renvoyait rien, alors que

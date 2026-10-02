@@ -332,3 +332,8 @@ body:not(.base-vide) .base-vide-seul { display: none !important; }
   .arbo-lien.actif { background: var(--rouge); color: #fff; }
   .arbo-accueil { font-weight: 700; }
 }
+
+/* Plusieurs figurines d'un coup (écran Saisir un code) */
+.ligne-plusieurs { align-items: flex-start; padding: 6px 0; border-bottom: 1px solid var(--bord); }
+.ligne-plusieurs small { display: block; }
+#plusieurs-codes { min-height: 90px; resize: vertical; }

@@ -58,7 +58,7 @@
       <label class="tuile"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Figurine, depuis la galerie</small>
         <input type="file" id="input-galerie" accept="image/*" hidden></label>
       <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Figurine (BrickLink)</small></button>
-      <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Ex. sw0001</small></button>
+      <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
       <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Set LEGO</b><small>Par son numéro ou son nom</small></button>
       <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
@@ -485,6 +485,15 @@
     <input id="saisie-code" class="champ" placeholder="ex. SW0631" autocapitalize="characters" autocomplete="off">
     <p class="aide">Vous ne connaissez pas le code ? <a id="lien-recherche" href="https://www.bricklink.com/catalogTree.asp?itemType=M" target="_blank" rel="noopener">Chercher sur BrickLink</a></p>
     <button class="gros-bouton vert" data-action="valider-saisie">Valider</button>
+    <details class="carte" id="bloc-plusieurs-codes">
+      <summary class="sous-titre">📋 Plusieurs figurines d'un coup</summary>
+      <p class="aide">Tapez ou collez plusieurs codes BrickLink, séparés par des espaces, des virgules ou des retours à la
+        ligne (ex. « SH0015 SH0036, SH0065 »). L'appli vous montre chaque figurine avant d'ajouter.</p>
+      <textarea id="plusieurs-codes" class="champ" rows="4" autocapitalize="characters" autocomplete="off" spellcheck="false"
+        placeholder="SH0015 SH0036 SH0065…"></textarea>
+      <button class="bouton bleu" data-action="verifier-plusieurs">Vérifier la liste</button>
+      <div id="plusieurs-liste"></div>
+    </details>
     <button class="bouton gris" data-action="accueil">Annuler</button>
   </section>
 
