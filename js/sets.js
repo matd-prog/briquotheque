@@ -80,7 +80,7 @@ const EcranSet = {
       `<option value="autre">Autre marque…</option>`;
     $("set-marque").value = this.marqueRetenue || "LEGO";
     if (this.marqueAutre) { $("set-marque").value = "autre"; $("set-marque-autre").value = this.marqueAutre.trim(); }
-    for (const id of ["set-m-numero", "set-m-nom", "set-m-pieces", "set-m-annee", "set-m-prix"]) $(id).value = "";
+    for (const id of ["set-m-numero", "set-m-nom", "set-m-pieces", "set-m-annee", "set-m-prix", "set-m-prix-fabricant"]) $(id).value = "";
     this.majMarque();
     afficher("set");
     $("set-info").textContent = "Chargement du catalogue des sets…";
@@ -117,22 +117,24 @@ const EcranSet = {
     const numero = $("set-m-numero").value.trim(), nom = $("set-m-nom").value.trim();
     if (!marque) { await demander("Tapez le nom de la marque.", "OK", "Fermer"); return; }
     if (!numero && !nom) { await demander("Indiquez au moins le numéro ou le nom de l'article.", "OK", "Fermer"); return; }
-    const prixPaye = parseFloat($("set-m-prix").value.replace(/\s|€/g, "").replace(",", ".")) || 0;
+    const euros = id => parseFloat($(id).value.replace(/\s|€/g, "").replace(",", ".")) || 0;
+    const prixPaye = euros("set-m-prix"), prixFabricant = euros("set-m-prix-fabricant");
     const code = numero || nom;
     const deja = (await lireSets(etat.classeur)).some(x => !estLego(x) && x.marque.toLowerCase() === marque.toLowerCase() && x.code.toLowerCase() === code.toLowerCase());
     if (deja && !(await demander(`${marque} ${code} est déjà dans votre collection. L'ajouter quand même (autre exemplaire) ?`))) return;
     $("texte-chargement").textContent = "Ajout…";
     afficher("chargement");
     try {
-      await ajouterSet(etat.classeur, { code, nom: nom || `${marque} ${numero}`, annee: $("set-m-annee").value.trim(), theme: $("set-m-type").value,
+      await ajouterSet(etat.classeur, { code, nom: nom || `${marque} ${numero}`, annee: $("set-m-annee").value.trim(), theme: "",
         pieces: $("set-m-pieces").value.trim(), etat: $("set-etat").value, boite: $("set-boite").checked, notice: $("set-notice").checked,
-        marque, prixPaye });
+        marque, prixPaye, prixFabricant });
       etat.nonEnregistres++;
       await memoriser();
       await relireContenu();
       afficher("accueil");
       await demander(`${marque} ${numero ? numero + " " : ""}${nom ? `« ${nom} » ` : ""}ajouté à votre collection (avec vos sets).\n\n` +
-        "Sa valeur sera estimée d'après les annonces eBay France au prochain relevé des prix" + (prixPaye ? ", sinon d'après votre prix payé." : "."), "OK", "Fermer");
+        (prixFabricant ? "Sa valeur : le prix du fabricant que vous avez indiqué, tant qu'il le vend."
+          : "Sa valeur sera estimée d'après les annonces eBay France au prochain relevé des prix" + (prixPaye ? ", sinon d'après votre prix payé." : ".")), "OK", "Fermer");
     } catch (err) {
       console.error(err);
       afficher("set");

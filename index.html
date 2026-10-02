@@ -60,7 +60,7 @@
       <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Figurine (BrickLink)</small></button>
       <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
       <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
-      <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Set LEGO</b><small>Ou Cobi, BlueBrixx, CaDA…</small></button>
+      <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Set LEGO</b><small>Ou Youmko, Pantasy, Cobi…</small></button>
       <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
     </div>
 
@@ -332,10 +332,8 @@
     <div id="set-fiche"></div>
     </div>
     <div id="set-bloc-marque" hidden>
-      <p class="aide">Les autres marques ne sont pas dans les catalogues LEGO : renseignez l'article vous-même. Sa valeur sera
-        estimée d'après les annonces eBay France (sinon, votre prix payé).</p>
-      <label for="set-m-type" class="etiquette-champ">Type d'article</label>
-      <select id="set-m-type" class="champ"><option>Set</option><option>Figurine</option><option>Pack de figurines</option><option>Autre</option></select>
+      <p class="aide">Les autres marques ne sont pas dans les catalogues LEGO : renseignez le set vous-même. Sa valeur : le prix
+        sur le site du fabricant s'il le vend encore, sinon les annonces eBay France, sinon votre prix payé.</p>
       <label for="set-m-numero" class="etiquette-champ">Numéro (sur la boîte)</label>
       <input id="set-m-numero" class="champ" autocomplete="off" placeholder="ex. 2299">
       <label for="set-m-nom" class="etiquette-champ">Nom</label>
@@ -346,6 +344,8 @@
       </div>
       <label for="set-m-prix" class="etiquette-champ">Prix payé (€, facultatif)</label>
       <input id="set-m-prix" class="champ" inputmode="decimal" placeholder="ex. 79,99">
+      <label for="set-m-prix-fabricant" class="etiquette-champ">Prix sur le site du fabricant (€, s'il le vend encore)</label>
+      <input id="set-m-prix-fabricant" class="champ" inputmode="decimal" placeholder="prix affiché pour la France, ex. 299,00">
     </div>
     <div id="set-details" hidden>
       <label for="set-etat" class="etiquette-champ">État</label>

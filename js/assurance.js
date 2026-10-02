@@ -7,7 +7,7 @@ const CATEGORIES_ASSURANCE = [
   ["Sets", d => d.type === "SET"],
   ["Objets dérivés et porte-clés", d => d.type === "GEAR"],
   ["Figurines personnalisées (customs)", d => d.type === "CUSTOM"],
-  ["Autres marques (Cobi, BlueBrixx…)", d => d.type === "MARQUE"],
+  ["Autres marques (Youmko, Pantasy…)", d => d.type === "MARQUE"],
   ["Boîtes seules", d => d.type === "BOX"],
 ];
 const IMAGE_BRICKLINK = { MINIFIG: "MN", SET: "SN", GEAR: "GN", BOX: "ON" };

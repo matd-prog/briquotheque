@@ -24,7 +24,7 @@ const GROUPES_VALEUR = [
   ["🧱 Sets les plus précieux", d => d.type === "SET"],
   ["🔑 Porte-clés et objets dérivés", d => d.type === "GEAR"],
   ["🎨 Figurines customs (JB…)", d => d.type === "CUSTOM"],
-  ["🏷️ Autres marques (Cobi, BlueBrixx…)", d => d.type === "MARQUE"],
+  ["🏷️ Autres marques (Youmko, Pantasy…)", d => d.type === "MARQUE"],
   ["📦 Boîtes seules", d => d.type === "BOX"],
 ];
 
@@ -100,7 +100,7 @@ const Valeur = {
     for (const s of await lireSets(etat.classeur)) {
       if (!estLego(s)) { // autre marque : pas sur BrickLink ; valeur d'après eBay.fr (prix_ebay_marques.tsv) ou le prix payé
         res.push({ type: "MARQUE", code: s.code, nom: s.nom, marque: s.marque, onglet: "Sets", etat: s.etat, quantite: s.quantite || 1,
-                   prixPaye: s.prixPaye || 0 });
+                   prixPaye: s.prixPaye || 0, prixFabricant: s.prixFabricant || 0 });
         continue;
       }
       const code = /-\d+$/.test(s.code) ? s.code : s.code + "-1";
@@ -461,6 +461,9 @@ const Valeur = {
     const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
     const prixMarque = a => {
       const e = ebayMarques.get(`${a.marque}|${a.code}`.toLowerCase()), q = a.quantite || 1;
+      // encore vendu par le fabricant : son prix (comme le prix LEGO d'un set encore en vente) ; occasion d'après eBay.fr
+      if (a.prixFabricant > 0) return { r: a.prixFabricant * q, o: (e ? PART_EBAY_SANS_FIGS * e.med : a.prixFabricant) * q,
+        unitaire: a.prixFabricant, source: `Prix ${a.marque} (encore en vente)${e ? ` · eBay France : ${euros(e.med)}` : ""}` };
       if (e) return { r: e.med * q, o: PART_EBAY_SANS_FIGS * e.med * q, unitaire: e.med,
                       source: `Annonces eBay France (${e.n}, de ${euros(e.mini)} à ${euros(e.maxi)})` };
       if (a.prixPaye > 0) return { r: a.prixPaye * q, o: a.prixPaye * q, unitaire: a.prixPaye, source: "Prix payé" };
@@ -751,7 +754,7 @@ const Valeur = {
             ${c.slice(0, 40).map(a => `<div class="ligne-valeur"><span>${echapper(a.nom || "(sans nom)")} <span class="score">${echapper(a.code || "sans code")} · ${echapper(a.onglet)}</span></span></div>`).join("")}
             ${c.length > 40 ? `<p class="score">… et ${c.length - 40} autre(s)</p>` : ""}</div>` : "";
         })()}
-        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix public LEGO France si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente ; épuisés, le plus haut entre prix d'achat (reçus JB, historique Whatnot, port compris), dernier prix JB et prix demandé sur eBay.de ; sinon prix habituel d'une custom sur Whatnot. Autres marques (Cobi, BlueBrixx…) : prix du milieu des annonces eBay France (2 au moins), sinon votre prix payé. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
+        <p class="aide">Valeur principale : coût de rachat à neuf (ventes neuves BrickLink en Europe, TVA comprise, ou prix public LEGO France si le set est encore vendu). Figurines estimées une à une, plus le reste de chaque set ; rien n'est compté deux fois. Customs : prix JB s'ils sont encore en vente ; épuisés, le plus haut entre prix d'achat (reçus JB, historique Whatnot, port compris), dernier prix JB et prix demandé sur eBay.de ; sinon prix habituel d'une custom sur Whatnot. Autres marques (Youmko, Pantasy…) : prix du fabricant s'il vend encore le set, sinon prix du milieu des annonces eBay France (2 au moins), sinon votre prix payé. <a href="methode.html">ℹ️ Comment est calculée la valeur ?</a></p>`;
     } catch (err) {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;

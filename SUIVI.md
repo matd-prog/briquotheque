@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v92 (02/10) : autres marques = SETS seulement (Mathias : leurs figurines sont des accessoires) : choix du type retiré.
+    Youmko, Pantasy, Reobrix en tête de liste (Mathias a Youmko YM011 Nazgûl/Fell Beast et YM014 Oscorp Tower ; une tour de
+    l'horloge de Retour vers le futur et l'église des Simpsons, marque à confirmer : Reobrix 55012 « The Clock Tower » ?).
+    Colonne O « Prix fabricant (€) » saisie à l'ajout : coût de rachat tant que le fabricant vend le set (comme le prix
+    LEGO), occasion d'après eBay.fr. Relevé automatique impossible : sonde du 02/10 (dépôt privé), youmko.com sans prix
+    lisible, reobrix.com en USD seulement (règle : prix publics français uniquement).
   · v91 (02/10) : AUTRES MARQUES (demande de Mathias, pistes 1 et 2 de l'étude du 02/10 : Merlins Bricks SetDB couvre 92
     marques mais en site web, sans API connue). Écran Set : choix de la marque (LEGO par défaut, liste MARQUES_ALTERNATIVES,
     « Autre marque… ») ; hors LEGO : saisie à la main (type, numéro, nom, pièces, année, prix payé, état/boîte/notice).
