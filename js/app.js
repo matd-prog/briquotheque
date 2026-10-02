@@ -429,7 +429,7 @@ function ouFigurine(code) {
 // puis celle de Brickognize, et enfin le début du code BrickLink (sw... = Star Wars)
 function proposerTheme(cand) {
   const connu = etat.table.find(l => l.code.toUpperCase() === cand.id.toUpperCase());
-  if (connu && CAMPS[connu.camp]) return STAR_WARS;
+  if (connu && (CAMPS[connu.camp] || connu.camp === STAR_WARS)) return STAR_WARS;
   if (connu && ONGLETS_THEMES.includes(connu.camp)) return connu.camp;
   const fiche = Catalogue.trouver(cand.id);
   const parCategorie = themeDeCategorie(fiche ? fiche.categorie : "") || themeDeCategorie(cand.categorie);
@@ -438,10 +438,14 @@ function proposerTheme(cand) {
   return themeDuCode(cand.id).onglet;
 }
 
+// Collection rangée dans l'appli (version diffusable) : un seul onglet Star Wars, sans camps
+const swUnique = () => !!(etat.classeur && etat.classeur.estBase);
 function couleurChoisie() {
+  if (etat.theme === STAR_WARS && swUnique()) return THEME_STAR_WARS_UNIQUE.couleur;
   return etat.theme === STAR_WARS ? CAMPS[etat.camp].couleur : couleurOnglet(etat.theme);
 }
 function ongletChoisi() {
+  if (etat.theme === STAR_WARS && swUnique()) return THEME_STAR_WARS_UNIQUE.onglet;
   return etat.theme === STAR_WARS ? CAMPS[etat.camp].onglet : etat.theme;
 }
 
@@ -542,6 +546,11 @@ function choisirCandidat(i) {
 
 // Met à jour l'écran après un changement de thème ou de camp
 function majChoix(raison) {
+  if (etat.theme === STAR_WARS && swUnique()) {
+    $("bloc-camps").hidden = true;
+    $("camp-raison").textContent = "Rangée dans l'onglet « Star Wars ».";
+    return;
+  }
   const sw = etat.theme === STAR_WARS;
   $("bloc-camps").hidden = !sw;
   if (raison) $("camp-raison").textContent = raison;

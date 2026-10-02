@@ -90,6 +90,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   · 📈 Courbe de la valeur (valeur.js, Memoire « historique_valeur », un point par jour de consultation).
   · 📊 Statistiques (js/statistiques.js) : totaux, par onglet, séries de minifigs commencées (manquantes → souhaits),
     catégories BrickLink, customs JB.
+  · Version diffusable : un seul onglet « Star Wars » (jaune), sans camps ; les camps rouge/vert/gris restent pour le
+    fichier Excel de Mathias (ses étiquettes perso). Figurines rangées par camp dans la base : regroupées à l'ouverture.
+  · 02/10 matin : le téléphone a envoyé 2 listes VIDES (« 0 articles ») au dépôt privé -> lego.tsv vidé par le relevé,
+    valeur réduite aux customs. codes.txt et lego.tsv remis (commit 4d70e24 du dépôt privé) ; garde-fou ajouté dans
+    valeur.js (refus d'une liste vide, confirmation si moins de la moitié de la précédente). Cause à confirmer avec Mathias
+    (quelle collection était ouverte : 📗 Excel ou 🗄️ appli ?).
+  · À voir avec Mathias : qui propose la mise à jour du catalogue BrickLink (figurines, et aussi les sets).
   À FAIRE : document de plan « version diffusable » (synchro cloud Supabase, comptes, conditions Brickognize/BrickLink,
   valeur sans dépôt privé, nom/marque), alertes, multi-figurines par photo, vitrine partagée.
 - Liste de souhaits (01/10, cache v63, js/souhaits.js) : onglet Excel « Souhaits » (Type, Code, Nom, Thème / série,

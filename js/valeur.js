@@ -133,6 +133,19 @@ const Valeur = {
     const articles = await this._articles();
     const codes = [...new Set(articles.filter(a => a.type !== "CUSTOM")
       .flatMap(a => [`${a.type} ${a.code}`, ...(a.figs || []).map(f => `MINIFIG ${f.code}`)]))].sort();
+    // garde-fou : une liste vide (ou beaucoup plus courte que la précédente) effacerait les prix déjà relevés
+    const ouvert = etat.classeur.estBase ? "la collection rangée dans l'appli" : "le fichier Excel ouvert";
+    if (!codes.length) {
+      await demander(`Aucune figurine, aucun set ni objet n'a été trouvé dans ${ouvert} (en dehors des customs) : la liste n'est pas envoyée, ` +
+        "pour ne pas effacer les prix déjà relevés. Vérifiez que c'est bien votre collection qui est ouverte (en haut de l'écran : 📗 = fichier Excel).", "OK", "Fermer");
+      return;
+    }
+    try {
+      const avant = await this._api("/contents/codes.txt", { headers: { Accept: "application/vnd.github.raw" } });
+      const nAvant = avant.ok ? (await avant.text()).split("\n").filter(l => l && !l.startsWith("#")).length : 0;
+      if (nAvant > 20 && codes.length < nAvant / 2 && !(await demander(`La liste envoyée la dernière fois comptait ${nAvant} articles ; celle de ${ouvert} n'en compte que ${codes.length}. ` +
+          "Envoyer quand même ? Les articles absents n'auront plus de prix.", "Envoyer quand même", "Annuler"))) { $("valeur-etat").textContent = ""; return; }
+    } catch (err) { console.warn(err); }
     $("valeur-etat").textContent = `Envoi de la liste (${codes.length} articles)…`;
     try {
       // nombre d'articles à relever (pas encore de prix, ou prix trop ancien) : pour estimer l'avancement

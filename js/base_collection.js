@@ -42,6 +42,9 @@ class BaseCollection {
     });
     db.close();
     for (const e of tout) b._table(e.table).set(e.id, e);
+    // un seul onglet Star Wars (pas de camps) : figurines rangées par camp avant ce choix, regroupées
+    const anciennes = [...b._table(TABLE_FIGURINES).values()].filter(f => ONGLETS_COLORES.includes(f.onglet));
+    for (const f of anciennes) b._poser(TABLE_FIGURINES, f.id, { ...f, onglet: THEME_STAR_WARS_UNIQUE.onglet });
     return b;
   }
 
@@ -81,13 +84,14 @@ class BaseCollection {
   _titre(nom, lettre) { const c = (this._colonnes(nom) || []).find(c => c[0] === lettre); return c ? c[1] : lettre; }
 
   aOnglet(nom) {
-    if (ONGLETS_COLORES.includes(nom) || nom === ONGLET_TABLE) return true;
+    if (nom === THEME_STAR_WARS_UNIQUE.onglet || nom === ONGLET_TABLE) return true;
+    if (ONGLETS_COLORES.includes(nom)) return false;
     if (this._colonnes(nom)) return this._table(nom).size > 0 || this._table("_onglets").has(nom);
     return [...this._table(TABLE_FIGURINES).values()].some(f => f.onglet === nom) || this._table("_onglets").has(nom);
   }
   feuille(nom) { return { nom }; }
   get feuilles() {
-    return [...ONGLETS_COLORES, ONGLET_TABLE, ...ONGLETS_THEMES, ...Object.keys(TABLES_BASE)].filter(o => this.aOnglet(o)).map(nom => ({ nom }));
+    return [THEME_STAR_WARS_UNIQUE.onglet, ONGLET_TABLE, ...ONGLETS_THEMES, ...Object.keys(TABLES_BASE)].filter(o => this.aOnglet(o)).map(nom => ({ nom }));
   }
 
   async valeur(nom, ref) {
@@ -140,7 +144,7 @@ class BaseCollection {
 
   figLireCollection() {
     const res = {};
-    for (const nom of ongletsEtiquettes(this)) {
+    for (const nom of [THEME_STAR_WARS_UNIQUE.onglet, ...ONGLETS_THEMES.filter(o => this.aOnglet(o))]) {
       const cases = this._figs(nom).map(f => ({ row: f.id, col: 1, ref: `n°${f.id}`, code: f.code, nom: f.nom || "", lien: f.lien || "", image: true }));
       res[nom] = { derniere: cases.length, cases };
     }
@@ -152,9 +156,9 @@ class BaseCollection {
   }
 
   figAjouter({ code, nom, camp, theme, lien }) {
-    const onglet = camp ? CAMPS[camp].onglet : theme;
+    const onglet = camp ? THEME_STAR_WARS_UNIQUE.onglet : theme; // un seul onglet Star Wars, sans camps
     const id = this._prochainId(TABLE_FIGURINES);
-    this._poser(TABLE_FIGURINES, id, { onglet, code, nom: nom || "", lien: lien || "", camp: camp || "", ajoute: new Date().toLocaleDateString("fr-FR") });
+    this._poser(TABLE_FIGURINES, id, { onglet, code, nom: nom || "", lien: lien || "", camp: "", ajoute: new Date().toLocaleDateString("fr-FR") });
     return { onglet, ref: `n°${id}`, row: id, col: 1, nouvelleLigne: false };
   }
 
@@ -196,7 +200,7 @@ class BaseCollection {
     const collection = await lireCollection(cl);
     for (const onglet of Object.keys(collection)) {
       for (const c of collection[onglet].cases.filter(c => c.code))
-        e.push({ table: TABLE_FIGURINES, id: ++id, onglet, code: c.code, nom: c.nom || "", lien: c.lien || "", camp: camps[onglet] || "", ajoute: jour });
+        e.push({ table: TABLE_FIGURINES, id: ++id, onglet: camps[onglet] ? THEME_STAR_WARS_UNIQUE.onglet : onglet, code: c.code, nom: c.nom || "", lien: c.lien || "", camp: camps[onglet] || "", ajoute: jour });
       if (progression) progression(onglet);
     }
     for (const [nom, cols] of Object.entries(TABLES_BASE)) {

@@ -25,6 +25,9 @@ const THEME_AUTRES = { prefixes: [], onglet: "Autres thèmes", couleur: "#FFFFFF
 // Figurines custom (JB Spielwaren...) : le QR code ouvre la page du fabricant, gardée en colonnes S à W
 const THEME_CUSTOMS = { prefixes: [], onglet: "Customs", couleur: "#FF698F" };
 const TOUS_THEMES = [...THEMES, THEME_AUTRES, THEME_CUSTOMS];
+// Version diffusable (collection rangée dans l'appli) : un seul onglet Star Wars, sans les camps Gentils / Méchants /
+// Zone grise, qui restent propres au fichier Excel de Mathias
+const THEME_STAR_WARS_UNIQUE = { prefixes: [], onglet: "Star Wars", couleur: "#FFE81F" };
 
 // Thème d'un code BrickLink (hors Star Wars) ; "Autres thèmes" si inconnu
 function themeDuCode(code) {
@@ -39,7 +42,7 @@ function themeDuCode(code) {
 
 // Couleur de fond des étiquettes d'un onglet (Star Wars ou thème)
 function couleurOnglet(onglet) {
-  const t = [...Object.values(CAMPS), ...TOUS_THEMES].find(x => x.onglet === onglet);
+  const t = [...Object.values(CAMPS), ...TOUS_THEMES, THEME_STAR_WARS_UNIQUE].find(x => x.onglet === onglet);
   return t ? t.couleur : null;
 }
 
