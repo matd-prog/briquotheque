@@ -16,7 +16,7 @@ const Souhaits = {
   contient(type, code, nom) { return this.liste.some(s => this._cle(s.type, s.code, s.nom) === this._cle(type, code, nom)); },
 
   async ajouter({ type, code, nom, theme, sortie }) {
-    if (!etat.classeur) { await demander("Ouvrez d'abord votre fichier Excel : la liste de souhaits y est rangée (onglet « Souhaits »).", "OK", "Fermer"); return; }
+    if (!etat.classeur) { await demander("Ouvrez d'abord votre collection : la liste de souhaits y est rangée.", "OK", "Fermer"); return; }
     await this.charger();
     if (this.contient(type, code, nom)) { toast(`« ${nom || code} » est déjà dans votre liste de souhaits ⭐`); return; }
     try {
@@ -75,7 +75,7 @@ const Souhaits = {
   async ouvrir() {
     afficher("souhaits");
     $("sh-contenu").innerHTML = `<p class="aide">Chargement…</p>`;
-    if (!etat.classeur) { $("sh-contenu").innerHTML = `<p class="aide">Ouvrez d'abord votre fichier Excel.</p>`; return; }
+    if (!etat.classeur) { $("sh-contenu").innerHTML = `<p class="aide">Ouvrez d'abord votre collection.</p>`; return; }
     await Promise.all([this.charger(), Nouveautes.charger(), CatalogueJB.charger().catch(() => {}),
                        typeof CatalogueObjets !== "undefined" ? CatalogueObjets.charger() : null]);
     this.rendre();

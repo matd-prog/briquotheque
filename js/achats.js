@@ -20,7 +20,7 @@ const EcranAchats = {
   },
 
   async ouvrir() {
-    if (!etat.classeur) { await demander("Ouvrez d'abord votre fichier Excel.", "OK", "Fermer"); return; }
+    if (!etat.classeur) { await demander("Ouvrez d'abord votre collection.", "OK", "Fermer"); return; }
     const r = this.reglages();
     $("achats-frais").value = r.frais; $("achats-fixe").value = r.fixe; $("achats-marge").value = r.marge;
     afficher("achats");
@@ -137,7 +137,7 @@ const EcranAchats = {
         <div class="montant">${this._prix(total)}</div>
         <div class="ligne-valeur"><span>Prix payé de ces exemplaires</span><b>${this._prix(coutTotal)}</b></div>
         ${sansPrix ? `<div class="score">${sansPrix} figurine(s) sans prix connu (ni achat retrouvé, ni annonce eBay)</div>` : ""}
-        <button class="bouton vert" data-action="achats-vendre-maj">🔄 Mettre à jour la liste « À vendre » du fichier Excel</button>
+        <button class="bouton vert" data-action="achats-vendre-maj">🔄 Mettre à jour la liste « À vendre »</button>
         <p class="score">${this._majVente ? `Dernière mise à jour : ${echapper(this._majVente)}` : "Cette liste se recalcule à chaque ouverture, d'après votre base de blisters ; « Mettre à jour » l'enregistre dans l'onglet « À vendre » (le statut « vendu » et le prix de vente réel que vous y notez sont gardés)."}</p>
         <button class="bouton gris" data-action="achats-vendre-csv">📊 Liste pour mes annonces (.csv)</button></div>` +
       (lignes.length ? lignes.map(l => `<div class="carte achat-figurine">

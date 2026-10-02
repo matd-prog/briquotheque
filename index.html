@@ -325,7 +325,7 @@
     <label for="set-numero" class="etiquette-champ">🧱 Numéro ou nom du set LEGO</label>
     <input id="set-numero" class="champ" type="search" autocomplete="off" placeholder="ex. 75192 ou death star">
     <p class="aide" id="set-info"></p>
-    <label class="bouton gris">📥 Importer une liste de sets (fichier Excel)
+    <label class="bouton gris">📥 Importer une liste de sets (depuis un fichier Excel)
       <input type="file" id="input-import-sets" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
     </label>
     <div id="set-fiche"></div>
@@ -417,8 +417,8 @@
         <button class="petit" data-note="Cadeau / giveaway">🎁 Cadeau</button>
       </div>
       <div id="base-bloc-excel" hidden>
-        <label class="case-a-cocher"><input type="checkbox" id="base-excel" checked> Ajouter aussi à mon fichier Excel
-          (onglet Customs, avec étiquette)</label>
+        <label class="case-a-cocher"><input type="checkbox" id="base-excel" checked> <span class="excel-seul">Ajouter aussi à mon fichier Excel
+          (onglet Customs, avec étiquette)</span><span class="base-seul">Ajouter aussi à ma collection (Customs)</span></label>
         <p class="score" id="base-excel-info"></p>
       </div>
       <button class="gros-bouton vert" data-action="base-ajouter">📚 Je l'ai : ajouter à ma collection</button>

@@ -349,7 +349,7 @@ const Base = {
     const nums = memes.map(e => e.numero).filter(Boolean);
     let aussi = "";
     try { // onglet « Customs » du fichier Excel (appli principale)
-      if (code && typeof ouFigurine === "function" && etat.collection) { const n = ouFigurine(code).length; if (n) aussi = ` · ${n} dans l'onglet Customs du fichier`; }
+      if (code && typeof ouFigurine === "function" && etat.collection) { const n = ouFigurine(code).length; if (n) aussi = ` · ${n} dans l'onglet Customs${etat.classeur && etat.classeur.estBase ? "" : " du fichier"}`; }
       if ($("base-excel-info")) $("base-excel-info").textContent = aussi
         ? `⚠️ Déjà ${aussi.replace(/\D+/g, " ").trim().split(" ")[0]} dans l'onglet Customs : les n° déjà présents ne sont pas ajoutés ; décochez si ce blister y est déjà sans numéro.` : "";
     } catch (e) { /* mini-appli : pas de fichier */ }

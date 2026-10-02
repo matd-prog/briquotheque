@@ -129,7 +129,7 @@ const Valeur = {
 
   // Dépose codes.txt (codes seulement) puis lance le relevé des prix
   async envoyer() {
-    if (!etat.classeur) { await demander("Ouvrez d'abord votre fichier Excel.", "OK", "Fermer"); return; }
+    if (!etat.classeur) { await demander("Ouvrez d'abord votre collection.", "OK", "Fermer"); return; }
     const articles = await this._articles();
     const codes = [...new Set(articles.filter(a => a.type !== "CUSTOM")
       .flatMap(a => [`${a.type} ${a.code}`, ...(a.figs || []).map(f => `MINIFIG ${f.code}`)]))].sort();
@@ -295,7 +295,7 @@ const Valeur = {
   // Ajoute au fichier Excel l'onglet « Customs achetées » : figurines relevées dans les reçus JB et l'historique Whatnot
   // (customs_achetees.tsv du dépôt privé), une ligne par exemplaire ; les lignes déjà présentes (même justificatif) sont ignorées
   async ajouterCustoms() {
-    if (!etat.classeur) { await demander("Ouvrez d'abord votre fichier Excel.", "OK", "Fermer"); return; }
+    if (!etat.classeur) { await demander("Ouvrez d'abord votre collection.", "OK", "Fermer"); return; }
     const rep = await this._api("/contents/customs_achetees.tsv", { headers: { Accept: "application/vnd.github.raw" } });
     if (!rep.ok) { await demander("La liste des customs achetées n'est pas encore prête dans votre dépôt privé.", "OK", "Fermer"); return; }
     const toutes = (await rep.text()).split("\n").slice(1).filter(Boolean).map(l => {
@@ -669,7 +669,7 @@ const Valeur = {
   },
 
   async _afficher() {
-    if (!etat.classeur) { $("valeur-etat").textContent = "Ouvrez d'abord votre fichier Excel pour voir sa valeur."; return; }
+    if (!etat.classeur) { $("valeur-etat").textContent = "Ouvrez d'abord votre collection pour voir sa valeur."; return; }
     $("valeur-etat").textContent = "Lecture des prix…";
     try {
       const calcul = await this.calculer();

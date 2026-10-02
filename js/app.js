@@ -992,7 +992,7 @@ async function corrigerNumeroCustoms({ code, nom, ancien, serie, nouveau, nouvel
     return sansEnregistrer(`fichier Excel corrigé (${onglet}, case ${cas.ref}) : pensez à « Enregistrer »`);
   } catch (err) {
     console.error(err);
-    return "⚠️ correction du fichier Excel impossible : " + err.message;
+    return "⚠️ correction de la collection impossible : " + err.message;
   }
 }
 
@@ -1008,7 +1008,7 @@ async function ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie, 
   const liste = numeros.map(x => nonNumerote || !x ? "" : serie ? `${x}/${serie}` : x);
   const ecartes = liste.filter(x => x && Object.keys(deja).some(k => num(k) === num(x)));
   const aAjouter = liste.filter(x => !ecartes.includes(x));
-  if (!aAjouter.length) return `Fichier Excel : n° ${ecartes.join(", ")} déjà dans l'onglet Customs, rien ajouté.`;
+  if (!aAjouter.length) return `${etat.classeur.estBase ? "Collection" : "Fichier Excel"} : n° ${ecartes.join(", ")} déjà dans l'onglet Customs, rien ajouté.`;
   const onglet = THEME_CUSTOMS.onglet;
   try {
     let res;
@@ -1019,13 +1019,13 @@ async function ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie, 
     const octets = await memoriser();
     if (!(await verifierAjout(octets, { onglet, row: res.row, col: res.col, code: codeXL }))) throw new Error("vérification après écriture échouée");
     await relireContenu();
-    return `Fichier Excel : ${aAjouter.length > 1 ? `${aAjouter.length} exemplaires ajoutés` : "ajoutée"} dans ${onglet} (${codeXL}), avec étiquette` +
-      (ecartes.length ? ` ; n° ${ecartes.join(", ")} déjà présent(s), non ajouté(s)` : "") + ". Pensez à « Enregistrer ».";
+    return `${etat.classeur.estBase ? "Collection" : "Fichier Excel"} : ${aAjouter.length > 1 ? `${aAjouter.length} exemplaires ajoutés` : "ajoutée"} dans ${onglet} (${codeXL})${etat.classeur.estBase ? "" : ", avec étiquette"}` +
+      (ecartes.length ? ` ; n° ${ecartes.join(", ")} déjà présent(s), non ajouté(s)` : "") + sansEnregistrer(". Pensez à « Enregistrer ».");
   } catch (err) {
     console.error(err);
     const m = await Memoire.lire();
     if (m) await chargerClasseur(m.octets, m.nom, m.nonEnregistres);
-    return "⚠️ L'ajout au fichier Excel a échoué : " + err.message + " (le blister est bien dans la base de blisters).";
+    return "⚠️ L'ajout à votre collection a échoué : " + err.message + " (le blister est bien dans la base de blisters).";
   }
 }
 

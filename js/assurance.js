@@ -39,7 +39,7 @@ const Assurance = {
   },
 
   async preparer() {
-    if (!etat.classeur) { await demander("Ouvrez d'abord votre fichier Excel.", "OK", "Fermer"); return; }
+    if (!etat.classeur) { await demander("Ouvrez d'abord votre collection.", "OK", "Fermer"); return; }
     if (!(await Memoire.lire("jeton-github"))) { await demander("Collez d'abord votre jeton dans « 💶 Valeur ».", "OK", "Fermer"); return; }
     const infos = { nom: $("assurance-nom").value.trim(), adresse: $("assurance-adresse").value.trim(), contrat: $("assurance-contrat").value.trim() };
     await Memoire.ecrire(infos, "assurance");
