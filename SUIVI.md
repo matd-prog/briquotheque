@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v94 (02/10) : BASE COMMUNE, UNE PHOTO PAR FIGURINE (Mathias : plusieurs exemplaires d'un blister ne changent que le n°).
+    BaseCommune.envoyer regroupe par nom + précision : un seul exemplaire envoyé (de préférence avec verso), les autres
+    marqués traités ; figurine déjà dans data/jb_commune.tsv : rien d'envoyé. Vaut aussi pour l'import d'un envoi d'ami.
+    Constat : 290 blisters envoyés pour 165 figurines (Darth Donut ×11) -> doublons retirés des listes publiques.
   · v93 (02/10) : LIVRES avec figurine exclusive (encyclopédies, dictionnaires visuels… : 549 livres au catalogue des
     sets Rebrickable, thème « Books », dont 443 avec figurine) : ajoutés par la tuile Set (recherche en français :
     « encyclopédie », « dictionnaire visuel » traduits). BrickLink les range dans ses « Books » sous d'autres numéros : sans

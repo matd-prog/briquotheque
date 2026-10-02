@@ -61,12 +61,34 @@ const BaseCommune = {
 
   enAttente(entrees) { return entrees.filter(e => e.photo && e.nom && !e.commune); },
 
-  // Envoie des blisters à la base commune ; renvoie le nombre envoyé. qui : « moi » ou « ami ».
-  // Chaque blister reçoit son code BC-… (e.communeCode) et est marqué envoyé (e.commune).
+  // Envoie des blisters à la base commune ; renvoie le nombre de figurines envoyées. qui : « moi » ou « ami ».
+  // Une seule photo par figurine (nom + précision) : plusieurs exemplaires d'un même blister ne changent que le n°,
+  // la reconnaissance n'a besoin que d'une photo (demande de Mathias, 02/10). Figurine déjà dans la base commune :
+  // rien n'est envoyé. Chaque blister est marqué traité (e.commune) ; celui envoyé reçoit son code BC-… (e.communeCode).
   async envoyer(entrees, qui = "moi", progression) {
     if (!(await this.jeton())) throw new Error("pas de jeton GitHub (écran Valeur)");
-    const liste = this.enAttente(entrees);
-    if (!liste.length) return 0;
+    const enAttente = this.enAttente(entrees);
+    if (!enAttente.length) return 0;
+    const cle = t => normaliser(t).replace(/[^a-z0-9]+/g, " ").trim();
+    const connues = new Set();
+    try {
+      const { texte } = await this._lire(DEPOT_PUBLIC, "data/jb_commune.tsv");
+      for (const l of texte.split("\n").slice(1)) { const nom = l.split("\t")[1]; if (nom) connues.add(cle(nom)); }
+    } catch (err) { console.warn("base commune : liste des noms illisible", err); }
+    const groupes = new Map(); // figurine -> exemplaires en attente
+    for (const e of enAttente) {
+      const k = cle(nomComplet(e));
+      if (!groupes.has(k)) groupes.set(k, []);
+      groupes.get(k).push(e);
+    }
+    const liste = [], doublons = [];
+    for (const [k, g] of groupes) {
+      if (connues.has(k)) { doublons.push(...g); continue; } // déjà dans la base commune
+      const rep = g.find(e => e.verso) || g[0]; // de préférence un exemplaire photographié recto et verso
+      liste.push(rep);
+      doublons.push(...g.filter(e => e !== rep));
+    }
+    if (!liste.length) { for (const e of doublons) e.commune = true; return 0; }
     const date = new Date().toISOString().slice(0, 10), noms = [], empreintes = [], figurines = [], prives = [];
     let n = 0;
     for (const e of liste) {
@@ -107,7 +129,7 @@ const BaseCommune = {
       }
       throw err;
     }
-    for (const e of liste) e.commune = true;
+    for (const e of [...liste, ...doublons]) e.commune = true;
     return n;
   },
 
@@ -115,7 +137,7 @@ const BaseCommune = {
   async envoyerEnFond(base) {
     if (this._enCours || !(await this.jeton()) || !this.enAttente(base.entrees).length) return;
     this._enCours = this.envoyer(base.entrees, "moi")
-      .then(async n => { await Memoire.ecrire(base.entrees, "base"); if (n) toast(`🌐 ${n} blister${n > 1 ? "s" : ""} ajouté${n > 1 ? "s" : ""} à la base commune`); })
+      .then(async n => { await Memoire.ecrire(base.entrees, "base"); if (n) toast(`🌐 ${n} nouvelle${n > 1 ? "s" : ""} figurine${n > 1 ? "s" : ""} dans la base commune`); })
       .catch(err => console.warn("base commune :", err))
       .finally(() => { this._enCours = null; base._afficherListe(); });
     return this._enCours;
@@ -131,7 +153,7 @@ const BaseCommune = {
     try {
       const n = await this.envoyer(base.entrees, "moi", (i, t) => { $("base-commune-etat").textContent = `🌐 Envoi à la base commune… ${i} / ${t}`; });
       await Memoire.ecrire(base.entrees, "base");
-      toast(`🌐 ${n} blister${n > 1 ? "s" : ""} ajouté${n > 1 ? "s" : ""} à la base commune ✔`, 5000);
+      toast(n ? `🌐 ${n} nouvelle${n > 1 ? "s" : ""} figurine${n > 1 ? "s" : ""} dans la base commune ✔` : "Ces figurines étaient déjà dans la base commune ✔", 5000);
     } catch (err) {
       console.error(err);
       await demander(err.message === "acces-public" ? this.MESSAGE_ACCES : "L'envoi à la base commune a échoué : " + err.message, "OK", "Fermer");
@@ -152,7 +174,8 @@ const BaseCommune = {
     $("base-commune-etat").textContent = `🌐 Envoi à la base commune… 0 / ${entrees.length}`;
     try {
       const n = await this.envoyer(entrees, "ami", (i, t) => { $("base-commune-etat").textContent = `🌐 Envoi à la base commune… ${i} / ${t}`; });
-      await demander(`${n} blister${n > 1 ? "s" : ""} de votre ami ajouté${n > 1 ? "s" : ""} à la base commune ✔\n\nIls ne sont pas dans votre collection.`, "OK", "Fermer");
+      await demander((n ? `${n} nouvelle${n > 1 ? "s" : ""} figurine${n > 1 ? "s" : ""} ajoutée${n > 1 ? "s" : ""} à la base commune ✔` : "Rien de nouveau : ces figurines étaient déjà dans la base commune.") +
+        `\n\n${entrees.length} blister${entrees.length > 1 ? "s" : ""} reçu${entrees.length > 1 ? "s" : ""} : une seule photo par figurine est gardée pour la reconnaissance. Ils ne sont pas dans votre collection.`, "OK", "Fermer");
     } catch (err) {
       console.error(err);
       await demander(err.message === "acces-public" ? this.MESSAGE_ACCES : "L'envoi à la base commune a échoué : " + err.message, "OK", "Fermer");
