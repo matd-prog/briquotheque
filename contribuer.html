@@ -45,6 +45,8 @@
         <input type="file" id="input-base-autre" accept="image/*" capture="environment" hidden></label>
       <button class="bouton-lien" data-action="base-autre">ou garder la même photo (plus rapide)</button>
     </div>
+    <p class="score" id="base-cadre-memo" hidden>📌 Cadre mémorisé : les photos sont recadrées comme la première
+      de la série. <button class="bouton-lien" data-action="base-oublier-cadre">Oublier ce cadre</button></p>
     <p class="aide" id="base-etat"></p>
     <div class="recto-verso">
       <img id="base-photo" class="photo-apercu" alt="Recto du blister">
@@ -61,6 +63,8 @@
           <span data-coin="hg" class="coin hg"></span><span data-coin="hd" class="coin hd"></span>
           <span data-coin="bg" class="coin bg"></span><span data-coin="bd" class="coin bd"></span>
         </div></div>
+      <label class="case-a-cocher"><input type="checkbox" id="base-recadrage-memoriser"> 📌 Garder ce cadre pour les photos
+        suivantes (même installation : carton, support, téléphone au même endroit)</label>
       <button class="gros-bouton vert" data-action="base-recadrage-ok">✔ Garder ce cadre</button>
       <button class="bouton gris" data-action="base-recadrage-entiere">Garder la photo entière</button>
       <button class="bouton-lien" data-action="base-recadrage-annuler">Annuler</button>

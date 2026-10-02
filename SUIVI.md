@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v100 (02/10) : CADRE MÉMORISÉ pour les photos de blisters en série (les deux applis). Détection auto du bord de la
+    coque transparente sur carton essayée sur la photo d'origine de Mathias (carton sur table grise, support noir) : bords
+    du plastique trop discrets dans les fibres du carton, même plus sensible -> abandonnée. Recadrage manuel : case
+    « 📌 Garder ce cadre pour les photos suivantes » (recto et verso séparés, Memoire « cadres_memorises ») ; _preparer
+    l'applique au lieu du cadrage auto ; mention « 📌 Cadre mémorisé… Oublier ce cadre » sous le bouton Photographier.
+    Consigne : tracer le cadre sur les bords arrondis extérieurs de la coque (Mathias, choix B).
   · v99 (02/10) : resserrage v98 DÉSACTIVÉ (Mathias : garder le blister entier, bords transparents compris ; couper
     seulement le fond extérieur). Retour au cadre v97 (_cadreBlister). À faire : se caler sur le bord extérieur de la coque
     transparente, par différence avec le fond (s'inspirer du cadrage du Samsung S26 Ultra, photo à recevoir) ; puis, si ça

@@ -23,6 +23,7 @@ const Base = {
 
   async ouvrir() {
     this.entrees = (await Memoire.lire("base")) || [];
+    await this._chargerCadresMemo();
     this._nouvelle();
     afficher("base");
     this._afficherListe();
@@ -336,12 +337,29 @@ const Base = {
     return c.l * c.h > 0.92 || c.l * c.h < 0.06 ? null : c;
   },
 
-  // Photo (recto ou verso) : remise d'aplomb, recadrée sur le blister si on le trouve
-  async _preparer(fichier, sens) {
+  // Photo (recto ou verso) : remise d'aplomb, recadrée sur le blister si on le trouve ; ou avec le cadre mémorisé
+  // (photos en série, même installation : cadre tracé une fois à la main sur les bords extérieurs de la coque)
+  async _preparer(fichier, sens, cote = "recto") {
+    const memo = this.cadresMemo && this.cadresMemo[cote];
+    if (memo) return { blob: await this._reduire(fichier, sens, memo), cadre: { ...memo } };
     const entiere = await this._reduire(fichier, sens);
     let cadre = null;
     try { cadre = this._cadreAuto(await createImageBitmap(entiere)); } catch (err) { console.warn(err); }
     return { blob: cadre ? await this._reduire(fichier, sens, cadre) : entiere, cadre };
+  },
+
+  async _chargerCadresMemo() {
+    this.cadresMemo = (await Memoire.lire("cadres_memorises")) || {};
+    this._majCadreMemo();
+  },
+  _majCadreMemo() {
+    if ($("base-cadre-memo")) $("base-cadre-memo").hidden = !(this.cadresMemo && (this.cadresMemo.recto || this.cadresMemo.verso));
+  },
+  async oublierCadreMemo() {
+    this.cadresMemo = {};
+    await Memoire.ecrire({}, "cadres_memorises");
+    this._majCadreMemo();
+    toast("Cadre mémorisé oublié : les photos suivantes seront recadrées automatiquement.");
   },
 
   _boutonsRecadrer() {
@@ -359,7 +377,8 @@ const Base = {
     await img.decode().catch(() => {});
     this._cadreEdite = { ...((quoi === "verso" ? this.cadreVerso : this.cadre) || { x: 0.05, y: 0.05, l: 0.9, h: 0.9 }) };
     this._quoiEdite = quoi;
-    $("base-recadrage-titre").textContent = `Ajustez le cadre autour du blister (${quoi}) : glissez-le, ou tirez ses coins.`;
+    $("base-recadrage-titre").textContent = `Ajustez le cadre autour du blister (${quoi}), sur les bords arrondis extérieurs de la coque transparente : glissez-le, ou tirez ses coins.`;
+    if ($("base-recadrage-memoriser")) $("base-recadrage-memoriser").checked = !!(this.cadresMemo && this.cadresMemo[quoi === "verso" ? "verso" : "recto"]);
     $("base-recadrage").hidden = false;
     this._dessinerCadre();
     $("base-recadrage").scrollIntoView({ block: "start" });
@@ -374,6 +393,14 @@ const Base = {
     $("base-recadrage").hidden = true;
     if (choix === "annuler") return;
     const cadre = choix === "entiere" ? null : this._cadreEdite;
+    // cadre mémorisé pour les photos suivantes de ce côté (recto ou verso), ou oublié si la case est décochée
+    if ($("base-recadrage-memoriser")) {
+      const cote = this._quoiEdite === "verso" ? "verso" : "recto";
+      this.cadresMemo = this.cadresMemo || {};
+      if ($("base-recadrage-memoriser").checked && cadre) this.cadresMemo[cote] = { ...cadre }; else delete this.cadresMemo[cote];
+      await Memoire.ecrire(this.cadresMemo, "cadres_memorises");
+      this._majCadreMemo();
+    }
     if (this._quoiEdite === "verso") {
       this.cadreVerso = cadre;
       this.verso = await this._reduire(this.sourceVerso.fichier, this.sourceVerso.sens, cadre);
@@ -512,7 +539,7 @@ const Base = {
 
   async prendreVerso(fichier) {
     this.sourceVerso = { fichier, sens: 0 };
-    ({ blob: this.verso, cadre: this.cadreVerso } = await this._preparer(fichier, 0));
+    ({ blob: this.verso, cadre: this.cadreVerso } = await this._preparer(fichier, 0, "verso"));
     this._boutonsRecadrer();
     $("base-verso").src = URL.createObjectURL(this.verso);
     $("base-verso").hidden = false;
@@ -1159,6 +1186,7 @@ document.addEventListener("click", e => {
   else if (action === "base-recadrage-ok") Base.finRecadrage("ok");
   else if (action === "base-recadrage-entiere") Base.finRecadrage("entiere");
   else if (action === "base-recadrage-annuler") Base.finRecadrage("annuler");
+  else if (action === "base-oublier-cadre") Base.oublierCadreMemo();
   else if (action === "base-importer-album") Base.importerAlbum();
   else if (action === "base-vue-photos") { Base.vue = "photos"; Base._afficherListe(); }
   else if (action === "base-vue-compte") { Base.vue = "compte"; Base._afficherListe(); }
