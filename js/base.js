@@ -62,11 +62,11 @@ const Base = {
     return new Promise(ok => cv.toBlob(ok, "image/jpeg", 0.82));
   },
 
-  // Cadre du carton imprimé sur la photo, quel que soit le fond ; null si incertain (on garde alors la photo entière ;
-  // « ✂️ Recadrer » permet d'ajuster à la main) : le blister (_cadreBlister), puis resserré sur le carton (_resserrer)
+  // Cadre du blister sur la photo, coque transparente comprise (Mathias, 02/10 : « il faut garder le blister, donc les
+  // bords transparents ») ; null si incertain (photo entière gardée ; « ✂️ Recadrer » pour ajuster à la main).
+  // _resserrer (cadre au ras du carton imprimé, v98) n'est plus utilisé : il coupait la coque.
   _cadreAuto(image) {
-    const c = this._cadreBlister(image);
-    return c ? this._resserrer(image, c) : c;
+    return this._cadreBlister(image);
   },
 
   // Dernière étape : resserrer sur le carton imprimé. La coque transparente laisse voir le fond, ce qui faisait comme

@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v99 (02/10) : resserrage v98 DÉSACTIVÉ (Mathias : garder le blister entier, bords transparents compris ; couper
+    seulement le fond extérieur). Retour au cadre v97 (_cadreBlister). À faire : se caler sur le bord extérieur de la coque
+    transparente, par différence avec le fond (s'inspirer du cadrage du Samsung S26 Ultra, photo à recevoir) ; puis, si ça
+    marche, ajouter au mail de l'ami le conseil du bout de carton derrière le blister.
   · v98 (02/10) : RESSERRAGE SUR LE CARTON IMPRIMÉ (photo de Mathias sur fond carton : la coque transparente laissait voir le
     carton du fond tout autour). Base._resserrer : dans le cadre du blister, de chaque côté, trait droit et net où l'on
     passe du fond (dehors) au carton imprimé (dedans) ; 30 % max en haut (attache), 20 % ailleurs ; gardé seulement si les
