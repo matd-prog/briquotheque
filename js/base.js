@@ -469,7 +469,8 @@ const Base = {
     toast(`« ${nomComplet(commun)} » : ${n > 1 ? `${n} exemplaires ajoutés` : "ajouté"} ✔ (${total} au total)`);
     // appli principale : aussi dans l'onglet Customs du fichier Excel (case cochée)
     let compteExcel = "";
-    if ($("base-excel") && $("base-excel").checked && !$("base-bloc-excel").hidden && typeof ajouterCustomsDepuisBase === "function") {
+    // collection rangée dans l'appli : le blister va toujours dans les Customs (plus de case à cocher)
+    if ($("base-excel") && (etat.classeur && etat.classeur.estBase || $("base-excel").checked) && !$("base-bloc-excel").hidden && typeof ajouterCustomsDepuisBase === "function") {
       $("base-etat").textContent = "Ajout à votre collection (Customs)…";
       try { // jamais bloqué : au plus 30 s
         compteExcel = await Promise.race([ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie: commun.serie.replace(/\D/g, ""), nonNumerote }),

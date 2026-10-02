@@ -86,7 +86,9 @@
     </div>
 
     <details class="outils" id="outils">
-      <summary>Outils</summary>
+      <summary>Outils <span class="score" id="version-appli"></span></summary>
+      <div id="bloc-erreurs" class="alerte" hidden><b>⚠️ Dernières erreurs</b> (à envoyer à Claude si quelque chose bloque)
+        <pre id="liste-erreurs" class="score" style="white-space:pre-wrap;margin:6px 0 0"></pre></div>
       <div id="bloc-catalogue" class="bloc-catalogue">
         <p class="sous-titre">🔄 Mises à jour</p>
         <p class="aide">Les catalogues se mettent à jour tout seuls : sets, nouveautés, objets dérivés et prix LEGO France
@@ -417,12 +419,13 @@
         <button class="petit" data-note="Cadeau / giveaway">🎁 Cadeau</button>
       </div>
       <div id="base-bloc-excel" hidden>
-        <label class="case-a-cocher"><input type="checkbox" id="base-excel" checked> <span class="excel-seul">Ajouter aussi à mon fichier Excel
-          (onglet Customs, avec étiquette)</span><span class="base-seul">Ajouter aussi à ma collection (Customs)</span></label>
+        <label class="case-a-cocher excel-seul"><input type="checkbox" id="base-excel" checked> Ajouter aussi à mon fichier Excel
+          (onglet Customs, avec étiquette)</label>
         <p class="score" id="base-excel-info"></p>
       </div>
-      <button class="gros-bouton vert" data-action="base-ajouter">📚 Je l'ai : ajouter à ma collection</button>
-      <button class="bouton gris" data-action="base-ajouter-commune">🌐 Je ne l'ai pas : seulement pour la base commune (reconnaissance)</button>
+      <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter à ma collection</button>
+      <p class="aide">Le blister rejoint aussi la base commune de reconnaissance (s'il n'y est pas déjà).</p>
+      <button class="bouton-lien" data-action="base-ajouter-commune">Ce blister n'est pas à moi (vu en boutique, photo d'un ami…) : seulement pour la base commune</button>
     </div>
     <div class="carte">
       <p class="sous-titre" id="base-compte"></p>

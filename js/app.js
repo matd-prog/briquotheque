@@ -79,6 +79,20 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
+const VERSION_APPLI = "v77"; // même numéro que le cache de sw.js
+
+// Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
+const ERREURS = [];
+function noterErreur(texte) {
+  const t = `${new Date().toLocaleTimeString("fr-FR")} ${String(texte).slice(0, 300)}`;
+  ERREURS.unshift(t); ERREURS.length = Math.min(ERREURS.length, 8);
+  const l = document.getElementById("liste-erreurs");
+  if (l) { l.textContent = ERREURS.join("\n"); document.getElementById("bloc-erreurs").hidden = false; }
+  if (typeof toast === "function") toast("⚠️ Erreur : " + String(texte).slice(0, 160), 9000);
+}
+window.addEventListener("error", e => noterErreur(`${e.message} (${(e.filename || "").split("/").pop()}:${e.lineno})`));
+window.addEventListener("unhandledrejection", e => noterErreur(e.reason && (e.reason.stack || e.reason.message) || e.reason));
+
 // Base de données de l'appli : rien à « Enregistrer », la mention est retirée des messages
 function sansEnregistrer(texte) {
   if (!(etat.classeur && etat.classeur.estBase)) return texte;
@@ -1619,6 +1633,7 @@ $("input-excel-base").addEventListener("change", async e => {
 // ---------- démarrage ----------
 
 (async function demarrer() {
+  if ($("version-appli")) $("version-appli").textContent = `(version ${VERSION_APPLI})`;
   Recadrage.installer();
   Collection.installer();
   // en arrière-plan : sert à la recherche par nom et à reconnaître le thème
