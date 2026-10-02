@@ -75,6 +75,7 @@
       <button class="tuile" data-action="souhaits"><span class="icone">⭐</span><b>Ma liste de souhaits</b><small>Ce que vous voulez, sorties</small></button>
       <button class="tuile" data-action="impression"><span class="icone">🖨️</span><b>Imprimer des étiquettes</b><small>À la taille de vos étiquettes</small></button>
       <button class="tuile" data-action="exports"><span class="icone">📤</span><b>Exporter</b><small>Excel, PDF, CSV, BrickLink</small></button>
+      <button class="tuile" data-action="statistiques"><span class="icone">📊</span><b>Statistiques</b><small>Séries complètes, manquantes</small></button>
     </div>
 
     <p class="section-titre">🔎 Découvrir</p>
@@ -576,6 +577,13 @@
   </section>
   <style id="style-impression"></style>
 
+  <!-- Statistiques de la collection (js/statistiques.js) -->
+  <section id="ecran-statistiques" class="ecran" hidden>
+    <p class="intro">📊 <b>Statistiques</b><br><small>Votre collection en chiffres, et ce qu'il manque pour compléter vos séries.</small></p>
+    <div id="st-contenu" class="colonne"></div>
+    <button class="bouton gris" data-action="accueil">↩︎ Retour</button>
+  </section>
+
   <!-- Exports de la collection (js/exports.js) -->
   <section id="ecran-exports" class="ecran" hidden>
     <div class="pas-imprime colonne">
@@ -631,6 +639,7 @@
   <script src="js/souhaits.js"></script>
   <script src="js/impression.js"></script>
   <script src="js/exports.js"></script>
+  <script src="js/statistiques.js"></script>
   <script src="js/valeur.js"></script>
   <script src="js/assurance.js"></script>
   <script src="js/achats.js"></script>

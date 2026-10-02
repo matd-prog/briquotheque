@@ -79,6 +79,19 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   (Avenue de la Brique) à lego.tsv ; valeur.js n'utilise plus que prix_fr pour « encore en vente » (le prix allemand
   sert seulement de plancher pour le prix d'origine). Il faut relancer « 📤 Envoyer ma liste » (💶 Valeur) pour que
   lego.tsv reçoive la colonne.
+- Version diffusable, nuit du 01 au 02/10 (caches v64 à v67, testé sur ordinateur, PAS encore sur le téléphone) :
+  · 🖨️ Imprimer des étiquettes (js/impression.js) : taille au choix (modèles Avery, rouleaux Brother/Dymo, format perso,
+    « Comme mon fichier Excel »), départ sur planche entamée, QR/nom/couleur/traits au choix, mémoire des étiquettes imprimées.
+  · 📤 Exporter (js/exports.js) : Excel neuf (un onglet par catégorie), PDF (liste), CSV, BrickLink XML (souhaits ou
+    collection), sauvegarde .json + restauration.
+  · 🗄️ Collection dans l'appli sans Excel (js/base_collection.js, IndexedDB « figotheque ») : choix à l'écran de départ,
+    reprise d'un fichier Excel dans la base, enregistrement immédiat ; mêmes appels que le classeur (dispatch « estBase »
+    au début des fonctions de figurines de js/xlsx.js). Le mode Excel de Mathias est inchangé (vérifié).
+  · 📈 Courbe de la valeur (valeur.js, Memoire « historique_valeur », un point par jour de consultation).
+  · 📊 Statistiques (js/statistiques.js) : totaux, par onglet, séries de minifigs commencées (manquantes → souhaits),
+    catégories BrickLink, customs JB.
+  À FAIRE : document de plan « version diffusable » (synchro cloud Supabase, comptes, conditions Brickognize/BrickLink,
+  valeur sans dépôt privé, nom/marque), alertes, multi-figurines par photo, vitrine partagée.
 - Liste de souhaits (01/10, cache v63, js/souhaits.js) : onglet Excel « Souhaits » (Type, Code, Nom, Thème / série,
   Sortie, Remarques, Ajouté le). Bouton « ⭐ Ajouter à ma liste de souhaits » sur les fiches figurine, custom, set et
   objet ; tuile « ⭐ Ma liste de souhaits » (rubrique Ma collection) : souhaits par type, date de sortie (nouveautés),

@@ -604,6 +604,38 @@ const Valeur = {
     this.afficher();
   },
 
+  // Historique de la valeur (gardé dans le téléphone) : un point par jour de consultation, le dernier du jour gagne
+  async _historiser(total, totalOccasion, n) {
+    const jour = new Date().toISOString().slice(0, 10);
+    const h = ((await Memoire.lire("historique_valeur")) || []).filter(p => p.jour !== jour);
+    h.push({ jour, total: Math.round(total * 100) / 100, occasion: Math.round(totalOccasion * 100) / 100, n });
+    h.sort((a, b) => a.jour.localeCompare(b.jour));
+    await Memoire.ecrire(h, "historique_valeur");
+    return h;
+  },
+
+  // Courbe de la valeur dans le temps (rachat à neuf, et occasion en pointillés)
+  _carteHistorique(h, euros) {
+    if (h.length < 2) return `<div class="carte"><p class="sous-titre">📈 Évolution de la valeur</p><p class="score">La courbe apparaîtra à
+      partir de la prochaine consultation un autre jour : la valeur du jour est retenue à chaque visite de cet écran.</p></div>`;
+    const W = 320, H = 140, m = 6;
+    const t0 = new Date(h[0].jour).getTime(), t1 = new Date(h[h.length - 1].jour).getTime() || t0 + 1;
+    const vals = h.flatMap(p => [p.total, p.occasion]), min = Math.min(...vals) * 0.95, max = Math.max(...vals) * 1.02 || 1;
+    const x = p => m + (W - 2 * m) * ((new Date(p.jour).getTime() - t0) / Math.max(1, t1 - t0));
+    const y = v => H - m - (H - 2 * m) * ((v - min) / Math.max(1, max - min));
+    const ligne = k => h.map(p => `${x(p).toFixed(1)},${y(p[k]).toFixed(1)}`).join(" ");
+    const premier = h[0], dernier = h[h.length - 1], ecart = dernier.total - premier.total;
+    const date = j => new Date(j + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+    return `<div class="carte"><p class="sous-titre">📈 Évolution de la valeur</p>
+      <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Courbe de la valeur de la collection">
+        <polyline points="${ligne("occasion")}" fill="none" stroke="#6b7075" stroke-width="2" stroke-dasharray="5 4"/>
+        <polyline points="${ligne("total")}" fill="none" stroke="#00852b" stroke-width="3"/>
+        ${h.map(p => `<circle cx="${x(p).toFixed(1)}" cy="${y(p.total).toFixed(1)}" r="3" fill="#00852b"/>`).join("")}
+      </svg>
+      <div class="ligne-valeur"><span>Du ${date(premier.jour)} au ${date(dernier.jour)}</span><b class="${ecart >= 0 ? "hausse" : "baisse"}">${ecart >= 0 ? "+" : ""}${euros(ecart)}</b></div>
+      <p class="score">Trait plein : rachat à neuf ; pointillés : occasion. ${h.length} relevés.</p></div>`;
+  },
+
   async afficher() {
     if (!etat.classeur) { $("valeur-etat").textContent = "Ouvrez d'abord votre fichier Excel pour voir sa valeur."; return; }
     $("valeur-etat").textContent = "Lecture des prix…";
@@ -619,6 +651,7 @@ const Valeur = {
       }
       const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
       $("valeur-etat").textContent = date ? `Prix du ${new Date(date).toLocaleDateString("fr-FR")} : médiane des ventes BrickLink des 6 derniers mois en Europe, TVA comprise.` : "";
+      const historique = await this._historiser(total, totalOccasion, details.length);
       const doublons = await this._doublons();
       const boites = (await lireSets(etat.classeur)).filter(x => /boîte seule|boite seule/i.test(x.etat));
       $("valeur-resultat").innerHTML = (doublons.length ? `<div class="carte alerte">⚠️ <b>${doublons.length} ligne(s) en double</b> dans l'onglet « Sets » ` +
@@ -629,6 +662,7 @@ const Valeur = {
         <div class="carte valeur-total"><div class="score">Coût de rachat à neuf de la collection</div><div class="montant">${euros(total)}</div>
           <div class="ligne-valeur"><span>Valeur d'occasion (revente)</span><b>${euros(totalOccasion)}</b></div>
           <div class="score">${details.length} article(s) valorisé(s)${sans.length ? ` · ${sans.length} sans prix pour l'instant` : ""}</div></div>
+        ${this._carteHistorique(historique, euros)}
         ${this._carteDeclarees(details, sans)}
         <div class="carte"><p class="sous-titre">Par onglet</p>
           ${Object.entries(parOnglet).sort((a, b) => b[1] - a[1]).map(([o, v]) => `<div class="ligne-valeur"><span>${echapper(o)}</span><b>${euros(v)}</b></div>`).join("")}</div>
