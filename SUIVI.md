@@ -123,7 +123,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   · v81 (02/10) : appli RENOMMÉE « Briquothèque » (choix de Mathias ; « Figothèque » rappelait Figolu / la figue ;
     Brickodex et BrickDex déjà pris ; « Bricothèque » = prêt d'outils de bricolage). Restent en interne : base IndexedDB
     « figotheque », icônes figotheque-*.png, cache « figurines-lego-vNN » (ne pas renommer : données perdues). Sauvegardes
-    .json « Figothèque » toujours acceptées. Marque INPI non vérifiée.
+    .json « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
+    « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
+    nom libre en France. Reste : recherche EUIPO ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
   · Mises à jour en un bouton (v74) : BrickLink exige désormais une connexion compte LEGO (identity.lego.com, protection
     anti-robots) pour télécharger son catalogue -> abandon du téléchargement. Nouvelles figurines par l'API BrickLink
     (mêmes clés que les prix) : catalogue_bricklink.py + .github/workflows/catalogue.yml du DÉPÔT PRIVÉ (mensuel le 2,
