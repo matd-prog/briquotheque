@@ -62,14 +62,71 @@ const Base = {
     return new Promise(ok => cv.toBlob(ok, "image/jpeg", 0.82));
   },
 
-  // Cadre du blister sur la photo, quel que soit le fond ; null si incertain (on garde alors la photo entière ;
-  // « ✂️ Recadrer » permet d'ajuster à la main). Fond uni ou peu chargé : _cadreFondUni, juste sur les photos réelles.
+  // Cadre du carton imprimé sur la photo, quel que soit le fond ; null si incertain (on garde alors la photo entière ;
+  // « ✂️ Recadrer » permet d'ajuster à la main) : le blister (_cadreBlister), puis resserré sur le carton (_resserrer)
+  _cadreAuto(image) {
+    const c = this._cadreBlister(image);
+    return c ? this._resserrer(image, c) : c;
+  },
+
+  // Dernière étape : resserrer sur le carton imprimé. La coque transparente laisse voir le fond, ce qui faisait comme
+  // une bordure autour du carton (photo de Mathias sur carton, 02/10/2026). Dans le cadre trouvé, on cherche de chaque
+  // côté un trait droit et net où l'on passe du fond (dehors) au carton imprimé (dedans) : jusqu'à 30 % de la hauteur
+  // en haut (attache de la coque), 20 % ailleurs ; retenu seulement si les quatre côtés sont nets entre les coins.
+  // Essai : fonds variés 0,78 -> 0,85 ; unis 0,82 -> 0,94 ; carton 0,82 -> 0,89 ; 24 photos réelles sur 41 resserrées
+  // sur le carton, aucune coupée (un trait du dessin pris pour le bord : écarté par la limite de 20 %).
+  _resserrer(image, c) {
+    const L = 400, k = L / Math.max(image.width, image.height);
+    const w = Math.max(16, Math.round(image.width * k)), h = Math.max(16, Math.round(image.height * k));
+    const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+    const cx = cv.getContext("2d"); cx.drawImage(image, 0, 0, w, h);
+    const px = cx.getImageData(0, 0, w, h).data;
+    const X0 = Math.round(c.x * w), Y0 = Math.round(c.y * h), X1 = Math.round((c.x + c.l) * w) - 1, Y1 = Math.round((c.y + c.h) * h) - 1;
+    const ecart = (i, d) => { let s = 0; for (let k2 = 0; k2 < 3; k2++) s += Math.abs(px[4 * (i + d) + k2] + px[4 * (i + 2 * d) + k2] - px[4 * (i - d) + k2] - px[4 * (i - 2 * d) + k2]); return s; };
+    const S = 60;
+    // pour une ligne (ou colonne) : part de sa longueur, entre les bornes, qui est un bord net
+    const partLigne = (y, xa, xb) => { if (y < 2 || y >= h - 2) return 0; let n = 0; for (let x = xa; x <= xb; x++) { const i = y * w + x; if (ecart(i, w) > S && ecart(i, w) > ecart(i, 1)) n++; } return n / Math.max(1, xb - xa + 1); };
+    const partCol = (x, ya, yb) => { if (x < 2 || x >= w - 2) return 0; let n = 0; for (let y = ya; y <= yb; y++) { const i = y * w + x; if (ecart(i, 1) > S && ecart(i, 1) > ecart(i, w)) n++; } return n / Math.max(1, yb - ya + 1); };
+    // couleur du fond : médiane du pourtour de la photo
+    const bord = [[], [], []], e = Math.max(1, Math.round(Math.min(w, h) * 0.03));
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (x < e || y < e || x >= w - e || y >= h - e) for (let k2 = 0; k2 < 3; k2++) bord[k2].push(px[4 * (y * w + x) + k2]);
+    const fond = bord.map(t => t.sort((a, z) => a - z)[t.length >> 1]);
+    // écart moyen au fond d'une bande de 4 pixels parallèle au bord cherché
+    const bande = (horiz, v, a, b2) => { let s = 0, n = 0; for (let d = 0; d < 4; d++) { const u = v + d; if (u < 0 || u >= (horiz ? h : w)) continue;
+      for (let t = a; t <= b2; t += 2) { const i = 4 * (horiz ? u * w + t : t * w + u); s += Math.abs(px[i] - fond[0]) + Math.abs(px[i + 1] - fond[1]) + Math.abs(px[i + 2] - fond[2]); n++; } } return n ? s / n : 0; };
+    // de chaque côté, parmi les traits nets et longs : celui où l'on passe du fond (dehors) au carton imprimé (dedans)
+    const largeur = X1 - X0, hauteur = Y1 - Y0, marge = Math.round(Math.min(largeur, hauteur) * 0.04);
+    const ya = Y0 + marge, yb = Y1 - marge, xa = X0 + marge, xb = X1 - marge;
+    const chercher = (debut, fin, pas, part, horiz, a, b2) => {
+      let best = null;
+      for (let v = debut; pas > 0 ? v <= fin : v >= fin; v += pas) {
+        if (part(v) < 0.55) continue;
+        const dehors = bande(horiz, pas > 0 ? v - 6 : v + 3, a, b2), dedans = bande(horiz, pas > 0 ? v + 3 : v - 6, a, b2), s = dedans - dehors;
+        if (s > 45 && (!best || s > best.s)) best = { v, s };
+      }
+      return best;
+    };
+    const haut = chercher(Y0 + 2, Y0 + Math.round(hauteur * 0.3), 1, y => partLigne(y, xa, xb), true, xa, xb);
+    const bas = chercher(Y1 - 2, Y1 - Math.round(hauteur * 0.2), -1, y => partLigne(y, xa, xb), true, xa, xb);
+    const gauche = chercher(X0 + 2, X0 + Math.round(largeur * 0.2), 1, x => partCol(x, ya, yb), false, ya, yb);
+    const droite = chercher(X1 - 2, X1 - Math.round(largeur * 0.2), -1, x => partCol(x, ya, yb), false, ya, yb);
+    if (!haut || !bas || !gauche || !droite) return c;
+    // vérification : les bords trouvés forment un rectangle dont les côtés sont nets entre les coins
+    const ok = [partLigne(haut.v, gauche.v, droite.v), partLigne(bas.v, gauche.v, droite.v), partCol(gauche.v, haut.v, bas.v), partCol(droite.v, haut.v, bas.v)].every(p => p >= 0.6);
+    if (!ok) return c;
+    const r = { x: gauche.v / w, y: haut.v / h, l: (droite.v - gauche.v) / w, h: (bas.v - haut.v) / h };
+    if (r.l * r.h < 0.45 * c.l * c.h) return c; // trop petit : sans doute un cadre intérieur du dessin, pas le carton
+    const m = 0.005;
+    return { x: Math.max(0, r.x - m), y: Math.max(0, r.y - m), l: Math.min(1 - r.x + m, r.l + 2 * m), h: Math.min(1 - r.y + m, r.h + 2 * m) };
+  },
+
+  // Cadre du blister entier (coque comprise), quel que soit le fond ; null si incertain. Fond uni ou peu chargé : _cadreFondUni, juste sur les photos réelles.
   // Il est remplacé par _cadreMotif (fond appris sur le pourtour, couleur ET motif) quand il échoue nettement : pas de
   // cadre, cadre à côté du blister (carreaux, lignes), ou cadre bien plus grand dont la bande en plus est du fond.
   // Essai du 02/10/2026 : 24 photos sur 6 fonds (plaque perforée, bois, carreaux, cyan, sombre, journal) : plus aucun
   // échec (carreaux : 0 -> 0,66-0,85 de recouvrement) ; 41 photos réelles : inchangées, sauf 6 gardées entières
   // jusqu'ici, maintenant cadrées sur les bords du blister.
-  _cadreAuto(image) {
+  _cadreBlister(image) {
     const c = this._cadreFondUni(image), m = this._cadreMotif(image), info = this._dernierMotif;
     if (!m) return c; if (!c) return m;
     const inter = Math.max(0, Math.min(c.x + c.l, m.x + m.l) - Math.max(c.x, m.x)) * Math.max(0, Math.min(c.y + c.h, m.y + m.h) - Math.max(c.y, m.y));

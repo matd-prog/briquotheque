@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v98 (02/10) : RESSERRAGE SUR LE CARTON IMPRIMÉ (photo de Mathias sur fond carton : la coque transparente laissait voir le
+    carton du fond tout autour). Base._resserrer : dans le cadre du blister, de chaque côté, trait droit et net où l'on
+    passe du fond (dehors) au carton imprimé (dedans) ; 30 % max en haut (attache), 20 % ailleurs ; gardé seulement si les
+    4 côtés sont nets. Fonds variés 0,78 -> 0,85, unis 0,82 -> 0,94, carton 0,82 -> 0,89 ; 24/41 photos réelles resserrées,
+    aucune coupée (limite à 30 % partout : le « Vegan BBQ Luke » était coupé). Conseil de prise de vue donné : fond uni,
+    mat, moyen (gris ou carton), 2-3 cm de marge, de face, sans flash.
   · v97 (02/10) : RECADRAGE QUEL QUE SOIT LE FOND (Mathias : « il faut qu'il se cadre par rapport au bord du blister »).
     Banc d'essai : 24 blisters de l'album collés sur 6 fonds (plaque perforée, bois, carreaux, cyan, sombre, journal) +
     41 photos réelles. Essayés et écartés : traits droits (bords du rectangle) seuls, puis en couleur (cyan réglé, mais
