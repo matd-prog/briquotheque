@@ -50,6 +50,7 @@ for (const evt of ["click", "keydown"])
   }, true);
 
 function afficher(ecran, retour = false) {
+  if (ecran !== ecranActuel && typeof Occupe !== "undefined" && Occupe.bouton && !Occupe.bouton.closest("#ecran-" + ecran)) Occupe.liberer();
   document.querySelectorAll(".ecran").forEach(e => e.hidden = e.id !== "ecran-" + ecran);
   window.scrollTo(0, 0);
   if (ECRANS_RACINE.includes(ecran)) pileEcrans = [];
@@ -93,7 +94,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v89"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v90"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];

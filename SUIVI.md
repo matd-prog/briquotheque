@@ -125,6 +125,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v90 (02/10) : CORRECTION tuile Valeur grisée ⏳ et intouchable (js/occupe.js : le suivi du relevé des prix
+    interroge GitHub en continu, le travail ne semblait jamais fini). Le bouton grisé est libéré au changement d'écran
+    (Occupe.liberer dans afficher) et au plus tard 45 s après l'appui.
   · v89 (02/10) : ajout en masse : tout est coché au départ (même hors catalogue), sauf « déjà dans votre collection » ;
     boutons « ✅ Tout cocher » / « Tout décocher » (demande de Mathias : décocher plutôt que cocher une par une).
   · v88 (02/10) : « 📷 Lire les codes sur des photos (vitrines, présentoirs…) » dans « Plusieurs figurines d'un coup » :

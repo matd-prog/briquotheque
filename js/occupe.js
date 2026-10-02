@@ -35,6 +35,15 @@ const Occupe = {
     if (!this.actif) { clearTimeout(this._minuteur); this._minuteur = setTimeout(() => this._verifier(), 300); }
   },
 
+  // Le bouton grisé redevient touchable : à chaque changement d'écran (on est passé à autre chose) et au plus tard
+  // 45 s après l'appui. Sans cela, un écran qui interroge Internet en continu (suivi du relevé des prix dans Valeur)
+  // laissait sa tuile grisée et intouchable, même de retour à l'accueil.
+  liberer() {
+    clearTimeout(this._limite);
+    if (this.bouton) { this.bouton.classList.remove("bouton-occupe"); this.bouton.removeAttribute("aria-busy"); }
+    this.bouton = null;
+  },
+
   _dialogueOuvert: () => { const d = document.getElementById("dialogue"); return !!(d && d.open); },
 
   // vérifié toutes les 0,25 s tant qu'un appui est suivi
@@ -67,7 +76,10 @@ const Occupe = {
       b.className = "bandeau-occupe";
       b.textContent = "⏳ En cours… patientez";
       b.hidden = false;
-      if (this.bouton) { this.bouton.classList.add("bouton-occupe"); this.bouton.setAttribute("aria-busy", "true"); }
+      if (this.bouton) {
+        this.bouton.classList.add("bouton-occupe"); this.bouton.setAttribute("aria-busy", "true");
+        clearTimeout(this._limite); this._limite = setTimeout(() => this.liberer(), 45000);
+      }
     } else {
       this.actif = false;
       if (this.bouton) { this.bouton.classList.remove("bouton-occupe"); this.bouton.removeAttribute("aria-busy"); }
