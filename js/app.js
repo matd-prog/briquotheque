@@ -79,7 +79,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v81"; // même numéro que le cache de sw.js
+const VERSION_APPLI = "v82"; // même numéro que le cache de sw.js (« briquotheque-v82 »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -234,12 +234,11 @@ function echapper(t) {
 const Memoire = {
   // une seule connexion, gardée (avant : une nouvelle à chaque lecture ou écriture, jamais refermée)
   _db() {
-    if (!this._connexion) this._connexion = new Promise((ok, ko) => {
-      const r = indexedDB.open("etiquettes-figurines", 1);
-      r.onupgradeneeded = () => r.result.createObjectStore("donnees");
-      r.onsuccess = () => { const db = r.result; db.onclose = db.onversionchange = () => { this._connexion = null; db.close(); }; ok(db); };
-      r.onerror = () => { this._connexion = null; ko(r.error); };
-    });
+    if (!this._connexion) this._connexion = ouvrirBaseRenommee("briquotheque-memoire", "etiquettes-figurines", "donnees",
+      db => db.createObjectStore("donnees")).then(db => {
+        db.onclose = db.onversionchange = () => { this._connexion = null; db.close(); };
+        return db;
+      }, err => { this._connexion = null; throw err; });
     return this._connexion;
   },
   // Écriture : une transaction annulée (ex. mémoire du téléphone pleine) ne bloque plus l'appli : erreur signalée
@@ -326,22 +325,6 @@ async function memoriser() {
   return octets;
 }
 
-$("input-fichier").addEventListener("change", async e => {
-  const f = e.target.files[0];
-  e.target.value = "";
-  if (!f) return;
-  try {
-    const octets = new Uint8Array(await f.arrayBuffer());
-    await chargerClasseur(octets, f.name);
-    await Memoire.ecrire({ nom: f.name, octets, nonEnregistres: 0 });
-    await Memoire.ecrire(null, "poignee"); // autre fichier : l'emplacement d'enregistrement retenu est oublié
-    afficher("accueil");
-    toast("Fichier ouvert ✔");
-  } catch (err) {
-    console.error(err);
-    await demander("Impossible d'utiliser ce fichier : " + err.message, "OK", "Fermer");
-  }
-});
 
 // ---------- photo et identification ----------
 
@@ -1470,34 +1453,6 @@ async function fichierEnregistre(nom = etat.dernierFichier.name) {
 
 $("lien-telecharger").addEventListener("click", () => setTimeout(fichierEnregistre, 500));
 
-// ---------- régénération en lot ----------
-
-async function regenerer() {
-  if (!(await demander("Refaire toutes les étiquettes (onglets Star Wars et onglets de thèmes) avec le modèle QR code ?\n\nLes anciennes images seront remplacées dans le nouveau fichier ; votre fichier d'origine reste intact.")))
-    return;
-  const zone = $("regen-etat");
-  zone.innerHTML = `<progress max="1" value="0"></progress><p class="aide">Préparation…</p>`;
-  const barre = zone.querySelector("progress"), texte = zone.querySelector("p");
-  try {
-    const rapport = await regenererTout(etat.classeur, (i, total) => {
-      barre.max = total; barre.value = i; texte.textContent = `${i} / ${total} étiquettes`;
-    });
-    etat.nonEnregistres++;
-    texte.textContent = "Vérification…";
-    await memoriser();
-    await relireContenu();
-    let msg = `✅ ${rapport.faites} étiquettes refaites.`;
-    if (rapport.ignorees.length)
-      msg += `<br>⚠️ Sans étiquette, code à vérifier dans le fichier : ` +
-        rapport.ignorees.map(x => `${echapper(x.code)} – ${echapper(x.nom)} (${echapper(x.onglet)}, ${x.ref})`).join(" ; ");
-    zone.innerHTML = `<div class="alerte">${msg}</div><button class="bouton vert" data-action="enregistrer">📤 Enregistrer le fichier</button>`;
-  } catch (err) {
-    console.error(err);
-    const m = await Memoire.lire();
-    if (m) await chargerClasseur(m.octets, m.nom, m.nonEnregistres);
-    zone.innerHTML = `<div class="alerte stop">Échec : ${echapper(err.message)}</div>`;
-  }
-}
 
 // « Figurine suivante » : même chemin que la figurine qu'on vient d'ajouter (photo -> appareil photo tout de suite,
 // recherche par nom, custom) ; « Retour à l'accueil » pour changer de catégorie
@@ -1546,24 +1501,12 @@ document.addEventListener("click", async e => {
   else if (action === "partager") partager();
   else if (action === "enregistrer-direct") enregistrerDirect(false);
   else if (action === "enregistrer-ailleurs") enregistrerDirect(true);
-  else if (action === "regenerer") regenerer();
   else if (action === "base-creer") demarrerBase(false);
-  else if (action === "revenir-excel") revenirExcel();
-  else if (action === "migrer-base") migrerVersBase();
   else if (action === "rapport") envoyerRapport();
   else if (action === "tout-mettre-a-jour") toutMettreAJour(b);
   else if (action === "sauvegarde-en-ligne") sauvegardeEnLigne();
   else if (action === "restaurer-en-ligne") restaurerEnLigne();
   else if (action === "base-depuis-excel") $("input-excel-base").click();
-  else if (action === "changer-fichier") {
-    if (etat.nonEnregistres && !(await demander("Des ajouts n'ont pas été enregistrés. Les abandonner ?"))) return;
-    await Memoire.effacer();
-    await Memoire.ecrire(null, "poignee");
-    etat.classeur = null;
-    $("fichier-info").textContent = "";
-    etat.nonEnregistres = 0; majBandeau();
-    afficher("fichier");
-  }
 });
 $("saisie-code").addEventListener("keydown", e => { if (e.key === "Enter") validerSaisie(); });
 
@@ -1599,23 +1542,6 @@ async function avecCamps(enregistrements) {
   return [...enregistrements.filter(e => e.table !== "_reglages" || e.id !== "camps_star_wars"), { table: "_reglages", id: "camps_star_wars", valeur: oui }];
 }
 
-// Passage à la base de données avec le fichier Excel ouvert (ajouts pas encore enregistrés compris)
-async function migrerVersBase() {
-  if (!etat.classeur || etat.classeur.estBase) return;
-  if (!(await demander("Passer à la base de données de l'appli ? Tout le contenu de votre fichier Excel y est repris (figurines, " +
-      "sets, objets, souhaits, achats…). Ensuite, chaque ajout est enregistré tout de suite, sans fichier à enregistrer. " +
-      "Votre fichier Excel reste intact, et l'export Excel reste possible (📤 Exporter).", "Oui, passer à la base", "Annuler"))) return;
-  try {
-    const octets = await etat.classeur.enregistrer();
-    await Memoire.ecrire({ nom: etat.nomFichier, octets, nonEnregistres: etat.nonEnregistres }); // copie gardée (retour possible)
-    etat.classeur = await Classeur.ouvrir(octets);
-    const enregistrements = await avecCamps(await BaseCollection.depuisExcel(octets));
-    await demarrerBase(true, enregistrements, true);
-  } catch (err) {
-    console.error(err);
-    await demander("Le passage à la base de données a échoué : " + err.message, "OK", "Fermer");
-  }
-}
 
 // Sauvegarde en ligne (dépôt privé) : à la demande, et restauration (nouveau téléphone, données effacées)
 async function sauvegardeEnLigne() {
@@ -1645,19 +1571,6 @@ document.addEventListener("visibilitychange", () => {
     etat.classeur.sauvegarderEnLigne().catch(err => console.warn("Sauvegarde en ligne", err));
 });
 
-// Retour au fichier Excel gardé dans le téléphone (celui ouvert avant de passer à la collection de l'appli)
-async function revenirExcel() {
-  const m = await Memoire.lire("classeur_excel");
-  if (!m || !m.octets) { // pas de copie gardée : choisir le fichier (Google Drive ou téléphone)
-    toast("Choisissez votre fichier Excel (Google Drive ou téléphone)", 4000);
-    $("input-fichier").click();
-    return;
-  }
-  await Memoire.ecrire(m);
-  await chargerClasseur(m.octets, m.nom, m.nonEnregistres || 0);
-  afficher("accueil");
-  toast(`Fichier Excel rouvert ✔ (${Object.values(etat.collection).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0)} figurines)`, 4500);
-}
 
 $("reglage-camps").addEventListener("change", async () => {
   if (!etat.classeur || !etat.classeur.estBase) return;
@@ -1691,12 +1604,10 @@ $("input-excel-base").addEventListener("change", async e => {
   if ("serviceWorker" in navigator && location.protocol === "https:")
     navigator.serviceWorker.register("sw.js").catch(() => {});
   const m = await Memoire.lire();
-  if (m && (m.octets || m.base)) {
-    try {
-      await chargerClasseur(m.octets, m.nom, m.nonEnregistres || 0);
-      afficher("accueil");
-      return;
-    } catch (e) { console.warn(e); }
-  }
+  try {
+    if (m && m.base) { await chargerClasseur(null, m.nom, 0); afficher("accueil"); return; }
+    // ancien rangement dans un fichier Excel (gardé dans le téléphone) : repris dans la base de l'appli, une fois
+    if (m && m.octets) { await demarrerBase(true, await avecCamps(await BaseCollection.depuisExcel(m.octets)), true); return; }
+  } catch (e) { console.warn(e); }
   afficher("fichier");
 })();

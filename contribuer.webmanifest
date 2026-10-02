@@ -8,7 +8,7 @@
   "background_color": "#f4f4f2",
   "theme_color": "#d9476b",
   "icons": [
-    { "src": "icones/figotheque-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "icones/figotheque-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "icones/briquotheque-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icones/briquotheque-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }

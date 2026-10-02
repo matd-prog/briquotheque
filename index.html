@@ -6,8 +6,8 @@
 <title>Briquothèque</title>
 <meta name="theme-color" content="#d01012">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icones/figotheque-192.png">
-<link rel="apple-touch-icon" href="icones/figotheque-192.png">
+<link rel="icon" href="icones/briquotheque-192.png">
+<link rel="apple-touch-icon" href="icones/briquotheque-192.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,11 +28,8 @@
     <p class="intro">Bienvenue ! Votre collection est rangée directement dans l'appli et enregistrée au fur et à mesure.</p>
     <button class="gros-bouton rouge" data-action="base-creer">🗄️ Commencer ma collection</button>
     <button class="gros-bouton vert" data-action="base-depuis-excel">📥 Reprendre ma collection d'un fichier Excel</button>
-    <label class="bouton-lien">Continuer avec un fichier Excel (ancienne méthode)
-      <input type="file" id="input-fichier" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
-    </label>
     <input type="file" id="input-excel-base" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
-    <button class="bouton-lien" data-action="base">📚 Seulement contribuer à la base commune des blisters JB (sans fichier Excel)</button>
+    <button class="bouton-lien" data-action="base">📚 Seulement contribuer à la base commune des blisters JB</button>
   </section>
 
   <!-- 2. Accueil -->
@@ -112,18 +109,11 @@
         </details>
       </div>
       <hr>
-      <p class="excel-seul">Refaire d'un coup les étiquettes (QR code) de toutes les figurines déjà présentes dans le fichier.</p>
-      <button class="bouton excel-seul" data-action="regenerer">🔄 Régénérer toutes les étiquettes</button>
-      <div id="regen-etat"></div>
-      <hr>
-      <button class="bouton gris" data-action="changer-fichier">Utiliser un autre fichier Excel</button>
-      <button class="gros-bouton rouge excel-seul" data-action="migrer-base">🗄️ Passer à la base de données (reprend ce fichier Excel)</button>
-      <label class="case-a-cocher base-seul" id="bloc-reglage-camps" hidden><input type="checkbox" id="reglage-camps"> Star Wars rangé par camps : Gentils (vert), Méchants (rouge), Zone grise — étiquettes de couleur</label>
-      <button class="bouton gris base-seul" data-action="base-depuis-excel">📥 Reprendre un fichier Excel (remplace la collection)</button>
-      <p class="aide base-seul" id="info-sauvegarde"></p>
-      <button class="bouton bleu base-seul" data-action="sauvegarde-en-ligne">☁️ Sauvegarder en ligne maintenant (dépôt privé)</button>
-      <button class="bouton gris base-seul" data-action="restaurer-en-ligne">☁️ Restaurer la sauvegarde en ligne</button>
-      <button class="gros-bouton vert base-seul" data-action="revenir-excel">📗 Revenir à mon fichier Excel</button>
+      <label class="case-a-cocher" id="bloc-reglage-camps" hidden><input type="checkbox" id="reglage-camps"> Star Wars rangé par camps : Gentils (vert), Méchants (rouge), Zone grise — étiquettes de couleur</label>
+      <button class="bouton gris" data-action="base-depuis-excel">📥 Reprendre un fichier Excel (remplace la collection)</button>
+      <p class="aide" id="info-sauvegarde"></p>
+      <button class="bouton bleu" data-action="sauvegarde-en-ligne">☁️ Sauvegarder en ligne maintenant (dépôt privé)</button>
+      <button class="bouton gris" data-action="restaurer-en-ligne">☁️ Restaurer la sauvegarde en ligne</button>
     </details>
   </section>
 
@@ -423,8 +413,7 @@
         <button class="petit" data-note="Cadeau / giveaway">🎁 Cadeau</button>
       </div>
       <div id="base-bloc-excel" hidden>
-        <label class="case-a-cocher excel-seul"><input type="checkbox" id="base-excel" checked> Ajouter aussi à mon fichier Excel
-          (onglet Customs, avec étiquette)</label>
+        <input type="checkbox" id="base-excel" checked hidden>
         <p class="score" id="base-excel-info"></p>
       </div>
       <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter à ma collection</button>

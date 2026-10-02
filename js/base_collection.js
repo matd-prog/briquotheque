@@ -1,5 +1,5 @@
 // Base de données de la collection, dans l'appli (sans fichier Excel) : version à diffuser.
-// Rangement : IndexedDB du navigateur (base « figotheque », un enregistrement par figurine, set, objet, souhait…),
+// Rangement : IndexedDB du navigateur (base « briquotheque-collection », un enregistrement par figurine, set, objet, souhait…),
 // lu en entier au démarrage et écrit à chaque modification (pas de bouton « Enregistrer »). Une sauvegarde
 // (.json) et des exports (Excel, PDF…) se font depuis « 📤 Exporter » ; js/exports.js.
 //
@@ -19,18 +19,59 @@ const TABLES_BASE = {
   [ONGLET_A_VENDRE]: COLONNES_A_VENDRE,
 };
 const TABLE_FIGURINES = "Figurines";
+
+// Bases du téléphone renommées (02/10/2026) : « etiquettes-figurines » -> « briquotheque-memoire » et « figotheque » ->
+// « briquotheque-collection ». À la première ouverture, si la nouvelle base est vide, tout le contenu de l'ancienne y est
+// recopié en une seule transaction (tout ou rien) ; l'ancienne base est gardée telle quelle, par sécurité.
+function ouvrirBaseRenommee(nom, ancien, magasin, creer) {
+  return new Promise((ok, ko) => {
+    const r = indexedDB.open(nom, 1);
+    r.onupgradeneeded = () => creer(r.result);
+    r.onerror = () => ko(r.error);
+    r.onsuccess = async () => {
+      const db = r.result;
+      try {
+        const vide = await new Promise((o, k) => { const c = db.transaction(magasin).objectStore(magasin).count(); c.onsuccess = () => o(c.result === 0); c.onerror = () => k(c.error); });
+        if (vide && ancien) await recopierAncienneBase(ancien, magasin, db);
+      } catch (err) { console.warn("Recopie de l'ancienne base", err); }
+      ok(db);
+    };
+  });
+}
+
+function recopierAncienneBase(ancien, magasin, nouvelle) {
+  return new Promise(ok => {
+    const r = indexedDB.open(ancien);
+    let absente = false;
+    r.onupgradeneeded = () => { absente = true; r.transaction.abort(); }; // n'existait pas : ne pas la créer
+    r.onerror = () => ok(0);
+    r.onsuccess = () => {
+      const vieille = r.result;
+      if (absente || !vieille.objectStoreNames.contains(magasin)) { vieille.close(); return ok(0); }
+      const cles = [], valeurs = [];
+      const curseur = vieille.transaction(magasin).objectStore(magasin).openCursor();
+      curseur.onerror = () => { vieille.close(); ok(0); };
+      curseur.onsuccess = () => {
+        const c = curseur.result;
+        if (c) { cles.push(c.key); valeurs.push(c.value); c.continue(); return; }
+        vieille.close();
+        if (!valeurs.length) return ok(0);
+        const tx = nouvelle.transaction(magasin, "readwrite"), st = tx.objectStore(magasin);
+        valeurs.forEach((v, i) => st.keyPath ? st.put(v) : st.put(v, cles[i]));
+        tx.oncomplete = () => ok(valeurs.length);
+        tx.onerror = tx.onabort = () => ok(0);
+      };
+    };
+  });
+}
 const TAILLE_ETIQUETTE_BASE = { w: 96, h: 56 }; // aperçu « planche » (pixels) ; l'impression a son propre format
 
 class BaseCollection {
   constructor() { this.estBase = true; this.tables = new Map(); this._file = Promise.resolve(); }
 
   static _db() {
-    return new Promise((ok, ko) => {
-      const r = indexedDB.open("figotheque", 1);
-      r.onupgradeneeded = () => r.result.createObjectStore("enregistrements", { keyPath: "cle" });
-      r.onsuccess = () => ok(r.result);
-      r.onerror = () => ko(r.error);
-    });
+    return ouvrirBaseRenommee("briquotheque-collection", "figotheque", "enregistrements",
+      db => db.createObjectStore("enregistrements", { keyPath: "cle" }));
   }
 
   static async ouvrir() {
