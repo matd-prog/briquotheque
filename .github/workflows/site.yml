@@ -1,0 +1,25 @@
+# Remise à jour du site (GitHub Pages) après chaque envoi sur main.
+# Depuis le renommage du dépôt (02/10/2026), GitHub ne relance plus toujours tout seul la publication du site
+# après un envoi : cette tâche la redemande. Sans effet si la publication est déjà partie.
+# À la main : onglet « Actions » -> « Remise à jour du site » -> « Exécuter le workflow » (Run workflow).
+name: Remise à jour du site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  pages: write
+
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Demander la publication du site
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sleep 30
+          curl -sS -f -X POST -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds"
