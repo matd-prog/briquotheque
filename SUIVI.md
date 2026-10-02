@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v105 (02/10) : CUSTOMS NON REGROUPÉES (capture de Mathias : trois « The Emerald Marksman » en CUS-060, 061, 062).
+    codeCustom donnait un nouveau CUS-… à chaque exemplaire d'une figurine hors catalogue JB (lien = recherche eBay.de).
+    Il reprend maintenant le code d'une figurine déjà présente au même lien et au même nom sans le n° (cleCustom) ;
+    les n° en double sont donc aussi repérés. regrouperCustoms (à chaque relecture, collection dans l'appli) recode les
+    exemplaires déjà enregistrés sous le premier code (BaseCollection.figRecoder). Variantes de couleur (nom différent,
+    ex. World Record Clone Rouge / Orange) : codes distincts.
   · v104 (02/10) : BUG « Ajouter à ma collection ⏳ » bloqué (capture de Mathias) : la lecture du verso (v103) occupait
     le téléphone sans laisser passer les appuis (PaddleOCR enchaîne les lignes sans rendre la main). Pause entre deux
     lignes (lecture_paddle.js) ; une lecture à la fois (file d'attente Paddle.lignes) ; blister ajouté avant la fin de

@@ -94,7 +94,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v104"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v105"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -306,6 +306,7 @@ async function chargerClasseur(octets, nom, nonEnregistres = 0) {
 async function relireContenu() {
   etat.table = await lireTableCamps(etat.classeur);
   etat.collection = await lireCollection(etat.classeur);
+  if (regrouperCustoms()) etat.collection = await lireCollection(etat.classeur);
   const nb = Object.values(etat.collection).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0);
   $("fichier-info").textContent = `${etat.classeur.estBase ? "🗄️" : "📗"} Ma collection · ${nb} figurines`;
   document.body.classList.toggle("mode-base", !!etat.classeur.estBase);
@@ -946,16 +947,46 @@ function lienDansTexte(texte) {
 }
 
 // JB Spielwaren : …/nya-custom-minifigure/a-648654818/ -> JB-648654818 ; sinon CUS-001, CUS-002…
-function codeCustom(lien) {
+function codeCustom(lien, nom) {
   const jb = /jb-spielwaren\.[a-z]+\/.*?\/a-(\d+)/i.exec(lien);
   if (jb) return "JB-" + jb[1];
   // figurine JB revendue par brickshellcases.com : son numéro d'article JB est connu
   const f = CatalogueJB.parLien(lien);
   if (f && f.code.startsWith("JB-")) return f.code;
+  // autre exemplaire d'une figurine déjà dans la collection (même lien, même nom sans le n°) : même code
+  // (sinon chaque exemplaire recevait un nouveau CUS-…, ex. trois « The Emerald Marksman », 02/10)
+  if (nom && lien) {
+    const cle = cleCustom(lien, nom);
+    for (const o of Object.values(etat.collection)) {
+      const c = o.cases.find(c => /^CUS-\d+$/i.test(c.code || "") && c.lien && cleCustom(c.lien, c.nom) === cle);
+      if (c) return c.code;
+    }
+  }
   let max = 0;
   const codes = [...Object.values(etat.collection).flatMap(o => o.cases.map(c => c.code)), ...etat.table.map(l => l.code)];
   for (const c of codes) { const x = /^CUS-(\d+)$/i.exec(c || ""); if (x) max = Math.max(max, +x[1]); }
   return "CUS-" + String(max + 1).padStart(3, "0");
+}
+
+// Figurine custom : son lien et son nom sans le n° d'exemplaire (« The Emerald Marksman 4/100 » -> « the emerald marksman »)
+function cleCustom(lien, nom) {
+  return String(lien).trim().toLowerCase() + "|" + normaliser(String(nom || "")).replace(/\s+\d+(\s*\/\s*\d+)?\s*$/, "").replace(/\s+/g, " ").trim();
+}
+
+// Exemplaires d'une même figurine custom enregistrés sous plusieurs codes CUS-… (avant la v105) : regroupés sous le
+// premier code. Collection rangée dans l'appli seulement ; renvoie le nombre de figurines recodées.
+function regrouperCustoms() {
+  if (!etat.classeur || !etat.classeur.estBase || !etat.classeur.figRecoder) return 0;
+  const premier = new Map();
+  let n = 0;
+  const cases = Object.values(etat.collection).flatMap(o => o.cases).filter(c => /^CUS-\d+$/i.test(c.code || "") && c.lien)
+    .sort((a, b) => a.row - b.row);
+  for (const c of cases) {
+    const k = cleCustom(c.lien, c.nom);
+    if (!premier.has(k)) { premier.set(k, c.code); continue; }
+    if (premier.get(k) !== c.code) { etat.classeur.figRecoder(c.row, premier.get(k)); c.code = premier.get(k); n++; }
+  }
+  return n;
 }
 
 // Nom proposé d'après l'adresse JB : …/nya-custom-minifigure/a-… -> « NYA »
@@ -1077,8 +1108,8 @@ async function ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie, 
   if (!etat.classeur) return "";
   const f = code && CatalogueJB.trouver ? CatalogueJB.trouver(code) : null;
   const lien = f && f.lien ? f.lien : lienRechercheEbay(nom);
-  const codeXL = codeCustom(lien);
   const nomXL = [f ? nomCustomPourFichier(f.nom) : nom.replace(/\w\S*/g, m => m[0] + m.slice(1).toLowerCase()), precision].filter(Boolean).join(" – ");
+  const codeXL = codeCustom(lien, nomXL);
   const deja = numerosEnregistres(codeXL), num = x => x.split("/")[0];
   const liste = numeros.map(x => nonNumerote || !x ? "" : serie ? `${x}/${serie}` : x);
   const ecartes = liste.filter(x => x && Object.keys(deja).some(k => num(k) === num(x)));
@@ -1237,7 +1268,7 @@ $("custom-recherche").addEventListener("input", () => {
 
 function majCustom() {
   const lien = lienDansTexte($("custom-lien").value);
-  const code = codeCustom(lien);
+  const code = codeCustom(lien, $("custom-nom").value.trim());
   const nom = $("custom-nom");
   const propose = nomDepuisLien(lien);
   if (propose && (!nom.value || nom.dataset.auto)) { nom.value = propose; nom.dataset.auto = "1"; }
@@ -1292,7 +1323,7 @@ for (const id of ["custom-lien", "custom-nom"]) {
 
 async function ajouterCustom() {
   const lien = lienDansTexte($("custom-lien").value);
-  const code = codeCustom(lien);
+  const code = codeCustom(lien, $("custom-nom").value.trim());
   // n° d'exemplaire : un par exemplaire ajouté, séparés par des virgules (ex. « 12/50, 31/50 »)
   const nonNumerote = $("custom-non-numerote").checked;
   const serie = $("custom-serie").value.trim().replace(/\D/g, "");

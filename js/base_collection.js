@@ -225,6 +225,7 @@ class BaseCollection {
   }
 
   figRetirer(row) { this._enlever(TABLE_FIGURINES, row); }
+  figRecoder(row, code) { const f = this._table(TABLE_FIGURINES).get(row); if (f) this._poser(TABLE_FIGURINES, row, { ...f, code }); }
   figRenommer(row, nom) { const f = this._table(TABLE_FIGURINES).get(row); if (f) this._poser(TABLE_FIGURINES, row, { ...f, nom }); }
 
   // Étiquettes dessinées à la demande (vue « planche » de Ma collection)
