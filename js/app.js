@@ -79,7 +79,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v78"; // même numéro que le cache de sw.js
+const VERSION_APPLI = "v79"; // même numéro que le cache de sw.js
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -88,7 +88,7 @@ function noterErreur(texte) {
   ERREURS.unshift(t); ERREURS.length = Math.min(ERREURS.length, 8);
   const l = document.getElementById("liste-erreurs");
   if (l) { l.textContent = ERREURS.join("\n"); document.getElementById("bloc-erreurs").hidden = false; }
-  if (typeof toast === "function") toast("⚠️ Erreur : " + String(texte).slice(0, 160) + " (Outils → 📨 Envoyer un rapport)", 9000);
+  if (typeof toast === "function") toast("⚠️ Erreur : " + String(texte).slice(0, 160) + " (Outils → 📨 Signaler un problème)", 9000);
 }
 
 // Dernières actions (boutons touchés), pour comprendre un blocage sans erreur
@@ -102,7 +102,9 @@ document.addEventListener("click", e => {
 }, true);
 
 // Rapport de problème : rien de la collection (ni noms, ni prix, ni photos), seulement l'état de l'appli
-function texteRapport(description) {
+function texteRapport(description, idee) {
+  if (idee) return ["Idée d'amélioration — Figothèque", `Date : ${new Date().toLocaleString("fr-FR")}`, `Version : ${VERSION_APPLI}`,
+                    `Appareil : ${navigator.userAgent}`, "", "Idée :", description].join("\n");
   const coll = etat.classeur ? Object.values(etat.collection || {}).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0) : 0;
   return [
     "Rapport de problème — Figothèque",
@@ -122,14 +124,19 @@ function texteRapport(description) {
 }
 
 async function envoyerRapport() {
-  const description = await demanderTexte("Décrivez le problème en une phrase (ex. « le bouton Ajouter reste sur le sablier »)", "");
-  if (description === null) return;
-  const texte = texteRapport(description);
-  try { if (navigator.share) { await navigator.share({ title: "Rapport de problème — Figothèque", text: texte }); return; } }
+  const choix = await choisirAction("Que voulez-vous envoyer ?", ["🐞 Signaler un problème (bug, blocage)", "💡 Proposer une idée d'amélioration"]);
+  if (choix < 0) return;
+  const idee = choix === 1;
+  const description = await demanderTexte(idee ? "Votre idée (ex. « pouvoir trier ma collection par année »)"
+    : "Décrivez le problème en une phrase (ex. « le bouton Ajouter reste sur le sablier »)", "");
+  if (description === null || (idee && !description.trim())) return;
+  const texte = texteRapport(description, idee);
+  const titre = idee ? "Idée d'amélioration — Figothèque" : "Rapport de problème — Figothèque";
+  try { if (navigator.share) { await navigator.share({ title: titre, text: texte }); return; } }
   catch (err) { if (err.name === "AbortError") return; }
   try { await navigator.clipboard.writeText(texte); } catch (e) { /* presse-papiers indisponible */ }
-  location.href = `mailto:${ADRESSE_RAPPORT}?subject=${encodeURIComponent("Rapport de problème — Figothèque " + VERSION_APPLI)}&body=${encodeURIComponent(texte)}`;
-  toast("Rapport copié : collez-le dans un message si l'e-mail ne s'ouvre pas.", 6000);
+  location.href = `mailto:${ADRESSE_RAPPORT}?subject=${encodeURIComponent(titre + " " + VERSION_APPLI)}&body=${encodeURIComponent(texte)}`;
+  toast("Message copié : collez-le dans un e-mail si celui-ci ne s'ouvre pas.", 6000);
 }
 const ADRESSE_RAPPORT = ""; // adresse de réception des rapports (à définir pour la version diffusée)
 window.addEventListener("error", e => noterErreur(`${e.message} (${(e.filename || "").split("/").pop()}:${e.lineno})`));
