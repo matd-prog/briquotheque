@@ -314,3 +314,21 @@ body:not(.base-vide) .base-vide-seul { display: none !important; }
 #valeur-bandeau.en-cours { background: #b25e00; }
 #valeur-bandeau.a-jour { background: var(--vert); }
 #valeur-resultat.provisoire .valeur-total .montant { opacity: .55; }
+
+/* Arborescence des menus (js/arborescence.js) : seulement sur grand écran, à gauche */
+.arborescence { display: none; }
+@media (min-width: 1000px) {
+  body.avec-arborescence { padding-left: 260px; }
+  .arborescence:not([hidden]) { display: block; position: fixed; left: 0; top: 0; bottom: 0; width: 260px;
+    overflow-y: auto; background: var(--carte); border-right: 1px solid var(--bord); padding: 12px 10px 24px; z-index: 5; }
+  .arbo-groupe { margin-top: 10px; }
+  .arbo-groupe summary { font-weight: 700; font-size: 14px; color: var(--doux); cursor: pointer; padding: 4px 6px;
+    text-transform: none; }
+  .arbo-groupe > div { display: flex; flex-direction: column; margin-left: 6px; border-left: 2px solid var(--bord);
+    padding-left: 6px; }
+  .arbo-lien { display: block; width: 100%; text-align: left; background: none; border: 0; border-radius: 6px;
+    padding: 6px 8px; font: inherit; font-size: 15px; color: var(--texte); cursor: pointer; }
+  .arbo-lien:hover { background: var(--fond); }
+  .arbo-lien.actif { background: var(--rouge); color: #fff; }
+  .arbo-accueil { font-weight: 700; }
+}

@@ -62,6 +62,7 @@ function afficher(ecran, retour = false) {
   if (aLaRacine()) desarmerRetour(); else armerRetour();
   const fleche = document.getElementById("bouton-retour-entete"); // flèche du bandeau rouge (ordinateur, iPhone…)
   if (fleche) fleche.hidden = aLaRacine() || ECRANS_PASSAGE.includes(ecran);
+  if (typeof Arborescence !== "undefined") Arborescence.suivre(ecran);
 }
 
 // Flèche ← du bandeau : même chose que le bouton retour du téléphone, pour les appareils qui n'en ont pas
@@ -92,7 +93,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v84"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v85"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];

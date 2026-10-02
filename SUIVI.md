@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v85 (02/10) : ARBORESCENCE des menus à gauche sur grand écran (≥ 1000 px : ordinateur, tablette en largeur),
+    js/arborescence.js. Construite à partir de l'accueil (rubriques, gros boutons, tuiles, puis Outils) : un menu ajouté
+    à l'accueil y apparaît seul ; un clic « touche » le bouton de l'accueil. Écran affiché mis en évidence. Cachée sur
+    téléphone et sur l'écran de départ.
   · v84 (02/10) : flèche ← dans le bandeau rouge (hors accueil) = retour à l'écran précédent, et le nom
     « Briquothèque » du bandeau ramène à l'accueil : sur ordinateur (et iPhone), pas de bouton retour du téléphone, et
     plusieurs écrans (Valeur, Assurance, custom, objet…) n'avaient pas de bouton « Retour ».
