@@ -131,7 +131,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     (recopie automatique des anciennes « etiquettes-figurines » / « figotheque », gardées en secours) ; icônes
     briquotheque-*.png ; cache « briquotheque-vNN » = VERSION_APPLI (app.js). Mode « fichier Excel » SUPPRIMÉ (Excel ne
     sert plus qu'à l'export et à la reprise d'une collection). Ancien dépôt « etiquettes_figurines » recréé en simple
-    redirection vers la nouvelle adresse (QR codes eBay des étiquettes déjà imprimées : …/ebay.html?q=…).
+    redirection vers la nouvelle adresse (QR codes eBay des étiquettes déjà imprimées : …/ebay.html?q=…) : en
+    place le 02/10 (index.html, 404.html, sw.js qui se désinscrit ; Pages activé sur main).
   · Mises à jour en un bouton (v74) : BrickLink exige désormais une connexion compte LEGO (identity.lego.com, protection
     anti-robots) pour télécharger son catalogue -> abandon du téléchargement. Nouvelles figurines par l'API BrickLink
     (mêmes clés que les prix) : catalogue_bricklink.py + .github/workflows/catalogue.yml du DÉPÔT PRIVÉ (mensuel le 2,
