@@ -9,7 +9,7 @@
 // Seule l'appli principale envoie (jeton GitHub de l'écran Valeur, qui doit donner accès aux deux dépôts) ;
 // la mini-appli de l'ami envoie un fichier .zip, que l'utilisateur ajoute à la base commune (Base.reprendre).
 
-const DEPOT_PUBLIC = "matd-prog/etiquettes_figurines";
+const DEPOT_PUBLIC = "matd-prog/briquotheque";
 
 const BaseCommune = {
   _enCours: null,
@@ -140,9 +140,11 @@ const BaseCommune = {
   },
 
   MESSAGE_ACCES: "Les photos sont bien parties dans votre dépôt privé, mais votre jeton GitHub ne peut pas encore écrire " +
-    "dans le dépôt de l'appli (etiquettes_figurines), où va la liste commune.\n\nSur github.com : Settings → Developer settings → " +
-    "Personal access tokens → Fine-grained tokens → votre jeton → « Edit » → Repository access : ajoutez « etiquettes_figurines » " +
-    "→ Permissions : Contents « Read and write » → « Update ». Puis touchez à nouveau « Envoyer à la base commune ».",
+    "dans le dépôt de l'appli (briquotheque), où va la liste commune.\n\nSur github.com : Paramètres (Settings) → Paramètres du " +
+    "développeur (Developer settings) → Jetons d'accès personnels (Personal access tokens) → Jetons à granularité fine " +
+    "(Fine-grained tokens) → votre jeton → Modifier (Edit) → Accès au référentiel (Repository access) : ajoutez « briquotheque » " +
+    "→ Autorisations (Permissions) : Contenu (Contents) « Lecture et écriture » (Read and write) → Mettre à jour (Update). " +
+    "Puis touchez à nouveau « Envoyer à la base commune ».",
 
   // Envoi .zip d'un ami : ses blisters vont seulement dans la base commune (pas dans votre collection)
   async ajouterEnvoiAmi(entrees) {

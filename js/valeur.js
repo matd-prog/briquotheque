@@ -1,9 +1,9 @@
 // Valeur de la collection : prix des ventes BrickLink des 6 derniers mois, relevés dans le dépôt GitHub
-// PRIVÉ de l'utilisateur (matd-prog/collection-lego-prive : codes.txt -> action « Prix BrickLink » -> prix.tsv).
+// PRIVÉ de l'utilisateur (matd-prog/briquotheque-prive : codes.txt -> action « Prix BrickLink » -> prix.tsv).
 // L'appli y dépose la liste des codes (figurines et sets du fichier Excel, codes seulement), lance le relevé
 // et lit les prix, avec un jeton d'accès GitHub limité à ce dépôt, gardé uniquement dans le téléphone.
 
-const DEPOT_PRIVE = "matd-prog/collection-lego-prive";
+const DEPOT_PRIVE = "matd-prog/briquotheque-prive";
 
 // Reste d'un set monté (briques, boîte, notice) quand ses figurines valent presque autant que le set, ou plus :
 // jamais moins de cette part du prix LEGO d'origine

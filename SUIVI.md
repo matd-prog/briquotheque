@@ -1,6 +1,6 @@
 # Suivi du projet « Briquothèque » (ex « Figothèque », ex « Figurines LEGO ») (mis à jour le 01/10/2026)
 
-Appli en ligne : https://matd-prog.github.io/etiquettes_figurines/ (nom « Briquothèque », ex « Figothèque », icône tête de figurine souriante).
+Appli en ligne : https://matd-prog.github.io/briquotheque/ (nom « Briquothèque », ex « Figothèque », icône tête de figurine souriante).
 Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre le travail.
 
 ## Ce qui fonctionne (publié et vérifié sur le téléphone)
@@ -121,16 +121,22 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     erreurs ; rien de la collection) : partage du téléphone, sinon e-mail (ADRESSE_RAPPORT dans app.js, VIDE : adresse à
     choisir par Mathias pour la version diffusée) + copie dans le presse-papiers.
   · v81 (02/10) : appli RENOMMÉE « Briquothèque » (choix de Mathias ; « Figothèque » rappelait Figolu / la figue ;
-    Brickodex et BrickDex déjà pris ; « Bricothèque » = prêt d'outils de bricolage). Restent en interne : base IndexedDB
-    « figotheque », icônes figotheque-*.png, cache « figurines-lego-vNN » (ne pas renommer : données perdues). Sauvegardes
-    .json « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
+    Brickodex et BrickDex déjà pris ; « Bricothèque » = prêt d'outils de bricolage). Sauvegardes .json
+    « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v82 (02/10) : HARMONISATION DÉFINITIVE des noms (demande de Mathias) — tout s'appelle « briquotheque » :
+    dépôts matd-prog/briquotheque (public, adresse https://matd-prog.github.io/briquotheque/) et
+    matd-prog/briquotheque-prive (privé) ; bases du téléphone « briquotheque-memoire » et « briquotheque-collection »
+    (recopie automatique des anciennes « etiquettes-figurines » / « figotheque », gardées en secours) ; icônes
+    briquotheque-*.png ; cache « briquotheque-vNN » = VERSION_APPLI (app.js). Mode « fichier Excel » SUPPRIMÉ (Excel ne
+    sert plus qu'à l'export et à la reprise d'une collection). Ancien dépôt « etiquettes_figurines » recréé en simple
+    redirection vers la nouvelle adresse (QR codes eBay des étiquettes déjà imprimées : …/ebay.html?q=…).
   · Mises à jour en un bouton (v74) : BrickLink exige désormais une connexion compte LEGO (identity.lego.com, protection
     anti-robots) pour télécharger son catalogue -> abandon du téléchargement. Nouvelles figurines par l'API BrickLink
     (mêmes clés que les prix) : catalogue_bricklink.py + .github/workflows/catalogue.yml du DÉPÔT PRIVÉ (mensuel le 2,
     ou bouton) : subsets des sets récents avec figurines (data/sets.tsv) -> ajoute à data/figurines.tsv du dépôt public.
-    Secret à créer par Mathias dans le dépôt privé : JETON_DEPOT_PUBLIC (jeton avec écriture sur etiquettes_figurines).
+    Secret à créer par Mathias dans le dépôt privé : JETON_DEPOT_PUBLIC (jeton avec écriture sur briquotheque).
     Appli : catalogue = le plus récent entre data/figurines.tsv et l'import manuel ; Outils « 🔄 Tout mettre à jour »
     (relit tout, lance catalogue.yml) ; import manuel replié en secours ; rappel seulement si catalogue > 2 mois.
   À FAIRE : document de plan « version diffusable » (synchro cloud Supabase, comptes, conditions Brickognize/BrickLink,
@@ -284,7 +290,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   Google Drive (il faudra créer un identifiant dans la console Google Cloud).
 - Base commune des blisters JB (29/09, à tester) : écran « 📚 Base commune » (accueil, et écran
   d'ouverture sans fichier Excel) et mini-appli pour l'ami de l'utilisateur :
-  https://matd-prog.github.io/etiquettes_figurines/contribuer.html (« Blisters JB », sans Excel ni
+  https://matd-prog.github.io/briquotheque/contribuer.html (« Blisters JB », sans Excel ni
   étiquettes). Photo -> nom lu (vérifié/corrigé) -> « Ajouter à la base » ; série limitée lue
   (LIMITED TO / OF). « Exporter » : blisters_JB_<date>.zip (base.tsv + photos/ réduites à 1000 px).
   Reste à faire : outil d'intégration des .zip reçus (-> data/jb_perso.tsv + photos + empreintes).
@@ -322,7 +328,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 
 - But à terme : gestionnaire de collection commercialisable (valeur, dossier pour assureurs).
   Choix de l'utilisateur : prix = ventes BrickLink des 6 derniers mois (pas les prix affichés).
-- Dépôt PRIVÉ matd-prog/collection-lego-prive (la collection et les prix ne vont JAMAIS dans le dépôt public) :
+- Dépôt PRIVÉ matd-prog/briquotheque-prive (la collection et les prix ne vont JAMAIS dans le dépôt public) :
   codes.txt (MINIFIG / SET / BOX / GEAR + code) -> action « Prix BrickLink » (prix.yml : le 3 du mois, ou lancée
   par l'appli ; une seule à la fois, relevés fusionnés à l'enregistrement) -> prix_bricklink.py (API BrickLink,
   OAuth1, 4 secrets BRICKLINK_*) -> prix.tsv (médiane pondérée par la quantité, moyenne, ventes, mini, maxi,
@@ -385,7 +391,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
 
 ## Fichier Excel de l'utilisateur
 
-Dernière version fournie : etiquettes_figurines_LEGO_tri-1_2026-09-28_22h04.xlsx
+Dernière version fournie : briquotheque_LEGO_tri-1_2026-09-28_22h04.xlsx
 (646 figurines : anciens onglets transférés vers les onglets par thème, 6 anciens onglets
 Star Wars supprimés, SW1348 / SW1394 séparées). Restent sans étiquette : CUSTOM
 (Stormtrooper transparent), 10 customs des VITRINE (Albator, Chucky…), code SW75340 invalide.

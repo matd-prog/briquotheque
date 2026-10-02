@@ -96,7 +96,7 @@ function coinsArrondis(ctx, x, y, w, h, r) {
 // Recherches eBay : le QR code passe par la page relais de l'appli (ebay.html), qui ouvre eBay.de ;
 // scanné avec l'appareil photo, un lien eBay direct ouvrirait l'application eBay sur eBay.fr, qui
 // n'a presque aucune annonce JB. Adresse courte (?q=) pour un QR code peu dense.
-const SITE_APPLI = "https://matd-prog.github.io/etiquettes_figurines/";
+const SITE_APPLI = "https://matd-prog.github.io/briquotheque/";
 function texteQr(lien) {
   const m = /^https:\/\/(?:www\.)?ebay\.de\/sch\/i\.html\?_nkw=JB\+Spielwaren\+([^&#]+)$/i.exec(lien);
   if (m) return `${SITE_APPLI}ebay.html?q=${m[1]}`;
