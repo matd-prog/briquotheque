@@ -125,6 +125,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · Site (02/10) : depuis le renommage, GitHub ne relançait plus la publication Pages après un envoi -> tâche
+    .github/workflows/site.yml (à chaque envoi sur main : POST pages/builds avec GITHUB_TOKEN). Testée : OK.
   · v86 (02/10) : CORRECTION mini-appli de l'ami (contribuer.html) : son Memoire.ecrire ne renvoyait rien, alors que
     Base.ajouter (depuis v77) attend true -> « 📚 Ajouter à ma collection » affichait toujours « n'a pas pu être
     enregistré ». Aligné sur js/app.js (true/false + message). Vérif complète avant envoi à l'ami : photo recto/verso,
