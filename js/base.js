@@ -551,6 +551,7 @@ const Base = {
   // Série de scans (ex. scanner de documents du téléphone) choisis d'un coup : rangés par ordre de prise ; si
   // demandé, recto puis verso pour chaque blister. Présentés un par un : après « Ajouter », le suivant s'affiche.
   async importerSerie(fichiers) {
+    fichiers = await this._pagesDesPdf(fichiers);
     if (!fichiers.length) return;
     fichiers.sort((a, b) => (a.lastModified - b.lastModified) || a.name.localeCompare(b.name, undefined, { numeric: true }));
     let paires = fichiers.length > 1 && await demander(`${fichiers.length} photos choisies, rangées dans l'ordre où elles ont été prises.\n\n` +
@@ -560,6 +561,37 @@ const Base = {
     for (let i = 0; i < fichiers.length; i += paires ? 2 : 1) items.push({ recto: fichiers[i], verso: paires ? fichiers[i + 1] || null : null });
     this.serie = { items, i: 0 };
     this._serieSuivant();
+  },
+
+  // PDF (scanner de documents de l'iPhone, dans Notes ou Fichiers ; ou de tout autre téléphone) : chaque page devient
+  // une photo, dans l'ordre des pages. pdf.js (lib/pdfjs, Mozilla) n'est chargé qu'au premier PDF.
+  async _pagesDesPdf(fichiers) {
+    const res = [];
+    for (const f of fichiers) {
+      if (!(f.type === "application/pdf" || /\.pdf$/i.test(f.name))) { res.push(f); continue; }
+      $("base-etat").textContent = `Lecture du PDF « ${f.name} »…`;
+      try {
+        if (!this._pdfjs) {
+          this._pdfjs = await import(new URL("lib/pdfjs/pdf.min.mjs", location.href).href);
+          this._pdfjs.GlobalWorkerOptions.workerSrc = new URL("lib/pdfjs/pdf.worker.min.mjs", location.href).href;
+        }
+        const doc = await this._pdfjs.getDocument({ data: await f.arrayBuffer() }).promise;
+        for (let n = 1; n <= doc.numPages; n++) {
+          $("base-etat").textContent = `Lecture du PDF « ${f.name} » : page ${n} sur ${doc.numPages}…`;
+          const page = await doc.getPage(n), v1 = page.getViewport({ scale: 1 });
+          const vue = page.getViewport({ scale: Math.min(4, 2000 / Math.max(v1.width, v1.height)) });
+          const cv = document.createElement("canvas"); cv.width = Math.round(vue.width); cv.height = Math.round(vue.height);
+          await page.render({ canvasContext: cv.getContext("2d"), viewport: vue }).promise;
+          const blob = await new Promise(ok => cv.toBlob(ok, "image/jpeg", 0.9));
+          res.push(new File([blob], `${f.name.replace(/\.pdf$/i, "")} - page ${n}.jpg`, { type: "image/jpeg", lastModified: f.lastModified + n }));
+        }
+      } catch (err) {
+        console.error(err);
+        await demander(`Le PDF « ${f.name} » n'a pas pu être lu : ${err.message}`, "OK", "Fermer");
+      }
+    }
+    $("base-etat").textContent = "";
+    return res;
   },
 
   async _serieSuivant() {
@@ -1212,11 +1244,13 @@ if ($("input-base-scans")) $("input-base-scans").addEventListener("change", e =>
   Base.importerSerie(f);
 });
 
-for (const id of ["input-base", "input-base-galerie"]) // appareil photo, ou photo déjà prise (galerie)
-  if ($(id)) $(id).addEventListener("change", e => {
+for (const id of ["input-base", "input-base-galerie"]) // appareil photo, ou photo déjà prise (galerie, ou PDF scanné)
+  if ($(id)) $(id).addEventListener("change", async e => {
     const f = e.target.files[0];
     e.target.value = "";
-    if (f) Base.lirePhoto(f);
+    if (!f) return;
+    if (f.type === "application/pdf" || /\.pdf$/i.test(f.name)) return Base.importerSerie([f]); // pages = série
+    Base.lirePhoto(f);
   });
 
 document.addEventListener("click", e => {

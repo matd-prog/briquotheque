@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v102 (02/10) : IMPORT DE SCANS EN PDF (scanner de documents de l'iPhone, app Fichiers ou Notes : il enregistre en PDF,
+    pas dans Photos). Base._pagesDesPdf : chaque page -> photo JPEG (2000 px), dans l'ordre des pages ; pdf.js 4.10.38
+    (Mozilla, build « legacy » pour Safari) dans lib/pdfjs, chargé seulement au premier PDF. Champs galerie et série :
+    accept image/*,application/pdf ; un PDF choisi comme « photo déjà prise » part en série. Mail de l'ami : conseil de
+    tout scanner avec l'app Fichiers, puis « Importer une série de scans ».
   · v101 (02/10) : IMPORT D'UNE SÉRIE DE SCANS (Mathias scanne tous ses blisters avec le scanner de documents du Samsung,
     bien meilleur : coins, redressement, reflets, couleurs). « 🗂️ Importer une série de scans » (les deux applis) : photos
     rangées par date de prise, recto+verso alternés ou rectos seuls (question), présentées une par une ; après « Ajouter »
