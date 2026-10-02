@@ -372,6 +372,12 @@
     <label class="gros-bouton corail">📷 Photographier un blister
       <input type="file" id="input-base" accept="image/*" capture="environment" hidden>
     </label>
+    <label class="bouton gris">🖼️ Choisir une photo déjà prise
+      <input type="file" id="input-base-galerie" accept="image/*" hidden>
+    </label>
+    <label class="bouton gris">🗂️ Importer une série de scans (recto, verso, recto, verso…)
+      <input type="file" id="input-base-scans" accept="image/*" multiple hidden>
+    </label>
     <div id="base-autre" hidden>
       <label class="gros-bouton bleu-fonce">➕ <span id="btn-base-autre">Autre exemplaire</span>
         <input type="file" id="input-base-autre" accept="image/*" capture="environment" hidden></label>
@@ -379,6 +385,7 @@
     </div>
     <p class="score" id="base-cadre-memo" hidden>📌 Cadre mémorisé : les photos sont recadrées comme la première
       de la série. <button class="bouton-lien" data-action="base-oublier-cadre">Oublier ce cadre</button></p>
+    <p class="alerte" id="base-serie-etat" hidden></p>
     <p class="aide" id="base-etat"></p>
     <div class="recto-verso">
       <img id="base-photo" class="photo-apercu" alt="Recto du blister">
@@ -405,6 +412,8 @@
       <p><b>📷 Maintenant le verso</b> : retournez le blister (le nom se lit pendant ce temps).</p>
       <label class="gros-bouton corail">📷 Photographier le verso
         <input type="file" id="input-base-verso" accept="image/*" capture="environment" hidden></label>
+      <label class="bouton gris">🖼️ Choisir le verso dans les photos
+        <input type="file" id="input-base-verso-galerie" accept="image/*" hidden></label>
       <button class="bouton-lien" data-action="base-passer-verso">Passer (pas de verso pour ce blister)</button>
     </div>
     <div id="base-fiche" hidden>

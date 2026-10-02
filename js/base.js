@@ -548,6 +548,50 @@ const Base = {
 
   passerVerso() { this.versoPasse = true; this._demanderVerso(); },
 
+  // Série de scans (ex. scanner de documents du téléphone) choisis d'un coup : rangés par ordre de prise ; si
+  // demandé, recto puis verso pour chaque blister. Présentés un par un : après « Ajouter », le suivant s'affiche.
+  async importerSerie(fichiers) {
+    if (!fichiers.length) return;
+    fichiers.sort((a, b) => (a.lastModified - b.lastModified) || a.name.localeCompare(b.name, undefined, { numeric: true }));
+    let paires = fichiers.length > 1 && await demander(`${fichiers.length} photos choisies, rangées dans l'ordre où elles ont été prises.\n\n` +
+      "Chaque blister a-t-il deux scans à la suite, le recto puis le verso ?", "Oui : recto puis verso", "Non : rectos seulement");
+    if (paires && fichiers.length % 2 && !(await demander(`Nombre de photos impair (${fichiers.length}) : le dernier blister n'aura pas de verso. Continuer ?`, "Continuer", "Annuler"))) return;
+    const items = [];
+    for (let i = 0; i < fichiers.length; i += paires ? 2 : 1) items.push({ recto: fichiers[i], verso: paires ? fichiers[i + 1] || null : null });
+    this.serie = { items, i: 0 };
+    this._serieSuivant();
+  },
+
+  async _serieSuivant() {
+    const s = this.serie, zone = $("base-serie-etat");
+    if (!s) return;
+    if (s.i >= s.items.length) {
+      this.serie = null;
+      if (zone) zone.hidden = true;
+      await demander(`Série terminée : ${s.items.length} blister${s.items.length > 1 ? "s" : ""} passé${s.items.length > 1 ? "s" : ""} en revue ✔`, "OK", "Fermer");
+      return;
+    }
+    if (zone) {
+      zone.hidden = false;
+      zone.innerHTML = `🗂️ <b>Série de scans : blister ${s.i + 1} sur ${s.items.length}.</b> Vérifiez le nom et le numéro, puis « Ajouter » : le suivant
+        s'affiche tout seul. <button class="bouton-lien" data-action="base-serie-passer">Passer ce blister</button>
+        <button class="bouton-lien" data-action="base-serie-arreter">Arrêter la série</button>`;
+    }
+    const it = s.items[s.i];
+    await this.lirePhoto(it.recto);
+    if (this.serie !== s) return; // série arrêtée pendant la lecture
+    if (it.verso) await this.prendreVerso(it.verso);
+    else { this.versoPasse = true; this._demanderVerso(); }
+    if ($("base-autre")) $("base-autre").hidden = true;
+    window.scrollTo(0, 0);
+  },
+
+  arreterSerie() {
+    this.serie = null;
+    if ($("base-serie-etat")) $("base-serie-etat").hidden = true;
+    this._nouvelle();
+  },
+
   // Numéros des exemplaires : un champ par exemplaire (le 1er garde l'id base-numero), valeurs déjà tapées conservées
   _grilleNumeros() {
     const zone = $("base-numeros");
@@ -677,6 +721,7 @@ const Base = {
     window.scrollTo(0, 0);
     this._afficherListe();
     if (typeof BaseCommune !== "undefined") BaseCommune.envoyerEnFond(this);
+    if (this.serie) { this.serie.i++; this._serieSuivant(); } // série de scans : blister suivant
   },
 
   async ajouter() {
@@ -748,6 +793,7 @@ const Base = {
     if ($("base-autre")) { $("base-autre").hidden = false; $("btn-base-autre").textContent = `Autre exemplaire de « ${nomComplet(commun)} » : photographier`; }
     this._afficherListe();
     if (typeof BaseCommune !== "undefined") BaseCommune.envoyerEnFond(this);
+    if (this.serie) { this.serie.i++; this._serieSuivant(); } // série de scans : blister suivant
   },
 
   // Exemplaire de plus d'un blister déjà dans la base (nouveau n°), sans reprendre de photo : mêmes photos, nom,
@@ -1141,7 +1187,7 @@ if ($("base-notes")) $("base-notes").addEventListener("click", e => {
   if (!champ.value.includes(n)) champ.value = champ.value.trim() ? `${champ.value.trim()}, ${n}` : n;
 });
 
-for (const id of ["input-base-verso", "input-base-verso2"])
+for (const id of ["input-base-verso", "input-base-verso2", "input-base-verso-galerie"])
   if ($(id)) $(id).addEventListener("change", e => {
     const f = e.target.files[0];
     e.target.value = "";
@@ -1158,6 +1204,12 @@ if ($("input-base-reprendre")) $("input-base-reprendre").addEventListener("chang
   const f = e.target.files[0];
   e.target.value = "";
   if (f) Base.reprendre(f);
+});
+
+if ($("input-base-scans")) $("input-base-scans").addEventListener("change", e => {
+  const f = [...e.target.files];
+  e.target.value = "";
+  Base.importerSerie(f);
 });
 
 for (const id of ["input-base", "input-base-galerie"]) // appareil photo, ou photo déjà prise (galerie)
@@ -1187,6 +1239,8 @@ document.addEventListener("click", e => {
   else if (action === "base-recadrage-entiere") Base.finRecadrage("entiere");
   else if (action === "base-recadrage-annuler") Base.finRecadrage("annuler");
   else if (action === "base-oublier-cadre") Base.oublierCadreMemo();
+  else if (action === "base-serie-passer") { if (Base.serie) { Base.serie.i++; Base._serieSuivant(); } }
+  else if (action === "base-serie-arreter") Base.arreterSerie();
   else if (action === "base-importer-album") Base.importerAlbum();
   else if (action === "base-vue-photos") { Base.vue = "photos"; Base._afficherListe(); }
   else if (action === "base-vue-compte") { Base.vue = "compte"; Base._afficherListe(); }
