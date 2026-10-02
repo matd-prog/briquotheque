@@ -1,4 +1,4 @@
-#date 2026-10-01
+#date 2026-10-02
 code	nom	theme	sous_theme	annee	sortie	fin	pieces	figurines	image
 21064-1	Paris - City of Love	Architecture	Iconic Landmarks	2026	2026-01-01	2028-12-31	958		https://images.brickset.com/sets/images/21064-1.jpg
 31218-1	Japanese Cherry Blossom Landscape	Art	Paintings	2026	2026-01-01	2028-12-31	1892		https://images.brickset.com/sets/images/31218-1.jpg
@@ -564,7 +564,7 @@ ISBN9780241789940-1	LEGO NINJAGO: Visual Dictionary, Updated Edition	Books	Dorli
 40868-1	Up-Scaled Red Minifigure	Pokémon	Up-Scaled Minifigure	2026	2026-10-01		930		https://images.brickset.com/sets/images/40868-1.jpg
 40862-1	Holiday Ornament Selection 2	Seasonal	Christmas	2026	2026-10-01		179		https://images.brickset.com/sets/images/40862-1.jpg
 40865-1	Buddy the Elf	Seasonal	Elf	2026	2026-10-01		713		https://images.brickset.com/sets/images/40865-1.jpg
-40866-1	Santa's Holiday Sleigh Adventure	Seasonal	Christmas	2026	2026-10-01		187		https://images.brickset.com/sets/images/40866-1.jpg
+40866-1	Santa's Holiday Sleigh Adventure	Seasonal	Christmas	2026	2026-10-01		187	1	https://images.brickset.com/sets/images/40866-1.jpg
 40874-1	Santa's Holiday Countdown	Seasonal	Christmas	2026	2026-10-01		873		https://images.brickset.com/sets/images/40874-1.jpg
 40875-1	Up-Scaled Mrs. Claus Minifigure	Seasonal	Christmas	2026	2026-10-01		904		https://images.brickset.com/sets/images/40875-1.jpg
 40958-1	Christmas Stocking	Seasonal	Christmas	2026	2026-10-01		342		https://images.brickset.com/sets/images/40958-1.jpg
@@ -1218,7 +1218,7 @@ L0002290-1	Research Submarine	Technic	Magazine Gift	2026			70		https://images.br
 L0002293-1	Go-Kart	Technic	Magazine Gift	2026			67		https://images.brickset.com/sets/images/L0002293-1.jpg
 L0002295-1	Tractor	Technic	Magazine Gift	2026			61		https://images.brickset.com/sets/images/L0002295-1.jpg
 77094-1	Ocarina of Time - Link & Epona	The Legend of Zelda	Ocarina of Time	2027			1750		https://images.brickset.com/sets/images/77094-1.jpg
-76787-1	Wednesday Backpack	Wednesday	Miscellaneous	2026			401		https://images.brickset.com/sets/images/76787-1.jpg
+76787-1	Wednesday Backpack	Wednesday	Miscellaneous	2026			401	1	https://images.brickset.com/sets/images/76787-1.jpg
 11229-1	{?}	tbd		2027					
 34101-1	{?}	tbd		2027					
 34102-1	{?}	tbd		2027					
@@ -1229,3 +1229,7 @@ L0002295-1	Tractor	Technic	Magazine Gift	2026			61		https://images.brickset.com/
 67013-1	{?}	tbd		2027					
 72118-1	{?}	tbd		2027					
 72188-1	{?}	tbd		2027					
+45835-1	FIRST® LEGO® League Future Edition Key Stage 1 (KS1): Ages 5-7 (Years 1-2)	{Undefined}		2026					
+854336-1	Izzie s Sword	{Undefined}		2026					
+854337-1	Dragonian Warrior Axe	{Undefined}		2026					
+854338-1	Lloyd s Sword with Sheath	{Undefined}		2026					
