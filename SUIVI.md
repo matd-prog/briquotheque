@@ -1,6 +1,6 @@
-# Suivi du projet « Figothèque » (ex « Figurines LEGO ») (mis à jour le 01/10/2026)
+# Suivi du projet « Briquothèque » (ex « Figothèque », ex « Figurines LEGO ») (mis à jour le 01/10/2026)
 
-Appli en ligne : https://matd-prog.github.io/etiquettes_figurines/ (nom « Figothèque », icône tête de figurine souriante).
+Appli en ligne : https://matd-prog.github.io/etiquettes_figurines/ (nom « Briquothèque », ex « Figothèque », icône tête de figurine souriante).
 Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre le travail.
 
 ## Ce qui fonctionne (publié et vérifié sur le téléphone)
@@ -120,6 +120,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   · v78-v79 : Outils « 📨 Signaler un problème ou suggérer une amélioration » (🐞 problème / 💡 suggestion) (version, appareil, écran, travaux en cours, 15 dernières actions,
     erreurs ; rien de la collection) : partage du téléphone, sinon e-mail (ADRESSE_RAPPORT dans app.js, VIDE : adresse à
     choisir par Mathias pour la version diffusée) + copie dans le presse-papiers.
+  · v81 (02/10) : appli RENOMMÉE « Briquothèque » (choix de Mathias ; « Figothèque » rappelait Figolu / la figue ;
+    Brickodex et BrickDex déjà pris ; « Bricothèque » = prêt d'outils de bricolage). Restent en interne : base IndexedDB
+    « figotheque », icônes figotheque-*.png, cache « figurines-lego-vNN » (ne pas renommer : données perdues). Sauvegardes
+    .json « Figothèque » toujours acceptées. Marque INPI non vérifiée.
   · Mises à jour en un bouton (v74) : BrickLink exige désormais une connexion compte LEGO (identity.lego.com, protection
     anti-robots) pour télécharger son catalogue -> abandon du téléchargement. Nouvelles figurines par l'API BrickLink
     (mêmes clés que les prix) : catalogue_bricklink.py + .github/workflows/catalogue.yml du DÉPÔT PRIVÉ (mensuel le 2,

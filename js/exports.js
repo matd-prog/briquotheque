@@ -93,7 +93,7 @@ const Exports = {
 
   async sauvegarde() {
     const d = await this.donnees();
-    const contenu = { application: "Figothèque", version: 1, date: d.date.toISOString(),
+    const contenu = { application: "Briquothèque", version: 1, date: d.date.toISOString(),
       feuilles: d.feuilles.map(f => ({ nom: f.nom, colonnes: f.colonnes.map(c => c[0]), lignes: f.lignes })) };
     if (etat.classeur && etat.classeur.estBase) contenu.base = await etat.classeur.exporter();
     this._telecharger(new Blob([JSON.stringify(contenu, null, 1)], { type: "application/json" }), `sauvegarde_collection_${horodatage()}.json`);
@@ -161,7 +161,7 @@ $("input-sauvegarde").addEventListener("change", async e => {
   if (!f) return;
   try {
     const contenu = JSON.parse(await f.text());
-    if (contenu.application !== "Figothèque" || !Array.isArray(contenu.base))
+    if (!["Briquothèque", "Figothèque"].includes(contenu.application) || !Array.isArray(contenu.base))
       throw new Error("ce n'est pas une sauvegarde de la collection rangée dans l'appli (une sauvegarde faite avec un fichier Excel se reprend avec le fichier Excel lui-même)");
     await demarrerBase(true, contenu.base);
   } catch (err) {

@@ -79,7 +79,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v80"; // même numéro que le cache de sw.js
+const VERSION_APPLI = "v81"; // même numéro que le cache de sw.js
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -103,11 +103,11 @@ document.addEventListener("click", e => {
 
 // Rapport de problème : rien de la collection (ni noms, ni prix, ni photos), seulement l'état de l'appli
 function texteRapport(description, idee) {
-  if (idee) return ["Suggestion d'amélioration — Figothèque", `Date : ${new Date().toLocaleString("fr-FR")}`, `Version : ${VERSION_APPLI}`,
+  if (idee) return ["Suggestion d'amélioration — Briquothèque", `Date : ${new Date().toLocaleString("fr-FR")}`, `Version : ${VERSION_APPLI}`,
                     `Appareil : ${navigator.userAgent}`, "", "Suggestion :", description].join("\n");
   const coll = etat.classeur ? Object.values(etat.collection || {}).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0) : 0;
   return [
-    "Rapport de problème — Figothèque",
+    "Rapport de problème — Briquothèque",
     `Date : ${new Date().toLocaleString("fr-FR")}`,
     `Version : ${VERSION_APPLI}`,
     `Rangement : ${!etat.classeur ? "aucune collection ouverte" : etat.classeur.estBase ? "collection dans l'appli" : "fichier Excel"} (${coll} figurines)`,
@@ -131,7 +131,7 @@ async function envoyerRapport() {
     : "Décrivez le problème en une phrase (ex. « le bouton Ajouter reste sur le sablier »)", "");
   if (description === null || (idee && !description.trim())) return;
   const texte = texteRapport(description, idee);
-  const titre = idee ? "Suggestion d'amélioration — Figothèque" : "Rapport de problème — Figothèque";
+  const titre = idee ? "Suggestion d'amélioration — Briquothèque" : "Rapport de problème — Briquothèque";
   try { if (navigator.share) { await navigator.share({ title: titre, text: texte }); return; } }
   catch (err) { if (err.name === "AbortError") return; }
   try { await navigator.clipboard.writeText(texte); } catch (e) { /* presse-papiers indisponible */ }
@@ -1383,7 +1383,7 @@ function horodatage() {
 async function preparerEnregistrement() {
   if (etat.classeur.estBase) return Exports.ouvrir(); // base de données : enregistrée au fur et à mesure ; ici, les exports
   const octets = await etat.classeur.enregistrer();
-  // nom parlant, le même pour tout le monde : « Figotheque_ma_collection_<date>.xlsx » (sans date en enregistrement direct)
+  // nom parlant, le même pour tout le monde : « Briquotheque_ma_collection_<date>.xlsx » (sans date en enregistrement direct)
   const nom = `${NOM_FICHIER}_${horodatage()}.xlsx`;
   const type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
   etat.dernierFichier = new File([octets], nom, { type });
@@ -1414,7 +1414,7 @@ async function preparerEnregistrement() {
 // Enregistrement direct dans un fichier choisi une fois avec la fenêtre d'enregistrement du téléphone
 // (File System Access) ; son « adresse » est gardée dans le téléphone pour les fois suivantes
 const ENREGISTREMENT_DIRECT = "showSaveFilePicker" in window;
-const NOM_FICHIER = "Figotheque_ma_collection";
+const NOM_FICHIER = "Briquotheque_ma_collection";
 const nomSansDate = nom => nom.replace(/_\d{4}-\d{2}-\d{2}_\d{2}h\d{2}\.xlsx$/i, ".xlsx");
 async function enregistrerDirect(ailleurs) {
   let poignee = ailleurs ? null : await Memoire.lire("poignee");

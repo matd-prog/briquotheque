@@ -112,7 +112,7 @@ const Assurance = {
         <p>Je soussigné(e) ${infos.nom ? echapper(infos.nom) : "………………………………"} certifie être propriétaire des articles ci-dessus,
           présents à mon domicile à la date du présent dossier.</p>
         <p class="signature">Fait à ……………………………… , le ${jour}.<br><br>Signature :</p>
-        <p class="pied">Dossier établi avec l'appli Figothèque. Photos : catalogue BrickLink (photos de référence des articles).</p>
+        <p class="pied">Dossier établi avec l'appli Briquothèque. Photos : catalogue BrickLink (photos de référence des articles).</p>
       </div>`;
     $("assurance-sortie").hidden = false;
     $("assurance-etat").textContent = `Dossier prêt : ${nbPieces} articles, rachat à neuf ${euros(total)}. Vérifiez-le ci-dessous, puis enregistrez-le en PDF.`;

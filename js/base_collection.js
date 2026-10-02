@@ -219,7 +219,7 @@ class BaseCollection {
     const entetes = { Authorization: `Bearer ${jeton}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
     const actuel = await fetch(url, { headers: entetes, cache: "no-store" });
     const sha = actuel.ok ? (await actuel.json()).sha : undefined;
-    const contenu = { application: "Figothèque", version: 1, date: new Date().toISOString(), base: await this.exporter() };
+    const contenu = { application: "Briquothèque", version: 1, date: new Date().toISOString(), base: await this.exporter() };
     const octets = new TextEncoder().encode(JSON.stringify(contenu));
     let bin = ""; for (let i = 0; i < octets.length; i += 8192) bin += String.fromCharCode(...octets.subarray(i, i + 8192));
     const n = contenu.base.filter(e => e.table === TABLE_FIGURINES).length;
