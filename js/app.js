@@ -79,7 +79,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v79"; // même numéro que le cache de sw.js
+const VERSION_APPLI = "v80"; // même numéro que le cache de sw.js
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -103,8 +103,8 @@ document.addEventListener("click", e => {
 
 // Rapport de problème : rien de la collection (ni noms, ni prix, ni photos), seulement l'état de l'appli
 function texteRapport(description, idee) {
-  if (idee) return ["Idée d'amélioration — Figothèque", `Date : ${new Date().toLocaleString("fr-FR")}`, `Version : ${VERSION_APPLI}`,
-                    `Appareil : ${navigator.userAgent}`, "", "Idée :", description].join("\n");
+  if (idee) return ["Suggestion d'amélioration — Figothèque", `Date : ${new Date().toLocaleString("fr-FR")}`, `Version : ${VERSION_APPLI}`,
+                    `Appareil : ${navigator.userAgent}`, "", "Suggestion :", description].join("\n");
   const coll = etat.classeur ? Object.values(etat.collection || {}).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0) : 0;
   return [
     "Rapport de problème — Figothèque",
@@ -124,14 +124,14 @@ function texteRapport(description, idee) {
 }
 
 async function envoyerRapport() {
-  const choix = await choisirAction("Que voulez-vous envoyer ?", ["🐞 Signaler un problème (bug, blocage)", "💡 Proposer une idée d'amélioration"]);
+  const choix = await choisirAction("Que voulez-vous envoyer ?", ["🐞 Signaler un problème (bug, blocage)", "💡 Suggérer une amélioration"]);
   if (choix < 0) return;
   const idee = choix === 1;
-  const description = await demanderTexte(idee ? "Votre idée (ex. « pouvoir trier ma collection par année »)"
+  const description = await demanderTexte(idee ? "Votre suggestion (ex. « pouvoir trier ma collection par année »)"
     : "Décrivez le problème en une phrase (ex. « le bouton Ajouter reste sur le sablier »)", "");
   if (description === null || (idee && !description.trim())) return;
   const texte = texteRapport(description, idee);
-  const titre = idee ? "Idée d'amélioration — Figothèque" : "Rapport de problème — Figothèque";
+  const titre = idee ? "Suggestion d'amélioration — Figothèque" : "Rapport de problème — Figothèque";
   try { if (navigator.share) { await navigator.share({ title: titre, text: texte }); return; } }
   catch (err) { if (err.name === "AbortError") return; }
   try { await navigator.clipboard.writeText(texte); } catch (e) { /* presse-papiers indisponible */ }
