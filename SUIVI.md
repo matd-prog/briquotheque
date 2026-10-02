@@ -117,6 +117,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     sécurisées, une seule connexion IndexedDB, étapes affichées). Un seul bouton « 📚 Ajouter à ma collection » (va aussi
     dans la base commune) + lien « pas à moi : seulement base commune » ; idem contribuer.html, brouillon Gmail de l'ami
     mis à jour. Erreurs affichées et gardées dans les Outils ; version affichée (VERSION_APPLI dans app.js = cache sw.js).
+  · v78 : Outils « 📨 Envoyer un rapport de problème » (version, appareil, écran, travaux en cours, 15 dernières actions,
+    erreurs ; rien de la collection) : partage du téléphone, sinon e-mail (ADRESSE_RAPPORT dans app.js, VIDE : adresse à
+    choisir par Mathias pour la version diffusée) + copie dans le presse-papiers.
   · Mises à jour en un bouton (v74) : BrickLink exige désormais une connexion compte LEGO (identity.lego.com, protection
     anti-robots) pour télécharger son catalogue -> abandon du téléchargement. Nouvelles figurines par l'API BrickLink
     (mêmes clés que les prix) : catalogue_bricklink.py + .github/workflows/catalogue.yml du DÉPÔT PRIVÉ (mensuel le 2,

@@ -79,7 +79,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v77"; // même numéro que le cache de sw.js
+const VERSION_APPLI = "v78"; // même numéro que le cache de sw.js
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -88,8 +88,50 @@ function noterErreur(texte) {
   ERREURS.unshift(t); ERREURS.length = Math.min(ERREURS.length, 8);
   const l = document.getElementById("liste-erreurs");
   if (l) { l.textContent = ERREURS.join("\n"); document.getElementById("bloc-erreurs").hidden = false; }
-  if (typeof toast === "function") toast("⚠️ Erreur : " + String(texte).slice(0, 160), 9000);
+  if (typeof toast === "function") toast("⚠️ Erreur : " + String(texte).slice(0, 160) + " (Outils → 📨 Envoyer un rapport)", 9000);
 }
+
+// Dernières actions (boutons touchés), pour comprendre un blocage sans erreur
+const ACTIONS = [];
+document.addEventListener("click", e => {
+  const b = e.target.closest("button, [data-action], .tuile, label");
+  if (!b) return;
+  const nom = b.dataset && b.dataset.action || (b.textContent || "").trim().replace(/\s+/g, " ").slice(0, 40);
+  ACTIONS.unshift(`${new Date().toLocaleTimeString("fr-FR")} ${typeof ecranActuel !== "undefined" ? ecranActuel : "?"} : ${nom}`);
+  ACTIONS.length = Math.min(ACTIONS.length, 15);
+}, true);
+
+// Rapport de problème : rien de la collection (ni noms, ni prix, ni photos), seulement l'état de l'appli
+function texteRapport(description) {
+  const coll = etat.classeur ? Object.values(etat.collection || {}).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0) : 0;
+  return [
+    "Rapport de problème — Figothèque",
+    `Date : ${new Date().toLocaleString("fr-FR")}`,
+    `Version : ${VERSION_APPLI}`,
+    `Rangement : ${!etat.classeur ? "aucune collection ouverte" : etat.classeur.estBase ? "collection dans l'appli" : "fichier Excel"} (${coll} figurines)`,
+    `Écran : ${typeof ecranActuel !== "undefined" ? ecranActuel : "?"} · travaux en cours : ${typeof Occupe !== "undefined" ? Occupe.enCours : "?"}`,
+    `Appareil : ${navigator.userAgent}`,
+    `Écran : ${screen.width}×${screen.height}, en ligne : ${navigator.onLine ? "oui" : "non"}`,
+    "",
+    "Ce qui se passe :", description || "(non décrit)",
+    "",
+    "Erreurs :", ...(ERREURS.length ? ERREURS : ["(aucune)"]),
+    "",
+    "Dernières actions :", ...(ACTIONS.length ? ACTIONS.slice(1) : ["(aucune)"]),
+  ].join("\n");
+}
+
+async function envoyerRapport() {
+  const description = await demanderTexte("Décrivez le problème en une phrase (ex. « le bouton Ajouter reste sur le sablier »)", "");
+  if (description === null) return;
+  const texte = texteRapport(description);
+  try { if (navigator.share) { await navigator.share({ title: "Rapport de problème — Figothèque", text: texte }); return; } }
+  catch (err) { if (err.name === "AbortError") return; }
+  try { await navigator.clipboard.writeText(texte); } catch (e) { /* presse-papiers indisponible */ }
+  location.href = `mailto:${ADRESSE_RAPPORT}?subject=${encodeURIComponent("Rapport de problème — Figothèque " + VERSION_APPLI)}&body=${encodeURIComponent(texte)}`;
+  toast("Rapport copié : collez-le dans un message si l'e-mail ne s'ouvre pas.", 6000);
+}
+const ADRESSE_RAPPORT = ""; // adresse de réception des rapports (à définir pour la version diffusée)
 window.addEventListener("error", e => noterErreur(`${e.message} (${(e.filename || "").split("/").pop()}:${e.lineno})`));
 window.addEventListener("unhandledrejection", e => noterErreur(e.reason && (e.reason.stack || e.reason.message) || e.reason));
 
@@ -1501,6 +1543,7 @@ document.addEventListener("click", async e => {
   else if (action === "base-creer") demarrerBase(false);
   else if (action === "revenir-excel") revenirExcel();
   else if (action === "migrer-base") migrerVersBase();
+  else if (action === "rapport") envoyerRapport();
   else if (action === "tout-mettre-a-jour") toutMettreAJour(b);
   else if (action === "sauvegarde-en-ligne") sauvegardeEnLigne();
   else if (action === "restaurer-en-ligne") restaurerEnLigne();
