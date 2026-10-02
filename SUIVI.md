@@ -125,6 +125,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v84 (02/10) : flèche ← dans le bandeau rouge (hors accueil) = retour à l'écran précédent, et le nom
+    « Briquothèque » du bandeau ramène à l'accueil : sur ordinateur (et iPhone), pas de bouton retour du téléphone, et
+    plusieurs écrans (Valeur, Assurance, custom, objet…) n'avaient pas de bouton « Retour ».
   · v82 (02/10) : HARMONISATION DÉFINITIVE des noms (demande de Mathias) — tout s'appelle « briquotheque » :
     dépôts matd-prog/briquotheque (public, adresse https://matd-prog.github.io/briquotheque/) et
     matd-prog/briquotheque-prive (privé) ; bases du téléphone « briquotheque-memoire » et « briquotheque-collection »

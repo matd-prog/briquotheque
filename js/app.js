@@ -60,7 +60,20 @@ function afficher(ecran, retour = false) {
   }
   ecranActuel = ecran;
   if (aLaRacine()) desarmerRetour(); else armerRetour();
+  const fleche = document.getElementById("bouton-retour-entete"); // flèche du bandeau rouge (ordinateur, iPhone…)
+  if (fleche) fleche.hidden = aLaRacine() || ECRANS_PASSAGE.includes(ecran);
 }
+
+// Flèche ← du bandeau : même chose que le bouton retour du téléphone, pour les appareils qui n'en ont pas
+function retourEntete() {
+  if ($("menu-actions").open) { $("menu-fermer").click(); return; }
+  if (pileEcrans.length) afficher(pileEcrans.pop(), true);
+  else afficher(etat.classeur ? "accueil" : "fichier", true);
+}
+// Le nom de l'appli, dans le bandeau, ramène à l'accueil
+document.getElementById("titre-appli").addEventListener("click", () => {
+  if (!aLaRacine() && !ECRANS_PASSAGE.includes(ecranActuel)) afficher(etat.classeur ? "accueil" : "fichier");
+});
 
 window.addEventListener("popstate", () => {
   if (ignorerRetours > 0) { // arrivée sur la page de départ après desarmerRetour
@@ -79,7 +92,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v83"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v84"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -1469,6 +1482,7 @@ document.addEventListener("click", async e => {
   if (!b) return;
   const action = b.dataset.action;
   if (action === "accueil") afficher(etat.classeur ? "accueil" : "fichier");
+  else if (action === "retour-entete") retourEntete();
   else if (action === "suivante") {
     if (etat.suivante === "photo") { afficher("accueil"); $("input-photo").click(); } // appareil photo ouvert dans le même geste
     else if (etat.suivante === "custom") ouvrirCustom();
