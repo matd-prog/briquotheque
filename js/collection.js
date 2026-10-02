@@ -173,7 +173,7 @@ const Collection = {
         <div class="infos">
           <div class="nom-court">${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
           <div class="code">${echapper(c.code)}${nums.length ? ` · n° ${echapper(nums.join(", "))}` : ""}</div>
-          <div class="lieu">${echapper(onglet)}, ${lieux}${cases.some(x => !x.image) ? " · sans étiquette" : ""}</div>
+          <div class="lieu">${echapper(onglet)}${etat.classeur && etat.classeur.estBase ? "" : `, ${lieux}`}${cases.some(x => !x.image) ? " · sans étiquette" : ""}</div>
         </div>
         ${liensFiche(this._lien(c, onglet), "Voir la page")}
       </div>`;
@@ -192,7 +192,7 @@ const Collection = {
     if (lien) actions.push(["lien", custom ? "🔗 Voir la page" : "🔗 Voir sur BrickLink"]);
     const titre = `${(custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)"}\n${c.code} · ${onglet}\n` +
       (cases.length > 1 ? `${cases.length} exemplaires` : "1 exemplaire") + (nums.length ? ` (n° ${nums.join(", ")})` : "") +
-      ` · ${cases.length > 1 ? "cases" : "case"} ${cases.map(x => x.ref).join(", ")}`;
+      (etat.classeur && etat.classeur.estBase ? "" : ` · ${cases.length > 1 ? "cases" : "case"} ${cases.map(x => x.ref).join(", ")}`);
     const i = await choisirAction(titre, actions.map(a => a[1]));
     const action = i >= 0 ? actions[i][0] : "";
     if (action === "plus") exemplaireEnPlus(c, onglet);

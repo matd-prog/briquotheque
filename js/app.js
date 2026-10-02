@@ -94,7 +94,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v105"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v106"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -687,9 +687,9 @@ async function ajouter() {
     if (!ok) throw new Error("vérification après écriture échouée");
     await relireContenu();
     const total = ouFigurine(code).length;
-    $("texte-ok").textContent = (n > 1 ? `${n} exemplaires ajoutés dans ${res.onglet}, cases ${cases.join(", ")}` : `Ajoutée dans ${res.onglet}, case ${res.ref}`) +
-      (nouvelOnglet && !etat.classeur.estBase ? " (nouvel onglet créé)" : res.nouvelleLigne ? " (nouvelle ligne créée)" : "") +
-      (total > 1 ? ` · ${total} exemplaires dans la collection` : "");
+    $("texte-ok").textContent = texteAjout(n, res.onglet, cases, total) +
+      (etat.classeur.estBase ? "" : nouvelOnglet ? " (nouvel onglet créé)" : res.nouvelleLigne ? " (nouvelle ligne créée)" : "");
+    ficheAjout(res.onglet, res.ref);
     const { w, h } = await dimensionsCase(etat.classeur, res.onglet, res.row, res.col);
     $("apercu-ok").innerHTML = "";
     $("apercu-ok").appendChild(dessinerEtiquette(code, couleur, w, h));
@@ -1364,8 +1364,8 @@ async function ajouterCustom() {
     if (!(await verifierAjout(octets, { onglet, row: res.row, col: res.col, code }))) throw new Error("vérification après écriture échouée");
     await relireContenu();
     const total = ouFigurine(code).length;
-    $("texte-ok").textContent = (n > 1 ? `${n} exemplaires ajoutés dans ${onglet}, cases ${cases.join(", ")}` : `Ajoutée dans ${onglet}, case ${res.ref}`) +
-      (nouvelOnglet ? " (nouvel onglet créé)" : "") + (total > 1 ? ` · ${total} exemplaires dans la collection` : "");
+    $("texte-ok").textContent = texteAjout(n, onglet, cases, total) + (nouvelOnglet && !etat.classeur.estBase ? " (nouvel onglet créé)" : "");
+    ficheAjout(onglet, res.ref);
     const { w, h } = await dimensionsCase(etat.classeur, onglet, res.row, res.col);
     $("apercu-ok").innerHTML = "";
     $("apercu-ok").appendChild(dessinerEtiquette(code, THEME_CUSTOMS.couleur, w, h, lien || null));
@@ -1647,6 +1647,31 @@ async function fichierEnregistre(nom = etat.dernierFichier.name) {
 $("lien-telecharger").addEventListener("click", () => setTimeout(fichierEnregistre, 500));
 
 
+// Écran de confirmation d'un ajout : message court, puis la fiche de la figurine telle que dans Ma collection
+// (photo, nom, code, n° et nombre d'exemplaires ; touchée, elle ouvre le même menu) et son étiquette
+function texteAjout(n, onglet, cases, total) {
+  if (!etat.classeur.estBase) // fichier Excel : les cases servent à retrouver les étiquettes dans le fichier
+    return (n > 1 ? `${n} exemplaires ajoutés dans ${onglet}, cases ${cases.join(", ")}` : `Ajoutée dans ${onglet}, case ${cases[0]}`) +
+      (total > 1 ? ` · ${total} exemplaires dans la collection` : "");
+  return (n > 1 ? `${n} exemplaires ajoutés à votre collection` : "Ajoutée à votre collection") +
+    (total > n ? ` (${total} exemplaires en tout)` : "");
+}
+function ficheAjout(onglet, ref) {
+  etat.dernierAjout = { onglet, ref };
+  const g = typeof Collection !== "undefined" && Collection._groupeDe(onglet, ref);
+  $("fiche-ok").innerHTML = g ? Collection._fiche(g.c, onglet, g.cases) : "";
+  if (g && onglet === THEME_CUSTOMS.onglet) {
+    // photo du catalogue JB ou de votre base de blisters (chargées au besoin)
+    Promise.all([CatalogueJB.charger().catch(() => {}), Collection._chargerMesBlisters().catch(() => {})])
+      .then(() => { if (etat.dernierAjout && etat.dernierAjout.ref === ref) $("fiche-ok").innerHTML = Collection._fiche(g.c, onglet, g.cases); });
+  }
+}
+$("fiche-ok").addEventListener("click", e => {
+  if (e.target.closest("a")) return;
+  const b = e.target.closest("[data-case]");
+  if (b) Collection._details(b.dataset.onglet, b.dataset.case).then(() => { if (ecranActuel === "ok" && etat.dernierAjout) ficheAjout(etat.dernierAjout.onglet, etat.dernierAjout.ref); });
+});
+
 // « Figurine suivante » : même chemin que la figurine qu'on vient d'ajouter (photo -> appareil photo tout de suite,
 // recherche par nom, custom) ; « Retour à l'accueil » pour changer de catégorie
 function preparerSuivante(chemin) {
@@ -1663,6 +1688,11 @@ document.addEventListener("click", async e => {
   const action = b.dataset.action;
   if (action === "accueil") afficher(etat.classeur ? "accueil" : "fichier");
   else if (action === "retour-entete") retourEntete();
+  else if (action === "voir-ajout") { // Ma collection, sur l'onglet de la figurine ajoutée
+    const o = etat.dernierAjout && etat.dernierAjout.onglet;
+    if (o) Collection.onglet = o;
+    Collection.ouvrir();
+  }
   else if (action === "suivante") {
     if (etat.suivante === "photo") { afficher("accueil"); $("input-photo").click(); } // appareil photo ouvert dans le même geste
     else if (etat.suivante === "custom") ouvrirCustom();

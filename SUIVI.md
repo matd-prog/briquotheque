@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v106 (02/10) : ÉCRAN « AJOUTÉE » REFAIT (demande de Mathias). Message court (« Ajoutée à votre collection
+    (2 exemplaires en tout) ») ; fiche de la figurine comme dans Ma collection (photo, nom, ×n, code, n°), touchable
+    (même menu) ; étiquette plus petite ; « 📚 Voir dans Ma collection » (sur son onglet). Collection dans l'appli : plus
+    de « Enregistrer le fichier » ni de « case n°… » (ici et dans les fiches de Ma collection). Fichier Excel : inchangé.
   · v105 (02/10) : CUSTOMS NON REGROUPÉES (capture de Mathias : trois « The Emerald Marksman » en CUS-060, 061, 062).
     codeCustom donnait un nouveau CUS-… à chaque exemplaire d'une figurine hors catalogue JB (lien = recherche eBay.de).
     Il reprend maintenant le code d'une figurine déjà présente au même lien et au même nom sans le n° (cleCustom) ;
