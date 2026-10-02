@@ -62,10 +62,22 @@ const Base = {
     return new Promise(ok => cv.toBlob(ok, "image/jpeg", 0.82));
   },
 
-  // Cadre du blister sur la photo : fond estimé sur le pourtour, pixels qui s'en écartent (couleur, ou contraste
-  // du carton imprimé), puis la plus longue bande de lignes et de colonnes « pleines ». null si incertain (on garde
-  // alors la photo entière ; « ✂️ Recadrer » permet d'ajuster à la main).
+  // Cadre du blister sur la photo, par deux méthodes ; null si incertain (on garde alors la photo entière ;
+  // « ✂️ Recadrer » permet d'ajuster à la main). La 2e (zone d'un seul tenant) trouve le blister sur un fond chargé
+  // (plaque perforée, nappe, bois) où la 1re renonce ; la 1re garde mieux un carton dont une partie ressemble au fond
+  // (ciel clair devant un mur clair) : on la préfère quand elle englobe la 2e sans être beaucoup plus grande.
+  // Essai du 02/10/2026 : plaque perforée recadrée (avant : photo entière), 40 photos de l'album identiques ou mieux.
   _cadreAuto(image) {
+    const a = this._cadreContraste(image), z = this._cadreZone(image);
+    if (!z) return a;
+    if (!a) return z;
+    const m = 0.03, contient = a.x <= z.x + m && a.y <= z.y + m && a.x + a.l >= z.x + z.l - m && a.y + a.h >= z.y + z.h - m;
+    return contient && a.l * a.h <= 1.6 * z.l * z.h ? a : z;
+  },
+
+  // 1re méthode : fond estimé sur le pourtour, pixels qui s'en écartent (couleur, ou contraste du carton imprimé),
+  // puis la plus longue bande de lignes et de colonnes « pleines »
+  _cadreContraste(image) {
     const L = 160, k = L / Math.max(image.width, image.height);
     const w = Math.max(8, Math.round(image.width * k)), h = Math.max(8, Math.round(image.height * k));
     const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
@@ -100,6 +112,70 @@ const Base = {
     const m = 0.03, c = { x: Math.max(0, x0 / w - m), y: Math.max(0, y0 / h - m) };
     c.l = Math.min(1, (x1 + 1) / w + m) - c.x; c.h = Math.min(1, (y1 + 1) / h + m) - c.y;
     return c.l * c.h > 0.9 || c.l * c.h < 0.06 ? null : c;
+  },
+
+  // 2e méthode : même masque, débruité (un point ne compte que si la majorité de ses voisins 5×5 comptent : trous
+  // d'une plaque perforée, grain d'une table, reflets effacés), puis la plus grande zone d'un seul tenant (le blister)
+  _cadreZone(image) {
+    const L = 200, k = L / Math.max(image.width, image.height);
+    const w = Math.max(8, Math.round(image.width * k)), h = Math.max(8, Math.round(image.height * k));
+    const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+    const cx = cv.getContext("2d"); cx.drawImage(image, 0, 0, w, h);
+    const px = cx.getImageData(0, 0, w, h).data;
+    const b = Math.max(1, Math.round(Math.min(w, h) * 0.04)), bord = [[], [], []];
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++)
+      if (x < b || y < b || x >= w - b || y >= h - b) { const i = (y * w + x) * 4; for (let c = 0; c < 3; c++) bord[c].push(px[i + c]); }
+    const med = bord.map(t => t.sort((a, z) => a - z)[t.length >> 1]);
+    const brut = new Uint8Array(w * h);
+    const lum = i => px[i] * .3 + px[i + 1] * .59 + px[i + 2] * .11;
+    for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+      const i = (y * w + x) * 4;
+      const d = Math.abs(px[i] - med[0]) + Math.abs(px[i + 1] - med[1]) + Math.abs(px[i + 2] - med[2]);
+      const g = Math.abs(lum(i + 4) - lum(i - 4)) + Math.abs(lum(i + 4 * w) - lum(i - 4 * w));
+      brut[y * w + x] = d > 90 || (d > 45 && g > 25) ? 1 : 0;
+    }
+    // débruitage : un point ne compte que si la majorité de ses voisins (5×5) comptent aussi (trous d'une plaque
+    // perforée, grain d'une table, reflets : effacés ; carton imprimé : gardé)
+    const I = new Int32Array((w + 1) * (h + 1));
+    for (let y = 0; y < h; y++) for (let x = 0, s = 0; x < w; x++) { s += brut[y * w + x]; I[(y + 1) * (w + 1) + x + 1] = I[y * (w + 1) + x + 1] + s; }
+    const somme = (x0, y0, x1, y1) => I[y1 * (w + 1) + x1] - I[y0 * (w + 1) + x1] - I[y1 * (w + 1) + x0] + I[y0 * (w + 1) + x0];
+    const r = 2, masque = new Uint8Array(w * h);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const x0 = Math.max(0, x - r), y0 = Math.max(0, y - r), x1 = Math.min(w, x + r + 1), y1 = Math.min(h, y + r + 1);
+      masque[y * w + x] = somme(x0, y0, x1, y1) >= 0.55 * (x1 - x0) * (y1 - y0) ? 1 : 0;
+    }
+    // plus grande zone d'un seul tenant (le blister) : les taches isolées autour sont ignorées
+    const zone = new Int32Array(w * h).fill(-1); let meilleure = -1, taille = 0, n = 0;
+    for (let d = 0; d < w * h; d++) {
+      if (!masque[d] || zone[d] >= 0) continue;
+      const pile = [d]; zone[d] = n; let t = 0;
+      while (pile.length) {
+        const i = pile.pop(), x = i % w; t++;
+        for (const j of [x > 0 ? i - 1 : -1, x < w - 1 ? i + 1 : -1, i - w, i + w])
+          if (j >= 0 && j < w * h && masque[j] && zone[j] < 0) { zone[j] = n; pile.push(j); }
+      }
+      if (t > taille) { taille = t; meilleure = n; }
+      n++;
+    }
+    if (meilleure < 0 || taille < w * h * 0.04) return null;
+    const dans = i => zone[i] === meilleure;
+    const bande = (nb, part) => {
+      let best = [0, -1], debut = -1, trou = 0;
+      for (let i = 0; i <= nb; i++) {
+        if (i < nb && part(i) > 0.15) { if (debut < 0) debut = i; trou = 0; }
+        else if (debut >= 0 && (++trou > Math.max(2, nb * 0.03) || i === nb)) {
+          const fin = i - trou; if (fin - debut > best[1] - best[0]) best = [debut, fin]; debut = -1; trou = 0;
+        }
+      }
+      return best;
+    };
+    const [y0, y1] = bande(h, y => { let s = 0; for (let x = 0; x < w; x++) s += dans(y * w + x); return s / w; });
+    if (y1 - y0 < h * 0.15) return null;
+    const [x0, x1] = bande(w, x => { let s = 0; for (let y = y0; y <= y1; y++) s += dans(y * w + x); return s / (y1 - y0 + 1); });
+    if (x1 - x0 < w * 0.15) return null;
+    const m = 0.02, c = { x: Math.max(0, x0 / w - m), y: Math.max(0, y0 / h - m) };
+    c.l = Math.min(1, (x1 + 1) / w + m) - c.x; c.h = Math.min(1, (y1 + 1) / h + m) - c.y;
+    return c.l * c.h > 0.92 || c.l * c.h < 0.06 ? null : c;
   },
 
   // Photo (recto ou verso) : remise d'aplomb, recadrée sur le blister si on le trouve

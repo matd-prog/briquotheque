@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v96 (02/10) : RECADRAGE AUTOMATIQUE des blisters amélioré (photo de Mathias sur plaque perforée : photo entière gardée).
+    Base._cadreAuto combine _cadreContraste (ancienne méthode) et _cadreZone (masque débruité 5×5 + plus grande zone d'un
+    seul tenant) : l'ancienne gardée si elle englobe la nouvelle sans dépasser 1,6 fois sa surface. Essai sur la plaque +
+    40 photos de l'album : plaque recadrée, 9 photos sans cadre au lieu de 19 (déjà serrées), aucune régression vue.
+    Vaut aussi pour la mini-appli de l'ami (même js/base.js).
   · v95 (02/10) : doublons retirés des listes publiques de la base commune (data/jb_commune.tsv, jb_empreintes_commune.tsv,
     jb_empreintes_figurine.tsv : 290 -> 164 blisters, 1 par figurine, de préférence avec verso ; rattachement au catalogue
     recopié s'il était sur un doublon). Photos et lignes du dépôt privé (album_photos/commune.tsv, n° des exemplaires)

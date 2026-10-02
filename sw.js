@@ -2,7 +2,7 @@
 // Stratégie : toujours essayer Internet d'abord (pour avoir la dernière version), sinon la copie gardée.
 // cache: "no-cache" : on redemande toujours au serveur si le fichier a changé (GitHub Pages
 // autorise sinon le téléphone à garder une ancienne version 10 minutes)
-const CACHE = "briquotheque-v95"; // même numéro que VERSION_APPLI (js/app.js)
+const CACHE = "briquotheque-v96"; // même numéro que VERSION_APPLI (js/app.js)
 self.addEventListener("install", e => self.skipWaiting());
 // les copies des versions précédentes sont effacées
 self.addEventListener("activate", e => e.waitUntil(
