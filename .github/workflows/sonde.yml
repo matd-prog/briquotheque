@@ -1,5 +1,5 @@
-# Essai ponctuel (à la main) : lecture des prix français sur Avenue de la Brique (outils/sonde_prix_fr.py).
-name: Essai prix français
+# Essai ponctuel (à la main) : téléchargement du catalogue BrickLink sans compte (outils/sonde_bricklink.py).
+name: Essai catalogue BrickLink
 on:
   workflow_dispatch:
 jobs:
@@ -8,4 +8,4 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - run: python3 -u outils/sonde_prix_fr.py
+      - run: python3 -u outils/sonde_bricklink.py
