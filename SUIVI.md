@@ -113,6 +113,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   · Étiquettes de Mathias : collées sur la grande face inclinée d'une pente 33° 3×4 (BrickLink 3297, face ≈ 31,8 × 18 mm).
     Il GARDE les mesures de son fichier Excel (26,19 × 13,23 mm, modèle « Mes étiquettes… ») : un peu de marge, voulu
     (évite que l'étiquette frotte et se décolle). Ne pas changer.
+  · v76-v77 (02/10, VÉRIFIÉ sur le téléphone) : blocage de « Je l'ai » sur un blister résolu (écritures en mémoire
+    sécurisées, une seule connexion IndexedDB, étapes affichées). Un seul bouton « 📚 Ajouter à ma collection » (va aussi
+    dans la base commune) + lien « pas à moi : seulement base commune » ; idem contribuer.html, brouillon Gmail de l'ami
+    mis à jour. Erreurs affichées et gardées dans les Outils ; version affichée (VERSION_APPLI dans app.js = cache sw.js).
   · Mises à jour en un bouton (v74) : BrickLink exige désormais une connexion compte LEGO (identity.lego.com, protection
     anti-robots) pour télécharger son catalogue -> abandon du téléchargement. Nouvelles figurines par l'API BrickLink
     (mêmes clés que les prix) : catalogue_bricklink.py + .github/workflows/catalogue.yml du DÉPÔT PRIVÉ (mensuel le 2,
