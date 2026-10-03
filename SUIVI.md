@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v115 (03/10) : REMPLACER LES PHOTOS d'un blister déjà recensé (Mathias : vieilles photos mal prises). « ✏️ Modifier »
+    montre recto et verso, avec « 📷 Nouveau recto / verso » et « 🖼️ … depuis les photos » ; recadrage comme à la prise,
+    enregistré tout de suite ; proposé aussi pour les autres exemplaires de la figurine qui avaient la même photo ;
+    texte du nouveau verso relu. Base.remplacerPhoto (deux applis). Note rapide « 🧩 Bricks of Maze » (customiseur pour
+    JB) ajoutée aux notes (deux applis).
   · v114 (03/10) : BUG D'AFFICHAGE base de blisters (capture de Mathias : nom écrit une lettre par ligne). Un blister sans
     verso avait 4 boutons à droite (📷 verso, ➕, ✏️, ✕) qui prenaient toute la largeur. Boutons sur leur propre ligne, sous
     le nom (.fiche-base, .fiche-actions) ; les deux applis.

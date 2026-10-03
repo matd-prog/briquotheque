@@ -1080,6 +1080,15 @@ const Base = {
         <div>${champ("serie", "Série limitée à", e.serie, 'inputmode="numeric"')}</div></div>
       <label class="case-a-cocher"><input type="checkbox" data-modif="nonnum" ${e.numerote === false ? "checked" : ""}> Non numérotée</label>
       ${champ("remarque", "Note particulière", e.remarque)}
+      <p class="etiquette-champ">Photos : remplacez une photo mal prise</p>
+      <div class="recto-verso"><img class="photo-apercu" data-modif-img="recto" src="${URL.createObjectURL(e.photo)}" alt="Recto">
+        ${e.verso ? `<img class="photo-apercu" data-modif-img="verso" src="${URL.createObjectURL(e.verso)}" alt="Verso">` : `<p class="photo-apercu aide" data-modif-img="verso">Pas de verso</p>`}</div>
+      <div class="suggestions">
+        <label class="petit">📷 Nouveau recto<input type="file" accept="image/*" capture="environment" data-remplacer="recto" hidden></label>
+        <label class="petit">🖼️ Recto depuis les photos<input type="file" accept="image/*" data-remplacer="recto" hidden></label>
+        <label class="petit">📷 Nouveau verso<input type="file" accept="image/*" capture="environment" data-remplacer="verso" hidden></label>
+        <label class="petit">🖼️ Verso depuis les photos<input type="file" accept="image/*" data-remplacer="verso" hidden></label>
+      </div>
       <button class="gros-bouton vert" data-modif-ok>✔ Enregistrer</button>
       <button class="bouton-lien" data-modif-annuler>Annuler</button></div>`;
     const carte = $("base-liste").querySelector(`[data-fiche="${id}"]`);
@@ -1092,9 +1101,48 @@ const Base = {
         c.disabled = non; c.previousElementSibling.classList.toggle("grise", non);
       }
     };
+    carte.querySelectorAll("[data-remplacer]").forEach(c => c.addEventListener("change", async () => {
+      const f = c.files[0];
+      c.value = "";
+      if (f) await this.remplacerPhoto(e, c.dataset.remplacer, f, carte);
+    }));
     carte.querySelector('[data-modif="nonnum"]').addEventListener("change", griser);
     griser();
     if (e.numerote !== false) carte.querySelector('[data-modif="numero"]').focus();
+  },
+
+  // Nouvelle photo du recto ou du verso d'un blister déjà recensé (vieille photo mal prise) : recadrée comme les autres,
+  // enregistrée tout de suite ; proposée aussi pour les autres exemplaires de la même figurine qui ont la même photo
+  async remplacerPhoto(e, cote, fichier, carte) {
+    let blob;
+    try { ({ blob } = await this._preparer(fichier, 0, cote)); } catch (err) { console.error(err); await demander("Photo illisible : " + err.message, "OK", "Fermer"); return; }
+    const ancienne = cote === "verso" ? e.verso : e.photo;
+    const taille = b => b ? b.size : -1;
+    const autres = this.entrees.filter(x => x !== e && cleFigurine(x.nom, x.precision) === cleFigurine(e.nom, e.precision) &&
+      taille(cote === "verso" ? x.verso : x.photo) === taille(ancienne) && ancienne);
+    const cibles = [e];
+    if (autres.length && await demander(`${autres.length} autre${autres.length > 1 ? "s" : ""} exemplaire${autres.length > 1 ? "s" : ""} de « ${nomComplet(e)} » ${autres.length > 1 ? "ont" : "a"} la même photo du ${cote}. La remplacer aussi ?`,
+        "Oui, partout", "Seulement celui-ci")) cibles.push(...autres);
+    for (const x of cibles) {
+      if (cote === "verso") { x.verso = blob; x.versoTexte = ""; } else x.photo = blob;
+      x.exporte = false;
+    }
+    if (!(await Memoire.ecrire(this.entrees, "base"))) return;
+    const img = carte && carte.querySelector(`[data-modif-img="${cote}"]`);
+    if (img) img.outerHTML = `<img class="photo-apercu" data-modif-img="${cote}" src="${URL.createObjectURL(blob)}" alt="${cote}">`;
+    toast(`${cote === "verso" ? "Verso" : "Recto"} remplacé ✔${cibles.length > 1 ? ` (${cibles.length} exemplaires)` : ""}`);
+    // texte du nouveau verso (reconnaissance), lu en arrière-plan
+    if (cote === "verso" && typeof Paddle !== "undefined") {
+      (async () => {
+        let l = await Paddle.lignes(await createImageBitmap(blob));
+        if (l.length < 3) l = await Paddle.lignes(await createImageBitmap(await this._reduire(fichier, 0, null))); // recadrage trop serré
+        return l;
+      })().then(async l => {
+        const t = texteVerso(l.map(x => x.texte).join("\n"));
+        for (const x of cibles) if (x.verso === blob) x.versoTexte = t;
+        await Memoire.ecrire(this.entrees, "base");
+      }).catch(err => console.warn(err));
+    }
   },
 
   async _enregistrerModif(e, carte) {
