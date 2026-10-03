@@ -125,6 +125,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v116 (03/10) : NOTES EN MAJUSCULES partout (Mathias) : boutons rapides (SIGNÉE, COMIC CON, ÉDITION SPÉCIALE, ERREUR
+    D'IMPRESSION, CADEAU, BRICKS OF MAZE), note tapée (ajout et modification), anciennes notes converties à l'ouverture
+    de la base de blisters. Deux applis.
   · v115 (03/10) : REMPLACER LES PHOTOS d'un blister déjà recensé (Mathias : vieilles photos mal prises). « ✏️ Modifier »
     montre recto et verso, avec « 📷 Nouveau recto / verso » et « 🖼️ … depuis les photos » ; recadrage comme à la prise,
     enregistré tout de suite ; proposé aussi pour les autres exemplaires de la figurine qui avaient la même photo ;

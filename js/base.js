@@ -23,6 +23,11 @@ const Base = {
 
   async ouvrir() {
     this.entrees = (await Memoire.lire("base")) || [];
+    // notes en majuscules partout (demande de Mathias, 03/10) : les anciennes aussi
+    if (this.entrees.some(e => e.remarque && e.remarque !== e.remarque.toUpperCase())) {
+      for (const e of this.entrees) if (e.remarque) e.remarque = e.remarque.toUpperCase();
+      await Memoire.ecrire(this.entrees, "base");
+    }
     await this._chargerCadresMemo();
     this._nouvelle();
     afficher("base");
@@ -807,7 +812,7 @@ const Base = {
     const precision = $("base-precision") ? $("base-precision").value.trim() : "";
     const code = this.codeLu && normaliser(nom) === normaliser(this.nomLu) ? this.codeLu : "";
     this.entrees.push({ id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, recadre: true, nom, precision, numerote: false,
-                        numero: "", serie: "", remarque: $("base-remarque").value.trim(), code, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte || "",
+                        numero: "", serie: "", remarque: $("base-remarque").value.trim().toUpperCase(), code, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte || "",
                         exporte: false, possede: false, date: new Date().toISOString() });
     await Memoire.ecrire(this.entrees, "base");
     toast(`« ${nomComplet({ nom, precision })} » ajouté à la base commune ✔ (pas dans votre collection)`, 4500);
@@ -856,7 +861,7 @@ const Base = {
           `Ajouter les ${garder.length} autre${pluriel(garder)}`, "Corriger d'abord"))) { viderDoublons(); return; }
       numeros = garder; n = garder.length;
     }
-    const commun = { recadre: true, nom, precision, numerote: !nonNumerote, serie: nonNumerote ? "" : $("base-serie").value.trim(), remarque: $("base-remarque").value.trim(),
+    const commun = { recadre: true, nom, precision, numerote: !nonNumerote, serie: nonNumerote ? "" : $("base-serie").value.trim(), remarque: $("base-remarque").value.trim().toUpperCase(),
                      code, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte || "", exporte: false };
     for (const numero of numeros)
       this.entrees.push({ ...commun, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
@@ -1079,7 +1084,7 @@ const Base = {
       <div class="deux-champs"><div>${champ("numero", "N° de l'exemplaire", e.numero, 'inputmode="numeric"')}</div>
         <div>${champ("serie", "Série limitée à", e.serie, 'inputmode="numeric"')}</div></div>
       <label class="case-a-cocher"><input type="checkbox" data-modif="nonnum" ${e.numerote === false ? "checked" : ""}> Non numérotée</label>
-      ${champ("remarque", "Note particulière", e.remarque)}
+      ${champ("remarque", "Note particulière", e.remarque, 'autocapitalize="characters"')}
       <p class="etiquette-champ">Photos : remplacez une photo mal prise</p>
       <div class="recto-verso"><img class="photo-apercu" data-modif-img="recto" src="${URL.createObjectURL(e.photo)}" alt="Recto">
         ${e.verso ? `<img class="photo-apercu" data-modif-img="verso" src="${URL.createObjectURL(e.verso)}" alt="Verso">` : `<p class="photo-apercu aide" data-modif-img="verso">Pas de verso</p>`}</div>
@@ -1149,7 +1154,7 @@ const Base = {
     const v = k => carte.querySelector(`[data-modif="${k}"]`).value.trim();
     const nonNum = carte.querySelector('[data-modif="nonnum"]').checked;
     const nouveau = { nom: v("nom").toUpperCase(), precision: v("precision"), numero: nonNum ? "" : v("numero"),
-                      serie: nonNum ? "" : v("serie").replace(/\D/g, ""), remarque: v("remarque"), numerote: !nonNum };
+                      serie: nonNum ? "" : v("serie").replace(/\D/g, ""), remarque: v("remarque").toUpperCase(), numerote: !nonNum };
     if (!nouveau.nom) { await demander("Le nom ne peut pas être vide.", "OK", "Fermer"); return; }
     const cle = cleFigurine(nouveau.nom, nouveau.precision);
     const doublon = nouveau.numero && this.entrees.find(x => x !== e && x.numero === nouveau.numero && cleFigurine(x.nom, x.precision) === cle);
