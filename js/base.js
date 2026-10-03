@@ -1030,15 +1030,16 @@ const Base = {
     const liste = this.entrees.slice().reverse().filter(trouve);
     $("base-liste").innerHTML = (q ? `<p class="aide">${liste.length} blister${liste.length > 1 ? "s" : ""} trouvé${liste.length > 1 ? "s" : ""}.</p>` : "") +
       liste.slice(0, q ? 300 : 100).map(e => `
-      <div class="fiche" data-fiche="${e.id}">
+      <div class="fiche fiche-base" data-fiche="${e.id}">
         <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="Recto" data-base-voir="${e.id}" title="Voir le recto et le verso">
         <div class="infos"><div class="nom-court">${echapper(nomComplet(e))}</div>
           <div class="lieu">${echapper([e.possede === false && "pas à moi, pour la base commune", e.possede !== false && e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
             e.verso ? "recto + verso" : "sans verso", e.origine === "album" && "d'après l'album photo", e.code, typeof BaseCommune !== "undefined" ? (e.commune ? "🌐 dans la base commune" : "🌐 en attente") : e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
+        <div class="fiche-actions">
         ${e.verso ? "" : `<label class="petit" title="Ajouter le verso">📷 verso<input type="file" accept="image/*" capture="environment" data-base-verso="${e.id}" hidden></label>`}
         <button class="petit" data-base-plus="${e.id}" title="Ajouter un exemplaire (nouveau n°), même photo">➕</button>
         <button class="petit" data-base-modif="${e.id}" title="Modifier">✏️</button>
-        <button class="petit" data-base-suppr="${e.id}" title="Retirer">✕</button>
+        <button class="petit" data-base-suppr="${e.id}" title="Retirer">✕</button></div>
       </div>`).join("");
     $("base-liste").querySelectorAll("[data-base-voir]").forEach(im => im.addEventListener("click", () => {
       const e = this.entrees.find(x => x.id === im.dataset.baseVoir);

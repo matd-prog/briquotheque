@@ -129,6 +129,11 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .sous-puces { margin-bottom: 8px; }
 .sous-puces .puce { font-size: 13px; padding: 4px 10px; }
 .theme-titre { margin: 14px 0 6px; }
+/* base de blisters : les boutons sur leur propre ligne, sous le nom (le nom restait sur une lettre de large) */
+.fiche-base { flex-wrap: wrap; }
+.fiche-base .infos { flex: 1 1 0; min-width: 0; }
+.fiche-base .fiche-actions { flex: 1 0 100%; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.fiche-base .fiche-actions .petit { padding: 8px 10px; }
 .vignettes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
 .vignette { background: var(--carte); border-radius: 12px; padding: 8px; cursor: pointer; text-align: center; }
 .vignette img.photo, .vignette .photo-custom { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; background: #fafafa; border-radius: 8px; margin-bottom: 6px; font-size: 48px; line-height: 1; }
