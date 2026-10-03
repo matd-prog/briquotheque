@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v113 (03/10) : sets et objets dérivés de Ma collection RANGÉS PAR THÈME (Mathias) : petites puces « Tous, Star Wars,
+    Super-héros… » (un thème touché = lui seul) ; « Tous » = sections titrées. Sets : themeDeCategorie (mêmes noms que les
+    onglets de figurines), sinon thème BrickLink traduit (THEMES_SETS), « Autres marques » pour Youmko, Pantasy… Objets :
+    d'après le nom (Vador -> Star Wars…), sinon leur type. Collection._themeArticle, _rangTheme.
   · v112 (03/10) : MA COLLECTION REGROUPE TOUT (Mathias) : puces « 🧱 Sets » et « 🔑 Objets dérivés » après les onglets de
     figurines (liste ou vignettes : photo BrickLink, nom, ×quantité, marque/code/année/état ; lien « 🔗 BrickLink » ou
     « 🔎 eBay.fr » pour les autres marques). Touchés : un exemplaire de plus / en retirer un / retirer (colonne Quantité,

@@ -45,6 +45,34 @@ const Collection = {
               [ONGLET_OBJETS]: { icone: "🔑", lire: cl => lireObjets(cl), quantite: "E", colonnes: COLONNES_OBJETS } },
   _articles: { [ONGLET_SETS]: [], [ONGLET_OBJETS]: [] },
   _estArticles(o) { return !!this.ARTICLES[o]; },
+  themeArticle: {}, // thème choisi dans Sets, Objets dérivés ("" : tous)
+
+  // Thème d'un set ou d'un objet, avec les noms des onglets de figurines quand c'est possible (Star Wars, Super-héros…)
+  _themeArticle(a, onglet) {
+    if (onglet === ONGLET_SETS) {
+      if (!estLego(a)) return "Autres marques";
+      const t = String(a.theme || "").trim();
+      if (!t) return "Autres thèmes";
+      return themeDeCategorie(t) || this.THEMES_SETS[normaliser(t.split(" / ")[0])] || t.split(" / ")[0];
+    }
+    // objets dérivés : d'après le nom (porte-clés Dark Vador -> Star Wars)
+    const n = normaliser(`${a.nom} ${a.remarques || ""}`);
+    const r = [[/star wars|darth|vader|yoda|stormtrooper|mandalorian|grogu|chewbacca|clone|boba fett|kylo|r2-d2|c-3po|luke|leia/, "Star Wars"],
+      [/harry potter|hogwarts|poudlard|hermione|dumbledore/, "Harry Potter"], [/ninjago/, "Ninjago"],
+      [/marvel|spider|batman|avengers|iron man|captain america|hulk|thor|joker|superman|wonder woman|dc /, "Super-héros"],
+      [/disney|mickey|minnie|frozen|stitch|pixar/, "Disney"], [/simpsons|homer/, "Simpsons"], [/city|police|pompier|fire/, "Town & City"],
+      [/jurassic|dino/, "Jurassic World"], [/friends/, "Friends"]].find(([re]) => re.test(n));
+    return r ? r[1] : (a.type && String(a.type).trim()) || "Autres thèmes";
+  },
+  THEMES_SETS: { "dimensions": "Dimensions", "icons": "Icons", "lego ideas and cuusoo": "Ideas", "brickheadz": "BrickHeadz",
+    "technic": "Technic", "castle": "Château", "seasonal": "Fêtes (Noël…)", "promotional": "Promotionnels", "other": "Autres thèmes",
+    "sculptures": "Sculptures", "super mario": "Super Mario", "the legend of zelda": "Zelda", "ghostbusters": "Ghostbusters",
+    "creator": "Creator", "architecture": "Architecture", "friends": "Friends", "duplo": "Duplo", "minecraft": "Minecraft" },
+  // ordre des thèmes : comme les onglets de figurines, puis les autres par ordre alphabétique, « Autres … » à la fin
+  _rangTheme(t) {
+    const i = [THEME_STAR_WARS_UNIQUE.onglet, ...ONGLETS_THEMES].indexOf(t);
+    return /^Autres/.test(t) ? 1000 : i >= 0 ? i : 100;
+  },
   _quantite(o) { return this._articles[o].reduce((s, a) => s + (a.quantite || 1), 0); },
   async _chargerArticles() {
     for (const [o, d] of Object.entries(this.ARTICLES)) {
@@ -94,6 +122,8 @@ const Collection = {
   // Fiche ou vignette touchée : sa photo -> photos en grand ; le reste -> menu (exemplaires, numéro, nom)
   clic(e) {
     if (e.target.closest("a")) return; // lien vers la page (JB, eBay.de, BrickLink)
+    const th = e.target.closest("[data-theme-article]");
+    if (th) { this.themeArticle[this.onglet] = th.dataset.themeArticle; this.rendre(); return; }
     const art = e.target.closest("[data-article]");
     if (art) { this._detailsArticle(art.dataset.onglet, art.dataset.article); return; }
     const b = e.target.closest("[data-case]");
@@ -148,12 +178,21 @@ const Collection = {
       return;
     }
 
-    if (this._estArticles(this.onglet)) { // sets, objets dérivés
-      const liste = this._articles[this.onglet];
-      $("collection-info").textContent = `${liste.length} article(s) différent(s), ${this._quantite(this.onglet)} en tout dans « ${this.onglet} ». ` +
-        "Touchez un article pour en ajouter ou en retirer un.";
-      contenu.innerHTML = this.vue === "vignettes" ? `<div class="vignettes">${liste.map(a => this._ficheArticle(a, this.onglet, true)).join("")}</div>`
-        : liste.map(a => this._ficheArticle(a, this.onglet)).join("");
+    if (this._estArticles(this.onglet)) { // sets, objets dérivés : rangés par thème
+      const o = this.onglet, tous = this._articles[o];
+      const themes = new Map();
+      for (const a of tous) { const t = this._themeArticle(a, o); if (!themes.has(t)) themes.set(t, []); themes.get(t).push(a); }
+      const ordre = [...themes.keys()].sort((a, b) => this._rangTheme(a) - this._rangTheme(b) || a.localeCompare(b, "fr"));
+      const choisi = themes.has(this.themeArticle[o]) ? this.themeArticle[o] : "";
+      const n = l => l.reduce((s, a) => s + (a.quantite || 1), 0);
+      const puces = `<div class="puces sous-puces"><button class="puce ${choisi ? "" : "choisi"}" data-theme-article="">Tous (${n(tous)})</button>` +
+        ordre.map(t => `<button class="puce ${t === choisi ? "choisi" : ""}" data-theme-article="${echapper(t)}">${echapper(t)} (${n(themes.get(t))})</button>`).join("") + "</div>";
+      const bloc = l => this.vue === "vignettes" ? `<div class="vignettes">${l.map(a => this._ficheArticle(a, o, true)).join("")}</div>`
+        : l.map(a => this._ficheArticle(a, o)).join("");
+      $("collection-info").textContent = `${tous.length} article(s) différent(s), ${n(tous)} en tout dans « ${o} ». ` +
+        "Touchez un thème pour n'afficher que lui, un article pour en ajouter ou en retirer un.";
+      contenu.innerHTML = puces + (choisi ? bloc(themes.get(choisi))
+        : ordre.map(t => `<p class="sous-titre theme-titre">${echapper(t)} (${n(themes.get(t))})</p>${bloc(themes.get(t))}`).join(""));
       return;
     }
 
