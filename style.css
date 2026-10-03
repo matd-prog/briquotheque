@@ -134,6 +134,12 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .fiche-base .infos { flex: 1 1 0; min-width: 0; }
 .fiche-base .fiche-actions { flex: 1 0 100%; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 .fiche-base .fiche-actions .petit { padding: 8px 10px; }
+.visionneuse-images.deux { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.visionneuse-images.deux figure { margin: 4px 0; }
+.visionneuse-images.deux img { cursor: zoom-in; }
+.visionneuse-images.deux figure.grande { grid-column: 1 / -1; }
+.visionneuse-actions { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.visionneuse-actions .bouton { width: 100%; }
 .vignettes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
 .vignette { background: var(--carte); border-radius: 12px; padding: 8px; cursor: pointer; text-align: center; }
 .vignette img.photo, .vignette .photo-custom { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; background: #fafafa; border-radius: 8px; margin-bottom: 6px; font-size: 48px; line-height: 1; }

@@ -1481,11 +1481,13 @@ const Visionneuse = {
       d.addEventListener("click", ev => { if (ev.target.closest("[data-fermer]") || ev.target === d) d.close(); });
     }
     d.innerHTML = `<div class="visionneuse-tete"><b>${echapper(titre)}</b><button class="petit" data-fermer>✕ Fermer</button></div>
-      ${lien ? `<a class="bouton bleu" href="${echapper(lien)}" target="_blank" rel="noopener">🔗 ${echapper(lienTexte || "Voir la page")}</a>` : ""}
-      ${actions.map((a, i) => `<button class="gros-bouton vert" data-vaction="${i}">${echapper(a.texte)}</button>`).join("")}
-      <div class="visionneuse-images">${images.length ? images.map((im, i) => `<figure><img data-vi="${i}" alt="">
-        <figcaption>${echapper(im.legende || "")}</figcaption></figure>`).join("") : `<p class="aide">Pas de photo.</p>`}</div>`;
+      <div class="visionneuse-images${images.length > 1 ? " deux" : ""}">${images.length ? images.map((im, i) => `<figure><img data-vi="${i}" alt="">
+        <figcaption>${echapper(im.legende || "")}</figcaption></figure>`).join("") : `<p class="aide">Pas de photo.</p>`}</div>
+      ${actions.length ? `<div class="visionneuse-actions">${actions.map((a, i) => `<button class="${i ? "bouton bleu" : "gros-bouton vert"}" data-vaction="${i}">${echapper(a.texte)}</button>`).join("")}</div>` : ""}
+      ${lien ? `<a class="bouton bleu" href="${echapper(lien)}" target="_blank" rel="noopener">🔗 ${echapper(lienTexte || "Voir la page")}</a>` : ""}`;
     d.querySelectorAll("[data-vaction]").forEach(b => b.addEventListener("click", () => { d.close(); actions[+b.dataset.vaction].faire(); }));
+    // deux photos côte à côte : une photo touchée passe en pleine largeur (touchée à nouveau : revient)
+    d.querySelectorAll(".visionneuse-images.deux img").forEach(im => im.addEventListener("click", () => im.closest("figure").classList.toggle("grande")));
     images.forEach(async (im, i) => {
       const el = d.querySelector(`img[data-vi="${i}"]`);
       let src = "";

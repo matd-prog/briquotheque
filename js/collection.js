@@ -11,6 +11,7 @@ const Collection = {
     // planche (étiquettes telles qu'imprimées) : seulement depuis l'écran Impression ; sinon liste ou vignettes
     this.vue = vue || (this.vue === "planche" ? "liste" : this.vue);
     this._chargerArticles().then(() => this.rendre()).catch(() => {}); // sets et objets dérivés
+    if (typeof Consulter !== "undefined") Consulter._chargerMesPhotos().catch(() => {}); // vos photos d'album (fiche)
     CatalogueJB.charger().then(() => this.rendre()).catch(() => {}); // photos des customs JB
     this._chargerMesBlisters().then(() => this.rendre()).catch(() => {});
     const onglets = this._onglets();
@@ -97,12 +98,27 @@ const Collection = {
           <div class="code">${echapper(details)}</div><div class="lieu">${echapper(onglet)}</div></div>${bouton}</div>`;
   },
 
-  // Set ou objet touché : un de plus, un de moins (ou le retirer), voir sa page
-  async _detailsArticle(onglet, row) {
+  // Set ou objet touché : fiche avec sa photo et ses options (modifier, un de plus, un de moins)
+  _ficheArticle2(onglet, row) {
+    const a = this._articles[onglet].find(x => String(x.row) === String(row));
+    if (!a) return;
+    const set = onglet === ONGLET_SETS, lego = !set || estLego(a), n = a.quantite || 1;
+    const image = set ? (lego ? urlImageSet(a.code) : "") : `https://img.bricklink.com/ItemImage/GN/0/${encodeURIComponent(a.code)}.png`;
+    const lien = set ? (lego ? urlBricklinkSet(a.code) : urlEbayMarque(a)) : `https://www.bricklink.com/v2/catalog/catalogitem.page?G=${encodeURIComponent(a.code)}`;
+    const details = [!lego ? a.marque : "", a.code, a.etat, n > 1 ? `${n} exemplaires` : ""].filter(Boolean).join(" · ");
+    Visionneuse.ouvrir(`${a.nom || a.code} · ${details}`, image ? [{ src: image, legende: lego ? "Photo BrickLink" : "" }] : [], lien,
+      lego ? "Voir sur BrickLink" : "Chercher sur eBay.fr", [
+        { texte: "✏️ Modifier (nom, état, prix, remarques…)", faire: () => this._modifierArticle(onglet, a) },
+        { texte: "➕ Un exemplaire de plus", faire: () => this._detailsArticle(onglet, row, 1) },
+        { texte: n > 1 ? "➖ En retirer un" : "➖ Retirer de la collection", faire: () => this._detailsArticle(onglet, row, 2) }]);
+  },
+
+  // Set ou objet : un de plus, un de moins (ou le retirer) ; choix déjà fait (fiche), sinon petit menu
+  async _detailsArticle(onglet, row, choix) {
     const a = this._articles[onglet].find(x => String(x.row) === String(row));
     if (!a) return;
     const d = this.ARTICLES[onglet], n = a.quantite || 1;
-    const i = await choisirAction(`${a.nom || a.code}\n${a.code} · ${onglet}\n${n > 1 ? `${n} exemplaires` : "1 exemplaire"}`,
+    const i = choix != null ? choix : await choisirAction(`${a.nom || a.code}\n${a.code} · ${onglet}\n${n > 1 ? `${n} exemplaires` : "1 exemplaire"}`,
       ["✏️ Modifier (nom, état, prix, remarques…)", "➕ Un exemplaire de plus", n > 1 ? "➖ En retirer un" : "➖ Retirer de la collection"]);
     if (i < 0) return;
     if (i === 0) { await this._modifierArticle(onglet, a); return; }
@@ -164,10 +180,10 @@ const Collection = {
     const th = e.target.closest("[data-theme-article]");
     if (th) { this.themeArticle[this.onglet] = th.dataset.themeArticle; this.rendre(); return; }
     const art = e.target.closest("[data-article]");
-    if (art) { this._detailsArticle(art.dataset.onglet, art.dataset.article); return; }
+    if (art) { this._ficheArticle2(art.dataset.onglet, art.dataset.article); return; }
     const b = e.target.closest("[data-case]");
     if (!b) return;
-    if (e.target.closest(".photo, .photo-custom") && b.dataset.vue !== "planche") this._photos(b.dataset.onglet, b.dataset.case);
+    if (b.dataset.vue !== "planche") this._photos(b.dataset.onglet, b.dataset.case); // fiche : photos (les vôtres d'abord) et options
     else this._details(b.dataset.onglet, b.dataset.case);
   },
 
@@ -213,7 +229,7 @@ const Collection = {
         .filter(a => mots.every(m => normaliser(`${a.nom} ${a.code} ${a.marque || ""} ${a.type || ""}`).includes(m))).map(a => this._ficheArticle(a, o)));
       if (articles.length) $("collection-info").textContent = `${res.length + articles.length} résultat(s).`;
       contenu.innerHTML = this._regrouper(res).map(g => this._fiche(g.cases[0], g.onglet, g.cases)).join("") + articles.join("");
-      if (typeof Consulter !== "undefined") Consulter.completerPhotos(contenu);
+      if (typeof Consulter !== "undefined") { Consulter.completerPhotos(contenu); this._photosAlbum(contenu); }
       return;
     }
 
@@ -242,7 +258,7 @@ const Collection = {
         "Touchez la photo pour la voir en grand, le reste pour ajouter, retirer un exemplaire ou corriger un numéro.";
       contenu.innerHTML = this.vue === "liste" ? groupes.map(g => this._fiche(g.cases[0], g.onglet, g.cases)).join("")
         : `<div class="vignettes">${groupes.map(g => this._vignette(g.cases[0], g.onglet, g.cases)).join("")}</div>`;
-      if (typeof Consulter !== "undefined") Consulter.completerPhotos(contenu);
+      if (typeof Consulter !== "undefined") { Consulter.completerPhotos(contenu); this._photosAlbum(contenu); }
       return;
     }
 
@@ -278,11 +294,23 @@ const Collection = {
   async _chargerMesBlisters() {
     const m = new Map();
     for (const e of ((await Memoire.lire("base")) || []).filter(e => e.photo && e.nom && e.possede !== false))
-      for (const k of new Set([normaliser(e.nom), normaliser(nomComplet(e))])) { if (!m.has(k)) m.set(k, []); m.get(k).push(e); }
+      for (const k of new Set([normaliser(e.nom), normaliser(nomComplet(e)), ...(e.code ? ["#" + e.code.toUpperCase()] : [])])) {
+        if (!m.has(k)) m.set(k, []); m.get(k).push(e);
+      }
     this._mesBlisters = m;
   },
-  // Mes blisters (base de blisters) d'une custom, d'après son nom
-  _miens(c) { return this._mesBlisters.get(normaliser(this._sansNumero(c.nom))) || []; },
+  // Photos de votre album (dépôt privé, avec le jeton) à la place de celles du site JB, quand il y en a
+  _photosAlbum(racine) {
+    for (const img of racine.querySelectorAll("img[data-ma-photo-prio]"))
+      Consulter.maPhoto(img.dataset.maPhotoPrio).then(url => { if (url && img.isConnected) { img.src = url; img.style.visibility = ""; } }).catch(() => {});
+  },
+  // Mes blisters (base de blisters) d'une custom : par son code (JB-…, et ses autres codes du catalogue), puis par son nom
+  _miens(c) {
+    const f = CatalogueJB.liste && CatalogueJB.trouver(c.code);
+    const codes = f ? CatalogueJB.codes(f) : [String(c.code || "").toUpperCase()];
+    const res = [...codes.flatMap(k => this._mesBlisters.get("#" + k) || []), ...(this._mesBlisters.get(normaliser(this._sansNumero(c.nom))) || [])];
+    return [...new Set(res)];
+  },
 
   // Figurine du catalogue JB d'une custom : par son code (JB-…), son lien, ou son nom (codes CUS-… : « BLACK KRRSANTAN 52/150 »)
   _jbDe(c) {
@@ -302,7 +330,8 @@ const Collection = {
     // votre photo de blister d'abord (c'est votre collection), sinon celle du catalogue JB
     const mien = this._miens(c)[0];
     if (mien) { const u = URL.createObjectURL(mien.photo); this._urls.push(u); return `<img class="photo" src="${u}" alt="">`; }
-    if (jb && jb.image) return `<img class="photo" loading="lazy" src="${echapper(jb.image)}" alt="" onerror="this.style.visibility='hidden'">`;
+    // photo de votre album (dépôt privé) : remplace celle du site JB dès qu'elle est chargée (Consulter.maPhoto)
+    if (jb && jb.image) return `<img class="photo" loading="lazy" src="${echapper(jb.image)}" alt="" data-ma-photo-prio="${echapper(jb.code)}" onerror="this.style.visibility='hidden'">`;
     if (jb) return `<img class="photo" data-ma-photo="${echapper(jb.code)}" alt="" style="visibility:hidden">`;
     return `<span class="photo-custom">🎨</span>`;
   },
@@ -377,42 +406,51 @@ const Collection = {
     const nom = (custom ? this._sansNumero(c.nom) : c.nom) || c.code;
     const images = [];
     if (custom) {
-      for (const e of this._miens(c)) images.push(...Base.imagesBlister(e).map(im => ({ ...im, legende: "Mon blister · " + im.legende })));
+      for (const e of this._miens(c)) images.push(...Base.imagesBlister(e).map(im => ({ ...im, legende: "Ma photo · " + im.legende })));
       const jb = this._jbDe(c);
+      if (jb && typeof Consulter !== "undefined" && Consulter.mesPhotos) { // vos photos d'album (dépôt privé)
+        const album = Consulter._album(jb);
+        album.forEach((ph, i) => images.push({ src: Consulter._imageAlbum(ph.photo), legende: `Mon album ${i + 1}/${album.length}${ph.numero ? ` · n° ${ph.numero}` : ""}` }));
+      }
       if (jb && jb.image) images.push({ src: jb.image, legende: "Photo du site JB Spielwaren" });
     } else images.push({ src: imageBricklink(c.code), legende: "Photo BrickLink" });
     const texte = !lien ? "" : estLienEbay(lien) ? "Chercher sur eBay.de" : /jb-spielwaren/i.test(lien) ? "Voir chez JB Spielwaren"
       : /bricklink/i.test(lien) ? "Voir sur BrickLink" : "Voir sa page";
-    Visionneuse.ouvrir(`${nom} · ${c.code}`, images, lien || "", texte,
-      [{ texte: "✏️ Exemplaires, numéros, nom…", faire: () => this._details(onglet, ref) }]);
+    const nums = cases.map(x => this._numero(x)).filter(Boolean);
+    const titre = `${nom} · ${c.code} · ${cases.length > 1 ? `${cases.length} exemplaires` : "1 exemplaire"}${nums.length ? ` (n° ${nums.join(", ")})` : ""}`;
+    Visionneuse.ouvrir(titre, images, lien || "", texte, this._actionsFigurine(onglet, g).filter(a => a.cle !== "lien"));
   },
 
-  // Figurine touchée : petit menu (exemplaire de plus sans photo, en retirer un, corriger un n°, page BrickLink ou du fabricant)
+  // Options d'une figurine (fiche avec photos, ou menu de la planche)
+  _actionsFigurine(onglet, g) {
+    const { c, cases } = g, custom = onglet === THEME_CUSTOMS.onglet, lien = this._lien(c, onglet);
+    const nums = cases.map(x => this._numero({ ...x, onglet })).filter(Boolean);
+    const a = (cle, texte, faire) => ({ cle, texte, faire });
+    return [
+      ...(custom ? [a("blister", this._miens(c).length ? "📷 Changer les photos (recto, verso), recadrer, n°, note" : "📷 Ajouter la photo du blister", () => this._blisters(c, cases))] : []),
+      a("plus", "➕ Ajouter un exemplaire" + (custom ? " (nouveau n°)" : ""), () => exemplaireEnPlus(c, onglet)),
+      a("moins", cases.length > 1 ? "➖ Retirer un exemplaire" : "➖ Retirer de la collection", () => this._retirer(onglet, cases)),
+      ...(custom ? [a("numero", nums.length ? "✏️ Corriger un numéro" : "✏️ Indiquer le numéro", () => this._corrigerNumero(onglet, cases))] : []),
+      a("nom", "🔤 Renommer" + (cases.length > 1 ? ` (les ${cases.length} exemplaires)` : ""), () => this._renommer(onglet, cases)),
+      ...(lien ? [a("lien", custom ? "🔗 Voir la page" : "🔗 Voir sur BrickLink", () => {
+        const l = lienOuvrable(lien);
+        if (l.startsWith("intent:")) location.href = l; else window.open(l, "_blank", "noopener");
+      })] : []),
+    ];
+  },
+
+  // Case de la planche touchée : petit menu (exemplaire de plus sans photo, en retirer un, corriger un n°, page BrickLink ou du fabricant)
   async _details(onglet, ref) {
     const g = this._groupeDe(onglet, ref);
     if (!g) { toast(`Case ${ref} : vide.`); return; }
     const { c, cases } = g, custom = onglet === THEME_CUSTOMS.onglet, lien = this._lien(c, onglet);
     const nums = cases.map(x => this._numero({ ...x, onglet })).filter(Boolean);
-    const actions = [["plus", "➕ Ajouter un exemplaire" + (custom ? " (nouveau n°)" : "")],
-                     ["moins", cases.length > 1 ? "➖ Retirer un exemplaire" : "➖ Retirer de la collection"]];
-    if (custom) actions.push(["blister", this._miens(c).length ? "📷 Photos du blister (recto, verso), n°, note" : "📷 Ajouter la photo du blister"]);
-    if (custom) actions.push(["numero", nums.length ? "✏️ Corriger un numéro" : "✏️ Indiquer le numéro"]);
-    actions.push(["nom", "🔤 Renommer" + (cases.length > 1 ? ` (les ${cases.length} exemplaires)` : "")]);
-    if (lien) actions.push(["lien", custom ? "🔗 Voir la page" : "🔗 Voir sur BrickLink"]);
+    const actions = this._actionsFigurine(onglet, g);
     const titre = `${(custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)"}\n${c.code} · ${ongletAffiche(onglet)}\n` +
       (cases.length > 1 ? `${cases.length} exemplaires` : "1 exemplaire") + (nums.length ? ` (n° ${nums.join(", ")})` : "") +
       (etat.classeur && etat.classeur.estBase ? "" : ` · ${cases.length > 1 ? "cases" : "case"} ${cases.map(x => x.ref).join(", ")}`);
-    const i = await choisirAction(titre, actions.map(a => a[1]));
-    const action = i >= 0 ? actions[i][0] : "";
-    if (action === "plus") exemplaireEnPlus(c, onglet);
-    else if (action === "moins") await this._retirer(onglet, cases);
-    else if (action === "numero") await this._corrigerNumero(onglet, cases);
-    else if (action === "blister") await this._blisters(c, cases);
-    else if (action === "nom") await this._renommer(onglet, cases);
-    else if (action === "lien") {
-      const l = lienOuvrable(lien);
-      if (l.startsWith("intent:")) location.href = l; else window.open(l, "_blank", "noopener");
-    }
+    const i = await choisirAction(titre, actions.map(a => a.texte));
+    if (i >= 0) await actions[i].faire();
   },
 
   // Blisters de cette custom dans « Ma base de blisters » (photos recto et verso, n°, note) : ouverts là-bas, la fiche
@@ -444,10 +482,13 @@ const Collection = {
       await this._chargerMesBlisters();
       toast(`Photo ajoutée ✔ : ajoutez le verso, recadrez si besoin`, 4500);
     } else await Base.ouvrir();
-    if ($("base-filtre")) $("base-filtre").value = nom;
+    // vos blisters de cette figurine (par son code JB, ou son nom) : la liste filtrée sur leur nom imprimé
+    const ids = new Set(this._miens(c).map(e => e.id));
+    let miens = Base.entrees.filter(e => ids.has(e.id));
+    if (!miens.length) miens = Base.entrees.filter(e => normaliser(e.nom) === normaliser(nom) || normaliser(nomComplet(e)) === normaliser(nom));
+    if ($("base-filtre")) $("base-filtre").value = miens.length ? miens[0].nom : nom;
     Base.vue = "photos";
     Base._afficherListe();
-    const miens = Base.entrees.filter(e => normaliser(e.nom) === normaliser(nom) || normaliser(nomComplet(e)) === normaliser(nom));
     if (miens.length === 1) Base.modifier(miens[0].id);
     const zone = $("base-liste");
     if (zone) zone.scrollIntoView({ block: "start" });
