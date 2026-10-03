@@ -94,7 +94,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v108"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v109"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -235,8 +235,10 @@ function liensFiche(lien, titre) {
   if (!lien) return "";
   const l = lienOuvrable(lien);
   const cible = l.startsWith("intent:") ? "" : ` target="_blank" rel="noopener"`;
-  return estLienEbay(lien)
-    ? `<a class="lien-ebay" href="${echapper(l)}"${cible} title="Chercher sur eBay.de">🔎 eBay.de</a>`
+  if (estLienEbay(lien)) return `<a class="lien-ebay" href="${echapper(l)}"${cible} title="Chercher sur eBay.de">🔎 eBay.de</a>`;
+  // page nommée, comme eBay.de : JB Spielwaren, BrickLink, brickshellcases…
+  const site = /jb-spielwaren/i.test(lien) ? "JB" : /bricklink/i.test(lien) ? "BrickLink" : /brickshell/i.test(lien) ? "Brickshell" : "";
+  return site ? `<a class="lien-ebay" href="${echapper(l)}"${cible} title="${echapper(titre)}">🔗 ${site}</a>`
     : `<a href="${echapper(l)}"${cible} title="${echapper(titre)}">🔗</a>`;
 }
 
@@ -953,12 +955,12 @@ function codeCustom(lien, nom) {
   // figurine JB revendue par brickshellcases.com : son numéro d'article JB est connu
   const f = CatalogueJB.parLien(lien);
   if (f && f.code.startsWith("JB-")) return f.code;
-  // autre exemplaire d'une figurine déjà dans la collection (même lien, même nom sans le n°) : même code
+  // autre exemplaire d'une figurine déjà dans la collection (même nom sans le n°) : même code
   // (sinon chaque exemplaire recevait un nouveau CUS-…, ex. trois « The Emerald Marksman », 02/10)
-  if (nom && lien) {
-    const cle = cleCustom(lien, nom);
+  if (nom) {
+    const cle = cleCustom(nom);
     for (const o of Object.values(etat.collection)) {
-      const c = o.cases.find(c => /^CUS-\d+$/i.test(c.code || "") && c.lien && cleCustom(c.lien, c.nom) === cle);
+      const c = o.cases.find(c => /^CUS-\d+$/i.test(c.code || "") && cleCustom(c.nom) === cle);
       if (c) return c.code;
     }
   }
@@ -968,23 +970,36 @@ function codeCustom(lien, nom) {
   return "CUS-" + String(max + 1).padStart(3, "0");
 }
 
-// Figurine custom : son lien et son nom sans le n° d'exemplaire (« The Emerald Marksman 4/100 » -> « the emerald marksman »)
-function cleCustom(lien, nom) {
-  return String(lien).trim().toLowerCase() + "|" + normaliser(String(nom || "")).replace(/\s+\d+(\s*\/\s*\d+)?\s*$/, "").replace(/\s+/g, " ").trim();
+// Figurine custom : son nom sans le n° d'exemplaire (« The Emerald Marksman 4/100 », « CUTIE POOL 36 » -> nom seul ;
+// n° seul : 3 chiffres au plus, pour ne pas prendre une année)
+function cleCustom(nom) {
+  return normaliser(String(nom || "")).replace(/\s*(\d{1,4}\s*\/\s*\d{1,4}|\s\d{1,3})\s*$/, "").replace(/\s+/g, " ").trim();
 }
 
-// Exemplaires d'une même figurine custom enregistrés sous plusieurs codes CUS-… (avant la v105) : regroupés sous le
-// premier code. Collection rangée dans l'appli seulement ; renvoie le nombre de figurines recodées.
+// Exemplaires d'une même custom (même nom sans le n°) enregistrés sous plusieurs codes : les CUS-… prennent le code
+// JB-… de la figurine s'il y en a un, sinon le premier CUS-… (et le lien qui manque). Collection rangée dans l'appli
+// seulement ; renvoie le nombre de figurines recodées.
 function regrouperCustoms() {
   if (!etat.classeur || !etat.classeur.estBase || !etat.classeur.figRecoder) return 0;
-  const premier = new Map();
+  const o = etat.collection[THEME_CUSTOMS.onglet];
+  if (!o) return 0;
+  const groupes = new Map();
+  for (const c of o.cases.filter(c => /^(CUS|JB)-/i.test(c.code || "")).sort((a, b) => a.row - b.row)) {
+    const k = cleCustom(c.nom);
+    if (!k) continue;
+    if (!groupes.has(k)) groupes.set(k, []);
+    groupes.get(k).push(c);
+  }
   let n = 0;
-  const cases = Object.values(etat.collection).flatMap(o => o.cases).filter(c => /^CUS-\d+$/i.test(c.code || "") && c.lien)
-    .sort((a, b) => a.row - b.row);
-  for (const c of cases) {
-    const k = cleCustom(c.lien, c.nom);
-    if (!premier.has(k)) { premier.set(k, c.code); continue; }
-    if (premier.get(k) !== c.code) { etat.classeur.figRecoder(c.row, premier.get(k)); c.code = premier.get(k); n++; }
+  for (const g of groupes.values()) {
+    const ref = g.find(c => /^JB-/i.test(c.code)) || g[0];
+    const lien = ref.lien || (g.find(c => c.lien) || {}).lien || "";
+    for (const c of g.filter(c => /^CUS-/i.test(c.code))) {
+      const nouveauLien = /^JB-/i.test(ref.code) ? ref.lien || c.lien : c.lien || lien;
+      if (c.code === ref.code && (c.lien || "") === (nouveauLien || "")) continue;
+      etat.classeur.figRecoder(c.row, ref.code, nouveauLien || "");
+      n++;
+    }
   }
   return n;
 }
@@ -1688,6 +1703,7 @@ document.addEventListener("click", async e => {
   const action = b.dataset.action;
   if (action === "accueil") afficher(etat.classeur ? "accueil" : "fichier");
   else if (action === "retour-entete") retourEntete();
+  else if (action === "voir-planches") Collection.ouvrir("planche"); // depuis Impression
   else if (action === "voir-ajout") { // Ma collection, sur l'onglet de la figurine ajoutée
     const o = etat.dernierAjout && etat.dernierAjout.onglet;
     if (o) Collection.onglet = o;

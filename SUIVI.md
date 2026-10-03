@@ -125,6 +125,14 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v109 (03/10) : MA COLLECTION (demandes de Mathias). Vues « Liste » et « Vignettes » (grille de photos) ; la
+    « Planche » n'est plus là : écran Impression -> « 🗂️ Voir les étiquettes rangées en planches ». Plus de « case n°… »
+    (collection dans l'appli) dans les menus, questions et messages. Photo touchée : photos en grand (vos blisters recto
+    et verso, puis photo JB), lien vers la page, bouton « ✏️ Exemplaires, numéros, nom… » ; le reste de la fiche ouvre le
+    menu. Photo de la fiche : la vôtre d'abord. Liens nommés comme « 🔎 eBay.de » : « 🔗 JB », « 🔗 BrickLink »,
+    « 🔗 Brickshell ». REGROUPEMENT : n° seul à la fin du nom (« CUTIE POOL 36 », « 144 ») = numéro (3 chiffres au plus,
+    pas une année) ; regrouperCustoms par nom (sans le lien) : les CUS-… prennent le code JB-… de la même figurine s'il
+    existe, sinon le premier CUS-… (Junkyard Fatty CUS-010 + CUS-013 -> CUS-010, avec le lien eBay.de).
   · v108 (02/10) : PHOTOS COUCHÉES SUR IPHONE (Mathias : pas de rotation automatique sur la version iPhone). Safari ne
     tient pas toujours compte du sens EXIF dans createImageBitmap (les <img> oui). js/orientation.js (chargé en premier,
     deux applis) : test au démarrage avec une photo 4×2 « à tourner » ; si elle n'est pas tournée, chaque photo passe par

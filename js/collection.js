@@ -7,7 +7,9 @@ const Collection = {
   _urls: [],
   _tour: 0, // évite qu'un ancien affichage (plus lent) remplace le plus récent
 
-  ouvrir() {
+  ouvrir(vue) {
+    // planche (étiquettes telles qu'imprimées) : seulement depuis l'écran Impression ; sinon liste ou vignettes
+    this.vue = vue || (this.vue === "planche" ? "liste" : this.vue);
     CatalogueJB.charger().then(() => this.rendre()).catch(() => {}); // photos des customs JB
     this._chargerMesBlisters().then(() => this.rendre()).catch(() => {});
     const onglets = Object.keys(etat.collection || {});
@@ -34,11 +36,16 @@ const Collection = {
       $("collection-recherche").value = "";
       this.rendre();
     });
-    $("collection-contenu").addEventListener("click", e => {
-      if (e.target.closest("a")) return; // lien 🔗 de la fiche
-      const b = e.target.closest("[data-case]");
-      if (b) this._details(b.dataset.onglet, b.dataset.case);
-    });
+    $("collection-contenu").addEventListener("click", e => this.clic(e));
+  },
+
+  // Fiche ou vignette touchée : sa photo -> photos en grand ; le reste -> menu (exemplaires, numéro, nom)
+  clic(e) {
+    if (e.target.closest("a")) return; // lien vers la page (JB, eBay.de, BrickLink)
+    const b = e.target.closest("[data-case]");
+    if (!b) return;
+    if (e.target.closest(".photo, .photo-custom") && b.dataset.vue !== "planche") this._photos(b.dataset.onglet, b.dataset.case);
+    else this._details(b.dataset.onglet, b.dataset.case);
   },
 
   _figurines(onglet) {
@@ -56,7 +63,7 @@ const Collection = {
       <button class="puce ${!texte && o === this.onglet ? "choisi" : ""}" data-onglet="${echapper(o)}">
         <span class="pastille" style="background:${couleurOnglet(o)}"></span>${echapper(o)} (${this._figurines(o).length})
       </button>`).join("");
-    $("collection-bascule").hidden = !!texte;
+    $("collection-bascule").hidden = !!texte || this.vue === "planche"; // planche : ouverte depuis Impression
     $("collection-bascule").querySelectorAll("[data-vue]").forEach(b => b.classList.toggle("choisi", b.dataset.vue === this.vue));
 
     const contenu = $("collection-contenu");
@@ -76,16 +83,17 @@ const Collection = {
     }
 
     const figs = this._figurines(this.onglet);
-    if (this.vue === "liste") {
+    if (this.vue === "liste" || this.vue === "vignettes") {
       const groupes = this._regrouper(figs.map(c => ({ ...c, onglet: this.onglet })));
       $("collection-info").textContent = `${groupes.length} figurine(s) différente(s), ${figs.length} exemplaire(s) dans « ${this.onglet} ». ` +
-        "Touchez une figurine pour ajouter, retirer un exemplaire ou corriger un numéro.";
-      contenu.innerHTML = groupes.map(g => this._fiche(g.cases[0], g.onglet, g.cases)).join("");
+        "Touchez la photo pour la voir en grand, le reste pour ajouter, retirer un exemplaire ou corriger un numéro.";
+      contenu.innerHTML = this.vue === "liste" ? groupes.map(g => this._fiche(g.cases[0], g.onglet, g.cases)).join("")
+        : `<div class="vignettes">${groupes.map(g => this._vignette(g.cases[0], g.onglet, g.cases)).join("")}</div>`;
       if (typeof Consulter !== "undefined") Consulter.completerPhotos(contenu);
       return;
     }
 
-    // Planche : la grille des cases A à E telle qu'elle sera imprimée
+    // Planche (depuis Impression) : la grille des cases A à E telle qu'elle sera imprimée
     $("collection-info").textContent = `Planche « ${this.onglet} » : ${figs.length} figurine(s). Touchez une case pour son détail.`;
     contenu.innerHTML = `<p class="aide">Chargement…</p>`;
     const images = await etat.classeur.imagesEtiquettes(this.onglet);
@@ -101,7 +109,7 @@ const Collection = {
       } else if (c.code) {
         dedans = `<span class="sans">${echapper(c.code)}<br>sans étiquette</span>`;
       }
-      return `<button class="case" style="background:${couleur}" data-onglet="${echapper(this.onglet)}" data-case="${c.ref}"
+      return `<button class="case" style="background:${couleur}" data-vue="planche" data-onglet="${echapper(this.onglet)}" data-case="${c.ref}"
         aria-label="${echapper(c.ref + " " + (c.nom || "case vide"))}">${dedans}</button>`;
     }).join("")}</div>`;
   },
@@ -116,10 +124,12 @@ const Collection = {
   _mesBlisters: new Map(),
   async _chargerMesBlisters() {
     const m = new Map();
-    for (const e of ((await Memoire.lire("base")) || []).filter(e => e.photo && e.nom))
-      for (const k of [normaliser(e.nom), normaliser(nomComplet(e))]) if (!m.has(k)) m.set(k, e.photo);
+    for (const e of ((await Memoire.lire("base")) || []).filter(e => e.photo && e.nom && e.possede !== false))
+      for (const k of new Set([normaliser(e.nom), normaliser(nomComplet(e))])) { if (!m.has(k)) m.set(k, []); m.get(k).push(e); }
     this._mesBlisters = m;
   },
+  // Mes blisters (base de blisters) d'une custom, d'après son nom
+  _miens(c) { return this._mesBlisters.get(normaliser(this._sansNumero(c.nom))) || []; },
 
   // Figurine du catalogue JB d'une custom : par son code (JB-…), son lien, ou son nom (codes CUS-… : « BLACK KRRSANTAN 52/150 »)
   _jbDe(c) {
@@ -129,15 +139,17 @@ const Collection = {
     if (!this._jbParNom) this._jbParNom = new Map(CatalogueJB.liste.map(f => [normaliser(nomCustomPourFichier(f.nom)), f]));
     return this._jbParNom.get(normaliser(this._sansNumero(c.nom))) || null;
   },
-  _sansNumero(nom) { return (nom || "").replace(/\s*\d{1,4}\s*\/\s*\d{1,4}\s*$/, "").trim(); },
+  // n° à la fin du nom : « 52/150 », ou seul (« CUTIE POOL 36 » : jusqu'à 3 chiffres, pour ne pas prendre une année)
+  _sansNumero(nom) { return (nom || "").replace(/\s*(\d{1,4}\s*\/\s*\d{1,4}|\s\d{1,3})\s*$/, "").trim(); },
 
   // Photo d'une custom : celle du catalogue JB, sinon votre photo de blister (base de blisters, puis album
   // photo du dépôt privé), sinon un pictogramme
   _photoCustom(c) {
     const jb = this._jbDe(c);
+    // votre photo de blister d'abord (c'est votre collection), sinon celle du catalogue JB
+    const mien = this._miens(c)[0];
+    if (mien) { const u = URL.createObjectURL(mien.photo); this._urls.push(u); return `<img class="photo" src="${u}" alt="">`; }
     if (jb && jb.image) return `<img class="photo" loading="lazy" src="${echapper(jb.image)}" alt="" onerror="this.style.visibility='hidden'">`;
-    const mien = this._mesBlisters.get(normaliser(this._sansNumero(c.nom)));
-    if (mien) { const u = URL.createObjectURL(mien); this._urls.push(u); return `<img class="photo" src="${u}" alt="">`; }
     if (jb) return `<img class="photo" data-ma-photo="${echapper(jb.code)}" alt="" style="visibility:hidden">`;
     return `<span class="photo-custom">🎨</span>`;
   },
@@ -155,18 +167,23 @@ const Collection = {
     }
     return [...groupes.values()];
   },
-  _numero(c) { const m = /(\d{1,4})\s*\/\s*(\d{1,4})\s*$/.exec(c.nom || ""); return m ? `${m[1]}/${m[2]}` : ""; },
+  _numero(c) {
+    const m = /(\d{1,4})\s*\/\s*(\d{1,4})\s*$/.exec(c.nom || ""), seul = !m && c.onglet === THEME_CUSTOMS.onglet && /\s(\d{1,3})\s*$/.exec(c.nom || "");
+    return m ? `${m[1]}/${m[2]}` : seul ? seul[1] : "";
+  },
+  _base() { return !!(etat.classeur && etat.classeur.estBase); },
   _groupeDe(onglet, ref) {
     const c = etat.collection[onglet].cases.find(x => x.ref === ref);
     if (!c || !c.code) return null;
     const k = this._cle(c, onglet);
-    return { c, cases: etat.collection[onglet].cases.filter(x => x.code && this._cle(x, onglet) === k) };
+    return { c: { ...c, onglet }, cases: etat.collection[onglet].cases.filter(x => x.code && this._cle(x, onglet) === k).map(x => ({ ...x, onglet })) };
   },
 
   _fiche(c, onglet, cases = [c]) {
     const custom = onglet === THEME_CUSTOMS.onglet, n = cases.length;
     const nums = cases.map(x => this._numero(x)).filter(Boolean);
     const lieux = n > 1 ? `cases ${cases.map(x => x.ref).join(", ")}` : `case ${c.ref}`;
+    cases = cases.map(x => ({ ...x, onglet }));
     return `
       <div class="fiche cliquable" data-onglet="${echapper(onglet)}" data-case="${c.ref}">
         ${custom ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
@@ -179,12 +196,43 @@ const Collection = {
       </div>`;
   },
 
+  // Vignette : grande photo, nom, nombre d'exemplaires et n°
+  _vignette(c, onglet, cases = [c]) {
+    const custom = onglet === THEME_CUSTOMS.onglet, n = cases.length;
+    const nums = cases.map(x => this._numero({ ...x, onglet })).filter(Boolean);
+    return `
+      <div class="vignette cliquable" data-onglet="${echapper(onglet)}" data-case="${c.ref}">
+        ${custom ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
+        <div class="nom-court">${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
+        <div class="code">${echapper(c.code)}${nums.length ? ` · n° ${echapper(nums.join(", "))}` : ""}</div>
+      </div>`;
+  },
+
+  // Photos en grand d'une figurine : vos blisters (recto, verso de chaque exemplaire), puis la photo du catalogue ;
+  // lien vers sa page (JB Spielwaren, eBay.de, BrickLink)
+  _photos(onglet, ref) {
+    const g = this._groupeDe(onglet, ref);
+    if (!g) return;
+    const { c, cases } = g, custom = onglet === THEME_CUSTOMS.onglet, lien = this._lien(c, onglet);
+    const nom = (custom ? this._sansNumero(c.nom) : c.nom) || c.code;
+    const images = [];
+    if (custom) {
+      for (const e of this._miens(c)) images.push(...Base.imagesBlister(e).map(im => ({ ...im, legende: "Mon blister · " + im.legende })));
+      const jb = this._jbDe(c);
+      if (jb && jb.image) images.push({ src: jb.image, legende: "Photo du site JB Spielwaren" });
+    } else images.push({ src: imageBricklink(c.code), legende: "Photo BrickLink" });
+    const texte = !lien ? "" : estLienEbay(lien) ? "Chercher sur eBay.de" : /jb-spielwaren/i.test(lien) ? "Voir chez JB Spielwaren"
+      : /bricklink/i.test(lien) ? "Voir sur BrickLink" : "Voir sa page";
+    Visionneuse.ouvrir(`${nom} · ${c.code}`, images, lien || "", texte,
+      [{ texte: "✏️ Exemplaires, numéros, nom…", faire: () => this._details(onglet, ref) }]);
+  },
+
   // Figurine touchée : petit menu (exemplaire de plus sans photo, en retirer un, corriger un n°, page BrickLink ou du fabricant)
   async _details(onglet, ref) {
     const g = this._groupeDe(onglet, ref);
     if (!g) { toast(`Case ${ref} : vide.`); return; }
     const { c, cases } = g, custom = onglet === THEME_CUSTOMS.onglet, lien = this._lien(c, onglet);
-    const nums = cases.map(x => this._numero(x)).filter(Boolean);
+    const nums = cases.map(x => this._numero({ ...x, onglet })).filter(Boolean);
     const actions = [["plus", "➕ Ajouter un exemplaire" + (custom ? " (nouveau n°)" : "")],
                      ["moins", cases.length > 1 ? "➖ Retirer un exemplaire" : "➖ Retirer de la collection"]];
     if (custom) actions.push(["numero", nums.length ? "✏️ Corriger un numéro" : "✏️ Indiquer le numéro"]);
@@ -208,7 +256,7 @@ const Collection = {
   // Exemplaire concerné : le seul, ou celui choisi dans la liste (n° et case)
   async _choisirExemplaire(question, cases) {
     if (cases.length === 1) return cases[0];
-    const i = await choisirAction(question, cases.map(x => `${this._numero(x) ? "n° " + this._numero(x) : "sans n°"} · case ${x.ref}`));
+    const i = await choisirAction(question, cases.map(x => `${this._numero(x) ? "n° " + this._numero(x) : "sans n°"}${this._base() ? "" : ` · case ${x.ref}`}`));
     return i >= 0 ? cases[i] : null;
   },
 
@@ -218,7 +266,7 @@ const Collection = {
       etat.nonEnregistres++;
       await memoriser();
       await relireContenu();
-      toast(`${message} ✔ (pensez à « Enregistrer »)`, 4500);
+      toast(`${message} ✔${this._base() ? "" : " (pensez à « Enregistrer »)"}`, 4500);
     } catch (err) {
       console.error(err);
       const m = await Memoire.lire();
@@ -231,8 +279,8 @@ const Collection = {
   async _retirer(onglet, cases) {
     const x = await this._choisirExemplaire("Quel exemplaire retirer ?", cases);
     if (!x) return;
-    const quoi = `« ${x.nom || x.code} » (${onglet}, case ${x.ref})`;
-    if (!(await demander(`Retirer ${quoi} de votre collection ?\n\nSon étiquette est effacée et la case redevient libre.`, "Retirer", "Annuler"))) return;
+    const quoi = this._base() ? `« ${x.nom || x.code} »` : `« ${x.nom || x.code} » (${onglet}, case ${x.ref})`;
+    if (!(await demander(`Retirer ${quoi} de votre collection ?` + (this._base() ? "" : "\n\nSon étiquette est effacée et la case redevient libre."), "Retirer", "Annuler"))) return;
     await this._modifierFichier(() => retirerFigurine(etat.classeur, onglet, x.row, x.col), `${quoi} retiré`);
   },
 
@@ -254,15 +302,15 @@ const Collection = {
     const x = await this._choisirExemplaire("Quel exemplaire corriger ?", cases);
     if (!x) return;
     const ancien = this._numero(x), serie = ancien.split("/")[1] || (cases.map(y => this._numero(y)).find(Boolean) || "").split("/")[1] || "";
-    const saisi = await demanderTexte(`Numéro de cet exemplaire (case ${x.ref})${serie ? `, série limitée à ${serie}` : ""} :`, ancien || (serie ? "/" + serie : ""), { chiffres: true });
+    const saisi = await demanderTexte(`Numéro de cet exemplaire${this._base() ? "" : ` (case ${x.ref})`}${serie ? `, série limitée à ${serie}` : ""} :`, ancien || (serie ? "/" + serie : ""), { chiffres: true });
     if (saisi == null) return;
     const m = /^(\d{1,4})\s*(?:\/\s*(\d{1,4}))?$/.exec(saisi);
     if (!m) { await demander(`« ${saisi} » : tapez un numéro, par exemple 52 ou 52/150.`, "OK", "Fermer"); return; }
     const nouveau = `${+m[1]}${m[2] || serie ? "/" + (m[2] || serie) : ""}`;
     if (nouveau === ancien) return;
     const pris = cases.find(y => y !== x && this._numero(y) === nouveau);
-    if (pris) { await demander(`Le n° ${nouveau} est déjà enregistré (case ${pris.ref}).`, "OK", "Fermer"); return; }
+    if (pris) { await demander(`Le n° ${nouveau} est déjà enregistré${this._base() ? "" : ` (case ${pris.ref})`}.`, "OK", "Fermer"); return; }
     const nom = `${this._sansNumero(x.nom)} ${nouveau}`.trim();
-    await this._modifierFichier(() => renommerFigurine(etat.classeur, onglet, x.row, x.col, nom), `Case ${x.ref} : n° ${nouveau}`);
+    await this._modifierFichier(() => renommerFigurine(etat.classeur, onglet, x.row, x.col, nom), this._base() ? `N° ${nouveau}` : `Case ${x.ref} : n° ${nouveau}`);
   },
 };

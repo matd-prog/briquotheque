@@ -66,7 +66,7 @@
 
     <p class="section-titre">📖 Ma collection</p>
     <div class="tuiles">
-      <button class="tuile" data-action="collection"><span class="icone">📖</span><b>Ma collection</b><small>Liste, planches, exemplaires</small></button>
+      <button class="tuile" data-action="collection"><span class="icone">📖</span><b>Ma collection</b><small>Liste, vignettes, exemplaires</small></button>
       <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
       <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
       <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
@@ -139,7 +139,7 @@
     <div id="collection-onglets" class="puces"></div>
     <div class="bascule" id="collection-bascule">
       <button data-vue="liste" class="choisi">Liste</button>
-      <button data-vue="planche">Planche</button>
+      <button data-vue="vignettes">Vignettes</button>
     </div>
     <p class="aide" id="collection-info"></p>
     <div id="collection-contenu"></div>
@@ -594,6 +594,7 @@
     <div class="pas-imprime colonne">
       <p class="intro">🖨️ <b>Imprimer des étiquettes</b><br><small>Sur une planche d'étiquettes autocollantes (A4) ou une
         imprimante d'étiquettes en rouleau. Choisissez le modèle de vos étiquettes, ou entrez vos propres mesures.</small></p>
+      <button class="bouton gris" data-action="voir-planches">🗂️ Voir les étiquettes rangées en planches (par onglet)</button>
       <p class="sous-titre">1. Quelles étiquettes ?</p>
       <div id="imp-sources" class="puces"></div>
       <label class="case-a-cocher"><input type="checkbox" id="imp-nouvelles" checked> Seulement celles pas encore imprimées</label>
