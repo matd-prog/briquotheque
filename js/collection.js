@@ -12,7 +12,7 @@ const Collection = {
     this.vue = vue || (this.vue === "planche" ? "liste" : this.vue);
     CatalogueJB.charger().then(() => this.rendre()).catch(() => {}); // photos des customs JB
     this._chargerMesBlisters().then(() => this.rendre()).catch(() => {});
-    const onglets = Object.keys(etat.collection || {});
+    const onglets = this._onglets();
     if (!onglets.includes(this.onglet)) this.onglet = onglets.find(o => this._figurines(o).length) || onglets[0];
     $("collection-recherche").value = "";
     afficher("collection");
@@ -48,8 +48,16 @@ const Collection = {
     else this._details(b.dataset.onglet, b.dataset.case);
   },
 
+  // Onglets montrés : Gentils (vert), Méchants (rouge) et Zone grise réunis sous « Star Wars » (le camp ne sert qu'à la
+  // couleur des étiquettes, à l'impression) ; la planche (depuis Impression) garde les vrais onglets
+  _onglets() {
+    const vrais = Object.keys(etat.collection || {});
+    return this.vue === "planche" ? vrais : [...new Set(vrais.map(ongletAffiche))];
+  },
+  // Figurines d'un onglet montré, chacune avec son vrai onglet (pour les modifier)
   _figurines(onglet) {
-    return etat.collection[onglet].cases.filter(c => c.code);
+    const vrais = this.vue === "planche" ? [onglet] : Object.keys(etat.collection).filter(o => ongletAffiche(o) === onglet);
+    return vrais.flatMap(o => etat.collection[o].cases.filter(c => c.code).map(c => ({ ...c, onglet: o })));
   },
 
   async rendre() {
@@ -57,7 +65,7 @@ const Collection = {
     this._urls.forEach(u => URL.revokeObjectURL(u));
     this._urls = [];
     const texte = $("collection-recherche").value.trim();
-    const onglets = Object.keys(etat.collection);
+    const onglets = this._onglets();
 
     $("collection-onglets").innerHTML = onglets.map(o => `
       <button class="puce ${!texte && o === this.onglet ? "choisi" : ""}" data-onglet="${echapper(o)}">
@@ -72,7 +80,7 @@ const Collection = {
       const res = [];
       for (const o of onglets)
         for (const c of this._figurines(o))
-          if (mots.every(m => normaliser(`${c.nom} ${c.code}`).includes(m))) res.push({ ...c, onglet: o });
+          if (mots.every(m => normaliser(`${c.nom} ${c.code}`).includes(m))) res.push(c);
       const total = onglets.reduce((s, o) => s + this._figurines(o).length, 0);
       $("collection-info").textContent = res.length
         ? `${res.length} résultat(s) sur ${total} figurines.`
@@ -84,7 +92,7 @@ const Collection = {
 
     const figs = this._figurines(this.onglet);
     if (this.vue === "liste" || this.vue === "vignettes") {
-      const groupes = this._regrouper(figs.map(c => ({ ...c, onglet: this.onglet })));
+      const groupes = this._regrouper(figs);
       $("collection-info").textContent = `${groupes.length} figurine(s) différente(s), ${figs.length} exemplaire(s) dans « ${this.onglet} ». ` +
         "Touchez la photo pour la voir en grand, le reste pour ajouter, retirer un exemplaire ou corriger un numéro.";
       contenu.innerHTML = this.vue === "liste" ? groupes.map(g => this._fiche(g.cases[0], g.onglet, g.cases)).join("")
@@ -190,7 +198,7 @@ const Collection = {
         <div class="infos">
           <div class="nom-court">${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
           <div class="code">${echapper(c.code)}${nums.length ? ` · n° ${echapper(nums.join(", "))}` : ""}</div>
-          <div class="lieu">${echapper(onglet)}${etat.classeur && etat.classeur.estBase ? "" : `, ${lieux}`}${cases.some(x => !x.image) ? " · sans étiquette" : ""}</div>
+          <div class="lieu">${echapper(ongletAffiche(onglet))}${etat.classeur && etat.classeur.estBase ? "" : `, ${lieux}`}${cases.some(x => !x.image) ? " · sans étiquette" : ""}</div>
         </div>
         ${liensFiche(this._lien(c, onglet), "Voir la page")}
       </div>`;
@@ -238,7 +246,7 @@ const Collection = {
     if (custom) actions.push(["numero", nums.length ? "✏️ Corriger un numéro" : "✏️ Indiquer le numéro"]);
     actions.push(["nom", "🔤 Renommer" + (cases.length > 1 ? ` (les ${cases.length} exemplaires)` : "")]);
     if (lien) actions.push(["lien", custom ? "🔗 Voir la page" : "🔗 Voir sur BrickLink"]);
-    const titre = `${(custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)"}\n${c.code} · ${onglet}\n` +
+    const titre = `${(custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)"}\n${c.code} · ${ongletAffiche(onglet)}\n` +
       (cases.length > 1 ? `${cases.length} exemplaires` : "1 exemplaire") + (nums.length ? ` (n° ${nums.join(", ")})` : "") +
       (etat.classeur && etat.classeur.estBase ? "" : ` · ${cases.length > 1 ? "cases" : "case"} ${cases.map(x => x.ref).join(", ")}`);
     const i = await choisirAction(titre, actions.map(a => a[1]));

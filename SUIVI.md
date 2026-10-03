@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v110 (03/10) : CAMPS STAR WARS CACHÉS (Mathias). Gentils (vert), Méchants (rouge), Zone grise réunis sous « Star Wars »
+    dans Ma collection (onglets, fiches, recherche), les statistiques et les messages « déjà … exemplaires » (ongletAffiche,
+    lieuExemplaire, sans « case » en mode base). Le camp reste enregistré (choisi tout seul à l'ajout, js/camps.js ; plus
+    affiché) pour la couleur des étiquettes : planche depuis Impression = vrais onglets.
   · v109 (03/10) : MA COLLECTION (demandes de Mathias). Vues « Liste » et « Vignettes » (grille de photos) ; la
     « Planche » n'est plus là : écran Impression -> « 🗂️ Voir les étiquettes rangées en planches ». Plus de « case n°… »
     (collection dans l'appli) dans les menus, questions et messages. Photo touchée : photos en grand (vos blisters recto

@@ -94,7 +94,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v109"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v110"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -474,7 +474,7 @@ function blocExemplaires(code, id) {
   const deja = ouFigurine(code);
   const onglets = [...new Set(deja.map(d => d.split(",")[0]))];
   return `<div class="${deja.length ? "alerte" : "carte-info"}" id="${id}-deja">${deja.length
-      ? `📦 Vous en avez déjà <b>${deja.length} exemplaire${deja.length > 1 ? "s" : ""}</b> (${echapper(onglets.join(", "))}${deja.length <= 4 ? ` : ${echapper(deja.map(d => d.split("case ")[1]).join(", "))}` : ""}).`
+      ? `📦 Vous en avez déjà <b>${deja.length} exemplaire${deja.length > 1 ? "s" : ""}</b> (${echapper(onglets.join(", "))}${deja.length <= 4 && deja[0].includes("case ") ? ` : ${echapper(deja.map(d => d.split("case ")[1]).join(", "))}` : ""}).`
       : "✨ Nouvelle figurine : vous n'en avez pas encore."}</div>
     <label class="etiquette-champ" for="${id}-nombre">Nombre d'exemplaires à ajouter</label>
     <input id="${id}-nombre" class="champ" type="number" inputmode="numeric" min="1" max="99" value="1">`;
@@ -490,13 +490,19 @@ async function confirmerExemplaires(code, nom, n) {
   return true;
 }
 
+// Onglet tel qu'affiché : les camps Star Wars (Gentils, Méchants, Zone grise) ne servent qu'à la couleur des
+// étiquettes ; partout ailleurs (Ma collection, statistiques, messages) ils sont réunis sous « Star Wars »
+function ongletAffiche(o) { return ONGLETS_COLORES.includes(o) ? THEME_STAR_WARS_UNIQUE.onglet : o; }
+// Où est un exemplaire : onglet (et case du fichier Excel)
+function lieuExemplaire(o, ref) { return etat.classeur && etat.classeur.estBase ? ongletAffiche(o) : `${o}, case ${ref}`; }
+
 // Numéros d'exemplaire déjà enregistrés pour ce code (fin du nom : « … 189/250 ») : { "189/250": "Customs, case B3" }
 function numerosEnregistres(code) {
   const c = code.toUpperCase(), res = {};
   for (const o of Object.keys(etat.collection))
     for (const cas of etat.collection[o].cases) {
       const m = cas.code.toUpperCase() === c && /(\d{1,4}\/\d{1,4})\s*$/.exec(cas.nom || "");
-      if (m) res[m[1]] = `${o}, case ${cas.ref}`;
+      if (m) res[m[1]] = lieuExemplaire(o, cas.ref);
     }
   return res;
 }
@@ -506,7 +512,7 @@ function ouFigurine(code) {
   const res = [];
   for (const o of Object.keys(etat.collection))
     for (const cas of etat.collection[o].cases)
-      if (cas.code.toUpperCase() === c) res.push(`${o}, case ${cas.ref}`);
+      if (cas.code.toUpperCase() === c) res.push(lieuExemplaire(o, cas.ref));
   return res;
 }
 
@@ -637,6 +643,12 @@ function majChoix(raison) {
     return;
   }
   const sw = etat.theme === STAR_WARS;
+  if (sw && etat.classeur.estBase) { // collection dans l'appli : camp choisi tout seul (couleur de l'étiquette), pas affiché
+    $("bloc-camps").hidden = true;
+    $("camp-raison").textContent = "Rangée dans « Star Wars ».";
+    majApercu();
+    return;
+  }
   $("bloc-camps").hidden = !sw;
   if (raison) $("camp-raison").textContent = raison;
   else if (sw) $("camp-raison").textContent =

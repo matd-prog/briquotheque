@@ -14,11 +14,13 @@ const Statistiques = {
   async rendre() {
     const possedes = new Map(); // code -> nombre d'exemplaires
     const parOnglet = [];
+    const parAffiche = new Map(); // camps Star Wars réunis sous « Star Wars »
     for (const [o, x] of Object.entries(etat.collection || {})) {
       const figs = x.cases.filter(c => c.code);
-      if (figs.length) parOnglet.push([o, figs.length, new Set(figs.map(c => c.code.toUpperCase())).size]);
+      if (figs.length) parAffiche.set(ongletAffiche(o), [...(parAffiche.get(ongletAffiche(o)) || []), ...figs]);
       for (const c of figs) possedes.set(c.code.toUpperCase(), (possedes.get(c.code.toUpperCase()) || 0) + 1);
     }
+    for (const [o, figs] of parAffiche) parOnglet.push([o, figs.length, new Set(figs.map(c => c.code.toUpperCase())).size]);
     const lire = async f => { try { return await f(etat.classeur); } catch (err) { return []; } };
     const sets = await lire(lireSets), objets = await lire(lireObjets);
     const nbFigs = parOnglet.reduce((s, o) => s + o[1], 0);
