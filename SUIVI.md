@@ -125,6 +125,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v122 (03/10) : PLUS RIEN DES ÉTIQUETTES DANS MA COLLECTION (Mathias : les codes ne servent qu'à l'impression). Customs :
+    plus de code CUS-… / JB-… (liste, vignettes, fiche, menu), seulement nom, ×n, n° ; « sans étiquette » retiré (gardé
+    pour un fichier Excel). Figurines LEGO : leur référence BrickLink (SW0906…) reste, elle distingue les versions.
   · v121 (03/10) : fiche d'une custom : si vous avez vos photos de blister, ni la photo du site JB ni celles de l'album
     (Mathias : « il faut supprimer la photo de JB puisque j'ai les miennes ») ; sinon album, sinon photo JB.
   · v120 (03/10) : FICHE DE LA FIGURINE dans Ma collection (Mathias). Toucher une figurine, un set ou un objet ouvre une

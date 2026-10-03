@@ -371,8 +371,8 @@ const Collection = {
         ${custom ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
         <div class="infos">
           <div class="nom-court">${this._pastilleCamp(onglet)}${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
-          <div class="code">${echapper(c.code)}${nums.length ? ` · n° ${echapper(nums.join(", "))}` : ""}</div>
-          <div class="lieu">${echapper(ongletAffiche(onglet))}${etat.classeur && etat.classeur.estBase ? "" : `, ${lieux}`}${cases.some(x => !x.image) ? " · sans étiquette" : ""}</div>
+          <div class="code">${this._ligneCode(c, onglet, nums)}</div>
+          <div class="lieu">${echapper(ongletAffiche(onglet))}${etat.classeur && etat.classeur.estBase ? "" : `, ${lieux}${cases.some(x => !x.image) ? " · sans étiquette" : ""}`}</div>
         </div>
         ${liensFiche(this._lien(c, onglet), "Voir la page")}
       </div>`;
@@ -385,6 +385,13 @@ const Collection = {
     return `<span class="pastille pastille-camp" style="background:${couleurOnglet(onglet)}" title="${camp}" aria-label="${camp}"></span>`;
   },
 
+  // Ligne sous le nom : n° des exemplaires ; le code (celui des étiquettes) seulement pour les figurines LEGO, où c'est
+  // la référence BrickLink — les codes des customs (CUS-…, JB-…) ne servent qu'à l'impression des étiquettes
+  _ligneCode(c, onglet, nums) {
+    const custom = onglet === THEME_CUSTOMS.onglet;
+    return echapper([custom ? "" : c.code, nums.length ? `n° ${nums.join(", ")}` : ""].filter(Boolean).join(" · "));
+  },
+
   // Vignette : grande photo, nom, nombre d'exemplaires et n°
   _vignette(c, onglet, cases = [c]) {
     const custom = onglet === THEME_CUSTOMS.onglet, n = cases.length;
@@ -393,7 +400,7 @@ const Collection = {
       <div class="vignette cliquable" data-onglet="${echapper(onglet)}" data-case="${c.ref}">
         ${custom ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
         <div class="nom-court">${this._pastilleCamp(onglet)}${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
-        <div class="code">${echapper(c.code)}${nums.length ? ` · n° ${echapper(nums.join(", "))}` : ""}</div>
+        <div class="code">${this._ligneCode(c, onglet, nums)}</div>
       </div>`;
   },
 
@@ -418,7 +425,7 @@ const Collection = {
     const texte = !lien ? "" : estLienEbay(lien) ? "Chercher sur eBay.de" : /jb-spielwaren/i.test(lien) ? "Voir chez JB Spielwaren"
       : /bricklink/i.test(lien) ? "Voir sur BrickLink" : "Voir sa page";
     const nums = cases.map(x => this._numero(x)).filter(Boolean);
-    const titre = `${nom} · ${c.code} · ${cases.length > 1 ? `${cases.length} exemplaires` : "1 exemplaire"}${nums.length ? ` (n° ${nums.join(", ")})` : ""}`;
+    const titre = `${nom}${custom ? "" : ` · ${c.code}`} · ${cases.length > 1 ? `${cases.length} exemplaires` : "1 exemplaire"}${nums.length ? ` (n° ${nums.join(", ")})` : ""}`;
     Visionneuse.ouvrir(titre, images, lien || "", texte, this._actionsFigurine(onglet, g).filter(a => a.cle !== "lien"));
   },
 
@@ -447,7 +454,7 @@ const Collection = {
     const { c, cases } = g, custom = onglet === THEME_CUSTOMS.onglet, lien = this._lien(c, onglet);
     const nums = cases.map(x => this._numero({ ...x, onglet })).filter(Boolean);
     const actions = this._actionsFigurine(onglet, g);
-    const titre = `${(custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)"}\n${c.code} · ${ongletAffiche(onglet)}\n` +
+    const titre = `${(custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)"}\n${custom ? "" : c.code + " · "}${ongletAffiche(onglet)}\n` +
       (cases.length > 1 ? `${cases.length} exemplaires` : "1 exemplaire") + (nums.length ? ` (n° ${nums.join(", ")})` : "") +
       (etat.classeur && etat.classeur.estBase ? "" : ` · ${cases.length > 1 ? "cases" : "case"} ${cases.map(x => x.ref).join(", ")}`);
     const i = await choisirAction(titre, actions.map(a => a.texte));
