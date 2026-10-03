@@ -408,11 +408,12 @@ const Collection = {
     if (custom) {
       for (const e of this._miens(c)) images.push(...Base.imagesBlister(e).map(im => ({ ...im, legende: "Ma photo · " + im.legende })));
       const jb = this._jbDe(c);
-      if (jb && typeof Consulter !== "undefined" && Consulter.mesPhotos) { // vos photos d'album (dépôt privé)
+      // vos photos de blister suffisent : celles de l'album et du site JB seulement s'il n'y en a pas
+      if (!images.length && jb && typeof Consulter !== "undefined" && Consulter.mesPhotos) { // vos photos d'album (dépôt privé)
         const album = Consulter._album(jb);
         album.forEach((ph, i) => images.push({ src: Consulter._imageAlbum(ph.photo), legende: `Mon album ${i + 1}/${album.length}${ph.numero ? ` · n° ${ph.numero}` : ""}` }));
       }
-      if (jb && jb.image) images.push({ src: jb.image, legende: "Photo du site JB Spielwaren" });
+      if (!images.length && jb && jb.image) images.push({ src: jb.image, legende: "Photo du site JB Spielwaren" });
     } else images.push({ src: imageBricklink(c.code), legende: "Photo BrickLink" });
     const texte = !lien ? "" : estLienEbay(lien) ? "Chercher sur eBay.de" : /jb-spielwaren/i.test(lien) ? "Voir chez JB Spielwaren"
       : /bricklink/i.test(lien) ? "Voir sur BrickLink" : "Voir sa page";

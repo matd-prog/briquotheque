@@ -125,6 +125,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v121 (03/10) : fiche d'une custom : si vous avez vos photos de blister, ni la photo du site JB ni celles de l'album
+    (Mathias : « il faut supprimer la photo de JB puisque j'ai les miennes ») ; sinon album, sinon photo JB.
   · v120 (03/10) : FICHE DE LA FIGURINE dans Ma collection (Mathias). Toucher une figurine, un set ou un objet ouvre une
     fenêtre : photos (les vôtres d'abord : blisters recto/verso de chaque exemplaire, puis votre album du dépôt privé,
     puis JB / BrickLink ; deux par ligne, une photo touchée passe en grand), puis toutes les options (📷 changer les
