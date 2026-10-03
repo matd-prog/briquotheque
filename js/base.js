@@ -1177,6 +1177,7 @@ const Base = {
       x.exporte = false;
     }
     if (!(await Memoire.ecrire(this.entrees, "base"))) return false;
+    if (typeof Collection !== "undefined") Collection._chargerMesBlisters().catch(() => {}); // photos de Ma collection
     const img = carte && carte.querySelector(`[data-modif-img="${cote}"]`);
     if (img) img.outerHTML = `<img class="photo-apercu" data-modif-img="${cote}" src="${URL.createObjectURL(blob)}" alt="${cote}">`;
     if (cote === "verso" && typeof Paddle !== "undefined") {

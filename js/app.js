@@ -60,6 +60,9 @@ function afficher(ecran, retour = false) {
     else if (!ECRANS_PASSAGE.includes(ecranActuel)) pileEcrans.push(ecranActuel);
   }
   ecranActuel = ecran;
+  // retour dans Ma collection (après un changement de photos dans la base de blisters…) : photos et listes relues
+  if (ecran === "collection" && retour && typeof Collection !== "undefined")
+    Promise.all([Collection._chargerMesBlisters(), Collection._chargerArticles()]).then(() => Collection.rendre()).catch(() => {});
   if (aLaRacine()) desarmerRetour(); else armerRetour();
   const fleche = document.getElementById("bouton-retour-entete"); // flèche du bandeau rouge (ordinateur, iPhone…)
   if (fleche) fleche.hidden = aLaRacine() || ECRANS_PASSAGE.includes(ecran);
@@ -94,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v117"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v118"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -214,6 +217,31 @@ function demanderTexte(titre, valeur = "", options = {}) {
     d.oncancel = () => ok(null);
     d.showModal();
     setTimeout(() => { $("menu-saisie").focus(); $("menu-saisie").select(); }, 50);
+  });
+}
+
+// Petit formulaire (plusieurs champs) dans la même fenêtre ; renvoie { cle: valeur } ou null (Fermer).
+// champs : [{ cle, titre, valeur, type: "texte" | "nombre" | "choix" | "case", options }]
+function demanderFormulaire(titre, champs) {
+  return new Promise(ok => {
+    const d = $("menu-actions");
+    $("menu-titre").textContent = titre;
+    $("menu-boutons").innerHTML = champs.map((c, i) => c.type === "case"
+      ? `<label class="case-a-cocher"><input type="checkbox" data-f="${i}" ${c.valeur ? "checked" : ""}> ${echapper(c.titre)}</label>`
+      : `<label class="etiquette-champ">${echapper(c.titre)}</label>` + (c.type === "choix"
+        ? `<select class="champ" data-f="${i}">${[...new Set([...(c.valeur ? [c.valeur] : []), ...c.options])].map(o => `<option ${o === c.valeur ? "selected" : ""}>${echapper(o)}</option>`).join("")}</select>`
+        : `<input class="champ" data-f="${i}" autocomplete="off" ${c.type === "nombre" ? 'inputmode="decimal"' : ""} value="${echapper(c.valeur ?? "")}">`)).join("") +
+      `<button class="gros-bouton vert" data-ok>✔ Enregistrer</button>`;
+    const fin = v => { if (d.open) d.close(); ok(v); };
+    $("menu-boutons").onclick = e => {
+      if (!e.target.closest("[data-ok]")) return;
+      const res = {};
+      champs.forEach((c, i) => { const el = $("menu-boutons").querySelector(`[data-f="${i}"]`); res[c.cle] = c.type === "case" ? el.checked : el.value.trim(); });
+      fin(res);
+    };
+    $("menu-fermer").onclick = () => fin(null);
+    d.oncancel = () => ok(null);
+    d.showModal();
   });
 }
 

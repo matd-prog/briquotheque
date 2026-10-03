@@ -103,17 +103,56 @@ const Collection = {
     if (!a) return;
     const d = this.ARTICLES[onglet], n = a.quantite || 1;
     const i = await choisirAction(`${a.nom || a.code}\n${a.code} · ${onglet}\n${n > 1 ? `${n} exemplaires` : "1 exemplaire"}`,
-      ["➕ Un exemplaire de plus", n > 1 ? "➖ En retirer un" : "➖ Retirer de la collection"]);
+      ["✏️ Modifier (nom, état, prix, remarques…)", "➕ Un exemplaire de plus", n > 1 ? "➖ En retirer un" : "➖ Retirer de la collection"]);
     if (i < 0) return;
+    if (i === 0) { await this._modifierArticle(onglet, a); return; }
     try {
-      if (i === 0 || n > 1) await etat.classeur.ecrireTexte(onglet, d.quantite + row, String(i === 0 ? n + 1 : n - 1));
+      if (i === 1 || n > 1) await etat.classeur.ecrireTexte(onglet, d.quantite + row, String(i === 1 ? n + 1 : n - 1));
       else {
         if (!(await demander(`Retirer « ${a.nom || a.code} » de votre collection ?`, "Retirer", "Annuler"))) return;
         for (const [l] of d.colonnes) await etat.classeur.viderCellule(onglet, l + row);
       }
       etat.nonEnregistres++;
       await memoriser();
-      toast(i === 0 ? `« ${a.nom || a.code} » : ${n + 1} exemplaires ✔` : n > 1 ? `« ${a.nom || a.code} » : ${n - 1} exemplaire${n - 1 > 1 ? "s" : ""} ✔` : "Retiré ✔");
+      toast(i === 1 ? `« ${a.nom || a.code} » : ${n + 1} exemplaires ✔` : n > 1 ? `« ${a.nom || a.code} » : ${n - 1} exemplaire${n - 1 > 1 ? "s" : ""} ✔` : "Retiré ✔");
+    } catch (err) { console.error(err); await demander("La modification a échoué : " + err.message, "OK", "Fermer"); }
+    await this._chargerArticles();
+    this.rendre();
+  },
+
+  // Fiche d'un set ou d'un objet : tous ses champs modifiables (même colonnes que l'onglet du fichier)
+  async _modifierArticle(onglet, a) {
+    const set = onglet === ONGLET_SETS, lego = !set || estLego(a), ouiNon = v => /^(oui|true|1|x)$/i.test(String(v || "").trim());
+    const champs = set ? [
+      { cle: "B", titre: "Nom", valeur: a.nom },
+      ...(lego ? [] : [{ cle: "M", titre: "Marque", valeur: a.marque }]),
+      { cle: "F", titre: "État", type: "choix", valeur: a.etat, options: ["Neuf scellé", "Monté", "Démonté (en boîte)", "Sans figurines", "Incomplet", "Boîte seule (vide)", "Autre"] },
+      { cle: "G", titre: "Boîte d'origine", type: "case", valeur: ouiNon(a.boite) },
+      { cle: "H", titre: "Notice", type: "case", valeur: ouiNon(a.notice) },
+      { cle: "K", titre: "Quantité", type: "nombre", valeur: a.quantite || 1 },
+      { cle: "N", titre: "Prix payé (€)", type: "nombre", valeur: a.prixPaye || "" },
+      ...(lego ? [] : [{ cle: "O", titre: "Prix fabricant (€)", type: "nombre", valeur: a.prixFabricant || "" }]),
+      { cle: "L", titre: "Remarques", valeur: a.remarques },
+    ] : [
+      { cle: "B", titre: "Nom", valeur: a.nom },
+      { cle: "C", titre: "Type (porte-clés, lampe…)", valeur: a.type },
+      { cle: "D", titre: "État", type: "choix", valeur: a.etat, options: ["Neuf (emballage)", "Occasion"] },
+      { cle: "E", titre: "Quantité", type: "nombre", valeur: a.quantite || 1 },
+      { cle: "F", titre: "Remarques", valeur: a.remarques },
+    ];
+    const v = await demanderFormulaire(`${a.nom || a.code}\n${a.code} · ${onglet}`, champs);
+    if (!v) return;
+    try {
+      for (const c of champs) {
+        let val = v[c.cle];
+        if (c.type === "case") val = val ? "oui" : "non";
+        if (c.type === "nombre") val = String(val).replace(",", ".").replace(/[^\d.]/g, "");
+        if (c.cle === "K" || c.cle === "E") val = String(Math.max(1, parseInt(val, 10) || 1));
+        await etat.classeur.ecrireTexte(onglet, c.cle + a.row, val);
+      }
+      etat.nonEnregistres++;
+      await memoriser();
+      toast(`« ${v.B || a.code} » modifié ✔`);
     } catch (err) { console.error(err); await demander("La modification a échoué : " + err.message, "OK", "Fermer"); }
     await this._chargerArticles();
     this.rendre();
@@ -356,6 +395,7 @@ const Collection = {
     const nums = cases.map(x => this._numero({ ...x, onglet })).filter(Boolean);
     const actions = [["plus", "➕ Ajouter un exemplaire" + (custom ? " (nouveau n°)" : "")],
                      ["moins", cases.length > 1 ? "➖ Retirer un exemplaire" : "➖ Retirer de la collection"]];
+    if (custom) actions.push(["blister", this._miens(c).length ? "📷 Photos du blister (recto, verso), n°, note" : "📷 Ajouter la photo du blister"]);
     if (custom) actions.push(["numero", nums.length ? "✏️ Corriger un numéro" : "✏️ Indiquer le numéro"]);
     actions.push(["nom", "🔤 Renommer" + (cases.length > 1 ? ` (les ${cases.length} exemplaires)` : "")]);
     if (lien) actions.push(["lien", custom ? "🔗 Voir la page" : "🔗 Voir sur BrickLink"]);
@@ -367,11 +407,45 @@ const Collection = {
     if (action === "plus") exemplaireEnPlus(c, onglet);
     else if (action === "moins") await this._retirer(onglet, cases);
     else if (action === "numero") await this._corrigerNumero(onglet, cases);
+    else if (action === "blister") await this._blisters(c, cases);
     else if (action === "nom") await this._renommer(onglet, cases);
     else if (action === "lien") {
       const l = lienOuvrable(lien);
       if (l.startsWith("intent:")) location.href = l; else window.open(l, "_blank", "noopener");
     }
+  },
+
+  // Blisters de cette custom dans « Ma base de blisters » (photos recto et verso, n°, note) : ouverts là-bas, la fiche
+  // de modification directement s'il n'y en a qu'un. Sans photo : la photo choisie crée un blister par exemplaire.
+  async _blisters(c, cases) {
+    const nom = this._sansNumero(c.nom).toUpperCase();
+    if (!this._miens(c).length) {
+      const fichier = await new Promise(ok => {
+        const input = document.createElement("input");
+        input.type = "file"; input.accept = "image/*";
+        input.onchange = () => ok(input.files[0] || null);
+        input.click();
+      });
+      if (!fichier) return;
+      await Base.ouvrir();
+      const { blob } = await Base._preparer(fichier, 0, "recto");
+      const jb = /^JB-/i.test(c.code) ? c.code : "";
+      for (const x of cases) {
+        const n = this._numero(x), [numero, serie] = n.includes("/") ? n.split("/") : [n, ""];
+        Base.entrees.push({ id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, recadre: true, nom, precision: "",
+          numerote: !!n, numero, serie, remarque: "", code: jb, photo: blob, verso: null, exporte: false, possede: true, date: new Date().toISOString() });
+      }
+      await Memoire.ecrire(Base.entrees, "base");
+      await this._chargerMesBlisters();
+      toast(`Photo ajoutée ✔ : ajoutez le verso, recadrez si besoin`, 4500);
+    } else await Base.ouvrir();
+    if ($("base-filtre")) $("base-filtre").value = nom;
+    Base.vue = "photos";
+    Base._afficherListe();
+    const miens = Base.entrees.filter(e => normaliser(e.nom) === normaliser(nom) || normaliser(nomComplet(e)) === normaliser(nom));
+    if (miens.length === 1) Base.modifier(miens[0].id);
+    const zone = $("base-liste");
+    if (zone) zone.scrollIntoView({ block: "start" });
   },
 
   // Exemplaire concerné : le seul, ou celui choisi dans la liste (n° et case)
