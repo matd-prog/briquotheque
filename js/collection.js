@@ -196,12 +196,19 @@ const Collection = {
       <div class="fiche cliquable" data-onglet="${echapper(onglet)}" data-case="${c.ref}">
         ${custom ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
         <div class="infos">
-          <div class="nom-court">${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
+          <div class="nom-court">${this._pastilleCamp(onglet)}${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
           <div class="code">${echapper(c.code)}${nums.length ? ` · n° ${echapper(nums.join(", "))}` : ""}</div>
           <div class="lieu">${echapper(ongletAffiche(onglet))}${etat.classeur && etat.classeur.estBase ? "" : `, ${lieux}`}${cases.some(x => !x.image) ? " · sans étiquette" : ""}</div>
         </div>
         ${liensFiche(this._lien(c, onglet), "Voir la page")}
       </div>`;
+  },
+
+  // Camp d'une figurine Star Wars (couleur de son étiquette) : petite pastille verte, rouge ou grise devant le nom
+  _pastilleCamp(onglet) {
+    if (!ONGLETS_COLORES.includes(onglet)) return "";
+    const camp = { "Gentils (vert)": "Gentil", "Méchants (rouge)": "Méchant", "Zone grise": "Zone grise" }[onglet] || onglet;
+    return `<span class="pastille pastille-camp" style="background:${couleurOnglet(onglet)}" title="${camp}" aria-label="${camp}"></span>`;
   },
 
   // Vignette : grande photo, nom, nombre d'exemplaires et n°
@@ -211,7 +218,7 @@ const Collection = {
     return `
       <div class="vignette cliquable" data-onglet="${echapper(onglet)}" data-case="${c.ref}">
         ${custom ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
-        <div class="nom-court">${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
+        <div class="nom-court">${this._pastilleCamp(onglet)}${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
         <div class="code">${echapper(c.code)}${nums.length ? ` · n° ${echapper(nums.join(", "))}` : ""}</div>
       </div>`;
   },

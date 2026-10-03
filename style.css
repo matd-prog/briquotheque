@@ -125,6 +125,7 @@ dialog::backdrop { background: rgba(0,0,0,.45); }
 .fiche .lieu { font-size: 13px; color: var(--doux); }
 .fiche a { flex: none; font-size: 22px; text-decoration: none; padding: 6px; }
 .fiche a.lien-ebay { font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 8px; background: #e7f0fb; color: var(--bleu); white-space: nowrap; }
+.pastille-camp { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(0,0,0,.25); margin-right: 6px; vertical-align: 1px; }
 .vignettes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
 .vignette { background: var(--carte); border-radius: 12px; padding: 8px; cursor: pointer; text-align: center; }
 .vignette img.photo, .vignette .photo-custom { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; background: #fafafa; border-radius: 8px; margin-bottom: 6px; font-size: 48px; line-height: 1; }
