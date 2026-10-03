@@ -1,4 +1,4 @@
-#date 2026-10-02
+#date 2026-10-03
 code	nom	theme	sous_theme	annee	sortie	fin	pieces	figurines	image
 21064-1	Paris - City of Love	Architecture	Iconic Landmarks	2026	2026-01-01	2028-12-31	958		https://images.brickset.com/sets/images/21064-1.jpg
 31218-1	Japanese Cherry Blossom Landscape	Art	Paintings	2026	2026-01-01	2028-12-31	1892		https://images.brickset.com/sets/images/31218-1.jpg
@@ -548,7 +548,7 @@ ISBN9780241816516-1	LEGO Star Wars: Luke Skywalker's Galactic Adventures	Books	D
 75456-1	LEGO Star Wars Advent Calendar 2026	Star Wars	Seasonal	2026	2026-09-01		293		https://images.brickset.com/sets/images/75456-1.jpg
 6644876-1	Micro Castle	Harry Potter	Promotional	2026	2026-09-02	2026-09-06	43		https://images.brickset.com/sets/images/MINICASTLE-1.jpg
 L0002294-1	Dump Truck	Technic	Magazine Gift	2026	2026-09-03		76		https://images.brickset.com/sets/images/L0002294-1.jpg
-30762-1	Retro Video Game Batman	DC Comics Super Heroes	Batman	2026	2026-09-15		5		https://images.brickset.com/sets/images/30762-1.jpg
+30762-1	Retro Video Game Batman	DC Comics Super Heroes	Batman	2026	2026-09-15		5	1	https://images.brickset.com/sets/images/30762-1.jpg
 40900-1	Scary Haunted Tree	Creator	Seasonal	2026	2026-09-21	2026-09-30	218		https://images.brickset.com/sets/images/40900-1.jpg
 ISBN9780241789940-1	LEGO NINJAGO: Visual Dictionary, Updated Edition	Books	Dorling Kindersley	2026	2026-10-01				https://images.brickset.com/sets/images/ISBN9780241789940-1.jpg
 40880-1	Avengers: Doomsday Heroes & Villain	BrickHeadz	Marvel Super Heroes	2026	2026-10-01		467		https://images.brickset.com/sets/images/40880-1.jpg
@@ -745,7 +745,7 @@ L0002227-1	Firefighter with Helicopter	City	Magazine Gift	2026
 67008-1	{?}	DC Comics Super Heroes		2027					
 67009-1	{?}	DC Comics Super Heroes		2027					
 67012-1	{?}	DC Comics Super Heroes		2027					
-L0002271-1	Batman	DC Comics Super Heroes	Magazine Gift	2026			10		https://images.brickset.com/sets/images/L0002271-1.jpg
+L0002271-1	Batman	DC Comics Super Heroes	Magazine Gift	2026			10	1	https://images.brickset.com/sets/images/L0002271-1.jpg
 L0002272-1	Bane with Prison Cell	DC Comics Super Heroes	Magazine Gift	2026			27	1	https://images.brickset.com/sets/images/L0002272-1.jpg
 L0002273-1	The Riddler	DC Comics Super Heroes	Magazine Gift	2026				1	https://images.brickset.com/sets/images/L0002273-1.jpg
 30745-1	{?}	Disney		2027					
@@ -803,6 +803,7 @@ PONDDUCK-1	M&T Pond Duck	Duplo		2026			7		https://images.brickset.com/sets/image
 45832-1	FIRST LEGO League Challenge 2026	Education	FIRST LEGO League Challenge	2026					
 45833-1	2026 FLL Explore Set	Education	FIRST LEGO League	2026			761		
 45834-1	FIRST LEGO League Future Edition Key Stage 2-3 (KS2-3): Ages 7-14 (Years 3-9)	Education	FIRST LEGO LEAGUE CHALLENGE	2026					
+45835-1	Future Edition Key Stage 1 (KS1): Ages 5-7 (Years 1-2)	Education	FIRST LEGO League	2026					
 77084-1	{?}	Fortnite		2027					
 77088-1	{?}	Fortnite		2027					
 30747-1	{?}	Friends		2027					
@@ -933,6 +934,9 @@ L0002265-1	Nugget at Veterinary Station	Friends	Magazine gift	2026			24		https:/
 854328-1	Dumbo Key Chain	Gear	Key Chains/Disney	2026					https://images.brickset.com/sets/images/854328-1.jpg
 854331-1	Dragonborn Paladin Key Chain	Gear	Key Chains/Dungeons & Dragons	2026					https://images.brickset.com/sets/images/854331-1.jpg
 854332-1	Red Key Chain	Gear	Key Chains/Pokémon	2026					https://images.brickset.com/sets/images/854332-1.jpg
+854336-1	Izzie s Sword	Gear	Role-Play Toys	2026					
+854337-1	Dragonian Warrior Axe	Gear	Role-Play Toys	2026					
+854338-1	Lloyd s Sword with Sheath	Gear	Role-Play Toys	2026					
 COIN-1	Darth Vader Collectable Coin	Gear	Collectable Coin	2026					https://images.brickset.com/sets/images/COIN-1.jpg
 COIN-2	Chewbacca Collectable Coin	Gear	Collectable Coin	2026					https://images.brickset.com/sets/images/COIN-2.jpg
 COIN-3	Luke Skywalker Collectable Coin	Gear	Collectable Coin	2026					https://images.brickset.com/sets/images/COIN-3.jpg
@@ -987,7 +991,7 @@ L0002261-1	Raptor and Volcano	Jurassic World	Magazine Gift	2026
 67021-1	{?}	Marvel Super Heroes		2027					
 67022-1	{?}	Marvel Super Heroes		2027					
 67023-1	{?}	Marvel Super Heroes		2027					
-L0002276-1	Black Panther	Marvel Super Heroes	Magazine Gift	2026			23		https://images.brickset.com/sets/images/L0002276-1.jpg
+L0002276-1	Black Panther	Marvel Super Heroes	Magazine Gift	2026			23	1	https://images.brickset.com/sets/images/L0002276-1.jpg
 L0002277-1	Iron Man	Marvel Super Heroes	Magazine Gift	2026			22	1	https://images.brickset.com/sets/images/L0002277-1.jpg
 L0002277-2	Iron Man	Marvel Super Heroes	Magazine Gift	2026			22	1	https://images.brickset.com/sets/images/L0002277-2.jpg
 L0002278-1	Hulk vs. Red Hulk	Marvel Super Heroes	Magazine Gift	2026			8	2	https://images.brickset.com/sets/images/L0002278-1.jpg
@@ -1025,8 +1029,8 @@ EG00173-1	White Road Bike parts	Miscellaneous	Pick a Brick parts pack	2026			261
 112601-1	Lloyd vs. Dragonian Warrior	Ninjago	Magazine Gift	2026			14	2	https://images.brickset.com/sets/images/112601-1.jpg
 30748-1	{?}	Ninjago		2027					
 6614227-1	Dragon of Life	Ninjago	Promotional	2026			40		https://images.brickset.com/sets/images/6614227-1.jpg
-71873-1	{?}	Ninjago		2027					
-71875-1	Lloyd vs. Ras Spinner Battle	Ninjago	Spinner Battle	2027					
+71873-1	Cole vs. Evil Cole Spinner	Ninjago	Spinner Battle	2027			58		https://images.brickset.com/sets/images/71873-1.jpg
+71875-1	Lloyd vs. Ras Spinner Battle	Ninjago	Spinner Battle	2027			153		https://images.brickset.com/sets/images/71875-1.jpg
 71876-1	{?}	Ninjago		2027					
 71877-1	{?}	Ninjago		2027					
 71879-1	{?}	Ninjago		2027					
@@ -1229,7 +1233,3 @@ L0002295-1	Tractor	Technic	Magazine Gift	2026			61		https://images.brickset.com/
 67013-1	{?}	tbd		2027					
 72118-1	{?}	tbd		2027					
 72188-1	{?}	tbd		2027					
-45835-1	FIRST® LEGO® League Future Edition Key Stage 1 (KS1): Ages 5-7 (Years 1-2)	{Undefined}		2026					
-854336-1	Izzie s Sword	{Undefined}		2026					
-854337-1	Dragonian Warrior Axe	{Undefined}		2026					
-854338-1	Lloyd s Sword with Sheath	{Undefined}		2026					
