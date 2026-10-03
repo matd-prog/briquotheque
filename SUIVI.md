@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v117 (03/10) : photo de remplacement (recto ou verso) : MÊME RECADRAGE qu'à la prise (Mathias). Recadrage automatique
+    (cadre mémorisé compris), puis « ✂️ Recadrer le recto / verso » dans la fiche : le cadre de recadrage s'y ouvre
+    (déplacé dans la fiche, remis à sa place ensuite) avec « Garder ce cadre », « Garder la photo entière », « Garder ce
+    cadre pour les photos suivantes ». Base._remplacements, _appliquerRemplacement, recadrer(quoi, rempl). Deux applis.
   · v116 (03/10) : NOTES EN MAJUSCULES partout (Mathias) : boutons rapides (SIGNÉE, COMIC CON, ÉDITION SPÉCIALE, ERREUR
     D'IMPRESSION, CADEAU, BRICKS OF MAZE), note tapée (ajout et modification), anciennes notes converties à l'ouverture
     de la base de blisters. Deux applis.

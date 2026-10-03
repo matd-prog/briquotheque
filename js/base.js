@@ -375,13 +375,20 @@ const Base = {
   },
 
   // Recadrage à la main : cadre de départ = cadre actuel (ou presque toute la photo)
-  async recadrer(quoi) {
-    const src = quoi === "verso" ? this.sourceVerso : this.source;
+  // rempl : photo de remplacement d'un blister déjà recensé (fiche « ✏️ Modifier ») ; le cadre s'ouvre dans la fiche
+  async recadrer(quoi, rempl = null) {
+    const src = rempl || (quoi === "verso" ? this.sourceVerso : this.source);
     if (!src || !$("base-recadrage")) return;
+    this._rempl = rempl;
+    const panneau = $("base-recadrage");
+    if (rempl && rempl.carte) {
+      if (!this._placePanneau) this._placePanneau = { parent: panneau.parentNode, suivant: panneau.nextSibling };
+      rempl.carte.querySelector(".recto-verso").after(panneau);
+    } else this._remettrePanneau();
     const img = $("base-recadrage-image");
     img.src = URL.createObjectURL(await this._reduire(src.fichier, src.sens));
     await img.decode().catch(() => {});
-    this._cadreEdite = { ...((quoi === "verso" ? this.cadreVerso : this.cadre) || { x: 0.05, y: 0.05, l: 0.9, h: 0.9 }) };
+    this._cadreEdite = { ...((rempl ? rempl.cadre : quoi === "verso" ? this.cadreVerso : this.cadre) || { x: 0.05, y: 0.05, l: 0.9, h: 0.9 }) };
     this._quoiEdite = quoi;
     $("base-recadrage-titre").textContent = `Ajustez le cadre autour du blister (${quoi}), sur les bords arrondis extérieurs de la coque transparente : glissez-le, ou tirez ses coins.`;
     if ($("base-recadrage-memoriser")) $("base-recadrage-memoriser").checked = !!(this.cadresMemo && this.cadresMemo[quoi === "verso" ? "verso" : "recto"]);
@@ -395,8 +402,19 @@ const Base = {
     Object.assign(el.style, { left: c.x * 100 + "%", top: c.y * 100 + "%", width: c.l * 100 + "%", height: c.h * 100 + "%" });
   },
 
+  // cadre de recadrage remis à sa place (au-dessus de la fiche de saisie)
+  _remettrePanneau() {
+    const p = this._placePanneau;
+    if (!p) return;
+    p.parent.insertBefore($("base-recadrage"), p.suivant);
+    this._placePanneau = null;
+  },
+
   async finRecadrage(choix) { // "ok", "entiere" ou "annuler"
     $("base-recadrage").hidden = true;
+    const rempl = this._rempl;
+    this._rempl = null;
+    this._remettrePanneau();
     if (choix === "annuler") return;
     const cadre = choix === "entiere" ? null : this._cadreEdite;
     // cadre mémorisé pour les photos suivantes de ce côté (recto ou verso), ou oublié si la case est décochée
@@ -406,6 +424,12 @@ const Base = {
       if ($("base-recadrage-memoriser").checked && cadre) this.cadresMemo[cote] = { ...cadre }; else delete this.cadresMemo[cote];
       await Memoire.ecrire(this.cadresMemo, "cadres_memorises");
       this._majCadreMemo();
+    }
+    if (rempl) { // photo de remplacement : recadrée, posée sur les mêmes exemplaires
+      rempl.cadre = cadre;
+      if (await this._appliquerRemplacement(rempl, await this._reduire(rempl.fichier, rempl.sens, cadre)))
+        toast(`${rempl.cote === "verso" ? "Verso" : "Recto"} recadré ✔`);
+      return;
     }
     if (this._quoiEdite === "verso") {
       this.cadreVerso = cadre;
@@ -1008,6 +1032,8 @@ const Base = {
   },
 
   _afficherListe() {
+    // cadre de recadrage ouvert dans une fiche de la liste : remis à sa place avant de redessiner la liste
+    if (this._placePanneau) { $("base-recadrage").hidden = true; this._rempl = null; this._remettrePanneau(); }
     const n = this.entrees.length, attente = this.entrees.filter(e => !e.exporte).length, pasAMoi = this.entrees.filter(e => e.possede === false).length;
     $("base-compte").textContent = n
       ? `${n - pasAMoi} blister${n - pasAMoi > 1 ? "s" : ""} à vous${pasAMoi ? ` + ${pasAMoi} pour la base commune seulement` : ""}` +
@@ -1093,6 +1119,8 @@ const Base = {
         <label class="petit">🖼️ Recto depuis les photos<input type="file" accept="image/*" data-remplacer="recto" hidden></label>
         <label class="petit">📷 Nouveau verso<input type="file" accept="image/*" capture="environment" data-remplacer="verso" hidden></label>
         <label class="petit">🖼️ Verso depuis les photos<input type="file" accept="image/*" data-remplacer="verso" hidden></label>
+        <button class="petit" data-recadrer-rempl="recto" hidden>✂️ Recadrer le recto</button>
+        <button class="petit" data-recadrer-rempl="verso" hidden>✂️ Recadrer le verso</button>
       </div>
       <button class="gros-bouton vert" data-modif-ok>✔ Enregistrer</button>
       <button class="bouton-lien" data-modif-annuler>Annuler</button></div>`;
@@ -1111,6 +1139,10 @@ const Base = {
       c.value = "";
       if (f) await this.remplacerPhoto(e, c.dataset.remplacer, f, carte);
     }));
+    carte.querySelectorAll("[data-recadrer-rempl]").forEach(b => b.addEventListener("click", () => {
+      const r = this._remplacements && this._remplacements[`${e.id}|${b.dataset.recadrerRempl}`];
+      if (r) this.recadrer(r.cote, r);
+    }));
     carte.querySelector('[data-modif="nonnum"]').addEventListener("change", griser);
     griser();
     if (e.numerote !== false) carte.querySelector('[data-modif="numero"]').focus();
@@ -1119,8 +1151,8 @@ const Base = {
   // Nouvelle photo du recto ou du verso d'un blister déjà recensé (vieille photo mal prise) : recadrée comme les autres,
   // enregistrée tout de suite ; proposée aussi pour les autres exemplaires de la même figurine qui ont la même photo
   async remplacerPhoto(e, cote, fichier, carte) {
-    let blob;
-    try { ({ blob } = await this._preparer(fichier, 0, cote)); } catch (err) { console.error(err); await demander("Photo illisible : " + err.message, "OK", "Fermer"); return; }
+    let blob, cadre;
+    try { ({ blob, cadre } = await this._preparer(fichier, 0, cote)); } catch (err) { console.error(err); await demander("Photo illisible : " + err.message, "OK", "Fermer"); return; }
     const ancienne = cote === "verso" ? e.verso : e.photo;
     const taille = b => b ? b.size : -1;
     const autres = this.entrees.filter(x => x !== e && cleFigurine(x.nom, x.precision) === cleFigurine(e.nom, e.precision) &&
@@ -1128,15 +1160,25 @@ const Base = {
     const cibles = [e];
     if (autres.length && await demander(`${autres.length} autre${autres.length > 1 ? "s" : ""} exemplaire${autres.length > 1 ? "s" : ""} de « ${nomComplet(e)} » ${autres.length > 1 ? "ont" : "a"} la même photo du ${cote}. La remplacer aussi ?`,
         "Oui, partout", "Seulement celui-ci")) cibles.push(...autres);
+    // gardé pour « ✂️ Recadrer » : même recadrage à la main qu'à la prise de photo
+    const r = { cote, fichier, sens: 0, cadre, cibles, carte };
+    (this._remplacements = this._remplacements || {})[`${e.id}|${cote}`] = r;
+    if (await this._appliquerRemplacement(r, blob))
+      toast(`${cote === "verso" ? "Verso" : "Recto"} remplacé ✔${cibles.length > 1 ? ` (${cibles.length} exemplaires)` : ""} · « ✂️ Recadrer » pour ajuster`, 4500);
+    const b = carte && carte.querySelector(`[data-recadrer-rempl="${cote}"]`);
+    if (b) b.hidden = false;
+  },
+
+  // Nouvelle photo posée sur les exemplaires choisis, enregistrée ; texte du verso relu en arrière-plan
+  async _appliquerRemplacement(r, blob) {
+    const { cote, cibles, carte, fichier } = r;
     for (const x of cibles) {
       if (cote === "verso") { x.verso = blob; x.versoTexte = ""; } else x.photo = blob;
       x.exporte = false;
     }
-    if (!(await Memoire.ecrire(this.entrees, "base"))) return;
+    if (!(await Memoire.ecrire(this.entrees, "base"))) return false;
     const img = carte && carte.querySelector(`[data-modif-img="${cote}"]`);
     if (img) img.outerHTML = `<img class="photo-apercu" data-modif-img="${cote}" src="${URL.createObjectURL(blob)}" alt="${cote}">`;
-    toast(`${cote === "verso" ? "Verso" : "Recto"} remplacé ✔${cibles.length > 1 ? ` (${cibles.length} exemplaires)` : ""}`);
-    // texte du nouveau verso (reconnaissance), lu en arrière-plan
     if (cote === "verso" && typeof Paddle !== "undefined") {
       (async () => {
         let l = await Paddle.lignes(await createImageBitmap(blob));
@@ -1148,6 +1190,7 @@ const Base = {
         await Memoire.ecrire(this.entrees, "base");
       }).catch(err => console.warn(err));
     }
+    return true;
   },
 
   async _enregistrerModif(e, carte) {
