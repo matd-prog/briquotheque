@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v119 (03/10) : RECADRAGE PARTOUT où une photo change (Mathias). Photo ajoutée depuis Ma collection (« 📷 Ajouter la
+    photo du blister ») : « ✂️ Recadrer le recto » dans la fiche ✏️ de chaque blister créé (le recadrage vaut pour tous).
+    Bouton « 📷 verso » de la liste : passe par le remplacement (recadrage auto, fiche ouverte, « ✂️ Recadrer le verso »,
+    texte du verso lu). Base.modifier montre « Recadrer » pour toute photo remplacée ou ajoutée pendant la session.
   · v118 (03/10) : TOUT MODIFIER DEPUIS MA COLLECTION (Mathias). Custom touchée : « 📷 Photos du blister (recto, verso), n°,
     note » -> base de blisters filtrée sur la figurine (fiche ✏️ ouverte s'il n'y en a qu'un : remplacer, recadrer…) ;
     sans blister : « 📷 Ajouter la photo du blister » -> la photo choisie crée un blister par exemplaire (n°, code JB).

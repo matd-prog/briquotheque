@@ -428,13 +428,18 @@ const Collection = {
       });
       if (!fichier) return;
       await Base.ouvrir();
-      const { blob } = await Base._preparer(fichier, 0, "recto");
+      const { blob, cadre } = await Base._preparer(fichier, 0, "recto");
       const jb = /^JB-/i.test(c.code) ? c.code : "";
       for (const x of cases) {
         const n = this._numero(x), [numero, serie] = n.includes("/") ? n.split("/") : [n, ""];
         Base.entrees.push({ id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, recadre: true, nom, precision: "",
           numerote: !!n, numero, serie, remarque: "", code: jb, photo: blob, verso: null, exporte: false, possede: true, date: new Date().toISOString() });
       }
+      // photo encore recadrable (« ✂️ Recadrer le recto » dans la fiche de chaque blister créé)
+      const crees = Base.entrees.slice(-cases.length);
+      const r = { cote: "recto", fichier, sens: 0, cadre, cibles: crees, carte: null };
+      Base._remplacements = Base._remplacements || {};
+      for (const x of crees) Base._remplacements[`${x.id}|recto`] = r;
       await Memoire.ecrire(Base.entrees, "base");
       await this._chargerMesBlisters();
       toast(`Photo ajoutée ✔ : ajoutez le verso, recadrez si besoin`, 4500);

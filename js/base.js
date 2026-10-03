@@ -1083,11 +1083,10 @@ const Base = {
     $("base-liste").querySelectorAll("[data-base-verso]").forEach(c => c.addEventListener("change", async () => {
       const f = c.files[0], e = this.entrees.find(x => x.id === c.dataset.baseVerso);
       if (!f || !e) return;
-      e.verso = await this._reduire(f, 0);
-      e.exporte = false; // à renvoyer avec son verso
-      await Memoire.ecrire(this.entrees, "base");
-      toast(`Verso de « ${nomComplet(e)} » ajouté ✔`);
-      this._afficherListe();
+      // comme une photo de remplacement : recadrée, puis fiche ouverte avec « ✂️ Recadrer le verso »
+      this.modifier(e.id);
+      const carte = $("base-liste").querySelector(`[data-fiche="${e.id}"]`);
+      await this.remplacerPhoto(e, "verso", f, carte);
     }));
   },
 
@@ -1139,6 +1138,10 @@ const Base = {
       c.value = "";
       if (f) await this.remplacerPhoto(e, c.dataset.remplacer, f, carte);
     }));
+    for (const cote of ["recto", "verso"]) { // photo remplacée ou ajoutée juste avant (Ma collection…) : encore recadrable
+      const r = this._remplacements && this._remplacements[`${e.id}|${cote}`];
+      if (r) { r.carte = carte; carte.querySelector(`[data-recadrer-rempl="${cote}"]`).hidden = false; }
+    }
     carte.querySelectorAll("[data-recadrer-rempl]").forEach(b => b.addEventListener("click", () => {
       const r = this._remplacements && this._remplacements[`${e.id}|${b.dataset.recadrerRempl}`];
       if (r) this.recadrer(r.cote, r);
