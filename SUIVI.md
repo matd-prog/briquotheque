@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v112 (03/10) : MA COLLECTION REGROUPE TOUT (Mathias) : puces « 🧱 Sets » et « 🔑 Objets dérivés » après les onglets de
+    figurines (liste ou vignettes : photo BrickLink, nom, ×quantité, marque/code/année/état ; lien « 🔗 BrickLink » ou
+    « 🔎 eBay.fr » pour les autres marques). Touchés : un exemplaire de plus / en retirer un / retirer (colonne Quantité,
+    ou ligne vidée). La recherche trouve aussi sets et objets. Collection.ARTICLES, _chargerArticles, _detailsArticle.
   · v111 (03/10) : pastille ronde du camp (verte, rouge, grise) devant le nom des figurines Star Wars, dans les fiches et
     les vignettes de Ma collection (Collection._pastilleCamp ; info-bulle Gentil / Méchant / Zone grise).
   · v110 (03/10) : CAMPS STAR WARS CACHÉS (Mathias). Gentils (vert), Méchants (rouge), Zone grise réunis sous « Star Wars »

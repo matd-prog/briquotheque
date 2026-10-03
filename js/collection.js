@@ -10,10 +10,11 @@ const Collection = {
   ouvrir(vue) {
     // planche (étiquettes telles qu'imprimées) : seulement depuis l'écran Impression ; sinon liste ou vignettes
     this.vue = vue || (this.vue === "planche" ? "liste" : this.vue);
+    this._chargerArticles().then(() => this.rendre()).catch(() => {}); // sets et objets dérivés
     CatalogueJB.charger().then(() => this.rendre()).catch(() => {}); // photos des customs JB
     this._chargerMesBlisters().then(() => this.rendre()).catch(() => {});
     const onglets = this._onglets();
-    if (!onglets.includes(this.onglet)) this.onglet = onglets.find(o => this._figurines(o).length) || onglets[0];
+    if (!onglets.includes(this.onglet) && !(this.vue !== "planche" && this._estArticles(this.onglet))) this.onglet = onglets.find(o => this._figurines(o).length) || onglets[0];
     $("collection-recherche").value = "";
     afficher("collection");
     this.rendre();
@@ -39,9 +40,62 @@ const Collection = {
     $("collection-contenu").addEventListener("click", e => this.clic(e));
   },
 
+  // Sets et objets dérivés, montrés à côté des figurines (tableaux « Sets » et « Objets dérivés »)
+  ARTICLES: { [ONGLET_SETS]: { icone: "🧱", lire: cl => lireSets(cl), quantite: "K", colonnes: COLONNES_SETS },
+              [ONGLET_OBJETS]: { icone: "🔑", lire: cl => lireObjets(cl), quantite: "E", colonnes: COLONNES_OBJETS } },
+  _articles: { [ONGLET_SETS]: [], [ONGLET_OBJETS]: [] },
+  _estArticles(o) { return !!this.ARTICLES[o]; },
+  _quantite(o) { return this._articles[o].reduce((s, a) => s + (a.quantite || 1), 0); },
+  async _chargerArticles() {
+    for (const [o, d] of Object.entries(this.ARTICLES)) {
+      try { this._articles[o] = etat.classeur ? (await d.lire(etat.classeur)).sort((a, b) => String(a.nom || a.code).localeCompare(String(b.nom || b.code), "fr")) : []; }
+      catch (err) { console.warn(err); this._articles[o] = []; }
+    }
+  },
+  _ficheArticle(a, onglet, vignette = false) {
+    const set = onglet === ONGLET_SETS, lego = !set || estLego(a);
+    const image = set ? (lego ? urlImageSet(a.code) : "") : `https://img.bricklink.com/ItemImage/GN/0/${encodeURIComponent(a.code)}.png`;
+    const photo = image ? `<img class="photo" loading="lazy" src="${echapper(image)}" alt="" onerror="this.style.visibility='hidden'">`
+      : `<span class="photo-custom">${this.ARTICLES[onglet].icone}</span>`;
+    const lien = set ? (lego ? urlBricklinkSet(a.code) : urlEbayMarque(a)) : `https://www.bricklink.com/v2/catalog/catalogitem.page?G=${encodeURIComponent(a.code)}`;
+    const bouton = `<a class="lien-ebay" href="${echapper(lien)}" target="_blank" rel="noopener">${lego ? "🔗 BrickLink" : "🔎 eBay.fr"}</a>`;
+    const n = a.quantite || 1, nom = a.nom || a.type || a.code;
+    const details = [!lego ? a.marque : "", a.code, set ? a.annee : a.type, a.etat].filter(Boolean).join(" · ");
+    const attrs = `data-onglet="${echapper(onglet)}" data-article="${a.row}"`;
+    if (vignette) return `<div class="vignette cliquable" ${attrs}>${photo}
+        <div class="nom-court">${echapper(nom)}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div><div class="code">${echapper(details)}</div></div>`;
+    return `<div class="fiche cliquable" ${attrs}>${photo}
+        <div class="infos"><div class="nom-court">${echapper(nom)}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
+          <div class="code">${echapper(details)}</div><div class="lieu">${echapper(onglet)}</div></div>${bouton}</div>`;
+  },
+
+  // Set ou objet touché : un de plus, un de moins (ou le retirer), voir sa page
+  async _detailsArticle(onglet, row) {
+    const a = this._articles[onglet].find(x => String(x.row) === String(row));
+    if (!a) return;
+    const d = this.ARTICLES[onglet], n = a.quantite || 1;
+    const i = await choisirAction(`${a.nom || a.code}\n${a.code} · ${onglet}\n${n > 1 ? `${n} exemplaires` : "1 exemplaire"}`,
+      ["➕ Un exemplaire de plus", n > 1 ? "➖ En retirer un" : "➖ Retirer de la collection"]);
+    if (i < 0) return;
+    try {
+      if (i === 0 || n > 1) await etat.classeur.ecrireTexte(onglet, d.quantite + row, String(i === 0 ? n + 1 : n - 1));
+      else {
+        if (!(await demander(`Retirer « ${a.nom || a.code} » de votre collection ?`, "Retirer", "Annuler"))) return;
+        for (const [l] of d.colonnes) await etat.classeur.viderCellule(onglet, l + row);
+      }
+      etat.nonEnregistres++;
+      await memoriser();
+      toast(i === 0 ? `« ${a.nom || a.code} » : ${n + 1} exemplaires ✔` : n > 1 ? `« ${a.nom || a.code} » : ${n - 1} exemplaire${n - 1 > 1 ? "s" : ""} ✔` : "Retiré ✔");
+    } catch (err) { console.error(err); await demander("La modification a échoué : " + err.message, "OK", "Fermer"); }
+    await this._chargerArticles();
+    this.rendre();
+  },
+
   // Fiche ou vignette touchée : sa photo -> photos en grand ; le reste -> menu (exemplaires, numéro, nom)
   clic(e) {
     if (e.target.closest("a")) return; // lien vers la page (JB, eBay.de, BrickLink)
+    const art = e.target.closest("[data-article]");
+    if (art) { this._detailsArticle(art.dataset.onglet, art.dataset.article); return; }
     const b = e.target.closest("[data-case]");
     if (!b) return;
     if (e.target.closest(".photo, .photo-custom") && b.dataset.vue !== "planche") this._photos(b.dataset.onglet, b.dataset.case);
@@ -70,7 +124,8 @@ const Collection = {
     $("collection-onglets").innerHTML = onglets.map(o => `
       <button class="puce ${!texte && o === this.onglet ? "choisi" : ""}" data-onglet="${echapper(o)}">
         <span class="pastille" style="background:${couleurOnglet(o)}"></span>${echapper(o)} (${this._figurines(o).length})
-      </button>`).join("");
+      </button>`).join("") + (this.vue === "planche" ? "" : Object.entries(this.ARTICLES).map(([o, d]) => `
+      <button class="puce ${!texte && o === this.onglet ? "choisi" : ""}" data-onglet="${echapper(o)}">${d.icone} ${echapper(o)} (${this._quantite(o)})</button>`).join(""));
     $("collection-bascule").hidden = !!texte || this.vue === "planche"; // planche : ouverte depuis Impression
     $("collection-bascule").querySelectorAll("[data-vue]").forEach(b => b.classList.toggle("choisi", b.dataset.vue === this.vue));
 
@@ -85,8 +140,20 @@ const Collection = {
       $("collection-info").textContent = res.length
         ? `${res.length} résultat(s) sur ${total} figurines.`
         : "Aucune figurine de votre collection ne correspond.";
-      contenu.innerHTML = this._regrouper(res).map(g => this._fiche(g.cases[0], g.onglet, g.cases)).join("");
+      const articles = Object.keys(this.ARTICLES).flatMap(o => this._articles[o]
+        .filter(a => mots.every(m => normaliser(`${a.nom} ${a.code} ${a.marque || ""} ${a.type || ""}`).includes(m))).map(a => this._ficheArticle(a, o)));
+      if (articles.length) $("collection-info").textContent = `${res.length + articles.length} résultat(s).`;
+      contenu.innerHTML = this._regrouper(res).map(g => this._fiche(g.cases[0], g.onglet, g.cases)).join("") + articles.join("");
       if (typeof Consulter !== "undefined") Consulter.completerPhotos(contenu);
+      return;
+    }
+
+    if (this._estArticles(this.onglet)) { // sets, objets dérivés
+      const liste = this._articles[this.onglet];
+      $("collection-info").textContent = `${liste.length} article(s) différent(s), ${this._quantite(this.onglet)} en tout dans « ${this.onglet} ». ` +
+        "Touchez un article pour en ajouter ou en retirer un.";
+      contenu.innerHTML = this.vue === "vignettes" ? `<div class="vignettes">${liste.map(a => this._ficheArticle(a, this.onglet, true)).join("")}</div>`
+        : liste.map(a => this._ficheArticle(a, this.onglet)).join("");
       return;
     }
 
