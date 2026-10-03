@@ -1,4 +1,4 @@
-#date 2026-10-02
+#date 2026-10-03
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -1238,7 +1238,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 11378-1	fig-017531	1	Pan Am Pilot, Black Uniform	twn544	0.76
 11378-1	fig-017532	1	Pan Am Pilot, Dark Blue Uniform	twn556	0.45
 11379-1	fig-018160	1	Author, Orange Hair	bdp355	0.45
-11379-1	fig-018161	1	Book Seller	dis203	0.36
+11379-1	fig-018161	1	Reader		0.0
 11382-1	fig-017996	1	Astronaut	edu034	0.78
 11383-1	fig-018136	1	Butler	mvc002	0.58
 11383-1	fig-018137	1	Mayor	twn155	0.65

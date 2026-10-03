@@ -1,4 +1,4 @@
-#date 2026-10-02
+#date 2026-10-03
 type	code	bricklink	ressemblance	nom	theme	annee	image	vu_le	sets
 figurine	fig-018190		0.45	IG-88, Molded Head	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018190.jpg	2026-10-02	75457-1
 figurine	fig-018189	sw0830	0.75	4-LOM	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018189.jpg	2026-10-02	75457-1
@@ -27,7 +27,7 @@ figurine	fig-018165	cty1961	0.7	Woman, Dark Green Torso, Dark Tan Legs, Light Bl
 figurine	fig-018164	LLP039	0.82	Child, Dark Turquoise Hoodie, Blue Medium Legs, Dark Blue Beanie	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018164.jpg	2026-10-02	11387-1
 figurine	fig-018163	LLP038	0.81	Child, White Torso, Red Legs, Dark Brown Hair	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018163.jpg	2026-10-02	11387-1
 figurine	fig-018162	cty1955	0.78	Man, Tan Sweater, Sand Blue Legs, Dark Brown Hair	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018162.jpg	2026-10-02	11387-1
-figurine	fig-018161		0.36	Book Seller	Icons	2026	https://cdn.rebrickable.com/media/sets/fig-018161.jpg	2026-10-02	11379-1
+figurine	fig-018161		0.0	Reader	Icons	2026	https://cdn.rebrickable.com/media/sets/fig-018161.jpg	2026-10-02	11379-1
 figurine	fig-018160		0.45	Author, Orange Hair	Icons	2026	https://cdn.rebrickable.com/media/sets/fig-018160.jpg	2026-10-02	11379-1
 figurine	fig-018159		0.65	Mrs. Claus, Red Dress, Silver Glasses	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018159.jpg	2026-10-02	40866-1
 figurine	fig-018158		0.38	Wednesday, Jacket	Wednesday	2026	https://cdn.rebrickable.com/media/sets/fig-018158.jpg	2026-10-02	76787-1
@@ -958,6 +958,14 @@ figurine	fig-017053		0.47	Monkey Suit	Collectible Minifigures / Series 28 Minifi
 figurine	fig-017052		0.47	Goldfish Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017052.jpg		71051-3
 figurine	fig-017051		0.47	Cat Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017051.jpg		71051-2
 figurine	fig-017050		0.47	Peacock Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017050.jpg		71051-1
+objet	854338-1	854338		Lloyd's Sword with Sheath	Gear / Role Play Toys and Costumes	2026	https://cdn.rebrickable.com/media/sets/854338-1.jpg	2026-10-03	
+objet	854337-1	854337		Dragonian Warrior Axe	Gear / Role Play Toys and Costumes	2026	https://cdn.rebrickable.com/media/sets/854337-1.jpg	2026-10-03	
+objet	854336-1	854336		Izzie's Sword	Gear / Role Play Toys and Costumes	2026	https://cdn.rebrickable.com/media/sets/854336-1.jpg	2026-10-03	
+objet	854335-1	854335		Mateo's Z-Blob Sword	Gear / Role Play Toys and Costumes	2026	https://cdn.rebrickable.com/media/sets/854335-1.jpg	2026-10-03	
+objet	203230001-1	203230001		1 x 1 Brick Crossbody Bag (All Colors)	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/203230001-1.jpg	2026-10-03	
+objet	203220001-1	203220001		1 x 1 Brick Tote Bag (All Colors)	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/203220001-1.jpg	2026-10-03	
+objet	203200001-1	203200001		1 x 1 Brick Mini Crossbody Bag (All Colors)	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/203200001-1.jpg	2026-10-03	
+objet	203180001-1	203180001		2 x 2 Brick Backpack - Updated (All Colors)	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/203180001-1.jpg	2026-10-03	
 objet	LGLLP61-1	LGL-LP61		Heart Night Light	Gear / Houseware	2027	https://cdn.rebrickable.com/media/sets/lgllp61-1.jpg		
 objet	LGLKE262H-1	LGL-KE262H		Rechargeable Minifigure Key Light (All Colors)	Gear / Key Chain	2027	https://cdn.rebrickable.com/media/sets/lglke262h-1.jpg		
 objet	9781797248042-1	9781797248042		Botanicals: 30 Postcards	Gear / Stationery and Office Supplies	2027	https://cdn.rebrickable.com/media/sets/9781797248042-1.jpg		
@@ -2186,7 +2194,7 @@ set	40902-1	40902-1		Tribute to Leonardo da Vinci	Other	2026	https://cdn.rebrick
 set	40901-1	40901-1		Ministry Munchies & The Daily Prophet Stands	Harry Potter	2026	https://cdn.rebrickable.com/media/sets/40901-1.jpg		
 set	40900-1	40900-1		Scary Haunted Tree	Seasonal / Halloween	2026	https://cdn.rebrickable.com/media/sets/40900-1.jpg		
 set	40899-1	40899-1		Astro Bot	Other	2026	https://cdn.rebrickable.com/media/sets/40899-1.jpg		
-set	40897-1	40897-1		Darth Vader's LIGHTSABER	Star Wars	2026	https://cdn.rebrickable.com/media/sets/40897-1.jpg		
+set	40897-1	40897-1		Darth Vader's Lightsaber	Star Wars	2026	https://cdn.rebrickable.com/media/sets/40897-1.jpg		
 set	40896-1	40896-1		The X-Files: Scully's Lab	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/40896-1.jpg		
 set	40894-1	40894-1		Koenigsegg Sadair's Spear Steering Wheel	Technic	2026	https://cdn.rebrickable.com/media/sets/40894-1.jpg		
 set	40893-1	40893-1		Grond	Icons	2026	https://cdn.rebrickable.com/media/sets/40893-1.jpg		
