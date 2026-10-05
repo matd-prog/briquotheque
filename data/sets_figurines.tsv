@@ -1,4 +1,4 @@
-#date 2026-10-04
+#date 2026-10-05
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -4590,7 +4590,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 40810-1	fig-016197	1	LEGOLAND Visitor, White Torso, Blue Legs, Red Cap	LLP037	0.43
 40822-1	fig-016586	1	Farmer, Medium Nougat Overalls, Dark Brown Hat	hol375	0.8
 40866-1	fig-015529	1	Santa, Black Boots, 3626cpr3560 Head, 102264 Hat	hol381	0.59
-40866-1	fig-018159	1	Mrs. Claus, Red Dress, Silver Glasses	hol384	0.65
+40866-1	fig-018159	1	Mrs. Claus, Red Dress, Gold Glasses	hol384	0.65
 40872-1	fig-016676	1	Ghost, Glow in the Dark, Pin Hole	sh1117	0.32
 40891-1	fig-017245	1	Sheriff Hopper	st024	0.35
 40891-1	fig-017246	1	Joyce Byers	st023	0.81
@@ -8908,7 +8908,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 60273-1	fig-010287	1	Sam Grizzled, Helmet and Goggles	hol247	0.59
 60273-1	fig-010288	1	Hacksaw Hank	cty1203	0.62
 60274-1	fig-010289	1	Vito, Red Shirt	cty1205	0.65
-60274-1	fig-010290	1	Rooky Partnur, White Helmet, Black Goggles	cty1191	0.38
+60274-1	fig-010290	1	Rooky Partnur, Black Hair	hp209	0.41
 60275-1	fig-001924	1	Policeman, Bright Light Blue Shirt with Dark Blue Tie, Badge, and Radio on Belt, Dark Blue Cap, Sunglasses	cty1373	0.47
 60275-1	fig-010855	1	Criminal, Woman, Prison Shirt with '50382', Dark Red Legs, Dark Orange Hair	hol229	0.46
 60276-1	fig-007949	1	Criminal, Snake Rattler	cty1130	0.41
@@ -18283,6 +18283,16 @@ set	figurine	quantite	nom	bricklink	ressemblance
 76344-1	fig-017280	1	Iron Man Mark 3 Armor, Sunglasses	sh1097	0.6
 76345-1	fig-018134	1	Doctor Doom	son035	0.37
 76346-1	fig-017666	1	Spider-Man, Suit with Bue 'Ribs', Plain Legs	sh1134	0.6
+76347-1	fig-018192	1	Scott Summers / Cyclops	trek011	0.31
+76347-1	fig-018193	1	The Thing / Benjamin Grimm, Shorts	bob039	0.27
+76347-1	fig-018195	1	Captain America, Sam Wilson, Dual-Molded Legs, Neck Bracket	sh1096	0.61
+76347-1	fig-018196	1	Dr. Doom, Cape, Neck Armor	sh1158	0.67
+76348-1	fig-018196	1	Dr. Doom, Cape, Neck Armor	sh1158	0.67
+76348-1	fig-018197	1	Reed Richards / Mr. Fantastic, Long Legs	hp634	0.31
+76348-1	fig-018199	1	Thor, Rubbed Cape	sh1069	0.61
+76348-1	fig-018200	1	Magneto, Rubber Cape	sh0997	0.72
+76348-1	fig-018201	1	Kurt Wagner / Nightcrawler		0.0
+76348-1	fig-018202	1	Raven Darkhölme / Mystique	fort009	0.2
 76349-1	fig-017666	1	Spider-Man, Suit with Bue 'Ribs', Plain Legs	sh1134	0.6
 76349-1	fig-017667	1	Tarantula (Marvel)	sh1135	0.62
 76349-1	fig-017673	1	DODC Guard	sh1142	0.67
@@ -18295,6 +18305,12 @@ set	figurine	quantite	nom	bricklink	ressemblance
 76350-1	fig-017669	1	Boomerang (Marvel)	sh1136	0.64
 76350-1	fig-017671	1	Hulk (Big Fig), Olive Green, Black Hair, Removable Head, Reddish Brown Pants, Dark Green Eyes	sh1138	0.56
 76350-1	fig-017672	1	Scorpion, Dark Green Suit	sh1137	0.53
+76352-1	fig-018196	1	Dr. Doom, Cape, Neck Armor	sh1158	0.67
+76352-1	fig-018203	1	Alexei Shostakov / Red Guardian	min275	0.27
+76352-1	fig-018204	1	Robert Reynolds / Sentry	jw115	0.18
+76352-1	fig-018205	1	Yelena Belova / Black Widow	sh1012	0.29
+76352-1	fig-018206	1	Bucky Barnes / Winter Soldier	sh1132	0.37
+76352-1	fig-018207	1	Jonathan Storm / Human Torch	st022	0.29
 76354-1	fig-017689	1	Captain America, Printed Arms	sh1128	0.89
 76354-1	fig-017691	1	Maria Hill, Dark Blue Outfit	sh1129	0.81
 76354-1	fig-017692	1	Hawkeye, Black Outfit	sh1130	0.73
