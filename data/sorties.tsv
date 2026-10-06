@@ -1,4 +1,4 @@
-#date 2026-10-05
+#date 2026-10-06
 code	nom	theme	sous_theme	annee	sortie	fin	pieces	figurines	image
 21064-1	Paris - City of Love	Architecture	Iconic Landmarks	2026	2026-01-01	2028-12-31	958		https://images.brickset.com/sets/images/21064-1.jpg
 31218-1	Japanese Cherry Blossom Landscape	Art	Paintings	2026	2026-01-01	2028-12-31	1892		https://images.brickset.com/sets/images/31218-1.jpg
@@ -502,7 +502,7 @@ ISBN9780241789926-1	LEGO Disney: Character Guide	Books	Dorling Kindersley	2026	2
 75646-1	Garp's Marine Battleship	One Piece	Season 2	2026	2026-08-01		1705	8	https://images.brickset.com/sets/images/75646-1.jpg
 30729-1	Premier Ball	Pokémon	Promotional	2026	2026-08-01		46		https://images.brickset.com/sets/images/30729-1.jpg
 40887-1	Ditto as Squirtle: Movie Night	Pokémon	SMART Play	2026	2026-08-01		185		https://images.brickset.com/sets/images/40887-1.jpg
-72154-1	Iconic Trainer Moments Poké Ball	Pokémon	Miscellaneous	2026	2026-08-01		2386	3	https://images.brickset.com/sets/images/72154-1.jpg
+72154-1	Iconic Trainer Moments Poké Ball	Pokémon	Miscellaneous	2026	2026-08-01		2386		https://images.brickset.com/sets/images/72154-1.jpg
 72160-1	Arcanine	Pokémon	Sculptures	2026	2026-08-01		1190		https://images.brickset.com/sets/images/72160-1.jpg
 40873-1	Colourful Lantern	Seasonal	Día de los Muertos	2026	2026-08-01		286		https://images.brickset.com/sets/images/40873-1.jpg
 40883-1	Halloween Skull Candle	Seasonal	Halloween	2026	2026-08-01		204		https://images.brickset.com/sets/images/40883-1.jpg
@@ -574,7 +574,11 @@ ISBN9780241789940-1	LEGO NINJAGO: Visual Dictionary, Updated Edition	Books	Dorli
 21065-1	Sagrada Família	Architecture	Landmark Series	2026	2026-11-01		12060		https://images.brickset.com/sets/images/21065-1.jpg
 10371-1	Cosy Plants	Botanicals	Happy Plants	2026	2026-11-01		248		https://images.brickset.com/sets/images/10371-1.jpg
 11390-1	Dragon Ball: Shenron & Goku	Icons	Dragon Ball	2026	2026-11-01		1764		https://images.brickset.com/sets/images/11390-1.jpg
+40898-1	{?}	Icons	Promotional	2026	2026-11-01				
 21375-1	{?}	Ideas		2026	2026-11-27				
+67008-1	Batman Returns Batmobile & Duck	DC Comics Super Heroes	Legendary Batmobile Collection	2027	2027-01-01		672		https://images.brickset.com/sets/images/67008-1.jpg
+67009-1	Arkham Batman Batmobile	DC Comics Super Heroes	Legendary Batmobile Collection	2027	2027-01-01		317		https://images.brickset.com/sets/images/67009-1.jpg
+67012-1	The Joker Wall Art Comic Cover	DC Comics Super Heroes	Batman	2027	2027-01-01		1849		https://images.brickset.com/sets/images/67012-1.jpg
 71873-1	Cole vs. Evil Cole Spinner	Ninjago	Spinner Battle	2027	2027-01-01		58		https://images.brickset.com/sets/images/71873-1.jpg
 71875-1	Lloyd vs. Ras Spinner Battle	Ninjago	Spinner Battle	2027	2027-01-01		153		https://images.brickset.com/sets/images/71875-1.jpg
 72052-1	Mario's Pipe Jump	Super Mario		2027	2027-01-01		61		https://images.brickset.com/sets/images/72052-1.jpg
@@ -744,9 +748,6 @@ L0002227-1	Firefighter with Helicopter	City	Magazine Gift	2026
 951443-1	Car	Creator	3 in 1	2026			76		https://images.brickset.com/sets/images/951443-1.jpg
 30752-1	{?}	DC Comics Super Heroes		2027					
 6644878-1	Batman Mini Bust	DC Comics Super Heroes	Loose Build	2026			26		https://images.brickset.com/sets/images/BATMANBUST-1.jpg
-67008-1	{?}	DC Comics Super Heroes		2027					
-67009-1	{?}	DC Comics Super Heroes		2027					
-67012-1	{?}	DC Comics Super Heroes		2027					
 L0002271-1	Batman	DC Comics Super Heroes	Magazine Gift	2026			10	1	https://images.brickset.com/sets/images/L0002271-1.jpg
 L0002272-1	Bane with Prison Cell	DC Comics Super Heroes	Magazine Gift	2026			27	1	https://images.brickset.com/sets/images/L0002272-1.jpg
 L0002273-1	The Riddler	DC Comics Super Heroes	Magazine Gift	2026				1	https://images.brickset.com/sets/images/L0002273-1.jpg
@@ -955,6 +956,7 @@ SWSTICKERS-1	Star Wars Target Stickers	Gear	Stickers	2026					https://images.bri
 76482-1	{?}	Harry Potter		2027					
 76483-1	{?}	Harry Potter		2027					
 76492-1	{?}	Harry Potter		2027					
+HPHOLIDAY-1	Harry Potter Holiday M&T	Harry Potter	Promotional	2026					https://images.brickset.com/sets/images/HPHOLIDAY-1.jpg
 11388-1	{?}	Icons		2026					
 11391-1	{?}	Icons		2027					
 11392-1	{?}	Icons		2027					
@@ -1101,14 +1103,16 @@ L0002215-1	Nya and Grimfax	Ninjago	Magazine Gift	2026			9	2
 5010306-1	I Love LEGO Store Frankfurt Main-Taunus-Zentrum	Promotional	LEGO brand stores	2026			1		https://images.brickset.com/sets/images/5010306-1.jpg
 5010324-1	I Love Malaysia Minifigures	Promotional	Minifigure	2026			8		https://images.brickset.com/sets/images/5010324-1.jpg
 5010400-1	I love LEGO Store Magnolia Park	Promotional	LEGO brand stores	2026			1		https://images.brickset.com/sets/images/5010400-1.jpg
+5010487-1	5 Years in Japan Anniversary Minifigure	Promotional	Minifigure	2026					https://images.brickset.com/sets/images/5010487-1.jpg
 5010554-1	Ideas - Trophy White	Promotional		2026					
 5010555-1	Ideas - Trophy Black	Promotional		2026					
-5010878-1	I Love LEGO Store Praha Centrum Tile	Promotional	LEGO brand stores	2026			1		
+5010878-1	I Love LEGO Store Praha Centrum Tile	Promotional	LEGO brand stores	2026			1		https://images.brickset.com/sets/images/5010878-1.jpg
 5010886-1	M&T Yellow Pencil	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/5010886-1.jpg
 5010902-1	I Love LEGO Store Oakbrook Tile	Promotional	LEGO brand stores	2026			1		
 5010903-1	I Love LEGO Store CF Toronto Eaton Tile	Promotional	LEGO brand stores	2026			1		
 5010905-1	I Love LEGO Store Renaissance Colony Tile	Promotional	LEGO brand stores	2026			1		
-5011071-1	Gingerbread House	Promotional		2026					
+5011164-1	Beetle Garden	Promotional	Botanical Collection	2026					
+5011181-1	I Love LEGO Store Koshigaya Laketown Tile	Promotional	LEGO brand stores	2026			1		https://images.brickset.com/sets/images/5011181-1.jpg
 6608561-1	Lucky Money Bag	Promotional	LEGO brand stores	2026			49		https://images.brickset.com/sets/images/6608561-1.jpg
 6611591-1	Crescent Moon	Promotional	LEGO brand stores	2026			37		https://images.brickset.com/sets/images/6611591-1.jpg
 6611593-1	Duck	Promotional	LEGO brand stores	2026			46		https://images.brickset.com/sets/images/6611593-1.jpg
@@ -1130,6 +1134,7 @@ L0002215-1	Nya and Grimfax	Ninjago	Magazine Gift	2026			9	2
 6643344-1	Hat (St Patrick's Day M&T)	Promotional	LEGO brand stores	2026			21		https://images.brickset.com/sets/images/6643344-1.jpg
 6644846-1	Turbo Shark Delivery / Shark Air Delivery	Promotional	LEGO brand stores	2026			41		https://images.brickset.com/sets/images/6644846-1.jpg
 6644870-1	Dragon on Skateboard	Promotional	Miscellaneous	2026			55		https://images.brickset.com/sets/images/6644870-1.jpg
+6644890-1	The Holiday Duo	Promotional	LEGO brand stores	2026			53		https://images.brickset.com/sets/images/6644890-1.jpg
 6647174-1	Stadium	Promotional	LEGO brand stores	2026			17		https://images.brickset.com/sets/images/STADIUM-1.jpg
 6652991-1	Rock Guitar	Promotional	LEGO brand stores	2026			52		https://images.brickset.com/sets/images/GUITAR-1.jpg
 6659451-1	Quack & Roll	Promotional	Miscellaneous	2026			55		https://images.brickset.com/sets/images/6659451-1.jpg
@@ -1140,15 +1145,24 @@ DUCKY-1	M&T Ducky	Promotional	LEGO brand stores	2026					https://images.brickset
 EASTEREGG-1	M&T Style Your Egg	Promotional	LEGO brand stores	2026			41		https://images.brickset.com/sets/images/EASTEREGG-1.jpg
 FIRETRUCK-1	City Firetruck	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/FIRETRUCK-1.jpg
 FOOTBALL-1	Football	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/FOOTBALL-1.jpg
+GHOSTSTREET-1	M&T Ghost Street	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/GHOSTSTREET-1.jpg
 GNOME-1	Gnome M&T	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/GNOME-1.jpg
 LOUNGECHAIR-1	Lounge Chair	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/LOUNGECHAIR-1.jpg
 MOSAIC-1	M&T Mosaic	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/MOSAIC-1.jpg
+NORTHPOLE-1	M&T The North-Pole Squad	Promotional		2026					https://images.brickset.com/sets/images/NORTHPOLE-1.jpg
 PETSHOW-1	Pet Show	Promotional	LEGO brand stores	2026			61		https://images.brickset.com/sets/images/PETSHOW-1.jpg
+PUMPKIN-1	Canada Pumpkin M&T	Promotional		2026					https://images.brickset.com/sets/images/PUMPKIN-1.jpg
+REINDEER-1	M&T Reindeer	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/REINDEER-1.jpg
+SANTA-1	M&T Santa	Promotional	LEGO brand stores	2026			18		https://images.brickset.com/sets/images/SANTA-1.jpg
 STAR-1	Arena Star	Promotional	Miscellaneous	2026			42		https://images.brickset.com/sets/images/STAR-1.jpg
 TVREMOTE-1	TV Remote	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/TVREMOTE-1.jpg
+WEBGOAL-1	Web Goal Challenge	Promotional	Miscellaneous	2026					https://images.brickset.com/sets/images/WEBGOAL-1.jpg
+5011070-1	Santas Workshop	Seasonal	Christmas	2026					
+5011071-1	Gingerbread House	Seasonal	Christmas	2026					
 66822-1	Haunted Halloween Set	Seasonal	Product Collection	2026			947		https://images.brickset.com/sets/images/66822-1.jpg
 80118-1	Fortune Firecracker	Seasonal	Chinese Traditional Festival	2026			1039	6	https://images.brickset.com/sets/images/80118-1.jpg
 80119-1	Galloping Horse Canvas	Seasonal	Chinese Traditional Festival	2026			1650	2	https://images.brickset.com/sets/images/80119-1.jpg
+WITCHPUMPKIN-1	[Witch Moon Pumpkin]	Seasonal	Halloween	2026					https://images.brickset.com/sets/images/WITCHPUMPKIN-1.jpg
 72421-1	{?}	Shrek		2027					
 72422-1	{?}	Shrek		2027					
 77119-1	Tails' Tornado-1	Sonic the Hedgehog	Modern Games	2026			310	1	https://images.brickset.com/sets/images/77119-1.jpg
