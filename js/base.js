@@ -399,8 +399,12 @@ const Base = {
                     verso: e.verso ? e.verso.size : 0, suspecteVerso: e.verso ? await mesure(e.verso) : false };
         n++;
       }
-      if (n) {
+      const remplacees = this._fusionnerPhotos();
+      if (remplacees) toast(`📏 ${remplacees} photo${remplacees > 1 ? "s" : ""} prise${remplacees > 1 ? "s" : ""} de loin remplacée${remplacees > 1 ? "s" : ""} par la bonne photo de la même figurine`, 5000);
+      if (n || remplacees) {
         await Memoire.ecrire(this.entrees, "base");
+        if (remplacees && typeof Collection !== "undefined") Collection._chargerMesBlisters().catch(() => {});
+        if (remplacees && typeof BaseCommune !== "undefined") setTimeout(() => BaseCommune.envoyerEnFond(this), 2000);
         // fiche ✏️ ouverte (modification en cours) : on ne réaffiche pas la liste, seulement le bouton
         if ($("base-liste") && $("base-liste").querySelector(".carte[data-fiche]")) this._majBoutonARefaire(); else this._afficherListe();
         // mini-appli : « Ma collection » affichée, ses repères 📏 suivent
@@ -408,6 +412,39 @@ const Base = {
       }
     } catch (err) { console.warn(err); }
     this._mesureEnCours = false;
+  },
+  // Même figurine photographiée plusieurs fois, de loin et de près (Mathias, 07/10 : « ne garder que les photos
+  // bien prises ») : la photo prise de loin (recto ou verso) d'un exemplaire est remplacée par une bonne photo d'un
+  // autre exemplaire de la même figurine. Sans bonne photo, elle reste (repère 📏). Renvoie le nombre de photos remplacées.
+  _fusionnerPhotos() {
+    const groupes = new Map();
+    for (const e of this.entrees) {
+      if (!e.photo || !e.nom || !e.forme || e.forme.recto !== e.photo.size) continue; // pas encore mesurée
+      const k = cleFigurine(e.nom, e.precision);
+      if (!groupes.has(k)) groupes.set(k, []);
+      groupes.get(k).push(e);
+    }
+    let n = 0;
+    for (const g of groupes.values()) {
+      if (g.length < 2) continue;
+      const bonRecto = g.find(e => !e.forme.suspecteRecto);
+      const bonVerso = g.find(e => e.verso && e.forme.verso === e.verso.size && !e.forme.suspecteVerso);
+      for (const e of g) {
+        let change = false;
+        if (bonRecto && e.forme.suspecteRecto) {
+          e.photo = bonRecto.photo;
+          Object.assign(e.forme, { recto: e.photo.size, suspecteRecto: false });
+          change = true; n++;
+        }
+        if (bonVerso && e !== bonVerso && (e.verso ? e.forme.suspecteVerso : change)) { // verso de loin, ou absent quand le recto vient d'être remplacé
+          e.verso = bonVerso.verso; e.versoTexte = bonVerso.versoTexte || "";
+          Object.assign(e.forme, { verso: e.verso.size, suspecteVerso: false });
+          change = true; n++;
+        }
+        if (change) { e.exporte = false; e.recadre = true; if (e.commune) e.communeMaj = Date.now(); }
+      }
+    }
+    return n;
   },
   _majBoutonARefaire() {
     if (!$("btn-base-a-refaire")) return;

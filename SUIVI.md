@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v128 (07/10) : SEULEMENT LES PHOTOS BIEN PRISES (Mathias : même figurine avec une photo de loin et une bonne, les
+    deux montrées). Base._fusionnerPhotos, après la mesure des photos (les deux applis) : pour chaque figurine
+    (nom + précision), la photo prise de loin (recto, verso) d'un exemplaire est remplacée par une bonne photo d'un
+    autre exemplaire ; verso absent repris aussi quand le recto est remplacé. Sans bonne photo : gardée (repère 📏).
+    Message « N photos prises de loin remplacées » ; base commune mise à jour (communeMaj, v127). Fiches : la photo une
+    seule fois avec tous les n°.
   · v127 (07/10) : PHOTO REFAITE -> BASE COMMUNE MISE À JOUR (Mathias). La base commune garde une photo par figurine
     (la première envoyée) ; une photo refaite bien cadrée la remplace : empreintes du décor et de la figurine
     (data/jb_empreintes_commune.tsv, jb_empreintes_figurine.tsv, ligne du code BC-… remplacée) et photos du dépôt
