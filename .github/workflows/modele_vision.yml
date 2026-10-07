@@ -1,0 +1,40 @@
+# Modèle de vision DINOv2 -> lib/vision/ et photos du catalogue JB (artifact) : outils/modele_vision.py
+# Tourne sur les serveurs de GitHub, car Hugging Face refuse l'environnement cloud de Claude.
+# À lancer à la main : onglet « Actions » du dépôt -> « Modèle de vision » -> « Run workflow ».
+name: Modèle de vision
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  modele:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Téléchargements
+        run: python3 -u outils/modele_vision.py
+      - name: Photos du catalogue (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalogue
+          path: /tmp/catalogue
+          retention-days: 7
+      - name: Autres versions du modèle (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: modeles
+          path: /tmp/modeles
+          retention-days: 7
+      - name: Publication de lib/vision
+        run: |
+          git add lib/vision
+          if git diff --cached --quiet; then echo "Rien de nouveau"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Modèle de vision DINOv2 ($(date +%F))"
+          git pull --rebase origin main
+          git push origin HEAD:main
