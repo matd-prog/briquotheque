@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v124 (07/10) : PHOTOS PRISES DE LOIN OU MAL CADRÉES SIGNALÉES (Mathias). Un blister bien cadré a la forme de son
+    carton (environ 4/3) ; photo bien plus large (> 1,53) ou en hauteur (< 0,85) : à refaire. Essai sur ses 369 rectos :
+    les 70 prises de loin repérées, 2 fausses alertes. Ma base de blisters : bouton « 📏 Photos prises de loin ou mal
+    cadrées (N) » (liste filtrée sur elles), repère rouge sur chaque blister concerné ; avertissement dès la prise de
+    photo (recto, verso, remplacement, ajout depuis Ma collection). Forme mesurée une fois par photo, gardée avec le
+    blister. Aussi dans la mini-appli de l'ami (contribuer.html).
   · v123 (07/10) : IDÉES NOTÉES PAR MATHIAS. Fiche d'une custom : exemplaires pris avec la même photo montrés une seule
     fois, tous leurs n° dessous ; n° triés dans l'ordre croissant partout dans Ma collection. « Ajouter un exemplaire »
     d'une custom déjà photographiée : fiche du recensement (même photo, « n° … nouveau ✔ » en vert) ; écran Custom : n°

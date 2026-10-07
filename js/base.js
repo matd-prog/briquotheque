@@ -347,11 +347,59 @@ const Base = {
   // (photos en série, même installation : cadre tracé une fois à la main sur les bords extérieurs de la coque)
   async _preparer(fichier, sens, cote = "recto") {
     const memo = this.cadresMemo && this.cadresMemo[cote];
-    if (memo) return { blob: await this._reduire(fichier, sens, memo), cadre: { ...memo } };
+    if (memo) return this._signalerForme({ blob: await this._reduire(fichier, sens, memo), cadre: { ...memo } }, cote);
     const entiere = await this._reduire(fichier, sens);
     let cadre = null;
     try { cadre = this._cadreAuto(await createImageBitmap(entiere)); } catch (err) { console.warn(err); }
-    return { blob: cadre ? await this._reduire(fichier, sens, cadre) : entiere, cadre };
+    return this._signalerForme({ blob: cadre ? await this._reduire(fichier, sens, cadre) : entiere, cadre }, cote);
+  },
+
+  // Photo prise de loin ou mal cadrée : un blister bien cadré a la forme de son carton (à peu près 4/3, coque
+  // comprise : 1,1 à 1,5) ; une photo bien plus large (ou en hauteur) n'a pas été recadrée sur lui, ou le coupe.
+  // Essai sur les 369 rectos de Mathias (07/10/2026) : les 70 prises de loin (1,53 à 2,17, ou 0,46) et 9 coupées sur
+  // 17 repérées, 2 fausses alertes sur 282 bonnes photos (1,66 et 1,70) ; versos : bonnes 1,22 à 1,52.
+  formeSuspecte(largeur, hauteur) {
+    const r = largeur / Math.max(1, hauteur);
+    return r > 1.53 || r < 0.85;
+  },
+  async _signalerForme(res, cote) {
+    try {
+      const im = await createImageBitmap(res.blob);
+      if (this.formeSuspecte(im.width, im.height))
+        toast(`📏 ${cote === "verso" ? "Verso" : "Photo"} prise de loin ou mal cadrée ? Recadrez-la (✂️) ou reprenez-la de plus près, le blister bien en face.`, 7000);
+    } catch (err) { console.warn(err); }
+    return res;
+  },
+
+  // Blisters dont une photo (recto ou verso) est à refaire : forme de chaque photo mesurée une fois, gardée avec le
+  // blister (et remesurée si la photo change, d'après sa taille)
+  aRefaire(e) {
+    const f = e.forme;
+    return !!f && f.recto === (e.photo && e.photo.size) && (f.suspecteRecto || (!!e.verso && f.verso === e.verso.size && f.suspecteVerso));
+  },
+  async _mesurerFormes() {
+    if (this._mesureEnCours) return;
+    this._mesureEnCours = true;
+    let n = 0;
+    try {
+      for (const e of this.entrees) {
+        if (!e.photo) continue;
+        const f = e.forme || {};
+        if (f.recto === e.photo.size && (!e.verso || f.verso === e.verso.size)) continue;
+        const mesure = async b => { const im = await createImageBitmap(b); return this.formeSuspecte(im.width, im.height); };
+        e.forme = { recto: e.photo.size, suspecteRecto: await mesure(e.photo),
+                    verso: e.verso ? e.verso.size : 0, suspecteVerso: e.verso ? await mesure(e.verso) : false };
+        n++;
+      }
+      if (n) { await Memoire.ecrire(this.entrees, "base"); this._afficherListe(); }
+    } catch (err) { console.warn(err); }
+    this._mesureEnCours = false;
+  },
+  voirARefaire() {
+    this.filtrerSur("photos à refaire", e => this.aRefaire(e));
+    this.vue = "photos";
+    this._afficherListe();
+    if ($("base-filtre")) $("base-filtre").scrollIntoView({ block: "start" });
   },
 
   async _chargerCadresMemo() {
@@ -1051,6 +1099,12 @@ const Base = {
       $("btn-base-recadrer-tout").hidden = !n;
       $("btn-base-recadrer-tout").textContent = `✂️ Recadrer les photos déjà prises (${n} blister${n > 1 ? "s" : ""})`;
     }
+    if ($("btn-base-a-refaire")) {
+      const n = this.entrees.filter(e => this.aRefaire(e)).length;
+      $("btn-base-a-refaire").hidden = !n;
+      $("btn-base-a-refaire").textContent = `📏 Photos prises de loin ou mal cadrées (${n} blister${n > 1 ? "s" : ""})`;
+    }
+    this._mesurerFormes();
     if ($("base-vue-photos")) {
       $("base-vue-photos").classList.toggle("actif", this.vue === "photos");
       $("base-vue-compte").classList.toggle("actif", this.vue === "compte");
@@ -1067,6 +1121,7 @@ const Base = {
       <div class="fiche fiche-base" data-fiche="${e.id}">
         <img class="photo" src="${URL.createObjectURL(e.photo)}" alt="Recto" data-base-voir="${e.id}" title="Voir le recto et le verso">
         <div class="infos"><div class="nom-court">${echapper(nomComplet(e))}</div>
+          ${this.aRefaire(e) ? `<div class="recense-ecart">📏 Photo${e.forme.suspecteRecto && e.forme.suspecteVerso ? "s" : e.forme.suspecteRecto ? " du recto" : " du verso"} prise${e.forme.suspecteRecto && e.forme.suspecteVerso ? "s" : ""} de loin ou mal cadrée${e.forme.suspecteRecto && e.forme.suspecteVerso ? "s : touchez ✏️ pour les refaire ou les recadrer" : " : touchez ✏️ pour la refaire ou la recadrer"}</div>` : ""}
           <div class="lieu">${echapper([e.possede === false && "pas à moi, pour la base commune", e.possede !== false && e.numerote === false && "non numérotée", e.numero && `n° ${e.numero}${e.serie ? ` / ${e.serie}` : ""}`, !e.numero && e.serie && `série ${e.serie}`, e.remarque,
             e.verso ? "recto + verso" : "sans verso", e.origine === "album" && "d'après l'album photo", e.code, typeof BaseCommune !== "undefined" ? (e.commune ? "🌐 dans la base commune" : "🌐 en attente") : e.exporte ? "exporté" : "pas encore exporté"].filter(Boolean).join(" · "))}</div></div>
         <div class="fiche-actions">
@@ -1446,6 +1501,7 @@ document.addEventListener("click", e => {
   else if (action === "base-passer-verso") Base.passerVerso();
   else if (action === "base-recadrer-recto") Base.recadrer("recto");
   else if (action === "base-recadrer-tout") Base.recadrerTout();
+  else if (action === "base-a-refaire") Base.voirARefaire();
   else if (action === "base-voir-liste") Base.voirDansLaListe();
   else if (action === "base-recadrer-verso") Base.recadrer("verso");
   else if (action === "base-recadrage-ok") Base.finRecadrage("ok");
