@@ -153,6 +153,94 @@ const BaseCommune = {
     return n;
   },
 
+  // Photo refaite (Mathias, 07/10) : la base commune garde une photo par figurine, la première envoyée ; quand un
+  // blister déjà envoyé est re-photographié (photo bien cadrée), son empreinte (décor et figurine, dépôt public)
+  // et ses photos (dépôt privé) sont remplacées par les nouvelles, pour une meilleure reconnaissance chez tous.
+  // Une seule photo par figurine : la plus récente. Photo encore prise de loin : rien n'est changé (en attente).
+  async majPhotos(entrees) {
+    const aFaire = entrees.filter(e => e.communeMaj && e.photo && e.nom);
+    if (!aFaire.length) return 0;
+    const cle = t => normaliser(t).replace(/[^a-z0-9]+/g, " ").trim();
+    const bonne = async b => { const im = await createImageBitmap(b); const ok = !Base.formeSuspecte(im.width, im.height); im.close && im.close(); return ok; };
+    // code BC-… de chaque figurine : celui de l'exemplaire envoyé, sinon d'après le nom dans la base commune
+    const parNom = new Map();
+    for (const l of (await this._lire(DEPOT_PUBLIC, "data/jb_commune.tsv")).texte.split("\n").slice(1)) {
+      const [code, nom] = l.split("\t");
+      if (/^BC-/.test(code || "") && nom && !parNom.has(cle(nom))) parNom.set(cle(nom), code);
+    }
+    const parFig = new Map(); // figurine -> photo refaite la plus récente
+    for (const e of aFaire.sort((a, b) => a.communeMaj - b.communeMaj)) parFig.set(cle(nomComplet(e)), e);
+    const empreintes = new Map(), figurines = new Map(), faits = [];
+    for (const [k, e] of parFig) {
+      const code = e.communeCode || (entrees.find(x => x.communeCode && cle(nomComplet(x)) === k) || {}).communeCode || parNom.get(k);
+      const memes = aFaire.filter(x => cle(nomComplet(x)) === k);
+      if (!code) { memes.forEach(x => delete x.communeMaj); continue; } // pas dans la base commune : rien à remplacer
+      if (!(await bonne(e.photo))) continue; // encore prise de loin ou mal cadrée : on attend la bonne
+      const bitmap = await createImageBitmap(e.photo);
+      empreintes.set(code, empreinteEnTexte(empreinteImage(bitmap, false)));
+      figurines.set(code, empreinteEnTexte(empreinteCentreBlister(bitmap)));
+      bitmap.close && bitmap.close();
+      await this._remplacerFichier(DEPOT_PRIVE, `album_photos/commune/${code}_recto.jpg`, e.photo, `Base commune : ${nomComplet(e)} (photo refaite, recto)`);
+      if (e.verso) await this._remplacerFichier(DEPOT_PRIVE, `album_photos/commune/${code}_verso.jpg`, e.verso, `Base commune : ${nomComplet(e)} (photo refaite, verso)`);
+      faits.push(...memes);
+    }
+    if (!empreintes.size) return 0;
+    await this._remplacerLignes(DEPOT_PUBLIC, "data/jb_empreintes_commune.tsv", "code\tempreinte", empreintes);
+    await this._remplacerLignes(DEPOT_PUBLIC, "data/jb_empreintes_figurine.tsv", "code\tempreinte", figurines);
+    faits.forEach(x => delete x.communeMaj);
+    return empreintes.size;
+  },
+
+  // Repérage, une fois : figurines dont la photo de la base commune est prise de loin (ou a été refaite depuis
+  // l'envoi) alors qu'une bonne photo existe dans « Ma base de blisters » : marquées pour majPhotos
+  async reperer(entrees) {
+    const rep = await fetch("data/jb_empreintes_commune.tsv", { cache: "no-cache" });
+    if (!rep.ok) return;
+    const envoyees = new Map((await rep.text()).split("\n").map(l => l.split("\t")).filter(([c, e]) => c && e).map(([c, e]) => [c, e]));
+    const cle = t => normaliser(t).replace(/[^a-z0-9]+/g, " ").trim();
+    const dims = async b => { const im = await createImageBitmap(b); const r = [im.width, im.height]; im.close && im.close(); return r; };
+    let n = 0;
+    for (const e of entrees.filter(x => x.communeCode && x.photo && envoyees.has(x.communeCode))) {
+      const k = cle(nomComplet(e));
+      const [w, h] = await dims(e.photo);
+      if (!Base.formeSuspecte(w, h)) { // photo bien cadrée : refaite depuis l'envoi ?
+        const im = await createImageBitmap(e.photo), emp = empreinteEnTexte(empreinteImage(im, false));
+        im.close && im.close();
+        if (emp !== envoyees.get(e.communeCode)) { e.communeMaj = Date.now(); n++; }
+        continue;
+      }
+      // photo envoyée prise de loin : une bonne photo d'un autre exemplaire de la même figurine ?
+      for (const x of entrees.filter(y => y !== e && y.photo && y.commune && cle(nomComplet(y)) === k)) {
+        const [w2, h2] = await dims(x.photo);
+        if (!Base.formeSuspecte(w2, h2)) { x.communeMaj = Date.now(); n++; break; }
+      }
+    }
+    await Memoire.ecrire(entrees, "base");
+    await Memoire.ecrire(new Date().toISOString(), "commune-photos-reperees");
+    return n;
+  },
+
+  // Fichier (photo) remplacé dans un dépôt : il faut le sha de l'ancien
+  async _remplacerFichier(depot, chemin, blob, message) {
+    const rep = await this._api(depot, `/contents/${chemin}`);
+    const sha = rep.status === 404 ? null : (await rep.json()).sha;
+    await this._ecrire(depot, chemin, await this._blobEn64(blob), sha, message);
+  },
+
+  // Lignes d'une liste remplacées (code -> nouvelle valeur), ajoutées si absentes ; une seule écriture
+  async _remplacerLignes(depot, chemin, entete, valeurs) {
+    const { texte, sha } = await this._lire(depot, chemin);
+    const lignes = (texte.trim() ? texte.trim() : entete).split("\n"), vus = new Set(), res = [];
+    for (const l of lignes) {
+      const code = l.split("\t")[0];
+      if (!valeurs.has(code)) { res.push(l); continue; }
+      if (vus.has(code)) continue; // un seul exemplaire de la ligne
+      vus.add(code); res.push(`${code}\t${valeurs.get(code)}`);
+    }
+    for (const [code, v] of valeurs) if (!vus.has(code)) res.push(`${code}\t${v}`);
+    await this._ecrire(depot, chemin, this._texteEn64(res.join("\n") + "\n"), sha, `Base commune : ${valeurs.size} photo(s) refaite(s)`);
+  },
+
   // listes : une seule écriture par fichier pour tout l'envoi
   async _ajouterLignes(depot, chemin, entete, lignes) {
     const { texte, sha } = await this._lire(depot, chemin);
@@ -163,11 +251,19 @@ const BaseCommune = {
   },
   _ajouterVersos(lignes) { return this._ajouterLignes(DEPOT_PUBLIC, "data/jb_versos.tsv", "code\ttexte", lignes); },
 
-  // Envoi discret après un ajout (appli principale, avec jeton) ; une erreur n'empêche rien : réessayé plus tard
+  // Envoi discret après un ajout (appli principale, avec jeton) ; une erreur n'empêche rien : réessayé plus tard.
+  // Aussi les photos refaites (e.communeMaj) : la base commune prend la nouvelle (voir majPhotos).
   async envoyerEnFond(base) {
-    if (this._enCours || !(await this.jeton()) || !this.enAttente(base.entrees).length) return;
+    if (this._enCours || !(await this.jeton())) return;
+    if (!(await Memoire.lire("commune-photos-reperees"))) await this.reperer(base.entrees).catch(err => console.warn("base commune : repérage", err));
+    if (!this.enAttente(base.entrees).length && !base.entrees.some(e => e.communeMaj)) return;
     this._enCours = this.envoyer(base.entrees, "moi")
-      .then(async n => { await Memoire.ecrire(base.entrees, "base"); if (n) toast(`🌐 ${n} nouvelle${n > 1 ? "s" : ""} figurine${n > 1 ? "s" : ""} dans la base commune`); })
+      .then(async n => {
+        const m = await this.majPhotos(base.entrees);
+        await Memoire.ecrire(base.entrees, "base");
+        if (n) toast(`🌐 ${n} nouvelle${n > 1 ? "s" : ""} figurine${n > 1 ? "s" : ""} dans la base commune`);
+        if (m) toast(`🌐 ${m} photo${m > 1 ? "s" : ""} refaite${m > 1 ? "s" : ""} reportée${m > 1 ? "s" : ""} dans la base commune : reconnaissance améliorée`, 5000);
+      })
       .catch(err => console.warn("base commune :", err))
       .finally(() => { this._enCours = null; base._afficherListe(); });
     return this._enCours;

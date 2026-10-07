@@ -33,6 +33,7 @@ const Base = {
     afficher("base");
     this._afficherListe();
     CatalogueJB.charger().catch(() => {});
+    if (typeof BaseCommune !== "undefined") BaseCommune.envoyerEnFond(this); // photos refaites à reporter, envois en attente
   },
 
   _nouvelle() {
@@ -1251,8 +1252,10 @@ const Base = {
     for (const x of cibles) {
       if (cote === "verso") { x.verso = blob; x.versoTexte = ""; } else x.photo = blob;
       x.exporte = false;
+      if (x.commune) x.communeMaj = Date.now(); // déjà dans la base commune : la photo refaite y remplacera l'ancienne
     }
     if (!(await Memoire.ecrire(this.entrees, "base"))) return false;
+    if (typeof BaseCommune !== "undefined") setTimeout(() => BaseCommune.envoyerEnFond(this), 3000); // après un éventuel « ✂️ Recadrer »
     if (typeof Collection !== "undefined") Collection._chargerMesBlisters().catch(() => {}); // photos de Ma collection
     const img = carte && carte.querySelector(`[data-modif-img="${cote}"]`);
     if (img) img.outerHTML = `<img class="photo-apercu" data-modif-img="${cote}" src="${URL.createObjectURL(blob)}" alt="${cote}">`;

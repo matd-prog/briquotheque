@@ -125,6 +125,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v127 (07/10) : PHOTO REFAITE -> BASE COMMUNE MISE À JOUR (Mathias). La base commune garde une photo par figurine
+    (la première envoyée) ; une photo refaite bien cadrée la remplace : empreintes du décor et de la figurine
+    (data/jb_empreintes_commune.tsv, jb_empreintes_figurine.tsv, ligne du code BC-… remplacée) et photos du dépôt
+    privé (album_photos/commune/BC-…). Repérage une fois (Memoire « commune-photos-reperees ») : figurine envoyée
+    avec une photo prise de loin alors qu'un autre exemplaire a une bonne photo, ou photo refaite depuis l'envoi
+    (empreinte différente). Ensuite chaque remplacement de photo (✏️, Ma collection) d'un blister déjà dans la base
+    commune est reporté en arrière-plan (e.communeMaj) ; photo encore mal cadrée : en attente. Testé avec un faux GitHub.
   · v126 (07/10) : « MA COLLECTION » DANS LA MINI-APPLI DE L'AMI (Mathias). Onglets « 📷 Photographier » / « 📚 Ma
     collection » en haut de contribuer.html. Ma collection (js/ma_collection_ami.js) : ses blisters regroupés par
     figurine (nom imprimé + précision), présentés comme Ma collection de l'appli principale, sans onglets de thèmes :
