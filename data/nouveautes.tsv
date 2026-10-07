@@ -1,5 +1,19 @@
-#date 2026-10-03
+#date 2026-10-06
 type	code	bricklink	ressemblance	nom	theme	annee	image	vu_le	sets
+figurine	fig-018207		0.29	Jonathan Storm / Human Torch	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018207.jpg	2026-10-05	76352-1
+figurine	fig-018206		0.37	Bucky Barnes / Winter Soldier	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018206.jpg	2026-10-05	76352-1
+figurine	fig-018205		0.29	Yelena Belova / Black Widow	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018205.jpg	2026-10-05	76352-1
+figurine	fig-018204		0.18	Robert Reynolds / Sentry	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018204.jpg	2026-10-05	76352-1
+figurine	fig-018203		0.27	Alexei Shostakov / Red Guardian	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018203.jpg	2026-10-05	76352-1
+figurine	fig-018202		0.2	Raven Darkhölme / Mystique	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018202.jpg	2026-10-05	76348-1
+figurine	fig-018201		0.0	Kurt Wagner / Nightcrawler	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018201.jpg	2026-10-05	76348-1
+figurine	fig-018200	sh0997	0.72	Magneto, Rubber Cape	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018200.jpg	2026-10-05	76348-1
+figurine	fig-018199		0.61	Thor, Rubbed Cape	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018199.jpg	2026-10-05	76348-1
+figurine	fig-018197		0.31	Reed Richards / Mr. Fantastic, Long Legs	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018197.jpg	2026-10-05	76348-1
+figurine	fig-018196		0.67	Dr. Doom, Cape, Neck Armor	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018196.jpg	2026-10-05	76347-1 76348-1 76352-1
+figurine	fig-018195		0.61	Captain America, Sam Wilson, Dual-Molded Legs, Neck Bracket	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018195.jpg	2026-10-05	76347-1
+figurine	fig-018193		0.27	The Thing / Benjamin Grimm, Shorts	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018193.jpg	2026-10-05	76347-1
+figurine	fig-018192		0.31	Scott Summers / Cyclops	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018192.jpg	2026-10-05	76347-1
 figurine	fig-018190		0.45	IG-88, Molded Head	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018190.jpg	2026-10-02	75457-1
 figurine	fig-018189	sw0830	0.75	4-LOM	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018189.jpg	2026-10-02	75457-1
 figurine	fig-018188		0.58	Bossk	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018188.jpg	2026-10-02	75457-1
@@ -29,7 +43,7 @@ figurine	fig-018163	LLP038	0.81	Child, White Torso, Red Legs, Dark Brown Hair	Se
 figurine	fig-018162	cty1955	0.78	Man, Tan Sweater, Sand Blue Legs, Dark Brown Hair	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018162.jpg	2026-10-02	11387-1
 figurine	fig-018161		0.0	Reader	Icons	2026	https://cdn.rebrickable.com/media/sets/fig-018161.jpg	2026-10-02	11379-1
 figurine	fig-018160		0.45	Author, Orange Hair	Icons	2026	https://cdn.rebrickable.com/media/sets/fig-018160.jpg	2026-10-02	11379-1
-figurine	fig-018159		0.65	Mrs. Claus, Red Dress, Silver Glasses	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018159.jpg	2026-10-02	40866-1
+figurine	fig-018159		0.65	Mrs. Claus, Red Dress, Gold Glasses	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018159.jpg	2026-10-02	40866-1
 figurine	fig-018158		0.38	Wednesday, Jacket	Wednesday	2026	https://cdn.rebrickable.com/media/sets/fig-018158.jpg	2026-10-02	76787-1
 figurine	fig-018157		0.56	Wednesday, Minifig	Wednesday	2026	https://cdn.rebrickable.com/media/sets/fig-018157.jpg	2026-10-02	76788-1
 figurine	fig-018156		0.48	Nutcracker	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018156.jpg	2026-10-01	40958-1
@@ -958,6 +972,8 @@ figurine	fig-017053		0.47	Monkey Suit	Collectible Minifigures / Series 28 Minifi
 figurine	fig-017052		0.47	Goldfish Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017052.jpg		71051-3
 figurine	fig-017051		0.47	Cat Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017051.jpg		71051-2
 figurine	fig-017050		0.47	Peacock Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017050.jpg		71051-1
+objet	203190001-1	203190001		1 x 1 Brick Dual-Use Backpack (All Colors)	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/203190001-1.jpg	2026-10-06	
+objet	202092602-1	202092602		Ninjago Kai 2 x 2 Brick Backpack	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/202092602-1.jpg	2026-10-06	
 objet	854338-1	854338		Lloyd's Sword with Sheath	Gear / Role Play Toys and Costumes	2026	https://cdn.rebrickable.com/media/sets/854338-1.jpg	2026-10-03	
 objet	854337-1	854337		Dragonian Warrior Axe	Gear / Role Play Toys and Costumes	2026	https://cdn.rebrickable.com/media/sets/854337-1.jpg	2026-10-03	
 objet	854336-1	854336		Izzie's Sword	Gear / Role Play Toys and Costumes	2026	https://cdn.rebrickable.com/media/sets/854336-1.jpg	2026-10-03	
@@ -1554,6 +1570,8 @@ objet	10018250-1	10018250		Red Tile 1x1 Jibbitz	Gear	2026	https://cdn.rebrickabl
 objet	10018249-1	10018249		Spaceship Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018249-1.jpg		
 objet	10018248-1	10018248		Red Tile 2x2 Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018248-1.jpg		
 objet	10018247-1	10018247		Castle Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018247-1.jpg		
+set	71875-1	71875-1		Lloyd vs. Ras Spinner Battle	Ninjago	2027	https://cdn.rebrickable.com/media/sets/71875-1.jpg	2026-10-04	
+set	71873-1	71873-1		Cole vs. Evil Cole Spinner	Ninjago	2027	https://cdn.rebrickable.com/media/sets/71873-1.jpg	2026-10-04	
 set	L0002325-1	L0002325-1		Batman with Wings	Super Heroes DC / Batman	2026	https://cdn.rebrickable.com/media/sets/l0002325-1.jpg	2026-10-02	
 set	L0002286-1	L0002286-1		Hobgoblin	Super Heroes Marvel / Spider-Man	2026	https://cdn.rebrickable.com/media/sets/l0002286-1.jpg	2026-10-02	
 set	910073-1	910073-1		Pumpkin Patch	BrickLink Designer Program	2027	https://cdn.rebrickable.com/media/sets/910073-1.jpg		
