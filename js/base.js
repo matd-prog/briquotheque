@@ -350,7 +350,14 @@ const Base = {
     if (memo) return this._signalerForme({ blob: await this._reduire(fichier, sens, memo), cadre: { ...memo } }, cote);
     const entiere = await this._reduire(fichier, sens);
     let cadre = null;
-    try { cadre = this._cadreAuto(await createImageBitmap(entiere)); } catch (err) { console.warn(err); }
+    try {
+      const im = await createImageBitmap(entiere);
+      cadre = this._cadreAuto(im);
+      // série de scans (scanner de documents) : scan déjà serré sur le blister ; le recadrage automatique y coupait
+      // parfois un morceau (forme anormale) : scan gardé entier, rien de perdu (s'il est lui-même mal cadré, l'alerte
+      // 📏 le signale et « ✂️ Recadrer » reste possible)
+      if (cadre && this.serie && this.formeSuspecte(cadre.l * im.width, cadre.h * im.height)) cadre = null;
+    } catch (err) { console.warn(err); }
     return this._signalerForme({ blob: cadre ? await this._reduire(fichier, sens, cadre) : entiere, cadre }, cote);
   },
 
@@ -391,9 +398,19 @@ const Base = {
                     verso: e.verso ? e.verso.size : 0, suspecteVerso: e.verso ? await mesure(e.verso) : false };
         n++;
       }
-      if (n) { await Memoire.ecrire(this.entrees, "base"); this._afficherListe(); }
+      if (n) {
+        await Memoire.ecrire(this.entrees, "base");
+        // fiche ✏️ ouverte (modification en cours) : on ne réaffiche pas la liste, seulement le bouton
+        if ($("base-liste") && $("base-liste").querySelector(".carte[data-fiche]")) this._majBoutonARefaire(); else this._afficherListe();
+      }
     } catch (err) { console.warn(err); }
     this._mesureEnCours = false;
+  },
+  _majBoutonARefaire() {
+    if (!$("btn-base-a-refaire")) return;
+    const n = this.entrees.filter(e => this.aRefaire(e)).length;
+    $("btn-base-a-refaire").hidden = !n;
+    $("btn-base-a-refaire").textContent = `📏 Photos prises de loin ou mal cadrées (${n} blister${n > 1 ? "s" : ""})`;
   },
   voirARefaire() {
     this.filtrerSur("photos à refaire", e => this.aRefaire(e));
@@ -1099,11 +1116,7 @@ const Base = {
       $("btn-base-recadrer-tout").hidden = !n;
       $("btn-base-recadrer-tout").textContent = `✂️ Recadrer les photos déjà prises (${n} blister${n > 1 ? "s" : ""})`;
     }
-    if ($("btn-base-a-refaire")) {
-      const n = this.entrees.filter(e => this.aRefaire(e)).length;
-      $("btn-base-a-refaire").hidden = !n;
-      $("btn-base-a-refaire").textContent = `📏 Photos prises de loin ou mal cadrées (${n} blister${n > 1 ? "s" : ""})`;
-    }
+    this._majBoutonARefaire();
     this._mesurerFormes();
     if ($("base-vue-photos")) {
       $("base-vue-photos").classList.toggle("actif", this.vue === "photos");
