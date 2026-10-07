@@ -1,4 +1,4 @@
-#date 2026-10-06
+#date 2026-10-07
 type	code	bricklink	ressemblance	nom	theme	annee	image	vu_le	sets
 figurine	fig-018207		0.29	Jonathan Storm / Human Torch	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018207.jpg	2026-10-05	76352-1
 figurine	fig-018206		0.37	Bucky Barnes / Winter Soldier	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018206.jpg	2026-10-05	76352-1
@@ -8,7 +8,7 @@ figurine	fig-018203		0.27	Alexei Shostakov / Red Guardian	Super Heroes Marvel / 
 figurine	fig-018202		0.2	Raven Darkhölme / Mystique	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018202.jpg	2026-10-05	76348-1
 figurine	fig-018201		0.0	Kurt Wagner / Nightcrawler	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018201.jpg	2026-10-05	76348-1
 figurine	fig-018200	sh0997	0.72	Magneto, Rubber Cape	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018200.jpg	2026-10-05	76348-1
-figurine	fig-018199		0.61	Thor, Rubbed Cape	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018199.jpg	2026-10-05	76348-1
+figurine	fig-018199		0.47	Thor, Bare Arms	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018199.jpg	2026-10-05	76348-1
 figurine	fig-018197		0.31	Reed Richards / Mr. Fantastic, Long Legs	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018197.jpg	2026-10-05	76348-1
 figurine	fig-018196		0.67	Dr. Doom, Cape, Neck Armor	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018196.jpg	2026-10-05	76347-1 76348-1 76352-1
 figurine	fig-018195		0.61	Captain America, Sam Wilson, Dual-Molded Legs, Neck Bracket	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018195.jpg	2026-10-05	76347-1
@@ -972,6 +972,7 @@ figurine	fig-017053		0.47	Monkey Suit	Collectible Minifigures / Series 28 Minifi
 figurine	fig-017052		0.47	Goldfish Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017052.jpg		71051-3
 figurine	fig-017051		0.47	Cat Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017051.jpg		71051-2
 figurine	fig-017050		0.47	Peacock Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017050.jpg		71051-1
+objet	203210001-1	203210001		Brick Waist Bag (All Colors)	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/203210001-1.jpg	2026-10-07	
 objet	203190001-1	203190001		1 x 1 Brick Dual-Use Backpack (All Colors)	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/203190001-1.jpg	2026-10-06	
 objet	202092602-1	202092602		Ninjago Kai 2 x 2 Brick Backpack	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/202092602-1.jpg	2026-10-06	
 objet	854338-1	854338		Lloyd's Sword with Sheath	Gear / Role Play Toys and Costumes	2026	https://cdn.rebrickable.com/media/sets/854338-1.jpg	2026-10-03	
@@ -1570,6 +1571,9 @@ objet	10018250-1	10018250		Red Tile 1x1 Jibbitz	Gear	2026	https://cdn.rebrickabl
 objet	10018249-1	10018249		Spaceship Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018249-1.jpg		
 objet	10018248-1	10018248		Red Tile 2x2 Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018248-1.jpg		
 objet	10018247-1	10018247		Castle Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018247-1.jpg		
+set	67012-1	67012-1		The Joker Wall Art Comic Cover	Super Heroes DC / Batman	2027	https://cdn.rebrickable.com/media/sets/67012-1.jpg	2026-10-07	
+set	67009-1	67009-1		Arkham Batman Batmobile	Super Heroes DC / Batman	2027	https://cdn.rebrickable.com/media/sets/67009-1.jpg	2026-10-07	
+set	67008-1	67008-1		Batman Returns Batmobile & Duck	Super Heroes DC / Batman	2027	https://cdn.rebrickable.com/media/sets/67008-1.jpg	2026-10-07	
 set	71875-1	71875-1		Lloyd vs. Ras Spinner Battle	Ninjago	2027	https://cdn.rebrickable.com/media/sets/71875-1.jpg	2026-10-04	
 set	71873-1	71873-1		Cole vs. Evil Cole Spinner	Ninjago	2027	https://cdn.rebrickable.com/media/sets/71873-1.jpg	2026-10-04	
 set	L0002325-1	L0002325-1		Batman with Wings	Super Heroes DC / Batman	2026	https://cdn.rebrickable.com/media/sets/l0002325-1.jpg	2026-10-02	
