@@ -402,6 +402,8 @@ const Base = {
         await Memoire.ecrire(this.entrees, "base");
         // fiche ✏️ ouverte (modification en cours) : on ne réaffiche pas la liste, seulement le bouton
         if ($("base-liste") && $("base-liste").querySelector(".carte[data-fiche]")) this._majBoutonARefaire(); else this._afficherListe();
+        // mini-appli : « Ma collection » affichée, ses repères 📏 suivent
+        if (typeof MesBlisters !== "undefined" && $("ecran-ami-collection") && !$("ecran-ami-collection").hidden) MesBlisters.rendre();
       }
     } catch (err) { console.warn(err); }
     this._mesureEnCours = false;

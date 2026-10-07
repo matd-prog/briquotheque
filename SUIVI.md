@@ -125,6 +125,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v126 (07/10) : « MA COLLECTION » DANS LA MINI-APPLI DE L'AMI (Mathias). Onglets « 📷 Photographier » / « 📚 Ma
+    collection » en haut de contribuer.html. Ma collection (js/ma_collection_ami.js) : ses blisters regroupés par
+    figurine (nom imprimé + précision), présentés comme Ma collection de l'appli principale, sans onglets de thèmes :
+    Liste ou Vignettes, ×N, n° triés, recherche (loupe : clavier refermé), résumé (figurines, blisters, 📏 à refaire,
+    pas encore envoyés). Figurine touchée : photos (même photo montrée une fois, tous les n° dessous) et mêmes options
+    que Mathias : changer les photos (fiche ✏️ : recto, verso, recadrage, n°, note), ajouter un exemplaire, retirer,
+    corriger un n°, renommer. Les blisters restent ceux de la base (rien de copié, rien d'effacé).
   · v125 (07/10) : VÉRIFICATION AVANT D'ENVOYER LA MINI-APPLI À L'AMI. Passage v108 (version reçue le 02/10) -> v125
     testé dans le même navigateur : blisters gardés (photos, n°, verso), ajout, envoi .zip, n° en double refusé. Deux
     corrections : (1) série de scans : le recadrage automatique coupait parfois un morceau d'un scan déjà serré (forme

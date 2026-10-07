@@ -361,3 +361,7 @@ body:not(.base-vide) .base-vide-seul { display: none !important; }
 .ligne-plusieurs { align-items: flex-start; padding: 6px 0; border-bottom: 1px solid var(--bord); }
 .ligne-plusieurs small { display: block; }
 #plusieurs-codes { min-height: 90px; resize: vertical; }
+/* Mini-appli (contribuer.html) : onglets « Photographier » / « Ma collection » */
+#ami-onglets { margin-bottom: 14px; }
+#ami-bascule { margin: 10px 0; }
+#ecran-ami-collection .vignette .recense-ecart, #ecran-ami-collection .fiche .recense-ecart { font-size: 12px; margin-top: 4px; }

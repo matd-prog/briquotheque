@@ -23,6 +23,10 @@
 </header>
 
 <main>
+  <div class="bascule" id="ami-onglets">
+    <button data-ecran-ami="base" class="choisi">📷 Photographier</button>
+    <button data-ecran-ami="collection">📚 Ma collection</button>
+  </div>
   <section id="ecran-base" class="ecran">
     <div id="installer-iphone" class="alerte" hidden>📲 <b>Sur iPhone, installez d'abord l'appli</b> : touchez
       <b>Partager</b> (le carré avec une flèche ⬆️, en bas de Safari), puis <b>« Sur l'écran d'accueil »</b>, puis
@@ -135,6 +139,19 @@
       <button class="bouton-lien" data-action="base-vider" id="btn-base-vider">Effacer les blisters déjà exportés</button>
     </div>
   </section>
+
+  <!-- Ma collection (js/ma_collection_ami.js) : les blisters regroupés par figurine, comme dans l'appli principale -->
+  <section id="ecran-ami-collection" class="ecran" hidden>
+    <p id="ami-resume"></p>
+    <input id="ami-recherche" class="champ" type="search" placeholder="🔍 Nom ou n°…" autocomplete="off">
+    <div class="bascule" id="ami-bascule">
+      <button data-vue="liste">Liste</button>
+      <button data-vue="vignettes" class="choisi">Vignettes</button>
+    </div>
+    <p class="aide" id="ami-info"></p>
+    <div id="ami-contenu"></div>
+    <button class="bouton gris" data-ecran-ami-retour>📷 Photographier un blister</button>
+  </section>
 </main>
 
 <dialog id="dialogue">
@@ -234,10 +251,13 @@ const Memoire = {
 <script src="js/blister.js"></script>
 <script src="js/base.js"></script>
 <script src="js/occupe.js"></script>
+<script src="js/ma_collection_ami.js"></script>
 <script>
   // iPhone / iPad dans Safari (pas encore installée sur l'écran d'accueil) : explication pour l'installer
   const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   const installee = navigator.standalone || matchMedia("(display-mode: standalone)").matches;
+  MesBlisters.installer();
+  document.querySelector("[data-ecran-ami-retour]").addEventListener("click", () => MesBlisters.ecran("base"));
   Base.ouvrir().then(() => {
     if (ios && !installee) {
       $("installer-iphone").hidden = false;
