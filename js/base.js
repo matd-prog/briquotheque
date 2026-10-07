@@ -37,7 +37,7 @@ const Base = {
   },
 
   _nouvelle() {
-    this.photo = null; this.verso = null; this.versoPasse = false; this.versoTexte = ""; this._versoApplique = false; this.choixNet = false; this.candidatsRecto = [];
+    this.photo = null; this.verso = null; this.versoPasse = false; this.versoTexte = ""; this._versoApplique = false; this.choixNet = false; this.candidatsRecto = []; this.signaux = null; this.confiance = null; this.codeAuto = "";
     if ($("base-verso-info")) { $("base-verso-info").hidden = true; $("base-verso-info").innerHTML = ""; }
     this.source = this.sourceVerso = this.cadre = this.cadreVerso = null;
     if ($("base-recadrage")) $("base-recadrage").hidden = true;
@@ -633,6 +633,11 @@ const Base = {
       const contient = (g, f) => { const a = CatalogueJB.motsNom(f), b = CatalogueJB.motsNom(g); return a.length < b.length && a.every(m => b.includes(m)); };
       for (const f of [...nets]) if (tous.some(r => r.f !== f && r.score > (score.get(f) || 0) && contient(r.f, f))) nets.delete(f);
       const note = f => (score.has(f) ? score.get(f) : 0.8) + (nets.has(f) ? 0.2 : lus.has(f) ? 0.06 : 0);
+      // relevé des signaux (mesure des taux de reconnaissance, réglage de leur combinaison)
+      this.signaux = { lus: (CatalogueJB.dernierRapprochement || []).map(r => ({ code: r.f.code, score: r.score, ligne: r.ligne, part: r.part, net: nets.has(r.f) })),
+                       decor: tous.slice(0, 40).map(r => ({ code: r.f.code, score: +r.score.toFixed(4) })) };
+      this.signaux.figurine = CatalogueJB.departager(await createImageBitmap(this.photo),
+        [...new Set([...tous.slice(0, 40).map(r => r.f), ...lus])]).map(r => ({ code: r.f.code, score: +r.score.toFixed(4) }));
       connues = [...new Set([...connues, ...tous.slice(0, connues.length ? 3 : 5).map(r => r.f)])].sort((a, b) => note(b) - note(a)).slice(0, 5);
       // plusieurs blisters presque aussi ressemblants : à départager à l'œil (photos)
       // (même nom lu que le premier : un décor voisin d'un autre nom ne compte pas)
@@ -645,14 +650,24 @@ const Base = {
         connues = [...ordre, ...connues.filter(f => !ordre.includes(f))];
         this.proches = ordre;
       }
+      // reconnaissance d'image (js/vision.js) et combinaison de tous les signaux
+      if (typeof Vision !== "undefined") {
+        $("base-etat").textContent = "Comparaison de la photo… (la première fois, téléchargement du modèle de vision, environ 24 Mo)";
+        try {
+          const r = this._combiner(await Vision.classer(await createImageBitmap(this.photo)), tous, nets, connues);
+          if (r) { connues = r.ordre; this.confiance = r.confiance; this.proches = r.confiance < this.SEUIL_SUR ? r.ordre.slice(0, 3) : []; }
+        } catch (err) { console.warn("vision", err); }
+      }
     } catch (err) { console.warn(err); }
     // pour le verso : candidats du recto dans l'ordre, et si le premier vient d'un nom lu nettement
     this.candidatsRecto = connues.slice();
-    this.choixNet = !!(connues[0] && typeof nets !== "undefined" && nets.has(connues[0]));
+    this.choixNet = this.confiance != null ? this.confiance >= this.SEUIL_SUR
+      : !!(connues[0] && typeof nets !== "undefined" && nets.has(connues[0]));
     const noms = [...connues.map(f => ({ ...this._nomEtPrecision(f), code: f.code })),
                   ...(nomProbable(lecture.texte) ? [{ nom: nomProbable(lecture.texte).toUpperCase(), precision: "", code: "" }] : [])]
       .filter((s, i, t) => s.nom && t.findIndex(x => x.nom === s.nom && x.precision === s.precision) === i);
     if (noms.length) this._choisirNom(noms[0]);
+    this.codeAuto = noms.length ? noms[0].code : ""; // choix de l'appli (le « pas sûr » ne vaut que pour lui)
     $("base-suggestions").innerHTML = noms.length > 1
       ? noms.map((s, i) => `<button class="petit" data-base-nom="${i}">${echapper(nomComplet(s))}</button>`).join("") : "";
     $("base-suggestions").querySelectorAll("[data-base-nom]").forEach(b => b.addEventListener("click", () => {
@@ -669,6 +684,37 @@ const Base = {
     $("base-fiche").hidden = false;
     this._deja();
     if (this.versoTexte) this._afficherVerso();
+  },
+
+  // Combinaison des signaux (mesure du 07/10/2026 sur les blisters de la base commune, poids réglés par validation
+  // croisée) : ressemblance de l'image (DINOv2) et écart au meilleur, décor, nom lu (part, ligne, lecture nette),
+  // figurine seule, premier choix de l'ancienne méthode. Chaque candidat reçoit une probabilité ; sous SEUIL_SUR,
+  // l'appli ne tranche pas seule : elle montre les 3 plus probables en photos. Blisters jamais vus (243) : 160 reconnus
+  // seuls, 61 en un geste parmi 3 photos, 8 erreurs ; figurines déjà photographiées (39) : 37 seuls, 1 en un geste, 1 erreur.
+  SEUIL_SUR: 0.9,
+  POIDS: { w: [0.1233, 0.1176, -0.1940, 0.3066, 2.5552, -0.7066, 0.4645, 0.2421, -1.1198, -0.3613, 0.0809, 0.3814, 0.5365],
+           mu: [0.7133, -0.1707, 0.8273, 0.5802, 0.0737, 0.0592, 0.0822, 0.0173, 0.0882, 0.3969, 0.0348, 0.0009, 0.0025],
+           sd: [0.1064, 0.1115, 0.0526, 0.4935, 0.2415, 0.2035, 0.2715, 0.1302, 0.2835, 0.3721, 0.1832, 0.0072, 0.0175] },
+  _combiner(image, tous, nets, connues) {
+    if (!image || !image.size) return null;
+    const valeurs = [...image.values()].sort((a, b) => b - a), meilleure = valeurs[0], seconde = valeurs[1] ?? valeurs[0];
+    const rangDecor = new Map(tous.slice(0, 40).map((r, i) => [r.f, r]));
+    const lus = new Map((CatalogueJB.dernierRapprochement || []).map(r => [r.f, r]));
+    const fig = new Map(((this.signaux && this.signaux.figurine) || []).map(r => [CatalogueJB.trouver(r.code), r.score]));
+    const parImage = [...image.keys()].sort((a, b) => image.get(b) - image.get(a));
+    const cands = [...new Set([...lus.keys(), ...tous.slice(0, 15).map(r => r.f), ...parImage.slice(0, 15), ...connues.slice(0, 3)])];
+    const { w, mu, sd } = this.POIDS;
+    const notes = cands.map(f => {
+      const im = image.has(f) ? image.get(f) : meilleure - 0.3, d = rangDecor.get(f), l = lus.get(f);
+      const x = [im, im - meilleure, d ? d.score : 0.8, d ? 1 : 0, l ? l.score : 0, l ? l.ligne : 0, l ? l.part : 0,
+                 l && nets.has(f) ? 1 : 0, l ? 1 : 0, fig.get(f) || 0, connues[0] === f ? 1 : 0,
+                 Math.max(0, im - 0.9), Math.max(0, im - seconde)]; // image presque identique ; nette avance sur la suivante
+      return x.reduce((s, v, i) => s + w[i] * (v - mu[i]) / sd[i], 0);
+    });
+    const max = Math.max(...notes), e = notes.map(n => Math.exp(n - max)), somme = e.reduce((a, b) => a + b, 0);
+    const res = cands.map((f, i) => ({ f, p: e[i] / somme })).sort((a, b) => b.p - a.p);
+    if (this.signaux) this.signaux.combinaison = res.slice(0, 5).map(r => ({ code: r.f.code, p: +r.p.toFixed(3) }));
+    return { ordre: res.slice(0, 5).map(r => r.f), confiance: res[0].p };
   },
 
   // Nom à écrire pour un blister du catalogue : nom imprimé (sans « Custom Minifigure »), et précision pour ceux de
@@ -891,7 +937,12 @@ const Base = {
     // 1. base JB
     let jb;
     const proches = (this.proches || []).filter(x => x !== f);
-    if (f) jb = `<p>✅ <b>Reconnu</b> : ${echapper(f.nom)} <span class="score">(${echapper(source(f))})</span></p>` +
+    // pas sûr (combinaison des signaux sous le seuil) : l'appli ne tranche pas seule, elle propose
+    const doute = this.confiance != null && this.confiance < this.SEUIL_SUR && f && f.code === this.codeAuto;
+    if (f && doute) jb = `<p>🤔 <b>Probablement</b> : ${echapper(f.nom)} <span class="score">(${echapper(source(f))})</span></p>` +
+      `<p class="alerte">Pas tout à fait sûr : comparez avec la photo, et touchez la bonne figurine si ce n'est pas celle-ci.</p>` +
+      (proches.length ? `<div class="grille">${proches.map((x, i) => carte(x, i, "proche")).join("")}</div>` : "");
+    else if (f) jb = `<p>✅ <b>Reconnu</b> : ${echapper(f.nom)} <span class="score">(${echapper(source(f))})</span></p>` +
       (proches.length ? `<p class="alerte">👀 D'autres blisters se ressemblent presque autant : vérifiez la figurine, et touchez la bonne si ce n'est pas celle-ci.</p>
         <div class="grille">${proches.map((x, i) => carte(x, i, "proche")).join("")}</div>` : "");
     else {

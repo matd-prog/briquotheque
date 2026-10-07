@@ -125,6 +125,19 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v131 (07/10) : RECONNAISSANCE D'IMAGE (DINOv2) + COMBINAISON DES SIGNAUX + « PAS SÛR » EN PHOTOS. Modèle de
+    vision DINOv2 (petite version, ONNX q8, 24 Mo, lib/vision/, récupéré par le workflow « Modèle de vision » car
+    Hugging Face est bloqué pour Claude) : js/vision.js résume la photo (carré central 280 px) en 768 nombres,
+    comparés aux références data/jb_vision.tsv (700 : photos du catalogue JB/BrickShell/archives/eBay + album ;
+    outils/vision_jb.js) et data/jb_vision_commune.tsv (243 ; complété à chaque envoi et photo refaite,
+    js/base_commune.js). Combinaison (Base._combiner) : image, décor, nom lu, figurine, premier choix de l'ancienne
+    méthode, poids réglés par validation croisée sur les blisters de la base commune ; probabilité < 0,9 ->
+    « 🤔 Probablement … » et les 3 plus probables en photos. 22 blisters de la base commune rattachés à leur fiche du
+    catalogue (même figurine en double : « THE UNDEAD MERC » / « Undead Merc »…). Mesure (283 blisters) :
+    JAMAIS VU (243) : 210 justes au premier choix (86 %, v130 : 56 %) ; 155 reconnus seuls + 67 en un geste parmi
+    3 photos = 222 (91 %) ; 8 erreurs silencieuses (3 %) ; restent surtout les variantes au même nom imprimé
+    sans photo de référence (World Record Clone en 5 couleurs, Silver/Golden DJ…). DÉJÀ CONNU (40) : 38 au premier
+    choix (les 2 autres : même figurine sous deux fiches). Mode d'emploi de l'ami mis à jour (✅ / 🤔).
   · v130 (07/10) : LECTURE DU NOM PLUS TENACE + VERSO QUI DÉCIDE. Lecture : ne s'arrête plus au premier nom à peu
     près lu, seulement sur une lecture nette ; sinon relecture agrandie de 4 morceaux de la photo (Paddle), puis
     Tesseract ; textes de toutes les lectures cumulés ; une lettre de travers tolérée dès 5 lettres (2 dès 6).

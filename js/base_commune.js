@@ -114,13 +114,14 @@ const BaseCommune = {
       for (const e of doublons) e.commune = true;
       return 0;
     }
-    const date = new Date().toISOString().slice(0, 10), noms = [], empreintes = [], figurines = [], prives = [];
+    const date = new Date().toISOString().slice(0, 10), noms = [], empreintes = [], figurines = [], visions = [], prives = [];
     let n = 0;
     for (const e of liste) {
       const code = e.communeCode || `BC-${e.id.toUpperCase()}`;
       const bitmap = await createImageBitmap(e.photo);
       const empreinte = empreinteEnTexte(empreinteImage(bitmap, false));
       const empreinteFig = empreinteEnTexte(empreinteCentreBlister(bitmap));
+      const vision = await this._vision(bitmap);
       bitmap.close && bitmap.close();
       const recto = `album_photos/commune/${code}_recto.jpg`, verso = e.verso ? `album_photos/commune/${code}_verso.jpg` : "";
       await this._ecrire(DEPOT_PRIVE, recto, await this._blobEn64(e.photo), null, `Base commune : ${nomComplet(e)} (recto)`);
@@ -130,6 +131,7 @@ const BaseCommune = {
       noms.push([code, propre(nomComplet(e)), "Base commune", "", "", "", "", propre(e.code)].join("\t"));
       empreintes.push(`${code}\t${empreinte}`);
       figurines.push(`${code}\t${empreinteFig}`);
+      if (vision) visions.push(`${code}\t${vision}`);
       prives.push([code, e.nom, e.precision, e.numero, e.serie, e.code, qui, date, recto.replace("album_photos/", ""), verso.replace("album_photos/", "")].map(propre).join("\t"));
       await ajouterVerso(propre(e.code) || code, e);
       e.communeCode = code;
@@ -142,6 +144,7 @@ const BaseCommune = {
       await ajouter(DEPOT_PUBLIC, "data/jb_commune.tsv", "code\tnom\tcategorie\tlien\timage\tprix\tdispo\trattache", noms);
       await ajouter(DEPOT_PUBLIC, "data/jb_empreintes_commune.tsv", "code\tempreinte", empreintes);
       await ajouter(DEPOT_PUBLIC, "data/jb_empreintes_figurine.tsv", "code\tempreinte", figurines);
+      if (visions.length) await ajouter(DEPOT_PUBLIC, "data/jb_vision_commune.tsv", "code\tvecteur", visions);
       if (versos.length) await this._ajouterVersos(versos);
     } catch (err) {
       if (err.statut === 403 || err.statut === 404 || /40[34]/.test(err.message)) {
@@ -170,7 +173,7 @@ const BaseCommune = {
     }
     const parFig = new Map(); // figurine -> photo refaite la plus récente
     for (const e of aFaire.sort((a, b) => a.communeMaj - b.communeMaj)) parFig.set(cle(nomComplet(e)), e);
-    const empreintes = new Map(), figurines = new Map(), faits = [];
+    const empreintes = new Map(), figurines = new Map(), visions = new Map(), faits = [];
     for (const [k, e] of parFig) {
       const code = e.communeCode || (entrees.find(x => x.communeCode && cle(nomComplet(x)) === k) || {}).communeCode || parNom.get(k);
       const memes = aFaire.filter(x => cle(nomComplet(x)) === k);
@@ -179,6 +182,8 @@ const BaseCommune = {
       const bitmap = await createImageBitmap(e.photo);
       empreintes.set(code, empreinteEnTexte(empreinteImage(bitmap, false)));
       figurines.set(code, empreinteEnTexte(empreinteCentreBlister(bitmap)));
+      const vision = await this._vision(bitmap);
+      if (vision) visions.set(code, vision);
       bitmap.close && bitmap.close();
       await this._remplacerFichier(DEPOT_PRIVE, `album_photos/commune/${code}_recto.jpg`, e.photo, `Base commune : ${nomComplet(e)} (photo refaite, recto)`);
       if (e.verso) await this._remplacerFichier(DEPOT_PRIVE, `album_photos/commune/${code}_verso.jpg`, e.verso, `Base commune : ${nomComplet(e)} (photo refaite, verso)`);
@@ -187,6 +192,7 @@ const BaseCommune = {
     if (!empreintes.size) return 0;
     await this._remplacerLignes(DEPOT_PUBLIC, "data/jb_empreintes_commune.tsv", "code\tempreinte", empreintes);
     await this._remplacerLignes(DEPOT_PUBLIC, "data/jb_empreintes_figurine.tsv", "code\tempreinte", figurines);
+    if (visions.size) await this._remplacerLignes(DEPOT_PUBLIC, "data/jb_vision_commune.tsv", "code\tvecteur", visions);
     faits.forEach(x => delete x.communeMaj);
     return empreintes.size;
   },
@@ -221,6 +227,13 @@ const BaseCommune = {
   },
 
   // Fichier (photo) remplacé dans un dépôt : il faut le sha de l'ancien
+  // Résumé de la photo par le modèle de vision (js/vision.js), pour la reconnaissance d'image ; vide si indisponible
+  async _vision(bitmap) {
+    if (typeof Vision === "undefined") return "";
+    try { return Vision.enTexte(await Vision.vecteur(bitmap)); }
+    catch (err) { console.warn("vision indisponible", err); return ""; }
+  },
+
   async _remplacerFichier(depot, chemin, blob, message) {
     const rep = await this._api(depot, `/contents/${chemin}`);
     const sha = rep.status === 404 ? null : (await rep.json()).sha;
