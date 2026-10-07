@@ -15,3 +15,8 @@
   noms des menus et boutons **en français tels que traduits** (ex. « Paramètres », « Secrets et variables »,
   « Nouveau secret de référentiel »), avec le nom anglais d'origine entre parenthèses.
 - Voir SUIVI.md pour l'état du projet. Données privées (prix, achats, photos) : dépôt privé uniquement.
+- **Présentation pour JB Spielwaren** (Artifacts « Slides », FR https://claude.ai/artifact/6RWzNezcyvYPPXEkN5Kfo6 et
+  DE https://claude.ai/artifact/4D6cQE7LndPeP1NfbZ4Tv8) : à chaque nouvelle version de l'appli qui change ce qu'elle
+  montre, les mettre à jour toutes les deux (captures d'écran refaites avec Playwright, nombre de figurines de la base
+  commune, taux de reconnaissance remesurés, nouvelles fonctions), sans attendre que Mathias le demande. Jamais de prix
+  ni de données d'achat sur les captures.
