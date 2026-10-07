@@ -125,6 +125,14 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v123 (07/10) : IDÉES NOTÉES PAR MATHIAS. Fiche d'une custom : exemplaires pris avec la même photo montrés une seule
+    fois, tous leurs n° dessous ; n° triés dans l'ordre croissant partout dans Ma collection. « Ajouter un exemplaire »
+    d'une custom déjà photographiée : fiche du recensement (même photo, « n° … nouveau ✔ » en vert) ; écran Custom : n°
+    tapés marqués « nouveau ✔ » ou « déjà enregistré », plus de code CUS ni d'aperçu d'étiquette (code-barres) en mode
+    collection, ni dans le message d'ajout. Liste des blisters ouverte sur une figurine (Ma collection, « Voir ou
+    corriger ») : ses blisters seulement (« DONUTS IN SPACE » ne montre plus « IMPERIAL DONUTS IN SPACE »). Libellé
+    « Changer la photo ». Recherche de Ma collection : la loupe du clavier referme le clavier. Surveillance des mails de
+    JB arrêtée (Mathias s'en occupe).
   · v122 (03/10) : PLUS RIEN DES ÉTIQUETTES DANS MA COLLECTION (Mathias : les codes ne servent qu'à l'impression). Customs :
     plus de code CUS-… / JB-… (liste, vignettes, fiche, menu), seulement nom, ×n, n° ; « sans étiquette » retiré (gardé
     pour un fichier Excel). Figurines LEGO : leur référence BrickLink (SW0906…) reste, elle distingue les versions.

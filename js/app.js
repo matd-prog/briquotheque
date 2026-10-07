@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v122"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v123"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -619,7 +619,7 @@ function choisirCandidat(i) {
   zone.innerHTML = `
     ${blocExemplaires(cand.id, "ajout")}
     ${codeInvalide(cand.id) ? `<div class="alerte stop">Code « ${echapper(cand.id)} » : pas un vrai code BrickLink.</div>` : ""}
-    <div class="apercu-etiquette" id="apercu"></div>
+    <div class="apercu-etiquette excel-seul" id="apercu"></div>
     <label class="etiquette-champ" for="choix-theme">Thème</label>
     <select id="choix-theme" class="champ">
       ${[STAR_WARS, ...ONGLETS_THEMES.filter(t => t !== THEME_CUSTOMS.onglet)].map(t => `<option ${t === etat.theme ? "selected" : ""}>${echapper(t)}</option>`).join("")}
@@ -1180,7 +1180,7 @@ async function ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie, 
     const octets = await memoriser();
     if (!(await verifierAjout(octets, { onglet, row: res.row, col: res.col, code: codeXL }))) throw new Error("vérification après écriture échouée");
     await relireContenu();
-    return `${etat.classeur.estBase ? "Collection" : "Fichier Excel"} : ${aAjouter.length > 1 ? `${aAjouter.length} exemplaires ajoutés` : "ajoutée"} dans ${onglet} (${codeXL})${etat.classeur.estBase ? "" : ", avec étiquette"}` +
+    return `${etat.classeur.estBase ? "Collection" : "Fichier Excel"} : ${aAjouter.length > 1 ? `${aAjouter.length} exemplaires ajoutés` : "ajoutée"} dans ${onglet}${etat.classeur.estBase ? "" : ` (${codeXL}), avec étiquette`}` +
       (ecartes.length ? ` ; n° ${ecartes.join(", ")} déjà présent(s), non ajouté(s)` : "") + sansEnregistrer(". Pensez à « Enregistrer ».");
   } catch (err) {
     console.error(err);
@@ -1332,7 +1332,7 @@ function majCustom() {
   const n = $("custom-nombre-nombre") ? $("custom-nombre-nombre").value : 1;
   const nums = Object.keys(numerosEnregistres(code));
   $("custom-alerte").innerHTML = blocExemplaires(code, "custom-nombre") +
-    (nums.length ? `<p class="score">N° déjà enregistrés : ${echapper(nums.join(", "))}</p>` : "");
+    (nums.length ? `<p class="score">N° déjà enregistrés : ${echapper(nums.sort((a, b) => parseInt(a, 10) - parseInt(b, 10)).join(", "))}</p>` : "");
   $("custom-nombre-nombre").value = n;
   $("custom-nombre-nombre").addEventListener("input", majNumerosCustom);
   if (nums.length && !$("custom-serie").value) $("custom-serie").value = nums[0].split("/")[1];
@@ -1354,7 +1354,21 @@ function majNumerosCustom() {
   [...zone.querySelectorAll("input")].forEach((c, i) => { if (i >= n) c.remove(); });
   $("custom-numeros-titre").textContent = n > 1 ? `N° des ${n} exemplaires (écrits sur les blisters)` : "N° de l'exemplaire (écrit sur le blister)";
   $("custom-bloc-numeros").hidden = $("custom-non-numerote").checked;
+  etatNumerosCustom();
 }
+
+// Chaque n° tapé : déjà enregistré pour cette figurine, tapé deux fois, ou nouveau (en vert), comme au recensement
+function etatNumerosCustom() {
+  const z = $("custom-numeros-etat");
+  if (!z) return;
+  const deja = Object.keys(numerosEnregistres(codeCustom(lienDansTexte($("custom-lien").value), $("custom-nom").value.trim())));
+  const num = x => String(parseInt(x, 10));
+  const tapes = $("custom-non-numerote").checked ? [] : [...$("custom-numeros").querySelectorAll("input")].map(c => c.value.trim()).filter(Boolean);
+  z.innerHTML = tapes.map((n, i) => deja.some(k => num(k) === num(n)) ? `<span class="recense-ecart">n° ${echapper(n)} déjà enregistré</span>`
+    : tapes.findIndex(x => num(x) === num(n)) !== i ? `<span class="recense-ecart">n° ${echapper(n)} tapé deux fois</span>`
+    : `<span class="recense-ok">n° ${echapper(n)} nouveau ✔</span>`).join(" · ");
+}
+$("custom-numeros").addEventListener("input", etatNumerosCustom);
 $("custom-non-numerote").addEventListener("change", majNumerosCustom);
 
 // Recherche eBay.de d'une figurine JB par son nom (même forme que les liens de data/jb_ebay.tsv)

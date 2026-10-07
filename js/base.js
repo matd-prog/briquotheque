@@ -1057,7 +1057,10 @@ const Base = {
     }
     if (this.vue === "compte") { this._afficherCompte(); return; }
     const q = $("base-filtre") ? normaliser($("base-filtre").value.trim()) : "";
-    const trouve = e => !q || q.split(" ").every(m => normaliser([nomComplet(e), e.numero, e.serie, e.remarque].filter(Boolean).join(" ")).includes(m));
+    // liste ouverte sur une figurine précise (« Voir ou corriger », Ma collection) : ses blisters seulement, pas ceux
+    // dont le nom la contient (« DONUTS IN SPACE » ne montre pas « IMPERIAL DONUTS IN SPACE ») ; filtre retapé : recherche
+    const exacte = this.filtreExact && this.filtreExact.texte === q ? this.filtreExact.trouve : null;
+    const trouve = exacte || (e => !q || q.split(" ").every(m => normaliser([nomComplet(e), e.numero, e.serie, e.remarque].filter(Boolean).join(" ")).includes(m)));
     const liste = this.entrees.slice().reverse().filter(trouve);
     $("base-liste").innerHTML = (q ? `<p class="aide">${liste.length} blister${liste.length > 1 ? "s" : ""} trouvé${liste.length > 1 ? "s" : ""}.</p>` : "") +
       liste.slice(0, q ? 300 : 100).map(e => `
@@ -1110,7 +1113,7 @@ const Base = {
         <div>${champ("serie", "Série limitée à", e.serie, 'inputmode="numeric"')}</div></div>
       <label class="case-a-cocher"><input type="checkbox" data-modif="nonnum" ${e.numerote === false ? "checked" : ""}> Non numérotée</label>
       ${champ("remarque", "Note particulière", e.remarque, 'autocapitalize="characters"')}
-      <p class="etiquette-champ">Photos : remplacez une photo mal prise</p>
+      <p class="etiquette-champ">Changer la photo</p>
       <div class="recto-verso"><img class="photo-apercu" data-modif-img="recto" src="${URL.createObjectURL(e.photo)}" alt="Recto">
         ${e.verso ? `<img class="photo-apercu" data-modif-img="verso" src="${URL.createObjectURL(e.verso)}" alt="Verso">` : `<p class="photo-apercu aide" data-modif-img="verso">Pas de verso</p>`}</div>
       <div class="suggestions">
@@ -1217,10 +1220,18 @@ const Base = {
     this._afficherListe();
   },
 
+  // Liste filtrée sur une figurine précise : texte affiché dans le filtre, blisters retenus par trouve(e)
+  filtrerSur(texte, trouve) {
+    if (!$("base-filtre")) return;
+    $("base-filtre").value = texte;
+    this.filtreExact = { texte: normaliser(texte.trim()), trouve };
+  },
+
   // Figurine du panneau d'identification : liste filtrée sur elle, pour corriger un n°
   voirDansLaListe() {
     if (!$("base-filtre")) return;
-    $("base-filtre").value = [$("base-nom").value.trim(), $("base-precision") ? $("base-precision").value.trim() : ""].filter(Boolean).join(" ");
+    const nom = $("base-nom").value.trim(), precision = $("base-precision") ? $("base-precision").value.trim() : "";
+    this.filtrerSur([nom, precision].filter(Boolean).join(" "), e => cleFigurine(e.nom, e.precision) === cleFigurine(nom, precision));
     this.vue = "photos";
     this._afficherListe();
     $("base-filtre").scrollIntoView({ block: "start" });
@@ -1378,7 +1389,7 @@ if ($("base-non-numerote")) $("base-non-numerote").addEventListener("change", ()
 if ($("base-nombre")) $("base-nombre").addEventListener("input", () => Base._grilleNumeros());
 if ($("base-nom")) $("base-nom").addEventListener("input", () => Base._deja());
 if ($("base-precision")) $("base-precision").addEventListener("input", () => Base._deja());
-if ($("base-filtre")) { let m; $("base-filtre").addEventListener("input", () => { clearTimeout(m); m = setTimeout(() => { Base.vue = "photos"; Base._afficherListe(); }, 250); }); }
+if ($("base-filtre")) { let m; $("base-filtre").addEventListener("input", () => { Base.filtreExact = null; clearTimeout(m); m = setTimeout(() => { Base.vue = "photos"; Base._afficherListe(); }, 250); }); }
 if ($("base-numeros")) $("base-numeros").addEventListener("input", () => Base._etatNumeros());
 if ($("base-notes")) $("base-notes").addEventListener("click", e => {
   const b = e.target.closest("[data-note]");

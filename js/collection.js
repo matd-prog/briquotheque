@@ -27,6 +27,14 @@ const Collection = {
       clearTimeout(minuteur);
       minuteur = setTimeout(() => this.rendre(), 200);
     });
+    // loupe (ou Entrée) du clavier : résultats tout de suite, clavier refermé pour les voir en entier
+    $("collection-recherche").addEventListener("keydown", e => {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      clearTimeout(minuteur);
+      this.rendre();
+      e.target.blur();
+    });
     $("collection-bascule").addEventListener("click", e => {
       const b = e.target.closest("[data-vue]");
       if (b) { this.vue = b.dataset.vue; this.rendre(); }
@@ -347,7 +355,13 @@ const Collection = {
       if (!groupes.has(k)) groupes.set(k, { onglet: c.onglet, cases: [] });
       groupes.get(k).cases.push(c);
     }
+    for (const g of groupes.values()) g.cases = this._parNumero(g.cases);
     return [...groupes.values()];
+  },
+  // Exemplaires dans l'ordre croissant de leur n° (sans n° à la fin)
+  _parNumero(cases) {
+    const n = x => parseInt(this._numero(x), 10);
+    return cases.slice().sort((a, b) => (isNaN(n(a)) ? Infinity : n(a)) - (isNaN(n(b)) ? Infinity : n(b)));
   },
   _numero(c) {
     const m = /(\d{1,4})\s*\/\s*(\d{1,4})\s*$/.exec(c.nom || ""), seul = !m && c.onglet === THEME_CUSTOMS.onglet && /\s(\d{1,3})\s*$/.exec(c.nom || "");
@@ -358,7 +372,7 @@ const Collection = {
     const c = etat.collection[onglet].cases.find(x => x.ref === ref);
     if (!c || !c.code) return null;
     const k = this._cle(c, onglet);
-    return { c: { ...c, onglet }, cases: etat.collection[onglet].cases.filter(x => x.code && this._cle(x, onglet) === k).map(x => ({ ...x, onglet })) };
+    return { c: { ...c, onglet }, cases: this._parNumero(etat.collection[onglet].cases.filter(x => x.code && this._cle(x, onglet) === k).map(x => ({ ...x, onglet }))) };
   },
 
   _fiche(c, onglet, cases = [c]) {
@@ -413,7 +427,19 @@ const Collection = {
     const nom = (custom ? this._sansNumero(c.nom) : c.nom) || c.code;
     const images = [];
     if (custom) {
-      for (const e of this._miens(c)) images.push(...Base.imagesBlister(e).map(im => ({ ...im, legende: "Ma photo · " + im.legende })));
+      // exemplaires photographiés avec la même photo (ex. 8 blisters ajoutés d'un coup) : la photo une seule fois,
+      // avec tous leurs n° dessous, dans l'ordre croissant
+      const memes = new Map();
+      for (const e of this._miens(c)) {
+        const k = `${e.photo.size}|${e.verso ? e.verso.size : 0}`;
+        if (!memes.has(k)) memes.set(k, []);
+        memes.get(k).push(e);
+      }
+      for (const l of memes.values()) {
+        const nums = l.filter(e => e.numero).sort((a, b) => a.numero - b.numero).map(e => e.numero + (e.serie ? "/" + e.serie : ""));
+        const qui = l.length > 1 ? (nums.length ? ` · n° ${nums.join(", ")}` : ` · ${l.length} exemplaires`) : "";
+        images.push(...Base.imagesBlister(l[0]).map(im => ({ ...im, legende: "Ma photo · " + (l.length > 1 ? im.legende.split(" · ")[0] + qui : im.legende) })));
+      }
       const jb = this._jbDe(c);
       // vos photos de blister suffisent : celles de l'album et du site JB seulement s'il n'y en a pas
       if (!images.length && jb && typeof Consulter !== "undefined" && Consulter.mesPhotos) { // vos photos d'album (dépôt privé)
@@ -436,7 +462,13 @@ const Collection = {
     const a = (cle, texte, faire) => ({ cle, texte, faire });
     return [
       ...(custom ? [a("blister", this._miens(c).length ? "📷 Changer les photos (recto, verso), recadrer, n°, note" : "📷 Ajouter la photo du blister", () => this._blisters(c, cases))] : []),
-      a("plus", "➕ Ajouter un exemplaire" + (custom ? " (nouveau n°)" : ""), () => exemplaireEnPlus(c, onglet)),
+      // custom déjà photographiée : comme au recensement (même photo, n° à taper, « nouveau ✔ » en vert), sans étiquette
+      a("plus", "➕ Ajouter un exemplaire" + (custom ? " (nouveau n°)" : ""), async () => {
+        const mien = custom && this._miens(c)[0];
+        if (!mien) { exemplaireEnPlus(c, onglet); return; }
+        await Base.ouvrir();
+        Base.exemplaireDe(mien.id);
+      }),
       a("moins", cases.length > 1 ? "➖ Retirer un exemplaire" : "➖ Retirer de la collection", () => this._retirer(onglet, cases)),
       ...(custom ? [a("numero", nums.length ? "✏️ Corriger un numéro" : "✏️ Indiquer le numéro", () => this._corrigerNumero(onglet, cases))] : []),
       a("nom", "🔤 Renommer" + (cases.length > 1 ? ` (les ${cases.length} exemplaires)` : ""), () => this._renommer(onglet, cases)),
@@ -494,7 +526,8 @@ const Collection = {
     const ids = new Set(this._miens(c).map(e => e.id));
     let miens = Base.entrees.filter(e => ids.has(e.id));
     if (!miens.length) miens = Base.entrees.filter(e => normaliser(e.nom) === normaliser(nom) || normaliser(nomComplet(e)) === normaliser(nom));
-    if ($("base-filtre")) $("base-filtre").value = miens.length ? miens[0].nom : nom;
+    const garder = new Set(miens.map(e => e.id));
+    Base.filtrerSur(miens.length ? miens[0].nom : nom, e => garder.has(e.id));
     Base.vue = "photos";
     Base._afficherListe();
     if (miens.length === 1) Base.modifier(miens[0].id);
