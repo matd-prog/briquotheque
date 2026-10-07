@@ -1,4 +1,4 @@
-#date 2026-10-06
+#date 2026-10-07
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -18289,7 +18289,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 76347-1	fig-018196	1	Dr. Doom, Cape, Neck Armor	sh1158	0.67
 76348-1	fig-018196	1	Dr. Doom, Cape, Neck Armor	sh1158	0.67
 76348-1	fig-018197	1	Reed Richards / Mr. Fantastic, Long Legs	hp634	0.31
-76348-1	fig-018199	1	Thor, Rubbed Cape	sh1069	0.61
+76348-1	fig-018199	1	Thor, Bare Arms	sh1069	0.47
 76348-1	fig-018200	1	Magneto, Rubber Cape	sh0997	0.72
 76348-1	fig-018201	1	Kurt Wagner / Nightcrawler		0.0
 76348-1	fig-018202	1	Raven Darkhölme / Mystique	fort009	0.2
