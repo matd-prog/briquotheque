@@ -617,6 +617,7 @@ const Base = {
     // propositions : figurines connues dont le nom a été lu, puis le nom le plus probable du carton
     let connues = lecture.trouve ? CatalogueJB.rapprocher(lecture.texte, 8) : [];
     const lus = new Set(connues); // blisters dont le nom a été lu sur le carton
+    const nets = lecture.trouve ? CatalogueJB.lecturesNettes() : new Set();
     // nom lu et décor ensemble : chaque blister a la ressemblance de son décor (0,8 s'il n'a pas d'empreinte), plus un
     // bonus si son nom a été lu. Même nom imprimé (ex. trois « SPECIAL WHATNOT FIGURE 2025 ») : le décor départage.
     this.proches = [];
@@ -625,7 +626,13 @@ const Base = {
       const tous = CatalogueJB.classerParDecor(await createImageBitmap(this.photo), 100000);
       this.decor = tous.slice(0, 10);
       const score = new Map(tous.map(r => [r.f, r.score]));
-      const note = f => (score.has(f) ? score.get(f) : 0.8) + (lus.has(f) ? 0.06 : 0);
+      // nom lu en entier sur l'étiquette du carton : il l'emporte sur un décor voisin (mesure du 07/10 : « THE GOLDEN
+      // DJ » bien lu, mais « Silver DJ », même fond, passait devant à 0,94 contre 0,83 + 0,06)
+      // … sauf si une figurine au nom plus long qui le contient a un décor plus ressemblant (« IMPERIAL » mal lu sur un
+      // carton « IMPERIAL DONUTS IN SPACE » : « DONUTS IN SPACE » seul ne doit pas passer devant)
+      const contient = (g, f) => { const a = CatalogueJB.motsNom(f), b = CatalogueJB.motsNom(g); return a.length < b.length && a.every(m => b.includes(m)); };
+      for (const f of [...nets]) if (tous.some(r => r.f !== f && r.score > (score.get(f) || 0) && contient(r.f, f))) nets.delete(f);
+      const note = f => (score.has(f) ? score.get(f) : 0.8) + (nets.has(f) ? 0.2 : lus.has(f) ? 0.06 : 0);
       connues = [...new Set([...connues, ...tous.slice(0, connues.length ? 3 : 5).map(r => r.f)])].sort((a, b) => note(b) - note(a)).slice(0, 5);
       // plusieurs blisters presque aussi ressemblants : à départager à l'œil (photos)
       // (même nom lu que le premier : un décor voisin d'un autre nom ne compte pas)

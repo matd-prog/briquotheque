@@ -125,6 +125,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v129 (07/10) : RECONNAISSANCE AMÉLIORÉE, MESURÉE (présentation pour JB). Mesure sur les 369 blisters de la base
+    commune, chacun re-photographié avec SA propre empreinte retirée (pire cas : blister jamais vu par la base) :
+    59 % -> 71 % reconnus du premier coup (bien cadrés : 52 -> 66 %). Cause : un nom lu en entier sur l'étiquette du
+    carton (« THE GOLDEN DJ ») ne pesait que +0,06 face au décor d'un voisin au même fond (« Silver DJ » 0,94). Nom lu
+    net (tous ses mots sur une ligne qu'il occupe presque seul) : +0,2 ; nom plus long lu en entier (même sur deux
+    lignes, « IMPERIAL / DONUTS IN SPACE ») prioritaire sur le nom court qu'il contient ; pas de bonus au nom court si
+    une figurine au nom plus long qui le contient a un décor plus ressemblant. Outil : outils/presentation/taux_reconnaissance.js.
   · v128 (07/10) : SEULEMENT LES PHOTOS BIEN PRISES (Mathias : même figurine avec une photo de loin et une bonne, les
     deux montrées). Base._fusionnerPhotos, après la mesure des photos (les deux applis) : pour chaque figurine
     (nom + précision), la photo prise de loin (recto, verso) d'un exemplaire est remplacée par une bonne photo d'un

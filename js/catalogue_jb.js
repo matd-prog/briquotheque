@@ -244,13 +244,31 @@ const CatalogueJB = {
           const n = mots.filter(m => lu(m, l)).length;
           if (n / mots.length > ligne || (n / mots.length === ligne && n / l.length > part)) { ligne = n / mots.length; part = n / l.length; }
         }
-        const r = { f, score, trouves, ligne, part };
+        const r = { f, score, trouves, ligne, part, mots };
         if (!meilleur || r.score > meilleur.score || (r.score === meilleur.score && r.ligne > meilleur.ligne)) meilleur = r;
       }
       if (meilleur) res.push(meilleur);
     }
     res.sort((a, b) => b.score - a.score || b.ligne - a.ligne || b.part - a.part || b.trouves - a.trouves);
+    this.dernierRapprochement = res.slice(0, max); // détail (lecture nette ou non), pour départager avec le décor
     return res.slice(0, max).map(r => r.f);
+  },
+  // Nom lu « net » : tous ses mots, sur une même ligne qu'il occupe presque seul (l'étiquette du nom sur le carton),
+  // pas des mots épars ni une citation où il apparaît (« BEAUTIFUL FEAR » ne donne pas « Fear »)
+  // Mots significatifs du nom imprimé d'une figurine (mêmes règles que rapprocher)
+  motsNom(f) {
+    const ignores = ["custom", "costum", "minifigure", "minifigur", "minifig", "designed", "the", "and", "with", "von", "spielwaren", "by", "of", "bricks", "maze", "limited", "pieces"];
+    return normaliser(f.nomImprime || f.nom).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.includes(m) && !/^\d+$/.test(m));
+  },
+  lectureNette(r) { return r.score === 1 && r.ligne === 1 && r.part >= 0.6; },
+  // Figurines lues nettement au dernier rapprochement. Un nom contenu dans un nom plus long lu en entier lui aussi
+  // (même sur deux lignes : « IMPERIAL » / « DONUTS IN SPACE ») s'efface devant ce dernier, qui prend sa place
+  // (« DONUTS IN SPACE » lu sur un carton « IMPERIAL DONUTS IN SPACE », « EVIL SORCERER » / « … (ARMY BUILDER) »)
+  lecturesNettes() {
+    const tous = this.dernierRapprochement || [], nets = tous.filter(r => this.lectureNette(r));
+    const contenu = (a, b) => a.mots.length < b.mots.length && a.mots.every(m => b.mots.includes(m));
+    const plusLongs = tous.filter(o => o.score === 1 && nets.some(r => contenu(r, o)));
+    return new Set([...nets.filter(r => !plusLongs.some(o => contenu(r, o))), ...plusLongs].map(r => r.f));
   },
 
   chercher(texte, max = 30) {
