@@ -37,7 +37,7 @@ const Base = {
   },
 
   _nouvelle() {
-    this.photo = null; this.verso = null; this.versoPasse = false; this.versoTexte = "";
+    this.photo = null; this.verso = null; this.versoPasse = false; this.versoTexte = ""; this._versoApplique = false; this.choixNet = false; this.candidatsRecto = [];
     if ($("base-verso-info")) { $("base-verso-info").hidden = true; $("base-verso-info").innerHTML = ""; }
     this.source = this.sourceVerso = this.cadre = this.cadreVerso = null;
     if ($("base-recadrage")) $("base-recadrage").hidden = true;
@@ -646,6 +646,9 @@ const Base = {
         this.proches = ordre;
       }
     } catch (err) { console.warn(err); }
+    // pour le verso : candidats du recto dans l'ordre, et si le premier vient d'un nom lu nettement
+    this.candidatsRecto = connues.slice();
+    this.choixNet = !!(connues[0] && typeof nets !== "undefined" && nets.has(connues[0]));
     const noms = [...connues.map(f => ({ ...this._nomEtPrecision(f), code: f.code })),
                   ...(nomProbable(lecture.texte) ? [{ nom: nomProbable(lecture.texte).toUpperCase(), precision: "", code: "" }] : [])]
       .filter((s, i, t) => s.nom && t.findIndex(x => x.nom === s.nom && x.precision === s.precision) === i);
@@ -733,8 +736,21 @@ const Base = {
     if (!fiches.length) { info.innerHTML = ""; return; }
     const noms = fiches.map(f => ({ ...this._nomEtPrecision(f), code: f.code }));
     const actuel = $("base-nom").value.trim().toUpperCase();
-    const choisie = fiches.find(f => (this.codeLu && CatalogueJB.codes(f).includes(this.codeLu.toUpperCase())) ||
+    let choisie = fiches.find(f => (this.codeLu && CatalogueJB.codes(f).includes(this.codeLu.toUpperCase())) ||
       (actuel && normaliser(this._nomEtPrecision(f).nom) === normaliser(actuel) && fiches.length === 1));
+    // le verso départage (mesure du 07/10) : nom du recto pas lu nettement et choisi par l'appli (pas retouché à la
+    // main) -> la figurine du verso, la mieux classée au recto s'il y en a plusieurs ; nom lu nettement : on le garde
+    const auto = actuel && actuel === (this.nomLu || "").toUpperCase();
+    if (!choisie && auto && !this.choixNet && !this._versoApplique) {
+      const rang = f => { const i = (this.candidatsRecto || []).indexOf(f); return i < 0 ? 99 : i; };
+      const f = fiches.length === 1 ? fiches[0] : [...fiches].sort((a, b) => rang(a) - rang(b)).find(x => rang(x) < 99);
+      if (f) {
+        this._versoApplique = true;
+        this._choisirNom({ ...this._nomEtPrecision(f), code: f.code });
+        this._deja();
+        choisie = f;
+      }
+    }
     if (!actuel && fiches.length === 1 && !$("base-fiche").hidden) { this._choisirNom(noms[0]); this._deja(); }
     if (choisie || (!actuel && fiches.length === 1)) {
       const autres = noms.filter((s, i) => fiches[i] !== (choisie || fiches[0]));

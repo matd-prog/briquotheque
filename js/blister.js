@@ -88,25 +88,46 @@ const Blister = {
     const essais = [["3", 1600, 0], ["12", 1060, 0], ["12", 1600, 150], ["3", 2000, 180], ["3", 1600, "auto"]];
     const n = essais.length + 1;
     let tout = "", sens = 0; // sens : rotation qui remet la photo d'aplomb (d'après PaddleOCR)
+    // on ne s'arrête que sur un nom lu nettement (étiquette du nom) : une citation ou un mot isolé qui ressemble à
+    // une figurine (« BEAUTIFUL FEAR » -> « Fear » sur un carton « HORROR CLOWN ») ne coupe plus les autres essais
+    // (mesure du 07/10 : 76 blisters sur 108 manqués avaient un nom mal lu ou pas lu)
+    const net = t => CatalogueJB.rapprocher(t).length > 0 && CatalogueJB.lecturesNettes().size > 0;
+    const fin = () => ({ texte: tout, trouve: CatalogueJB.rapprocher(tout).length > 0, sens });
     if (progression) progression(1, n);
+    let paddle = false;
     try {
       const lignes = await Paddle.lignes(bitmap);
       const texte = lignes.map(l => l.texte).join("\n");
       sens = Paddle.sensDominant(lignes);
-      if (CatalogueJB.rapprocher(texte).length) return { texte, trouve: true, sens };
+      paddle = true;
+      if (net(texte)) return { texte, trouve: true, sens };
       tout = texte;
     } catch (err) { console.warn("PaddleOCR indisponible", err); }
+    // relecture agrandie : 4 morceaux du carton qui se chevauchent, chacun lu en grand (le petit cadre du nom
+    // devenait minuscule une fois la photo entière réduite pour la lecture)
+    if (paddle) {
+      const droite = sens ? tourner(bitmap, sens) : bitmap;
+      for (const [x, y] of [[0, 0.4], [0.4, 0.4], [0, 0], [0.4, 0]]) {
+        try {
+          const W = droite.width, H = droite.height, sw = W * 0.6, sh = H * 0.6, k = 1280 / Math.max(sw, sh);
+          const cv = document.createElement("canvas");
+          cv.width = Math.round(sw * k); cv.height = Math.round(sh * k);
+          cv.getContext("2d").drawImage(droite, x * W, y * H, sw, sh, 0, 0, cv.width, cv.height);
+          tout += "\n" + (await Paddle.lignes(cv)).map(l => l.texte).join("\n");
+          if (net(tout)) return fin();
+        } catch (err) { console.warn("relecture agrandie impossible", err); break; }
+      }
+    }
     const lecteur = await this._lecteur();
     for (let i = 0; i < essais.length; i++) {
       const [mode, largeur, seuil] = essais[i];
       if (progression) progression(i + 2, n);
       await lecteur.setParameters({ tessedit_pageseg_mode: mode });
       const { data } = await lecteur.recognize(this._preparer(bitmap, Math.min(largeur, bitmap.width * 2), seuil));
-      const texte = data.text || "";
-      tout += "\n" + texte;
-      if (CatalogueJB.rapprocher(texte).length) return { texte, trouve: true, sens };
+      tout += "\n" + (data.text || "");
+      if (net(tout)) return fin();
     }
-    return { texte: tout, trouve: false, sens };
+    return fin();
   },
 };
 

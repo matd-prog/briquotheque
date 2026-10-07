@@ -223,7 +223,8 @@ const CatalogueJB = {
     if (!lus.length) return [];
     const ignores = new Set(["custom", "costum", "minifigure", "minifigur", "minifig", "designed", "the", "and", "with", "von", "spielwaren", "by", "of", "bricks", "maze", "limited", "pieces"]);
     const lusUtiles = lus.filter(m => !ignores.has(m));
-    const proche = (a, b) => a === b || (b.length >= 5 && distanceTexte(a, b) <= 1);
+    // une lettre mal lue par mot ; deux dans les mots de 6 lettres et plus (« ORMOR » lu pour « HORROR »)
+    const proche = (a, b) => a === b || (b.length >= 5 && distanceTexte(a, b) <= (b.length >= 6 ? 2 : 1));
     // mots de chaque ligne lue : un nom lu en entier sur une même ligne passe devant un nom dont les
     // mots sont épars (ex. « BLACK KRRSANTAN » devant « EX-BOUNTY / HUNTER » d'une citation)
     const lignes = texte.split("\n").map(l => normaliser(l).split(/[^a-z0-9]+/).filter(m => m.length >= 2 && !ignores.has(m))).filter(l => l.length);

@@ -125,6 +125,16 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v130 (07/10) : LECTURE DU NOM PLUS TENACE + VERSO QUI DÉCIDE. Lecture : ne s'arrête plus au premier nom à peu
+    près lu, seulement sur une lecture nette ; sinon relecture agrandie de 4 morceaux de la photo (Paddle), puis
+    Tesseract ; textes de toutes les lectures cumulés ; une lettre de travers tolérée dès 5 lettres (2 dès 6).
+    Verso : si le nom du recto n'était pas net et que vous ne l'avez pas changé, le texte du verso choisit la
+    figurine (la mieux classée au recto parmi celles qu'il désigne). Mesure en deux cas (honnêtes, séparés) :
+    blister JAMAIS VU (243, sa photo, son empreinte et son verso retirés) 124 -> 134 (55 %) ; figurine DÉJÀ CONNUE
+    photographiée autrement (40 vraies autres photos) 37 -> 37 (92,5 %). Objectif de Mathias : plus de 90 % sans
+    erreur -> étapes suivantes : modèle de vision DINOv2 (workflow « Modèle de vision », Hugging Face bloqué pour
+    Claude), fusion des signaux réglée sur les 369 blisters, seuil de confiance avec choix en photos.
+    Les 71 % annoncés en v129 mélangeaient les deux cas.
   · v129 (07/10) : RECONNAISSANCE AMÉLIORÉE, MESURÉE (présentation pour JB). Mesure sur les 369 blisters de la base
     commune, chacun re-photographié avec SA propre empreinte retirée (pire cas : blister jamais vu par la base) :
     59 % -> 71 % reconnus du premier coup (bien cadrés : 52 -> 66 %). Cause : un nom lu en entier sur l'étiquette du
