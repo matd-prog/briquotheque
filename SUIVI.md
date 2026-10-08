@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v136 (08/10) : CADRE DES BLISTERS À 4 COINS LIBRES (Mathias : « quand on bouge un coin, les autres ne doivent pas
+    bouger » ; le cadre rectangle déplaçait forcément les deux coins voisins). Chaque coin se place seul (un bord tiré
+    déplace ses deux coins, le milieu déplace tout) ; cadre croisé, aplati (angle < 20°) ou trop petit refusé. La photo
+    est ensuite redressée en rectangle (perspective, comme un scanner de documents : Base._redresser). Cadre gardé
+    { x, y, l, h, coins } (x, y, l, h = rectangle englobant, pour le reste du code) ; cadre mémorisé compris.
+    Recadrage des figurines : rectangle (v135) inchangé.
   · v135 (08/10) : RECADRAGE REVU (demande de Mathias : photo plus grande, coins qui ne font pas bouger le reste).
     Blisters : plein écran sur fond sombre, photo la plus grande possible. Blisters et figurines (js/cadre_tactile.js) :
     le doigt attrape le coin le plus proche jusqu'à 60 px (avant : il fallait toucher le petit rond, sinon tout le

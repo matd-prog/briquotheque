@@ -85,4 +85,111 @@ const CadreTactile = {
     });
     for (const f of ["pointerup", "pointercancel"]) zone.addEventListener(f, () => { geste = null; loupe.hidden = true; });
   },
+
+  // ——— Cadre à 4 coins libres (blisters, 08/10/2026, Mathias : « quand on bouge un coin, les autres ne doivent pas
+  // bouger ») : chaque coin se place seul, comme dans les scanners de documents ; la photo est ensuite redressée en
+  // rectangle (Base._reduire). cadre : { x, y, l, h, coins: [[x, y] haut gauche, haut droit, bas droit, bas gauche] }.
+  coins(c) {
+    if (c.coins && c.coins.length === 4) return c.coins.map(p => [...p]);
+    return [[c.x, c.y], [c.x + c.l, c.y], [c.x + c.l, c.y + c.h], [c.x, c.y + c.h]];
+  },
+  depuisCoins(coins) {
+    const xs = coins.map(p => p[0]), ys = coins.map(p => p[1]);
+    const x = Math.min(...xs), y = Math.min(...ys);
+    return { x, y, l: Math.max(...xs) - x, h: Math.max(...ys) - y, coins: coins.map(p => [...p]) };
+  },
+  // quadrilatère sans croisement, ni angle rentrant ou trop plat (sinon le redressement de la photo n'a pas de sens)
+  convexe(q) {
+    let signe = 0;
+    for (let i = 0; i < 4; i++) {
+      const [a, b, c] = [q[i], q[(i + 1) % 4], q[(i + 2) % 4]];
+      const u = [b[0] - a[0], b[1] - a[1]], v = [c[0] - b[0], c[1] - b[1]];
+      const z = u[0] * v[1] - u[1] * v[0], lu = Math.hypot(...u), lv = Math.hypot(...v);
+      if (lu < 0.05 || lv < 0.05 || Math.abs(z) < 0.35 * lu * lv) return false; // côté trop court, angle < 20° ou > 160°
+      if (signe && Math.sign(z) !== signe) return false;
+      signe = Math.sign(z);
+    }
+    return true;
+  },
+
+  installerQuad(zone, lire, ecrire) {
+    if (!zone) return;
+    const img = zone.querySelector("img");
+    const loupe = document.createElement("canvas");
+    loupe.className = "loupe-recadrage";
+    loupe.width = loupe.height = 240;
+    loupe.hidden = true;
+    document.body.appendChild(loupe);
+    const borner = v => Math.min(1, Math.max(0, v));
+    let geste = null;
+    const enPx = (q, r) => q.map(p => [p[0] * r.width, p[1] * r.height]);
+    const dedans = (pt, q) => { // point dans le quadrilatère (lancer de rayon)
+      let ok = false;
+      for (let i = 0, j = 3; i < 4; j = i++) {
+        const [xi, yi] = q[i], [xj, yj] = q[j];
+        if ((yi > pt[1]) !== (yj > pt[1]) && pt[0] < (xj - xi) * (pt[1] - yi) / (yj - yi) + xi) ok = !ok;
+      }
+      return ok;
+    };
+    const distSegment = (p, a, b) => {
+      const dx = b[0] - a[0], dy = b[1] - a[1], t = Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / (dx * dx + dy * dy || 1)));
+      return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
+    };
+    // ce que le doigt attrape : un coin (seul lui bouge), un bord (ses deux coins), ou tout le cadre
+    const choisir = (pt, r) => {
+      const q = enPx(this.coins(lire()), r);
+      let mieux = 60, coin = -1;
+      q.forEach((p, i) => { const d = Math.hypot(pt[0] - p[0], pt[1] - p[1]); if (d < mieux) { mieux = d; coin = i; } });
+      if (coin >= 0) return { coins: [coin] };
+      let bord = -1; mieux = 40;
+      for (let i = 0; i < 4; i++) { const d = distSegment(pt, q[i], q[(i + 1) % 4]); if (d < mieux) { mieux = d; bord = i; } }
+      if (bord >= 0) return { coins: [bord, (bord + 1) % 4] };
+      return dedans(pt, q) ? { coins: [0, 1, 2, 3], tout: true } : null;
+    };
+    const montrerLoupe = (e, r, q, point) => {
+      if (!img || !img.naturalWidth || geste.tout) { loupe.hidden = true; return; }
+      const k = 2.5, t = 120, cote = loupe.width, ech = cote / (t / k);
+      const vue = t / k * (img.naturalWidth / r.width);
+      const [fx, fy] = point;
+      const ctx = loupe.getContext("2d");
+      ctx.fillStyle = "#111"; ctx.fillRect(0, 0, cote, cote);
+      ctx.drawImage(img, fx * img.naturalWidth - vue / 2, fy * img.naturalHeight - vue / 2, vue, vue, 0, 0, cote, cote);
+      const vers = p => [cote / 2 + (p[0] - fx) * r.width * ech, cote / 2 + (p[1] - fy) * r.height * ech];
+      ctx.strokeStyle = "#fff"; ctx.lineWidth = 3; ctx.beginPath();
+      q.forEach((p, i) => { const [a, b] = vers(p); if (i) ctx.lineTo(a, b); else ctx.moveTo(a, b); });
+      ctx.closePath(); ctx.stroke();
+      ctx.strokeStyle = "#d9476b"; ctx.lineWidth = 2; ctx.beginPath();
+      ctx.moveTo(cote / 2 - 14, cote / 2); ctx.lineTo(cote / 2 + 14, cote / 2);
+      ctx.moveTo(cote / 2, cote / 2 - 14); ctx.lineTo(cote / 2, cote / 2 + 14); ctx.stroke();
+      const gauche = Math.min(innerWidth - t - 4, Math.max(4, e.clientX - t / 2));
+      const haut = e.clientY - t - 70 > 4 ? e.clientY - t - 70 : Math.min(innerHeight - t - 4, e.clientY + 70);
+      Object.assign(loupe.style, { left: gauche + "px", top: haut + "px" });
+      loupe.hidden = false;
+    };
+    zone.addEventListener("pointerdown", e => {
+      const r = zone.getBoundingClientRect();
+      const choix = choisir([e.clientX - r.left, e.clientY - r.top], r);
+      if (!choix) return;
+      e.preventDefault();
+      zone.setPointerCapture(e.pointerId);
+      geste = { ...choix, x0: e.clientX, y0: e.clientY, r, depart: this.coins(lire()) };
+      const d = geste.depart, p = geste.coins.length === 1 ? d[geste.coins[0]] : [(d[geste.coins[0]][0] + d[geste.coins[1]][0]) / 2, (d[geste.coins[0]][1] + d[geste.coins[1]][1]) / 2];
+      montrerLoupe(e, r, d, p);
+    });
+    zone.addEventListener("pointermove", e => {
+      if (!geste) return;
+      let dx = (e.clientX - geste.x0) / geste.r.width, dy = (e.clientY - geste.y0) / geste.r.height;
+      const d = geste.depart;
+      if (geste.tout) { // tout le cadre, sans sortir de la photo
+        dx = Math.min(1 - Math.max(...d.map(p => p[0])), Math.max(-Math.min(...d.map(p => p[0])), dx));
+        dy = Math.min(1 - Math.max(...d.map(p => p[1])), Math.max(-Math.min(...d.map(p => p[1])), dy));
+      }
+      const q = d.map((p, i) => geste.coins.includes(i) ? [borner(p[0] + dx), borner(p[1] + dy)] : [...p]);
+      if (!this.convexe(q)) return; // coin passé de l'autre côté : refusé
+      ecrire(this.depuisCoins(q));
+      const p = geste.coins.length === 1 ? q[geste.coins[0]] : [(q[geste.coins[0]][0] + q[geste.coins[1]][0]) / 2, (q[geste.coins[0]][1] + q[geste.coins[1]][1]) / 2];
+      montrerLoupe(e, geste.r, q, p);
+    });
+    for (const f of ["pointerup", "pointercancel"]) zone.addEventListener(f, () => { geste = null; loupe.hidden = true; });
+  },
 };

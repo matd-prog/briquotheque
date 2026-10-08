@@ -60,6 +60,7 @@ const Base = {
   async _reduire(fichier, sens, cadre) {
     let image = await createImageBitmap(fichier);
     if (sens) image = tourner(image, sens);
+    if (cadre && cadre.coins && !this._rectangle(cadre.coins)) return this._redresser(image, cadre.coins);
     const c = cadre || { x: 0, y: 0, l: 1, h: 1 };
     const sx = Math.round(c.x * image.width), sy = Math.round(c.y * image.height);
     const sw = Math.max(1, Math.round(c.l * image.width)), sh = Math.max(1, Math.round(c.h * image.height));
@@ -67,6 +68,55 @@ const Base = {
     const cv = document.createElement("canvas");
     cv.width = Math.round(sw * k); cv.height = Math.round(sh * k);
     cv.getContext("2d").drawImage(image, sx, sy, sw, sh, 0, 0, cv.width, cv.height);
+    return new Promise(ok => cv.toBlob(ok, "image/jpeg", 0.82));
+  },
+  // coins (fractions) formant un rectangle droit, à 0,2 % près : simple découpe
+  _rectangle(q) {
+    const e = 0.002;
+    return Math.abs(q[0][1] - q[1][1]) < e && Math.abs(q[3][1] - q[2][1]) < e && Math.abs(q[0][0] - q[3][0]) < e && Math.abs(q[1][0] - q[2][0]) < e;
+  },
+  // Cadre à 4 coins libres : la zone est redressée en rectangle (comme un scanner de documents). Taille : moyenne des
+  // côtés opposés, 1000 px au plus ; chaque pixel est pris dans la photo par la transformation de perspective qui
+  // envoie le rectangle sur le quadrilatère (interpolation entre les 4 pixels voisins).
+  async _redresser(image, coins) {
+    // photo de travail : assez grande pour la zone, pas plus (mémoire du téléphone)
+    const larg = (a, b) => Math.hypot((a[0] - b[0]) * image.width, (a[1] - b[1]) * image.height);
+    const W0 = (larg(coins[0], coins[1]) + larg(coins[3], coins[2])) / 2, H0 = (larg(coins[0], coins[3]) + larg(coins[1], coins[2])) / 2;
+    const k = Math.min(1, 1000 / Math.max(W0, H0)), W = Math.max(1, Math.round(W0 * k)), H = Math.max(1, Math.round(H0 * k));
+    const ks = Math.min(1, 1.5 * k), sw = Math.max(1, Math.round(image.width * ks)), sh = Math.max(1, Math.round(image.height * ks));
+    const src = document.createElement("canvas");
+    src.width = sw; src.height = sh;
+    const sctx = src.getContext("2d");
+    sctx.drawImage(image, 0, 0, sw, sh);
+    const S = sctx.getImageData(0, 0, sw, sh).data;
+    // carré unité -> quadrilatère (Heckbert) : x = (a u + b v + c) / (g u + h v + 1), y = (d u + e v + f) / (g u + h v + 1)
+    const [[x0, y0], [x1, y1], [x2, y2], [x3, y3]] = coins.map(p => [p[0] * sw, p[1] * sh]);
+    const sx = x0 - x1 + x2 - x3, sy = y0 - y1 + y2 - y3;
+    let a, b, c, d, e, f, g, h;
+    if (Math.abs(sx) < 1e-9 && Math.abs(sy) < 1e-9) { a = x1 - x0; b = x3 - x0; c = x0; d = y1 - y0; e = y3 - y0; f = y0; g = h = 0; }
+    else {
+      const dx1 = x1 - x2, dx2 = x3 - x2, dy1 = y1 - y2, dy2 = y3 - y2, det = dx1 * dy2 - dx2 * dy1;
+      g = (sx * dy2 - dx2 * sy) / det; h = (dx1 * sy - sx * dy1) / det;
+      a = x1 - x0 + g * x1; b = x3 - x0 + h * x3; c = x0; d = y1 - y0 + g * y1; e = y3 - y0 + h * y3; f = y0;
+    }
+    const cv = document.createElement("canvas");
+    cv.width = W; cv.height = H;
+    const ctx = cv.getContext("2d"), sortie = ctx.createImageData(W, H), O = sortie.data;
+    for (let j = 0; j < H; j++) {
+      const v = (j + 0.5) / H;
+      for (let i = 0; i < W; i++) {
+        const u = (i + 0.5) / W, z = g * u + h * v + 1;
+        let X = (a * u + b * v + c) / z - 0.5, Y = (d * u + e * v + f) / z - 0.5;
+        X = Math.min(sw - 1.001, Math.max(0, X)); Y = Math.min(sh - 1.001, Math.max(0, Y));
+        const xi = X | 0, yi = Y | 0, tx = X - xi, ty = Y - yi, p = (yi * sw + xi) * 4, o = (j * W + i) * 4;
+        for (let ch = 0; ch < 3; ch++) {
+          const haut = S[p + ch] * (1 - tx) + S[p + 4 + ch] * tx, bas = S[p + sw * 4 + ch] * (1 - tx) + S[p + sw * 4 + 4 + ch] * tx;
+          O[o + ch] = haut * (1 - ty) + bas * ty;
+        }
+        O[o + 3] = 255;
+      }
+    }
+    ctx.putImageData(sortie, 0, 0);
     return new Promise(ok => cv.toBlob(ok, "image/jpeg", 0.82));
   },
 
@@ -493,9 +543,9 @@ const Base = {
     const img = $("base-recadrage-image");
     img.src = URL.createObjectURL(await this._reduire(src.fichier, src.sens));
     await img.decode().catch(() => {});
-    this._cadreEdite = { ...((rempl ? rempl.cadre : quoi === "verso" ? this.cadreVerso : this.cadre) || { x: 0.05, y: 0.05, l: 0.9, h: 0.9 }) };
+    this._cadreEdite = CadreTactile.depuisCoins(CadreTactile.coins((rempl ? rempl.cadre : quoi === "verso" ? this.cadreVerso : this.cadre) || { x: 0.05, y: 0.05, l: 0.9, h: 0.9 }));
     this._quoiEdite = quoi;
-    $("base-recadrage-titre").textContent = `Placez le cadre sur les bords extérieurs de la coque transparente (${quoi}) : tirez un coin ou un bord (les autres ne bougent pas), ou glissez le milieu pour déplacer tout le cadre.`;
+    $("base-recadrage-titre").textContent = `Placez chaque coin sur un coin extérieur de la coque transparente (${quoi}) : un coin tiré bouge seul, les autres restent en place ; glissez le milieu pour déplacer tout le cadre. La photo est ensuite redressée.`;
     if ($("base-recadrage-memoriser")) $("base-recadrage-memoriser").checked = !!(this.cadresMemo && this.cadresMemo[quoi === "verso" ? "verso" : "recto"]);
     $("base-recadrage").hidden = false;
     // plein écran : la photo la plus grande possible (08/10/2026)
@@ -505,8 +555,19 @@ const Base = {
   },
 
   _dessinerCadre() {
-    const c = this._cadreEdite, el = $("base-recadrage-cadre");
-    Object.assign(el.style, { left: c.x * 100 + "%", top: c.y * 100 + "%", width: c.l * 100 + "%", height: c.h * 100 + "%" });
+    const zone = $("base-recadrage-zone"), q = CadreTactile.coins(this._cadreEdite).map(p => [p[0] * 100, p[1] * 100]);
+    $("base-recadrage-cadre").hidden = true; // ancien cadre rectangle
+    let svg = zone.querySelector(".cadre-quad");
+    if (!svg) {
+      zone.insertAdjacentHTML("beforeend", `<svg class="cadre-quad" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path class="masque" fill-rule="evenodd"></path><polygon class="bord"></polygon></svg>` +
+        [0, 1, 2, 3].map(i => `<span class="coin coin-quad" data-quad="${i}"></span>`).join(""));
+      svg = zone.querySelector(".cadre-quad");
+    }
+    const pts = q.map(p => p.join(" ")).join(" ");
+    svg.querySelector(".masque").setAttribute("d", `M0 0H100V100H0Z M${q.map(p => p.join(" ")).join(" L")} Z`);
+    svg.querySelector(".bord").setAttribute("points", pts);
+    zone.querySelectorAll("[data-quad]").forEach(el => { const p = q[+el.dataset.quad]; el.style.left = p[0] + "%"; el.style.top = p[1] + "%"; });
   },
 
   // cadre de recadrage remis à sa place (au-dessus de la fiche de saisie)
@@ -558,8 +619,8 @@ const Base = {
   },
 
   _installerRecadrage() {
-    // gestes : coin ou bord le plus proche du doigt, loupe (js/cadre_tactile.js)
-    CadreTactile.installer($("base-recadrage-zone"), () => this._cadreEdite, c => { this._cadreEdite = c; this._dessinerCadre(); }, 0.1);
+    // 4 coins libres : chaque coin se place seul (photo redressée ensuite), loupe sous le doigt (js/cadre_tactile.js)
+    CadreTactile.installerQuad($("base-recadrage-zone"), () => this._cadreEdite, c => { this._cadreEdite = c; this._dessinerCadre(); });
   },
 
   // « Non numérotée » : pas de numéro ni de série limitée
