@@ -1,4 +1,4 @@
-#date 2026-10-07
+#date 2026-10-08
 code	nom	theme	sous_theme	annee	sortie	fin	pieces	figurines	image
 21064-1	Paris - City of Love	Architecture	Iconic Landmarks	2026	2026-01-01	2028-12-31	958		https://images.brickset.com/sets/images/21064-1.jpg
 31218-1	Japanese Cherry Blossom Landscape	Art	Paintings	2026	2026-01-01	2028-12-31	1892		https://images.brickset.com/sets/images/31218-1.jpg
@@ -752,6 +752,7 @@ L0002227-1	Firefighter with Helicopter	City	Magazine Gift	2026
 L0002271-1	Batman	DC Comics Super Heroes	Magazine Gift	2026			10	1	https://images.brickset.com/sets/images/L0002271-1.jpg
 L0002272-1	Bane with Prison Cell	DC Comics Super Heroes	Magazine Gift	2026			27	1	https://images.brickset.com/sets/images/L0002272-1.jpg
 L0002273-1	The Riddler	DC Comics Super Heroes	Magazine Gift	2026				1	https://images.brickset.com/sets/images/L0002273-1.jpg
+L0002325-1	Batman with Jetpack	DC Comics Super Heroes	Magazine Gift	2026					
 30745-1	{?}	Disney		2027					
 40857-1	{?}	Disney		2026					
 43288-1	Sally's Flowerpot	Disney	The Nightmare Before Christmas	2026			346	1	https://images.brickset.com/sets/images/43288-1.jpg
@@ -832,6 +833,7 @@ PONDDUCK-1	M&T Pond Duck	Duplo		2026			7		https://images.brickset.com/sets/image
 951445-1	Horse stables	Friends	FunPack	2026			39		https://images.brickset.com/sets/images/951445-1.jpg
 951446-1	Valeria with Puppy	Friends	FunPack	2026			20		https://images.brickset.com/sets/images/951446-1.jpg
 L0002265-1	Nugget at Veterinary Station	Friends	Magazine gift	2026			24		https://images.brickset.com/sets/images/L0002265-1.jpg
+L0002266-1	Waffles with Ice Cream Stand	Friends	Magazine gift	2026			16		
 11212-1	Kitty Fairy's Garden House	Gabby's Dollhouse	TV Series	2026			103	2	https://images.brickset.com/sets/images/11212-1.jpg
 11214-1	Fairy Roller Coaster and Tea Party	Gabby's Dollhouse	TV Series	2026			137	2	https://images.brickset.com/sets/images/11214-1.jpg
 11227-1	{?}	Gabby's Dollhouse		2027					
@@ -924,6 +926,8 @@ L0002265-1	Nugget at Veterinary Station	Friends	Magazine gift	2026			24		https:/
 5011029-1	LEGO NINJAGO Destiny's Bounty Adventures	Gear	Games	2026					https://images.brickset.com/sets/images/5011029-1.jpg
 5011065-1	Space Arcade Poster	Gear	Posters	2026					https://images.brickset.com/sets/images/SPACEARCADE-1.jpg
 5011072-1	Ministry of Magic Phone Booth	Gear	Metal Ornaments	2026					https://images.brickset.com/sets/images/5011072-1.jpg
+5011169-1	Insiders Halloween Window Stickers	Gear	Stationery	2026					https://images.brickset.com/sets/images/5011169-1.jpg
+5011197-1	Herschel Heritage XL Tote – Monogram Black	Gear	Bags	2026					
 6649951-1	Chewbacca Trading Card	Gear	Trading Cards	2026					https://images.brickset.com/sets/images/6649951-1.jpg
 6649952-1	Darth Vader Trading Card	Gear	Trading Cards	2026					https://images.brickset.com/sets/images/6649952-1.jpg
 6649953-1	Princess Leia Trading Card	Gear	Trading Cards	2026					https://images.brickset.com/sets/images/6649953-1.jpg
@@ -969,7 +973,7 @@ HPHOLIDAY-1	Harry Potter Holiday M&T	Harry Potter	Promotional	2026					https://i
 40889-1	{?}	Ideas	Promotional	2026					
 122506-1	Raptor Breakout	Jurassic World	Magazine Gift	2026			13		https://images.brickset.com/sets/images/122506-1.jpg
 122507-1	Raptor Feeding	Jurassic World	Magazine Gift	2026			21	1	https://images.brickset.com/sets/images/122507-1.jpg
-122509-1	Ranger with Laboratory	Jurassic World	Magazine Gift	2026			28		https://images.brickset.com/sets/images/122509-1.jpg
+122509-1	Ranger with Laboratory	Jurassic World	Magazine Gift	2026			28	1	https://images.brickset.com/sets/images/122509-1.jpg
 77987-1	{?}	Jurassic World		2027					
 951351-1	Guard and Raptor	Jurassic World	Magazine Gift	2026					
 L0002261-1	Raptor and Volcano	Jurassic World	Magazine Gift	2026					
@@ -1006,6 +1010,7 @@ L0002283-1	Spider-Man with Spider-Crawler	Marvel Super Heroes	Magazine Gift	2026
 L0002284-1	Anti-Venom	Marvel Super Heroes	Magazine Gift	2026			10	1	https://images.brickset.com/sets/images/L0002284-1.jpg
 L0002285-1	Spider-Man	Marvel Super Heroes	Magazine Gift	2026			7	1	https://images.brickset.com/sets/images/L0002285-1.jpg
 L0002285-2	Spider-Man	Marvel Super Heroes	Magazine Gift	2026			7	1	https://images.brickset.com/sets/images/L0002285-2.jpg
+L0002286-1	Hobgoblin	Marvel Super Heroes	Magazine Gift	2026					
 21591-1	The Twisted Warden Battle	Minecraft	Minecraft Dungeons II	2026			438	4	https://images.brickset.com/sets/images/21591-1.jpg
 21599-1	{?}	Minecraft		2027					
 21600-1	{?}	Minecraft		2027					
@@ -1023,6 +1028,7 @@ L0002249-1	Hero with Illager	Minecraft	Magazine Gift	2026			9	2	https://images.b
 L0002250-1	Blacksmith with Armour and Smithing Table	Minecraft	Magazine Gift	2026			19	1	https://images.brickset.com/sets/images/L0002250-1.jpg
 L0002251-1	Cactus Knight with Breeze	Minecraft	Magazine Gift	2026			26	2	https://images.brickset.com/sets/images/L0002251-1.jpg
 L0002252-1	Space Sentinel with Enderman and Endermite	Minecraft	Magazine Gift	2026			24	2	https://images.brickset.com/sets/images/L0002252-1.jpg
+L0002253-1	Parrot Handler	Minecraft	Magazine Gift	2026					
 L0002260-1	Magma Cube	Minecraft	Magazine Gift	2026			39		https://images.brickset.com/sets/images/L0002260-1.jpg
 MCPIG-1	Minecraft M&T - Pig	Minecraft	Promotional	2026					https://images.brickset.com/sets/images/MCPIG-1.jpg
 12015-1	LEGO Christmas Ideas parts	Miscellaneous	Book Parts	2026			50		https://images.brickset.com/sets/images/12015-1.jpg
@@ -1059,6 +1065,7 @@ L0002212-1	Zane-Mech	Ninjago	Magazine Gift	2026			99		https://images.brickset.co
 L0002213-1	Kai vs. Rox	Ninjago	Magazine Gift	2026			13	2	
 L0002214-1	Jay vs. Tentacle Monster	Ninjago	Magazine Gift	2026			25	2	https://images.brickset.com/sets/images/L0002214-1.jpg
 L0002215-1	Nya and Grimfax	Ninjago	Magazine Gift	2026			9	2	
+L0002216-1	Zane vs. Loyalist Leader	Ninjago	Magazine Gift	2026			8	2	
 6644880-1	Chopper's Hat	One Piece		2026			30		https://images.brickset.com/sets/images/6644880-1.jpg
 6644882-1	Human Human Fruit	One Piece	Promotional	2026			26		https://images.brickset.com/sets/images/6644882-1.jpg
 75647-1	Gum-Gum Fruit	One Piece	Season 1	2026			482	2	https://images.brickset.com/sets/images/75647-1.jpg
@@ -1136,6 +1143,7 @@ L0002215-1	Nya and Grimfax	Ninjago	Magazine Gift	2026			9	2
 6643344-1	Hat (St Patrick's Day M&T)	Promotional	LEGO brand stores	2026			21		https://images.brickset.com/sets/images/6643344-1.jpg
 6644846-1	Turbo Shark Delivery / Shark Air Delivery	Promotional	LEGO brand stores	2026			41		https://images.brickset.com/sets/images/6644846-1.jpg
 6644870-1	Dragon on Skateboard	Promotional	Miscellaneous	2026			55		https://images.brickset.com/sets/images/6644870-1.jpg
+6644886-1	Ghost Street	Promotional	LEGO brand stores	2026			36		https://images.brickset.com/sets/images/GHOSTSTREET-1.jpg
 6644890-1	The Holiday Duo	Promotional	LEGO brand stores	2026			53		https://images.brickset.com/sets/images/6644890-1.jpg
 6647174-1	Stadium	Promotional	LEGO brand stores	2026			17		https://images.brickset.com/sets/images/STADIUM-1.jpg
 6652991-1	Rock Guitar	Promotional	LEGO brand stores	2026			52		https://images.brickset.com/sets/images/GUITAR-1.jpg
@@ -1147,7 +1155,6 @@ DUCKY-1	M&T Ducky	Promotional	LEGO brand stores	2026					https://images.brickset
 EASTEREGG-1	M&T Style Your Egg	Promotional	LEGO brand stores	2026			41		https://images.brickset.com/sets/images/EASTEREGG-1.jpg
 FIRETRUCK-1	City Firetruck	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/FIRETRUCK-1.jpg
 FOOTBALL-1	Football	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/FOOTBALL-1.jpg
-GHOSTSTREET-1	M&T Ghost Street	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/GHOSTSTREET-1.jpg
 GNOME-1	Gnome M&T	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/GNOME-1.jpg
 LOUNGECHAIR-1	Lounge Chair	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/LOUNGECHAIR-1.jpg
 MOSAIC-1	M&T Mosaic	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/MOSAIC-1.jpg
@@ -1249,4 +1256,5 @@ L0002295-1	Tractor	Technic	Magazine Gift	2026			61		https://images.brickset.com/
 67013-1	{?}	tbd		2027					
 72118-1	{?}	tbd		2027					
 72188-1	{?}	tbd		2027					
-5011197-1	Herschel Heritage XL Tote – Monogram Black	{Undefined}		2026					
+5011185-1	Herschel Heritage Tote – Monogram Black	{Undefined}		2026					
+5011198-1	Herschel Novel Duffle – Monogram Black	{Undefined}		2026					
