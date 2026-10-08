@@ -63,39 +63,7 @@ const Recadrage = {
   annuler() { this._fin(null); },
 
   installer() {
-    const zone = $("recadrage-zone");
-    let geste = null;
-    const MIN = 0.12;
-    const borner = (v, a, b) => Math.min(b, Math.max(a, v));
-
-    zone.addEventListener("pointerdown", e => {
-      const poignee = e.target.closest("[data-coin]");
-      const dansCadre = e.target.closest("#recadrage-cadre");
-      if (!poignee && !dansCadre) return;
-      e.preventDefault();
-      zone.setPointerCapture(e.pointerId);
-      const r = zone.getBoundingClientRect();
-      geste = { coin: poignee ? poignee.dataset.coin : null, x0: e.clientX, y0: e.clientY, r, depart: { ...this._cadre } };
-    });
-    zone.addEventListener("pointermove", e => {
-      if (!geste) return;
-      const dx = (e.clientX - geste.x0) / geste.r.width, dy = (e.clientY - geste.y0) / geste.r.height;
-      const d = geste.depart;
-      let { x, y, l, h } = d;
-      if (!geste.coin) {
-        x = borner(d.x + dx, 0, 1 - d.l);
-        y = borner(d.y + dy, 0, 1 - d.h);
-      } else {
-        if (geste.coin.includes("g")) { x = borner(d.x + dx, 0, d.x + d.l - MIN); l = d.x + d.l - x; }
-        if (geste.coin.includes("d")) { l = borner(d.l + dx, MIN, 1 - d.x); }
-        if (geste.coin.includes("h")) { y = borner(d.y + dy, 0, d.y + d.h - MIN); h = d.y + d.h - y; }
-        if (geste.coin.includes("b")) { h = borner(d.h + dy, MIN, 1 - d.y); }
-      }
-      this._cadre = { x, y, l, h };
-      this._dessiner();
-    });
-    const fin = () => { geste = null; };
-    zone.addEventListener("pointerup", fin);
-    zone.addEventListener("pointercancel", fin);
+    // gestes : coin ou bord le plus proche du doigt, loupe (js/cadre_tactile.js)
+    CadreTactile.installer($("recadrage-zone"), () => this._cadre, c => { this._cadre = c; this._dessiner(); }, 0.12);
   },
 };

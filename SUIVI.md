@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v135 (08/10) : RECADRAGE REVU (demande de Mathias : photo plus grande, coins qui ne font pas bouger le reste).
+    Blisters : plein écran sur fond sombre, photo la plus grande possible. Blisters et figurines (js/cadre_tactile.js) :
+    le doigt attrape le coin le plus proche jusqu'à 60 px (avant : il fallait toucher le petit rond, sinon tout le
+    cadre partait), ou le bord le plus proche jusqu'à 40 px (seul ce bord bouge), le milieu déplace tout le cadre ;
+    loupe ×2,5 au-dessus du doigt pendant qu'on tire un coin ou un bord.
   · v134 (08/10) : INSTALLATION GUIDÉE DE LA MINI-APPLI (l'ami de Mathias n'arrivait pas à l'installer ; le mode
     d'emploi ne parlait que d'iPhone/Safari). contribuer.html détecte le cas : page ouverte dans Messenger, Facebook,
     Instagram, Gmail… -> « ouvrez dans Chrome/Safari » + bouton « Ouvrir dans Chrome » (Android) et « Copier le

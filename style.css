@@ -365,3 +365,17 @@ body:not(.base-vide) .base-vide-seul { display: none !important; }
 #ami-onglets { margin-bottom: 14px; }
 #ami-bascule { margin: 10px 0; }
 #ecran-ami-collection .vignette .recense-ecart, #ecran-ami-collection .fiche .recense-ecart { font-size: 12px; margin-top: 4px; }
+/* recadrage en plein écran (08/10/2026) : photo la plus grande possible, boutons en dessous */
+#base-recadrage.plein-ecran:not([hidden]) { position: fixed; inset: 0; z-index: 1000; margin: 0; border-radius: 0; overflow-y: auto;
+  background: #161616; color: #eee; display: flex; flex-direction: column; gap: 8px; max-width: none;
+  padding: calc(8px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom)); }
+#base-recadrage.plein-ecran .aide { color: #ccc; margin: 0; font-size: .9em; }
+#base-recadrage.plein-ecran #base-recadrage-zone { width: auto; align-self: center; flex: 0 0 auto; }
+#base-recadrage.plein-ecran #base-recadrage-zone img { width: auto; max-width: calc(100vw - 24px); max-height: calc(100vh - 230px); max-height: calc(100dvh - 230px); }
+#base-recadrage.plein-ecran .case-a-cocher { color: #ddd; }
+#ecran-recadrage .recadrage-zone img { max-height: calc(100vh - 260px); max-height: calc(100dvh - 260px); }
+body.recadrage-ouvert { overflow: hidden; }
+/* loupe au-dessus du doigt pendant qu'on tire un coin ou un bord */
+.loupe-recadrage { position: fixed; z-index: 2000; width: 120px; height: 120px; border-radius: 50%; border: 3px solid #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,.5); pointer-events: none; background: #111; }
+.loupe-recadrage[hidden] { display: none; }

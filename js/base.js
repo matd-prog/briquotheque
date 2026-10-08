@@ -495,11 +495,13 @@ const Base = {
     await img.decode().catch(() => {});
     this._cadreEdite = { ...((rempl ? rempl.cadre : quoi === "verso" ? this.cadreVerso : this.cadre) || { x: 0.05, y: 0.05, l: 0.9, h: 0.9 }) };
     this._quoiEdite = quoi;
-    $("base-recadrage-titre").textContent = `Ajustez le cadre autour du blister (${quoi}), sur les bords arrondis extérieurs de la coque transparente : glissez-le, ou tirez ses coins.`;
+    $("base-recadrage-titre").textContent = `Placez le cadre sur les bords extérieurs de la coque transparente (${quoi}) : tirez un coin ou un bord (les autres ne bougent pas), ou glissez le milieu pour déplacer tout le cadre.`;
     if ($("base-recadrage-memoriser")) $("base-recadrage-memoriser").checked = !!(this.cadresMemo && this.cadresMemo[quoi === "verso" ? "verso" : "recto"]);
     $("base-recadrage").hidden = false;
+    // plein écran : la photo la plus grande possible (08/10/2026)
+    $("base-recadrage").classList.add("plein-ecran");
+    document.body.classList.add("recadrage-ouvert");
     this._dessinerCadre();
-    $("base-recadrage").scrollIntoView({ block: "start" });
   },
 
   _dessinerCadre() {
@@ -517,6 +519,8 @@ const Base = {
 
   async finRecadrage(choix) { // "ok", "entiere" ou "annuler"
     $("base-recadrage").hidden = true;
+    $("base-recadrage").classList.remove("plein-ecran");
+    document.body.classList.remove("recadrage-ouvert");
     const rempl = this._rempl;
     this._rempl = null;
     this._remettrePanneau();
@@ -554,32 +558,8 @@ const Base = {
   },
 
   _installerRecadrage() {
-    const zone = $("base-recadrage-zone");
-    if (!zone) return;
-    let geste = null;
-    const MIN = 0.1, borner = (v, a, b) => Math.min(b, Math.max(a, v));
-    zone.addEventListener("pointerdown", e => {
-      const poignee = e.target.closest("[data-coin]");
-      if (!poignee && !e.target.closest("#base-recadrage-cadre")) return;
-      e.preventDefault();
-      zone.setPointerCapture(e.pointerId);
-      geste = { coin: poignee ? poignee.dataset.coin : null, x0: e.clientX, y0: e.clientY, r: zone.getBoundingClientRect(), depart: { ...this._cadreEdite } };
-    });
-    zone.addEventListener("pointermove", e => {
-      if (!geste) return;
-      const dx = (e.clientX - geste.x0) / geste.r.width, dy = (e.clientY - geste.y0) / geste.r.height, d = geste.depart;
-      let { x, y, l, h } = d;
-      if (!geste.coin) { x = borner(d.x + dx, 0, 1 - d.l); y = borner(d.y + dy, 0, 1 - d.h); }
-      else {
-        if (geste.coin.includes("g")) { x = borner(d.x + dx, 0, d.x + d.l - MIN); l = d.x + d.l - x; }
-        if (geste.coin.includes("d")) l = borner(d.l + dx, MIN, 1 - d.x);
-        if (geste.coin.includes("h")) { y = borner(d.y + dy, 0, d.y + d.h - MIN); h = d.y + d.h - y; }
-        if (geste.coin.includes("b")) h = borner(d.h + dy, MIN, 1 - d.y);
-      }
-      this._cadreEdite = { x, y, l, h };
-      this._dessinerCadre();
-    });
-    for (const f of ["pointerup", "pointercancel"]) zone.addEventListener(f, () => { geste = null; });
+    // gestes : coin ou bord le plus proche du doigt, loupe (js/cadre_tactile.js)
+    CadreTactile.installer($("base-recadrage-zone"), () => this._cadreEdite, c => { this._cadreEdite = c; this._dessinerCadre(); }, 0.1);
   },
 
   // « Non numérotée » : pas de numéro ni de série limitée
