@@ -718,6 +718,10 @@ Pour reprendre le 30/09 au matin :
    Ajouté à la tâche mensuelle le 29/09/2026.
 4. Archives (web.archive.org) : action GitHub « Archives JB » en place ; lancer la lecture complète.
 5. Éventuel contact avec JB Spielwaren pour une base officielle de leurs blisters.
+   Premier mail le 29/09/2026 (demande de transmettre à Hendrik) ; relance envoyée par Mathias le 08/10/2026 (même fil
+   « Hilfsgesuch », en allemand) : Hendrik invité à le contacter par e-mail, aucun coût pour JB, accès au catalogue
+   (nom, n° d'article, photo du blister, date de sortie), appli multilingue, intérêt pour JB (clients français).
+   Présentations FR/DE prêtes (Artifacts, voir CLAUDE.md). En attente de réponse.
 6. Vérifier le compte rendu de la tâche automatique ; corriger si elle ne peut pas publier.
 - Mes achats de customs (30/09, js/achats.js, tuile « 🏷️ ») : l'utilisateur veut le prix payé de chaque figurine pour
   revendre ses doubles avec une marge. Onglet « À nommer » : achats en lot Whatnot (« Custom JB (lot du …) », 440),
