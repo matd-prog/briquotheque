@@ -125,6 +125,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v137 (08/10) : numéro de version affiché en bas de la mini-appli (lu dans sw.js), pour que l'ami vérifie qu'il a
+    la dernière (mise à jour automatique à chaque ouverture avec Internet ; sur iPhone, fermer complètement l'appli).
   · v136 (08/10) : CADRE DES BLISTERS À 4 COINS LIBRES (Mathias : « quand on bouge un coin, les autres ne doivent pas
     bouger » ; le cadre rectangle déplaçait forcément les deux coins voisins). Chaque coin se place seul (un bord tiré
     déplace ses deux coins, le milieu déplace tout) ; cadre croisé, aplati (angle < 20°) ou trop petit refusé. La photo

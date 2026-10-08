@@ -152,6 +152,7 @@
     <div id="ami-contenu"></div>
     <button class="bouton gris" data-ecran-ami-retour>📷 Photographier un blister</button>
   </section>
+  <p class="version-appli" id="version-appli"></p>
 </main>
 
 <dialog id="dialogue">
@@ -311,6 +312,11 @@ const Memoire = {
     }
     if (installee || !ios) Base.proposerReprise();
   });
+  // numéro de version en bas de l'écran (pour vérifier qu'on a la dernière) : lu dans sw.js, qui change à chaque version
+  fetch("sw.js", { cache: "no-cache" }).then(r => r.text()).then(t => {
+    const v = /briquotheque-(v\d+)/.exec(t);
+    if (v) $("version-appli").textContent = `Version ${v[1]}`;
+  }).catch(() => {});
   // demande au navigateur de ne pas effacer les blisters gardés dans le téléphone
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
