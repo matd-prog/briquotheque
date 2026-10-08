@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v133 (08/10) : la LOUPE du clavier retire aussi le clavier (signalé par Mathias : sur son téléphone elle
+    n'envoyait pas d'Entrée reconnue). Écoutés : Entrée sous toutes ses formes (avant les autres gestionnaires),
+    événement « search », validation (change), et chaque champ de recherche placé dans un petit formulaire
+    invisible (display: contents) que la loupe valide. js/clavier.js.
   · v132 (08/10) : CLAVIER DES RECHERCHES (demande de Mathias ; vérifié sur son téléphone le 08/10) : dans tous les champs de recherche (collection,
     customs, nouveautés, consulter, sets, blisters, mini-appli), touche « Rechercher » au clavier ; le clavier se
     retire à cette touche, après 1,5 s sans taper (les résultats s'affichent au fil de la frappe), en touchant un
