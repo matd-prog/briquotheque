@@ -28,11 +28,11 @@
     <button data-ecran-ami="collection">📚 Ma collection</button>
   </div>
   <section id="ecran-base" class="ecran">
-    <div id="installer-iphone" class="alerte" hidden>📲 <b>Sur iPhone, installez d'abord l'appli</b> : touchez
-      <b>Partager</b> (le carré avec une flèche ⬆️, en bas de Safari), puis <b>« Sur l'écran d'accueil »</b>, puis
-      <b>Ajouter</b>. Ouvrez ensuite « Blisters JB » depuis l'écran d'accueil. Sinon, Safari peut effacer vos
-      blisters après quelques jours sans utilisation.
-      <span id="avant-installer" hidden><br><br>⚠️ <b>Vous avez déjà <span id="avant-installer-n"></span> blister(s) ici.</b> L'appli
+    <!-- installation guidée selon le téléphone et le navigateur (script en bas de page) -->
+    <div id="installer" class="alerte" hidden>
+      <div id="installer-texte"></div>
+      <div class="suggestions" id="installer-boutons"></div>
+      <span id="avant-installer" hidden><br>⚠️ <b>Vous avez déjà <span id="avant-installer-n"></span> blister(s) ici.</b> L'appli
       installée ne les verra pas : touchez d'abord « 📤 Envoyer les blisters » puis « Enregistrer dans Fichiers ». Dans l'appli
       installée, touchez ensuite « 📥 Reprendre des blisters déjà photographiés ».</span></div>
     <p class="intro">Photographiez vos blisters JB Spielwaren <b>un par un</b>, de face. Le nom est lu tout seul :
@@ -255,17 +255,60 @@ const Memoire = {
 <script src="js/occupe.js"></script>
 <script src="js/ma_collection_ami.js"></script>
 <script>
-  // iPhone / iPad dans Safari (pas encore installée sur l'écran d'accueil) : explication pour l'installer
-  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  // Installation guidée (08/10/2026 : un ami n'y arrivait pas avec le seul mode d'emploi iPhone) :
+  //  - page ouverte dans le navigateur d'une autre appli (Messenger, Facebook, Instagram, Gmail…) : on ne peut pas
+  //    installer de là -> ouvrir dans Chrome (bouton direct sur Android) ou Safari, lien à copier ;
+  //  - Android (Chrome, Samsung Internet…) : bouton « Installer l'appli » (fenêtre d'installation du téléphone),
+  //    sinon le chemin dans le menu ;
+  //  - iPhone / iPad : Partager -> « Sur l'écran d'accueil ».
+  const ua = navigator.userAgent;
+  const ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const android = /Android/i.test(ua);
+  const integre = /FBAN|FBAV|FB_IAB|FBIOS|Messenger|Instagram|Line\/|GSA\/|Snapchat|TikTok|musical_ly|; wv\)/.test(ua);
   const installee = navigator.standalone || matchMedia("(display-mode: standalone)").matches;
+  const adresse = location.origin + location.pathname;
+  let invite = null; // fenêtre d'installation proposée par Chrome / Samsung Internet
+  const montrer = (html, boutons = []) => {
+    $("installer-texte").innerHTML = html;
+    $("installer-boutons").innerHTML = "";
+    for (const [texte, action] of boutons) {
+      const b = document.createElement("button");
+      b.className = "bouton bleu"; b.textContent = texte; b.addEventListener("click", action);
+      $("installer-boutons").appendChild(b);
+    }
+    $("installer").hidden = false;
+  };
+  const copier = async () => {
+    try { await navigator.clipboard.writeText(adresse); toast("Lien copié ✔ Collez-le dans " + (ios ? "Safari" : "Chrome") + "."); }
+    catch (e) { prompt("Copiez ce lien, puis collez-le dans " + (ios ? "Safari" : "Chrome") + " :", adresse); }
+  };
+  const guider = () => {
+    if (installee) { $("installer").hidden = true; return; }
+    if (integre) return montrer(`📲 <b>Pour installer l'appli, ouvrez cette page dans ${ios ? "Safari" : "Chrome"}</b>
+      (ici, elle est ouverte dans une autre appli, qui ne permet pas de l'installer).` +
+      (ios ? ` Touchez ⋯ ou ⬆️ puis <b>« Ouvrir dans Safari »</b>, ou copiez le lien et collez-le dans Safari.` : ""),
+      [...(android ? [["🌐 Ouvrir dans Chrome", () => { location.href = "intent://" + location.host + location.pathname + "#Intent;scheme=https;package=com.android.chrome;end"; }]] : []),
+       ["📋 Copier le lien", copier]]);
+    if (invite) return montrer(`📲 <b>Installez l'appli</b> : un geste, et elle sera sur votre écran d'accueil comme les autres.`,
+      [["📲 Installer l'appli", async () => { invite.prompt(); const r = await invite.userChoice.catch(() => null); invite = null; if (r && r.outcome === "accepted") $("installer").hidden = true; else guider(); }]]);
+    if (ios) return montrer(`📲 <b>Installez d'abord l'appli</b> : touchez <b>Partager</b> (le carré avec une flèche ⬆️,
+      en bas ou en haut de l'écran), puis <b>« Sur l'écran d'accueil »</b>, puis <b>Ajouter</b>. Ouvrez ensuite
+      « Blisters JB » depuis l'écran d'accueil. Sinon, le téléphone peut effacer vos blisters après quelques jours sans utilisation.`);
+    if (android) return montrer(`📲 <b>Installez l'appli</b> : touchez le menu <b>⋮</b> (en haut à droite de Chrome), puis
+      <b>« Installer l'application »</b> ou <b>« Ajouter à l'écran d'accueil »</b>. Ouvrez ensuite « Blisters JB » depuis l'écran d'accueil.`);
+  };
+  window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); invite = e; guider(); });
+  window.addEventListener("appinstalled", () => { $("installer").hidden = true; toast("Appli installée ✔ Ouvrez « Blisters JB » depuis l'écran d'accueil."); });
   MesBlisters.installer();
   document.querySelector("[data-ecran-ami-retour]").addEventListener("click", () => MesBlisters.ecran("base"));
   Base.ouvrir().then(() => {
-    if (ios && !installee) {
-      $("installer-iphone").hidden = false;
-      // blisters faits dans Safari : les emporter dans l'appli installée (stockages séparés sur iPhone)
-      if (Base.entrees.length) { $("avant-installer").hidden = false; $("avant-installer-n").textContent = Base.entrees.length; }
-    } else Base.proposerReprise();
+    guider();
+    if (!installee && ios && Base.entrees.length) {
+      // blisters faits dans Safari : les emporter dans l'appli installée (stockages séparés sur iPhone ; sur Android,
+      // l'appli installée garde ceux du navigateur)
+      $("avant-installer").hidden = false; $("avant-installer-n").textContent = Base.entrees.length;
+    }
+    if (installee || !ios) Base.proposerReprise();
   });
   // demande au navigateur de ne pas effacer les blisters gardés dans le téléphone
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});

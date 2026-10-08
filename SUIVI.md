@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v134 (08/10) : INSTALLATION GUIDÉE DE LA MINI-APPLI (l'ami de Mathias n'arrivait pas à l'installer ; le mode
+    d'emploi ne parlait que d'iPhone/Safari). contribuer.html détecte le cas : page ouverte dans Messenger, Facebook,
+    Instagram, Gmail… -> « ouvrez dans Chrome/Safari » + bouton « Ouvrir dans Chrome » (Android) et « Copier le
+    lien » ; Android -> bouton « 📲 Installer l'appli » (fenêtre d'installation du téléphone), sinon chemin du menu ⋮ ;
+    iPhone -> Partager -> « Sur l'écran d'accueil ». Message à l'ami simplifié (brouillon Gmail du mode d'emploi).
   · v133 (08/10) : la LOUPE du clavier retire aussi le clavier (vérifié sur le téléphone de Mathias le 08/10 ; signalé par lui : sur son téléphone elle
     n'envoyait pas d'Entrée reconnue). Écoutés : Entrée sous toutes ses formes (avant les autres gestionnaires),
     événement « search », validation (change), et chaque champ de recherche placé dans un petit formulaire
