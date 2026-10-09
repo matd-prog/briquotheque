@@ -721,8 +721,9 @@ Pour reprendre le 30/09 au matin :
    Ajouté à la tâche mensuelle le 29/09/2026.
 4. Archives (web.archive.org) : action GitHub « Archives JB » en place ; lancer la lecture complète.
 - Étiquettes des boîtes de rangement JB (08/10/2026) : modèle gardé dans le dépôt PRIVÉ (logo de JB = leur marque,
-  usage personnel) : collection-lego-prive/etiquettes_boites/ (logo_jb_spielwaren.png, generer.py, PDF). A4, 10 étiquettes
-  9 x 5 cm, logo sur bandeau foncé, nom du groupe + sous-titre, page vierge. EN ATTENTE : Mathias donnera les
+  usage personnel) : collection-lego-prive/etiquettes_boites/ (logo_jb_spielwaren.png, generer.py, PDF). 09/10 : étiquettes
+  17 x 7 cm pour la tranche des boîtes, 4 par A4 (papier akaca photo brillant autocollant, A4 entier, découpé à la main :
+  traits de coupe), logo sur bloc foncé à gauche, nom du groupe + sous-titre à droite, page vierge. EN ATTENTE : Mathias donnera les
   regroupements (Star Wars ; Marvel et DC ensemble ; Divers…) -> modifier GROUPES dans generer.py et relancer.
 5. Éventuel contact avec JB Spielwaren pour une base officielle de leurs blisters.
    Premier mail le 29/09/2026 (demande de transmettre à Hendrik) ; relance envoyée par Mathias le 08/10/2026 (même fil
