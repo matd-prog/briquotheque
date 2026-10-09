@@ -543,7 +543,9 @@ const Base = {
     const img = $("base-recadrage-image");
     img.src = URL.createObjectURL(await this._reduire(src.fichier, src.sens));
     await img.decode().catch(() => {});
-    this._cadreEdite = CadreTactile.depuisCoins(CadreTactile.coins((rempl ? rempl.cadre : quoi === "verso" ? this.cadreVerso : this.cadre) || { x: 0.05, y: 0.05, l: 0.9, h: 0.9 }));
+    // départ : les bords de la photo entière, telle qu'elle a été prise (Mathias, 09/10/2026 : on resserre ensuite
+    // si besoin ; partir du cadre trouvé tout seul, plus petit, obligeait à l'agrandir quand il était mal placé)
+    this._cadreEdite = CadreTactile.depuisCoins(CadreTactile.coins({ x: 0, y: 0, l: 1, h: 1 }));
     this._quoiEdite = quoi;
     $("base-recadrage-titre").textContent = `Placez chaque coin sur un coin extérieur de la coque transparente (${quoi}) : un coin tiré bouge seul, les autres restent en place ; glissez le milieu pour déplacer tout le cadre. La photo est ensuite redressée.`;
     if ($("base-recadrage-memoriser")) $("base-recadrage-memoriser").checked = !!(this.cadresMemo && this.cadresMemo[quoi === "verso" ? "verso" : "recto"]);

@@ -166,17 +166,24 @@ const CadreTactile = {
       Object.assign(loupe.style, { left: gauche + "px", top: haut + "px" });
       loupe.hidden = false;
     };
-    zone.addEventListener("pointerdown", e => {
+    // gestes écoutés dans une marge autour de la photo aussi (sans défilement de l'écran) : un coin posé sur le bord
+    // de la photo s'attrape même si le doigt déborde un peu
+    const cible = document.createElement("div");
+    cible.className = "cadre-marge";
+    zone.parentNode.insertBefore(cible, zone);
+    cible.appendChild(zone);
+    cible.addEventListener("pointerdown", e => {
+      if (e.target.closest("button, input, label, a, select, textarea")) return;
       const r = zone.getBoundingClientRect();
       const choix = choisir([e.clientX - r.left, e.clientY - r.top], r);
       if (!choix) return;
       e.preventDefault();
-      zone.setPointerCapture(e.pointerId);
+      cible.setPointerCapture(e.pointerId);
       geste = { ...choix, x0: e.clientX, y0: e.clientY, r, depart: this.coins(lire()) };
       const d = geste.depart, p = geste.coins.length === 1 ? d[geste.coins[0]] : [(d[geste.coins[0]][0] + d[geste.coins[1]][0]) / 2, (d[geste.coins[0]][1] + d[geste.coins[1]][1]) / 2];
       montrerLoupe(e, r, d, p);
     });
-    zone.addEventListener("pointermove", e => {
+    cible.addEventListener("pointermove", e => {
       if (!geste) return;
       let dx = (e.clientX - geste.x0) / geste.r.width, dy = (e.clientY - geste.y0) / geste.r.height;
       const d = geste.depart;
@@ -190,6 +197,6 @@ const CadreTactile = {
       const p = geste.coins.length === 1 ? q[geste.coins[0]] : [(q[geste.coins[0]][0] + q[geste.coins[1]][0]) / 2, (q[geste.coins[0]][1] + q[geste.coins[1]][1]) / 2];
       montrerLoupe(e, geste.r, q, p);
     });
-    for (const f of ["pointerup", "pointercancel"]) zone.addEventListener(f, () => { geste = null; loupe.hidden = true; });
+    for (const f of ["pointerup", "pointercancel"]) cible.addEventListener(f, () => { geste = null; loupe.hidden = true; });
   },
 };

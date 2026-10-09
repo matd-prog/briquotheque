@@ -371,7 +371,7 @@ body:not(.base-vide) .base-vide-seul { display: none !important; }
   padding: calc(8px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom)); }
 #base-recadrage.plein-ecran .aide { color: #ccc; margin: 0; font-size: .9em; }
 #base-recadrage.plein-ecran #base-recadrage-zone { width: auto; align-self: center; flex: 0 0 auto; }
-#base-recadrage.plein-ecran #base-recadrage-zone img { width: auto; max-width: calc(100vw - 24px); max-height: calc(100vh - 230px); max-height: calc(100dvh - 230px); }
+#base-recadrage.plein-ecran #base-recadrage-zone img { width: auto; max-width: calc(100vw - 48px); max-height: calc(100vh - 230px); max-height: calc(100dvh - 230px); }
 #base-recadrage.plein-ecran .case-a-cocher { color: #ddd; }
 #ecran-recadrage .recadrage-zone img { max-height: calc(100vh - 260px); max-height: calc(100dvh - 260px); }
 body.recadrage-ouvert { overflow: hidden; }
@@ -385,6 +385,8 @@ body.recadrage-ouvert { overflow: hidden; }
 .cadre-quad .bord { fill: none; stroke: #fff; stroke-width: 3; vector-effect: non-scaling-stroke; }
 .coin.coin-quad { transform: translate(-50%, -50%); pointer-events: none; }
 #base-recadrage-zone { overflow: visible; }
-#base-recadrage.plein-ecran #base-recadrage-zone { margin: 18px 0; }
+/* marge autour de la photo où les coins s'attrapent encore (l'écran n'y défile pas) */
+.cadre-marge { padding: 22px; margin: -8px -12px; touch-action: none; align-self: center; max-width: calc(100% + 24px); box-sizing: border-box; }
+#base-recadrage:not(.plein-ecran) .cadre-marge { align-self: stretch; }
 /* numéro de version en bas de la mini-appli */
 .version-appli { text-align: center; color: #999; font-size: .8em; margin: 24px 0 8px; }
