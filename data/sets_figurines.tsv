@@ -1,4 +1,4 @@
-#date 2026-10-08
+#date 2026-10-09
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -11014,6 +11014,8 @@ set	figurine	quantite	nom	bricklink	ressemblance
 6603-1	fig-000714	1	Construction Worker, Blue Jacket with Highway Logo, Blue Legs, Red Hard Hat	hgh005	0.53
 6604-1	fig-000104	1	Racer, Plain Black, White Helmet (3842b Helmet)	pln181	0.49
 6605-1	fig-000181	1	Man, White Torso with Red and Blue Stripes, White Legs, Red Helmet	ver005	0.57
+6605170-1	fig-018218	1	Jurong Point 10th Anniversary, Woman	sh1064	0.24
+6605170-1	fig-018219	1	Jurong Point 10th Anniversary, Man	wck014	0.25
 6605172-1	fig-016580	1	Kid, Bright Light Blue Torso, Blue Legs, Dark Orange Hair	min249	0.5
 6605172-1	fig-016582	1	Medium Lavender Torso, Dark Azure Leg, Prosthetic Leg, Bright Light Yellow Hair	tls125	0.46
 6605172-1	fig-016937	1	Store Employee, Black Suit, No LEGO Logo, Dark Brown Hair	cty1913	0.38
@@ -11151,6 +11153,8 @@ set	figurine	quantite	nom	bricklink	ressemblance
 6641299-1	fig-016937	1	Store Employee, Black Suit, No LEGO Logo, Dark Brown Hair	cty2037	0.4
 6642-1	fig-000803	1	Policeman, Black Jacket with Zipper and Badge, White Helmet with Visor (3626a Head)	cop004	0.56
 6643-1	fig-000990	1	Fireman, Classic, Black Fire Jacket with Red Belt and Buttons, White Helmet, White Airtanks	zip044	0.44
+6643389-1	fig-018216	1	Ljubljana 10 Years Anniversary, Man	sh1107	0.26
+6643389-1	fig-018217	1	Ljubljana 10 Years Anniversary, Woman	hol427	0.24
 6644-1	fig-001009	1	Racer, White Shirt with Two Stripes and 'S', White Legs, Blue Cap	s009	0.55
 6644846-1	fig-018064	1	Pizza Worker, Diver Helmet	cty2034	0.37
 6645-1	fig-000515	2	Man, Blue Shirt with Buttons and Pockets, Blue Legs, White Cap	but016	0.68
@@ -11160,6 +11164,8 @@ set	figurine	quantite	nom	bricklink	ressemblance
 6648-2	fig-000100	1	Man, Blue Torso, Black Legs, Red Hard Hat	pln150	0.66
 6648849-1	fig-017860	1	Race Driver, White Torso, Dark Blue Legs, Red Helmet	bdp307	0.46
 6649-1	fig-000725	1	Man, Blue Jacket with Zipper, Blue Legs, Red Cap, Sunglasses	jbl001	0.7
+6649684-1	fig-018214	1	I Love Malaysia, Woman	njo1058	0.26
+6649684-1	fig-018215	1	I Love Malaysia, Man	sh1107	0.28
 6650-1	fig-001196	1	Fireman, Classic, Black Fire Jacket with Red Belt and Buttons, Black Helmet	firec004	0.45
 6651-1	fig-000674	1	Postal Worker, Red Shirt with Horn Logo, Black Legs, Black Hat (3626a Head)	but029	0.45
 6652-1	fig-000719	1	Man, Blue Shirt with Buttons and Pockets, Black Legs, Red Hard Hat	but023	0.57
@@ -23155,6 +23161,8 @@ DESPERES-1	fig-010233	1	White Torso, Tan Legs, Black Hair - DesPeres	pln172	0.57
 DESPERES-1	fig-010234	1	Chef - White Torso, White Legs, White Hat - DesPeres	cty0532	0.73
 DISNEYTOWN-1	fig-017631	1	The LEGO Store (Disneytown), Blue Legs	tls111	0.42
 DISNEYTOWN-1	fig-017632	1	The LEGO Store (Disneytown), Red Legs	cty1239	0.42
+DISNEYTOWN-2	fig-018212	1	LEGO Store Disneytown, Woman	sc145	0.27
+DISNEYTOWN-2	fig-018213	1	LEGO Store Disneytown, Man	47394pb384	0.36
 DS2023-1	fig-007016	1	Classic Space, White with Airtanks (Jenny)	sp141	0.66
 DS2023-1	fig-012910	1	Classic Spaceman, Red with Airtanks (New Moulds)	twn467	0.3
 DS2023-1	fig-013461	1	Blacktron I - Rerelease	sp134	0.73
@@ -23186,6 +23194,8 @@ GUANGZHOU-1	fig-017629	1	The LEGO Store (Guangzhou), Blue	tls111	0.39
 GUANGZHOU-1	fig-017630	1	The LEGO Store (Guangzhou), Red	cty1239	0.36
 HAINING-1	fig-017655	1	LEGO Store Opening Commemoration, Male	cty1239	0.33
 HAINING-1	fig-017656	1	LEGO Store Opening Commemoration, Female	bdp055	0.37
+HANGZHOU-2	fig-018220	1	LEGO Store Hangzhou, Man	47394pb282	0.4
+HANGZHOU-2	fig-018221	1	LEGO Store Hangzhou, Woman	twn381	0.37
 HOBBIT-1	fig-002067	1	Bilbo Baggins, Blue Coat	lor057	1.0
 HOUSTON-3	fig-010147	1	Knight - Light Bluish Grey Armour, Helmet - Houston	cty0336	0.35
 HOUSTON-3	fig-010148	1	Blue Torso, Blue Legs, Blue Cap - Houston	edu014	0.45
@@ -23388,12 +23398,16 @@ SDCC2018-3	fig-011009	1	Unikitty / Warrior Kitty, with Harpoon, Fire Eyes	tlm102
 SDCC2019-1	fig-011284	1	Spider-Man (2019 Comic Con Exclusive)	sh0603	0.71
 SDCC2019-2	fig-011282	1	Batman, Zebra Stripe Suit, Cape, and Cowl	sh0552	0.7
 SDCC2019-3	fig-011691	1	Barb - SDCC Exclusive	st009	0.82
+SENTOSA-1	fig-018208	1	10 Years in Sentosa Singapore, Woman	sh1064	0.24
+SENTOSA-1	fig-018209	1	10 Years in Sentosa Singapore, Man	wck014	0.25
 SHANGHAI-1	fig-002087	1	White Torso, Blue Overall, Red Helmet	pln182	0.55
 SHEFFIELD-1	fig-010180	1	White Torso, Orange Legs, Dark Brown Hair	doc035b	0.47
 SHEFFIELD-1	fig-010181	1	White Torso, Blue Legs, Dark Tan Hair	pln172	0.5
 SHEFFIELD-1	fig-010182	1	White Torso, Dark Blue Legs, Dark Orange Hair	twn187	0.5
 SHENZHEN-2	fig-017651	1	LEGO Store Shenzhen, Male	tls098	0.39
 SHENZHEN-2	fig-017652	1	LEGO Store Shenzhen, Female	twn381	0.49
+SHENZHEN-3	fig-018210	1	LEGO Store Shenzhen, Woman	47394pb373	0.27
+SHENZHEN-3	fig-018211	1	LEGO Store Shenzhen, Man	47394pb384	0.29
 SHENZHEN-4	fig-017653	1	The LEGO Store (Shenzhen), Blue Legs	tls111	0.42
 SHENZHEN-4	fig-017654	1	The LEGO Store (Shenzhen), Dark Turquoise Legs	cty1239	0.46
 SMMM-1	fig-011290	1	Miles Morales - Classic Suit	sh0694	0.6
