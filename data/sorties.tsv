@@ -1,4 +1,4 @@
-#date 2026-10-09
+#date 2026-10-10
 code	nom	theme	sous_theme	annee	sortie	fin	pieces	figurines	image
 21064-1	Paris - City of Love	Architecture	Iconic Landmarks	2026	2026-01-01	2028-12-31	958		https://images.brickset.com/sets/images/21064-1.jpg
 31218-1	Japanese Cherry Blossom Landscape	Art	Paintings	2026	2026-01-01	2028-12-31	1892		https://images.brickset.com/sets/images/31218-1.jpg
@@ -694,7 +694,7 @@ L0002227-1	Firefighter with Helicopter	City	Magazine Gift	2026
 71053-10	Lord Farquaad	Collectable Minifigures	Shrek Series	2026			9	1	https://images.brickset.com/sets/images/71053-10.jpg
 71053-11	Fairy Godmother	Collectable Minifigures	Shrek Series	2026			8	1	https://images.brickset.com/sets/images/71053-11.jpg
 71053-12	Prince Charming	Collectable Minifigures	Shrek Series	2026			6	1	https://images.brickset.com/sets/images/71053-12.jpg
-71053-13	LEGO Minifigures - Shrek Series - Complete	Collectable Minifigures	Shrek Series	2026			83	11	https://images.brickset.com/sets/images/71053-13.jpg
+71053-13	LEGO Minifigures - Shrek Series - Complete	Collectable Minifigures	Shrek Series	2026			83	12	https://images.brickset.com/sets/images/71053-13.jpg
 71053-14	LEGO Minifigures - Shrek Series - Sealed Box	Collectable Minifigures	Shrek Series	2026					https://images.brickset.com/sets/images/71053-14.jpg
 71053-2	Puss in Boots	Collectable Minifigures	Shrek Series	2026			8	1	https://images.brickset.com/sets/images/71053-2.jpg
 71053-3	Gingy	Collectable Minifigures	Shrek Series	2026			6	1	https://images.brickset.com/sets/images/71053-3.jpg
@@ -930,8 +930,23 @@ L0002266-1	Waffles with Ice Cream Stand	Friends	Magazine gift	2026			16
 5011072-1	Ministry of Magic Phone Booth	Gear	Metal Ornaments	2026					https://images.brickset.com/sets/images/5011072-1.jpg
 5011169-1	Insiders Halloween Window Stickers	Gear	Stationery	2026					https://images.brickset.com/sets/images/5011169-1.jpg
 5011185-1	Herschel Heritage Tote – Monogram Black	Gear	Bags	2026					
+5011186-1	Herschel Retreat Small Backpack – Botanical Floral Black	Gear	Bags	2026					
+5011188-1	Herschel Retreat Tote – Botanical Floral Black	Gear	Bags	2026					
+5011189-1	Herschel Retreat Tote – Botanical Floral Lavender	Gear	Bags	2026					
+5011191-1	Herschel Heritage Youth Backpack – Monogram Multicolor	Gear	Bags	2026					
+5011192-1	Herschel Heritage Youth Backpack – Color Block	Gear	Bags	2026					
+5011193-1	Herschel Heritage Backpack – Monogram Black	Gear	Bags	2026					
+5011194-1	Herschel Heritage Kids Backpack – Monogram Purple	Gear	Bags	2026					
+5011195-1	Herschel Heritage Kids Backpack – Monogram Multicolor	Gear	Bags	2026					
+5011196-1	Herschel Heritage Kids Backpack – Monogram Color Block	Gear	Bags	2026					
 5011197-1	Herschel Heritage XL Tote – Monogram Black	Gear	Bags	2026					
 5011198-1	Herschel Novel Duffle – Monogram Black	Gear	Bags	2026					
+5011199-1	Herschel Chapter Travel Kit – Monogram Black	Gear	Bags	2026					
+5011200-1	Herschel Chapter Travel Kit – Botanical Floral Black	Gear	Bags	2026					
+5011201-1	Herschel Chapter Travel Kit – Botanical Floral Lavender	Gear	Bags	2026					
+5011203-1	Pop Quiz Lunch Box Little Herschel – Monogram Purple	Gear	Bags	2026					
+5011204-1	Pop Quiz Lunch Box Little Herschel – Monogram Multicolor	Gear	Bags	2026					
+5011205-1	Pop Quiz Lunch Box Little Herschel – Monogram Color Block	Gear	Bags	2026					
 6649951-1	Chewbacca Trading Card	Gear	Trading Cards	2026					https://images.brickset.com/sets/images/6649951-1.jpg
 6649952-1	Darth Vader Trading Card	Gear	Trading Cards	2026					https://images.brickset.com/sets/images/6649952-1.jpg
 6649953-1	Princess Leia Trading Card	Gear	Trading Cards	2026					https://images.brickset.com/sets/images/6649953-1.jpg
@@ -1225,6 +1240,7 @@ WITCHPUMPKIN-1	[Witch Moon Pumpkin]	Seasonal	Halloween	2026					https://images.b
 75481-1	{?}	Star Wars		2027					
 75482-1	{?}	Star Wars		2027					
 75483-1	{?}	Star Wars		2027					
+75484-1	{?}	Star Wars		2027					
 75487-1	{?}	Star Wars		2027					
 75488-1	{?}	Star Wars		2027					
 75489-1	{?}	Star Wars		2027					
@@ -1267,18 +1283,3 @@ L0002295-1	Tractor	Technic	Magazine Gift	2026			61		https://images.brickset.com/
 67013-1	{?}	tbd		2027					
 72118-1	{?}	tbd		2027					
 72188-1	{?}	tbd		2027					
-5011186-1	Herschel Retreat Small Backpack – Botanical Floral Black	{Undefined}		2026					
-5011188-1	Herschel Retreat Tote – Botanical Floral Black	{Undefined}		2026					
-5011189-1	Herschel Retreat Tote – Botanical Floral Lavender	{Undefined}		2026					
-5011191-1	Herschel Heritage Youth Backpack – Monogram Multicolor	{Undefined}		2026					
-5011192-1	Herschel Heritage Youth Backpack – Color Block	{Undefined}		2026					
-5011193-1	Herschel Heritage Backpack – Monogram Black	{Undefined}		2026					
-5011194-1	Herschel Heritage Kids Backpack – Monogram Purple	{Undefined}		2026					
-5011195-1	Herschel Heritage Kids Backpack – Monogram Multicolor	{Undefined}		2026					
-5011196-1	Herschel Heritage Kids Backpack – Monogram Color Block	{Undefined}		2026					
-5011199-1	Herschel Chapter Travel Kit – Monogram Black	{Undefined}		2026					
-5011200-1	Herschel Chapter Travel Kit – Botanical Floral Black	{Undefined}		2026					
-5011201-1	Herschel Chapter Travel Kit – Botanical Floral Lavender	{Undefined}		2026					
-5011203-1	Pop Quiz Lunch Box Little Herschel – Monogram Purple	{Undefined}		2026					
-5011204-1	Pop Quiz Lunch Box Little Herschel – Monogram Multicolor	{Undefined}		2026					
-5011205-1	Pop Quiz Lunch Box Little Herschel – Monogram Color Block	{Undefined}		2026					

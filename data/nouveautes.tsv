@@ -1,4 +1,4 @@
-#date 2026-10-09
+#date 2026-10-10
 type	code	bricklink	ressemblance	nom	theme	annee	image	vu_le	sets
 figurine	fig-018217		0.24	Ljubljana 10 Years Anniversary, Woman	LEGO Brand Store	2026	https://cdn.rebrickable.com/media/sets/fig-018217.jpg	2026-10-09	6643389-1
 figurine	fig-018216		0.26	Ljubljana 10 Years Anniversary, Man	LEGO Brand Store	2026	https://cdn.rebrickable.com/media/sets/fig-018216.jpg	2026-10-09	6643389-1
@@ -20,12 +20,12 @@ figurine	fig-018196		0.67	Dr. Doom, Cape, Neck Armor	Super Heroes Marvel / Aveng
 figurine	fig-018195		0.61	Captain America, Sam Wilson, Dual-Molded Legs, Neck Bracket	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018195.jpg	2026-10-05	76347-1
 figurine	fig-018193		0.27	The Thing / Benjamin Grimm, Shorts	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018193.jpg	2026-10-05	76347-1
 figurine	fig-018192		0.31	Scott Summers / Cyclops	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-018192.jpg	2026-10-05	76347-1
-figurine	fig-018190		0.45	IG-88, Molded Head	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018190.jpg	2026-10-02	75457-1
-figurine	fig-018189	sw0830	0.75	4-LOM	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018189.jpg	2026-10-02	75457-1
-figurine	fig-018188		0.58	Bossk	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018188.jpg	2026-10-02	75457-1
-figurine	fig-018187	sw1020	0.75	Zuckuss	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018187.jpg	2026-10-02	75457-1
-figurine	fig-018184		0.56	Dengar	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018184.jpg	2026-10-02	75457-1
-figurine	fig-018183	sw1538	0.77	Boba Fett, Helmet, Jetpack, Cape	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018183.jpg	2026-10-02	75457-1
+figurine	fig-018190		0.45	IG-88, Molded Head	Star Wars / Ultimate Collector Series	2026	https://cdn.rebrickable.com/media/sets/fig-018190.jpg	2026-10-02	75457-1
+figurine	fig-018189	sw0830	0.75	4-LOM	Star Wars / Ultimate Collector Series	2026	https://cdn.rebrickable.com/media/sets/fig-018189.jpg	2026-10-02	75457-1
+figurine	fig-018188		0.58	Bossk	Star Wars / Ultimate Collector Series	2026	https://cdn.rebrickable.com/media/sets/fig-018188.jpg	2026-10-02	75457-1
+figurine	fig-018187	sw1020	0.75	Zuckuss	Star Wars / Ultimate Collector Series	2026	https://cdn.rebrickable.com/media/sets/fig-018187.jpg	2026-10-02	75457-1
+figurine	fig-018184		0.56	Dengar	Star Wars / Ultimate Collector Series	2026	https://cdn.rebrickable.com/media/sets/fig-018184.jpg	2026-10-02	75457-1
+figurine	fig-018183	sw1538	0.77	Boba Fett, Helmet, Jetpack, Cape	Star Wars / Ultimate Collector Series	2026	https://cdn.rebrickable.com/media/sets/fig-018183.jpg	2026-10-02	75457-1
 figurine	fig-018182		0.45	Batman Suit, Neckbracket	Super Heroes DC / Batman	2026	https://cdn.rebrickable.com/media/sets/fig-018182.jpg	2026-10-02	L0002325-1
 figurine	fig-018181		0.0	Beryl Patmore	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/fig-018181.jpg	2026-10-02	21373-1
 figurine	fig-018180		0.41	Daisy Mason	LEGO Ideas and CUUSOO	2026	https://cdn.rebrickable.com/media/sets/fig-018180.jpg	2026-10-02	21373-1
@@ -1582,7 +1582,9 @@ objet	10018250-1	10018250		Red Tile 1x1 Jibbitz	Gear	2026	https://cdn.rebrickabl
 objet	10018249-1	10018249		Spaceship Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018249-1.jpg		
 objet	10018248-1	10018248		Red Tile 2x2 Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018248-1.jpg		
 objet	10018247-1	10018247		Castle Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018247-1.jpg		
-set	WEBGOALCHALLENGE-1	WEBGOALCHALLENGE-1		Web Goal Challenge	Promotional	2026	https://cdn.rebrickable.com/media/sets/webgoalchallenge-1.jpg	2026-10-09	
+set	67006-1	67006-1		The Marvel Skyline	Super Heroes Marvel	2027	https://cdn.rebrickable.com/media/sets/67006-1.jpg	2026-10-10	
+set	6644847-1	6644847-1		Web Goal Challenge	Promotional	2026	https://cdn.rebrickable.com/media/sets/6644847-1.jpg	2026-10-10	
+set	40909-1	40909-1		Restaurants of the World: Italy	Other	2026	https://cdn.rebrickable.com/media/sets/40909-1.jpg	2026-10-10	
 set	6695501-1	6695501-1		Giftbox	Promotional	2026	https://cdn.rebrickable.com/media/sets/6695501-1.jpg	2026-10-08	
 set	6644896-1	6644896-1		Magenta Flower Candle	Promotional	2026	https://cdn.rebrickable.com/media/sets/6644896-1.jpg	2026-10-08	
 set	6644886-1	6644886-1		Ghost Street	Promotional	2026	https://cdn.rebrickable.com/media/sets/6644886-1.jpg	2026-10-08	
@@ -1805,7 +1807,7 @@ set	75461-1	75461-1		Up-Scaled Darth Vader Minifigure	Star Wars	2026	https://cdn
 set	75460-1	75460-1		New Republic X-Wing Starfighter	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75460-1.jpg		
 set	75459-1	75459-1		Imperial Lambda-Class Shuttle	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75459-1.jpg		
 set	75458-1	75458-1		Imperial Remnant AT-RT Driver Helmet	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75458-1.jpg		
-set	75457-1	75457-1		Executor Super Star Destroyer	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75457-1.jpg		
+set	75457-1	75457-1		Executor Super Star Destroyer	Star Wars / Ultimate Collector Series	2026	https://cdn.rebrickable.com/media/sets/75457-1.jpg		
 set	75456-1	75456-1		Star Wars Advent Calendar 2026	Seasonal / Advent / Star Wars	2026	https://cdn.rebrickable.com/media/sets/75456-1.jpg		
 set	75455-1	75455-1		Boba Fett	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75455-1.jpg		
 set	75454-1	75454-1		Imperial Remnant AT-AT with INT-4	Star Wars	2026	https://cdn.rebrickable.com/media/sets/75454-1.jpg		

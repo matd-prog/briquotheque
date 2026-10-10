@@ -1,4 +1,4 @@
-#date 2026-10-09
+#date 2026-10-10
 code	prix	meilleur	url	date
 10371-1	19.99	19.99	https://www.avenuedelabrique.com/lego-botanicals/10371-petites-plantes-adorables/p12910	2026-10-09
 11379-1	129.99	101.90	https://www.avenuedelabrique.com/lego-icons/11379-la-librairie-book-nook/p12812	2026-10-09
@@ -27,6 +27,7 @@ code	prix	meilleur	url	date
 40900-1		24.99	https://www.avenuedelabrique.com/lego-creator/40900-l-arbre-hante-effrayant/p12989	2026-10-09
 40901-1		45.00	https://www.avenuedelabrique.com/lego-harry-potter/40901-kiosque-a-cafe-du-ministere-et-stand-de-la-gazette-du-sorcier/p12524	2026-10-09
 40908-1		40.00	https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40908-restaurants-du-monde-grece/p12492	2026-10-09
+40909-1	19.99		https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40909-restaurants-du-monde-italie/p13483	2026-10-10
 40919-1	24.99	24.99	https://www.avenuedelabrique.com/lego-brickheadz/40919-figurines-des-gremlins-gizmo-et-stripe/p12490	2026-10-09
 40958-1	34.99	32.99	https://www.avenuedelabrique.com/lego-saisonnier/40958-chaussette-de-noel/p12486	2026-10-09
 40975-1	39.99	39.99	https://www.avenuedelabrique.com/lego-harry-potter/40975-chateau-de-poudlard-miniature/p12458	2026-10-09
@@ -41,19 +42,19 @@ code	prix	meilleur	url	date
 67009-1	29.99	29.99	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67009-la-batmobile-de-batman-arkham/p13383	2026-10-06
 67012-1	169.99	169.99	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67012-couverture-dc-comics-le-joker/p13384	2026-10-06
 71053-1		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-09
-71053-10		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-11		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-12		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-13		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-14		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-2		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-3		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-4		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-5		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-6		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-7		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-8		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
-71053-9		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-02
+71053-10		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-11		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-12		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-13		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-14		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-2		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-3		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-4		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-5		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-6		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-7		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-8		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
+71053-9		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-10
 71873-1	9.99		https://www.avenuedelabrique.com/lego-ninjago/71873-cole-vs-evil-cole-spinner/p13314	2026-10-04
 71875-1	19.99		https://www.avenuedelabrique.com/lego-ninjago/71875-lloyd-vs-ras-spinner-battle/p13316	2026-10-04
 72052-1	9.99	7.30	https://www.avenuedelabrique.com/lego-super-mario/72052-saut-du-tuyau-de-mario/p12697	2026-10-09
