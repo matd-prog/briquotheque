@@ -390,3 +390,99 @@ body.recadrage-ouvert { overflow: hidden; }
 #base-recadrage:not(.plein-ecran) .cadre-marge { align-self: stretch; }
 /* numéro de version en bas de la mini-appli */
 .version-appli { text-align: center; color: #999; font-size: .8em; margin: 24px 0 8px; }
+
+/* ════════════════════════════════════════════════════════════════════════════════════════════════════════════
+   THÈME SOBRE (10/10/2026, demande de Mathias : « plus pro, moins de couleurs flashy, gris, noir, plus design »).
+   Posé par-dessus les règles précédentes (même sélecteurs, plus bas dans le fichier) : une seule couleur d'action,
+   le noir anthracite ; boutons secondaires blancs bordés de gris ; rouge et vert seulement pour erreur et réussite.
+   ════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --encre: #18181b;        /* actions principales, en-tête */
+  --encre-2: #3f3f46;      /* survol, appui */
+  --fond: #f4f4f5; --carte: #fff; --texte: #18181b; --doux: #71717a; --bord: #e4e4e7; --bord-fort: #d4d4d8;
+  --rouge: #b42318;        /* erreur, écart, baisse */
+  --vert: #2f7d4f;         /* réussite, hausse */
+  --bleu: #18181b;         /* liens et boutons qui étaient bleus */
+  --gris: #fff;
+  --ombre: 0 1px 2px rgba(16,16,20,.05), 0 1px 1px rgba(16,16,20,.03);
+  --rayon: 14px;
+}
+body { font-family: Inter, -apple-system, "SF Pro Text", "Segoe UI", Roboto, system-ui, Arial, sans-serif; font-size: 16px;
+  line-height: 1.45; -webkit-font-smoothing: antialiased; letter-spacing: -0.005em; }
+/* en-tête : noir, titre fin, sans dégradé ni couleur vive (appli et mini-appli) */
+header { background: var(--encre) !important; color: #fafafa; padding: 14px 16px 12px; padding-top: max(14px, env(safe-area-inset-top));
+  border-bottom: 1px solid #000; }
+h1 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
+.fichier-info { font-size: 13px; color: #a1a1aa; opacity: 1; }
+.retour-entete { background: rgba(255,255,255,.1); border-radius: 10px; font-size: 20px; }
+.retour-entete:hover { background: rgba(255,255,255,.18); }
+main { padding: 18px 16px 28px; }
+.ecran { gap: 12px; }
+.intro { color: var(--texte); }
+.aide, .score { color: var(--doux); }
+
+/* boutons : principal noir, secondaire blanc bordé ; les anciennes couleurs (rouge, vert, bleu, corail…) deviennent
+   l'un ou l'autre */
+.gros-bouton, .bouton { border-radius: 12px; font-weight: 600; letter-spacing: -0.005em; box-shadow: none; transition: background .15s, border-color .15s; }
+.gros-bouton { min-height: 60px; font-size: 18px; background: var(--encre); color: #fff; }
+.bouton { min-height: 48px; font-size: 16px; background: var(--encre); color: #fff; }
+.gros-bouton.rouge, .gros-bouton.vert, .gros-bouton.bleu, .gros-bouton.corail, .gros-bouton.bleu-fonce,
+.bouton.rouge, .bouton.vert, .bouton.bleu, .bouton.corail, .bouton.bleu-fonce { background: var(--encre); color: #fff; }
+.gros-bouton:hover, .bouton:hover { background: var(--encre-2); }
+.gros-bouton.gris, .bouton.gris, .onglets-achats .bouton { background: var(--carte); color: var(--texte); border: 1px solid var(--bord-fort); }
+.gros-bouton.gris:hover, .bouton.gris:hover { background: #fafafa; border-color: #a1a1aa; }
+.onglets-achats .bouton.actif { background: var(--encre); color: #fff; border-color: var(--encre); }
+.bouton-lien { color: var(--texte); text-decoration: underline; text-decoration-color: #a1a1aa; text-underline-offset: 3px; font-size: 16px; }
+.petit { border-radius: 9px; background: var(--carte); border: 1px solid var(--bord-fort); color: var(--texte); font-weight: 550; font-size: 15px; }
+.suggestions .petit { background: var(--carte); color: var(--texte); border: 1px solid var(--bord-fort); }
+.rouge, .vert, .bleu, .corail, .bleu-fonce { background: var(--encre); }
+.gris { background: var(--carte); }
+
+/* cartes, tuiles, listes : blanc, liseré fin, ombre à peine visible */
+.carte, .outils, .tuile, .fiche, .vignette, .proposition, .mini, .achat { border: 1px solid var(--bord); box-shadow: var(--ombre); }
+.carte { border-radius: var(--rayon); }
+.carte img, .fiche img.photo, .vignette img.photo, .proposition img, .vignette .photo-custom { background: #fafafa; }
+.fiche .photo-custom { background: #f4f4f5; }
+.tuile { border-radius: var(--rayon); min-height: 96px; }
+.tuile .icone { background: #f4f4f5; border-radius: 10px; filter: grayscale(.35); }
+.tuile b { font-weight: 600; }
+.action-principale, .action-principale.action-blister { background: var(--encre); box-shadow: 0 6px 18px rgba(16,16,20,.12); border-radius: 16px; }
+.action-principale.action-blister { background: #27272a; }
+.action-principale .icone { background: rgba(255,255,255,.1); }
+.action-principale small { color: #a1a1aa; opacity: 1; }
+.section-titre { color: #a1a1aa; font-weight: 600; letter-spacing: .08em; font-size: 12px; }
+.outils summary, .variantes summary { color: var(--texte); }
+.badge { background: #f4f4f5; color: var(--texte); border: 1px solid var(--bord); }
+.fiche a.lien-ebay { background: #f4f4f5; color: var(--texte); border: 1px solid var(--bord); }
+
+/* champs, onglets, puces */
+.champ { border: 1px solid var(--bord-fort); border-radius: 10px; font-size: 17px; background: var(--carte); }
+.champ:focus { outline: none; border-color: var(--encre); box-shadow: 0 0 0 3px rgba(24,24,27,.08); }
+.bascule { background: #e4e4e7; border-radius: 11px; }
+.bascule button { color: var(--doux); }
+.bascule button.choisi { color: var(--texte); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.puce { border: 1px solid var(--bord-fort); }
+.puce.choisi { border-color: var(--encre); background: var(--encre); color: #fff; }
+
+/* messages : neutres, liseré gris ; rouge pour une erreur seulement */
+.alerte { background: #fafafa; border: 1px solid var(--bord); border-left: 3px solid #a1a1aa; border-radius: 10px; font-size: 15px; }
+.alerte.stop { background: #fef3f2; border-color: #fecdca; border-left-color: var(--rouge); }
+.alerte.info { background: #fafafa; border-left-color: var(--encre); }
+.bandeau, .bandeau.bleu-fonce { background: var(--carte); color: var(--texte); border: 1px solid var(--bord); border-left: 3px solid var(--encre); }
+.bandeau .petit, .bandeau.bleu-fonce .petit { background: var(--encre); color: #fff; border-color: var(--encre); }
+.succes { background: #f0f7f2; border: 1px solid #d3e9da; color: #1d4d31; }
+.carte-info { background: #fafafa; border: 1px solid var(--bord); }
+.toast { background: var(--encre); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.2); font-size: 15px; }
+.bandeau-occupe { background: var(--encre); color: #fff; }
+.bandeau-occupe.fini { background: var(--vert); }
+#valeur-bandeau.en-cours { background: var(--encre-2); }
+dialog, .menu-actions { border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,.25); }
+dialog::backdrop, .menu-actions::backdrop { background: rgba(9,9,11,.5); }
+.roue { border-top-color: var(--encre); }
+.barre-avancement div { background: var(--encre); }
+.arbo-lien.actif { background: var(--encre); }
+.dossier h2 { border-bottom-color: var(--encre); }
+.version-appli { color: #a1a1aa; }
+a { color: var(--texte); text-decoration-color: #a1a1aa; text-underline-offset: 3px; }
+/* icônes des tuiles et des actions en niveaux de gris : rendu monochrome */
+.tuile .icone, .action-principale .icone { filter: grayscale(1); }
