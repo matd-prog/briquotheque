@@ -127,7 +127,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
   · v140 (10/10) : retouches du thème sobre : contour de sélection gris discret (plus l'orange du navigateur) ; fiche
     d'une figurine avec une seule action principale noire, les autres en boutons blancs bordés.
-  · v139 (10/10) : THÈME SOBRE (Mathias : « plus pro, moins flashy, gris, noir, plus design »). Couche ajoutée en fin
+  · v139 (10/10) : THÈME SOBRE (validé sur son téléphone le 10/10 ; Mathias : « plus pro, moins flashy, gris, noir, plus design »). Couche ajoutée en fin
     de style.css : en-tête noir anthracite (#18181b, aussi la mini-appli), une seule couleur d'action (noir), boutons
     secondaires blancs bordés de gris, cartes et tuiles blanches à liseré fin, messages neutres, rouge et vert gardés
     pour erreur / réussite (tons atténués), icônes des tuiles en niveaux de gris, police Inter / système.
