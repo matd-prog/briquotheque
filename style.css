@@ -486,3 +486,9 @@ dialog::backdrop, .menu-actions::backdrop { background: rgba(9,9,11,.5); }
 a { color: var(--texte); text-decoration-color: #a1a1aa; text-underline-offset: 3px; }
 /* icônes des tuiles et des actions en niveaux de gris : rendu monochrome */
 .tuile .icone, .action-principale .icone { filter: grayscale(1); }
+/* sélection au clavier ou à l'ouverture d'une fenêtre : contour discret (plus l'orange du navigateur) */
+button:focus, a:focus, summary:focus { outline: none; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid #a1a1aa; outline-offset: 2px; }
+/* fiche d'une figurine : une action principale, les autres en secondaire */
+.visionneuse-actions .bouton:not(:first-child) { background: var(--carte); color: var(--texte); border: 1px solid var(--bord-fort); }
+.visionneuse-actions .bouton:not(:first-child):hover { background: #fafafa; }
