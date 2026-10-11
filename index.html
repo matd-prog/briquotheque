@@ -135,6 +135,21 @@
 
   <!-- Consultation de la collection (lecture seule) -->
   <section id="ecran-collection" class="ecran" hidden>
+    <!-- ajouter directement depuis Ma collection (Mathias, 11/10/2026) : mêmes choix qu'à l'accueil ; les photos passent
+         par les mêmes champs (label for=…) que les gros boutons de l'accueil -->
+    <details class="ajouter-collection">
+      <summary class="bouton">➕ Ajouter à ma collection</summary>
+      <div class="tuiles">
+        <label class="tuile" for="input-photo"><span class="icone">📷</span><b>Figurine</b><small>La photographier</small></label>
+        <label class="tuile" for="input-blister"><span class="icone">📦</span><b>Blister JB</b><small>Le photographier</small></label>
+        <label class="tuile" for="input-galerie"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Figurine, depuis la galerie</small></label>
+        <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Figurine (BrickLink)</small></button>
+        <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
+        <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
+        <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Set LEGO</b><small>Ou Youmko, Pantasy, Cobi…</small></button>
+        <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
+      </div>
+    </details>
     <input id="collection-recherche" class="champ" type="search" placeholder="🔍 Nom ou code…" autocomplete="off">
     <div id="collection-onglets" class="puces"></div>
     <div class="bascule" id="collection-bascule">

@@ -492,3 +492,8 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
 /* fiche d'une figurine : une action principale, les autres en secondaire */
 .visionneuse-actions .bouton:not(:first-child) { background: var(--carte); color: var(--texte); border: 1px solid var(--bord-fort); }
 .visionneuse-actions .bouton:not(:first-child):hover { background: #fafafa; }
+/* Ma collection : « ➕ Ajouter à ma collection » qui déplie les choix d'ajout */
+.ajouter-collection > summary { list-style: none; cursor: pointer; }
+.ajouter-collection > summary::-webkit-details-marker { display: none; }
+.ajouter-collection[open] > summary { margin-bottom: 10px; background: var(--encre-2); }
+.ajouter-collection .tuile { min-height: 84px; }

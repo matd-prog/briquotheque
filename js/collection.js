@@ -17,6 +17,7 @@ const Collection = {
     const onglets = this._onglets();
     if (!onglets.includes(this.onglet) && !(this.vue !== "planche" && this._estArticles(this.onglet))) this.onglet = onglets.find(o => this._figurines(o).length) || onglets[0];
     $("collection-recherche").value = "";
+    if (document.querySelector(".ajouter-collection")) document.querySelector(".ajouter-collection").open = false;
     afficher("collection");
     this.rendre();
     // blisters photographiés absents des Customs : ajoutés (une fois par ouverture de l'appli)

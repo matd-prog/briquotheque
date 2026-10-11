@@ -125,6 +125,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v142 (11/10) : « ➕ Ajouter à ma collection » en haut de Ma collection (Mathias) : déplie les mêmes choix que
+    l'accueil (figurine ou blister JB en photo, photo déjà prise, chercher par nom, code, custom, set, objet dérivé) ;
+    photos par les mêmes champs que l'accueil (label for=input-photo / input-blister / input-galerie).
   · v141 (11/10) : « VEGAN BBQ LUKE » INTROUVABLE DANS MA COLLECTION (Mathias cherchait « vegan barbecue luc »). Deux causes :
     1) recherche trop stricte -> js/recherche.js (Ma collection, base de blisters, mini-appli) : abréviations
     (barbecue/bbq, noël/christmas), mots français -> anglais (noir/black, argent/silver, chevalier/knight…), même son
