@@ -125,6 +125,15 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v141 (11/10) : « VEGAN BBQ LUKE » INTROUVABLE DANS MA COLLECTION (Mathias cherchait « vegan barbecue luc »). Deux causes :
+    1) recherche trop stricte -> js/recherche.js (Ma collection, base de blisters, mini-appli) : abréviations
+    (barbecue/bbq, noël/christmas), mots français -> anglais (noir/black, argent/silver, chevalier/knight…), même son
+    (luc/luke, fantom/phantom), une faute de frappe (5 lettres et plus) ; petits mots (with, the…) jamais « à peu près » ;
+    2) blisters de la base absents de l'onglet Customs (ajout échoué ou antérieur à l'ajout automatique) -> rattraperCustoms()
+    (js/app.js) à l'ouverture de Ma collection, collection rangée dans l'appli : ajoute les n° manquants (même code, même nom
+    ou même n° + mêmes premiers mots = déjà là) ; sans n° : seulement si la figurine est absente. Essai sur la sauvegarde
+    du 07/10 : 59 exemplaires ajoutés (dont Vegan BBQ Luke, Moon Knight, The Ring Addict, Desert Raider n° 15 et 173…),
+    2e passage : 0.
   · v140 (10/10) : retouches du thème sobre : contour de sélection gris discret (plus l'orange du navigateur) ; fiche
     d'une figurine avec une seule action principale noire, les autres en boutons blancs bordés.
   · v139 (10/10) : THÈME SOBRE (validé sur son téléphone le 10/10 ; Mathias : « plus pro, moins flashy, gris, noir, plus design »). Couche ajoutée en fin

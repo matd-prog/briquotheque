@@ -1284,7 +1284,7 @@ const Base = {
     // liste ouverte sur une figurine précise (« Voir ou corriger », Ma collection) : ses blisters seulement, pas ceux
     // dont le nom la contient (« DONUTS IN SPACE » ne montre pas « IMPERIAL DONUTS IN SPACE ») ; filtre retapé : recherche
     const exacte = this.filtreExact && this.filtreExact.texte === q ? this.filtreExact.trouve : null;
-    const trouve = exacte || (e => !q || q.split(" ").every(m => normaliser([nomComplet(e), e.numero, e.serie, e.remarque].filter(Boolean).join(" ")).includes(m)));
+    const trouve = exacte || (e => !q || Recherche.correspond([nomComplet(e), e.numero, e.serie, e.remarque].filter(Boolean).join(" "), q)); // tolérante (js/recherche.js)
     const liste = this.entrees.slice().reverse().filter(trouve);
     $("base-liste").innerHTML = (q ? `<p class="aide">${liste.length} blister${liste.length > 1 ? "s" : ""} trouvé${liste.length > 1 ? "s" : ""}.</p>` : "") +
       liste.slice(0, q ? 300 : 100).map(e => `

@@ -67,7 +67,7 @@ const MesBlisters = {
     this._urls = [];
     const tous = this._groupes(), texte = $("ami-recherche").value.trim();
     const mots = normaliser(texte).split(" ").filter(Boolean);
-    const groupes = mots.length ? tous.filter(g => mots.every(m => normaliser(`${g.nom} ${this._nums(g).join(" ")}`).includes(m))) : tous;
+    const groupes = mots.length ? tous.filter(g => Recherche.correspond(`${g.nom} ${this._nums(g).join(" ")}`, texte)) : tous; // tolérante (js/recherche.js)
     $("ami-bascule").querySelectorAll("[data-vue]").forEach(b => b.classList.toggle("choisi", b.dataset.vue === this.vue));
     const blisters = tous.reduce((s, g) => s + g.blisters.length, 0);
     const aRefaire = Base.entrees.filter(e => Base.aRefaire(e)).length, attente = Base.entrees.filter(e => !e.exporte).length;

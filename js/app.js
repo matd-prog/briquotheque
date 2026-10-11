@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v140"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v141"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -1188,6 +1188,57 @@ async function ajouterCustomsDepuisBase({ nom, precision, code, numeros, serie, 
     if (m) await chargerClasseur(m.octets, m.nom, m.nonEnregistres);
     return "⚠️ L'ajout à votre collection a échoué : " + err.message + " (le blister est bien dans la base de blisters).";
   }
+}
+
+// Blisters photographiés (base de blisters) absents de l'onglet Customs : rattrapés (11/10/2026 : « Vegan BBQ Luke »
+// et une trentaine d'autres étaient dans la base, pas dans Ma collection, l'ajout ayant échoué ou n'existant pas encore).
+// Collection rangée dans l'appli seulement. Une figurine est déjà là si une case Customs porte son code, son code JB, ou
+// le même nom (sans le n°) ; on ajoute alors seulement ses n° d'exemplaire manquants. Renvoie le nombre d'exemplaires
+// ajoutés.
+let rattrapageFait = false;
+async function rattraperCustoms() {
+  if (rattrapageFait || !etat.classeur || !etat.classeur.estBase) return 0;
+  rattrapageFait = true;
+  const entrees = ((await Memoire.lire("base")) || []).filter(e => e.nom && e.possede !== false);
+  if (!entrees.length) return 0;
+  await CatalogueJB.charger().catch(() => {});
+  const num = x => String(x || "").split("/")[0].replace(/\D/g, "");
+  const groupes = new Map(); // une figurine (nom + précision) -> ses exemplaires photographiés
+  for (const e of entrees) {
+    const k = cleFigurine(e.nom, e.precision);
+    if (!groupes.has(k)) groupes.set(k, []);
+    groupes.get(k).push(e);
+  }
+  let ajoutes = 0;
+  for (const g of groupes.values()) {
+    const e0 = g.find(e => e.code) || g[0];
+    const f = e0.code && CatalogueJB.trouver ? CatalogueJB.trouver(e0.code) : null;
+    const lien = f && f.lien ? f.lien : lienRechercheEbay(e0.nom);
+    const nomXL = [f ? nomCustomPourFichier(f.nom) : e0.nom.replace(/\w\S*/g, m => m[0] + m.slice(1).toLowerCase()), e0.precision].filter(Boolean).join(" – ");
+    const cles = new Set([cleCustom(nomXL), cleCustom([e0.nom, e0.precision].filter(Boolean).join(" – ")), cleCustom([e0.nom, e0.precision].filter(Boolean).join(" "))]);
+    const codes = new Set([f && f.code, ...(f && CatalogueJB.codes ? CatalogueJB.codes(f) : [])].filter(Boolean).map(c => c.toUpperCase()));
+    const cases = (etat.collection[THEME_CUSTOMS.onglet] || { cases: [] }).cases; // relu : chaque ajout relit la collection
+    const memes = cases.filter(c => codes.has((c.code || "").toUpperCase()) || cles.has(cleCustom(c.nom)));
+    // n° d'exemplaire en fin de nom : « 17/250 » ou seul (« CUTIE POOL 36 »)
+    const numDe = nom => num((/(\d{1,4})\s*\/\s*\d{1,4}\s*$/.exec(nom || "") || /\s(\d{1,3})\s*$/.exec(nom || "") || [])[1]);
+    const presents = new Set(memes.map(c => numDe(c.nom)).filter(Boolean));
+    // même exemplaire enregistré sous un autre nom dans la base (« WRECKER FAN (THE BAD BATCH…) » / « WRECKER FAN – THE
+    // BAD BATCH… » n° 409) : même n° et mêmes deux premiers mots dans une case Customs -> déjà là
+    const debut = t => normaliser(String(t || "")).split(/[^a-z0-9]+/).filter(w => w && !["the", "le", "la", "les"].includes(w)).slice(0, 2).join(" ");
+    const dejaAilleurs = n => cases.some(c => numDe(c.nom) === n && debut(c.nom) === debut(e0.nom));
+    const numeros = [...new Set(g.filter(e => e.numerote !== false && e.numero).map(e => num(e.numero)))].filter(n => n && !presents.has(n) && !dejaAilleurs(n));
+    // sans n° : seulement si la figurine est absente de Ma collection (ni même code, ni même nom, ni mêmes premiers mots :
+    // « REBEL BY DESIGN (HALLOWEEN EDITION) – BART SIMPSON avec skate ») ; sinon impossible de savoir s'il manque
+    // un exemplaire ou si c'est le même : rien n'est ajouté (mieux vaut un oubli qu'un doublon)
+    const figurineLa = memes.length || cases.some(c => debut(c.nom) === debut(e0.nom));
+    const sansNumero = figurineLa ? 0 : g.filter(e => e.numerote === false || !e.numero).length;
+    if (!numeros.length && !sansNumero) continue;
+    const serie = (g.find(e => e.serie) || {}).serie || "";
+    const r = await ajouterCustomsDepuisBase({ nom: e0.nom, precision: e0.precision, code: e0.code, serie: String(serie).replace(/\D/g, ""),
+      numeros: [...numeros, ...Array(sansNumero).fill("")], nonNumerote: false });
+    if (!/^⚠️/.test(r)) ajoutes += numeros.length + sansNumero;
+  }
+  return ajoutes;
 }
 
 // Blisters du catalogue JB au décor le plus ressemblant à la photo (vide si indisponible)

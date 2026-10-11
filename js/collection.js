@@ -19,6 +19,12 @@ const Collection = {
     $("collection-recherche").value = "";
     afficher("collection");
     this.rendre();
+    // blisters photographiés absents des Customs : ajoutés (une fois par ouverture de l'appli)
+    if (typeof rattraperCustoms === "function") rattraperCustoms().then(n => {
+      if (!n) return;
+      toast(`${n} exemplaire${n > 1 ? "s" : ""} de votre base de blisters ajouté${n > 1 ? "s" : ""} à Ma collection (Customs) ✔`, 6000);
+      this.rendre();
+    }).catch(err => console.warn("rattrapage des Customs", err));
   },
 
   installer() {
@@ -228,13 +234,13 @@ const Collection = {
       const res = [];
       for (const o of onglets)
         for (const c of this._figurines(o))
-          if (mots.every(m => normaliser(`${c.nom} ${c.code}`).includes(m))) res.push(c);
+          if (Recherche.correspond(`${c.nom} ${c.code}`, texte)) res.push(c); // tolérante (js/recherche.js)
       const total = onglets.reduce((s, o) => s + this._figurines(o).length, 0);
       $("collection-info").textContent = res.length
         ? `${res.length} résultat(s) sur ${total} figurines.`
         : "Aucune figurine de votre collection ne correspond.";
       const articles = Object.keys(this.ARTICLES).flatMap(o => this._articles[o]
-        .filter(a => mots.every(m => normaliser(`${a.nom} ${a.code} ${a.marque || ""} ${a.type || ""}`).includes(m))).map(a => this._ficheArticle(a, o)));
+        .filter(a => Recherche.correspond(`${a.nom} ${a.code} ${a.marque || ""} ${a.type || ""}`, texte)).map(a => this._ficheArticle(a, o)));
       if (articles.length) $("collection-info").textContent = `${res.length + articles.length} résultat(s).`;
       contenu.innerHTML = this._regrouper(res).map(g => this._fiche(g.cases[0], g.onglet, g.cases)).join("") + articles.join("");
       if (typeof Consulter !== "undefined") { Consulter.completerPhotos(contenu); this._photosAlbum(contenu); }
