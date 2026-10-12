@@ -748,7 +748,11 @@ Pour reprendre le 30/09 au matin :
    Premier mail le 29/09/2026 (demande de transmettre à Hendrik) ; relance envoyée par Mathias le 08/10/2026 (même fil
    « Hilfsgesuch », en allemand) : Hendrik invité à le contacter par e-mail, aucun coût pour JB, accès au catalogue
    (nom, n° d'article, photo du blister, date de sortie), appli multilingue, intérêt pour JB (clients français).
-   Présentations FR/DE prêtes (Artifacts, voir CLAUDE.md). En attente de réponse.
+   Présentations FR/DE prêtes (Artifacts, voir CLAUDE.md).
+   12/10/2026 : réponse de Jonas (JB) : demande bien transmise à Hendrik, très pris (événement, streams), il recontactera
+   Mathias dès que possible ; remerciement préparé en brouillon Gmail. PLAN B (idée de Mathias, à garder pour plus tard,
+   pas maintenant) : si JB ne veut pas partager son catalogue, leur demander gentiment (sans argument juridique) la liste
+   détaillée de ses achats, surtout les lots Whatnot sans nom de figurine (« Spontane Custom… », 5 lots HoB).
 6. Vérifier le compte rendu de la tâche automatique ; corriger si elle ne peut pas publier.
 - Mes achats de customs (30/09, js/achats.js, tuile « 🏷️ ») : l'utilisateur veut le prix payé de chaque figurine pour
   revendre ses doubles avec une marge. Onglet « À nommer » : achats en lot Whatnot (« Custom JB (lot du …) », 440),
