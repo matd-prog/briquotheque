@@ -753,6 +753,9 @@ Pour reprendre le 30/09 au matin :
    Mathias dès que possible ; remerciement préparé en brouillon Gmail. PLAN B (idée de Mathias, à garder pour plus tard,
    pas maintenant) : si JB ne veut pas partager son catalogue, leur demander gentiment (sans argument juridique) la liste
    détaillée de ses achats, surtout les lots Whatnot sans nom de figurine (« Spontane Custom… », 5 lots HoB).
+   Arguments : pendant les lives, JB écrit un n° sur chaque figurine et l'attribue à l'acheteur (n° de lot = « #5 », « #12 »
+   de l'export Whatnot) ; JB enregistre ses lives, alors que les rediffusions ne restent visibles que peu de temps pour l'acheteur.
+   Demande possible : pour chaque lot (date + n°), le nom de la figurine.
 6. Vérifier le compte rendu de la tâche automatique ; corriger si elle ne peut pas publier.
 - Mes achats de customs (30/09, js/achats.js, tuile « 🏷️ ») : l'utilisateur veut le prix payé de chaque figurine pour
   revendre ses doubles avec une marge. Onglet « À nommer » : achats en lot Whatnot (« Custom JB (lot du …) », 440),
