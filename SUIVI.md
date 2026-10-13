@@ -125,6 +125,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v143 (13/10) : THÈME MODERNE (Mathias : « tout gris, tout noir, c'est vraiment très triste » ; message noir sur cadre
+    gris foncé illisible = bandeau « ⏳ Actualisation en cours » de la valeur). Couche « THÈME MODERNE » en fin de style.css :
+    fond bleuté, en-tête bleu nuit, actions indigo, blister en vert canard, icônes en couleur sur pastilles pastel, rouge pour
+    supprimer, messages sur fonds clairs teintés (ambre en cours, vert à jour, indigo info). Vaut aussi pour contribuer.html.
+    VALEUR « BLOQUÉE » : relevé du 13/10 réussi, mais l'étape Prix LEGO (Brickset + Avenue de la Brique, 157 sets relus
+    chaque semaine, ~5 s par set) a duré 14 min sans rien bouger à l'écran -> suivre() affiche le nombre de sets, la durée
+    estimée et les minutes écoulées. Présentations JB à refaire une fois les couleurs validées par Mathias.
   · v142 (11/10) : « ➕ Ajouter à ma collection » en haut de Ma collection (Mathias) : déplie les mêmes choix que
     l'accueil (figurine ou blister JB en photo, photo déjà prise, chercher par nom, code, custom, set, objet dérivé) ;
     photos par les mêmes champs que l'accueil (label for=input-photo / input-blister / input-galerie).

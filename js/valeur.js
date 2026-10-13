@@ -216,7 +216,13 @@ const Valeur = {
       const etape = nom => etapes.find(e => e.name.startsWith(nom));
       const bl = etape("Relevé des prix"), lego = etape("Prix LEGO"), fin = etape("Enregistrement");
       if (fin && fin.status !== "queued") texte = "Enregistrement des prix…";
-      else if (lego && lego.status === "in_progress") texte = "Prix LEGO France des sets (Avenue de la Brique) et dates (Brickset)…";
+      else if (lego && lego.status === "in_progress") {
+        // étape longue (une page toutes les ~5 s par set, prix relus une fois par semaine : 157 sets = 14 min le 13/10/2026)
+        // et sans prix intermédiaires : durée écoulée et estimée, pour ne pas croire l'appli bloquée
+        const ecoule = Math.max(0, (Date.now() - new Date(lego.started_at)) / 60000), prevu = Math.max(1, Math.ceil((releve.nLego || 0) * 5.5 / 60));
+        texte = `Prix LEGO France des sets (Avenue de la Brique) et dates (Brickset)${releve.nLego ? ` : ${releve.nLego} sets, environ ${prevu} min` : ""}` +
+          ` · ${Math.floor(ecoule)} min écoulée(s). Les prix LEGO sont relus une fois par semaine ; le total sera mis à jour à la fin…`;
+      }
       else if (bl && bl.status === "in_progress") texte = `Prix BrickLink (${releve.n} articles à relever)…`;
       else if (run.status === "in_progress") texte = "Démarrage du relevé…";
       // valeur provisoire : prix enregistrés par le relevé toutes les 10 s, relus à chaque passage (5 s)

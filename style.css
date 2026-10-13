@@ -497,3 +497,71 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
 .ajouter-collection > summary::-webkit-details-marker { display: none; }
 .ajouter-collection[open] > summary { margin-bottom: 10px; background: var(--encre-2); }
 .ajouter-collection .tuile { min-height: 84px; }
+
+/* ════════════════════════════════════════════════════════════════════════════════════════════════════════════
+   THÈME MODERNE (13/10/2026, Mathias : le thème sobre « tout gris, tout noir, c'est vraiment très triste » ; un message
+   noir sur cadre gris foncé était illisible). Sobre mais coloré : fond légèrement bleuté, une couleur d'action (indigo),
+   en-tête bleu nuit, icônes en couleur sur des pastilles pastel, messages sur fonds clairs teintés (texte toujours foncé
+   sur clair, ou blanc sur foncé). Posé par-dessus le thème sobre (mêmes variables, redéfinies).
+   ════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --encre: #4f46e5;        /* actions principales (indigo) */
+  --encre-2: #4338ca;      /* survol, appui */
+  --nuit: #1e2440;         /* en-tête, messages flottants */
+  --fond: #f4f6fb; --carte: #fff; --texte: #1c2033; --doux: #646b80; --bord: #e3e7f0; --bord-fort: #cfd5e3;
+  --rouge: #d92d20; --vert: #12805c; --bleu: #4f46e5;
+  --ambre-fond: #fff6e5; --ambre: #d97706; --vert-fond: #e9f8f1; --indigo-fond: #eef0ff; --rouge-fond: #fdeeec;
+  --ombre: 0 1px 2px rgba(30,36,64,.06), 0 2px 6px rgba(30,36,64,.04);
+}
+body { background: var(--fond); color: var(--texte); }
+header { background: linear-gradient(135deg, #1e2440 0%, #2b2f6b 100%) !important; border-bottom: 0; }
+.fichier-info { color: #b9bedb; }
+.section-titre { color: var(--doux); }
+
+/* boutons : indigo ; rouge pour ce qui supprime ; secondaires blancs */
+.gros-bouton, .bouton, .gros-bouton.vert, .gros-bouton.bleu, .gros-bouton.corail, .gros-bouton.bleu-fonce,
+.bouton.vert, .bouton.bleu, .bouton.corail, .bouton.bleu-fonce { background: var(--encre); color: #fff; }
+.gros-bouton.rouge, .bouton.rouge { background: var(--rouge); color: #fff; }
+.gros-bouton.rouge:hover, .bouton.rouge:hover { background: #b42318; }
+.gros-bouton:hover, .bouton:hover { background: var(--encre-2); }
+.gros-bouton.gris, .bouton.gris, .onglets-achats .bouton { background: var(--carte); color: var(--texte); border: 1px solid var(--bord-fort); }
+.gros-bouton.gris:hover, .bouton.gris:hover { background: var(--indigo-fond); border-color: #a5acd6; }
+.rouge { background: var(--rouge); } .vert, .bleu, .corail, .bleu-fonce { background: var(--encre); }
+.champ:focus { border-color: var(--encre); box-shadow: 0 0 0 3px rgba(79,70,229,.15); }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline-color: var(--encre); }
+a, .bouton-lien { color: var(--encre-2); text-decoration-color: #a5acd6; }
+
+/* accueil : deux grandes actions en couleur, icônes en couleur sur pastilles pastel */
+.action-principale { background: linear-gradient(135deg, #4f46e5 0%, #6d5bf0 100%); box-shadow: 0 8px 20px rgba(79,70,229,.22); }
+.action-principale.action-blister { background: linear-gradient(135deg, #0f766e 0%, #14958a 100%); box-shadow: 0 8px 20px rgba(15,118,110,.2); }
+.action-principale .icone { background: rgba(255,255,255,.18); }
+.action-principale small { color: rgba(255,255,255,.82); }
+.tuile .icone, .action-principale .icone { filter: none; }
+.tuile .icone { background: var(--indigo-fond); }
+.tuiles > :nth-child(6n+2) .icone { background: #fff1e0; }
+.tuiles > :nth-child(6n+3) .icone { background: #e3f6ef; }
+.tuiles > :nth-child(6n+4) .icone { background: #ffe9ee; }
+.tuiles > :nth-child(6n+5) .icone { background: #e2f1fd; }
+.tuiles > :nth-child(6n+6) .icone { background: #f3ecff; }
+.tuile:hover { border-color: #c7cdf0; }
+.ajouter-collection[open] > summary { background: var(--encre-2); }
+
+/* messages : fonds clairs teintés, texte foncé (jamais de texte foncé sur fond foncé) */
+.alerte { background: var(--ambre-fond); border: 1px solid #fde3b0; border-left: 3px solid var(--ambre); color: var(--texte); }
+.alerte.stop { background: var(--rouge-fond); border-color: #f8cfc9; border-left-color: var(--rouge); }
+.alerte.info, .carte-info { background: var(--indigo-fond); border: 1px solid #d9ddfb; border-left: 3px solid var(--encre); color: var(--texte); }
+.bandeau, .bandeau.bleu-fonce { background: var(--indigo-fond); color: var(--texte); border: 1px solid #d9ddfb; border-left: 3px solid var(--encre); }
+.bandeau .petit, .bandeau.bleu-fonce .petit { background: var(--encre); color: #fff; border-color: var(--encre); }
+#valeur-bandeau.en-cours { background: var(--ambre-fond); color: #7a4a00; border-color: #fde3b0; border-left-color: var(--ambre); }
+#valeur-bandeau.a-jour { background: var(--vert-fond); color: #0b5a40; border-color: #c4ecd9; border-left-color: var(--vert); }
+.succes { background: var(--vert-fond); border: 1px solid #c4ecd9; color: #0b5a40; }
+.toast { background: var(--nuit); color: #fff; }
+.bandeau-occupe { background: var(--nuit); color: #fff; }
+.bandeau-occupe.fini { background: var(--vert); color: #fff; }
+.badge, .fiche a.lien-ebay { background: var(--indigo-fond); color: var(--encre-2); border: 1px solid #d9ddfb; }
+.puce.choisi, .onglets-achats .bouton.actif, .arbo-lien.actif { background: var(--encre); border-color: var(--encre); color: #fff; }
+.valeur-total .montant, .compteur-valeur { color: var(--encre-2); }
+.compteur-hausse { color: var(--vert); }
+.bascule { background: #e6e9f4; }
+.bascule button.choisi { color: var(--encre-2); }
+.version-appli { color: #9aa0b8; }
