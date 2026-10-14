@@ -1,4 +1,4 @@
-#date 2026-10-13
+#date 2026-10-14
 code	nom	annee	theme	pieces	figurines
 0003977811-1	Ninjago: Book of Adventures	2022	Books / Activity Books with LEGO Parts	1	1
 001-1	Gears	1965	System / Samsonite	43	0
@@ -6366,6 +6366,7 @@ code	nom	annee	theme	pieces	figurines
 40906-1	Restaurants of the World: Japan	2026	Other	289	1
 40907-1	Restaurants of the World: Mexico	2026	Other	326	1
 40908-1	Restaurants of the World: Greece	2026	Other	254	1
+40909-1	Restaurants of the World: Italy	2026	Other	317	0
 40910-1	Beef Boss & Skye Figures	2026	Brickheadz	288	0
 40911-1	Mini Pokémon Center	2026	Pokémon	233	0
 40912-1	Sea Serpent	2026	LEGO Ideas and CUUSOO	241	2
@@ -8242,6 +8243,7 @@ code	nom	annee	theme	pieces	figurines
 45832-1	BIOGLOW Challenge set	2026	FIRST LEGO League	2096	0
 45833-1	BIOGLOW Explore Set	2026	FIRST LEGO League	761	0
 45834-1	BIOGLOW Future Edition Set	2026	FIRST LEGO League	1990	0
+45835-1	FIRST LEGO League Future Edition Grades K-2	2026	FIRST LEGO League	709	0
 4584-1	Hot Scorcher	2002	Racers	58	1
 4585-1	Nitro Pulverizer	2002	Racers	61	1
 4586-1	Stunt Race Track	2002	Racers	168	1
@@ -19181,7 +19183,7 @@ Build-a-Mini-2022	2022 Build-A-Minifigure Station Exclusive Parts	2022	Other / D
 Build-a-Mini-2023	2023 Build-A-Minifigure Station Exclusive Parts	2023	Other / Database Sets	42	0
 Build-a-Mini-2024	2024 Build-A-Minifigure Station Exclusive Parts	2024	Other / Database Sets	52	0
 Build-a-Mini-2025	2025 Build-A-Minifigure Station Exclusive Parts	2025	Other / Database Sets	71	0
-Build-a-Mini-2026	2026 Build-A-Minifigure Station Exclusive Parts	2026	Other / Database Sets	47	0
+Build-a-Mini-2026	2026 Build-A-Minifigure Station Exclusive Parts	2026	Other / Database Sets	57	0
 C3PO-1	C-3PO	2020	Promotional	60	0
 C8500-1	Robotops (8500 + 8501 + 8502 + 8503)	1999	Technic / Throwbot Slizer	96	0
 C8504-1	Ultrarex (8504 + 8505 + 8506 + 8507)	1999	Technic / Throwbot Slizer	88	0
@@ -19582,6 +19584,7 @@ L0002237-1	Galactic Marine	2026	Star Wars	8	1
 L0002238-1	327th Star Corps Clone Trooper	2026	Star Wars	1	1
 L0002239-1	Death Trooper	2026	Star Wars	5	1
 L0002240-1	Clone Trooper	2026	Star Wars	1	1
+L0002241-1	K-2S0	2026	Star Wars	5	0
 L0002245-1	Jango Fett	2026	Star Wars	8	1
 L0002245-2	Jango Fett [Helmet Tin]	2026	Star Wars	8	1
 L0002246-1	Jungle Ranger and Stray	2026	Minecraft	19	2
