@@ -1,4 +1,4 @@
-#date 2026-10-14
+#date 2026-10-15
 code	nom	annee	theme	pieces	figurines
 0003977811-1	Ninjago: Book of Adventures	2022	Books / Activity Books with LEGO Parts	1	1
 001-1	Gears	1965	System / Samsonite	43	0
@@ -6366,7 +6366,7 @@ code	nom	annee	theme	pieces	figurines
 40906-1	Restaurants of the World: Japan	2026	Other	289	1
 40907-1	Restaurants of the World: Mexico	2026	Other	326	1
 40908-1	Restaurants of the World: Greece	2026	Other	254	1
-40909-1	Restaurants of the World: Italy	2026	Other	317	0
+40909-1	Restaurants of the World: Italy	2026	Other	317	1
 40910-1	Beef Boss & Skye Figures	2026	Brickheadz	288	0
 40911-1	Mini Pokémon Center	2026	Pokémon	233	0
 40912-1	Sea Serpent	2026	LEGO Ideas and CUUSOO	241	2
@@ -8243,7 +8243,7 @@ code	nom	annee	theme	pieces	figurines
 45832-1	BIOGLOW Challenge set	2026	FIRST LEGO League	2096	0
 45833-1	BIOGLOW Explore Set	2026	FIRST LEGO League	761	0
 45834-1	BIOGLOW Future Edition Set	2026	FIRST LEGO League	1990	0
-45835-1	FIRST LEGO League Future Edition Grades K-2	2026	FIRST LEGO League	709	0
+45835-1	FIRST LEGO League Future Edition Grades K-2	2026	FIRST LEGO League	709	2
 4584-1	Hot Scorcher	2002	Racers	58	1
 4585-1	Nitro Pulverizer	2002	Racers	61	1
 4586-1	Stunt Race Track	2002	Racers	168	1
@@ -19291,9 +19291,9 @@ DATABASE-2011	2011 - Unused Parts Database Set	2011	Other / Database Sets	35	0
 DATABASE-2012	2012 - Unused Parts Database Set	2012	Other / Database Sets	67	0
 DATABASE-2013	2013 - Unused Parts Database Set	2013	Other / Database Sets	38	0
 DATABASE-2014	2014 - Unused Parts Database Set	2014	Other / Database Sets	30	0
-DATABASE-2015	2015 - Unused Parts Database Set	2015	Other / Database Sets	56	0
+DATABASE-2015	2015 - Unused Parts Database Set	2015	Other / Database Sets	57	0
 DATABASE-2016	2016 - Unused Parts Database Set	2016	Other / Database Sets	40	0
-DATABASE-2017	2017 - Unused Parts Database Set	2017	Other / Database Sets	43	0
+DATABASE-2017	2017 - Unused Parts Database Set	2017	Other / Database Sets	45	0
 DATABASE-2018	2018 - Unused Parts Database Set	2018	Other / Database Sets	62	0
 DATABASE-2019	2019 - Unused Parts Database Set	2019	Other / Database Sets	43	0
 DATABASE-2020	2020 - Unused Parts Database Set	2020	Other / Database Sets	28	0
@@ -19584,7 +19584,7 @@ L0002237-1	Galactic Marine	2026	Star Wars	8	1
 L0002238-1	327th Star Corps Clone Trooper	2026	Star Wars	1	1
 L0002239-1	Death Trooper	2026	Star Wars	5	1
 L0002240-1	Clone Trooper	2026	Star Wars	1	1
-L0002241-1	K-2S0	2026	Star Wars	5	0
+L0002241-1	K-2S0	2026	Star Wars	5	1
 L0002245-1	Jango Fett	2026	Star Wars	8	1
 L0002245-2	Jango Fett [Helmet Tin]	2026	Star Wars	8	1
 L0002246-1	Jungle Ranger and Stray	2026	Minecraft	19	2

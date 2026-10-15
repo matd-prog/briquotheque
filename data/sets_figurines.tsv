@@ -1,4 +1,4 @@
-#date 2026-10-14
+#date 2026-10-15
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -4605,6 +4605,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 40906-1	fig-017448	1	Sushi Chef	twn548	0.8
 40907-1	fig-017548	1	Taco Chef	twn550	1.0
 40908-1	fig-018057	1	White Torso, Magenta Legs, Black Hair	bdp276	0.46
+40909-1	fig-018222	1	Pizzaria Waiter, White Torso, Warm Pink Legs	bdp310	0.37
 40912-1	fig-017958	1	Griffin Knight, Female, Dark Blue Arms	idea236	0.63
 40912-1	fig-017959	1	Griffin Knight, Male, Dark Blue Arms	bdp353	0.63
 40913-1	fig-017248	1	Light Bluish Grey Suit, Dark Purple Tricorn	sh1100	0.43
@@ -6817,6 +6818,8 @@ set	figurine	quantite	nom	bricklink	ressemblance
 4583-1	fig-011086	1	Maverick Storm	rac077	1.0
 45830-1	fig-016691	1	Woman, Nougat Apron, Dark Brown Hat	fst052	0.67
 45830-1	fig-016696	1	Kid, White Torso, Dark Azure Legs, Dark Brown Hair	twn513	0.51
+45835-1	fig-018223	1	Woman, Light Bluish Grey/Bright Green Wetsuit, Black Hair	cty1961	0.67
+45835-1	fig-018224	1	Kid Adventurer, Dark Brown Suit, Hat	hol420	0.39
 4584-1	fig-000148	1	Race Driver, Orange Torso, Orange Legs, Red  Helmet	rac017	0.47
 4585-1	fig-001437	1	Race Driver, Blue Torso, Blue Legs, Blue Helmet	rac017	0.41
 4586-1	fig-016057	1	Stunt Racer, Black Helmet and Body	rac094	0.74
@@ -23264,6 +23267,7 @@ L0002237-1	fig-016593	1	Galactic Marine	sw1430	0.65
 L0002238-1	fig-016588	1	327th Clone Trooper	sw1422	0.61
 L0002239-1	fig-016444	1	Death Trooper	sw1416	0.58
 L0002240-1	fig-014194	1	Clone Trooper, 332nd Company, Orange Markings, Visor Holes	sw1278	0.72
+L0002241-1	fig-016241	1	K-2SO	sw1412	0.6
 L0002245-1	fig-017888	1	Jango Fett, Pearl Titanium Torso with Plain Arms, Black Helmet Print on Left-hand Site	sw1433a	0.74
 L0002245-2	fig-017888	1	Jango Fett, Pearl Titanium Torso with Plain Arms, Black Helmet Print on Left-hand Site	sw1433a	0.74
 L0002246-1	fig-017362	1	Jungle Ranger, Helmet	min257	1.0
