@@ -1,4 +1,4 @@
-#date 2026-10-15
+#date 2026-10-16
 type	code	bricklink	ressemblance	nom	theme	annee	image	vu_le	sets
 figurine	fig-018224		0.39	Kid Adventurer, Dark Brown Suit, Hat	FIRST LEGO League	2026	https://cdn.rebrickable.com/media/sets/fig-018224.jpg	2026-10-15	45835-1
 figurine	fig-018223		0.67	Woman, Light Bluish Grey/Bright Green Wetsuit, Black Hair	FIRST LEGO League	2026	https://cdn.rebrickable.com/media/sets/fig-018223.jpg	2026-10-15	45835-1
@@ -913,7 +913,7 @@ figurine	fig-017130	njo1035	0.86	Cole (Draconus Form)	Ninjago	2026	https://cdn.r
 figurine	fig-017128	njo1033	0.78	Zane, Shoulder Armor (Draconus Robes)	Ninjago	2026	https://cdn.rebrickable.com/media/sets/fig-017128.jpg		71857-1 71859-1
 figurine	fig-017126		0.64	Sora, Mask (Draconus Robes)	Ninjago	2026	https://cdn.rebrickable.com/media/sets/fig-017126.jpg		71851-1 71859-1 71868-1
 figurine	fig-017125	njo1032	1.0	Acid Monster, Tail	Ninjago	2026	https://cdn.rebrickable.com/media/sets/fig-017125.jpg		71854-1 71857-1 71859-1 71868-1
-figurine	fig-017124		0.64	Arin (Draconus Robes)	Ninjago	2026	https://cdn.rebrickable.com/media/sets/fig-017124.jpg		71855-1 71859-1 71868-1
+figurine	fig-017124		0.64	Arin (Draconus Robes)	Ninjago	2026	https://cdn.rebrickable.com/media/sets/fig-017124.jpg		71855-1 71859-1 71868-1 L0002208-1
 figurine	fig-017121	njo0199	0.95	Cole	Ninjago	2026	https://cdn.rebrickable.com/media/sets/fig-017121.jpg		30723-1 71866-1
 figurine	fig-017119	min250	1.0	Cool Hero	Minecraft	2026	https://cdn.rebrickable.com/media/sets/fig-017119.jpg		21584-1
 figurine	fig-017118	min251	1.0	Chicken Fan	Minecraft	2026	https://cdn.rebrickable.com/media/sets/fig-017118.jpg		21585-1
@@ -981,6 +981,7 @@ figurine	fig-017053		0.47	Monkey Suit	Collectible Minifigures / Series 28 Minifi
 figurine	fig-017052		0.47	Goldfish Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017052.jpg		71051-3
 figurine	fig-017051		0.47	Cat Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017051.jpg		71051-2
 figurine	fig-017050		0.47	Peacock Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017050.jpg		71051-1
+objet	51366-1	51366		Minifigures 100-Piece Blind Puzzle Set 6-Pack	Gear / Tabletop Games and Puzzles	2026	https://cdn.rebrickable.com/media/sets/51366-1.jpg	2026-10-16	
 objet	LG6SMAFL001UK-1	LG6SMAFL001UK		Ninjago: Dragons Rising Fleece Blanket	Gear	2026	https://cdn.rebrickable.com/media/sets/lg6smafl001uk-1.jpg	2026-10-15	
 objet	LFNLCKFL001UK-1	LFNLCKFL001UK		Fortnite Fleece Blanket	Gear	2026	https://cdn.rebrickable.com/media/sets/lfnlckfl001uk-1.jpg	2026-10-15	
 objet	51409-1	51409		Oversized Creator Forest Animals: Red Fox Puzzle	Gear / Tabletop Games and Puzzles	2026	https://cdn.rebrickable.com/media/sets/51409-1.jpg	2026-10-15	
@@ -1649,6 +1650,8 @@ objet	10018250-1	10018250		Red Tile 1x1 Jibbitz	Gear	2026	https://cdn.rebrickabl
 objet	10018249-1	10018249		Spaceship Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018249-1.jpg		
 objet	10018248-1	10018248		Red Tile 2x2 Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018248-1.jpg		
 objet	10018247-1	10018247		Castle Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018247-1.jpg		
+set	L0002208-1	L0002208-1		Arin	Ninjago	2026	https://cdn.rebrickable.com/media/sets/l0002208-1.jpg	2026-10-16	
+set	5011164-1	5011164-1		Fig Beetle Garden	Botanicals	2026	https://cdn.rebrickable.com/media/sets/5011164-1.jpg	2026-10-16	
 set	L0002241-1	L0002241-1		K-2S0	Star Wars	2026	https://cdn.rebrickable.com/media/sets/l0002241-1.jpg	2026-10-14	
 set	45835-1	45835-1		FIRST LEGO League Future Edition Grades K-2	FIRST LEGO League	2026	https://cdn.rebrickable.com/media/sets/45835-1.jpg	2026-10-14	
 set	6675837-1	6675837-1		Witch's Flight	Promotional	2026	https://cdn.rebrickable.com/media/sets/6675837-1.jpg	2026-10-12	

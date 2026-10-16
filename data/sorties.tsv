@@ -1,4 +1,4 @@
-#date 2026-10-15
+#date 2026-10-16
 code	nom	theme	sous_theme	annee	sortie	fin	pieces	figurines	image
 21064-1	Paris - City of Love	Architecture	Iconic Landmarks	2026	2026-01-01	2028-12-31	958		https://images.brickset.com/sets/images/21064-1.jpg
 31218-1	Japanese Cherry Blossom Landscape	Art	Paintings	2026	2026-01-01	2028-12-31	1892		https://images.brickset.com/sets/images/31218-1.jpg
@@ -572,7 +572,9 @@ ISBN9780241789940-1	LEGO NINJAGO: Visual Dictionary, Updated Edition	Books	Dorli
 76788-1	Nevermore Academy	Wednesday	Miscellaneous	2026	2026-10-01		890	3	https://images.brickset.com/sets/images/76788-1.jpg
 21065-1	Sagrada Família	Architecture	Landmark Series	2026	2026-11-01		12060		https://images.brickset.com/sets/images/21065-1.jpg
 10371-1	Cosy Plants	Botanicals	Happy Plants	2026	2026-11-01		248		https://images.brickset.com/sets/images/10371-1.jpg
+11388-1	Venetian Neighbourhood	Icons	Miscellaneous	2026	2026-11-01		5682		https://images.brickset.com/sets/images/11388-1.jpg
 11390-1	Dragon Ball: Shenron & Goku	Icons	Dragon Ball	2026	2026-11-01		1764		https://images.brickset.com/sets/images/11390-1.jpg
+40898-1	Venetian Water Taxi	Icons	Promotional	2026	2026-11-01		322		https://images.brickset.com/sets/images/40898-1.jpg
 67012-1	The Joker Wall Art Comic Cover	Art	Licensed	2027	2027-01-01		1849		https://images.brickset.com/sets/images/67012-1.jpg
 67008-1	Batman Returns Batmobile & Duck	DC Comics Super Heroes	Legendary Batmobile Collection	2027	2027-01-01		672		https://images.brickset.com/sets/images/67008-1.jpg
 67009-1	Arkham Batman Batmobile	DC Comics Super Heroes	Legendary Batmobile Collection	2027	2027-01-01		317		https://images.brickset.com/sets/images/67009-1.jpg
@@ -790,8 +792,10 @@ L0002266-1	Waffles with Ice Cream Stand	Friends	Magazine gift	2026			16
 5011169-1	Insiders Halloween Window Stickers	Gear	Stationery	2026					https://images.brickset.com/sets/images/5011169-1.jpg
 5011185-1	Herschel Heritage Tote – Monogram Black	Gear	Bags	2026					
 5011186-1	Herschel Retreat Small Backpack – Botanical Floral Black	Gear	Bags	2026					
+5011187-1	Herschel Retreat Small Backpack – Botanical Floral Lavender	Gear	Bags	2026					
 5011188-1	Herschel Retreat Tote – Botanical Floral Black	Gear	Bags	2026					
 5011189-1	Herschel Retreat Tote – Botanical Floral Lavender	Gear	Bags	2026					
+5011190-1	Herschel Heritage Youth Backpack – Monogram Purple	Gear	Bags	2026					
 5011191-1	Herschel Heritage Youth Backpack – Monogram Multicolor	Gear	Bags	2026					
 5011192-1	Herschel Heritage Youth Backpack – Color Block	Gear	Bags	2026					
 5011193-1	Herschel Heritage Backpack – Monogram Black	Gear	Bags	2026					
@@ -803,6 +807,7 @@ L0002266-1	Waffles with Ice Cream Stand	Friends	Magazine gift	2026			16
 5011199-1	Herschel Chapter Travel Kit – Monogram Black	Gear	Bags	2026					
 5011200-1	Herschel Chapter Travel Kit – Botanical Floral Black	Gear	Bags	2026					
 5011201-1	Herschel Chapter Travel Kit – Botanical Floral Lavender	Gear	Bags	2026					
+5011202-1	Herschel Anchor 14” Sleeve – Monogram Black	Gear	Bags	2026					
 5011203-1	Pop Quiz Lunch Box Little Herschel – Monogram Purple	Gear	Bags	2026					
 5011204-1	Pop Quiz Lunch Box Little Herschel – Monogram Multicolor	Gear	Bags	2026					
 5011205-1	Pop Quiz Lunch Box Little Herschel – Monogram Color Block	Gear	Bags	2026					
@@ -881,6 +886,7 @@ L0002204-1	Dragon Kai	Ninjago	Magazine Gift	2026			11	1	https://images.brickset.
 L0002205-1	Dragon Zane	Ninjago	Magazine Gift	2026			12	1	
 L0002206-1	Cole	Ninjago	Magazine Gift	2026			1	1	
 L0002207-1	Acid Monster	Ninjago	Magazine Gift	2026			5	1	
+L0002208-1	Arin	Ninjago	Magazine Gift	2026			6	1	https://images.brickset.com/sets/images/L0002208-1.jpg
 L0002212-1	Zane-Mech	Ninjago	Magazine Gift	2026			99		https://images.brickset.com/sets/images/L0002212-1.jpg
 L0002213-1	Kai vs. Rox	Ninjago	Magazine Gift	2026			13	2	
 L0002214-1	Jay vs. Tentacle Monster	Ninjago	Magazine Gift	2026			25	2	https://images.brickset.com/sets/images/L0002214-1.jpg
