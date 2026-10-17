@@ -1,4 +1,4 @@
-#date 2026-10-16
+#date 2026-10-17
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -2460,8 +2460,8 @@ set	figurine	quantite	nom	bricklink	ressemblance
 21367-1	fig-017533	1	Tintin	idea274	1.0
 21367-1	fig-017534	1	Captain Haddock	idea275	1.0
 21367-1	fig-017535	1	Professor Calculus	idea276	1.0
-21367-1	fig-017536	1	Thomson	idea277	1.0
-21367-1	fig-017537	1	Thompson	idea278	1.0
+21367-1	fig-017536	1	Thompson	idea278	1.0
+21367-1	fig-017537	1	Thomson	idea277	1.0
 21369-1	fig-018007	1	Dana Scully	idea285	0.85
 21369-1	fig-018008	1	Fox Mulder	idea284	1.0
 21369-1	fig-018009	1	Mr. X (The X-Files)	idea287	0.8
@@ -8081,7 +8081,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 60051-1	fig-009291	1	Reporter, Red Jacket, Black Legs, Dark Orange Hair	cty0510	0.53
 60052-1	fig-009287	1	Train Worker, Woman, Orange Safety Vest with Train Logo over Olive Green Hoodie, Light Bluish Gray Legs, Red Cap with Ear Defenders	trn236	0.41
 60052-1	fig-009288	1	Man, Green Overalls over Red Shirt, Green Cap, Goatee Beard	edu012	0.43
-60052-1	fig-012304	1	Man, Blue Jacket with Orange Stripes, Dark Blue Legs, Red Cap, Sunglasses - No Backprint	cty0500	0.6
+60052-1	fig-012304	1	Man, Blue Jacket with Orange Stripes, Dark Blue Legs, Red Cap, Sunglasses	cty0500a	0.61
 60052-1	fig-012305	1	Train Worker, Orange Safety Vest with Train Logo over Olive Green Hoodie, Dark Bluish Gray Legs, Red Hard Hat, Black Beard	trn235a	0.47
 60053-1	fig-009718	1	Racer, White and Green Jumpsuit with Octan Logo, Red Helmet with Visor	cty0389a	0.46
 60054-1	fig-001171	1	Worker, Blue Jacket with Orange Stripes, Blue Legs, Red Hard Hat, Goatee Beard and Safety Glasses	cty0483	0.44
@@ -14131,7 +14131,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 71514-1	fig-017064	1	Nightmare Emperor	drm105	1.0
 71514-1	fig-017071	1	Arika	drm101	1.0
 71514-1	fig-017073	1	Grimspawn, Horns	drm113	0.76
-71514-1	fig-017074	1	Logan, Trans-Light Blue Shoulder Armor. Tile	drm114	1.0
+71514-1	fig-017074	1	Logan, Trans-Light Blue Shoulder Armor, Tile	drm114	1.0
 71514-1	fig-017075	1	Cooper, Red Hood, Trans-Orange Shoulder Armor	drm112	0.99
 71515-1	fig-017062	1	Mateo, Trans-Bright Green Shoulder Armor	drm103	1.0
 71515-1	fig-017064	1	Nightmare Emperor	drm105	1.0
@@ -20549,7 +20549,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 8404-1	fig-009403	1	Construction Worker, Orange Overalls over Blue Sweater, Red Cap	cty0110a	0.67
 8404-1	fig-009404	1	Man, Black Suit and Tie, Black Hat, Beard	trn223	0.47
 8404-1	fig-009405	1	Man, White and Blue Hoodie, Blue Legs, Dark Brown Hair	twn096	0.59
-8423-1	fig-014078	1	Lightning McQueen, World Grand Prix, White Wheels (LBG 3034 & Green 3023)	crs095	0.71
+8423-1	fig-014078	1	Lightning McQueen, World Grand Prix, White Wheels (Red 3034 & Green 3023)	crs095	0.76
 8423-1	fig-014079	1	Francesco Bernoulli (Red 1x8 Plate)	crs084	0.91
 8424-1	fig-014068	1	Holley Shiftwell, Trans-Dark Blue Windscreen	crs097	0.97
 8424-1	fig-014069	1	Tow Mater, Spy (60897 Clips)	crs088	0.7
@@ -21103,7 +21103,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 8639-1	fig-014051	1	Miles Axlerod	crs041	1.0
 8639-1	fig-014052	1	Professor Zundapp, Smirk (DBG 3795)	crs110	0.69
 8639-1	fig-014053	1	The Queen (Cars)	crs043	0.8
-8639-1	fig-014054	1	Lightning McQueen, World Grand Prix, White Wheels (LBG 3034)	crs039	0.71
+8639-1	fig-014054	1	Lightning McQueen, World Grand Prix, White Wheels (LBG 3034 & Green 3023)	crs095	0.71
 8639-1	fig-014055	1	Tow Mater, Spy (4085c Clips)	crs088	0.7
 8640-1	fig-010494	1	Technic Figure Blue Legs, Red Top with Zip, Blue Arms, Black Hair - White Helmet	tech040a	1.0
 8654-1	fig-001520	1	Race Driver - Ferrari	rac026s	0.55
@@ -21128,7 +21128,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 8679-1	fig-014034	1	Tow Mater, Headset	crs088	0.97
 8679-1	fig-014035	1	Pit Crew (Cars), White	crs085	0.66
 8679-1	fig-014036	1	Pit Crew (Cars), Green, Front Clip	crs087	0.63
-8679-1	fig-014037	1	Lightning McQueen, World Grand Prix, White Wheels (LBG 3034 & Yellow 3023)	crs096	0.71
+8679-1	fig-014037	1	Lightning McQueen, World Grand Prix, White Wheels (Red 3034 & Yellow 3023)	crs096	0.76
 8679-1	fig-014038	1	Francesco Bernoulli (Green 1x8 Plate)	crs092	0.91
 8680-1	fig-010504	1	Technic Figure Blue Legs, Red Top with Zipper Print, Black Arms - White Helmet	tech040a	1.0
 8683-1	fig-001070	1	Tribal Hunter (CMF)	col001	0.83
