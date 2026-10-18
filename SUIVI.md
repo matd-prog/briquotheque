@@ -131,6 +131,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     collection ouverte (« Installer sur cet appareil… », base de l'appli créée avec la sauvegarde). GARDE-FOU : une
     collection plus petite que la sauvegarde en ligne ne l'écrase jamais en automatique, et seulement après accord à la main.
     Testé (faux Supabase) : appareil neuf -> connexion -> 1454 figurines retrouvées ; collection vidée -> pas d'écrasement.
+    → CONFIRMÉ EN VRAI par Mathias le 18/10 : sauvegarde en ligne depuis le téléphone, puis récupération sur le PC
+      (Chrome, ancienne copie de 977 figurines remplacée) : 1454 figurines. Comptes, rôle admin et sauvegarde validés.
   · v155 (18/10) : RÔLES (demande de Mathias) : colonne profils.role « admin » (adresse de Mathias, donnée par le
     déclencheur creer_profil) ou « utilisateur » (tous les autres) ; badge « 👑 Administrateur » dans Mon compte ;
     fonction est_admin() pour les futures règles réservées à l'admin. Personne ne change son rôle depuis l'appli
