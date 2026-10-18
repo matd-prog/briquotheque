@@ -61,7 +61,7 @@ const Compte = {
       z.innerHTML = `<p class="intro">🔑 <b>Nouveau mot de passe</b> : choisissez-en un d'au moins 8 caractères.</p>
         <form id="compte-form-mdp" class="compte-form">
           <label for="compte-nouveau" class="etiquette-champ">Nouveau mot de passe</label>
-          <input id="compte-nouveau" class="champ" type="password" autocomplete="new-password" minlength="8" required>
+          ${champMdp("compte-nouveau", "new-password", 8)}
           <button class="gros-bouton vert" type="submit">Enregistrer le mot de passe</button>
         </form><p class="aide" id="compte-message"></p>`;
       return;
@@ -78,7 +78,7 @@ const Compte = {
           <label for="compte-email" class="etiquette-champ">Adresse e-mail</label>
           <input id="compte-email" class="champ" type="email" autocomplete="email" required>
           ${m !== "oubli" ? `<label for="compte-mdp" class="etiquette-champ">Mot de passe${m === "inscription" ? " (8 caractères au moins)" : ""}</label>
-            <input id="compte-mdp" class="champ" type="password" autocomplete="${m === "inscription" ? "new-password" : "current-password"}" minlength="${m === "inscription" ? 8 : 1}" required>` : ""}
+            ${champMdp("compte-mdp", m === "inscription" ? "new-password" : "current-password", m === "inscription" ? 8 : 1)}` : ""}
           <button class="gros-bouton vert" type="submit">${{ connexion: "Se connecter", inscription: "Créer mon compte", oubli: "Recevoir un lien par e-mail" }[m]}</button>
         </form>
         ${m === "connexion" ? `<button class="bouton-lien" data-compte-mode="oubli">Mot de passe oublié ?</button>` : ""}
@@ -221,11 +221,25 @@ const Compte = {
   },
 };
 
+// Champ mot de passe avec un bouton 👁️ pour l'afficher en clair (et le noter, ou vérifier celui proposé par le téléphone)
+function champMdp(id, autocomplete, min) {
+  return `<div class="champ-mdp"><input id="${id}" class="champ" type="password" autocomplete="${autocomplete}" minlength="${min}" required>
+    <button type="button" class="voir-mdp" data-voir-mdp="${id}" aria-label="Afficher le mot de passe">👁️</button></div>`;
+}
+
 document.addEventListener("submit", e => {
   if (e.target.id === "compte-form") Compte.valider(e);
   else if (e.target.id === "compte-form-mdp") Compte.nouveauMotDePasse(e);
 });
 document.addEventListener("click", e => {
+  const oeil = e.target.closest("[data-voir-mdp]");
+  if (oeil) {
+    const c = $(oeil.dataset.voirMdp), cache = c.type === "password";
+    c.type = cache ? "text" : "password";
+    oeil.textContent = cache ? "🙈" : "👁️";
+    oeil.setAttribute("aria-label", cache ? "Masquer le mot de passe" : "Afficher le mot de passe");
+    return;
+  }
   const m = e.target.closest("[data-compte-mode]");
   if (m) { Compte.mode = m.dataset.compteMode; Compte.rendre(); return; }
   const b = e.target.closest("[data-action]");
