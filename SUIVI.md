@@ -125,6 +125,19 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v157 (18/10) : ÉCHANGES ENTRE COLLECTIONNEURS (demande de Mathias, avant le partage de collection). Tuile « 🔄 Échanges »
+    (js/echanges.js) : « Je garde 1/2/3 exemplaire(s) » (les plus petits n° gardés, comme pour la revente) -> doubles à
+    proposer (décochables) + liste de souhaits (figurines et customs pas encore possédées) ; « 📢 Publier mes annonces »
+    (rien n'est visible avant ; ni prix ni photos) ; « 🤝 Collectionneurs avec qui échanger » (ce qu'ils ont de ma liste,
+    ce qu'ils cherchent dans mes doubles, « échange possible » si les deux) ; « ✉️ Proposer un échange » (je donne / je
+    reçois cochés + message) ; « 📬 Mes propositions » avec discussion, Accepter/Refuser (destinataire), Annuler
+    (expéditeur), « ✅ Échange fait » ; tuile « 📬 n proposition(s) à traiter ». Clé commune : F|code LEGO, C|code JB.
+    Base : outils/supabase_echanges.sql (annonces_echange, propositions, messages ; fonctions publier_annonces,
+    correspondances, changer_statut), À COLLER PAR MATHIAS. Testé : SQL dans PostgreSQL 16 local (un tiers ne voit ni
+    propositions ni messages, l'expéditeur ne peut pas accepter à la place du destinataire) ; écran avec un faux Supabase
+    (172 doubles en gardant 1, 107 en gardant 2, proposition + message + annulation). Tuile Mon compte : pseudo (👑 admin)
+    au lieu de l'adresse e-mail (demande de Mathias).
+    À FAIRE ENSUITE (demande de Mathias, 18/10) : appli en 4 langues (français, anglais, allemand, espagnol) au choix.
   · v156 (18/10) : COMPTE SUR UN NOUVEL APPAREIL (vu par Mathias : le lien de confirmation ouvert sur le PC menait à
     l'écran de bienvenue, sans moyen de se connecter) : bouton « 👤 J'ai un compte : retrouver ma collection » sur
     l'écran de bienvenue ; arrivée par le lien de confirmation -> écran Mon compte ouvert ; « 📥 Récupérer » marche sans

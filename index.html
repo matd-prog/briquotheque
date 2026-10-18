@@ -75,6 +75,7 @@
       <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
       <button class="tuile" data-action="justificatifs"><span class="icone">🧾</span><b>Justificatifs</b><small>Tickets, factures, captures</small></button>
       <button class="tuile" data-action="compte"><span class="icone">👤</span><b>Mon compte</b><small id="tuile-compte-info">Connexion, sauvegarde en ligne</small></button>
+      <button class="tuile" data-action="echanges"><span class="icone">🔄</span><b>Échanges</b><small id="tuile-echanges-info">Doubles contre souhaits</small></button>
       <button class="tuile" data-action="souhaits"><span class="icone">⭐</span><b>Ma liste de souhaits</b><small>Ce que vous voulez, sorties</small></button>
       <button class="tuile" data-action="impression"><span class="icone">🖨️</span><b>Imprimer des étiquettes</b><small>À la taille de vos étiquettes</small></button>
       <button class="tuile" data-action="exports"><span class="icone">📤</span><b>Exporter</b><small>Excel, PDF, CSV, BrickLink</small></button>
@@ -253,6 +254,11 @@
   <!-- Compte en ligne (js/compte.js, Supabase) : connexion, sauvegarde en ligne de la collection -->
   <section id="ecran-compte" class="ecran" hidden>
     <div id="compte-contenu"></div>
+  </section>
+
+  <!-- Échanges entre collectionneurs (js/echanges.js) -->
+  <section id="ecran-echanges" class="ecran" hidden>
+    <div id="echanges-contenu"></div>
   </section>
 
   <!-- Coffre à justificatifs d'achat (js/justificatifs.js) : tickets, factures, captures de commandes -->
@@ -763,5 +769,6 @@
 <script src="js/magasins.js"></script>
 <script src="lib/supabase-2.117.2.js"></script>
 <script src="js/compte.js"></script>
+<script src="js/echanges.js"></script>
 </body>
 </html>

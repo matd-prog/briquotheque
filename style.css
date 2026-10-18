@@ -592,3 +592,17 @@ a, .bouton-lien { color: var(--encre-2); text-decoration-color: #a5acd6; }
 .boutons-mdp { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); display: flex; }
 .boutons-mdp button { background: none; border: 0; font-size: 1.3em; padding: 6px 8px; cursor: pointer; }
 .badge-admin { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: #fef3c7; color: #92400e; font-size: .75em; font-weight: 600; vertical-align: middle; }
+
+/* Échanges (js/echanges.js) */
+.bascule-mini { display: inline-flex; gap: 2px; background: #e5e7eb; border-radius: 8px; padding: 2px; vertical-align: middle; }
+.bascule-mini button { border: 0; background: none; padding: 2px 10px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+.bascule-mini button.choisi { background: #fff; color: var(--encre, #4f46e5); }
+.liste-cases { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; max-height: 50vh; overflow: auto; }
+.liste-cases label { display: flex; gap: 8px; align-items: baseline; }
+.echange-partenaire { border-top: 1px solid #e5e7eb; padding: 8px 0; }
+.echange-partenaire p { margin: 4px 0; }
+.echange-ligne { display: block; width: 100%; text-align: left; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px; margin: 6px 0; cursor: pointer; font: inherit; color: inherit; }
+.echange-ligne.a-traiter { border-color: #f59e0b; background: #fffbeb; }
+.echange-messages { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+.echange-message { background: #f3f4f6; border-radius: 10px; padding: 8px 10px; max-width: 85%; }
+.echange-message.moi { align-self: flex-end; background: #eef2ff; }

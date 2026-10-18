@@ -42,9 +42,17 @@ const Compte = {
     setTimeout(() => this.sauvegardeAuto().catch(err => console.warn("sauvegarde en ligne", err)), 20000);
   },
 
+  // Tuile : le pseudo du compte (pas l'adresse e-mail, demande de Mathias), lu en ligne s'il n'est pas encore connu
   _majTuile() {
     const t = $("tuile-compte-info");
-    if (t) t.textContent = this.session ? `Connecté : ${(this.profil && this.profil.pseudo) || this.session.user.email}` : "Connexion, sauvegarde en ligne";
+    if (!t) return;
+    if (!this.session) { t.textContent = "Connexion, sauvegarde en ligne"; return; }
+    const pseudo = (this.profil && this.profil.pseudo) || (this.session.user.user_metadata || {}).pseudo;
+    t.textContent = pseudo ? `Connecté : ${pseudo}${this.profil && this.profil.role === "admin" ? " 👑" : ""}` : "Connecté";
+    if (!this.profil && !this._lecture) {
+      this._lecture = true;
+      setTimeout(() => this.chargerProfil().catch(() => {}).finally(() => { this._lecture = false; }), 0);
+    }
   },
 
   async chargerProfil() {
