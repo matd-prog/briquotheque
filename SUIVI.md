@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v154 (18/10) : MOT DE PASSE OUBLIÉ revu (demande de Mathias) : lien « 🔑 Mot de passe oublié ? » aussi sur « Créer un
+    compte », adresse tapée gardée d'un écran à l'autre, explication (le mot de passe n'est connu de personne : on envoie un
+    lien pour en choisir un nouveau), écran « e-mail envoyé » avec « 📨 Renvoyer l'e-mail » (attente de 60 s imposée par
+    Supabase, décompte affiché), idem après la création du compte. E-mails RAPIDES : outils/supabase_emails.md (serveur
+    d'envoi Brevo gratuit 300/jour à brancher par Mathias dans Supabase, au lieu de 2 e-mails/heure ; textes en français).
   · v153 (18/10) : mot de passe limité à 72 caractères (limite de Supabase, erreur « Password cannot be longer than 72
     characters » vue par Mathias avec un mot de passe généré trop long) : maxlength sur les champs + message en français.
   · v152 (18/10) : bouton 📋 « Copier le mot de passe » (en clair, même masqué) à côté du 👁️, demande de Mathias.

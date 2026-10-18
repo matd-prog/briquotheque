@@ -18,6 +18,8 @@ const Compte = {
   profil: null,
   recuperation: false, // arrivé par le lien « mot de passe oublié »
   mode: "connexion",   // connexion | inscription | oubli
+  email: "",           // adresse tapée, gardée d'un mode à l'autre
+  envoi: null,         // dernier e-mail envoyé { type: "signup" | "recovery", email, quand } (pour « Renvoyer »)
 
   init() {
     if (typeof supabase === "undefined") return;
@@ -76,12 +78,14 @@ const Compte = {
           ${m === "inscription" ? `<label for="compte-pseudo" class="etiquette-champ">Pseudo (visible des autres collectionneurs)</label>
             <input id="compte-pseudo" class="champ" autocomplete="nickname" minlength="3" maxlength="30" required>` : ""}
           <label for="compte-email" class="etiquette-champ">Adresse e-mail</label>
-          <input id="compte-email" class="champ" type="email" autocomplete="email" required>
+          <input id="compte-email" class="champ" type="email" autocomplete="email" value="${echapper(this.email)}" required>
           ${m !== "oubli" ? `<label for="compte-mdp" class="etiquette-champ">Mot de passe${m === "inscription" ? " (8 caractères au moins)" : ""}</label>
             ${champMdp("compte-mdp", m === "inscription" ? "new-password" : "current-password", m === "inscription" ? 8 : 1)}` : ""}
           <button class="gros-bouton vert" type="submit">${{ connexion: "Se connecter", inscription: "Créer mon compte", oubli: "Recevoir un lien par e-mail" }[m]}</button>
         </form>
-        ${m === "connexion" ? `<button class="bouton-lien" data-compte-mode="oubli">Mot de passe oublié ?</button>` : ""}
+        ${m === "oubli" ? `<p class="aide">🔒 Par sécurité, votre mot de passe n'est connu de personne (même pas de l'appli) : on ne peut
+          pas vous le renvoyer. Vous recevez un e-mail avec un lien pour en choisir un nouveau.</p>` : ""}
+        ${m !== "oubli" ? `<button class="bouton-lien" data-compte-mode="oubli">🔑 Mot de passe oublié ?</button>` : ""}
         ${m === "oubli" ? `<button class="bouton-lien" data-compte-mode="connexion">← Retour à la connexion</button>` : ""}
         <p class="aide" id="compte-message"></p>`;
       return;
@@ -113,6 +117,7 @@ const Compte = {
     if (/already registered|already been registered/i.test(t)) return "Un compte existe déjà avec cette adresse : connectez-vous, ou « Mot de passe oublié ».";
     if (/password should be|weak/i.test(t)) return "Mot de passe trop simple : 8 caractères au moins, avec lettres et chiffres.";
     if (/longer than 72/i.test(t)) return "Mot de passe trop long : 72 caractères au plus (20 à 30 suffisent largement).";
+    if (/for security purposes|after \d+ seconds/i.test(t)) return "Patientez une minute avant de redemander un e-mail.";
     if (/rate limit|too many/i.test(t)) return "Trop de tentatives : réessayez dans quelques minutes.";
     if (/failed to fetch|network/i.test(t)) return "Pas de connexion Internet.";
     return "Erreur : " + t;
@@ -121,6 +126,7 @@ const Compte = {
   async valider(e) {
     e.preventDefault();
     const email = ($("compte-email") || {}).value?.trim(), mdp = ($("compte-mdp") || {}).value;
+    this.email = email || "";
     const bouton = e.target.querySelector("[type=submit]");
     bouton.disabled = true;
     try {
@@ -136,15 +142,18 @@ const Compte = {
         const { data, error } = await this.client.auth.signUp({ email, password: mdp, options: { data: { pseudo }, emailRedirectTo: ADRESSE_APPLI } });
         if (error) throw error;
         if (!data.session) {
-          $("compte-contenu").innerHTML = `<div class="succes">📧 Compte créé. Ouvrez l'e-mail envoyé à <b>${echapper(email)}</b> et touchez le lien
-            de confirmation (regardez aussi dans les indésirables) : vous reviendrez dans l'appli, connecté.</div>`;
+          this.envoi = { type: "signup", email, quand: Date.now() };
+          this.afficherEnvoi(`📧 Compte créé. Ouvrez l'e-mail envoyé à <b>${echapper(email)}</b> et touchez le lien
+            de confirmation : vous reviendrez dans l'appli, connecté.`);
           return;
         }
         toast("Compte créé ✔");
       } else {
         const { error } = await this.client.auth.resetPasswordForEmail(email, { redirectTo: ADRESSE_APPLI });
         if (error) throw error;
-        this.message("📧 Si un compte existe avec cette adresse, un e-mail vient d'être envoyé : touchez son lien pour choisir un nouveau mot de passe.");
+        this.envoi = { type: "recovery", email, quand: Date.now() };
+        this.afficherEnvoi(`📧 E-mail envoyé à <b>${echapper(email)}</b> (s'il y a bien un compte à cette adresse) : touchez son lien
+          « Choisir un nouveau mot de passe », vous reviendrez dans l'appli pour le taper.`);
         return;
       }
     } catch (err) {
@@ -153,6 +162,43 @@ const Compte = {
     } finally {
       bouton.disabled = false;
     }
+  },
+
+  // Écran « e-mail envoyé » avec « Renvoyer » (Supabase impose 60 s entre deux envois à la même adresse)
+  afficherEnvoi(html) {
+    $("compte-contenu").innerHTML = `<div class="succes">${html}</div>
+      <p class="aide">Rien reçu ? Regardez dans les <b>indésirables</b> (spam) et l'onglet <b>Notifications</b> ou <b>Promotions</b> de Gmail.
+        L'e-mail vient de « Briquothèque » (ou « Supabase Auth »).</p>
+      <button class="gros-bouton gris" data-action="compte-renvoyer" id="compte-renvoyer">📨 Renvoyer l'e-mail</button>
+      <button class="bouton-lien" data-compte-mode="connexion">← Retour à la connexion</button>
+      <p class="aide" id="compte-message"></p>`;
+    this._decompte();
+  },
+
+  _decompte() {
+    clearInterval(this._minuteur);
+    const maj = () => {
+      const b = $("compte-renvoyer");
+      if (!b || !this.envoi) { clearInterval(this._minuteur); return; }
+      const reste = Math.ceil((this.envoi.quand + 60000 - Date.now()) / 1000);
+      b.disabled = reste > 0;
+      b.textContent = reste > 0 ? `📨 Renvoyer l'e-mail (dans ${reste} s)` : "📨 Renvoyer l'e-mail";
+      if (reste <= 0) clearInterval(this._minuteur);
+    };
+    maj();
+    this._minuteur = setInterval(maj, 1000);
+  },
+
+  async renvoyer() {
+    const v = this.envoi;
+    if (!v) return;
+    const { error } = v.type === "signup"
+      ? await this.client.auth.resend({ type: "signup", email: v.email, options: { emailRedirectTo: ADRESSE_APPLI } })
+      : await this.client.auth.resetPasswordForEmail(v.email, { redirectTo: ADRESSE_APPLI });
+    if (error) { this.message(this.erreur(error)); return; }
+    v.quand = Date.now();
+    this._decompte();
+    this.message("📧 E-mail renvoyé.");
   },
 
   async nouveauMotDePasse(e) {
@@ -252,13 +298,18 @@ document.addEventListener("click", e => {
     return;
   }
   const m = e.target.closest("[data-compte-mode]");
-  if (m) { Compte.mode = m.dataset.compteMode; Compte.rendre(); return; }
+  if (m) {
+    const champ = $("compte-email");
+    if (champ) Compte.email = champ.value.trim();
+    Compte.mode = m.dataset.compteMode; Compte.rendre(); return;
+  }
   const b = e.target.closest("[data-action]");
   if (!b) return;
   const a = b.dataset.action;
   if (a === "compte") Compte.ouvrir();
   else if (a === "compte-sauvegarder") Compte.sauvegarder().catch(err => console.warn(err));
   else if (a === "compte-recuperer") Compte.recuperer();
+  else if (a === "compte-renvoyer") Compte.renvoyer();
   else if (a === "compte-deconnecter") Compte.deconnecter();
   else if (a === "compte-supprimer") Compte.supprimer();
 });
