@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v156 (18/10) : COMPTE SUR UN NOUVEL APPAREIL (vu par Mathias : le lien de confirmation ouvert sur le PC menait à
+    l'écran de bienvenue, sans moyen de se connecter) : bouton « 👤 J'ai un compte : retrouver ma collection » sur
+    l'écran de bienvenue ; arrivée par le lien de confirmation -> écran Mon compte ouvert ; « 📥 Récupérer » marche sans
+    collection ouverte (« Installer sur cet appareil… », base de l'appli créée avec la sauvegarde). GARDE-FOU : une
+    collection plus petite que la sauvegarde en ligne ne l'écrase jamais en automatique, et seulement après accord à la main.
+    Testé (faux Supabase) : appareil neuf -> connexion -> 1454 figurines retrouvées ; collection vidée -> pas d'écrasement.
   · v155 (18/10) : RÔLES (demande de Mathias) : colonne profils.role « admin » (adresse de Mathias, donnée par le
     déclencheur creer_profil) ou « utilisateur » (tous les autres) ; badge « 👑 Administrateur » dans Mon compte ;
     fonction est_admin() pour les futures règles réservées à l'admin. Personne ne change son rôle depuis l'appli

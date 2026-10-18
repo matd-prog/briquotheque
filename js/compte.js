@@ -23,11 +23,17 @@ const Compte = {
 
   init() {
     if (typeof supabase === "undefined") return;
+    // lien de l'e-mail de confirmation : noté avant que Supabase n'efface la fin de l'adresse
+    const confirmation = /type=(signup|email)/.test(location.hash);
     this.client = supabase.createClient(SUPABASE_URL, SUPABASE_CLE, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
     this.client.auth.onAuthStateChange((evenement, session) => {
       this.session = session;
       if (evenement === "PASSWORD_RECOVERY") { this.recuperation = true; this.ouvrir(); }
-      if (evenement === "SIGNED_IN" && /type=signup|type=email/.test(location.hash)) toast("Adresse e-mail confirmée ✔ Vous êtes connecté.", 5000);
+      if (evenement === "SIGNED_IN" && confirmation && !this._confirme) {
+        this._confirme = true;
+        toast("Adresse e-mail confirmée ✔ Vous êtes connecté.", 5000);
+        setTimeout(() => this.ouvrir(), 0);
+      }
       this.profil = null;
       if (ecranActuel === "compte") this.rendre();
       this._majTuile();
@@ -99,8 +105,8 @@ const Compte = {
         <p class="sous-titre">☁️ Sauvegarde en ligne</p>
         <p class="score" id="compte-sauvegarde-info">${s ? `Dernière sauvegarde : ${new Date(s.maj).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })}` +
           (s.articles ? ` · ${s.articles} articles` : "") : "Pas encore de sauvegarde en ligne."} Elle se refait toute seule une fois par jour.</p>
-        <button class="gros-bouton vert" data-action="compte-sauvegarder">☁️ Sauvegarder maintenant</button>
-        ${s ? `<button class="gros-bouton gris" data-action="compte-recuperer">📥 Récupérer la collection sauvegardée</button>` : ""}
+        ${etat.classeur ? `<button class="gros-bouton vert" data-action="compte-sauvegarder">☁️ Sauvegarder maintenant</button>` : ""}
+        ${s ? `<button class="gros-bouton ${etat.classeur ? "gris" : "vert"}" data-action="compte-recuperer">📥 Récupérer la collection sauvegardée</button>` : ""}
         <p class="aide">Les photos (blisters, justificatifs) restent dans le téléphone pour l'instant : gardez aussi leurs sauvegardes .zip.</p>
       </div>
       <button class="gros-bouton gris" data-action="compte-deconnecter">Se déconnecter</button>
@@ -215,6 +221,13 @@ const Compte = {
     if (!this.session || !etat.classeur) { if (!silencieux) await demander("Ouvrez d'abord votre collection.", "OK", "Fermer"); return false; }
     const contenu = await Exports.contenuSauvegarde();
     const articles = (contenu.feuilles || []).reduce((n, f) => n + (f.lignes || []).length, 0);
+    // garde-fou : une collection plus petite que celle en ligne (nouvel appareil…) ne l'écrase pas sans accord
+    const { data: enLigne } = await this.client.from("sauvegardes").select("articles").eq("user_id", this.session.user.id).maybeSingle();
+    if (enLigne && enLigne.articles > articles) {
+      if (silencieux) return false;
+      if (!(await demander(`La sauvegarde en ligne contient ${enLigne.articles} articles, cette collection-ci seulement ${articles}. ` +
+          "La remplacer quand même ? (Pour retrouver votre collection sur cet appareil, touchez plutôt « 📥 Récupérer ».)", "Remplacer", "Annuler"))) return false;
+    }
     const { error } = await this.client.from("sauvegardes").upsert({ user_id: this.session.user.id, contenu, articles, maj: new Date().toISOString() });
     if (error) { if (!silencieux) this.message(this.erreur(error)); throw error; }
     try { localStorage.setItem("sauvegarde-en-ligne", String(Date.now())); } catch (e) { /* stockage refusé : refaite au prochain lancement */ }
@@ -234,14 +247,13 @@ const Compte = {
   },
 
   async recuperer() {
-    if (!etat.classeur || !etat.classeur.estBase) {
-      await demander("La collection rangée dans l'appli doit être ouverte pour y récupérer la sauvegarde en ligne.", "OK", "Fermer");
-      return;
-    }
     const { data, error } = await this.client.from("sauvegardes").select("contenu, maj, articles").eq("user_id", this.session.user.id).maybeSingle();
     if (error || !data || !data.contenu || !data.contenu.base) { this.message(error ? this.erreur(error) : "Pas de sauvegarde en ligne utilisable."); return; }
-    if (!(await demander(`Remplacer la collection de ce téléphone par la sauvegarde en ligne du ${new Date(data.maj).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })}` +
-        `${data.articles ? ` (${data.articles} articles)` : ""} ? Ce qui a été ajouté depuis sur ce téléphone sera perdu.`, "Remplacer", "Annuler"))) return;
+    const quand = `du ${new Date(data.maj).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })}${data.articles ? ` (${data.articles} articles)` : ""}`;
+    if (!(await demander(etat.classeur ? `Remplacer la collection de cet appareil par la sauvegarde en ligne ${quand} ? Ce qui a été ajouté depuis sur cet appareil sera perdu.`
+        : `Installer sur cet appareil votre collection sauvegardée en ligne ${quand} ?`, etat.classeur ? "Remplacer" : "Installer", "Annuler"))) return;
+    // nouvel appareil (aucune collection) ou fichier Excel ouvert : la base de l'appli est ouverte avec la sauvegarde
+    if (!etat.classeur || !etat.classeur.estBase) { await demarrerBase(true, data.contenu.base, !etat.classeur); return; }
     await etat.classeur.remplacerTout(data.contenu.base);
     await relireContenu();
     toast("Collection récupérée ✔");
