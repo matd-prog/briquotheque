@@ -588,5 +588,6 @@ a, .bouton-lien { color: var(--encre-2); text-decoration-color: #a5acd6; }
 .compte-form { display: flex; flex-direction: column; gap: 4px; }
 .compte-form .gros-bouton { margin-top: 10px; }
 .champ-mdp { position: relative; }
-.champ-mdp .champ { width: 100%; padding-right: 48px; box-sizing: border-box; }
-.voir-mdp { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: none; border: 0; font-size: 1.3em; padding: 6px 8px; cursor: pointer; }
+.champ-mdp .champ { width: 100%; padding-right: 92px; box-sizing: border-box; }
+.boutons-mdp { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); display: flex; }
+.boutons-mdp button { background: none; border: 0; font-size: 1.3em; padding: 6px 8px; cursor: pointer; }

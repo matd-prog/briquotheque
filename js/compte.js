@@ -221,10 +221,11 @@ const Compte = {
   },
 };
 
-// Champ mot de passe avec un bouton 👁️ pour l'afficher en clair (et le noter, ou vérifier celui proposé par le téléphone)
+// Champ mot de passe avec 📋 (le copier en clair) et 👁️ (l'afficher) : pour noter celui proposé par le téléphone
 function champMdp(id, autocomplete, min) {
   return `<div class="champ-mdp"><input id="${id}" class="champ" type="password" autocomplete="${autocomplete}" minlength="${min}" required>
-    <button type="button" class="voir-mdp" data-voir-mdp="${id}" aria-label="Afficher le mot de passe">👁️</button></div>`;
+    <span class="boutons-mdp"><button type="button" data-copier-mdp="${id}" aria-label="Copier le mot de passe">📋</button>
+    <button type="button" data-voir-mdp="${id}" aria-label="Afficher le mot de passe">👁️</button></span></div>`;
 }
 
 document.addEventListener("submit", e => {
@@ -232,6 +233,14 @@ document.addEventListener("submit", e => {
   else if (e.target.id === "compte-form-mdp") Compte.nouveauMotDePasse(e);
 });
 document.addEventListener("click", e => {
+  const copie = e.target.closest("[data-copier-mdp]");
+  if (copie) {
+    const v = $(copie.dataset.copierMdp).value;
+    if (!v) { toast("Le mot de passe est vide"); return; }
+    navigator.clipboard.writeText(v).then(() => toast("Mot de passe copié : collez-le là où vous le gardez"),
+      () => toast("Copie impossible : affichez-le avec 👁️ et recopiez-le"));
+    return;
+  }
   const oeil = e.target.closest("[data-voir-mdp]");
   if (oeil) {
     const c = $(oeil.dataset.voirMdp), cache = c.type === "password";

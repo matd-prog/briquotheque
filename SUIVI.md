@@ -125,6 +125,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v152 (18/10) : bouton 📋 « Copier le mot de passe » (en clair, même masqué) à côté du 👁️, demande de Mathias.
   · v151 (18/10) : MOT DE PASSE VISIBLE (demande de Mathias, pour noter le mot de passe sécurisé proposé par le téléphone) :
     bouton 👁️ / 🙈 dans chaque champ mot de passe de « Mon compte » (connexion, création, nouveau mot de passe).
   · v150 (18/10) : COMPTES EN LIGNE (étage 3 du plan Brick Broker, demande de Mathias : identifiant + mot de passe, pour
