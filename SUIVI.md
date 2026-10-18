@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v145 (18/10) : NOMS IDENTIFIABLES pour toutes les « Special Whatnot Figure 2025 » (Mathias : « Let's Go! » est le slogan
+    du blister, pas un nom) : NOMS_CUSTOMS_CORRIGES (js/app.js) -> « Special Whatnot Figure 2025 – Easter DP (lapin de Pâques) »,
+    « – Chrome Silver Protocol Droid (C-3PO argent) », « – Chrome Black Protocol Droid (C-3PO noir, yeux rouges) », « – Chrome
+    Copper Dark Lord (Vador cuivré) », « – Hooded Lord « 25 Years of Galaxy Fun » (seigneur encapuchonné) » ; les noms de la v144
+    sont repris aussi. Annonces eBay : titres sans marques déposées (Easter DP, Chrome Black Protocol Droid).
   · v144 (18/10) : NOMS DE CUSTOMS CORRIGÉS (Mathias, photo du blister « Let's Go! ») : corrigerNomsCustoms() (js/app.js,
     appelée par relireContenu, une fois) renomme dans Ma collection « SPECIAL WHATNOT FIGURE 2025 (DROÏDE BRONZE MAT) – BUNNY
     EASTER DP » (CUS-080, ×3) en « Special Whatnot Figure 2025 – Let's Go! (lapin de Pâques) » et « … – 25 YEARS OF GALAXY

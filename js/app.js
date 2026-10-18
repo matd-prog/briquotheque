@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v144"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v145"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -1044,13 +1044,19 @@ function regrouperCustoms() {
   return n;
 }
 
-// Noms de customs mal saisis, corrigés une fois dans Ma collection (Mathias, 18/10/2026 : deux « Special Whatnot
-// Figure 2025 » notées « droïde bronze mat » alors que ce sont le lapin « Let's Go! » et la figurine encapuchonnée
-// « 25 Years of Galaxy Fun », d'après les photos des blisters). Collection rangée dans l'appli seulement ; renvoie le
-// nombre d'exemplaires renommés (0 une fois la correction faite).
+// Noms de customs corrigés une fois dans Ma collection, d'après les photos des blisters. Mathias, 18/10/2026 : deux
+// « Special Whatnot Figure 2025 » notées « droïde bronze mat » à tort, puis : toutes ces figurines s'appelaient
+// « Special Whatnot Figure 2025 » + « Let's Go! » (le slogan du blister) ; il faut un nom qui dise laquelle c'est.
+// Collection rangée dans l'appli seulement ; renvoie le nombre d'exemplaires renommés (0 une fois la correction faite).
+const SWF = "Special Whatnot Figure 2025 – ";
 const NOMS_CUSTOMS_CORRIGES = [
-  ["SPECIAL WHATNOT FIGURE 2025 (DROÏDE BRONZE MAT) – BUNNY EASTER DP", "Special Whatnot Figure 2025 – Let's Go! (lapin de Pâques)"],
-  ["SPECIAL WHATNOT FIGURE 2025 (DROÏDE BRONZE MAT) – 25 YEARS OF GALAXY FUN", "Special Whatnot Figure 2025 – 25 Years of Galaxy Fun"],
+  ["SPECIAL WHATNOT FIGURE 2025 (DROÏDE BRONZE MAT) – BUNNY EASTER DP", SWF + "Easter DP (lapin de Pâques)"],
+  [SWF + "Let's Go! (lapin de Pâques)", SWF + "Easter DP (lapin de Pâques)"],
+  ["SPECIAL WHATNOT FIGURE 2025 (DROÏDE BRONZE MAT) – 25 YEARS OF GALAXY FUN", SWF + "Hooded Lord « 25 Years of Galaxy Fun » (seigneur encapuchonné)"],
+  [SWF + "25 Years of Galaxy Fun", SWF + "Hooded Lord « 25 Years of Galaxy Fun » (seigneur encapuchonné)"],
+  ["Special Whatnot Figure 2025 (Droïde Argent)", SWF + "Chrome Silver Protocol Droid (C-3PO argent)"],
+  [SWF + "CHROME NOIR YEUX ROUGES", SWF + "Chrome Black Protocol Droid (C-3PO noir, yeux rouges)"],
+  [SWF + "DARK VADOR CHROME ORANGE", SWF + "Chrome Copper Dark Lord (Vador cuivré)"],
 ];
 function corrigerNomsCustoms() {
   if (!etat.classeur || !etat.classeur.estBase || !etat.classeur.figRenommer) return 0;
