@@ -67,9 +67,9 @@ def prix_page(numero):
     global EXTRAITS
     if bas and EXTRAITS < 2 and not any(abs(p - bas) < 0.01 for p, _ in offres):
         # forme des offres inconnue : extrait autour du meilleur prix, lisible dans les notes du relevé (annotation GitHub)
-        i = texte.find(f"{bas:.2f}".replace(".", ",")) if f"{bas:.2f}".replace(".", ",") in texte else texte.find(f"{bas:.2f}")
-        j = page.find('lowPrice')
-        print(f"::notice title=Avenue de la Brique {numero}::TEXTE {texte[max(0, i - 400):i + 600]!r} HTML {page[max(0, j - 300):j + 1500]!r}")
+        i = texte.find("est actuellement de")
+        j = page.find("/go/px/", page.find("lowPrice") + 10)
+        print(f"::notice title=Avenue de la Brique {numero}::TEXTE {texte[i:i + 900]!r} HTML {page[max(0, j - 600):j + 1800]!r}")
         EXTRAITS += 1
     if offres:
         p, m = min(offres)
