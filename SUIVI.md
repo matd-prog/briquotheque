@@ -137,6 +137,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     base de blisters), Découvrir (nouveautés, 📍 magasins proches, catalogue JB), 🖨️ Imprimer et exporter ; le menu
     latéral suit. outils/supabase_echanges.sql mis à jour (valeur) : À RECOLLER PAR MATHIAS. Testé : SQL (mise à niveau
     depuis la v157 comprise) ; écrans avec un faux Supabase.
+    → FAIT par Mathias le 18/10 : supabase_echanges.sql (avec valeur) et supabase_amis.sql exécutés dans Supabase.
   · v158 (18/10) : EN-TÊTE CONNECTÉ ET AMIS (demandes de Mathias). Sous le titre, à droite : « 👥 ●n » (amis en ligne,
     pastille verte s'il y en a, rouge sinon, « +n » demandes reçues) et « 👤 pseudo 👑 » (-> Mon compte). Tuile et écran
     « 👥 Mes amis » (js/amis.js) : amis avec 🟢 en ligne (actif dans l'appli il y a moins de 3 min) ou 🔴 « vu il y a… »,
