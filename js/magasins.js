@@ -16,9 +16,9 @@ const PrixEnLigne = {
       this._chargement = fetch("data/prix_fr.tsv").then(r => r.ok ? r.text() : "").catch(() => "").then(t => {
         this.prix = new Map();
         for (const l of t.split("\n")) {
-          const [code, prix, meilleur, url, date, marchand] = l.split("\t");
+          const [code, prix, meilleur, url, date, marchand, total] = l.split("\t");
           if (!code || code === "code" || code.startsWith("#")) continue;
-          this.prix.set(code.toLowerCase(), { prix: +prix || 0, meilleur: +meilleur || 0, url, date, marchand });
+          this.prix.set(code.toLowerCase(), { prix: +prix || 0, meilleur: +meilleur || 0, url, date, marchand, total: +total || 0 });
         }
         return this.prix;
       });
@@ -41,7 +41,8 @@ const PrixEnLigne = {
       const remise = p.prix && p.meilleur && p.meilleur < p.prix ? Math.round((1 - p.meilleur / p.prix) * 100) : 0;
       texte = (p.prix ? `<div class="ligne-valeur"><span>Prix public LEGO France</span><b>${this.euros(p.prix)}</b></div>` : "") +
         (p.meilleur ? `<div class="ligne-valeur"><span>🛒 Meilleur prix en ligne${p.marchand ? ` <span class="score">chez ${echapper(p.marchand)}</span>` : ""}</span>` +
-          `<b>${this.euros(p.meilleur)}${remise ? ` <span class="remise">−${remise} %</span>` : ""}</b></div>` : "") +
+          `<b>${this.euros(p.meilleur)}${remise ? ` <span class="remise">−${remise} %</span>` : ""}</b></div>` +
+          (p.total && p.total > p.meilleur ? `<div class="ligne-valeur"><span class="score">livraison comprise</span><span class="score">${this.euros(p.total)}</span></div>` : "") : "") +
         `<p class="score">Prix relevés le ${new Date(p.date).toLocaleDateString("fr-FR")} sur Avenue de la Brique (comparateur français).</p>`;
     } else {
       texte = `<p class="score">Pas encore de prix relevé pour ce set (retiré de la vente, ou pas encore lu).</p>`;

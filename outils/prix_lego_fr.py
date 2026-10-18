@@ -15,7 +15,7 @@ toutes les 2 secondes, 400 sets au plus par passage. Un set absent d'Avenue de l
 pas être recherché chaque jour. Rien n'est inventé : sans prix lu, l'appli n'affiche pas de prix.
 
 Colonnes : code, prix (prix public LEGO France, €), meilleur prix (€), adresse de la fiche, date du relevé, marchand du
-meilleur prix.
+meilleur prix, prix de cette offre livraison comprise (€).
 Utilisation : python3 outils/prix_lego_fr.py
 """
 import datetime, html, os, re, sys, time, urllib.error, urllib.request
@@ -35,7 +35,6 @@ def lire_tsv(chemin):
 
 
 BASE = "https://www.avenuedelabrique.com"
-EXTRAITS = 0  # extraits de page envoyés dans les notes du relevé (diagnostic de la lecture des marchands)
 
 
 def lire(url):
@@ -49,7 +48,7 @@ def prix_page(numero):
     recherche = lire(f"{BASE}/recherche/{numero}")
     m = re.search(r'href="((?:https://www\.avenuedelabrique\.com)?/[^"]*/' + numero + r'-[^"]*/p\d+)"', recherche)
     if not m:
-        return None, None, "", ""
+        return None, None, "", "", None
     url = m.group(1) if m.group(1).startswith("http") else BASE + m.group(1)
     time.sleep(1)
     page = lire(url)
@@ -59,23 +58,21 @@ def prix_page(numero):
     public = re.search(r"(\d+(?:[.,]\d{1,2})?)\s*€\s*\|\s*chez LEGO", texte)
     meilleur = re.search(r'itemprop="lowPrice"[^>]*>\s*(\d+(?:[.,]\d{1,2})?)', page)
     nombre = lambda m: float(m.group(1).replace(",", ".")) if m else None
-    # offres des marchands : « 49.99 € | chez Amazon » ; le marchand du meilleur prix (LEGO compris)
-    offres = [(float(p.replace(",", ".")), m.strip()) for p, m in
-              re.findall(r"(\d+(?:[.,]\d{1,2})?)\s*€\s*\|\s*chez ([^|]{2,40}?)\s*\|", texte)]
+    # offres des marchands (comparateur de la fiche) : <div class="prodf-px …" data-prix="58.99" data-total=63.98" …>
+    # … alt="Acheter LEGO Creator 31151 chez Golden Brick" … : prix, prix livraison comprise, marchand
+    offres = []
+    for bloc in re.findall(r'(?s)<div class="prodf-px[^"]*"(.*?)</div>', page):
+        px = re.search(r'data-prix="([\d.]+)"', bloc)
+        tot = re.search(r'data-total="?([\d.]+)', bloc)
+        m = re.search(r'alt="Acheter [^"]*? chez ([^"]+)"', bloc)
+        if px and m:
+            offres.append((float(px.group(1)), float(tot.group(1)) if tot else None, html.unescape(m.group(1)).strip()))
     bas = nombre(meilleur)
-    marchand = ""
-    global EXTRAITS
-    if bas and EXTRAITS < 2 and not any(abs(p - bas) < 0.01 for p, _ in offres):
-        # forme des offres inconnue : extrait autour du meilleur prix, lisible dans les notes du relevé (annotation GitHub)
-        i = texte.find("est actuellement de")
-        j = page.find("/go/px/", page.find("lowPrice") + 10)
-        print(f"::notice title=Avenue de la Brique {numero}::TEXTE {texte[i:i + 900]!r} HTML {page[max(0, j - 600):j + 1800]!r}")
-        EXTRAITS += 1
+    marchand, total = "", None
     if offres:
-        p, m = min(offres)
-        if bas is None or abs(p - bas) < 0.01:
-            bas, marchand = p, m
-    return nombre(public), bas, url, marchand
+        p, total, marchand = min(offres)
+        bas = p if bas is None else min(bas, p)
+    return nombre(public), bas, url, marchand, total
 
 
 def main():
@@ -88,6 +85,9 @@ def main():
               and not s.get("theme", "").startswith(exclus)]
     deja = {p["code"]: p for p in lire_tsv(SORTIE)}
     il_y_a = lambda j: (aujourdhui - datetime.timedelta(days=j)).isoformat()
+    for p in deja.values():  # lus avant la lecture des marchands (18/10/2026) : à relire
+        if p.get("meilleur") and not p.get("marchand"):
+            p["date"] = "2000-01-01"
     a_lire = [c for c in recents if not (c in deja and deja[c].get("date", "") >= il_y_a(7))]
     a_lire += sorted((c for c in autres if c not in set(recents) and not (c in deja and deja[c].get("date", "") >= il_y_a(14))),
                      key=lambda c: deja.get(c, {}).get("date", ""))  # jamais lus d'abord, puis les plus anciens
@@ -98,7 +98,7 @@ def main():
         if not numero.isdigit():
             continue
         try:
-            prix, meilleur, url, marchand = prix_page(numero)
+            prix, meilleur, url, marchand, total = prix_page(numero)
         except urllib.error.HTTPError as e:
             refus += 1
             print(f"  {code} : Avenue de la Brique a répondu {e.code}", file=sys.stderr)
@@ -111,16 +111,16 @@ def main():
             continue
         # absent ou sans prix : noté quand même (date), pour ne pas le rechercher chaque jour
         deja[code] = {"code": code, "prix": f"{prix:.2f}" if prix else "", "meilleur": f"{meilleur:.2f}" if meilleur else "",
-                      "url": url, "date": aujourdhui.isoformat(), "marchand": marchand}
+                      "url": url, "date": aujourdhui.isoformat(), "marchand": marchand, "total": f"{total:.2f}" if total else ""}
         if prix or meilleur:
             trouves += 1
             if trouves <= 8:
                 print(f"  {code} : prix LEGO France {prix} €, meilleur prix {meilleur} € chez {marchand or '?'}", file=sys.stderr)
         time.sleep(2)
     with open(SORTIE, "w", encoding="utf-8") as f:
-        f.write(f"#date {aujourdhui.isoformat()}\ncode\tprix\tmeilleur\turl\tdate\tmarchand\n")
+        f.write(f"#date {aujourdhui.isoformat()}\ncode\tprix\tmeilleur\turl\tdate\tmarchand\ttotal\n")
         for p in sorted(deja.values(), key=lambda p: p["code"]):
-            f.write("\t".join([p["code"], p.get("prix", ""), p.get("meilleur", ""), p.get("url", ""), p["date"], p.get("marchand", "")]) + "\n")
+            f.write("\t".join([p["code"], p.get("prix", ""), p.get("meilleur", ""), p.get("url", ""), p["date"], p.get("marchand", ""), p.get("total", "")]) + "\n")
     avec = sum(1 for p in deja.values() if p.get("marchand"))
     print(f"{trouves} prix français relevés sur {len(a_lire)} pages ({len(deja)} au total, {avec} avec le marchand) -> data/prix_fr.tsv", file=sys.stderr)
 
