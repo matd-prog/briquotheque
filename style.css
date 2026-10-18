@@ -565,3 +565,13 @@ a, .bouton-lien { color: var(--encre-2); text-decoration-color: #a5acd6; }
 .bascule { background: #e6e9f4; }
 .bascule button.choisi { color: var(--encre-2); }
 .version-appli { color: #9aa0b8; }
+
+/* Justificatifs d'achat (js/justificatifs.js) et leur place dans le dossier pour l'assureur */
+.fiche.justificatif { display: flex; gap: 10px; align-items: center; }
+.fiche.justificatif img.photo { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; cursor: zoom-in; flex: none; }
+.fiche.justificatif .infos { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.fiche.justificatif .actions-fiche { display: flex; gap: 6px; flex: none; }
+.justificatifs-dossier { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.justificatifs-dossier figure { margin: 0; break-inside: avoid; }
+.justificatifs-dossier img { width: 100%; border: 1px solid #ccc; }
+.justificatifs-dossier figcaption { font-size: 11px; margin-top: 4px; }

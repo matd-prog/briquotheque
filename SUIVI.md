@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v147 (18/10) : JUSTIFICATIFS D'ACHAT (2e idée Brick Broker) : tuile « 🧾 Justificatifs » (accueil, Ma collection) ->
+    écran ecran-justificatifs (js/justificatifs.js) : photo d'un ticket/facture ou capture d'écran d'une commande (plusieurs
+    d'un coup), réduite à 1600 px, avec date (celle du fichier pour une capture), vendeur, montant, achats ; liste, agrandir,
+    modifier, supprimer ; gardés dans le téléphone (Memoire « justificatifs ») ; sauvegarde/reprise .zip (la sauvegarde .json
+    ne les contient pas). Dossier assureur : case « Avec mes justificatifs d'achat », section avant l'attestation.
   · v146 (18/10) : SCAN DU CODE-BARRES D'UNE BOÎTE (idée reprise de l'appli Brick Broker, 1re des 3 idées validées par
     Mathias : scan des boîtes, justificatifs d'achat, comptes et partage). Tuile « 🛒 Scanner une boîte » (accueil et
     « ➕ Ajouter » de Ma collection) : photo -> BarcodeDetector (Chrome Android ; pas Safari iPhone : message) ->

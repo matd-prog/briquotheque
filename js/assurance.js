@@ -77,6 +77,13 @@ const Assurance = {
         <tbody>${g.map(ligne).join("")}</tbody>
         <tfoot><tr><td colspan="${photos ? 7 : 6}">Sous-total ${titre.toLowerCase()}</td><td class="n"><b>${euros(sousTotal)}</b></td><td class="n">${euros(sousTotalOcc)}</td></tr></tfoot></table>`;
     }).join("");
+    // justificatifs d'achat (js/justificatifs.js) : preuves jointes en fin de dossier
+    const justifs = $("assurance-justificatifs").checked && typeof Justificatifs !== "undefined"
+      ? [...(await Justificatifs.charger())].sort((x, y) => (x.date || "").localeCompare(y.date || "")) : [];
+    const sectionJustifs = justifs.length ? `<h2>Justificatifs d'achat <span>(${justifs.length})</span></h2>
+        <p>Tickets de caisse, factures et confirmations de commande conservés par le propriétaire.</p>
+        <div class="justificatifs-dossier">${justifs.map(j => `<figure><img src="${Justificatifs.url(j)}" alt="">
+          <figcaption>${echapper([Justificatifs.jour(j.date), j.vendeur, j.montant ? Justificatifs.euros(j.montant) : "", j.description].filter(Boolean).join(" · "))}</figcaption></figure>`).join("")}</div>` : "";
     $("assurance-dossier").innerHTML = `
       <div class="dossier">
         <h1>Inventaire et estimation d'une collection LEGO</h1>
@@ -109,6 +116,7 @@ const Assurance = {
         ${sans.length ? `<h2>Articles non estimés</h2><p>${sansLego.length ? `${sansLego.length} article(s) sans vente récente connue sur BrickLink : ` +
           echapper(sansLego.map(a => `${a.code}${a.nom ? ` (${a.nom})` : ""}`).join(", ")) + ". " : ""}${customs.length ? `${customs.length} figurine(s) personnalisée(s) ` +
           `(« customs », hors catalogue LEGO), plus vendues par leur fabricant et sans prix d'achat retrouvé : ` + echapper(customs.map(c => c.nom || c.code).join(", ")) + "." : ""}</p>` : ""}
+        ${sectionJustifs}
         <h2>Attestation</h2>
         <p>Je soussigné(e) ${infos.nom ? echapper(infos.nom) : "………………………………"} certifie être propriétaire des articles ci-dessus,
           présents à mon domicile à la date du présent dossier.</p>
