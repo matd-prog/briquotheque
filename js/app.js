@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v159"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v160"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -132,6 +132,8 @@ function texteRapport(description, idee) {
     `Écran : ${typeof ecranActuel !== "undefined" ? ecranActuel : "?"} · travaux en cours : ${typeof Occupe !== "undefined" ? Occupe.enCours : "?"}`,
     `Appareil : ${navigator.userAgent}`,
     `Écran : ${screen.width}×${screen.height}, en ligne : ${navigator.onLine ? "oui" : "non"}`,
+    `Langue : ${typeof Langue !== "undefined" ? Langue.code : "fr"}`,
+    ...(typeof Langue !== "undefined" && Langue.manquants.size ? ["", "Textes pas encore traduits :", ...[...Langue.manquants.keys()].slice(0, 60)] : []),
     "",
     "Ce qui se passe :", description || "(non décrit)",
     "",
@@ -1975,7 +1977,8 @@ $("input-excel-base").addEventListener("change", async e => {
 
 // ---------- démarrage ----------
 
-(async function demarrer() {
+// promesse du démarrage : l'écran de connexion (js/compte.js) s'affiche une fois la collection ouverte
+const demarrage = (async function demarrer() {
   if ($("version-appli")) $("version-appli").textContent = `(version ${VERSION_APPLI})`;
   Recadrage.installer();
   Collection.installer();

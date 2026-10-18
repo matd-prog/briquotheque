@@ -19,6 +19,7 @@ const Compte = {
   recuperation: false, // arrivé par le lien « mot de passe oublié »
   mode: "connexion",   // connexion | inscription | oubli
   email: "",           // adresse tapée, gardée d'un mode à l'autre
+  portail: false,      // écran de connexion du démarrage (pas encore connecté sur cet appareil)
   envoi: null,         // dernier e-mail envoyé { type: "signup" | "recovery", email, quand } (pour « Renvoyer »)
 
   init() {
@@ -28,7 +29,8 @@ const Compte = {
     this.client = supabase.createClient(SUPABASE_URL, SUPABASE_CLE, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
     this.client.auth.onAuthStateChange((evenement, session) => {
       this.session = session;
-      if (evenement === "PASSWORD_RECOVERY") { this.recuperation = true; this.ouvrir(); }
+      if (evenement === "PASSWORD_RECOVERY") { this.recuperation = true; this.portail = false; this.ouvrir(); }
+      if (evenement === "SIGNED_IN" && this.portail && session) setTimeout(() => this.fermerPortail(false), 0);
       if (evenement === "SIGNED_IN" && confirmation && !this._confirme) {
         this._confirme = true;
         toast("Adresse e-mail confirmée ✔ Vous êtes connecté.", 5000);
@@ -38,11 +40,29 @@ const Compte = {
       if (ecranActuel === "compte") this.rendre();
       this._majTuile();
     });
+    // au démarrage, pas encore connecté sur cet appareil : l'écran de connexion d'abord (demande de Mathias, 18/10).
+    // Une fois connecté, la session est gardée dans l'appareil (connexion automatique, sans retaper le mot de passe).
+    if (typeof demarrage !== "undefined") demarrage.then(() => this.ouvrirPortail()).catch(() => {});
     // sauvegarde en ligne automatique : une fois par jour, quand la collection est ouverte
     setTimeout(() => this.sauvegardeAuto().catch(err => console.warn("sauvegarde en ligne", err)), 20000);
   },
 
   // Tuile : le pseudo du compte (pas l'adresse e-mail, demande de Mathias), lu en ligne s'il n'est pas encore connu
+  async ouvrirPortail() {
+    if (!navigator.onLine) return; // hors connexion : l'appli s'ouvre sans compte
+    try { if (sessionStorage.getItem("sans-compte") === "1") return; } catch (e) { /* pas de stockage */ }
+    const { data } = await this.client.auth.getSession();
+    if (data.session || this.recuperation || !["accueil", "fichier"].includes(ecranActuel)) return;
+    this.portail = true; this.mode = "connexion";
+    await this.ouvrir();
+  },
+  fermerPortail(sansCompte) {
+    if (!this.portail) return;
+    this.portail = false;
+    if (sansCompte) try { sessionStorage.setItem("sans-compte", "1"); } catch (e) { /* pas de stockage */ }
+    afficher(etat.classeur ? "accueil" : "fichier");
+  },
+
   _majTuile() {
     if (typeof Amis !== "undefined") { if (!this.session) Amis.liste = []; Amis.majEntete(); }
     // accueil : connexion proposée tant qu'on n'est pas connecté (sauf « Plus tard », jusqu'au prochain lancement)
@@ -89,14 +109,16 @@ const Compte = {
     }
     if (!this.session) {
       const m = this.mode;
-      z.innerHTML = `<p class="intro">👤 <b>Mon compte</b> : un compte garde votre collection en ligne (sur un autre téléphone, ou si
+      z.innerHTML = (this.portail ? `<div class="portail-entete"><p class="portail-titre">🧱 Briquothèque</p>
+          <div class="choix-langue">${typeof Langue !== "undefined" ? Langue.boutons() : ""}</div></div>` : "") +
+        `<p class="intro">👤 <b>Mon compte</b> : un compte garde votre collection en ligne (sur un autre téléphone, ou si
           celui-ci est perdu) et servira bientôt à partager votre collection et à échanger avec d'autres collectionneurs.</p>
         <div class="bascule"><button data-compte-mode="connexion" class="${m === "connexion" ? "choisi" : ""}">Se connecter</button>
           <button data-compte-mode="inscription" class="${m === "inscription" ? "choisi" : ""}">Créer un compte</button></div>
         <form id="compte-form" class="compte-form">
           ${m === "inscription" ? `<label for="compte-pseudo" class="etiquette-champ">Pseudo (visible des autres collectionneurs)</label>
             <input id="compte-pseudo" class="champ" autocomplete="nickname" minlength="3" maxlength="30" required>` : ""}
-          <label for="compte-email" class="etiquette-champ">Adresse e-mail</label>
+          <label for="compte-email" class="etiquette-champ">Identifiant (adresse e-mail)</label>
           <input id="compte-email" class="champ" type="email" autocomplete="email" value="${echapper(this.email)}" required>
           ${m !== "oubli" ? `<label for="compte-mdp" class="etiquette-champ">Mot de passe${m === "inscription" ? " (8 caractères au moins)" : ""}</label>
             ${champMdp("compte-mdp", m === "inscription" ? "new-password" : "current-password", m === "inscription" ? 8 : 1)}` : ""}
@@ -106,7 +128,9 @@ const Compte = {
           pas vous le renvoyer. Vous recevez un e-mail avec un lien pour en choisir un nouveau.</p>` : ""}
         ${m !== "oubli" ? `<button class="bouton-lien" data-compte-mode="oubli">🔑 Mot de passe oublié ?</button>` : ""}
         ${m === "oubli" ? `<button class="bouton-lien" data-compte-mode="connexion">← Retour à la connexion</button>` : ""}
-        <p class="aide" id="compte-message"></p>`;
+        <p class="aide" id="compte-message"></p>
+        ${m === "connexion" ? `<p class="aide">🔐 Connexion automatique ensuite : cet appareil s'en souvient, plus besoin de retaper le mot de passe.</p>` : ""}
+        ${this.portail ? `<button class="bouton-lien portail-sans-compte" data-action="continuer-sans-compte">Continuer sans compte</button>` : ""}`;
       return;
     }
     const p = await this.chargerProfil();
@@ -324,6 +348,7 @@ document.addEventListener("click", e => {
   }
   const o = e.target.closest("[data-compte-ouvrir]");
   if (o) { Compte.mode = o.dataset.compteOuvrir; Compte.ouvrir(); return; }
+  if (e.target.closest('[data-action="continuer-sans-compte"]')) { Compte.fermerPortail(true); return; }
   if (e.target.closest('[data-action="connexion-plus-tard"]')) {
     try { sessionStorage.setItem("connexion-plus-tard", "1"); } catch (err) { /* pas de stockage */ }
     $("accueil-connexion").hidden = true; return;

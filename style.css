@@ -631,3 +631,14 @@ a, .bouton-lien { color: var(--encre-2); text-decoration-color: #a5acd6; }
 .connexion-accueil .score { display: block; margin-top: 4px; }
 #echanges-balance { position: sticky; bottom: 8px; z-index: 2; }
 #echanges-balance .balance-echange { box-shadow: 0 4px 14px rgba(0,0,0,.12); }
+
+/* Choix de la langue (js/langue.js) */
+.choix-langue { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 14px 0 6px; }
+.puce-langue { border: 1px solid #d1d5db; background: #fff; border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+.puce-langue.choisi { border-color: var(--encre, #4f46e5); color: var(--encre, #4f46e5); font-weight: 700; background: #eef2ff; }
+.langue-verif { margin: 4px 0 10px; font-size: 14px; }
+html[lang="fr"] .langue-verif { display: none; }
+#langue-manquants ul { max-height: 40vh; overflow: auto; font-size: 13px; padding-left: 18px; }
+.portail-entete { text-align: center; margin: 4px 0 10px; }
+.portail-titre { font-size: 26px; font-weight: 800; margin: 6px 0; }
+.portail-sans-compte { display: block; margin: 18px auto 0; }

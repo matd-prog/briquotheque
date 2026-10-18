@@ -16,7 +16,8 @@ const Arborescence = {
     const texteDe = el => {
       const icone = el.querySelector(".icone");
       const titre = el.querySelector("b");
-      return titre ? `${icone ? icone.textContent.trim() + " " : ""}${echapper(titre.textContent.trim())}`
+      // icône et titre dans deux éléments : le titre seul est traduit (js/langue.js)
+      return titre ? `${icone ? icone.textContent.trim() + " " : ""}<span>${echapper(titre.textContent.trim())}</span>`
         : echapper(el.textContent.trim().replace(/\s+/g, " "));
     };
 

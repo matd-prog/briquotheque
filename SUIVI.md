@@ -125,6 +125,19 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v160 (18/10) : LANGUES ET CONNEXION AU DÉMARRAGE (demandes de Mathias). 4 langues : français, anglais, allemand,
+    espagnol (js/langue.js + langues/traductions.tsv, colonnes fr/en/de/es ; ~610 textes : accueil, menus, tous les textes
+    fixes de index.html, Mon compte, Échanges, Amis, Statistiques, Nouveautés, messages courants ; {0} = texte variable,
+    {#0} = nombre). Tout texte affiché présent dans le tableau est traduit, y compris ceux ajoutés à la volée ; sinon il
+    reste en français ET il est noté par le CONTRÔLE DE LA LANGUE (Outils › « Contrôle de la langue : textes pas encore
+    traduits », liste copiable, aussi dans « Signaler un problème ») : à reprendre au fil de l'eau. Langage courant voulu
+    (pas de mot à mot) : relecture complète des 3 langues, corrections (ex. Heroes/Villains, Tauschbörse, Packung), et
+    contrôle automatique (emplacements {0}, cases vides, vouvoiement Sie/usted, rien d'identique au français). Choix de la
+    langue : écran de connexion, écran de bienvenue, Outils ; par défaut celle du téléphone. Les noms de figurines ne sont
+    jamais traduits. CONNEXION : au démarrage, tant qu'on n'est pas connecté sur l'appareil, l'écran de connexion d'abord
+    (identifiant = adresse e-mail, mot de passe, oublié, créer un compte, langue, « Continuer sans compte ») ; une fois
+    connecté, la session reste dans l'appareil (connexion automatique pour tous, admin compris). Hors connexion Internet :
+    pas d'écran de connexion.
   · v159 (18/10) : ÉCHANGES À VALEUR ÉGALE ET ACCUEIL RÉORGANISÉ (demandes de Mathias). Valeur d'un exemplaire sur
     chaque figurine des échanges : la Valeur de l'appli (mémorisée à chaque calcul : Memoire « valeurs_echange »), sinon
     le prix JB du catalogue, sinon celle publiée par l'autre (colonne annonces_echange.valeur, publiée avec les annonces).
