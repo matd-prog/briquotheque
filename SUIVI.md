@@ -125,6 +125,14 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v158 (18/10) : EN-TÊTE CONNECTÉ ET AMIS (demandes de Mathias). Sous le titre, à droite : « 👥 ●n » (amis en ligne,
+    pastille verte s'il y en a, rouge sinon, « +n » demandes reçues) et « 👤 pseudo 👑 » (-> Mon compte). Tuile et écran
+    « 👥 Mes amis » (js/amis.js) : amis avec 🟢 en ligne (actif dans l'appli il y a moins de 3 min) ou 🔴 « vu il y a… »,
+    demandes reçues (Accepter / ✖), envoyées (Annuler), recherche par pseudo et « ➕ Ajouter », retirer un ami.
+    Présence : je_suis_la() chaque minute appli ouverte et visible ; seuls les amis acceptés la voient. Base :
+    outils/supabase_amis.sql (amities, presence ; accepter_ami, je_suis_la, mes_amis), À COLLER PAR MATHIAS. Testé :
+    SQL dans PostgreSQL 16 local (présence invisible avant acceptation, seul le destinataire accepte, doublons refusés) ;
+    écran avec un faux Supabase.
   · v157 (18/10) : ÉCHANGES ENTRE COLLECTIONNEURS (demande de Mathias, avant le partage de collection). Tuile « 🔄 Échanges »
     (js/echanges.js) : « Je garde 1/2/3 exemplaire(s) » (les plus petits n° gardés, comme pour la revente) -> doubles à
     proposer (décochables) + liste de souhaits (figurines et customs pas encore possédées) ; « 📢 Publier mes annonces »

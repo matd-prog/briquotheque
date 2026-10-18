@@ -606,3 +606,18 @@ a, .bouton-lien { color: var(--encre-2); text-decoration-color: #a5acd6; }
 .echange-messages { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
 .echange-message { background: #f3f4f6; border-radius: 10px; padding: 8px 10px; max-width: 85%; }
 .echange-message.moi { align-self: flex-end; background: #eef2ff; }
+
+/* En-tête quand on est connecté (js/amis.js) */
+.entete-bas { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.entete-compte { display: flex; gap: 6px; margin-left: auto; }
+.entete-compte[hidden] { display: none; }
+.puce-entete { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.25); border-radius: 999px;
+  padding: 4px 10px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; max-width: 46vw; overflow: hidden; text-overflow: ellipsis; }
+.pastille { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin: 0 3px 1px 2px; vertical-align: middle; }
+.pastille.verte { background: #22c55e; box-shadow: 0 0 0 2px rgba(34,197,94,.3); }
+.pastille.rouge { background: #ef4444; }
+.badge-nouveau { background: #f59e0b; color: #fff; border-radius: 999px; padding: 0 6px; font-size: 11px; }
+.ami-ligne { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid #e5e7eb; }
+.ami-ligne:first-of-type { border-top: 0; }
+.ami-ligne > span:last-child { display: flex; gap: 6px; flex-shrink: 0; }
+.ami-ligne .bouton { width: auto; margin: 0; }

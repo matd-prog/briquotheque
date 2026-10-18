@@ -44,6 +44,7 @@ const Compte = {
 
   // Tuile : le pseudo du compte (pas l'adresse e-mail, demande de Mathias), lu en ligne s'il n'est pas encore connu
   _majTuile() {
+    if (typeof Amis !== "undefined") { if (!this.session) Amis.liste = []; Amis.majEntete(); }
     const t = $("tuile-compte-info");
     if (!t) return;
     if (!this.session) { t.textContent = "Connexion, sauvegarde en ligne"; return; }

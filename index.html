@@ -13,7 +13,14 @@
 <body>
 <header>
   <h1><button id="bouton-retour-entete" class="retour-entete" data-action="retour-entete" aria-label="Retour" title="Retour" hidden>←</button><span id="titre-appli">Briquothèque</span></h1>
-  <div id="fichier-info" class="fichier-info"></div>
+  <div class="entete-bas">
+    <div id="fichier-info" class="fichier-info"></div>
+    <!-- connecté : amis en ligne et pseudo (js/amis.js) -->
+    <div id="entete-compte" class="entete-compte" hidden>
+      <button id="entete-amis" class="puce-entete" data-action="amis" aria-label="Mes amis">👥</button>
+      <button id="entete-pseudo" class="puce-entete" data-action="compte"></button>
+    </div>
+  </div>
 </header>
 <nav id="arborescence" class="arborescence" aria-label="Menus" hidden></nav>
 
@@ -76,6 +83,7 @@
       <button class="tuile" data-action="justificatifs"><span class="icone">🧾</span><b>Justificatifs</b><small>Tickets, factures, captures</small></button>
       <button class="tuile" data-action="compte"><span class="icone">👤</span><b>Mon compte</b><small id="tuile-compte-info">Connexion, sauvegarde en ligne</small></button>
       <button class="tuile" data-action="echanges"><span class="icone">🔄</span><b>Échanges</b><small id="tuile-echanges-info">Doubles contre souhaits</small></button>
+      <button class="tuile" data-action="amis"><span class="icone">👥</span><b>Mes amis</b><small>En ligne, demandes d'amis</small></button>
       <button class="tuile" data-action="souhaits"><span class="icone">⭐</span><b>Ma liste de souhaits</b><small>Ce que vous voulez, sorties</small></button>
       <button class="tuile" data-action="impression"><span class="icone">🖨️</span><b>Imprimer des étiquettes</b><small>À la taille de vos étiquettes</small></button>
       <button class="tuile" data-action="exports"><span class="icone">📤</span><b>Exporter</b><small>Excel, PDF, CSV, BrickLink</small></button>
@@ -254,6 +262,11 @@
   <!-- Compte en ligne (js/compte.js, Supabase) : connexion, sauvegarde en ligne de la collection -->
   <section id="ecran-compte" class="ecran" hidden>
     <div id="compte-contenu"></div>
+  </section>
+
+  <!-- Amis et présence (js/amis.js) -->
+  <section id="ecran-amis" class="ecran" hidden>
+    <div id="amis-contenu"></div>
   </section>
 
   <!-- Échanges entre collectionneurs (js/echanges.js) -->
@@ -770,5 +783,6 @@
 <script src="lib/supabase-2.117.2.js"></script>
 <script src="js/compte.js"></script>
 <script src="js/echanges.js"></script>
+<script src="js/amis.js"></script>
 </body>
 </html>
