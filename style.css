@@ -591,3 +591,4 @@ a, .bouton-lien { color: var(--encre-2); text-decoration-color: #a5acd6; }
 .champ-mdp .champ { width: 100%; padding-right: 92px; box-sizing: border-box; }
 .boutons-mdp { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); display: flex; }
 .boutons-mdp button { background: none; border: 0; font-size: 1.3em; padding: 6px 8px; cursor: pointer; }
+.badge-admin { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: #fef3c7; color: #92400e; font-size: .75em; font-weight: 600; vertical-align: middle; }

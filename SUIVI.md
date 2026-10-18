@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v155 (18/10) : RÔLES (demande de Mathias) : colonne profils.role « admin » (adresse de Mathias, donnée par le
+    déclencheur creer_profil) ou « utilisateur » (tous les autres) ; badge « 👑 Administrateur » dans Mon compte ;
+    fonction est_admin() pour les futures règles réservées à l'admin. Personne ne change son rôle depuis l'appli
+    (droits limités aux colonnes pseudo et visibilite, plus d'insertion directe de profil). outils/supabase_roles.sql
+    À COLLER PAR MATHIAS dans SQL Editor (déjà repris dans supabase_schema.sql). Testé dans un PostgreSQL 16 local
+    (base neuve et mise à niveau) : rôle et insertion refusés, pseudo modifiable.
   · v154 (18/10) : MOT DE PASSE OUBLIÉ revu (demande de Mathias) : lien « 🔑 Mot de passe oublié ? » aussi sur « Créer un
     compte », adresse tapée gardée d'un écran à l'autre, explication (le mot de passe n'est connu de personne : on envoie un
     lien pour en choisir un nouveau), écran « e-mail envoyé » avec « 📨 Renvoyer l'e-mail » (attente de 60 s imposée par

@@ -12,6 +12,7 @@ create table if not exists public.profils (
   id uuid primary key references auth.users (id) on delete cascade,
   pseudo text unique not null check (char_length(pseudo) between 3 and 30),
   visibilite text not null default 'prive' check (visibilite in ('prive', 'amis', 'public')),
+  role text not null default 'utilisateur' check (role in ('utilisateur', 'admin')),
   cree_le timestamptz not null default now()
 );
 
@@ -28,12 +29,14 @@ alter table public.sauvegardes enable row level security;
 drop policy if exists "pseudos lisibles par les comptes connectés" on public.profils;
 create policy "pseudos lisibles par les comptes connectés" on public.profils
   for select to authenticated using (true);
-drop policy if exists "créer son profil" on public.profils;
-create policy "créer son profil" on public.profils
-  for insert to authenticated with check (id = auth.uid());
+drop policy if exists "créer son profil" on public.profils;  -- profil créé par le déclencheur creer_profil
 drop policy if exists "modifier son profil" on public.profils;
 create policy "modifier son profil" on public.profils
   for update to authenticated using (id = auth.uid()) with check (id = auth.uid());
+
+-- personne ne change son rôle : seuls pseudo et visibilité sont modifiables depuis l'appli (voir supabase_roles.sql)
+revoke insert, update on public.profils from anon, authenticated;
+grant update (pseudo, visibilite) on public.profils to authenticated;
 
 drop policy if exists "sa sauvegarde seulement" on public.sauvegardes;
 create policy "sa sauvegarde seulement" on public.sauvegardes
@@ -45,16 +48,24 @@ create or replace function public.pseudo_libre(p text) returns boolean
   as $$ select not exists (select 1 from public.profils where lower(pseudo) = lower(trim(p))) $$;
 grant execute on function public.pseudo_libre(text) to anon, authenticated;
 
--- Profil créé avec le compte (pseudo donné à l'inscription, dans les données du compte)
+-- Profil créé avec le compte (pseudo donné à l'inscription, dans les données du compte) ;
+-- rôle admin pour l'adresse de Mathias, utilisateur pour les autres
 create or replace function public.creer_profil() returns trigger
   language plpgsql security definer set search_path = public
   as $$
   begin
-    insert into public.profils (id, pseudo)
-    values (new.id, coalesce(nullif(trim(new.raw_user_meta_data ->> 'pseudo'), ''), 'collectionneur-' || left(new.id::text, 8)))
+    insert into public.profils (id, pseudo, role)
+    values (new.id,
+            coalesce(nullif(trim(new.raw_user_meta_data ->> 'pseudo'), ''), 'collectionneur-' || left(new.id::text, 8)),
+            case when lower(new.email) = 'mathiasdurand@gmail.com' then 'admin' else 'utilisateur' end)
     on conflict (id) do nothing;
     return new;
   end $$;
+
+create or replace function public.est_admin() returns boolean
+  language sql security definer set search_path = public stable
+  as $$ select exists (select 1 from public.profils where id = auth.uid() and role = 'admin') $$;
+grant execute on function public.est_admin() to authenticated;
 drop trigger if exists profil_a_l_inscription on auth.users;
 create trigger profil_a_l_inscription after insert on auth.users
   for each row execute function public.creer_profil();

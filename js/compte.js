@@ -43,7 +43,7 @@ const Compte = {
 
   async chargerProfil() {
     if (!this.session || this.profil) return this.profil;
-    const { data } = await this.client.from("profils").select("pseudo, visibilite").eq("id", this.session.user.id).maybeSingle();
+    const { data } = await this.client.from("profils").select("*").eq("id", this.session.user.id).maybeSingle();
     this.profil = data || null;
     this._majTuile();
     return this.profil;
@@ -93,7 +93,7 @@ const Compte = {
     const p = await this.chargerProfil();
     const { data: s } = await this.client.from("sauvegardes").select("maj, articles").eq("user_id", this.session.user.id).maybeSingle();
     z.innerHTML = `<div class="carte">
-        <p class="sous-titre">👤 ${echapper((p && p.pseudo) || "Mon compte")}</p>
+        <p class="sous-titre">👤 ${echapper((p && p.pseudo) || "Mon compte")}${p && p.role === "admin" ? ` <span class="badge-admin">👑 Administrateur</span>` : ""}</p>
         <p class="score">${echapper(this.session.user.email)}</p></div>
       <div class="carte">
         <p class="sous-titre">☁️ Sauvegarde en ligne</p>
