@@ -61,6 +61,8 @@
       <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
       <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Set LEGO</b><small>Ou Youmko, Pantasy, Cobi…</small></button>
+      <label class="tuile"><span class="icone">🛒</span><b>Scanner une boîte</b><small>Code-barres d'un set, en magasin</small>
+        <input type="file" id="input-boite" accept="image/*" capture="environment" hidden></label>
       <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
     </div>
 
@@ -147,6 +149,8 @@
         <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
         <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
         <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Set LEGO</b><small>Ou Youmko, Pantasy, Cobi…</small></button>
+        <label class="tuile"><span class="icone">🛒</span><b>Scanner une boîte</b><small>Code-barres d'un set</small>
+          <input type="file" id="input-boite-collection" accept="image/*" capture="environment" hidden></label>
         <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
       </div>
     </details>
@@ -727,5 +731,6 @@
   <script src="js/consulter.js"></script>
 <script src="js/occupe.js"></script>
 <script src="js/arborescence.js"></script>
+<script src="js/scan_boite.js"></script>
 </body>
 </html>

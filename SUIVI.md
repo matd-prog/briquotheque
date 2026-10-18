@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v146 (18/10) : SCAN DU CODE-BARRES D'UNE BOÎTE (idée reprise de l'appli Brick Broker, 1re des 3 idées validées par
+    Mathias : scan des boîtes, justificatifs d'achat, comptes et partage). Tuile « 🛒 Scanner une boîte » (accueil et
+    « ➕ Ajouter » de Ma collection) : photo -> BarcodeDetector (Chrome Android ; pas Safari iPhone : message) ->
+    data/codes_barres.tsv (outils/brickset_codes_barres.py, API Brickset, secret BRICKSET_KEY, relu une fois par mois dans
+    sets.yml) -> écran « Ajouter un set » rempli. Code inconnu : on tape le numéro, retenu dans le téléphone (Memoire
+    « codes-barres », js/scan_boite.js). Testé avec un lecteur simulé (Chromium Linux n'a pas BarcodeDetector).
   · v145 (18/10) : NOMS IDENTIFIABLES pour toutes les « Special Whatnot Figure 2025 » (Mathias : « Let's Go! » est le slogan
     du blister, pas un nom) : NOMS_CUSTOMS_CORRIGES (js/app.js) -> « Special Whatnot Figure 2025 – Easter DP (lapin de Pâques) »,
     « – Chrome Silver Protocol Droid (C-3PO argent) », « – Chrome Black Protocol Droid (C-3PO noir, yeux rouges) », « – Chrome
