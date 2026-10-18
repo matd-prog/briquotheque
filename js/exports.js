@@ -91,11 +91,17 @@ const Exports = {
       window.open("https://www.bricklink.com/v2/wanted/upload.page", "_blank", "noopener");
   },
 
-  async sauvegarde() {
+  // contenu de la sauvegarde : fichier .json ou sauvegarde en ligne (js/compte.js)
+  async contenuSauvegarde() {
     const d = await this.donnees();
     const contenu = { application: "Briquothèque", version: 1, date: d.date.toISOString(),
       feuilles: d.feuilles.map(f => ({ nom: f.nom, colonnes: f.colonnes.map(c => c[0]), lignes: f.lignes })) };
     if (etat.classeur && etat.classeur.estBase) contenu.base = await etat.classeur.exporter();
+    return contenu;
+  },
+
+  async sauvegarde() {
+    const contenu = await this.contenuSauvegarde();
     this._telecharger(new Blob([JSON.stringify(contenu, null, 1)], { type: "application/json" }), `sauvegarde_collection_${horodatage()}.json`);
   },
 

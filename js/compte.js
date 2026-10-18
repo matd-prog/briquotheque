@@ -1,0 +1,240 @@
+// Compte en ligne (Mathias, 18/10/2026 : identifiant et mot de passe, pour échanger plus tard entre utilisateurs, et si
+// l'appli est un jour commercialisée). Service : Supabase (projet « briquotheque », serveurs à Francfort), bibliothèque
+// lib/supabase-2.117.2.js. Base et règles de sécurité : outils/supabase_schema.sql (à coller dans « SQL Editor »).
+// - créer un compte (pseudo, e-mail, mot de passe ; e-mail de confirmation), se connecter, mot de passe oublié
+//   (lien par e-mail -> retour dans l'appli -> nouveau mot de passe), se déconnecter, supprimer son compte (RGPD) ;
+// - sauvegarde en ligne de la collection (même contenu que la sauvegarde .json), à la main et une fois par jour
+//   toute seule quand on est connecté ; récupération sur un autre téléphone.
+// La clé publique (« publishable ») est faite pour être dans l'appli : elle ne permet que ce que les règles de sécurité
+// de la base autorisent (chacun ne voit que sa sauvegarde).
+
+const SUPABASE_URL = "https://neadnkbroribjobpsqcu.supabase.co";
+const SUPABASE_CLE = "sb_publishable_5EmR-GxELWvYIyN1NJH0pA_5q8vtetO";
+const ADRESSE_APPLI = "https://matd-prog.github.io/briquotheque/";
+
+const Compte = {
+  client: null,
+  session: null,
+  profil: null,
+  recuperation: false, // arrivé par le lien « mot de passe oublié »
+  mode: "connexion",   // connexion | inscription | oubli
+
+  init() {
+    if (typeof supabase === "undefined") return;
+    this.client = supabase.createClient(SUPABASE_URL, SUPABASE_CLE, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+    this.client.auth.onAuthStateChange((evenement, session) => {
+      this.session = session;
+      if (evenement === "PASSWORD_RECOVERY") { this.recuperation = true; this.ouvrir(); }
+      if (evenement === "SIGNED_IN" && /type=signup|type=email/.test(location.hash)) toast("Adresse e-mail confirmée ✔ Vous êtes connecté.", 5000);
+      this.profil = null;
+      if (ecranActuel === "compte") this.rendre();
+      this._majTuile();
+    });
+    // sauvegarde en ligne automatique : une fois par jour, quand la collection est ouverte
+    setTimeout(() => this.sauvegardeAuto().catch(err => console.warn("sauvegarde en ligne", err)), 20000);
+  },
+
+  _majTuile() {
+    const t = $("tuile-compte-info");
+    if (t) t.textContent = this.session ? `Connecté : ${(this.profil && this.profil.pseudo) || this.session.user.email}` : "Connexion, sauvegarde en ligne";
+  },
+
+  async chargerProfil() {
+    if (!this.session || this.profil) return this.profil;
+    const { data } = await this.client.from("profils").select("pseudo, visibilite").eq("id", this.session.user.id).maybeSingle();
+    this.profil = data || null;
+    this._majTuile();
+    return this.profil;
+  },
+
+  async ouvrir() {
+    afficher("compte");
+    if (!this.client) { $("compte-contenu").innerHTML = `<p class="alerte">Le service des comptes n'a pas pu être chargé. Vérifiez la connexion Internet, puis rouvrez l'appli.</p>`; return; }
+    const { data } = await this.client.auth.getSession();
+    this.session = data.session;
+    await this.rendre();
+  },
+
+  async rendre() {
+    const z = $("compte-contenu");
+    if (this.recuperation) {
+      z.innerHTML = `<p class="intro">🔑 <b>Nouveau mot de passe</b> : choisissez-en un d'au moins 8 caractères.</p>
+        <form id="compte-form-mdp" class="compte-form">
+          <label for="compte-nouveau" class="etiquette-champ">Nouveau mot de passe</label>
+          <input id="compte-nouveau" class="champ" type="password" autocomplete="new-password" minlength="8" required>
+          <button class="gros-bouton vert" type="submit">Enregistrer le mot de passe</button>
+        </form><p class="aide" id="compte-message"></p>`;
+      return;
+    }
+    if (!this.session) {
+      const m = this.mode;
+      z.innerHTML = `<p class="intro">👤 <b>Mon compte</b> : un compte garde votre collection en ligne (sur un autre téléphone, ou si
+          celui-ci est perdu) et servira bientôt à partager votre collection et à échanger avec d'autres collectionneurs.</p>
+        <div class="bascule"><button data-compte-mode="connexion" class="${m === "connexion" ? "choisi" : ""}">Se connecter</button>
+          <button data-compte-mode="inscription" class="${m === "inscription" ? "choisi" : ""}">Créer un compte</button></div>
+        <form id="compte-form" class="compte-form">
+          ${m === "inscription" ? `<label for="compte-pseudo" class="etiquette-champ">Pseudo (visible des autres collectionneurs)</label>
+            <input id="compte-pseudo" class="champ" autocomplete="nickname" minlength="3" maxlength="30" required>` : ""}
+          <label for="compte-email" class="etiquette-champ">Adresse e-mail</label>
+          <input id="compte-email" class="champ" type="email" autocomplete="email" required>
+          ${m !== "oubli" ? `<label for="compte-mdp" class="etiquette-champ">Mot de passe${m === "inscription" ? " (8 caractères au moins)" : ""}</label>
+            <input id="compte-mdp" class="champ" type="password" autocomplete="${m === "inscription" ? "new-password" : "current-password"}" minlength="${m === "inscription" ? 8 : 1}" required>` : ""}
+          <button class="gros-bouton vert" type="submit">${{ connexion: "Se connecter", inscription: "Créer mon compte", oubli: "Recevoir un lien par e-mail" }[m]}</button>
+        </form>
+        ${m === "connexion" ? `<button class="bouton-lien" data-compte-mode="oubli">Mot de passe oublié ?</button>` : ""}
+        ${m === "oubli" ? `<button class="bouton-lien" data-compte-mode="connexion">← Retour à la connexion</button>` : ""}
+        <p class="aide" id="compte-message"></p>`;
+      return;
+    }
+    const p = await this.chargerProfil();
+    const { data: s } = await this.client.from("sauvegardes").select("maj, articles").eq("user_id", this.session.user.id).maybeSingle();
+    z.innerHTML = `<div class="carte">
+        <p class="sous-titre">👤 ${echapper((p && p.pseudo) || "Mon compte")}</p>
+        <p class="score">${echapper(this.session.user.email)}</p></div>
+      <div class="carte">
+        <p class="sous-titre">☁️ Sauvegarde en ligne</p>
+        <p class="score" id="compte-sauvegarde-info">${s ? `Dernière sauvegarde : ${new Date(s.maj).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })}` +
+          (s.articles ? ` · ${s.articles} articles` : "") : "Pas encore de sauvegarde en ligne."} Elle se refait toute seule une fois par jour.</p>
+        <button class="gros-bouton vert" data-action="compte-sauvegarder">☁️ Sauvegarder maintenant</button>
+        ${s ? `<button class="gros-bouton gris" data-action="compte-recuperer">📥 Récupérer la collection sauvegardée</button>` : ""}
+        <p class="aide">Les photos (blisters, justificatifs) restent dans le téléphone pour l'instant : gardez aussi leurs sauvegardes .zip.</p>
+      </div>
+      <button class="gros-bouton gris" data-action="compte-deconnecter">Se déconnecter</button>
+      <button class="bouton-lien" data-action="compte-supprimer">Supprimer mon compte et mes données en ligne</button>
+      <p class="aide" id="compte-message"></p>`;
+  },
+
+  message(t) { const m = $("compte-message"); if (m) m.textContent = t; },
+  // messages d'erreur de Supabase, en français
+  erreur(e) {
+    const t = (e && e.message) || String(e);
+    if (/invalid login credentials/i.test(t)) return "E-mail ou mot de passe incorrect.";
+    if (/email not confirmed/i.test(t)) return "Adresse e-mail pas encore confirmée : ouvrez l'e-mail de confirmation (pensez aux indésirables).";
+    if (/already registered|already been registered/i.test(t)) return "Un compte existe déjà avec cette adresse : connectez-vous, ou « Mot de passe oublié ».";
+    if (/password should be|weak/i.test(t)) return "Mot de passe trop simple : 8 caractères au moins, avec lettres et chiffres.";
+    if (/rate limit|too many/i.test(t)) return "Trop de tentatives : réessayez dans quelques minutes.";
+    if (/failed to fetch|network/i.test(t)) return "Pas de connexion Internet.";
+    return "Erreur : " + t;
+  },
+
+  async valider(e) {
+    e.preventDefault();
+    const email = ($("compte-email") || {}).value?.trim(), mdp = ($("compte-mdp") || {}).value;
+    const bouton = e.target.querySelector("[type=submit]");
+    bouton.disabled = true;
+    try {
+      if (this.mode === "connexion") {
+        const { error } = await this.client.auth.signInWithPassword({ email, password: mdp });
+        if (error) throw error;
+        toast("Connecté ✔");
+      } else if (this.mode === "inscription") {
+        const pseudo = $("compte-pseudo").value.trim();
+        const { data: libre, error: e1 } = await this.client.rpc("pseudo_libre", { p: pseudo });
+        if (e1) throw e1;
+        if (!libre) { this.message(`Le pseudo « ${pseudo} » est déjà pris : choisissez-en un autre.`); return; }
+        const { data, error } = await this.client.auth.signUp({ email, password: mdp, options: { data: { pseudo }, emailRedirectTo: ADRESSE_APPLI } });
+        if (error) throw error;
+        if (!data.session) {
+          $("compte-contenu").innerHTML = `<div class="succes">📧 Compte créé. Ouvrez l'e-mail envoyé à <b>${echapper(email)}</b> et touchez le lien
+            de confirmation (regardez aussi dans les indésirables) : vous reviendrez dans l'appli, connecté.</div>`;
+          return;
+        }
+        toast("Compte créé ✔");
+      } else {
+        const { error } = await this.client.auth.resetPasswordForEmail(email, { redirectTo: ADRESSE_APPLI });
+        if (error) throw error;
+        this.message("📧 Si un compte existe avec cette adresse, un e-mail vient d'être envoyé : touchez son lien pour choisir un nouveau mot de passe.");
+        return;
+      }
+    } catch (err) {
+      console.warn(err);
+      this.message(this.erreur(err));
+    } finally {
+      bouton.disabled = false;
+    }
+  },
+
+  async nouveauMotDePasse(e) {
+    e.preventDefault();
+    const { error } = await this.client.auth.updateUser({ password: $("compte-nouveau").value });
+    if (error) { this.message(this.erreur(error)); return; }
+    this.recuperation = false;
+    history.replaceState(null, "", location.pathname);
+    toast("Mot de passe changé ✔");
+    this.rendre();
+  },
+
+  async sauvegarder(silencieux = false) {
+    if (!this.session || !etat.classeur) { if (!silencieux) await demander("Ouvrez d'abord votre collection.", "OK", "Fermer"); return false; }
+    const contenu = await Exports.contenuSauvegarde();
+    const articles = (contenu.feuilles || []).reduce((n, f) => n + (f.lignes || []).length, 0);
+    const { error } = await this.client.from("sauvegardes").upsert({ user_id: this.session.user.id, contenu, articles, maj: new Date().toISOString() });
+    if (error) { if (!silencieux) this.message(this.erreur(error)); throw error; }
+    try { localStorage.setItem("sauvegarde-en-ligne", String(Date.now())); } catch (e) { /* stockage refusé : refaite au prochain lancement */ }
+    if (!silencieux) { toast("Collection sauvegardée en ligne ✔"); this.rendre(); }
+    return true;
+  },
+
+  async sauvegardeAuto() {
+    if (!this.client) return;
+    const { data } = await this.client.auth.getSession();
+    this.session = data.session;
+    if (!this.session || !etat.classeur || !etat.classeur.estBase) return;
+    let derniere = 0;
+    try { derniere = +localStorage.getItem("sauvegarde-en-ligne") || 0; } catch (e) { /* pas de stockage */ }
+    if (Date.now() - derniere < 864e5) return;
+    await this.sauvegarder(true);
+  },
+
+  async recuperer() {
+    if (!etat.classeur || !etat.classeur.estBase) {
+      await demander("La collection rangée dans l'appli doit être ouverte pour y récupérer la sauvegarde en ligne.", "OK", "Fermer");
+      return;
+    }
+    const { data, error } = await this.client.from("sauvegardes").select("contenu, maj, articles").eq("user_id", this.session.user.id).maybeSingle();
+    if (error || !data || !data.contenu || !data.contenu.base) { this.message(error ? this.erreur(error) : "Pas de sauvegarde en ligne utilisable."); return; }
+    if (!(await demander(`Remplacer la collection de ce téléphone par la sauvegarde en ligne du ${new Date(data.maj).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })}` +
+        `${data.articles ? ` (${data.articles} articles)` : ""} ? Ce qui a été ajouté depuis sur ce téléphone sera perdu.`, "Remplacer", "Annuler"))) return;
+    await etat.classeur.remplacerTout(data.contenu.base);
+    await relireContenu();
+    toast("Collection récupérée ✔");
+    afficher("accueil");
+  },
+
+  async deconnecter() {
+    await this.client.auth.signOut();
+    this.session = null; this.profil = null;
+    this._majTuile();
+    this.rendre();
+    toast("Déconnecté");
+  },
+
+  async supprimer() {
+    if (!(await demander("Supprimer définitivement votre compte, votre pseudo et votre sauvegarde en ligne ? La collection de ce téléphone, elle, est gardée.", "Supprimer", "Annuler"))) return;
+    const { error } = await this.client.rpc("supprimer_mon_compte");
+    if (error) { this.message(this.erreur(error)); return; }
+    await this.client.auth.signOut();
+    this.session = null; this.profil = null;
+    this._majTuile();
+    this.rendre();
+    toast("Compte supprimé");
+  },
+};
+
+document.addEventListener("submit", e => {
+  if (e.target.id === "compte-form") Compte.valider(e);
+  else if (e.target.id === "compte-form-mdp") Compte.nouveauMotDePasse(e);
+});
+document.addEventListener("click", e => {
+  const m = e.target.closest("[data-compte-mode]");
+  if (m) { Compte.mode = m.dataset.compteMode; Compte.rendre(); return; }
+  const b = e.target.closest("[data-action]");
+  if (!b) return;
+  const a = b.dataset.action;
+  if (a === "compte") Compte.ouvrir();
+  else if (a === "compte-sauvegarder") Compte.sauvegarder().catch(err => console.warn(err));
+  else if (a === "compte-recuperer") Compte.recuperer();
+  else if (a === "compte-deconnecter") Compte.deconnecter();
+  else if (a === "compte-supprimer") Compte.supprimer();
+});
+Compte.init();

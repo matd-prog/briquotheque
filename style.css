@@ -583,3 +583,7 @@ a, .bouton-lien { color: var(--encre-2); text-decoration-color: #a5acd6; }
 .deux-boutons .bouton { min-height: 44px; font-size: 14px; }
 .fiche.magasin { display: flex; align-items: center; gap: 10px; }
 .fiche.magasin .infos { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+/* Mon compte (js/compte.js) */
+.compte-form { display: flex; flex-direction: column; gap: 4px; }
+.compte-form .gros-bouton { margin-top: 10px; }

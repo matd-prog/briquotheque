@@ -125,6 +125,15 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v150 (18/10) : COMPTES EN LIGNE (étage 3 du plan Brick Broker, demande de Mathias : identifiant + mot de passe, pour
+    échanger entre collectionneurs et une éventuelle commercialisation). Supabase (projet « briquotheque », Francfort,
+    clé publiable seulement dans js/compte.js ; jamais la clé secrète ni le mot de passe de la base). Tuile « 👤 Mon
+    compte » : création (pseudo vérifié par pseudo_libre, e-mail de confirmation), connexion, mot de passe oublié,
+    « ☁️ Sauvegarder maintenant » (table sauvegardes, même contenu que la sauvegarde .json), « 📥 Récupérer »,
+    sauvegarde automatique une fois par jour, déconnexion, suppression du compte (RGPD). Tables et règles d'accès :
+    outils/supabase_schema.sql, À COLLER PAR MATHIAS dans SQL Editor. Bibliothèque lib/supabase-2.117.2.js (licence MIT).
+    Testé avec un Supabase simulé (supabase.co inaccessible d'ici) : à confirmer en vrai. Suite : partage de collection
+    (privé/amis/public), échanges doubles/recherches, prix vus en magasin partagés, photos en ligne.
   · v149 (18/10) : MARCHAND DU MEILLEUR PRIX lu pour de bon : la fiche Avenue de la Brique liste ses offres en blocs
     <div class="prodf-px" data-prix=… data-total=…> avec alt=« Acheter … chez <marchand> » (vu grâce à un extrait de page
     envoyé en annotation ::notice:: du relevé GitHub, lisible par l'API check-runs) ; nouvelle colonne total (offre livraison
