@@ -1,9 +1,5 @@
 #date 2026-10-18
 type	code	bricklink	ressemblance	nom	theme	annee	image	vu_le	sets
-figurine	fig-017390	cty2047	0.75	Construction Worker, Reddish Orange Safety Jacket, Dark Blue Grey Legs, Red Hard Hat	City / Construction	2026	https://cdn.rebrickable.com/media/sets/fig-017390.jpg	2026-10-18	951441-1
-figurine	fig-017389	njo0930	0.8	Kai, Dark Red Suit, Wrap	Ninjago	2026	https://cdn.rebrickable.com/media/sets/fig-017389.jpg	2026-10-18	951466-1
-figurine	fig-017387	njo1053	0.78	Lloyd, Dark Green Suit, Wrap	Ninjago	2026	https://cdn.rebrickable.com/media/sets/fig-017387.jpg	2026-10-18	951467-1
-figurine	fig-017386		0.61	Police Officer, Vibrant Yellow Safety Vest, Dark Blue Legs, White Helmet	City / Police	2026	https://cdn.rebrickable.com/media/sets/fig-017386.jpg	2026-10-18	951440-1
 figurine	fig-018224		0.39	Kid Adventurer, Dark Brown Suit, Hat	FIRST LEGO League	2026	https://cdn.rebrickable.com/media/sets/fig-018224.jpg	2026-10-15	45835-1
 figurine	fig-018223		0.67	Woman, Light Bluish Grey/Bright Green Wetsuit, Black Hair	FIRST LEGO League	2026	https://cdn.rebrickable.com/media/sets/fig-018223.jpg	2026-10-15	45835-1
 figurine	fig-018222		0.37	Pizzaria Waiter, White Torso, Warm Pink Legs	Other	2026	https://cdn.rebrickable.com/media/sets/fig-018222.jpg	2026-10-15	40909-1
@@ -55,7 +51,7 @@ figurine	fig-018164	LLP039	0.82	Child, Dark Turquoise Hoodie, Blue Medium Legs, 
 figurine	fig-018163	LLP038	0.81	Child, White Torso, Red Legs, Dark Brown Hair	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018163.jpg	2026-10-02	11387-1
 figurine	fig-018162	cty1955	0.78	Man, Tan Sweater, Sand Blue Legs, Dark Brown Hair	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018162.jpg	2026-10-02	11387-1
 figurine	fig-018161		0.0	Reader	Icons	2026	https://cdn.rebrickable.com/media/sets/fig-018161.jpg	2026-10-02	11379-1
-figurine	fig-018160		0.35	Author/Store Owner	Icons	2026	https://cdn.rebrickable.com/media/sets/fig-018160.jpg	2026-10-02	11379-1
+figurine	fig-018160		0.45	Author, Orange Hair	Icons	2026	https://cdn.rebrickable.com/media/sets/fig-018160.jpg	2026-10-02	11379-1
 figurine	fig-018159		0.65	Mrs. Claus, Red Dress, Gold Glasses	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/fig-018159.jpg	2026-10-02	40866-1
 figurine	fig-018158		0.38	Wednesday, Jacket	Wednesday	2026	https://cdn.rebrickable.com/media/sets/fig-018158.jpg	2026-10-02	76787-1
 figurine	fig-018157		0.56	Wednesday, Minifig	Wednesday	2026	https://cdn.rebrickable.com/media/sets/fig-018157.jpg	2026-10-02	76788-1
@@ -715,7 +711,7 @@ figurine	fig-017361		0.64	Red Torso, Sand Blue Legs, Red Cap	City	2026	https://c
 figurine	fig-017360		0.59	Leo, Bright Light Orange Vest, Reddish Orange Pants	Friends	2026	https://cdn.rebrickable.com/media/sets/fig-017360.jpg		42699-1
 figurine	fig-017359		0.67	Paisley, Bright Light Yellow Top, Blue Violet Skirt, Visor	Friends	2026	https://cdn.rebrickable.com/media/sets/fig-017359.jpg		42699-1
 figurine	fig-017358		0.59	Liann, Colored Top, Yellowish Green Shorts, Life Vest, Flower	Friends	2026	https://cdn.rebrickable.com/media/sets/fig-017358.jpg		42699-1
-figurine	fig-017357		0.62	Valeria	Friends	2026	https://cdn.rebrickable.com/media/sets/fig-017357.jpg		42696-1 951446-1
+figurine	fig-017357		0.62	Valeria	Friends	2026	https://cdn.rebrickable.com/media/sets/fig-017357.jpg		42696-1
 figurine	fig-017356		0.62	Liann, Colored Top, Orange Skirt, Helmet	Friends	2026	https://cdn.rebrickable.com/media/sets/fig-017356.jpg		42692-1
 figurine	fig-017355		0.65	Paisley, Lavender Top, Bright Light Blue Pants	Friends	2026	https://cdn.rebrickable.com/media/sets/fig-017355.jpg		42692-1
 figurine	fig-017354	frnd0877	0.77	Olly, Bright Light Blue Shirt, Dark Orange Shorts	Friends	2026	https://cdn.rebrickable.com/media/sets/fig-017354.jpg		42691-1 42704-1
@@ -1651,6 +1647,14 @@ objet	10018250-1	10018250		Red Tile 1x1 Jibbitz	Gear	2026	https://cdn.rebrickabl
 objet	10018249-1	10018249		Spaceship Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018249-1.jpg		
 objet	10018248-1	10018248		Red Tile 2x2 Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018248-1.jpg		
 objet	10018247-1	10018247		Castle Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018247-1.jpg		
+set	2D001188-1	2D001188-1		Car	Creator / Creator 3-in-1	2026	https://cdn.rebrickable.com/media/sets/2d001188-1.jpg	2026-10-18	
+set	2D001187-1	2D001187-1		Cockatoo	Creator / Creator 3-in-1	2026	https://cdn.rebrickable.com/media/sets/2d001187-1.jpg	2026-10-18	
+set	2D001186-1	2D001186-1		Valeria with Puppy	Friends	2026	https://cdn.rebrickable.com/media/sets/2d001186-1.jpg	2026-10-18	
+set	2D001185-1	2D001185-1		Horse	Friends	2026	https://cdn.rebrickable.com/media/sets/2d001185-1.jpg	2026-10-18	
+set	2D001184-1	2D001184-1		Lloyd with Mech	Ninjago	2026	https://cdn.rebrickable.com/media/sets/2d001184-1.jpg	2026-10-18	
+set	2D001183-1	2D001183-1		Kai with Motorcycle	Ninjago	2026	https://cdn.rebrickable.com/media/sets/2d001183-1.jpg	2026-10-18	
+set	2D001182-1	2D001182-1		Construction Worker with Wheel Loader	City / Construction	2026	https://cdn.rebrickable.com/media/sets/2d001182-1.jpg	2026-10-18	
+set	2D001164-1	2D001164-1		Police Buggy	City / Police	2026	https://cdn.rebrickable.com/media/sets/2d001164-1.jpg	2026-10-18	
 set	40898-1	40898-1		Venetian Water Taxi	Icons	2026	https://cdn.rebrickable.com/media/sets/40898-1.jpg	2026-10-17	
 set	11388-1	11388-1		Venetian Neighborhood	Icons	2026	https://cdn.rebrickable.com/media/sets/11388-1.jpg	2026-10-17	
 set	L0002208-1	L0002208-1		Arin	Ninjago	2026	https://cdn.rebrickable.com/media/sets/l0002208-1.jpg	2026-10-16	
@@ -1767,14 +1771,6 @@ set	DATABASE-2026	DATABASE-2026		2026 - Unused Parts Database Set	Other / Databa
 set	Build-a-Mini-2026	Build-a-Mini-2026		2026 Build-A-Minifigure Station Exclusive Parts	Other / Database Sets	2026	https://cdn.rebrickable.com/media/sets/build-a-mini-2026.jpg		
 set	BONSAI-2	BONSAI-2		Lovely Bonsai Tree	LEGO Brand Store	2026	https://cdn.rebrickable.com/media/sets/bonsai-2.jpg		
 set	BLACKSMITH-1	BLACKSMITH-1		Four Weapons Blacksmith	Ninjago	2026	https://cdn.rebrickable.com/media/sets/blacksmith-1.jpg		
-set	951467-1	951467-1		Lloyd with Mech	Ninjago	2026	https://cdn.rebrickable.com/media/sets/951467-1.jpg		
-set	951466-1	951466-1		Kai with Motorcycle	Ninjago	2026	https://cdn.rebrickable.com/media/sets/951466-1.jpg		
-set	951446-1	951446-1		Valeria with Puppy	Friends	2026	https://cdn.rebrickable.com/media/sets/951446-1.jpg		
-set	951445-1	951445-1		Horse	Friends	2026	https://cdn.rebrickable.com/media/sets/951445-1.jpg		
-set	951443-1	951443-1		Car	Creator / Creator 3-in-1	2026	https://cdn.rebrickable.com/media/sets/951443-1.jpg		
-set	951442-1	951442-1		Cockatoo	Creator / Creator 3-in-1	2026	https://cdn.rebrickable.com/media/sets/951442-1.jpg		
-set	951441-1	951441-1		Construction Worker with Wheel Loader	City / Construction	2026	https://cdn.rebrickable.com/media/sets/951441-1.jpg		
-set	951440-1	951440-1		Police Buggy	City / Police	2026	https://cdn.rebrickable.com/media/sets/951440-1.jpg		
 set	951351-1	951351-1		Guard and Raptor	Jurassic World	2026	https://cdn.rebrickable.com/media/sets/951351-1.jpg		
 set	910068-1	910068-1		University of Science	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/910068-1.jpg		
 set	910067-1	910067-1		Hot Air Balloon	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/910067-1.jpg		
