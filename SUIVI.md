@@ -131,6 +131,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     (droits limités aux colonnes pseudo et visibilite, plus d'insertion directe de profil). outils/supabase_roles.sql
     À COLLER PAR MATHIAS dans SQL Editor (déjà repris dans supabase_schema.sql). Testé dans un PostgreSQL 16 local
     (base neuve et mise à niveau) : rôle et insertion refusés, pseudo modifiable.
+    → FAIT par Mathias le 18/10 : supabase_schema.sql et supabase_roles.sql exécutés ; compte « Barjo » créé (21:25 UTC),
+      rôle admin vérifié dans Table Editor. Reste : confirmer l'e-mail, se connecter, 1re sauvegarde ; brancher Brevo.
   · v154 (18/10) : MOT DE PASSE OUBLIÉ revu (demande de Mathias) : lien « 🔑 Mot de passe oublié ? » aussi sur « Créer un
     compte », adresse tapée gardée d'un écran à l'autre, explication (le mot de passe n'est connu de personne : on envoie un
     lien pour en choisir un nouveau), écran « e-mail envoyé » avec « 📨 Renvoyer l'e-mail » (attente de 60 s imposée par
