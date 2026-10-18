@@ -112,6 +112,7 @@ const Compte = {
     if (/email not confirmed/i.test(t)) return "Adresse e-mail pas encore confirmée : ouvrez l'e-mail de confirmation (pensez aux indésirables).";
     if (/already registered|already been registered/i.test(t)) return "Un compte existe déjà avec cette adresse : connectez-vous, ou « Mot de passe oublié ».";
     if (/password should be|weak/i.test(t)) return "Mot de passe trop simple : 8 caractères au moins, avec lettres et chiffres.";
+    if (/longer than 72/i.test(t)) return "Mot de passe trop long : 72 caractères au plus (20 à 30 suffisent largement).";
     if (/rate limit|too many/i.test(t)) return "Trop de tentatives : réessayez dans quelques minutes.";
     if (/failed to fetch|network/i.test(t)) return "Pas de connexion Internet.";
     return "Erreur : " + t;
@@ -221,9 +222,10 @@ const Compte = {
   },
 };
 
+// Supabase refuse plus de 72 caractères : maxlength le dit aussi au générateur de mots de passe du téléphone.
 // Champ mot de passe avec 📋 (le copier en clair) et 👁️ (l'afficher) : pour noter celui proposé par le téléphone
 function champMdp(id, autocomplete, min) {
-  return `<div class="champ-mdp"><input id="${id}" class="champ" type="password" autocomplete="${autocomplete}" minlength="${min}" required>
+  return `<div class="champ-mdp"><input id="${id}" class="champ" type="password" autocomplete="${autocomplete}" minlength="${min}" maxlength="72" required>
     <span class="boutons-mdp"><button type="button" data-copier-mdp="${id}" aria-label="Copier le mot de passe">📋</button>
     <button type="button" data-voir-mdp="${id}" aria-label="Afficher le mot de passe">👁️</button></span></div>`;
 }
