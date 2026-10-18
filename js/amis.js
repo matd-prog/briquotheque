@@ -67,7 +67,8 @@ const Amis = {
       <div class="carte"><p class="sous-titre">👥 Amis</p>
         ${amis.map(a => `<div class="ami-ligne"><span><span class="pastille ${a.en_ligne ? "verte" : "rouge"}"></span> <b>${echapper(a.pseudo)}</b>
           <span class="score">${a.en_ligne ? "en ligne" : this._depuis(a.vu_le)}</span></span>
-          <button class="bouton-lien" data-ami-retirer="${a.id}" data-ami-quoi="retirer" aria-label="Retirer">✖</button></div>`).join("")
+          <span><button class="bouton" data-echanges-membre="${a.ami}" data-echanges-pseudo="${echapper(a.pseudo)}">🔄 Échanger</button>
+          <button class="bouton-lien" data-ami-retirer="${a.id}" data-ami-quoi="retirer" aria-label="Retirer">✖</button></span></div>`).join("")
           || `<p class="aide">Pas encore d'ami : cherchez un collectionneur par son pseudo ci-dessous.</p>`}
       </div>
       ${envoyees.length ? `<div class="carte"><p class="sous-titre">📤 Demandes envoyées</p>${envoyees.map(a => `<div class="ami-ligne">

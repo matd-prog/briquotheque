@@ -51,6 +51,17 @@
       <button class="petit" data-action="voir-catalogue">Comment ?</button>
     </div>
 
+    <!-- Pas connecté : connexion proposée dès l'arrivée (js/compte.js) ; ensuite la session reste ouverte (connexion automatique) -->
+    <div id="accueil-connexion" class="carte connexion-accueil" hidden>
+      <p><b>👤 Connectez-vous</b> pour sauvegarder votre collection en ligne, échanger vos doubles et retrouver vos amis.
+        <span class="score">Ensuite, la connexion se fait toute seule sur cet appareil.</span></p>
+      <div class="deux-boutons">
+        <button class="gros-bouton vert" data-compte-ouvrir="connexion">Se connecter</button>
+        <button class="gros-bouton gris" data-compte-ouvrir="inscription">Créer un compte</button>
+      </div>
+      <button class="bouton-lien" data-action="connexion-plus-tard">Plus tard</button>
+    </div>
+
     <p class="section-titre">➕ Ajouter à ma collection</p>
     <label class="action-principale">
       <span class="icone">📷</span>
@@ -78,23 +89,32 @@
     <div class="tuiles">
       <button class="tuile" data-action="collection"><span class="icone">📖</span><b>Ma collection</b><small>Figurines, sets, objets dérivés</small></button>
       <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
+      <button class="tuile" data-action="statistiques"><span class="icone">📊</span><b>Statistiques</b><small>Séries complètes, manquantes</small></button>
+      <button class="tuile" data-action="souhaits"><span class="icone">⭐</span><b>Ma liste de souhaits</b><small>Ce que vous voulez, sorties</small></button>
       <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
-      <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
       <button class="tuile" data-action="justificatifs"><span class="icone">🧾</span><b>Justificatifs</b><small>Tickets, factures, captures</small></button>
-      <button class="tuile" data-action="compte"><span class="icone">👤</span><b>Mon compte</b><small id="tuile-compte-info">Connexion, sauvegarde en ligne</small></button>
+      <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
+    </div>
+
+    <p class="section-titre">🤝 Communauté</p>
+    <div class="tuiles">
       <button class="tuile" data-action="echanges"><span class="icone">🔄</span><b>Échanges</b><small id="tuile-echanges-info">Doubles contre souhaits</small></button>
       <button class="tuile" data-action="amis"><span class="icone">👥</span><b>Mes amis</b><small>En ligne, demandes d'amis</small></button>
-      <button class="tuile" data-action="souhaits"><span class="icone">⭐</span><b>Ma liste de souhaits</b><small>Ce que vous voulez, sorties</small></button>
-      <button class="tuile" data-action="impression"><span class="icone">🖨️</span><b>Imprimer des étiquettes</b><small>À la taille de vos étiquettes</small></button>
-      <button class="tuile" data-action="exports"><span class="icone">📤</span><b>Exporter</b><small>Excel, PDF, CSV, BrickLink</small></button>
-      <button class="tuile" data-action="statistiques"><span class="icone">📊</span><b>Statistiques</b><small>Séries complètes, manquantes</small></button>
+      <button class="tuile" data-action="compte"><span class="icone">👤</span><b>Mon compte</b><small id="tuile-compte-info">Connexion, sauvegarde en ligne</small></button>
+      <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base de blisters</b><small>Commune à tous : photos, envois</small></button>
     </div>
 
     <p class="section-titre">🔎 Découvrir</p>
     <div class="tuiles">
       <button class="tuile" data-action="nouveautes"><span class="icone">🆕</span><b>Nouveautés</b><small>Sorties LEGO par thème</small></button>
+      <button class="tuile" data-action="magasins-autour"><span class="icone">📍</span><b>Magasins proches</b><small>Boutiques LEGO et jouets</small></button>
       <button class="tuile" data-action="consulter"><span class="icone">🗂️</span><b>Catalogue JB</b><small>Toutes les customs JB</small></button>
-      <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base de blisters</b><small>Commune à tous : photos, envois</small></button>
+    </div>
+
+    <p class="section-titre">🖨️ Imprimer et exporter</p>
+    <div class="tuiles">
+      <button class="tuile" data-action="impression"><span class="icone">🖨️</span><b>Imprimer des étiquettes</b><small>À la taille de vos étiquettes</small></button>
+      <button class="tuile" data-action="exports"><span class="icone">📤</span><b>Exporter</b><small>Excel, PDF, CSV, BrickLink</small></button>
     </div>
 
     <details class="outils" id="outils">

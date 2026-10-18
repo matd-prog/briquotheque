@@ -45,6 +45,10 @@ const Compte = {
   // Tuile : le pseudo du compte (pas l'adresse e-mail, demande de Mathias), lu en ligne s'il n'est pas encore connu
   _majTuile() {
     if (typeof Amis !== "undefined") { if (!this.session) Amis.liste = []; Amis.majEntete(); }
+    // accueil : connexion proposée tant qu'on n'est pas connecté (sauf « Plus tard », jusqu'au prochain lancement)
+    const carte = $("accueil-connexion");
+    if (carte) { let tard = false; try { tard = sessionStorage.getItem("connexion-plus-tard") === "1"; } catch (e) { /* pas de stockage */ }
+      carte.hidden = !!this.session || tard || !this.client; }
     const t = $("tuile-compte-info");
     if (!t) return;
     if (!this.session) { t.textContent = "Connexion, sauvegarde en ligne"; return; }
@@ -317,6 +321,12 @@ document.addEventListener("click", e => {
     oeil.textContent = cache ? "🙈" : "👁️";
     oeil.setAttribute("aria-label", cache ? "Masquer le mot de passe" : "Afficher le mot de passe");
     return;
+  }
+  const o = e.target.closest("[data-compte-ouvrir]");
+  if (o) { Compte.mode = o.dataset.compteOuvrir; Compte.ouvrir(); return; }
+  if (e.target.closest('[data-action="connexion-plus-tard"]')) {
+    try { sessionStorage.setItem("connexion-plus-tard", "1"); } catch (err) { /* pas de stockage */ }
+    $("accueil-connexion").hidden = true; return;
   }
   const m = e.target.closest("[data-compte-mode]");
   if (m) {

@@ -125,6 +125,18 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v159 (18/10) : ÉCHANGES À VALEUR ÉGALE ET ACCUEIL RÉORGANISÉ (demandes de Mathias). Valeur d'un exemplaire sur
+    chaque figurine des échanges : la Valeur de l'appli (mémorisée à chaque calcul : Memoire « valeurs_echange »), sinon
+    le prix JB du catalogue, sinon celle publiée par l'autre (colonne annonces_echange.valeur, publiée avec les annonces).
+    Balance en direct (collée en bas) « Vous donnez x € / Vous recevez y € » : ⚖️ équilibré à 15 % près, sinon 📈/📉
+    l'écart ; aussi sur le détail d'une proposition. Nouveau menu « ✉️ Proposer un échange à un membre » (ami ou pseudo
+    cherché ; aussi « 🔄 Échanger » dans Mes amis) : toutes ses figurines publiées (⭐ = dans ma liste) et tous mes doubles
+    (🔁 = il la cherche), une ligne par exemplaire (son n°). Accueil : carte « 👤 Connectez-vous » (Se connecter / Créer un
+    compte / Plus tard) tant qu'on n'est pas connecté, la session restant ouverte ensuite ; rubriques Ma collection
+    (collection, valeur, statistiques, souhaits, achats, justificatifs, assureur), 🤝 Communauté (échanges, amis, compte,
+    base de blisters), Découvrir (nouveautés, 📍 magasins proches, catalogue JB), 🖨️ Imprimer et exporter ; le menu
+    latéral suit. outils/supabase_echanges.sql mis à jour (valeur) : À RECOLLER PAR MATHIAS. Testé : SQL (mise à niveau
+    depuis la v157 comprise) ; écrans avec un faux Supabase.
   · v158 (18/10) : EN-TÊTE CONNECTÉ ET AMIS (demandes de Mathias). Sous le titre, à droite : « 👥 ●n » (amis en ligne,
     pastille verte s'il y en a, rouge sinon, « +n » demandes reçues) et « 👤 pseudo 👑 » (-> Mon compte). Tuile et écran
     « 👥 Mes amis » (js/amis.js) : amis avec 🟢 en ligne (actif dans l'appli il y a moins de 3 min) ou 🔴 « vu il y a… »,

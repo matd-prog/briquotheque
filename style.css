@@ -621,3 +621,13 @@ a, .bouton-lien { color: var(--encre-2); text-decoration-color: #a5acd6; }
 .ami-ligne:first-of-type { border-top: 0; }
 .ami-ligne > span:last-child { display: flex; gap: 6px; flex-shrink: 0; }
 .ami-ligne .bouton { width: auto; margin: 0; }
+.prix-echange { margin-left: auto; font-weight: 700; color: #047857; white-space: nowrap; font-size: .92em; }
+.liste-cases label .prix-echange { padding-left: 8px; }
+.balance-echange { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; padding: 10px 12px; margin: 10px 0; border-radius: 10px; background: #f3f4f6; }
+.balance-echange.ok { background: #ecfdf5; border: 1px solid #a7f3d0; }
+.balance-echange.ecart { background: #fffbeb; border: 1px solid #fde68a; }
+.connexion-accueil { border: 1px solid #c7d2fe; background: #eef2ff; }
+.connexion-accueil p { margin: 0 0 8px; }
+.connexion-accueil .score { display: block; margin-top: 4px; }
+#echanges-balance { position: sticky; bottom: 8px; z-index: 2; }
+#echanges-balance .balance-echange { box-shadow: 0 4px 14px rgba(0,0,0,.12); }

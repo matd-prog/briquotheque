@@ -21,6 +21,8 @@ create table if not exists public.annonces_echange (
   primary key (user_id, sens, cle)
 );
 create index if not exists annonces_echange_cle on public.annonces_echange (cle, sens);
+-- valeur estimée d'un exemplaire (€), d'après la Valeur de l'appli ou le prix JB : pour comparer ce qu'on donne et ce qu'on reçoit
+alter table public.annonces_echange add column if not exists valeur numeric(8, 2) check (valeur >= 0 and valeur < 100000);
 
 create table if not exists public.propositions (
   id bigint generated always as identity primary key,
@@ -105,9 +107,10 @@ create or replace function public.publier_annonces(offres jsonb, souhaits jsonb)
   begin
     if auth.uid() is null then raise exception 'non connecté'; end if;
     delete from public.annonces_echange where user_id = auth.uid();
-    insert into public.annonces_echange (user_id, sens, cle, type, code, nom, quantite, numeros)
+    insert into public.annonces_echange (user_id, sens, cle, type, code, nom, quantite, numeros, valeur)
     select auth.uid(), s.sens, e ->> 'cle', e ->> 'type', e ->> 'code', left(e ->> 'nom', 200),
-           greatest(1, least(999, coalesce((e ->> 'quantite')::int, 1))), left(e ->> 'numeros', 200)
+           greatest(1, least(999, coalesce((e ->> 'quantite')::int, 1))), left(e ->> 'numeros', 200),
+           case when (e ->> 'valeur') ~ '^[0-9]+(\.[0-9]+)?$' and (e ->> 'valeur')::numeric < 100000 then round((e ->> 'valeur')::numeric, 2) end
     from (select 'offre' as sens, x as e from jsonb_array_elements(coalesce(offres, '[]')) x
           union all select 'souhait', x from jsonb_array_elements(coalesce(souhaits, '[]')) x) s
     on conflict (user_id, sens, cle) do nothing;
@@ -123,11 +126,13 @@ create or replace function public.correspondances()
   as $$
     with moi as (select sens, cle from public.annonces_echange where user_id = auth.uid()),
     a as (select o.user_id, jsonb_agg(jsonb_build_object('cle', o.cle, 'type', o.type, 'code', o.code, 'nom', o.nom,
-                 'quantite', o.quantite, 'numeros', o.numeros) order by o.nom) l
+                 'quantite', o.quantite, 'numeros', o.numeros, 'valeur', o.valeur) order by o.nom) l
           from public.annonces_echange o join moi on moi.sens = 'souhait' and moi.cle = o.cle
           where o.sens = 'offre' and o.user_id <> auth.uid() group by o.user_id),
-    c as (select s.user_id, jsonb_agg(jsonb_build_object('cle', s.cle, 'type', s.type, 'code', s.code, 'nom', s.nom) order by s.nom) l
+    c as (select s.user_id, jsonb_agg(jsonb_build_object('cle', s.cle, 'type', s.type, 'code', mo.code, 'nom', mo.nom,
+                 'quantite', mo.quantite, 'numeros', mo.numeros, 'valeur', mo.valeur) order by s.nom) l
           from public.annonces_echange s join moi on moi.sens = 'offre' and moi.cle = s.cle
+          join public.annonces_echange mo on mo.user_id = auth.uid() and mo.sens = 'offre' and mo.cle = s.cle
           where s.sens = 'souhait' and s.user_id <> auth.uid() group by s.user_id)
     select coalesce(a.user_id, c.user_id), p.pseudo, coalesce(a.l, '[]'::jsonb), coalesce(c.l, '[]'::jsonb)
     from a full join c on a.user_id = c.user_id
