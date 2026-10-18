@@ -1,132 +1,414 @@
 #date 2026-10-18
-code	prix	meilleur	url	date
-10371-1	19.99	19.99	https://www.avenuedelabrique.com/lego-botanicals/10371-petites-plantes-adorables/p12910	2026-10-17
-11212-1	14.99	10.49	https://www.avenuedelabrique.com/lego-gabby-s-dollhouse/11212-la-maison-de-jardin-de-fee-minette/p11814	2026-10-14
-11214-1	34.99	34.99	https://www.avenuedelabrique.com/lego-gabby-s-dollhouse/11214-les-montagnes-russes-et-le-gouter-des-fees/p11813	2026-10-14
-11379-1	129.99	101.90	https://www.avenuedelabrique.com/lego-icons/11379-la-librairie-book-nook/p12812	2026-10-17
-11383-1	109.99	84.90	https://www.avenuedelabrique.com/lego-icons/11383-le-manoir-du-maire-vallee-de-minuit/p12261	2026-10-17
-11385-1	179.99	179.99	https://www.avenuedelabrique.com/lego-icons/11385-star-trek-pont-de-l-u-s-s-enterprise-ncc-1701/p12350	2026-10-17
-11386-1	209.99	199.99	https://www.avenuedelabrique.com/lego-icons/11386-bob-l-eponge-bikini-bottom/p12283	2026-10-17
-11387-1	109.99	109.99	https://www.avenuedelabrique.com/lego-icons/11387-la-maison-des-fetes/p12961	2026-10-17
-11388-1	499.99	499.99	https://www.avenuedelabrique.com/lego-icons/11388-le-quartier-venitien/p13487	2026-10-16
-11390-1	139.99	139.99	https://www.avenuedelabrique.com/lego-icons/11390-dragon-ball-shenron-goku/p12540	2026-10-17
-11507-1	44.99	29.99	https://www.avenuedelabrique.com/lego-editions/11507-bouquet-de-fleurs-d-olivia-rodrigo/p12208	2026-10-17
-11512-1	59.99	59.99	https://www.avenuedelabrique.com/lego-botanicals/11512-pothos-dore-tombant/p12211	2026-10-17
-12010-1		159.99	https://www.avenuedelabrique.com/autres-marques-de-briques/lumibricks/middle-ages/12010-salle-de-banquet-du-chateau/p13283	2026-10-16
-12011-1		129.99	https://www.avenuedelabrique.com/autres-marques-de-briques/lumibricks/middle-ages/12011-armurerie-du-chateau/p13281	2026-10-16
-21065-1	749.99	749.99	https://www.avenuedelabrique.com/lego-architecture/21065-la-sagrada-familia/p11886	2026-10-17
-21371-1	99.99	99.99	https://www.avenuedelabrique.com/lego-ideas/21371-wallace-gromit/p12726	2026-10-17
-21373-1	299.99	299.99	https://www.avenuedelabrique.com/lego-ideas/21373-downton-abbey/p12890	2026-10-17
-30762-1	3.99		https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/30762-retro-video-game-batman-polybag/p11912	2026-10-17
-4000351-1	199.99		https://www.avenuedelabrique.com/lego-editions/4000351-trophee-officiel-de-la-coupe-du-monde-de-la-fifa-champions-espagne/p12331	2026-10-14
-40858-1	12.99	12.99	https://www.avenuedelabrique.com/lego-brickheadz/40858-figurine-de-bob-l-eponge/p12284	2026-10-17
-40859-1	24.99	24.99	https://www.avenuedelabrique.com/lego-brickheadz/40859-figurines-de-superman-et-batman-age-d-or/p12489	2026-10-17
-40862-1	12.99	12.99	https://www.avenuedelabrique.com/lego-saisonnier/40862-selection-de-decorations-de-fetes-2/p12737	2026-10-17
-40865-1	39.99	39.99	https://www.avenuedelabrique.com/lego-elfe/40865-buddy-l-elfe/p12729	2026-10-17
-40866-1	29.99	29.99	https://www.avenuedelabrique.com/lego-saisonnier/40866-l-aventure-en-traineau-du-pere-noel/p12736	2026-10-17
-40868-1	79.99	79.99	https://www.avenuedelabrique.com/lego-pokemon/40868-minifigurine-de-red-grand-format/p12250	2026-10-17
-40872-1	29.99	29.99	https://www.avenuedelabrique.com/lego-saisonnier/40872-lanterne-citrouille-d-halloween/p12225	2026-10-17
-40874-1	59.99	59.99	https://www.avenuedelabrique.com/lego-saisonnier/40874-compte-a-rebours-avant-l-arrivee-du-pere-noel/p12727	2026-10-17
-40875-1	59.99	59.99	https://www.avenuedelabrique.com/lego-saisonnier/40875-minifigurine-de-la-mere-noel-grand-format/p12728	2026-10-17
-40880-1	39.99	39.99	https://www.avenuedelabrique.com/lego-brickheadz/40880-avengers-doomsday-heros-et-mechant/p12401	2026-10-17
-40899-1	19.99		https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40899-astro-bot/p13187	2026-10-17
-40900-1		24.99	https://www.avenuedelabrique.com/lego-creator/40900-l-arbre-hante-effrayant/p12989	2026-10-17
-40901-1		45.00	https://www.avenuedelabrique.com/lego-harry-potter/40901-kiosque-a-cafe-du-ministere-et-stand-de-la-gazette-du-sorcier/p12524	2026-10-17
-40908-1		40.00	https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40908-restaurants-du-monde-grece/p12492	2026-10-09
-40909-1	19.99		https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40909-restaurants-du-monde-italie/p13483	2026-10-18
-40919-1	24.99	24.99	https://www.avenuedelabrique.com/lego-brickheadz/40919-figurines-des-gremlins-gizmo-et-stripe/p12490	2026-10-17
-40958-1	34.99	32.99	https://www.avenuedelabrique.com/lego-saisonnier/40958-chaussette-de-noel/p12486	2026-10-17
-40975-1	39.99	39.99	https://www.avenuedelabrique.com/lego-harry-potter/40975-chateau-de-poudlard-miniature/p12458	2026-10-17
-42698-1	26.99	18.59	https://www.avenuedelabrique.com/lego-friends/42698-calendrier-de-l-avent-lego-friends-2026/p11842	2026-10-17
-43028-1	29.99	20.99	https://www.avenuedelabrique.com/lego-editions/43028-le-vinyle-d-olivia-rodrigo/p12203	2026-10-14
-43029-1	49.99	36.79	https://www.avenuedelabrique.com/lego-editions/43029-la-lune-de-concert-d-olivia-rodrigo/p12204	2026-10-14
-43030-1	79.99	59.90	https://www.avenuedelabrique.com/lego-editions/43030-la-mallette-secrete-d-olivia-rodrigo/p12205	2026-10-14
-43031-1	119.99	95.99	https://www.avenuedelabrique.com/lego-editions/43031-la-guitare-d-olivia-rodrigo/p12206	2026-10-14
-43288-1	49.99	36.89	https://www.avenuedelabrique.com/lego-disney/43288-le-pot-de-fleurs-de-sally/p11264	2026-10-11
-43298-1	34.99	24.59	https://www.avenuedelabrique.com/lego-disney/43298-calendrier-de-l-avent-lego-disney-2026/p11801	2026-10-17
-45520-1	339.99	350.00	https://www.avenuedelabrique.com/lego-education/45520-kit-informatique-ia-5/p11599	2026-10-14
-45546-1		18.55	https://www.avenuedelabrique.com/lego-education/45546-pack-de-remplacement-kit-informatique-ia-8/p11651	2026-10-14
-45547-1		18.55	https://www.avenuedelabrique.com/lego-education/45547-pack-de-remplacement-kit-informatique-ia-11/p11652	2026-10-14
-5006583-1	15.99	14.08	https://www.avenuedelabrique.com/porte-cles-lego/5006583-porte-cle-lumineux-dark-vador-avec-pull-de-noel/p11482	2026-10-14
-5006585-1	15.99	14.99	https://www.avenuedelabrique.com/porte-cles-lego/5006585-porte-cles-lumineux-stormtrooper-avec-pull-de-noel/p11483	2026-10-14
-5009866-1	19.99	18.19	https://www.avenuedelabrique.com/objets-divers-lego/5009866-bouteille-fleurs-sauvages/p11633	2026-10-14
-5009907-1	14.99	14.99	https://www.avenuedelabrique.com/objets-divers-lego/5009907-tasse-amour/p11453	2026-10-14
-5009908-1	14.99	14.99	https://www.avenuedelabrique.com/objets-divers-lego/5009908-tasse-fleurs-sauvages/p11454	2026-10-14
-5010063-1	109.99		https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010063-nike-air-max-95-x-lego-chaussures-pour-jeunes-enfants/p11653	2026-10-14
-5010064-1	149.99		https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010064-nike-air-max-95-x-lego-chaussures-pour-grands-enfants/p11654	2026-10-14
-5010096-1	27.99	26.81	https://www.avenuedelabrique.com/objets-divers-lego/5010096-gourde-isotherme-rouge/p11455	2026-10-14
-5010097-1	27.99	27.99	https://www.avenuedelabrique.com/objets-divers-lego/5010097-gourde-isotherme-bleue/p11456	2026-10-14
-5010098-1	27.99	26.81	https://www.avenuedelabrique.com/objets-divers-lego/5010098-gourde-isotherme-fleurs-sauvages/p11457	2026-10-14
-5010102-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010102-stylo-a-encre-gel-pen-pal-avec-minifigurine-bleu/p11582	2026-10-14
-5010103-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010103-stylo-a-encre-gel-pen-pal-avec-minifigurine-noir/p11583	2026-10-14
-5010104-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010104-stylo-a-encre-gel-pen-pal-avec-minifigurine-rouge/p11584	2026-10-14
-5010203-1	149.99		https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010203-lego-crocs-brick-clog/p11492	2026-10-14
-5010227-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010227-etiquette-de-sac-stormtrooper-en-vacances/p11791	2026-10-14
-5010228-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010228-etiquette-de-sac-dark-vador-en-vacances/p11790	2026-10-14
-5010231-1	15.99	15.99	https://www.avenuedelabrique.com/porte-cles-lego/5010231-porte-cle-lumineux-ahsoka-tano/p11840	2026-10-14
-5010310-1	79.99	79.99	https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010310-sabots-creatifs-noir-crocs-x-lego/p11585	2026-10-14
-5010311-1	79.99	79.99	https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010311-sabots-creatifs-blanc-crocs-x-lego/p11588	2026-10-14
-5010312-1	89.99	89.99	https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010312-sabots-creatifs-jardin-de-minuit-crocs-x-lego/p11587	2026-10-14
-5010313-1	89.99		https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010313-sabots-creatifs-masterbrand-crocs-x-lego/p11590	2026-10-14
-5010342-1	26.99	26.99	https://www.avenuedelabrique.com/objets-divers-lego/5010342-minifigures-100-cartes-postales-a-collectionner/p11581	2026-10-14
-5010343-1	21.99	20.99	https://www.avenuedelabrique.com/objets-divers-lego/5010343-puzzle-lego-ninjago-de-500-pieces/p11580	2026-10-14
-5010344-1	59.99	59.99	https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010344-sabots-creatifs-pour-enfants-noir-crocs-x-lego/p11592	2026-10-14
-5010345-1	59.99		https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010345-sabots-creatifs-pour-enfants-blanc-crocs-x-lego/p11586	2026-10-14
-5010346-1	59.99	59.99	https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010346-sabots-creatifs-pour-enfants-rose-crocs-x-lego/p11589	2026-10-14
-5010347-1	39.99	39.99	https://www.avenuedelabrique.com/objets-divers-lego/5010347-lot-de-10-clips-jardin-d-ete-crocs-x-lego/p11593	2026-10-14
-5010348-1	39.99	39.99	https://www.avenuedelabrique.com/objets-divers-lego/5010348-lot-de-10-clips-jeu-video-crocs-x-lego/p11591	2026-10-14
-5010349-1	39.99	39.99	https://www.avenuedelabrique.com/objets-divers-lego/5010349-lot-de-10-clips-masterbrand-crocs-x-lego/p11594	2026-10-14
-5010353-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010353-animaux-de-bureau-le-corgi/p11783	2026-10-17
-5010354-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010354-animaux-de-bureau-le-cochon/p11784	2026-10-17
-5010392-1	11.99	11.99	https://www.avenuedelabrique.com/objets-divers-lego/5010392-vase-briques/p12252	2026-10-14
-60510-1	26.99	20.19	https://www.avenuedelabrique.com/lego-city/60510-calendrier-de-l-avent-lego-city-2026/p11800	2026-10-17
-67006-1	99.99	76.80	https://www.avenuedelabrique.com/lego-marvel-super-heroes/67006-panorama-de-marvel/p13484	2026-10-17
-67008-1	59.99	46.05	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67008-la-batmobile-et-le-canard-de-batman-le-defi/p13382	2026-10-14
-67009-1	29.99	21.85	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67009-la-batmobile-de-batman-arkham/p13383	2026-10-14
-67012-1	169.99	136.30	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67012-couverture-dc-comics-le-joker/p13384	2026-10-14
-71053-1		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-17
-71053-10		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-11		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-12		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-13		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-14		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-2		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-3		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-4		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-5		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-6		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-7		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-8		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71053-9		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18
-71873-1	9.99	8.49	https://www.avenuedelabrique.com/lego-ninjago/71873-la-toupie-cole-contre-cole-malefique/p13314	2026-10-12
-71875-1	19.99	16.99	https://www.avenuedelabrique.com/lego-ninjago/71875-le-combat-de-toupies-lloyd-contre-ras/p13316	2026-10-12
-72052-1	9.99	7.30	https://www.avenuedelabrique.com/lego-super-mario/72052-saut-du-tuyau-de-mario/p12697	2026-10-17
-72054-1	14.99	10.95	https://www.avenuedelabrique.com/lego-super-mario/72054-mario-kart-course-avec-mario/p12698	2026-10-17
-72055-1	19.99	14.60	https://www.avenuedelabrique.com/lego-super-mario/72055-aventures-de-mario-a-la-plage/p12699	2026-10-17
-72056-1	29.99	21.85	https://www.avenuedelabrique.com/lego-super-mario/72056-mario-kart-luigi-contre-bowser-jr/p12700	2026-10-17
-72057-1	39.99	30.70	https://www.avenuedelabrique.com/lego-super-mario/72057-yoshi-chez-mario/p12701	2026-10-17
-72058-1	59.99	46.05	https://www.avenuedelabrique.com/lego-super-mario/72058-mario-kart-bowser-met-les-gaz/p12702	2026-10-17
-72060-1	99.99	76.80	https://www.avenuedelabrique.com/lego-super-mario/72060-mario-de-feu-au-chateau-de-bowser/p12703	2026-10-17
-72061-1	29.99	21.85	https://www.avenuedelabrique.com/lego-super-mario/72061-affrontement-de-luigi-de-feu-contre-koopa/p12704	2026-10-17
-72306-1	159.99	159.99	https://www.avenuedelabrique.com/lego-icons/72306-playstation/p12794	2026-10-17
-75456-1	34.99	24.59	https://www.avenuedelabrique.com/lego-star-wars/75456-calendrier-de-l-avent-lego-star-wars-2026/p11798	2026-10-17
-75457-1	749.99	745.99	https://www.avenuedelabrique.com/lego-star-wars/75457-le-super-destroyer-stellaire-de-classe-executor-ucs/p12717	2026-10-17
-76340-1	34.99	24.59	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76340-calendrier-de-l-avent-lego-marvel-2026/p11799	2026-10-17
-76345-1	49.99	39.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76345-buste-du-docteur-doom/p12402	2026-10-17
-76347-1	59.99	44.19	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76347-avengers-doomsday-le-quinjet/p12403	2026-10-17
-76348-1	99.99	76.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76348-le-combat-legendaire-avengers-doomsday/p12404	2026-10-17
-76352-1	109.99	84.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76352-avengers-doomsday-la-nouvelle-tour-des-avengers/p12405	2026-10-17
-76355-1	209.99	209.99	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76355-la-batmobile-de-batman-le-defi/p12622	2026-10-17
-76476-1	429.99	429.99	https://www.avenuedelabrique.com/lego-harry-potter/76476-le-ministere-de-la-magie-edition-collector/p12491	2026-10-17
-76788-1	69.99	53.75	https://www.avenuedelabrique.com/lego-mercredi-wednesday-addams/76788-l-academie-nevermore/p12487	2026-10-17
-910061-1	109.99		https://www.avenuedelabrique.com/lego-bricklink/910061-la-collection-d-antiquites/p11555	2026-10-17
-910064-1	349.99	599.99	https://www.avenuedelabrique.com/lego-bricklink/910064-la-forteresse-de-dustmark/p11854	2026-10-17
-910065-1	209.99	399.99	https://www.avenuedelabrique.com/lego-bricklink/910065-cap-coco/p11855	2026-10-17
-910066-1	119.99	199.99	https://www.avenuedelabrique.com/lego-bricklink/910066-la-locomotive-brick-railroad/p11852	2026-10-17
-910067-1	79.99	149.99	https://www.avenuedelabrique.com/lego-bricklink/910067-la-montgolfiere/p11851	2026-10-17
-910068-1	359.99		https://www.avenuedelabrique.com/lego-bricklink/910068-la-faculte-des-sciences/p11853	2026-10-17
-910069-1	349.99		https://www.avenuedelabrique.com/lego-bricklink/910069-le-village-de-pecheurs/p12882	2026-10-17
-910070-1	269.99		https://www.avenuedelabrique.com/lego-bricklink/910070-l-auberge-du-dragon-dormant/p12883	2026-10-17
-910071-1	219.99		https://www.avenuedelabrique.com/lego-bricklink/910071-la-forge-du-far-west/p12881	2026-10-17
-910072-1	219.99		https://www.avenuedelabrique.com/lego-bricklink/910072-la-gare-de-marchandises-de-woodbrick/p12885	2026-10-17
-910073-1	49.99		https://www.avenuedelabrique.com/lego-bricklink/910073-le-jardin-de-citrouilles/p12884	2026-10-17
+code	prix	meilleur	url	date	marchand
+1000858708-1				2026-10-18	
+1000858718-1				2026-10-18	
+1000858739-1				2026-10-18	
+1000858742-1				2026-10-18	
+1000858743-1				2026-10-18	
+1000858750-1				2026-10-18	
+10327-1	164.99	179.99	https://www.avenuedelabrique.com/lego-icons/10327-dune-atreides-royal-ornithopter/p9483	2026-10-18	
+10328-1	59.99	36.00	https://www.avenuedelabrique.com/lego-icons/10328-le-bouquet-de-roses/p9666	2026-10-18	
+10330-1	79.99	47.90	https://www.avenuedelabrique.com/lego-icons/10330-mclaren-mp4-4-ayrton-senna/p9751	2026-10-18	
+10331-1	49.99	44.95	https://www.avenuedelabrique.com/lego-icons/10331-le-martin-pecheur/p9726	2026-10-18	
+10332-1	229.99	278.99	https://www.avenuedelabrique.com/lego-icons/10332-la-place-de-la-ville-medievale/p9878	2026-10-18	
+10333-1	459.99	459.99	https://www.avenuedelabrique.com/lego-icons/10333-le-seigneur-des-anneaux-barad-dur/p10159	2026-10-18	LEGO
+10334-1	99.99	99.99	https://www.avenuedelabrique.com/lego-icons/10334-la-radio-retro/p10152	2026-10-18	LEGO
+10335-1	269.99	269.99	https://www.avenuedelabrique.com/lego-icons/10335-l-endurance/p10397	2026-10-18	LEGO
+10337-1	179.99	163.08	https://www.avenuedelabrique.com/lego-icons/10337-lamborghini-countach-5000-quattrovalvole/p10187	2026-10-18	
+10338-1	89.99	83.69	https://www.avenuedelabrique.com/lego-icons/10338-bumblebee-transformers/p10196	2026-10-18	
+10339-1	99.99	169.99	https://www.avenuedelabrique.com/lego-icons/10339-le-bureau-de-poste-du-pere-noel/p10315	2026-10-18	
+10340-1	99.99	90.90	https://www.avenuedelabrique.com/lego-icons/10340-la-couronne/p10287	2026-10-18	
+10341-1	259.99	253.00	https://www.avenuedelabrique.com/lego-icons/10341-le-systeme-de-lancement-spatial-d-artemis-de-la-nasa/p9996	2026-10-18	
+10342-1	59.99	42.98	https://www.avenuedelabrique.com/lego-icons/10342-le-joli-bouquet-de-fleurs-roses/p10409	2026-10-18	
+10343-1	29.99	18.69	https://www.avenuedelabrique.com/lego-icons/10343-l-orchidee-miniature/p10429	2026-10-18	
+10344-1	29.99	16.99	https://www.avenuedelabrique.com/lego-icons/10344-le-bambou-de-la-chance/p10427	2026-10-18	
+10345-1	109.99	109.99	https://www.avenuedelabrique.com/lego-icons/10345-la-composition-florale/p10428	2026-10-18	LEGO
+10347-1	29.99	18.00	https://www.avenuedelabrique.com/lego-botanicals/10347-petit-bouquet-ensoleille/p10752	2026-10-18	
+10348-1	59.99	39.09	https://www.avenuedelabrique.com/lego-icons/10348-bonsai-d-erable-rouge-du-japon/p10780	2026-10-18	
+10349-1	19.99	13.89	https://www.avenuedelabrique.com/lego-icons/10349-petites-plantes-souriantes/p10781	2026-10-18	
+10350-1	229.99	229.99	https://www.avenuedelabrique.com/lego-icons/10350-la-batisse-tudor/p10575	2026-10-18	LEGO
+10351-1	119.99	119.99	https://www.avenuedelabrique.com/lego-icons/10351-book-nook-sherlock-holmes/p10790	2026-10-18	LEGO
+10352-1	199.99	189.99	https://www.avenuedelabrique.com/lego-icons/10352-les-simpson-krusty-burger/p10921	2026-10-18	
+10353-1	79.99	56.99	https://www.avenuedelabrique.com/lego-icons/10353-williams-racing-fw14b-et-nigel-mansell/p10473	2026-10-18	
+10354-1	269.99	269.99	https://www.avenuedelabrique.com/lego-icons/10354-le-seigneur-des-anneaux-la-comte/p10755	2026-10-18	LEGO
+10355-1	99.99	99.99	https://www.avenuedelabrique.com/lego-icons/10355-le-blacktron-renegade/p10602	2026-10-18	LEGO
+10356-1	379.99	379.99	https://www.avenuedelabrique.com/lego-star-trek/10356-star-trek-u-s-s-enterprise-ncc-1701-d/p11221	2026-10-18	LEGO
+10357-1	149.99	139.49	https://www.avenuedelabrique.com/lego-icons/10357-shelby-cobra-427-s-c/p10954	2026-10-18	
+10358-1	179.99	130.00	https://www.avenuedelabrique.com/lego-icons/10358-transformers-soundwave/p10994	2026-10-18	
+10359-1	99.99	74.99	https://www.avenuedelabrique.com/lego-icons/10359-le-jardin-andalou/p10438	2026-10-18	
+10360-1	229.99	179.99	https://www.avenuedelabrique.com/lego-icons/10360-le-shuttle-carrier-aircraft/p10912	2026-10-18	
+10361-1	119.99	119.99	https://www.avenuedelabrique.com/lego-icons/10361-le-train-de-noel/p11097	2026-10-18	LEGO
+10362-1	79.99	62.99	https://www.avenuedelabrique.com/lego-icons/10362-le-cafe-francais/p10685	2026-10-18	
+10363-1	59.99	44.39	https://www.avenuedelabrique.com/lego-icons/10363-la-machine-volante-de-leonard-de-vinci/p10480	2026-10-18	
+10365-1	349.99	349.99	https://www.avenuedelabrique.com/lego-icons/10365-le-bateau-pirate-du-capitaine-jack-sparrow/p11069	2026-10-18	LEGO
+10366-1	449.99	449.99	https://www.avenuedelabrique.com/lego-icons/10366-l-aquarium-tropical/p11169	2026-10-18	LEGO
+10367-1	119.99	80.00	https://www.avenuedelabrique.com/lego-icons/10367-le-seigneur-des-anneaux-book-nook-du-balrog/p10934	2026-10-18	
+10368-1	29.99	19.00	https://www.avenuedelabrique.com/lego-icons/10368-le-chrysantheme/p10175	2026-10-18	
+10371-1	19.99	19.99	https://www.avenuedelabrique.com/lego-botanicals/10371-petites-plantes-adorables/p12910	2026-10-17	
+11212-1	14.99	10.49	https://www.avenuedelabrique.com/lego-gabby-s-dollhouse/11212-la-maison-de-jardin-de-fee-minette/p11814	2026-10-14	
+11214-1	34.99	34.99	https://www.avenuedelabrique.com/lego-gabby-s-dollhouse/11214-les-montagnes-russes-et-le-gouter-des-fees/p11813	2026-10-14	
+112601-1				2026-10-18	
+11379-1	129.99	101.90	https://www.avenuedelabrique.com/lego-icons/11379-la-librairie-book-nook/p12812	2026-10-17	
+11383-1	109.99	84.90	https://www.avenuedelabrique.com/lego-icons/11383-le-manoir-du-maire-vallee-de-minuit/p12261	2026-10-17	
+11385-1	179.99	179.99	https://www.avenuedelabrique.com/lego-icons/11385-star-trek-pont-de-l-u-s-s-enterprise-ncc-1701/p12350	2026-10-17	
+11386-1	209.99	199.99	https://www.avenuedelabrique.com/lego-icons/11386-bob-l-eponge-bikini-bottom/p12283	2026-10-17	
+11387-1	109.99	109.99	https://www.avenuedelabrique.com/lego-icons/11387-la-maison-des-fetes/p12961	2026-10-17	
+11388-1	499.99	499.99	https://www.avenuedelabrique.com/lego-icons/11388-le-quartier-venitien/p13487	2026-10-16	
+11390-1	139.99	139.99	https://www.avenuedelabrique.com/lego-icons/11390-dragon-ball-shenron-goku/p12540	2026-10-17	
+11507-1	44.99	29.99	https://www.avenuedelabrique.com/lego-editions/11507-bouquet-de-fleurs-d-olivia-rodrigo/p12208	2026-10-17	
+11512-1	59.99	59.99	https://www.avenuedelabrique.com/lego-botanicals/11512-pothos-dore-tombant/p12211	2026-10-17	
+12010-1		159.99	https://www.avenuedelabrique.com/autres-marques-de-briques/lumibricks/middle-ages/12010-salle-de-banquet-du-chateau/p13283	2026-10-16	
+12011-1		129.99	https://www.avenuedelabrique.com/autres-marques-de-briques/lumibricks/middle-ages/12011-armurerie-du-chateau/p13281	2026-10-16	
+12015-1		76.79	https://www.avenuedelabrique.com/autres-marques-de-briques/lumibricks/middle-ages/12015-avant-poste-forestier/p13255	2026-10-18	
+122506-1				2026-10-18	
+122507-1				2026-10-18	
+122509-1				2026-10-18	
+21065-1	749.99	749.99	https://www.avenuedelabrique.com/lego-architecture/21065-la-sagrada-familia/p11886	2026-10-17	
+21371-1	99.99	99.99	https://www.avenuedelabrique.com/lego-ideas/21371-wallace-gromit/p12726	2026-10-17	
+21373-1	299.99	299.99	https://www.avenuedelabrique.com/lego-ideas/21373-downton-abbey/p12890	2026-10-17	
+21591-1	49.99	49.99	https://www.avenuedelabrique.com/lego-minecraft/21591-le-combat-du-warden-deforme/p11858	2026-10-18	LEGO
+30730-1	3.99	3.19	https://www.avenuedelabrique.com/lego-pokemon/30730-l-equipement-du-dresseur-polybag/p11875	2026-10-18	
+30762-1	3.99		https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/30762-retro-video-game-batman-polybag/p11912	2026-10-17	
+4000049-1				2026-10-18	
+4000050-1				2026-10-18	
+4000351-1	199.99		https://www.avenuedelabrique.com/lego-editions/4000351-trophee-officiel-de-la-coupe-du-monde-de-la-fifa-champions-espagne/p12331	2026-10-14	
+4000701-1			https://www.avenuedelabrique.com/lego-pokemon/4000701-smart-oran-berry-tag/p12493	2026-10-18	
+4000702-1			https://www.avenuedelabrique.com/lego-pokemon/4000702-smart-trophy-tag/p12494	2026-10-18	
+4000703-1			https://www.avenuedelabrique.com/lego-pokemon/4000703-smart-sitrus-berry-tag/p12495	2026-10-18	
+40507-1				2026-10-18	
+40858-1	12.99	12.99	https://www.avenuedelabrique.com/lego-brickheadz/40858-figurine-de-bob-l-eponge/p12284	2026-10-17	
+40859-1	24.99	24.99	https://www.avenuedelabrique.com/lego-brickheadz/40859-figurines-de-superman-et-batman-age-d-or/p12489	2026-10-17	
+40862-1	12.99	12.99	https://www.avenuedelabrique.com/lego-saisonnier/40862-selection-de-decorations-de-fetes-2/p12737	2026-10-17	
+40865-1	39.99	39.99	https://www.avenuedelabrique.com/lego-elfe/40865-buddy-l-elfe/p12729	2026-10-17	
+40866-1	29.99	29.99	https://www.avenuedelabrique.com/lego-saisonnier/40866-l-aventure-en-traineau-du-pere-noel/p12736	2026-10-17	
+40868-1	79.99	79.99	https://www.avenuedelabrique.com/lego-pokemon/40868-minifigurine-de-red-grand-format/p12250	2026-10-17	
+40872-1	29.99	29.99	https://www.avenuedelabrique.com/lego-saisonnier/40872-lanterne-citrouille-d-halloween/p12225	2026-10-17	
+40874-1	59.99	59.99	https://www.avenuedelabrique.com/lego-saisonnier/40874-compte-a-rebours-avant-l-arrivee-du-pere-noel/p12727	2026-10-17	
+40875-1	59.99	59.99	https://www.avenuedelabrique.com/lego-saisonnier/40875-minifigurine-de-la-mere-noel-grand-format/p12728	2026-10-17	
+40880-1	39.99	39.99	https://www.avenuedelabrique.com/lego-brickheadz/40880-avengers-doomsday-heros-et-mechant/p12401	2026-10-17	
+40897-1			https://www.avenuedelabrique.com/lego-star-wars/40897-le-sabre-laser-de-dark-vador/p12718	2026-10-18	
+40898-1			https://www.avenuedelabrique.com/lego-icons/40898-bateau-taxi-venitien/p13486	2026-10-18	
+40899-1	19.99		https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40899-astro-bot/p13187	2026-10-17	
+40900-1		24.99	https://www.avenuedelabrique.com/lego-creator/40900-l-arbre-hante-effrayant/p12989	2026-10-17	
+40901-1		45.00	https://www.avenuedelabrique.com/lego-harry-potter/40901-kiosque-a-cafe-du-ministere-et-stand-de-la-gazette-du-sorcier/p12524	2026-10-17	
+40908-1		40.00	https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40908-restaurants-du-monde-grece/p12492	2026-10-09	
+40909-1	19.99		https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40909-restaurants-du-monde-italie/p13483	2026-10-18	
+40911-1		70.00	https://www.avenuedelabrique.com/lego-pokemon/40911-centre-pokemon-miniature/p11476	2026-10-18	
+40919-1	24.99	24.99	https://www.avenuedelabrique.com/lego-brickheadz/40919-figurines-des-gremlins-gizmo-et-stripe/p12490	2026-10-17	
+40952-1	54.99	69.99	https://www.avenuedelabrique.com/objets-divers-lego/40952-legoland-chateau/p11561	2026-10-18	
+40958-1	34.99	32.99	https://www.avenuedelabrique.com/lego-saisonnier/40958-chaussette-de-noel/p12486	2026-10-17	
+40972-1				2026-10-18	
+40973-1				2026-10-18	
+40975-1	39.99	39.99	https://www.avenuedelabrique.com/lego-harry-potter/40975-chateau-de-poudlard-miniature/p12458	2026-10-17	
+42233-10	4.99	4.96	https://www.avenuedelabrique.com/lego-technic/42233-machines-puissantes-serie-1/p11804	2026-10-18	
+42233-9	4.99	4.96	https://www.avenuedelabrique.com/lego-technic/42233-machines-puissantes-serie-1/p11804	2026-10-18	
+42698-1	26.99	18.59	https://www.avenuedelabrique.com/lego-friends/42698-calendrier-de-l-avent-lego-friends-2026/p11842	2026-10-17	
+43026-1	99.99	99.99	https://www.avenuedelabrique.com/lego-nike/43026-set-nike-air-force-1-x-lego/p12539	2026-10-18	LEGO
+43028-1	29.99	20.99	https://www.avenuedelabrique.com/lego-editions/43028-le-vinyle-d-olivia-rodrigo/p12203	2026-10-14	
+43029-1	49.99	36.79	https://www.avenuedelabrique.com/lego-editions/43029-la-lune-de-concert-d-olivia-rodrigo/p12204	2026-10-14	
+43030-1	79.99	59.90	https://www.avenuedelabrique.com/lego-editions/43030-la-mallette-secrete-d-olivia-rodrigo/p12205	2026-10-14	
+43031-1	119.99	95.99	https://www.avenuedelabrique.com/lego-editions/43031-la-guitare-d-olivia-rodrigo/p12206	2026-10-14	
+43288-1	49.99	36.89	https://www.avenuedelabrique.com/lego-disney/43288-le-pot-de-fleurs-de-sally/p11264	2026-10-11	
+43298-1	34.99	24.59	https://www.avenuedelabrique.com/lego-disney/43298-calendrier-de-l-avent-lego-disney-2026/p11801	2026-10-17	
+45520-1	339.99	350.00	https://www.avenuedelabrique.com/lego-education/45520-kit-informatique-ia-5/p11599	2026-10-14	
+45545-1				2026-10-18	
+45546-1		18.55	https://www.avenuedelabrique.com/lego-education/45546-pack-de-remplacement-kit-informatique-ia-8/p11651	2026-10-14	
+45547-1		18.55	https://www.avenuedelabrique.com/lego-education/45547-pack-de-remplacement-kit-informatique-ia-11/p11652	2026-10-14	
+45832-1				2026-10-18	
+45833-1				2026-10-18	
+45834-1				2026-10-18	
+45835-1				2026-10-18	
+5006163-1				2026-10-18	
+5006583-1	15.99	14.08	https://www.avenuedelabrique.com/porte-cles-lego/5006583-porte-cle-lumineux-dark-vador-avec-pull-de-noel/p11482	2026-10-14	
+5006585-1	15.99	14.99	https://www.avenuedelabrique.com/porte-cles-lego/5006585-porte-cles-lumineux-stormtrooper-avec-pull-de-noel/p11483	2026-10-14	
+50090-1				2026-10-18	
+5009235-1				2026-10-18	
+5009561-1				2026-10-18	
+5009562-1				2026-10-18	
+5009620-1				2026-10-18	
+5009637-1				2026-10-18	
+5009866-1	19.99	18.19	https://www.avenuedelabrique.com/objets-divers-lego/5009866-bouteille-fleurs-sauvages/p11633	2026-10-14	
+5009907-1	14.99	14.99	https://www.avenuedelabrique.com/objets-divers-lego/5009907-tasse-amour/p11453	2026-10-14	
+5009908-1	14.99	14.99	https://www.avenuedelabrique.com/objets-divers-lego/5009908-tasse-fleurs-sauvages/p11454	2026-10-14	
+5009934-1			https://www.avenuedelabrique.com/lego-botanicals/5009934-le-jardin-des-libellules/p11478	2026-10-18	
+5009997-1				2026-10-18	
+5010053-1				2026-10-18	
+5010057-1				2026-10-18	
+5010063-1	109.99		https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010063-nike-air-max-95-x-lego-chaussures-pour-jeunes-enfants/p11653	2026-10-14	
+5010064-1	149.99		https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010064-nike-air-max-95-x-lego-chaussures-pour-grands-enfants/p11654	2026-10-14	
+5010096-1	27.99	26.81	https://www.avenuedelabrique.com/objets-divers-lego/5010096-gourde-isotherme-rouge/p11455	2026-10-14	
+5010097-1	27.99	27.99	https://www.avenuedelabrique.com/objets-divers-lego/5010097-gourde-isotherme-bleue/p11456	2026-10-14	
+5010098-1	27.99	26.81	https://www.avenuedelabrique.com/objets-divers-lego/5010098-gourde-isotherme-fleurs-sauvages/p11457	2026-10-14	
+5010102-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010102-stylo-a-encre-gel-pen-pal-avec-minifigurine-bleu/p11582	2026-10-14	
+5010103-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010103-stylo-a-encre-gel-pen-pal-avec-minifigurine-noir/p11583	2026-10-14	
+5010104-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010104-stylo-a-encre-gel-pen-pal-avec-minifigurine-rouge/p11584	2026-10-14	
+5010109-1				2026-10-18	
+5010173-1				2026-10-18	
+5010202-1				2026-10-18	
+5010203-1	149.99		https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010203-lego-crocs-brick-clog/p11492	2026-10-14	
+5010210-1				2026-10-18	
+5010221-1				2026-10-18	
+5010222-1				2026-10-18	
+5010223-1				2026-10-18	
+5010226-1				2026-10-18	
+5010227-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010227-etiquette-de-sac-stormtrooper-en-vacances/p11791	2026-10-14	
+5010228-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010228-etiquette-de-sac-dark-vador-en-vacances/p11790	2026-10-14	
+5010229-1				2026-10-18	
+5010231-1	15.99	15.99	https://www.avenuedelabrique.com/porte-cles-lego/5010231-porte-cle-lumineux-ahsoka-tano/p11840	2026-10-14	
+5010306-1				2026-10-18	
+5010310-1	79.99	79.99	https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010310-sabots-creatifs-noir-crocs-x-lego/p11585	2026-10-14	
+5010311-1	79.99	79.99	https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010311-sabots-creatifs-blanc-crocs-x-lego/p11588	2026-10-14	
+5010312-1	89.99	89.99	https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010312-sabots-creatifs-jardin-de-minuit-crocs-x-lego/p11587	2026-10-14	
+5010313-1	89.99		https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010313-sabots-creatifs-masterbrand-crocs-x-lego/p11590	2026-10-14	
+5010324-1				2026-10-18	
+5010342-1	26.99	26.99	https://www.avenuedelabrique.com/objets-divers-lego/5010342-minifigures-100-cartes-postales-a-collectionner/p11581	2026-10-14	
+5010343-1	21.99	20.99	https://www.avenuedelabrique.com/objets-divers-lego/5010343-puzzle-lego-ninjago-de-500-pieces/p11580	2026-10-14	
+5010344-1	59.99	59.99	https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010344-sabots-creatifs-pour-enfants-noir-crocs-x-lego/p11592	2026-10-14	
+5010345-1	59.99		https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010345-sabots-creatifs-pour-enfants-blanc-crocs-x-lego/p11586	2026-10-14	
+5010346-1	59.99	59.99	https://www.avenuedelabrique.com/vetements-et-accessoires-lego/5010346-sabots-creatifs-pour-enfants-rose-crocs-x-lego/p11589	2026-10-14	
+5010347-1	39.99	39.99	https://www.avenuedelabrique.com/objets-divers-lego/5010347-lot-de-10-clips-jardin-d-ete-crocs-x-lego/p11593	2026-10-14	
+5010348-1	39.99	39.99	https://www.avenuedelabrique.com/objets-divers-lego/5010348-lot-de-10-clips-jeu-video-crocs-x-lego/p11591	2026-10-14	
+5010349-1	39.99	39.99	https://www.avenuedelabrique.com/objets-divers-lego/5010349-lot-de-10-clips-masterbrand-crocs-x-lego/p11594	2026-10-14	
+5010353-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010353-animaux-de-bureau-le-corgi/p11783	2026-10-17	
+5010354-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010354-animaux-de-bureau-le-cochon/p11784	2026-10-17	
+5010391-1				2026-10-18	
+5010392-1	11.99	11.99	https://www.avenuedelabrique.com/objets-divers-lego/5010392-vase-briques/p12252	2026-10-14	
+5010400-1				2026-10-18	
+5010423-1				2026-10-18	
+5010424-1				2026-10-18	
+5010425-1				2026-10-18	
+5010426-1				2026-10-18	
+5010427-1				2026-10-18	
+5010428-1				2026-10-18	
+5010429-1				2026-10-18	
+5010430-1				2026-10-18	
+5010431-1				2026-10-18	
+5010432-1				2026-10-18	
+5010433-1				2026-10-18	
+5010434-1				2026-10-18	
+5010435-1				2026-10-18	
+5010436-1				2026-10-18	
+5010437-1				2026-10-18	
+5010438-1				2026-10-18	
+5010439-1				2026-10-18	
+5010440-1				2026-10-18	
+5010450-1				2026-10-18	
+5010451-1				2026-10-18	
+5010452-1				2026-10-18	
+5010453-1				2026-10-18	
+5010454-1				2026-10-18	
+5010455-1				2026-10-18	
+5010456-1				2026-10-18	
+5010457-1				2026-10-18	
+5010458-1				2026-10-18	
+5010478-1				2026-10-18	
+5010487-1				2026-10-18	
+5010554-1				2026-10-18	
+5010555-1				2026-10-18	
+5010808-1				2026-10-18	
+5010809-1				2026-10-18	
+5010810-1				2026-10-18	
+5010828-1				2026-10-18	
+5010878-1				2026-10-18	
+5010886-1				2026-10-18	
+5010887-1				2026-10-18	
+5010889-1				2026-10-18	
+5010890-1				2026-10-18	
+5010891-1				2026-10-18	
+5010892-1				2026-10-18	
+5010893-1				2026-10-18	
+5010894-1				2026-10-18	
+5010895-1				2026-10-18	
+5010896-1				2026-10-18	
+5010897-1				2026-10-18	
+5010901-1				2026-10-18	
+5010902-1				2026-10-18	
+5010903-1				2026-10-18	
+5010905-1				2026-10-18	
+5010908-1				2026-10-18	
+5010927-1				2026-10-18	
+5010929-1				2026-10-18	
+5011029-1				2026-10-18	
+5011065-1				2026-10-18	
+5011070-1				2026-10-18	
+5011071-1				2026-10-18	
+5011072-1			https://www.avenuedelabrique.com/objets-divers-lego/5011072-la-cabine-telephonique-du-ministere-de-la-magie/p12538	2026-10-18	
+5011093-1				2026-10-18	
+5011164-1				2026-10-18	
+5011169-1				2026-10-18	
+5011181-1				2026-10-18	
+5011185-1				2026-10-18	
+5011186-1				2026-10-18	
+5011187-1				2026-10-18	
+5011188-1				2026-10-18	
+5011189-1				2026-10-18	
+5011190-1				2026-10-18	
+5011191-1				2026-10-18	
+5011192-1				2026-10-18	
+5011193-1				2026-10-18	
+5011194-1				2026-10-18	
+5011195-1				2026-10-18	
+5011196-1				2026-10-18	
+5011197-1				2026-10-18	
+5011198-1				2026-10-18	
+5011199-1				2026-10-18	
+5011200-1				2026-10-18	
+5011201-1				2026-10-18	
+5011202-1				2026-10-18	
+5011203-1				2026-10-18	
+5011204-1				2026-10-18	
+5011205-1				2026-10-18	
+562601-1				2026-10-18	
+60510-1	26.99	20.19	https://www.avenuedelabrique.com/lego-city/60510-calendrier-de-l-avent-lego-city-2026/p11800	2026-10-17	
+6593417-1				2026-10-18	
+6608561-1				2026-10-18	
+6611591-1				2026-10-18	
+6611593-1				2026-10-18	
+6611595-1				2026-10-18	
+6611596-1				2026-10-18	
+6614211-1				2026-10-18	
+6614213-1				2026-10-18	
+6614214-1				2026-10-18	
+6614216-1				2026-10-18	
+6614217-1				2026-10-18	
+6614220-1				2026-10-18	
+6614222-1				2026-10-18	
+6614225-1				2026-10-18	
+6614227-1				2026-10-18	
+6618066-1				2026-10-18	
+6621906-1				2026-10-18	
+6626053-1				2026-10-18	
+6626057-1				2026-10-18	
+6626060-1				2026-10-18	
+6626065-1				2026-10-18	
+6626067-1				2026-10-18	
+6626070-1				2026-10-18	
+6631373-1				2026-10-18	
+6643344-1				2026-10-18	
+6644846-1				2026-10-18	
+6644864-1				2026-10-18	
+6644865-1				2026-10-18	
+6644870-1				2026-10-18	
+6644876-1				2026-10-18	
+6644878-1				2026-10-18	
+6644880-1				2026-10-18	
+6644882-1				2026-10-18	
+6644886-1				2026-10-18	
+6644890-1				2026-10-18	
+6644894-1				2026-10-18	
+6644896-1				2026-10-18	
+6647174-1				2026-10-18	
+6649951-1				2026-10-18	
+6649952-1				2026-10-18	
+6649953-1				2026-10-18	
+6649954-1				2026-10-18	
+6649955-1				2026-10-18	
+6649956-1				2026-10-18	
+6649957-1				2026-10-18	
+6649958-1				2026-10-18	
+6649999-1				2026-10-18	
+6652991-1				2026-10-18	
+6659451-1				2026-10-18	
+6667469-1				2026-10-18	
+6674871-1				2026-10-18	
+66815-1				2026-10-18	
+66820-1				2026-10-18	
+66821-1				2026-10-18	
+66822-1				2026-10-18	
+66832-1				2026-10-18	
+66833-1				2026-10-18	
+66834-1				2026-10-18	
+6695501-1				2026-10-18	
+67006-1	99.99	76.80	https://www.avenuedelabrique.com/lego-marvel-super-heroes/67006-panorama-de-marvel/p13484	2026-10-17	
+67008-1	59.99	46.05	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67008-la-batmobile-et-le-canard-de-batman-le-defi/p13382	2026-10-14	
+67009-1	29.99	21.85	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67009-la-batmobile-de-batman-arkham/p13383	2026-10-14	
+67012-1	169.99	136.30	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67012-couverture-dc-comics-le-joker/p13384	2026-10-14	
+71053-1		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-17	
+71053-10		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-11		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-12		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-13		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-14		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-2		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-3		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-4		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-5		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-6		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-7		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-8		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71053-9		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-18	
+71054-1				2026-10-18	
+71054-13				2026-10-18	
+71054-14				2026-10-18	
+71873-1	9.99	8.49	https://www.avenuedelabrique.com/lego-ninjago/71873-la-toupie-cole-contre-cole-malefique/p13314	2026-10-12	
+71875-1	19.99	16.99	https://www.avenuedelabrique.com/lego-ninjago/71875-le-combat-de-toupies-lloyd-contre-ras/p13316	2026-10-12	
+72052-1	9.99	7.30	https://www.avenuedelabrique.com/lego-super-mario/72052-saut-du-tuyau-de-mario/p12697	2026-10-17	
+72054-1	14.99	10.95	https://www.avenuedelabrique.com/lego-super-mario/72054-mario-kart-course-avec-mario/p12698	2026-10-17	
+72055-1	19.99	14.60	https://www.avenuedelabrique.com/lego-super-mario/72055-aventures-de-mario-a-la-plage/p12699	2026-10-17	
+72056-1	29.99	21.85	https://www.avenuedelabrique.com/lego-super-mario/72056-mario-kart-luigi-contre-bowser-jr/p12700	2026-10-17	
+72057-1	39.99	30.70	https://www.avenuedelabrique.com/lego-super-mario/72057-yoshi-chez-mario/p12701	2026-10-17	
+72058-1	59.99	46.05	https://www.avenuedelabrique.com/lego-super-mario/72058-mario-kart-bowser-met-les-gaz/p12702	2026-10-17	
+72060-1	99.99	76.80	https://www.avenuedelabrique.com/lego-super-mario/72060-mario-de-feu-au-chateau-de-bowser/p12703	2026-10-17	
+72061-1	29.99	21.85	https://www.avenuedelabrique.com/lego-super-mario/72061-affrontement-de-luigi-de-feu-contre-koopa/p12704	2026-10-17	
+72150-1	69.99	52.90	https://www.avenuedelabrique.com/lego-pokemon/72150-goinfrex/p12246	2026-10-18	
+72155-1	19.99	15.99	https://www.avenuedelabrique.com/lego-pokemon/72155-smart-play-bulbizarre-et-keunotor-delice-de-baies/p11866	2026-10-18	
+72156-1	29.99	22.99	https://www.avenuedelabrique.com/lego-pokemon/72156-smart-play-l-aventure-de-carapuce-avec-le-buggy-du-dresseur/p11870	2026-10-18	
+72157-1	19.99	17.99	https://www.avenuedelabrique.com/lego-pokemon/72157-smart-play-salameche-et-racaillou-le-combat-dans-la-grotte/p11861	2026-10-18	
+72158-1	34.99	34.99	https://www.avenuedelabrique.com/lego-pokemon/72158-smart-play-combat-entre-poussacha-chochodile-et-coiffeton/p11872	2026-10-18	LEGO
+72159-1	14.99	14.99	https://www.avenuedelabrique.com/lego-pokemon/72159-smart-play-le-concert-de-rondoudou/p11871	2026-10-18	LEGO
+72161-1	49.99	34.99	https://www.avenuedelabrique.com/lego-pokemon/72161-smart-play-recherche-de-mew-fabuleux-en-drone/p11869	2026-10-18	
+72162-1	59.99	44.90	https://www.avenuedelabrique.com/lego-pokemon/72162-smart-play-chasse-au-tresor-d-evoli-et-lokhlass/p11867	2026-10-18	
+72163-1	69.99	54.99	https://www.avenuedelabrique.com/lego-pokemon/72163-smart-play-l-evasion-du-labo-de-mewtwo/p11864	2026-10-18	
+72164-1	69.99	48.99	https://www.avenuedelabrique.com/lego-pokemon/72164-smart-play-pikachu-et-la-cabane-d-entrainement/p11862	2026-10-18	
+72165-1	79.99	63.99	https://www.avenuedelabrique.com/lego-pokemon/72165-smart-play-le-combat-entre-noctali-et-carchacrok/p11865	2026-10-18	
+72166-1	89.99	69.99	https://www.avenuedelabrique.com/lego-pokemon/72166-smart-play-l-affrontement-terrifiant-entre-osselait-et-ectoplasma/p11868	2026-10-18	
+72167-1	119.99	99.99	https://www.avenuedelabrique.com/lego-pokemon/72167-smart-play-le-combat-ultime-entre-dracaufeu-et-voltali/p11863	2026-10-18	
+72168-1	129.99	99.99	https://www.avenuedelabrique.com/lego-pokemon/72168-rayquaza/p12248	2026-10-18	
+72306-1	159.99	159.99	https://www.avenuedelabrique.com/lego-icons/72306-playstation/p12794	2026-10-17	
+72537-1	69.99	44.99	https://www.avenuedelabrique.com/lego-kpop-demon-hunters/72537-derpy-le-tigre-et-suzy-la-pie/p11913	2026-10-18	
+75456-1	34.99	24.59	https://www.avenuedelabrique.com/lego-star-wars/75456-calendrier-de-l-avent-lego-star-wars-2026/p11798	2026-10-17	
+75457-1	749.99	745.99	https://www.avenuedelabrique.com/lego-star-wars/75457-le-super-destroyer-stellaire-de-classe-executor-ucs/p12717	2026-10-17	
+75647-1	69.99	69.99	https://www.avenuedelabrique.com/lego-one-piece/75647-fruit-du-gum-gum/p11574	2026-10-18	LEGO
+76340-1	34.99	24.59	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76340-calendrier-de-l-avent-lego-marvel-2026/p11799	2026-10-17	
+76345-1	49.99	39.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76345-buste-du-docteur-doom/p12402	2026-10-17	
+76347-1	59.99	44.19	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76347-avengers-doomsday-le-quinjet/p12403	2026-10-17	
+76348-1	99.99	76.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76348-le-combat-legendaire-avengers-doomsday/p12404	2026-10-17	
+76352-1	109.99	84.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76352-avengers-doomsday-la-nouvelle-tour-des-avengers/p12405	2026-10-17	
+76355-1	209.99	209.99	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76355-la-batmobile-de-batman-le-defi/p12622	2026-10-17	
+76476-1	429.99	429.99	https://www.avenuedelabrique.com/lego-harry-potter/76476-le-ministere-de-la-magie-edition-collector/p12491	2026-10-17	
+76787-1	39.99	29.99	https://www.avenuedelabrique.com/lego-mercredi-wednesday-addams/76787-le-sac-a-dos-de-mercredi/p12488	2026-10-18	
+76788-1	69.99	53.75	https://www.avenuedelabrique.com/lego-mercredi-wednesday-addams/76788-l-academie-nevermore/p12487	2026-10-17	
+77094-1			https://www.avenuedelabrique.com/lego-zelda/77094-link-and-epona/p12849	2026-10-18	
+77119-1	29.99	20.99	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77119-le-tornado-1-de-tails/p11802	2026-10-18	
+77120-1	49.99	44.99	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77120-le-robot-de-shadow-contre-le-g-u-n-trooper/p11812	2026-10-18	
+80118-1	47.99	47.99	https://www.avenuedelabrique.com/lego-saisonnier/80118-le-feu-d-artifice-porte-bonheur/p11236	2026-10-18	LEGO
+80119-1	99.99	99.99	https://www.avenuedelabrique.com/lego-saisonnier/80119-tableau-vivant-le-galop-des-chevaux/p11237	2026-10-18	LEGO
+854326-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854326-porte-cles-le-mandalorien/p11684	2026-10-18	LEGO
+854327-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854327-porte-cles-simba/p11381	2026-10-18	LEGO
+854328-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854328-porte-cles-dumbo/p11380	2026-10-18	LEGO
+854331-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854331-porte-cles-paladin-drakeide/p11395	2026-10-18	LEGO
+854332-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854332-porte-cles-red/p12251	2026-10-18	LEGO
+854336-1				2026-10-18	
+854337-1				2026-10-18	
+854338-1				2026-10-18	
+910061-1	109.99		https://www.avenuedelabrique.com/lego-bricklink/910061-la-collection-d-antiquites/p11555	2026-10-17	
+910064-1	349.99	599.99	https://www.avenuedelabrique.com/lego-bricklink/910064-la-forteresse-de-dustmark/p11854	2026-10-17	
+910065-1	209.99	399.99	https://www.avenuedelabrique.com/lego-bricklink/910065-cap-coco/p11855	2026-10-17	
+910066-1	119.99	199.99	https://www.avenuedelabrique.com/lego-bricklink/910066-la-locomotive-brick-railroad/p11852	2026-10-17	
+910067-1	79.99	149.99	https://www.avenuedelabrique.com/lego-bricklink/910067-la-montgolfiere/p11851	2026-10-17	
+910068-1	359.99		https://www.avenuedelabrique.com/lego-bricklink/910068-la-faculte-des-sciences/p11853	2026-10-17	
+910069-1	349.99		https://www.avenuedelabrique.com/lego-bricklink/910069-le-village-de-pecheurs/p12882	2026-10-17	
+910070-1	269.99		https://www.avenuedelabrique.com/lego-bricklink/910070-l-auberge-du-dragon-dormant/p12883	2026-10-17	
+910071-1	219.99		https://www.avenuedelabrique.com/lego-bricklink/910071-la-forge-du-far-west/p12881	2026-10-17	
+910072-1	219.99		https://www.avenuedelabrique.com/lego-bricklink/910072-la-gare-de-marchandises-de-woodbrick/p12885	2026-10-17	
+910073-1	49.99		https://www.avenuedelabrique.com/lego-bricklink/910073-le-jardin-de-citrouilles/p12884	2026-10-17	
+951345-1				2026-10-18	
+951351-1				2026-10-18	
+951440-1				2026-10-18	
+951441-1				2026-10-18	
+951442-1				2026-10-18	
+951443-1				2026-10-18	
+951445-1				2026-10-18	
+951446-1				2026-10-18	
+951466-1				2026-10-18	
+951467-1				2026-10-18	
