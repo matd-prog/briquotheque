@@ -575,3 +575,11 @@ a, .bouton-lien { color: var(--encre-2); text-decoration-color: #a5acd6; }
 .justificatifs-dossier figure { margin: 0; break-inside: avoid; }
 .justificatifs-dossier img { width: 100%; border: 1px solid #ccc; }
 .justificatifs-dossier figcaption { font-size: 11px; margin-top: 4px; }
+
+/* Fiche d'un set : prix en ligne et magasins autour (js/magasins.js) */
+.prix-en-ligne { display: flex; flex-direction: column; gap: 6px; margin: 4px 0 8px; }
+.prix-en-ligne .remise { color: var(--vert); font-size: 13px; margin-left: 4px; }
+.deux-boutons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.deux-boutons .bouton { min-height: 44px; font-size: 14px; }
+.fiche.magasin { display: flex; align-items: center; gap: 10px; }
+.fiche.magasin .infos { flex: 1; min-width: 0; display: flex; flex-direction: column; }

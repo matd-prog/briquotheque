@@ -193,6 +193,7 @@ const EcranSet = {
         ${versions.length > 1 ? `<div class="suggestions">${versions.map(v =>
           `<button class="petit" data-version="${echapper(v.code)}">${echapper(v.code)}${v.code === s.code ? " ✔" : ""}</button>`).join("")}</div>` : ""}
         ${deja.length ? `<div class="alerte">Déjà dans votre onglet « Sets » (ligne ${deja.map(d => d.row).join(", ")}).</div>` : ""}
+        <div id="set-prix"></div>
         <a class="bouton bleu" href="${urlBricklinkSet(s.code)}" target="_blank" rel="noopener">🔗 Voir la page BrickLink</a>
         ${typeof Souhaits !== "undefined" ? Souhaits.bouton("Set", s.code.replace(/-1$/, ""), s.nom, s.theme || "") : ""}
       </div>`;
@@ -203,6 +204,7 @@ const EcranSet = {
     $("set-notice").checked = true;
     this._figurines();
     $("set-details").hidden = false;
+    if (typeof PrixEnLigne !== "undefined") PrixEnLigne.afficher(s.code); // meilleur prix en ligne, magasins autour (js/magasins.js)
   },
 
   // Figurines du set : code BrickLink proposé, onglet de destination, déjà dans la collection ?

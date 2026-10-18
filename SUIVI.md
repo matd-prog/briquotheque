@@ -125,6 +125,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v148 (18/10) : SCAN EN MAGASIN, ÉTAGES 1 ET 2 (idée de Mathias : savoir si c'est moins cher ailleurs). Fiche d'un set
+    (écran « Ajouter un set », donc aussi après un scan) : prix public LEGO France + meilleur prix en ligne et son marchand
+    (data/prix_fr.tsv, colonne marchand ajoutée ; outils/prix_lego_fr.py relit maintenant tous les sets des 3 dernières
+    années, 400 pages par jour, 14 jours de validité ; un set absent est noté sans prix) ; « 🔎 Comparer les prix » (fiche
+    Avenue de la Brique) ; « 📍 Magasins autour de moi » : géolocalisation + OpenStreetMap (Overpass : shop=toys, marque
+    LEGO, 10 km), distance, itinéraire Google Maps (js/magasins.js). Étage 3 (prix vus en magasin, partagés) : avec les
+    comptes (Supabase, en attente de l'URL et de la clé publique du projet de Mathias).
   · v147 (18/10) : JUSTIFICATIFS D'ACHAT (2e idée Brick Broker) : tuile « 🧾 Justificatifs » (accueil, Ma collection) ->
     écran ecran-justificatifs (js/justificatifs.js) : photo d'un ticket/facture ou capture d'écran d'une commande (plusieurs
     d'un coup), réduite à 1600 px, avec date (celle du fichier pour une capture), vendeur, montant, achats ; liste, agrandir,
