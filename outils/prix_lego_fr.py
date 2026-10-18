@@ -35,6 +35,7 @@ def lire_tsv(chemin):
 
 
 BASE = "https://www.avenuedelabrique.com"
+EXTRAITS = 0  # extraits de page envoyés dans les notes du relevé (diagnostic de la lecture des marchands)
 
 
 def lire(url):
@@ -63,6 +64,13 @@ def prix_page(numero):
               re.findall(r"(\d+(?:[.,]\d{1,2})?)\s*€\s*\|\s*chez ([^|]{2,40}?)\s*\|", texte)]
     bas = nombre(meilleur)
     marchand = ""
+    global EXTRAITS
+    if bas and EXTRAITS < 2 and not any(abs(p - bas) < 0.01 for p, _ in offres):
+        # forme des offres inconnue : extrait autour du meilleur prix, lisible dans les notes du relevé (annotation GitHub)
+        i = texte.find(f"{bas:.2f}".replace(".", ",")) if f"{bas:.2f}".replace(".", ",") in texte else texte.find(f"{bas:.2f}")
+        j = page.find('lowPrice')
+        print(f"::notice title=Avenue de la Brique {numero}::TEXTE {texte[max(0, i - 400):i + 600]!r} HTML {page[max(0, j - 300):j + 1500]!r}")
+        EXTRAITS += 1
     if offres:
         p, m = min(offres)
         if bas is None or abs(p - bas) < 0.01:
