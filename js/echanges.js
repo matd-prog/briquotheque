@@ -294,7 +294,7 @@ const Echanges = {
         <p class="sous-titre">Je donne${c.libre ? " (mes doubles)" : " (il les cherche)"}</p>
         <div class="liste-cases">${c.il_cherche.map((x, i) => ligne(x, "donne", i)).join("") || `<p class="aide">${c.libre ? "Pas de double à proposer." : "Rien de ce qu'il cherche : proposez-lui autre chose dans le message."}</p>`}</div>
         <p class="sous-titre">Je reçois${c.libre ? " (ses figurines publiées)" : " (dans ma liste de souhaits)"}</p>
-        <div class="liste-cases">${c.il_a.map((x, i) => ligne(x, "recois", i)).join("") || `<p class="aide">${c.libre ? "Il n'a rien publié." : "Il n'a rien de votre liste"} : demandez-lui dans le message.</p>`}</div>
+        <div class="liste-cases">${c.il_a.map((x, i) => ligne(x, "recois", i)).join("") || `<p class="aide">${c.libre ? "Il n'a rien publié" : "Il n'a rien de votre liste"} : demandez-lui dans le message.</p>`}</div>
         <div id="echanges-balance"></div>
         <label for="echanges-message" class="etiquette-champ">Message</label>
         <textarea id="echanges-message" class="champ" rows="4" maxlength="2000" placeholder="Bonjour ! Je vous propose cet échange. Envoi en lettre suivie de mon côté, et du vôtre ?"></textarea>

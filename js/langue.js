@@ -61,7 +61,8 @@ const Langue = {
     if (d) return d;
     for (const [re, tr] of this.motifs) {
       const m = re.exec(net);
-      if (m) return tr.replace(/\{(\d)\}/g, (_, i) => { const v = m[+i + 1]; return this.dico.get(v) || v; });
+      // les parties variables sont traduites elles aussi (ex. le mois dans « Sorties de octobre 2026 : … »)
+      if (m) return tr.replace(/\{(\d)\}/g, (_, i) => { const v = m[+i + 1]; return v.length < 60 ? this.t(v) : v; });
     }
     return s;
   },
@@ -70,7 +71,7 @@ const Langue = {
     const v = n.nodeValue;
     if (!v || !/[A-Za-zÀ-ÿ]/.test(v)) return;
     const net = this._net(v), tr = this.t(net);
-    if (tr !== net) n.nodeValue = (/^\s/.test(v) ? " " : "") + tr + (/\s$/.test(v) ? " " : "");
+    if (tr !== net) { this.traduits.add(tr); n.nodeValue = (/^\s/.test(v) ? " " : "") + tr + (/\s$/.test(v) ? " " : ""); }
     else this._controler(net, n.parentElement);
   },
 
@@ -78,6 +79,7 @@ const Langue = {
   // problème) pour être traduit. Les noms (figurines, séries, pseudos) ne ressemblent pas à des phrases : ils passent.
   _controler(texte, el) {
     if (texte.length < 3 || this.traduits.has(texte) || (el && el.closest(".nom-libre, input, textarea, #langue-manquants"))) return;
+    if (texte === texte.toUpperCase() || /^[A-Z0-9«»"“ –-]{6,}/.test(texte)) return; // nom de figurine (en capitales)
     if (!/[éèêàùçœ]|\b(le|la|les|des|du|une|et|vous|votre|vos|pour|avec|dans|sur|pas|est|sont|aux|cette|ces|qui|que|plus|aucun|aucune|ajouter|retirer|touchez|exemplaires?|figurines?)\b/i.test(texte)) return;
     this.manquants.set(texte, (this.manquants.get(texte) || 0) + 1);
     const b = document.getElementById("langue-controle");

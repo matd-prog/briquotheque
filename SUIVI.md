@@ -125,6 +125,18 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v161 (18/10) : VÉRIFICATION COMPLÈTE AVANT PUBLICATION (demande de Mathias : tout vérifier avant de republier).
+    Parcours automatique (Playwright, faux Supabase) en 4 configurations (fr et en sur téléphone 400 px, fr et de sur PC
+    1300 px) : écran de connexion -> connexion -> chaque tuile de l'accueil (21) et ses onglets (achats, base, impression,
+    assureur, échanges, amis, valeur…), chaque entrée du menu latéral (22), Outils (« Tout mettre à jour », contrôle de la
+    langue), échanges (proposer, à un membre, proposition), déconnexion : 0 erreur JavaScript, 0 fichier manquant ; fichiers
+    référencés par index.html tous présents ; chaque data-action a son gestionnaire ; syntaxe de tous les .js vérifiée ;
+    anciens tests (comptes, mot de passe oublié, nouvel appareil, amis, échanges à valeur, copie du mot de passe) repassés.
+    Corrigé : « Il n'a rien publié. : » (ponctuation en double, Échanges) ; contrôle de la langue (noms en capitales et
+    textes déjà traduits ignorés) ; menu latéral traduisible (titre séparé de l'icône) ; parties variables traduites
+    (mois dans « Sorties de octobre 2026 »). +60 traductions (achats, à vendre, impression, magasins, chargements) :
+    667 textes, contrôle du dictionnaire 0 problème. Liens externes (BrickLink, eBay, Maps…) : adresses inchangées, non
+    joignables depuis l'environnement de test (réseau bloqué).
   · v160 (18/10) : LANGUES ET CONNEXION AU DÉMARRAGE (demandes de Mathias). 4 langues : français, anglais, allemand,
     espagnol (js/langue.js + langues/traductions.tsv, colonnes fr/en/de/es ; ~610 textes : accueil, menus, tous les textes
     fixes de index.html, Mon compte, Échanges, Amis, Statistiques, Nouveautés, messages courants ; {0} = texte variable,
