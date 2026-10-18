@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v143"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v144"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -336,7 +336,7 @@ async function chargerClasseur(octets, nom, nonEnregistres = 0) {
 async function relireContenu() {
   etat.table = await lireTableCamps(etat.classeur);
   etat.collection = await lireCollection(etat.classeur);
-  if (regrouperCustoms()) etat.collection = await lireCollection(etat.classeur);
+  if (regrouperCustoms() + corrigerNomsCustoms()) etat.collection = await lireCollection(etat.classeur);
   const nb = Object.values(etat.collection).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0);
   $("fichier-info").textContent = `${etat.classeur.estBase ? "🗄️" : "📗"} Ma collection · ${nb} figurines`;
   document.body.classList.toggle("mode-base", !!etat.classeur.estBase);
@@ -1040,6 +1040,29 @@ function regrouperCustoms() {
       etat.classeur.figRecoder(c.row, ref.code, nouveauLien || "");
       n++;
     }
+  }
+  return n;
+}
+
+// Noms de customs mal saisis, corrigés une fois dans Ma collection (Mathias, 18/10/2026 : deux « Special Whatnot
+// Figure 2025 » notées « droïde bronze mat » alors que ce sont le lapin « Let's Go! » et la figurine encapuchonnée
+// « 25 Years of Galaxy Fun », d'après les photos des blisters). Collection rangée dans l'appli seulement ; renvoie le
+// nombre d'exemplaires renommés (0 une fois la correction faite).
+const NOMS_CUSTOMS_CORRIGES = [
+  ["SPECIAL WHATNOT FIGURE 2025 (DROÏDE BRONZE MAT) – BUNNY EASTER DP", "Special Whatnot Figure 2025 – Let's Go! (lapin de Pâques)"],
+  ["SPECIAL WHATNOT FIGURE 2025 (DROÏDE BRONZE MAT) – 25 YEARS OF GALAXY FUN", "Special Whatnot Figure 2025 – 25 Years of Galaxy Fun"],
+];
+function corrigerNomsCustoms() {
+  if (!etat.classeur || !etat.classeur.estBase || !etat.classeur.figRenommer) return 0;
+  const o = etat.collection[THEME_CUSTOMS.onglet];
+  if (!o) return 0;
+  const corrections = new Map(NOMS_CUSTOMS_CORRIGES.map(([ancien, nouveau]) => [cleCustom(ancien), nouveau]));
+  let n = 0;
+  for (const c of o.cases) {
+    const nouveau = corrections.get(cleCustom(c.nom));
+    if (!nouveau) continue;
+    etat.classeur.figRenommer(c.row, nouveau);
+    n++;
   }
   return n;
 }

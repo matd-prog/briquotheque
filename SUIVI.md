@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v144 (18/10) : NOMS DE CUSTOMS CORRIGÉS (Mathias, photo du blister « Let's Go! ») : corrigerNomsCustoms() (js/app.js,
+    appelée par relireContenu, une fois) renomme dans Ma collection « SPECIAL WHATNOT FIGURE 2025 (DROÏDE BRONZE MAT) – BUNNY
+    EASTER DP » (CUS-080, ×3) en « Special Whatnot Figure 2025 – Let's Go! (lapin de Pâques) » et « … – 25 YEARS OF GALAXY
+    FUN » (CUS-114) en « Special Whatnot Figure 2025 – 25 Years of Galaxy Fun ». Annonces eBay (dépôt privé, a_vendre/) :
+    photos de ces deux figurines, de Special Whatnot Stream 2025 et de The Masked Lord II démêlées.
   · v143 (13/10) : THÈME MODERNE (Mathias : « tout gris, tout noir, c'est vraiment très triste » ; message noir sur cadre
     gris foncé illisible = bandeau « ⏳ Actualisation en cours » de la valeur). Couche « THÈME MODERNE » en fin de style.css :
     fond bleuté, en-tête bleu nuit, actions indigo, blister en vert canard, icônes en couleur sur pastilles pastel, rouge pour
