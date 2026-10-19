@@ -234,7 +234,8 @@ class BaseCollection {
   async imagesEtiquettes(onglet) {
     const res = new Map(), { w, h } = TAILLE_ETIQUETTE_BASE;
     for (const f of this._figs(onglet).filter(f => !codeInvalide(f.code))) {
-      const cv = dessinerEtiquette(f.code, couleurOnglet(onglet) || "#fff", w, h, lienEtiquette(onglet, f.lien));
+      // Star Wars : fond de la couleur du camp de la figurine (seul usage du camp)
+      const cv = dessinerEtiquette(f.code, (CAMPS[f.camp] && CAMPS[f.camp].couleur) || couleurOnglet(onglet) || "#fff", w, h, lienEtiquette(onglet, f.lien));
       res.set(`${f.id}:1`, await new Promise(ok => cv.toBlob(ok, "image/png")));
     }
     return res;

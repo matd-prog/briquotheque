@@ -293,7 +293,8 @@ const Collection = {
       } else if (c.code) {
         dedans = `<span class="sans">${echapper(c.code)}<br>sans étiquette</span>`;
       }
-      return `<button class="case" style="background:${couleur}" data-vue="planche" data-onglet="${echapper(this.onglet)}" data-case="${c.ref}"
+      // Star Wars : fond de la couleur du camp de la figurine (choisi tout seul à l'ajout)
+      return `<button class="case" style="background:${(CAMPS[c.camp] && CAMPS[c.camp].couleur) || couleur}" data-vue="planche" data-onglet="${echapper(this.onglet)}" data-case="${c.ref}"
         aria-label="${echapper(c.ref + " " + (c.nom || "case vide"))}">${dedans}</button>`;
     }).join("")}</div>`;
   },
@@ -399,11 +400,8 @@ const Collection = {
       </div>`;
   },
 
-  // Figurine Star Wars : petite pastille de la couleur de son étiquette (verte, rouge ou grise), sans autre mention
-  _pastilleCamp(c) {
-    const camp = c && CAMPS[c.camp];
-    return camp ? `<span class="pastille pastille-camp" style="background:${camp.couleur}" title="Couleur de l'étiquette" aria-label="Couleur de l'étiquette"></span>` : "";
-  },
+  // Camp d'une figurine Star Wars : jamais affiché (demande de Mathias, 19/10) ; il ne sert qu'à l'impression
+  _pastilleCamp() { return ""; },
 
   // Ligne sous le nom : n° des exemplaires ; le code (celui des étiquettes) seulement pour les figurines LEGO, où c'est
   // la référence BrickLink — les codes des customs (CUS-…, JB-…) ne servent qu'à l'impression des étiquettes

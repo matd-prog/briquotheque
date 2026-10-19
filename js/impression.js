@@ -118,7 +118,8 @@ const Impression = {
       for (const c of o.cases.filter(c => c.code && !codeInvalide(c.code)))
         // Star Wars : couleur du camp de la figurine (vert, rouge, gris) ; « ancienne » = clé du temps des onglets par camp
         // (Gentils (vert)…), pour que les étiquettes déjà imprimées le restent (19/10)
-        res.push({ source: onglet, cle: `${onglet}|${c.ref}|${c.code}`, code: c.code, nom: c.nom || "",
+        // Star Wars : un lot d'étiquettes par couleur de fond (planches séparées), montré par sa seule couleur
+        res.push({ source: CAMPS[c.camp] ? `${onglet}|${CAMPS[c.camp].couleur}` : onglet, cle: `${onglet}|${c.ref}|${c.code}`, code: c.code, nom: c.nom || "",
                    couleur: (CAMPS[c.camp] && CAMPS[c.camp].couleur) || couleurOnglet(onglet) || "#fff",
                    ancienne: CAMPS[c.camp] ? `${CAMPS[c.camp].onglet}|${c.ref}|${c.code}` : "",
                    lien: lienEtiquette(onglet, c.lien) === undefined ? urlBricklink(c.code) : lienEtiquette(onglet, c.lien) });
@@ -155,8 +156,9 @@ const Impression = {
 
   _remplirFormulaire() {
     const f = this.format;
-    $("imp-sources").innerHTML = this._sources().map(s => `<button class="puce ${this.choix.has(s.nom) ? "choisi" : ""}" data-imp-source="${echapper(s.nom)}">
-      <span class="pastille" style="background:${couleurOnglet(s.nom) || (s.nom === ONGLET_SETS ? "#ffd500" : "#d9d9d6")}"></span>${echapper(s.nom)} (${s.nb})</button>`).join("")
+    $("imp-sources").innerHTML = this._sources().map(s => { const [nom, fond] = s.nom.split("|");
+      return `<button class="puce ${this.choix.has(s.nom) ? "choisi" : ""}" data-imp-source="${echapper(s.nom)}">
+      <span class="pastille" style="background:${fond || couleurOnglet(nom) || (nom === ONGLET_SETS ? "#ffd500" : "#d9d9d6")}"></span>${echapper(nom)} (${s.nb})</button>`; }).join("")
       || `<p class="aide">Aucune figurine, aucun set ni objet dans votre collection pour l'instant.</p>`;
     $("imp-modele").innerHTML = this._modeles().map(m => `<option value="${m.id}" ${m.id === f.modele ? "selected" : ""}>${echapper(m.nom)}</option>`).join("") +
       `<option value="perso" ${f.modele === "perso" ? "selected" : ""}>Format personnalisé (vos mesures)</option>`;

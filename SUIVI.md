@@ -125,6 +125,14 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v163 (19/10) : CAMP STAR WARS INVISIBLE, SEULEMENT POUR L'IMPRESSION (demande de Mathias) : à l'ajout d'une figurine
+    Star Wars, le camp est choisi tout seul (votre table, même personnage déjà classé, mots-clés du nom ; sinon gris) et
+    enregistré, mais affiché nulle part (pastille de Ma collection retirée). Il décide du fond de l'étiquette (vert, rouge,
+    gris) et du lot d'impression : écran Impression = trois lots « Star Wars » distingués par leur seule couleur (128 / 117
+    / 48 sur la sauvegarde du 13/10) ; planche des étiquettes : fond de chaque case ET étiquette dessinée à la couleur du
+    camp (avant : couleur unique de Star Wars). Testé : sw0004 Dark Vador -> rouge, sw0001a droïde de combat -> rouge,
+    sw0002 Boba Fett -> gris, rien d'affiché ; parcours complet 0 erreur. Valorisation : l'écart corrigé en v162 est de
+    16 639,39 € (customs achetées comptées en double) ; refaire le dossier assureur s'il a été envoyé.
   · v162 (19/10) : 1) CUSTOMS COMPTÉES EN DOUBLE dans la Valeur (et le dossier assureur) : « Customs achetées »
     (646 achats relevés dans les reçus JB/Whatnot, 16 639 €) s'ajoutait à l'onglet « Customs » (610 blisters, 15 849 €),
     alors que ce sont les mêmes figurines (l'onglet des achats remplaçait les blisters avant qu'ils soient photographiés).
