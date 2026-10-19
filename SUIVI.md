@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v166 (19/10) : VIDÉO DE PRÉSENTATION (demande de Mathias) + 49 traductions de textes courts oubliés (bandeau
+    « ⏳ En cours… patientez », boutons du blister, erreurs, exports, magasins…), repérés en filmant la version allemande.
+    outils/presentation/video.js fr|de (Playwright, téléphone 412×915, compte simulé « Barjo », amis fictifs, aucun prix)
+    + monter.py (coupe les attentes de lecture, MP4 H.264 via imageio-ffmpeg) : ~65 s, sous-titres dans la langue :
+    accueil, blister photographié recto/verso et reconnu, numéro, ajout, Ma collection, fiche avec lien JB, communauté,
+    amis, 4 langues. Vidéos et liste des blisters filmés dans le dépôt PRIVÉ (presentation/). Contrôle complet OK.
   · v165 (19/10) : TRADUCTIONS COMPLÉTÉES (vu en préparant les captures allemandes pour JB : l'écran du blister reconnu,
     la fiche d'une figurine et les messages étaient restés en français ; le contrôle complet ne passait pas par là).
     ~590 lignes ajoutées à langues/traductions.tsv (en, de, es) : blisters (js/base.js), fiche et Ma collection, Valeur,

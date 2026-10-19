@@ -1262,3 +1262,52 @@ Recto	Front	Vorderseite	Anverso
 Verso	Back	Rückseite	Reverso
 Photo BrickLink	BrickLink photo	BrickLink-Foto	Foto de BrickLink
 Mon album {#0}/{#1}	My album {0}/{1}	Mein Album {0}/{1}	Mi álbum {0}/{1}
+⏳ En cours… patientez	⏳ In progress… please wait	⏳ Wird bearbeitet… bitte warten	⏳ En curso… espere
+Patientez, lecture en cours…	Please wait, reading…	Bitte warten, wird gelesen…	Espere, leyendo…
+Tapez au moins 2 lettres.	Type at least 2 letters.	Geben Sie mindestens 2 Buchstaben ein.	Escriba al menos 2 letras.
+date inconnue	unknown date	Datum unbekannt	fecha desconocida
+Brickognize indisponible	Brickognize unavailable	Brickognize nicht verfügbar	Brickognize no disponible
+✅ Tout cocher	✅ Tick all	✅ Alle anhaken	✅ Marcar todo
+Garder l'ancien nom	Keep the old name	Alten Namen behalten	Conservar el nombre anterior
+Fichier Excel	Excel file	Excel-Datei	Archivo Excel
+Base de l'appli	App database	Datenbank der App	Base de la app
+Sauvegarde en ligne	Online backup	Online-Sicherung	Copia en línea
+Impossible de reprendre ce fichier : {0}	Can't import this file: {0}	Diese Datei kann nicht übernommen werden: {0}	No se puede recuperar este archivo: {0}
+verso : lecture impossible	back: can't be read	Rückseite: nicht lesbar	reverso: no se puede leer
+Passer ce blister	Skip this blister	Diesen Blister überspringen	Saltar este blíster
+Photographiez d'abord un blister.	Photograph a blister first.	Fotografieren Sie zuerst einen Blister.	Fotografíe primero un blíster.
+✏️ Modifier ce blister	✏️ Edit this blister	✏️ Diesen Blister bearbeiten	✏️ Modificar este blíster
+📷 Nouveau recto	📷 New front	📷 Neue Vorderseite	📷 Nuevo anverso
+📷 Nouveau verso	📷 New back	📷 Neue Rückseite	📷 Nuevo reverso
+Photo illisible : {0}	Unreadable photo: {0}	Foto nicht lesbar: {0}	Foto ilegible: {0}
+Seulement celui-ci	Only this one	Nur diesen	Solo este
+Autres marques	Other brands	Andere Marken	Otras marcas
+Prix fabricant (€)	Manufacturer's price (€)	Herstellerpreis (€)	Precio del fabricante (€)
+Mon blister · {0}	My blister · {0}	Mein Blister · {0}	Mi blíster · {0}
+Photo de collectionneur {#0}/{#1}	Collector's photo {0}/{1}	Sammlerfoto {0}/{1}	Foto de coleccionista {0}/{1}
+Publication impossible : {0}	Can't publish: {0}	Veröffentlichen nicht möglich: {0}	No se puede publicar: {0}
+Lecture impossible : {0}	Can't read: {0}	Lesen nicht möglich: {0}	No se puede leer: {0}
+Envoi impossible : {0}	Can't send: {0}	Senden nicht möglich: {0}	No se puede enviar: {0}
+Proposition introuvable.	Proposal not found.	Vorschlag nicht gefunden.	Propuesta no encontrada.
+🏪 Boutiques LEGO (BAM…)	🏪 LEGO Stores (BAM…)	🏪 LEGO Stores (BAM…)	🏪 Tiendas LEGO (BAM…)
+Autres objets	Other items	Andere Artikel	Otros objetos
+Collection vide.	Empty collection.	Leere Sammlung.	Colección vacía.
+Page BrickLink	BrickLink page	BrickLink-Seite	Página de BrickLink
+Lien (fabricant ou eBay)	Link (manufacturer or eBay)	Link (Hersteller oder eBay)	Enlace (fabricante o eBay)
+Exporter vers BrickLink (liste « Wanted List »)	Export to BrickLink (“Wanted List”)	Nach BrickLink exportieren („Wanted List“)	Exportar a BrickLink (lista «Wanted List»)
+⭐ Ma liste de souhaits	⭐ My wish list	⭐ Meine Wunschliste	⭐ Mi lista de deseos
+📖 Toute ma collection	📖 My whole collection	📖 Meine ganze Sammlung	📖 Toda mi colección
+Ouvrir BrickLink	Open BrickLink	BrickLink öffnen	Abrir BrickLink
+Ma collection LEGO	My LEGO collection	Meine LEGO-Sammlung	Mi colección LEGO
+Prix public LEGO France	LEGO France retail price	LEGO-Frankreich-Ladenpreis	Precio oficial LEGO Francia
+🛒 Meilleur prix en ligne	🛒 Best online price	🛒 Bester Online-Preis	🛒 Mejor precio en línea
+🛒 Meilleur prix en ligne ({0})	🛒 Best online price ({0})	🛒 Bester Online-Preis ({0})	🛒 Mejor precio en línea ({0})
+livraison comprise	delivery included	inkl. Versand	envío incluido
+Magasin de jouets	Toy shop	Spielwarengeschäft	Juguetería
+Autre marque…	Other brand…	Andere Marke…	Otra marca…
+🏷️ Autres marques (Youmko, Pantasy…)	🏷️ Other brands (Youmko, Pantasy…)	🏷️ Andere Marken (Youmko, Pantasy…)	🏷️ Otras marcas (Youmko, Pantasy…)
+📦 Boîtes seules	📦 Boxes only	📦 Nur Kartons	📦 Solo cajas
+Prix LEGO	LEGO price	LEGO-Preis	Precio LEGO
+Supprimer {#0} ligne(s) en double de l'onglet « Sets » ?	Delete {0} duplicate line(s) from the “Sets” tab?	{0} doppelte Zeile(n) aus dem Reiter „Sets“ löschen?	¿Eliminar {0} línea(s) duplicada(s) de la pestaña «Sets»?
+Par onglet	By tab	Nach Reiter	Por pestaña
+Prix {0} (encore en vente)	{0} price (still on sale)	{0}-Preis (noch erhältlich)	Precio {0} (aún a la venta)

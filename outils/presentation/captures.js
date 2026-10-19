@@ -1,6 +1,6 @@
 // Captures d'écran de l'appli pour les présentations JB (accueil, Ma collection, fiche, reconnaissance), dans la langue choisie.
 // Lancer : python3 -m http.server 8765 (racine du dépôt) puis NODE_PATH=$(npm root -g) node captures.js fr (ou de) ; affiche les textes non traduits.
-// blisters.json (à côté) : blisters de la base commune bien cadrés, avec verso. Jamais de prix sur les captures.
+// blisters.json (dépôt privé, presentation/) : blisters de la base commune bien cadrés, avec verso. Jamais de prix sur les captures.
 const { chromium, devices } = require("playwright"); const fs = require("fs");
 const A = "/home/user/collection-lego-prive/album_photos/", L = process.argv[2] || "fr", D = __dirname + "/" + L;
 fs.mkdirSync(D, { recursive: true });
@@ -12,7 +12,7 @@ fs.mkdirSync(D, { recursive: true });
   await p.evaluate(() => { demarrerBase(false); }); await p.waitForTimeout(1500);
   if (await p.evaluate(() => $("dialogue").open)) await p.click("#dialogue-oui");
   const s = JSON.parse(fs.readFileSync("/home/user/collection-lego-prive/sauvegarde/collection.json", "utf8"));
-  const bl = JSON.parse(fs.readFileSync(__dirname + "/blisters.json", "utf8")).map(x => ({ ...x, r: fs.readFileSync(A + x.recto).toString("base64"), v: fs.readFileSync(A + x.verso).toString("base64") }));
+  const bl = JSON.parse(fs.readFileSync("/home/user/collection-lego-prive/presentation/blisters.json", "utf8")).map(x => ({ ...x, r: fs.readFileSync(A + x.recto).toString("base64"), v: fs.readFileSync(A + x.verso).toString("base64") }));
   await p.evaluate(async ([base, bl]) => {
     await etat.classeur.remplacerTout(base); await relireContenu();
     const blob = async x => (await fetch("data:image/jpeg;base64," + x)).blob();
