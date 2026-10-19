@@ -131,6 +131,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     + monter.py (coupe les attentes de lecture, MP4 H.264 via imageio-ffmpeg) : ~65 s, sous-titres dans la langue :
     accueil, blister photographié recto/verso et reconnu, numéro, ajout, Ma collection, fiche avec lien JB, communauté,
     amis, 4 langues. Vidéos et liste des blisters filmés dans le dépôt PRIVÉ (presentation/). Contrôle complet OK.
+    Retour de Mathias (l'image n'occupait qu'un quart de la vidéo, reste gris) : film enregistré à la taille de l'écran
+    (412 × 915) puis agrandi au format téléphone 1080 × 2400 au montage (plein écran), ~10 Mo (pièce jointe possible).
   · v165 (19/10) : TRADUCTIONS COMPLÉTÉES (vu en préparant les captures allemandes pour JB : l'écran du blister reconnu,
     la fiche d'une figurine et les messages étaient restés en français ; le contrôle complet ne passait pas par là).
     ~590 lignes ajoutées à langues/traductions.tsv (en, de, es) : blisters (js/base.js), fiche et Ma collection, Valeur,

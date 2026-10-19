@@ -67,7 +67,7 @@ async function supabase(p) {
 (async () => {
   const b = await chromium.launch();
   const ctx = await b.newContext({ viewport: { width: 412, height: 915 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "fr-FR",
-    recordVideo: { dir: O + "/video_tmp", size: { width: 824, height: 1830 } } });
+    recordVideo: { dir: O + "/video_tmp", size: { width: 412, height: 915 } } });
   const t0 = Date.now();
   const p = await ctx.newPage();
   await supabase(p);
