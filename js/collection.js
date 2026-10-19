@@ -391,7 +391,7 @@ const Collection = {
       <div class="fiche cliquable" data-onglet="${echapper(onglet)}" data-case="${c.ref}">
         ${custom ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
         <div class="infos">
-          <div class="nom-court">${this._pastilleCamp(onglet)}${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
+          <div class="nom-court">${this._pastilleCamp(c)}${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
           <div class="code">${this._ligneCode(c, onglet, nums)}</div>
           <div class="lieu">${echapper(ongletAffiche(onglet))}${etat.classeur && etat.classeur.estBase ? "" : `, ${lieux}${cases.some(x => !x.image) ? " · sans étiquette" : ""}`}</div>
         </div>
@@ -399,11 +399,10 @@ const Collection = {
       </div>`;
   },
 
-  // Camp d'une figurine Star Wars (couleur de son étiquette) : petite pastille verte, rouge ou grise devant le nom
-  _pastilleCamp(onglet) {
-    if (!ONGLETS_COLORES.includes(onglet)) return "";
-    const camp = { "Gentils (vert)": "Gentil", "Méchants (rouge)": "Méchant", "Zone grise": "Zone grise" }[onglet] || onglet;
-    return `<span class="pastille pastille-camp" style="background:${couleurOnglet(onglet)}" title="${camp}" aria-label="${camp}"></span>`;
+  // Figurine Star Wars : petite pastille de la couleur de son étiquette (verte, rouge ou grise), sans autre mention
+  _pastilleCamp(c) {
+    const camp = c && CAMPS[c.camp];
+    return camp ? `<span class="pastille pastille-camp" style="background:${camp.couleur}" title="Couleur de l'étiquette" aria-label="Couleur de l'étiquette"></span>` : "";
   },
 
   // Ligne sous le nom : n° des exemplaires ; le code (celui des étiquettes) seulement pour les figurines LEGO, où c'est
@@ -420,7 +419,7 @@ const Collection = {
     return `
       <div class="vignette cliquable" data-onglet="${echapper(onglet)}" data-case="${c.ref}">
         ${custom ? this._photoCustom(c) : imageHtml({ id: c.code }, "photo")}
-        <div class="nom-court">${this._pastilleCamp(onglet)}${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
+        <div class="nom-court">${this._pastilleCamp(c)}${echapper((custom ? this._sansNumero(c.nom) : c.nom) || "(sans nom)")}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}</div>
         <div class="code">${this._ligneCode(c, onglet, nums)}</div>
       </div>`;
   },

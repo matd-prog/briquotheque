@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v161"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v162"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -345,7 +345,7 @@ async function relireContenu() {
   document.body.classList.toggle("base-vide", !!etat.classeur.estBase && !nb);
   if (etat.classeur.estBase) {
     // réglage propre à Mathias : visible seulement si sa collection l'a déjà (reprise de son fichier Excel rangé par camps)
-    $("bloc-reglage-camps").hidden = !etat.classeur.aReglage("camps_star_wars");
+    $("bloc-reglage-camps").hidden = true; // plus de rangement par camps (19/10)
     $("reglage-camps").checked = etat.classeur.campsSW;
     majInfoSauvegarde();
   } // le fichier Excel n'est qu'une sauvegarde : son nom n'est pas affiché
@@ -562,7 +562,8 @@ function proposerTheme(cand) {
 // Collection rangée dans l'appli (version diffusable) : un seul onglet Star Wars, sans camps
 const swUnique = () => !!(etat.classeur && etat.classeur.estBase && !etat.classeur.campsSW);
 function couleurChoisie() {
-  if (etat.theme === STAR_WARS && swUnique()) return THEME_STAR_WARS_UNIQUE.couleur;
+  // Star Wars : couleur de l'étiquette d'après le camp choisi tout seul (seul usage du camp, à l'impression)
+  if (etat.theme === STAR_WARS && swUnique()) return (CAMPS[etat.camp] || THEME_STAR_WARS_UNIQUE).couleur;
   return etat.theme === STAR_WARS ? CAMPS[etat.camp].couleur : couleurOnglet(etat.theme);
 }
 function ongletChoisi() {
@@ -1917,11 +1918,9 @@ async function demarrerBase(remplacer, enregistrements, sansConfirmation) {
 }
 
 // Reprise d'un fichier Excel dans la base : garder ou non le classement Star Wars par camps (étiquettes de couleur)
+// (19/10 : plus de question ; toujours un seul onglet « Star Wars », la couleur du camp reste pour les étiquettes)
 async function avecCamps(enregistrements) {
-  if (!enregistrements.some(e => e.table === TABLE_FIGURINES && e.camp)) return enregistrements;
-  const oui = await demander("Vos figurines Star Wars sont rangées par camp (Gentils en vert, Méchants en rouge, Zone grise). " +
-    "Garder ce classement, avec les étiquettes de couleur ? (Sinon : un seul onglet « Star Wars » ; réglable ensuite dans les Outils.)", "Garder les camps", "Un seul onglet");
-  return [...enregistrements.filter(e => e.table !== "_reglages" || e.id !== "camps_star_wars"), { table: "_reglages", id: "camps_star_wars", valeur: oui }];
+  return [...enregistrements.filter(e => e.table !== "_reglages" || e.id !== "camps_star_wars"), { table: "_reglages", id: "camps_star_wars", valeur: false }];
 }
 
 

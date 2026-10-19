@@ -125,6 +125,17 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v162 (19/10) : 1) CUSTOMS COMPTÉES EN DOUBLE dans la Valeur (et le dossier assureur) : « Customs achetées »
+    (646 achats relevés dans les reçus JB/Whatnot, 16 639 €) s'ajoutait à l'onglet « Customs » (610 blisters, 15 849 €),
+    alors que ce sont les mêmes figurines (l'onglet des achats remplaçait les blisters avant qu'ils soient photographiés).
+    Désormais les achats ne sont comptés que s'il n'y a encore aucune custom ; sinon ils restent des preuves et des prix
+    payés, avec une ligne d'explication sous « Par onglet ». 2) PLUS DE CAMPS STAR WARS (demande de Mathias) : un seul
+    onglet « Star Wars » partout (Ma collection, Valeur, Statistiques, Impression, exports), plus de « Gentils (vert) /
+    Méchants (rouge) / Zone grise », réglage des Outils retiré, plus de question à la reprise d'un fichier Excel. Le camp
+    reste enregistré pour chaque figurine et ne sert qu'à la COULEUR DE L'ÉTIQUETTE à l'impression (vert, rouge, gris) ;
+    dans Ma collection, une simple pastille de couleur devant le nom. Étiquettes déjà imprimées sous les anciens onglets
+    reconnues (clé « ancienne »). Testé sur la sauvegarde du 13/10 (291 Star Wars, 287 pastilles, 3 couleurs à
+    l'impression, aucune mention de camp) puis parcours complet (4 configurations) : 0 erreur, 0 fichier manquant.
   · v161 (18/10) : VÉRIFICATION COMPLÈTE AVANT PUBLICATION (demande de Mathias : tout vérifier avant de republier).
     Parcours automatique (Playwright, faux Supabase) en 4 configurations (fr et en sur téléphone 400 px, fr et de sur PC
     1300 px) : écran de connexion -> connexion -> chaque tuile de l'accueil (21) et ses onglets (achats, base, impression,

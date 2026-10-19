@@ -92,7 +92,9 @@ class BaseCollection {
 
   // Réglage « Star Wars rangé par camps » (Gentils vert, Méchants rouge, Zone grise) : étiquettes de couleur par camp.
   // Sans ce réglage (par défaut), un seul onglet « Star Wars ». Le camp de chaque figurine est gardé dans tous les cas.
-  get campsSW() { const r = this._table("_reglages").get("camps_star_wars"); return !!(r && r.valeur); }
+  // Star Wars : un seul onglet partout (demande de Mathias, 19/10 : plus de « Gentils / Méchants / Zone grise »). Le camp
+  // de chaque figurine reste enregistré, mais ne sert plus qu'à la couleur de son étiquette à l'impression.
+  get campsSW() { return false; }
   reglerCampsSW(oui) { this._poser("_reglages", "camps_star_wars", { valeur: !!oui }); }
   // Réglages gardés dans la base (donc dans les sauvegardes) : format des étiquettes…
   aReglage(id) { return this._table("_reglages").has(id); }
@@ -206,7 +208,7 @@ class BaseCollection {
     const sw = this.campsSW ? [...ONGLETS_COLORES, ...(this._figs(THEME_STAR_WARS_UNIQUE.onglet).length ? [THEME_STAR_WARS_UNIQUE.onglet] : [])]
       : [THEME_STAR_WARS_UNIQUE.onglet];
     for (const nom of [...sw, ...ONGLETS_THEMES.filter(o => this.aOnglet(o))]) {
-      const cases = this._figs(nom).map(f => ({ row: f.id, col: 1, ref: `n°${f.id}`, code: f.code, nom: f.nom || "", lien: f.lien || "", image: true }));
+      const cases = this._figs(nom).map(f => ({ row: f.id, col: 1, ref: `n°${f.id}`, code: f.code, nom: f.nom || "", lien: f.lien || "", image: true, camp: f.camp || "" }));
       res[nom] = { derniere: cases.length, cases };
     }
     return res;
@@ -219,7 +221,7 @@ class BaseCollection {
   figAjouter({ code, nom, camp, theme, lien }) {
     const onglet = camp ? THEME_STAR_WARS_UNIQUE.onglet : theme;
     const id = this._prochainId(TABLE_FIGURINES);
-    const f = this._poser(TABLE_FIGURINES, id, { onglet, code, nom: nom || "", lien: lien || "", camp: camp && this.campsSW ? camp : "",
+    const f = this._poser(TABLE_FIGURINES, id, { onglet, code, nom: nom || "", lien: lien || "", camp: camp || "",
                                                 ajoute: new Date().toLocaleDateString("fr-FR") });
     return { onglet: this._ongletAffiche(f), ref: `n°${id}`, row: id, col: 1, nouvelleLigne: false };
   }

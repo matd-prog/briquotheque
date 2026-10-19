@@ -79,6 +79,7 @@ const Impression = {
   format: null,      // { modele, page, l, h, mh, mg, eh, ev, qr, nom, couleur, traits }
   choix: new Set(),  // sources cochées : nom d'onglet, « Sets », « Objets dérivés »
   imprimees: new Set(),
+  _imprimee(a) { return this.imprimees.has(a.cle) || (!!a.ancienne && this.imprimees.has(a.ancienne)); },
   _articles: [],
 
   async ouvrir() {
@@ -115,7 +116,11 @@ const Impression = {
     const res = [];
     for (const [onglet, o] of Object.entries(etat.collection || {}))
       for (const c of o.cases.filter(c => c.code && !codeInvalide(c.code)))
-        res.push({ source: onglet, cle: `${onglet}|${c.ref}|${c.code}`, code: c.code, nom: c.nom || "", couleur: couleurOnglet(onglet) || "#fff",
+        // Star Wars : couleur du camp de la figurine (vert, rouge, gris) ; « ancienne » = clé du temps des onglets par camp
+        // (Gentils (vert)…), pour que les étiquettes déjà imprimées le restent (19/10)
+        res.push({ source: onglet, cle: `${onglet}|${c.ref}|${c.code}`, code: c.code, nom: c.nom || "",
+                   couleur: (CAMPS[c.camp] && CAMPS[c.camp].couleur) || couleurOnglet(onglet) || "#fff",
+                   ancienne: CAMPS[c.camp] ? `${CAMPS[c.camp].onglet}|${c.ref}|${c.code}` : "",
                    lien: lienEtiquette(onglet, c.lien) === undefined ? urlBricklink(c.code) : lienEtiquette(onglet, c.lien) });
     try {
       for (const s of await lireSets(etat.classeur)) {
@@ -145,7 +150,7 @@ const Impression = {
 
   _selection() {
     const nouvelles = $("imp-nouvelles").checked;
-    return this._articles.filter(a => this.choix.has(a.source) && !(nouvelles && this.imprimees.has(a.cle)));
+    return this._articles.filter(a => this.choix.has(a.source) && !(nouvelles && this._imprimee(a)));
   },
 
   _remplirFormulaire() {
@@ -202,7 +207,7 @@ const Impression = {
   },
 
   majCompte() {
-    const n = this._selection().length, deja = this._articles.filter(a => this.choix.has(a.source) && this.imprimees.has(a.cle)).length;
+    const n = this._selection().length, deja = this._articles.filter(a => this.choix.has(a.source) && this._imprimee(a)).length;
     $("imp-compte").textContent = `${n} étiquette(s) à imprimer` + (deja && !$("imp-nouvelles").checked ? ` (dont ${deja} déjà imprimée(s))` : "") + ".";
   },
 

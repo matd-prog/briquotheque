@@ -125,7 +125,14 @@ const Valeur = {
       }
       res.push(a);
     }
-    for (const c of await lireCustomsAchetees(etat.classeur)) // prix payé connu (reçu, historique Whatnot)
+    // Onglet « Customs achetées » (achats relevés dans les reçus JB et Whatnot) : il remplaçait les blisters quand ils
+    // n'étaient pas encore dans la collection. Depuis que les blisters sont dans l'onglet « Customs », ce sont les MÊMES
+    // figurines : elles ne sont plus comptées une 2e fois (vu par Mathias le 19/10 : 16 639 € comptés en double).
+    // Les achats restent des preuves et des prix (achats.tsv) ; comptés seulement s'il n'y a encore aucune custom.
+    const achetees = await lireCustomsAchetees(etat.classeur);
+    const nbCustoms = res.filter(a => a.type === "CUSTOM").length;
+    this._achetees = { n: achetees.length, nbCustoms, comptees: !nbCustoms };
+    if (!nbCustoms) for (const c of achetees) // prix payé connu (reçu, historique Whatnot)
       res.push({ type: "CUSTOM", code: (c.code || "").toUpperCase(), nom: c.nom, onglet: ONGLET_CUSTOMS_ACHETEES, etat: "",
                  achat: c.prix > 0 ? { prix: c.prix, vendeur: c.vendeur, date: c.date, lot: /^Custom JB \(lot/.test(c.nom) } : null });
     for (const o of await lireObjets(etat.classeur))
@@ -749,7 +756,8 @@ const Valeur = {
         ${this._carteHistorique(historique, euros)}
         ${this._carteDeclarees(details, sans)}
         <div class="carte"><p class="sous-titre">Par onglet</p>
-          ${Object.entries(parOnglet).sort((a, b) => b[1] - a[1]).map(([o, v]) => `<div class="ligne-valeur"><span>${echapper(o)}</span><b>${euros(v)}</b></div>`).join("")}</div>
+          ${Object.entries(parOnglet).sort((a, b) => b[1] - a[1]).map(([o, v]) => `<div class="ligne-valeur"><span>${echapper(o)}</span><b>${euros(v)}</b></div>`).join("")}
+          ${this._achetees && this._achetees.n && !this._achetees.comptees ? `<p class="aide">🧾 ${this._achetees.n} achats de customs (onglet « ${ONGLET_CUSTOMS_ACHETEES} ») : ce sont vos ${this._achetees.nbCustoms} customs de l'onglet « Customs », comptées une seule fois. Les achats servent de preuves et de prix payés.</p>` : ""}</div>
         ${GROUPES_VALEUR.map(([titre, test]) => {
           const g = details.filter(test);
           if (!g.length) return "";
