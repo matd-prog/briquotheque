@@ -4,6 +4,8 @@
 // y compris les textes ajoutés plus tard par l'appli (observateur du document). Un texte avec des parties variables
 // s'écrit avec {0}, {1}… dans le tableau (ex. « Ma collection · {0} figurines »). Un texte absent du tableau reste en
 // français. Les noms de figurines, séries et sets ne sont jamais traduits (ils ne sont pas dans le tableau).
+// Pluriels : « {s} » dans le texte français = « s » facultatif (« {#0} blister{s} ») ; dans la traduction,
+// « {p:singulier|pluriel} » choisit selon le premier nombre du texte (1 -> singulier).
 // Choix : écran de bienvenue et Outils (« 🌐 Langue ») ; par défaut la langue du téléphone si elle est proposée.
 
 const LANGUES = [["fr", "🇫🇷 Français"], ["en", "🇬🇧 English"], ["de", "🇩🇪 Deutsch"], ["es", "🇪🇸 Español"]];
@@ -33,10 +35,10 @@ const Langue = {
       for (const l of lignes) {
         const c = l.split("\t"), fr = this._net(c[0] || ""), tr = (c[col] || "").trim();
         if (!fr || !tr || fr.startsWith("#")) continue;
-        if (/\{#?\d\}/.test(fr)) {
+        if (/\{#?\d\}|\{s\}/.test(fr)) {
           // {0} : n'importe quel texte ; {#0} : un nombre seulement (« {#0} figurines »)
           const re = new RegExp("^" + fr.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-            .replace(/\\\{#(\d)\\\}/g, "([\\d\\s\u00a0\u202f.,]+)").replace(/\\\{(\d)\\\}/g, "(.+?)") + "$");
+            .replace(/\\\{#(\d)\\\}/g, "([\\d\\s\u00a0\u202f.,]+)").replace(/\\\{(\d)\\\}/g, "(.+?)").replace(/\\\{s\\\}/g, "s?") + "$");
           this.motifs.push([re, tr.replace(/\{#(\d)\}/g, "{$1}"), fr.length]);
         } else { this.dico.set(fr, tr); this.traduits.add(tr); }
       }
@@ -62,7 +64,10 @@ const Langue = {
     for (const [re, tr] of this.motifs) {
       const m = re.exec(net);
       // les parties variables sont traduites elles aussi (ex. le mois dans « Sorties de octobre 2026 : … »)
-      if (m) return tr.replace(/\{(\d)\}/g, (_, i) => { const v = m[+i + 1]; return v.length < 60 ? this.t(v) : v; });
+      if (!m) continue;
+      const nb = m.slice(1).find(v => /^[\d\s\u00a0\u202f.,]+$/.test(v || "")), un = nb != null && parseFloat(nb.replace(/[\s\u00a0\u202f]/g, "").replace(",", ".")) === 1;
+      return tr.replace(/\{p:([^|}]*)\|([^}]*)\}/g, (_, a, b) => un ? a : b)
+        .replace(/\{(\d)\}/g, (_, i) => { const v = m[+i + 1]; return v.length < 150 ? this.t(v) : v; });
     }
     return s;
   },
@@ -70,6 +75,18 @@ const Langue = {
   _noeud(n) {
     const v = n.nodeValue;
     if (!v || !/[A-Za-zÀ-ÿ]/.test(v)) return;
+    // texte en plusieurs paragraphes (fenêtres de question) : chaque paragraphe traduit à part, retours à la ligne gardés
+    if (/\S\s*\n\s*\S/.test(v) && this.t(this._net(v)) === this._net(v)) {
+      let change = false;
+      const parts = v.split(/(\s*\n\s*)/).map((x, i) => {
+        if (i % 2 || !/[A-Za-zÀ-ÿ]/.test(x)) return x;
+        const tr = this.t(this._net(x));
+        if (tr !== this._net(x)) { change = true; this.traduits.add(tr); return tr; }
+        this._controler(this._net(x), n.parentElement); return x;
+      });
+      if (change) n.nodeValue = parts.join("");
+      return;
+    }
     const net = this._net(v), tr = this.t(net);
     if (tr !== net) { this.traduits.add(tr); n.nodeValue = (/^\s/.test(v) ? " " : "") + tr + (/\s$/.test(v) ? " " : ""); }
     else this._controler(net, n.parentElement);

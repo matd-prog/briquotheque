@@ -125,6 +125,16 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v165 (19/10) : TRADUCTIONS COMPLÉTÉES (vu en préparant les captures allemandes pour JB : l'écran du blister reconnu,
+    la fiche d'une figurine et les messages étaient restés en français ; le contrôle complet ne passait pas par là).
+    ~590 lignes ajoutées à langues/traductions.tsv (en, de, es) : blisters (js/base.js), fiche et Ma collection, Valeur,
+    compte, ajout de figurines, échanges, amis, nouveautés, impression, sets, souhaits, magasins, objets, codes-barres.
+    Pas traduits (réservés à Mathias, en français) : dossier assureur, achats Whatnot, jeton GitHub, mode fichier Excel,
+    mini-appli de l'ami. js/langue.js : pluriels (« {s} » dans le français = s facultatif ; « {p:singulier|pluriel} »
+    dans la traduction, selon le premier nombre), textes en plusieurs paragraphes traduits paragraphe par paragraphe
+    (retours à la ligne gardés), motifs génériques « {0} · {1} », « ({0}) », « n° {0} » (morceaux traduits un à un).
+    Vérifié : écran blister + fiche + Ma collection en de et en (seuls restent 2 noms de customs), contrôle complet
+    4 configurations : 0 erreur, 0 fichier manquant.
   · v164 (19/10) : APPLI ANDROID (.apk) (demande de Mathias). Trusted Web Activity générée par Bubblewrap 1.25.0 (outil de
     Google) : ouvre https://matd-prog.github.io/briquotheque/ dans Chrome, plein écran, icône Briquothèque ; paquet
     io.github.matdprog.briquotheque, 992 Ko, Android 5 et plus ; affiche toujours la version en ligne (pas besoin de refaire

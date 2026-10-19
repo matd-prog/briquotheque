@@ -671,3 +671,594 @@ sans étiquette	no label	ohne Etikett	sin etiqueta
 📱 Appli Android	📱 Android app	📱 Android-App	📱 App para Android
 📥 Télécharger l'appli Android (.apk)	📥 Download the Android app (.apk)	📥 Android-App herunterladen (.apk)	📥 Descargar la app para Android (.apk)
 Ouvrez le fichier téléchargé : Android demande une fois d'autoriser l'installation depuis Chrome. L'appli se met à jour toute seule. Sur iPhone : dans Safari, « Partager » puis « Sur l'écran d'accueil ».	Open the downloaded file: Android asks you once to allow installing from Chrome. The app updates itself. On iPhone: in Safari, “Share” then “Add to Home Screen”.	Öffnen Sie die heruntergeladene Datei: Android fragt einmal, ob Installationen aus Chrome erlaubt sind. Die App aktualisiert sich selbst. Auf dem iPhone: in Safari „Teilen“, dann „Zum Home-Bildschirm“.	Abra el archivo descargado: Android le pedirá una vez que permita instalar desde Chrome. La app se actualiza sola. En iPhone: en Safari, «Compartir» y luego «Añadir a pantalla de inicio».
+# Écran des blisters (js/base.js) et morceaux communs
+({0})	({0})	({0})	({0})
+{0} · {1}	{0} · {1}	{0} · {1}	{0} · {1}
+n° {0}	no. {0}	Nr. {0}	n.º {0}
+📏 Verso prise de loin ou mal cadrée ? Recadrez-la (✂️) ou reprenez-la de plus près, le blister bien en face.	📏 Back photo taken from too far or badly framed? Crop it (✂️) or take it again closer, with the blister straight on.	📏 Rückseite aus zu großer Entfernung oder schief aufgenommen? Zuschneiden (✂️) oder näher und gerade von vorn neu fotografieren.	📏 ¿Foto del reverso tomada de lejos o mal encuadrada? Recórtela (✂️) o repítala más cerca, con el blíster de frente.
+📏 Photo prise de loin ou mal cadrée ? Recadrez-la (✂️) ou reprenez-la de plus près, le blister bien en face.	📏 Photo taken from too far or badly framed? Crop it (✂️) or take it again closer, with the blister straight on.	📏 Foto aus zu großer Entfernung oder schief aufgenommen? Zuschneiden (✂️) oder näher und gerade von vorn neu fotografieren.	📏 ¿Foto tomada de lejos o mal encuadrada? Recórtela (✂️) o repítala más cerca, con el blíster de frente.
+📏 {#0} photo{s} prise{s} de loin remplacée{s} par la bonne photo de la même figurine	📏 {0} {p:photo|photos} taken from too far replaced by the good photo of the same minifigure	📏 {0} aus der Ferne {p:aufgenommenes Foto|aufgenommene Fotos} durch das gute Foto derselben Minifigur ersetzt	📏 {0} {p:foto tomada|fotos tomadas} de lejos {p:sustituida|sustituidas} por la buena foto de la misma minifigura
+📏 Photos prises de loin ou mal cadrées ({#0} blister{s})	📏 Photos taken from too far or badly framed ({0} {p:blister|blisters})	📏 Aus der Ferne oder schief aufgenommene Fotos ({0} Blister)	📏 Fotos tomadas de lejos o mal encuadradas ({0} {p:blíster|blísteres})
+photos à refaire	photos to retake	neu zu machende Fotos	fotos por repetir
+Cadre mémorisé oublié : les photos suivantes seront recadrées automatiquement.	Saved frame cleared: the next photos will be cropped automatically.	Gespeicherter Rahmen gelöscht: Die nächsten Fotos werden automatisch zugeschnitten.	Encuadre guardado borrado: las siguientes fotos se recortarán automáticamente.
+Verso recadré ✔	Back cropped ✔	Rückseite zugeschnitten ✔	Reverso recortado ✔
+Recto recadré ✔	Front cropped ✔	Vorderseite zugeschnitten ✔	Anverso recortado ✔
+Lecture du nom… (la première fois, téléchargement de l'outil de lecture, environ 27 Mo)	Reading the name… (first time: downloading the reading tool, about 27 MB)	Name wird gelesen… (beim ersten Mal wird das Lesewerkzeug geladen, ca. 27 MB)	Leyendo el nombre… (la primera vez se descarga la herramienta de lectura, unos 27 MB)
+Lecture du nom… (essai {#0} sur {#1})	Reading the name… (attempt {0} of {1})	Name wird gelesen… (Versuch {0} von {1})	Leyendo el nombre… (intento {0} de {1})
+Comparaison de la photo… (la première fois, téléchargement du modèle de vision, environ 24 Mo)	Comparing the photo… (first time: downloading the image model, about 24 MB)	Foto wird verglichen… (beim ersten Mal wird das Bildmodell geladen, ca. 24 MB)	Comparando la foto… (la primera vez se descarga el modelo de imagen, unos 24 MB)
+Vérifiez le nom et le numéro, puis « Ajouter ».	Check the name and number, then tap “Add”.	Prüfen Sie Namen und Nummer, dann „Hinzufügen“.	Compruebe el nombre y el número y luego pulse «Añadir».
+Le nom n'a pas été lu : tapez-le tel qu'il est imprimé sur le blister, ou choisissez un blister qui ressemble.	The name couldn't be read: type it as printed on the blister, or pick a similar-looking blister.	Der Name konnte nicht gelesen werden: Tippen Sie ihn so ein, wie er auf dem Blister steht, oder wählen Sie einen ähnlichen Blister.	No se ha podido leer el nombre: escríbalo tal como aparece en el blíster o elija un blíster parecido.
+📜 Le texte du verso confirme :	📜 The text on the back confirms:	📜 Der Text auf der Rückseite bestätigt:	📜 El texto del reverso lo confirma:
+(même texte que : {0})	(same text as: {0})	(gleicher Text wie: {0})	(mismo texto que: {0})
+📜 D'après le texte du verso, ce serait plutôt :	📜 Going by the text on the back, it is more likely:	📜 Laut Text auf der Rückseite eher:	📜 Según el texto del reverso, sería más bien:
+📜 D'après le texte du verso, ce serait plutôt l'une de celles-ci :	📜 Going by the text on the back, it is more likely one of these:	📜 Laut Text auf der Rückseite eher eine von diesen:	📜 Según el texto del reverso, sería más bien una de estas:
+{#0} photos choisies, rangées dans l'ordre où elles ont été prises.	{0} photos selected, sorted in the order they were taken.	{0} Fotos ausgewählt, in Aufnahmereihenfolge sortiert.	{0} fotos elegidas, ordenadas según se tomaron.
+Chaque blister a-t-il deux scans à la suite, le recto puis le verso ?	Does each blister have two scans in a row, front then back?	Hat jeder Blister zwei Scans hintereinander, erst Vorder-, dann Rückseite?	¿Cada blíster tiene dos escaneos seguidos, primero el anverso y luego el reverso?
+Oui : recto puis verso	Yes: front then back	Ja: Vorder-, dann Rückseite	Sí: anverso y luego reverso
+Non : rectos seulement	No: fronts only	Nein: nur Vorderseiten	No: solo anversos
+Nombre de photos impair ({#0}) : le dernier blister n'aura pas de verso. Continuer ?	Odd number of photos ({0}): the last blister will have no back. Continue?	Ungerade Anzahl Fotos ({0}): Der letzte Blister hat keine Rückseite. Fortfahren?	Número impar de fotos ({0}): el último blíster no tendrá reverso. ¿Continuar?
+Lecture du PDF « {0} »…	Reading the PDF “{0}”…	PDF „{0}“ wird gelesen…	Leyendo el PDF «{0}»…
+Lecture du PDF « {0} » : page {#1} sur {#2}…	Reading the PDF “{0}”: page {1} of {2}…	PDF „{0}“ wird gelesen: Seite {1} von {2}…	Leyendo el PDF «{0}»: página {1} de {2}…
+Le PDF « {0} » n'a pas pu être lu : {1}	The PDF “{0}” couldn't be read: {1}	Das PDF „{0}“ konnte nicht gelesen werden: {1}	No se ha podido leer el PDF «{0}»: {1}
+Série terminée : {#0} blister{s} passé{s} en revue ✔	Batch finished: {0} {p:blister|blisters} reviewed ✔	Serie fertig: {0} Blister durchgesehen ✔	Serie terminada: {0} {p:blíster revisado|blísteres revisados} ✔
+Série de scans : blister {#0} sur {#1}.	Scan batch: blister {0} of {1}.	Scan-Serie: Blister {0} von {1}.	Serie de escaneos: blíster {0} de {1}.
+Vérifiez le nom et le numéro, puis « Ajouter » : le suivant s'affiche tout seul.	Check the name and number, then tap “Add”: the next one appears by itself.	Prüfen Sie Namen und Nummer, dann „Hinzufügen“: Der nächste erscheint von selbst.	Compruebe el nombre y el número y pulse «Añadir»: el siguiente aparece solo.
+Arrêter la série	Stop the batch	Serie beenden	Detener la serie
+N° des {#0} exemplaires (même photo pour tous)	Numbers of the {0} copies (same photo for all)	Nummern der {0} Exemplare (gleiches Foto für alle)	Números de los {0} ejemplares (misma foto para todos)
+catalogue JB	JB catalogue	JB-Katalog	catálogo JB
+catalogue JB, épuisée	JB catalogue, sold out	JB-Katalog, ausverkauft	catálogo JB, agotada
+photo de collectionneur	collector's photo	Sammlerfoto	foto de coleccionista
+retirée, brickshellcases	retired, brickshellcases	nicht mehr erhältlich, brickshellcases	retirada, brickshellcases
+retirée, archives JB	retired, JB archives	nicht mehr erhältlich, JB-Archiv	retirada, archivo JB
+retirée, vue sur eBay.de	retired, seen on eBay.de	nicht mehr erhältlich, auf eBay.de gesehen	retirada, vista en eBay.de
+base commune	shared database	gemeinsame Datenbank	base común
+Reconnu	Recognised	Erkannt	Reconocido
+Probablement	Probably	Wahrscheinlich	Probablemente
+Pas tout à fait sûr : comparez avec la photo, et touchez la bonne figurine si ce n'est pas celle-ci.	Not entirely sure: compare with the photo, and tap the right minifigure if it isn't this one.	Nicht ganz sicher: Vergleichen Sie mit dem Foto und tippen Sie auf die richtige Minifigur, falls es nicht diese ist.	No del todo seguro: compare con la foto y toque la minifigura correcta si no es esta.
+👀 D'autres blisters se ressemblent presque autant : vérifiez la figurine, et touchez la bonne si ce n'est pas celle-ci.	👀 Other blisters look almost as similar: check the minifigure, and tap the right one if it isn't this one.	👀 Andere Blister sehen fast genauso ähnlich aus: Prüfen Sie die Minifigur und tippen Sie auf die richtige, falls es nicht diese ist.	👀 Otros blísteres se parecen casi igual: compruebe la minifigura y toque la correcta si no es esta.
+Pas reconnu dans la base JB.	Not recognised in the JB database.	In der JB-Datenbank nicht erkannt.	No reconocido en la base de JB.
+Est-ce l'un de ceux-ci ? Touchez-le pour le choisir.	Is it one of these? Tap it to choose it.	Ist es einer von diesen? Zum Auswählen antippen.	¿Es uno de estos? Tóquelo para elegirlo.
+Sinon, c'est un blister nouveau pour la base : gardez le nom imprimé ; il enrichira la base commune à l'envoi 📤.	Otherwise it's a new blister for the database: keep the printed name; it will be added to the shared database when sent 📤.	Sonst ist es ein neuer Blister für die Datenbank: Behalten Sie den gedruckten Namen; er ergänzt die gemeinsame Datenbank beim Senden 📤.	Si no, es un blíster nuevo para la base: conserve el nombre impreso; se añadirá a la base común al enviarlo 📤.
+Dans votre collection : {#0} exemplaire{s}	In your collection: {0} {p:copy|copies}	In Ihrer Sammlung: {0} {p:Exemplar|Exemplare}	En su colección: {0} {p:ejemplar|ejemplares}
+Pas encore dans votre collection	Not in your collection yet	Noch nicht in Ihrer Sammlung	Aún no está en su colección
+(n° {0}) · {#1} dans l'onglet Customs.	(no. {0}) · {1} in the Customs tab.	(Nr. {0}) · {1} im Reiter Customs.	(n.º {0}) · {1} en la pestaña Customs.
+(n° {0}) · {#1} dans l'onglet Customs du fichier.	(no. {0}) · {1} in the file's Customs tab.	(Nr. {0}) · {1} im Reiter Customs der Datei.	(n.º {0}) · {1} en la pestaña Customs del archivo.
+· {#0} dans l'onglet Customs.	· {0} in the Customs tab.	· {0} im Reiter Customs.	· {0} en la pestaña Customs.
+· {#0} dans l'onglet Customs du fichier.	· {0} in the file's Customs tab.	· {0} im Reiter Customs der Datei.	· {0} en la pestaña Customs del archivo.
+(n° {0}).	(no. {0}).	(Nr. {0}).	(n.º {0}).
+✏️ Voir ou corriger	✏️ View or correct	✏️ Ansehen oder korrigieren	✏️ Ver o corregir
+⚠️ Déjà {#0} dans l'onglet Customs : les n° déjà présents ne sont pas ajoutés ; décochez si ce blister y est déjà sans numéro.	⚠️ Already {0} in the Customs tab: numbers already there are not added; untick if this blister is already there without a number.	⚠️ Schon {0} im Reiter Customs: Bereits vorhandene Nummern werden nicht hinzugefügt; Haken entfernen, wenn dieser Blister dort schon ohne Nummer steht.	⚠️ Ya hay {0} en la pestaña Customs: los números que ya están no se añaden; desmarque si este blíster ya está ahí sin número.
+Même nom imprimé, autres figurines déjà dans votre base : {0}. Touchez-en une si c'est la même.	Same printed name, other minifigures already in your database: {0}. Tap one if it's the same.	Gleicher gedruckter Name, andere Minifiguren schon in Ihrer Datenbank: {0}. Tippen Sie eine an, wenn es dieselbe ist.	Mismo nombre impreso, otras minifiguras ya en su base: {0}. Toque una si es la misma.
+⚠️ Ressemble à votre blister {0} : même figurine sous un autre nom ? Vérifiez avant d'ajouter.	⚠️ Looks like your blister {0}: the same minifigure under another name? Check before adding.	⚠️ Ähnelt Ihrem Blister {0}: dieselbe Minifigur unter anderem Namen? Vor dem Hinzufügen prüfen.	⚠️ Se parece a su blíster {0}: ¿la misma minifigura con otro nombre? Compruébelo antes de añadir.
+n° {0} déjà dans votre base	no. {0} already in your database	Nr. {0} schon in Ihrer Datenbank	n.º {0} ya en su base
+n° {0} tapé deux fois	no. {0} typed twice	Nr. {0} doppelt eingegeben	n.º {0} escrito dos veces
+n° {0} nouveau ✔	no. {0} new ✔	Nr. {0} neu ✔	n.º {0} nuevo ✔
+Tapez le nom imprimé sur le blister.	Type the name printed on the blister.	Tippen Sie den auf dem Blister gedruckten Namen ein.	Escriba el nombre impreso en el blíster.
+« {0} » ajouté à la base commune ✔ (pas dans votre collection)	“{0}” added to the shared database ✔ (not in your collection)	„{0}“ zur gemeinsamen Datenbank hinzugefügt ✔ (nicht in Ihrer Sammlung)	«{0}» añadido a la base común ✔ (no en su colección)
+Pas de photo du verso. Le verso est demandé pour chaque blister : son texte aide à reconnaître la figurine.	No photo of the back. The back is requested for every blister: its text helps recognise the minifigure.	Kein Foto der Rückseite. Die Rückseite wird für jeden Blister erbeten: Ihr Text hilft, die Minifigur zu erkennen.	No hay foto del reverso. Se pide el reverso de cada blíster: su texto ayuda a reconocer la minifigura.
+Ajouter quand même ce blister sans verso ?	Add this blister without a back anyway?	Diesen Blister trotzdem ohne Rückseite hinzufügen?	¿Añadir de todos modos este blíster sin reverso?
+Ajouter sans verso	Add without back	Ohne Rückseite hinzufügen	Añadir sin reverso
+Prendre le verso	Take the back	Rückseite fotografieren	Fotografiar el reverso
+n° {0} déjà dans votre base pour « {1} » (sans doute le même blister compté deux fois)	no. {0} already in your database for “{1}” (probably the same blister counted twice)	Nr. {0} schon in Ihrer Datenbank für „{1}“ (wohl derselbe Blister doppelt gezählt)	n.º {0} ya en su base para «{1}» (seguramente el mismo blíster contado dos veces)
+Corrigez le numéro, puis « Ajouter ».	Correct the number, then tap “Add”.	Korrigieren Sie die Nummer, dann „Hinzufügen“.	Corrija el número y luego pulse «Añadir».
+Ajouter les {#0} autre{s} exemplaire{s} sans ce numéro ?	Add the {0} other {p:copy|copies} without this number?	{p:Das andere Exemplar|Die {0} anderen Exemplare} ohne diese Nummer hinzufügen?	¿Añadir {p:el otro ejemplar|los {0} otros ejemplares} sin este número?
+Ajouter les {#0} autre{s} exemplaire{s} sans ces numéros ?	Add the {0} other {p:copy|copies} without these numbers?	{p:Das andere Exemplar|Die {0} anderen Exemplare} ohne diese Nummern hinzufügen?	¿Añadir {p:el otro ejemplar|los {0} otros ejemplares} sin estos números?
+Ajouter les {#0} autre{s}	Add the {0} other {p:one|ones}	{p:Das andere|Die {0} anderen} hinzufügen	Añadir {p:el otro|los {0} otros}
+Corriger d'abord	Correct first	Erst korrigieren	Corregir primero
+Enregistrement du blister dans le téléphone…	Saving the blister on the phone…	Blister wird auf dem Handy gespeichert…	Guardando el blíster en el teléfono…
+⚠️ Le blister n'a pas pu être enregistré dans le téléphone (voir le message). Réessayez.	⚠️ The blister couldn't be saved on the phone (see the message). Try again.	⚠️ Der Blister konnte nicht auf dem Handy gespeichert werden (siehe Meldung). Bitte erneut versuchen.	⚠️ No se ha podido guardar el blíster en el teléfono (vea el mensaje). Inténtelo de nuevo.
+« {0} » : {#1} exemplaires ajoutés ✔ ({#2} au total)	“{0}”: {1} copies added ✔ ({2} in total)	„{0}“: {1} Exemplare hinzugefügt ✔ ({2} insgesamt)	«{0}»: {1} ejemplares añadidos ✔ ({2} en total)
+« {0} » : ajouté ✔ ({#1} au total)	“{0}”: added ✔ ({1} in total)	„{0}“: hinzugefügt ✔ ({1} insgesamt)	«{0}»: añadido ✔ ({1} en total)
+Ajout à votre collection (Customs)…	Adding to your collection (Customs)…	Wird Ihrer Sammlung hinzugefügt (Customs)…	Añadiendo a su colección (Customs)…
+⚠️ L'ajout aux Customs prend trop de temps : vérifiez Ma collection, et réessayez si besoin.	⚠️ Adding to Customs is taking too long: check My collection and try again if needed.	⚠️ Das Hinzufügen zu Customs dauert zu lange: Prüfen Sie Meine Sammlung und versuchen Sie es bei Bedarf erneut.	⚠️ Añadir a Customs está tardando demasiado: revise Mi colección y vuelva a intentarlo si hace falta.
+⚠️ L'ajout aux Customs a échoué : {0}	⚠️ Adding to Customs failed: {0}	⚠️ Hinzufügen zu Customs fehlgeschlagen: {0}	⚠️ No se ha podido añadir a Customs: {0}
+Autre exemplaire de « {0} » : photographier	Another copy of “{0}”: take photos	Weiteres Exemplar von „{0}“: fotografieren	Otro ejemplar de «{0}»: fotografiar
+Exemplaire de plus, mêmes photos : tapez seulement son numéro, puis « Ajouter ». Pour prendre des photos de cet exemplaire, touchez « Autre exemplaire … : photographier ».	One more copy, same photos: just type its number, then tap “Add”. To take photos of this copy, tap “Another copy … : take photos”.	Ein weiteres Exemplar, gleiche Fotos: Nur die Nummer eintippen, dann „Hinzufügen“. Für eigene Fotos dieses Exemplars auf „Weiteres Exemplar … : fotografieren“ tippen.	Un ejemplar más, mismas fotos: escriba solo su número y pulse «Añadir». Para fotografiar este ejemplar, toque «Otro ejemplar …: fotografiar».
+Même figurine : photographiez le verso, puis tapez le numéro de cet exemplaire.	Same minifigure: photograph the back, then type this copy's number.	Gleiche Minifigur: Rückseite fotografieren, dann die Nummer dieses Exemplars eintippen.	Misma minifigura: fotografíe el reverso y escriba el número de este ejemplar.
+Même figurine, même photo : tapez seulement le numéro de cet exemplaire.	Same minifigure, same photo: just type this copy's number.	Gleiche Minifigur, gleiches Foto: Nur die Nummer dieses Exemplars eintippen.	Misma minifigura, misma foto: escriba solo el número de este ejemplar.
+Ce fichier n'est pas un envoi de blisters (.zip).	This file isn't a blister package (.zip).	Diese Datei ist keine Blister-Sendung (.zip).	Este archivo no es un envío de blísteres (.zip).
+Ce fichier .zip ne contient pas de blisters.	This .zip file contains no blisters.	Diese .zip-Datei enthält keine Blister.	Este archivo .zip no contiene blísteres.
+Ce fichier de blisters vient de qui ?	Who does this blister file come from?	Von wem stammt diese Blister-Datei?	¿De quién es este archivo de blísteres?
+• De vous (photos faites avant, ou sur un autre téléphone) : ils reviennent dans votre collection.	• From you (photos taken earlier, or on another phone): they go back into your collection.	• Von Ihnen (früher oder auf einem anderen Handy aufgenommen): Sie kommen zurück in Ihre Sammlung.	• De usted (fotos hechas antes o en otro teléfono): vuelven a su colección.
+• D'un ami : ses blisters vont seulement dans la base commune de reconnaissance.	• From a friend: their blisters only go into the shared recognition database.	• Von einem Freund: Seine Blister kommen nur in die gemeinsame Erkennungsdatenbank.	• De un amigo: sus blísteres solo van a la base común de reconocimiento.
+De moi	From me	Von mir	Mío
+D'un ami	From a friend	Von einem Freund	De un amigo
+{#0} blister{s} repris ✔.	{0} {p:blister|blisters} restored ✔.	{0} Blister übernommen ✔.	{0} {p:blíster recuperado|blísteres recuperados} ✔.
+{#0} blister{s} repris ✔ ({#1} déjà dans l'appli).	{0} {p:blister|blisters} restored ✔ ({1} already in the app).	{0} Blister übernommen ✔ ({1} schon in der App).	{0} {p:blíster recuperado|blísteres recuperados} ✔ ({1} ya en la app).
+Aucun nouveau blister dans ce fichier.	No new blisters in this file.	Keine neuen Blister in dieser Datei.	Ningún blíster nuevo en este archivo.
+Aucun nouveau blister dans ce fichier ({#0} déjà dans l'appli).	No new blisters in this file ({0} already in the app).	Keine neuen Blister in dieser Datei ({0} schon in der App).	Ningún blíster nuevo en este archivo ({0} ya en la app).
+Vous pouvez continuer à photographier : rien n'est perdu.	You can keep taking photos: nothing is lost.	Sie können weiter fotografieren: Nichts geht verloren.	Puede seguir fotografiando: no se pierde nada.
+Avez-vous déjà photographié des blisters avant d'installer l'appli ?	Did you photograph blisters before installing the app?	Haben Sie schon vor der Installation der App Blister fotografiert?	¿Ya fotografió blísteres antes de instalar la app?
+Oui, les reprendre	Yes, bring them over	Ja, übernehmen	Sí, recuperarlos
+Non, je commence	No, I'm just starting	Nein, ich fange an	No, empiezo ahora
+Pour les reprendre :	To bring them over:	So übernehmen Sie sie:	Para recuperarlos:
+1. Ouvrez le lien de l'appli dans Safari (là où vous les avez photographiés).	1. Open the app link in Safari (where you photographed them).	1. Öffnen Sie den App-Link in Safari (dort, wo Sie sie fotografiert haben).	1. Abra el enlace de la app en Safari (donde los fotografió).
+1. Ouvrez l'appli là où vous les avez photographiés.	1. Open the app where you photographed them.	1. Öffnen Sie die App dort, wo Sie sie fotografiert haben.	1. Abra la app donde los fotografió.
+2. Touchez « 📤 Envoyer les blisters », puis « Enregistrer dans Fichiers ».	2. Tap “📤 Send the blisters”, then “Save to Files”.	2. Tippen Sie auf „📤 Blister senden“, dann „In Dateien sichern“.	2. Toque «📤 Enviar los blísteres» y luego «Guardar en Archivos».
+3. Revenez ici et touchez « 📥 Reprendre des blisters déjà photographiés », puis choisissez ce fichier. Un fichier .zip déjà envoyé (Messages, Mail…) convient aussi : enregistrez-le dans Fichiers, puis choisissez-le.	3. Come back here and tap “📥 Bring over blisters already photographed”, then choose that file. A .zip file already sent (Messages, Mail…) works too: save it to Files, then choose it.	3. Kommen Sie hierher zurück, tippen Sie auf „📥 Bereits fotografierte Blister übernehmen“ und wählen Sie diese Datei. Eine bereits verschickte .zip-Datei (Nachrichten, Mail…) geht auch: in Dateien sichern, dann auswählen.	3. Vuelva aquí, toque «📥 Recuperar blísteres ya fotografiados» y elija ese archivo. También sirve un .zip ya enviado (Mensajes, Mail…): guárdelo en Archivos y elíjalo.
+Retirer « {0} » de la liste ?	Remove “{0}” from the list?	„{0}“ aus der Liste entfernen?	¿Quitar «{0}» de la lista?
+{#0} blister{s} à vous	{0} {p:blister|blisters} of yours	{0} eigene Blister	{0} {p:blíster suyo|blísteres suyos}
+{#0} blister{s} à vous + {#1} pour la base commune seulement	{0} {p:blister|blisters} of yours + {1} for the shared database only	{0} eigene Blister + {1} nur für die gemeinsame Datenbank	{0} {p:blíster suyo|blísteres suyos} + {1} solo para la base común
+{#0} blister{s} à vous, dont {#1} pas encore exporté{s}	{0} {p:blister|blisters} of yours, {1} not yet exported	{0} eigene Blister, davon {1} noch nicht exportiert	{0} {p:blíster suyo|blísteres suyos}, {1} sin exportar aún
+🌐 {#0} blister{s} pas encore dans la base commune.	🌐 {0} {p:blister|blisters} not yet in the shared database.	🌐 {0} Blister noch nicht in der gemeinsamen Datenbank.	🌐 {0} {p:blíster|blísteres} aún no en la base común.
+🌐 Tous vos blisters sont dans la base commune ✔	🌐 All your blisters are in the shared database ✔	🌐 Alle Ihre Blister sind in der gemeinsamen Datenbank ✔	🌐 Todos sus blísteres están en la base común ✔
+Tous vos blisters sont déjà dans la base commune ✔	All your blisters are already in the shared database ✔	Alle Ihre Blister sind schon in der gemeinsamen Datenbank ✔	Todos sus blísteres ya están en la base común ✔
+✂️ Recadrer les photos déjà prises ({#0} blister{s})	✂️ Crop the photos already taken ({0} {p:blister|blisters})	✂️ Bereits aufgenommene Fotos zuschneiden ({0} Blister)	✂️ Recortar las fotos ya tomadas ({0} {p:blíster|blísteres})
+{#0} blister{s} trouvé{s}.	{0} {p:blister|blisters} found.	{0} Blister gefunden.	{0} {p:blíster encontrado|blísteres encontrados}.
+📏 Photo du recto prise de loin ou mal cadrée : touchez ✏️ pour la refaire ou la recadrer	📏 Front photo taken from too far or badly framed: tap ✏️ to retake or crop it	📏 Foto der Vorderseite zu weit weg oder schief: ✏️ antippen, um es neu zu machen oder zuzuschneiden	📏 Foto del anverso tomada de lejos o mal encuadrada: toque ✏️ para repetirla o recortarla
+📏 Photo du verso prise de loin ou mal cadrée : touchez ✏️ pour la refaire ou la recadrer	📏 Back photo taken from too far or badly framed: tap ✏️ to retake or crop it	📏 Foto der Rückseite zu weit weg oder schief: ✏️ antippen, um es neu zu machen oder zuzuschneiden	📏 Foto del reverso tomada de lejos o mal encuadrada: toque ✏️ para repetirla o recortarla
+📏 Photos prises de loin ou mal cadrées : touchez ✏️ pour les refaire ou les recadrer	📏 Photos taken from too far or badly framed: tap ✏️ to retake or crop them	📏 Fotos zu weit weg oder schief: ✏️ antippen, um sie neu zu machen oder zuzuschneiden	📏 Fotos tomadas de lejos o mal encuadradas: toque ✏️ para repetirlas o recortarlas
+pas à moi, pour la base commune	not mine, for the shared database	nicht meiner, für die gemeinsame Datenbank	no es mío, para la base común
+non numérotée	not numbered	nicht nummeriert	sin numerar
+Non numérotée	Not numbered	Nicht nummeriert	Sin numerar
+sans n°	no number	ohne Nr.	sin n.º
+série {0}	series {0}	Serie {0}	serie {0}
+recto + verso	front + back	Vorder- + Rückseite	anverso + reverso
+sans verso	no back	ohne Rückseite	sin reverso
+d'après l'album photo	from the photo album	laut Fotoalbum	según el álbum de fotos
+🌐 dans la base commune	🌐 in the shared database	🌐 in der gemeinsamen Datenbank	🌐 en la base común
+🌐 en attente	🌐 pending	🌐 ausstehend	🌐 pendiente
+exporté	exported	exportiert	exportado
+pas encore exporté	not yet exported	noch nicht exportiert	sin exportar aún
+Ajouter le verso	Add the back	Rückseite hinzufügen	Añadir el reverso
+📷 verso	📷 back	📷 Rückseite	📷 reverso
+Ajouter un exemplaire (nouveau n°), même photo	Add a copy (new number), same photo	Exemplar hinzufügen (neue Nr.), gleiches Foto	Añadir un ejemplar (nuevo n.º), misma foto
+Modifier	Edit	Bearbeiten	Modificar
+Voir le recto et le verso	View front and back	Vorder- und Rückseite ansehen	Ver anverso y reverso
+➕ Ajouter un exemplaire (nouveau n°)	➕ Add a copy (new number)	➕ Exemplar hinzufügen (neue Nr.)	➕ Añadir un ejemplar (nuevo n.º)
+Changer la photo	Change the photo	Foto ändern	Cambiar la foto
+🖼️ Recto depuis les photos	🖼️ Front from photos	🖼️ Vorderseite aus Fotos	🖼️ Anverso desde las fotos
+🖼️ Verso depuis les photos	🖼️ Back from photos	🖼️ Rückseite aus Fotos	🖼️ Reverso desde las fotos
+{#0} autre{s} exemplaire{s} de « {1} » {2} la même photo du recto. La remplacer aussi ?	{0} other {p:copy|copies} of “{1}” {p:has|have} the same front photo. Replace it too?	{0} {p:anderes Exemplar|andere Exemplare} von „{1}“ {p:hat|haben} dasselbe Foto der Vorderseite. Auch ersetzen?	{0} {p:otro ejemplar|otros ejemplares} de «{1}» {p:tiene|tienen} la misma foto del anverso. ¿Reemplazarla también?
+{#0} autre{s} exemplaire{s} de « {1} » {2} la même photo du verso. La remplacer aussi ?	{0} other {p:copy|copies} of “{1}” {p:has|have} the same back photo. Replace it too?	{0} {p:anderes Exemplar|andere Exemplare} von „{1}“ {p:hat|haben} dasselbe Foto der Rückseite. Auch ersetzen?	{0} {p:otro ejemplar|otros ejemplares} de «{1}» {p:tiene|tienen} la misma foto del reverso. ¿Reemplazarla también?
+Recto remplacé ✔ · « ✂️ Recadrer » pour ajuster	Front replaced ✔ · “✂️ Crop” to adjust	Vorderseite ersetzt ✔ · „✂️ Zuschneiden“ zum Anpassen	Anverso reemplazado ✔ · «✂️ Recortar» para ajustar
+Verso remplacé ✔ · « ✂️ Recadrer » pour ajuster	Back replaced ✔ · “✂️ Crop” to adjust	Rückseite ersetzt ✔ · „✂️ Zuschneiden“ zum Anpassen	Reverso reemplazado ✔ · «✂️ Recortar» para ajustar
+Recto remplacé ✔ ({#0} exemplaires) · « ✂️ Recadrer » pour ajuster	Front replaced ✔ ({0} copies) · “✂️ Crop” to adjust	Vorderseite ersetzt ✔ ({0} Exemplare) · „✂️ Zuschneiden“ zum Anpassen	Anverso reemplazado ✔ ({0} ejemplares) · «✂️ Recortar» para ajustar
+Verso remplacé ✔ ({#0} exemplaires) · « ✂️ Recadrer » pour ajuster	Back replaced ✔ ({0} copies) · “✂️ Crop” to adjust	Rückseite ersetzt ✔ ({0} Exemplare) · „✂️ Zuschneiden“ zum Anpassen	Reverso reemplazado ✔ ({0} ejemplares) · «✂️ Recortar» para ajustar
+Le nom ne peut pas être vide.	The name can't be empty.	Der Name darf nicht leer sein.	El nombre no puede estar vacío.
+Le n° {0} est déjà dans votre base pour « {1} » : corrigez le numéro.	No. {0} is already in your database for “{1}”: correct the number.	Nr. {0} ist schon in Ihrer Datenbank für „{1}“: Korrigieren Sie die Nummer.	El n.º {0} ya está en su base para «{1}»: corrija el número.
+« {0} » modifié ✔	“{0}” updated ✔	„{0}“ geändert ✔	«{0}» modificado ✔
+« Acheté » : achats nommés de votre fichier Excel. Les achats en lot pas encore nommés n'y sont pas : un blister compté sans achat correspondant vient peut-être d'un lot.	“Bought”: named purchases from your Excel file. Bulk purchases not yet named aren't included: a blister counted without a matching purchase may come from a lot.	„Gekauft“: benannte Käufe aus Ihrer Excel-Datei. Noch nicht benannte Sammelkäufe fehlen: Ein Blister ohne passenden Kauf stammt vielleicht aus einem Posten.	«Comprado»: compras con nombre de su archivo Excel. Las compras en lote aún sin nombre no aparecen: un blíster sin compra correspondiente puede venir de un lote.
+= acheté {#0}	= bought {0}	= gekauft {0}	= comprado {0}
+acheté {#0}	bought {0}	gekauft {0}	comprado {0}
+Enregistrez d'abord votre jeton GitHub dans l'écran Valeur.	First save your GitHub token in the Value screen.	Speichern Sie zuerst Ihren GitHub-Token im Bildschirm Wert.	Guarde primero su token de GitHub en la pantalla Valor.
+La liste des blisters de l'album n'est pas dans votre dépôt privé.	The album's blister list isn't in your private repository.	Die Blisterliste des Albums ist nicht in Ihrem privaten Repository.	La lista de blísteres del álbum no está en su repositorio privado.
+Tous les blisters de votre album sont déjà dans la base de blisters.	All the blisters in your album are already in the blister database.	Alle Blister Ihres Albums sind schon in der Blister-Datenbank.	Todos los blísteres de su álbum ya están en la base de blísteres.
+Ajouter à la base de blisters {#0} blister(s) identifiés sur vos photos ({#1} avec leur n°) ?	Add {0} blister(s) identified in your photos to the blister database ({1} with their number)?	{0} auf Ihren Fotos erkannte Blister zur Blister-Datenbank hinzufügen ({1} mit Nummer)?	¿Añadir a la base de blísteres {0} blíster(es) identificados en sus fotos ({1} con su n.º)?
+Ils seront marqués « d'après l'album photo » : vérifiez-les en photographiant vos blisters (un blister vendu ou donné depuis est à retirer).	They will be marked “from the photo album”: check them by photographing your blisters (remove any blister sold or given away since).	Sie werden als „laut Fotoalbum“ markiert: Prüfen Sie sie, indem Sie Ihre Blister fotografieren (inzwischen verkaufte oder verschenkte Blister entfernen).	Se marcarán «según el álbum de fotos»: compruébelos fotografiando sus blísteres (quite los que haya vendido o regalado desde entonces).
+Reprise de l'album… ({#0} sur {#1})	Importing the album… ({0} of {1})	Album wird übernommen… ({0} von {1})	Importando el álbum… ({0} de {1})
+{#0} blister(s) de l'album ajoutés à votre base ✔	{0} album blister(s) added to your database ✔	{0} Blister aus dem Album zu Ihrer Datenbank hinzugefügt ✔	{0} blíster(es) del álbum añadidos a su base ✔
+La reprise de l'album a échoué : {0}	Importing the album failed: {0}	Übernahme des Albums fehlgeschlagen: {0}	No se ha podido importar el álbum: {0}
+Fichier prêt : {#0} blister{s}.	File ready: {0} {p:blister|blisters}.	Datei bereit: {0} Blister.	Archivo listo: {0} {p:blíster|blísteres}.
+Touchez « Envoyer » puis choisissez Messages, WhatsApp, Mail… (ou « Enregistrer dans Fichiers »).	Tap “Send” then choose Messages, WhatsApp, Mail… (or “Save to Files”).	Tippen Sie auf „Senden“ und wählen Sie Nachrichten, WhatsApp, Mail… (oder „In Dateien sichern“).	Toque «Enviar» y elija Mensajes, WhatsApp, Mail… (o «Guardar en Archivos»).
+📤 Envoyer	📤 Send	📤 Senden	📤 Enviar
+Fichier « {0} » enregistré dans Téléchargements.	File “{0}” saved in Downloads.	Datei „{0}“ in Downloads gespeichert.	Archivo «{0}» guardado en Descargas.
+Envoyez-le moi (ou mettez-le dans Google Drive) pour que je l'ajoute à la base de l'appli.	Send it to me (or put it in Google Drive) so I can add it to the app's database.	Schicken Sie es mir (oder legen Sie es in Google Drive), damit ich es der Datenbank der App hinzufüge.	Envíemelo (o póngalo en Google Drive) para que lo añada a la base de la app.
+Recadrer sur le blister les photos de {#0} blister{s} déjà dans votre base ?	Crop to the blister the photos of {0} {p:blister|blisters} already in your database?	Fotos von {0} Blistern in Ihrer Datenbank auf den Blister zuschneiden?	¿Recortar al blíster las fotos de {0} {p:blíster|blísteres} ya en su base?
+Les photos où le blister n'est pas trouvé avec certitude restent entières. Le recadrage ne peut pas être annulé.	Photos where the blister isn't found for sure stay whole. Cropping can't be undone.	Fotos, auf denen der Blister nicht sicher gefunden wird, bleiben ganz. Das Zuschneiden kann nicht rückgängig gemacht werden.	Las fotos en las que no se encuentra el blíster con seguridad se quedan enteras. El recorte no se puede deshacer.
+✂️ Recadrer	✂️ Crop	✂️ Zuschneiden	✂️ Recortar
+Recadrage des photos… ({#0} sur {#1})	Cropping photos… ({0} of {1})	Fotos werden zugeschnitten… ({0} von {1})	Recortando fotos… ({0} de {1})
+Recadrage terminé : {#0} recto{s} et {#1} verso{s} recadrés.	Cropping done: {0} front(s) and {1} back(s) cropped.	Zuschneiden fertig: {0} Vorder- und {1} Rückseite(n) zugeschnitten.	Recorte terminado: {0} anverso(s) y {1} reverso(s) recortados.
+Les autres photos sont restées entières (blister déjà bien cadré, ou pas trouvé avec certitude).	The other photos stayed whole (blister already well framed, or not found for sure).	Die anderen Fotos blieben ganz (Blister schon gut im Bild oder nicht sicher gefunden).	Las demás fotos se han quedado enteras (blíster ya bien encuadrado o no encontrado con seguridad).
+Effacer du téléphone les {#0} blisters déjà exportés ? (le fichier exporté les garde)	Delete the {0} blisters already exported from the phone? (the exported file keeps them)	Die {0} bereits exportierten Blister vom Handy löschen? (Die exportierte Datei behält sie.)	¿Borrar del teléfono los {0} blísteres ya exportados? (el archivo exportado los conserva)
+# Ma collection et fiches (js/collection.js)
+{#0} exemplaire{s} de votre base de blisters ajouté{s} à Ma collection (Customs) ✔	{0} {p:copy|copies} from your blister database added to My collection (Customs) ✔	{0} {p:Exemplar|Exemplare} aus Ihrer Blister-Datenbank zu Meine Sammlung (Customs) hinzugefügt ✔	{0} {p:ejemplar|ejemplares} de su base de blísteres {p:añadido|añadidos} a Mi colección (Customs) ✔
+Fêtes (Noël…)	Holidays (Christmas…)	Feiertage (Weihnachten…)	Fiestas (Navidad…)
+Promotionnels	Promotional	Werbeartikel	Promocionales
+Château	Castle	Burg	Castillo
+1 exemplaire	1 copy	1 Exemplar	1 ejemplar
+{#0} exemplaires	{0} copies	{0} Exemplare	{0} ejemplares
+1 exemplaire (n° {0})	1 copy (no. {0})	1 Exemplar (Nr. {0})	1 ejemplar (n.º {0})
+{#0} exemplaires (n° {1})	{0} copies (no. {1})	{0} Exemplare (Nr. {1})	{0} ejemplares (n.º {1})
+Voir sur BrickLink	View on BrickLink	Auf BrickLink ansehen	Ver en BrickLink
+Chercher sur eBay.fr	Search on eBay.fr	Auf eBay.fr suchen	Buscar en eBay.fr
+Chercher sur eBay.de	Search on eBay.de	Auf eBay.de suchen	Buscar en eBay.de
+Voir chez JB Spielwaren	View at JB Spielwaren	Bei JB Spielwaren ansehen	Ver en JB Spielwaren
+Voir sa page	View its page	Seite ansehen	Ver su página
+✏️ Modifier (nom, état, prix, remarques…)	✏️ Edit (name, condition, price, notes…)	✏️ Bearbeiten (Name, Zustand, Preis, Notizen…)	✏️ Modificar (nombre, estado, precio, notas…)
+➕ Un exemplaire de plus	➕ One more copy	➕ Ein Exemplar mehr	➕ Un ejemplar más
+➖ En retirer un	➖ Remove one	➖ Eines entfernen	➖ Quitar uno
+➖ Retirer de la collection	➖ Remove from the collection	➖ Aus der Sammlung entfernen	➖ Quitar de la colección
+➖ Retirer de ma collection	➖ Remove from my collection	➖ Aus meiner Sammlung entfernen	➖ Quitar de mi colección
+Retirer « {0} » de votre collection ?	Remove “{0}” from your collection?	„{0}“ aus Ihrer Sammlung entfernen?	¿Quitar «{0}» de su colección?
+« {0} » : {#1} exemplaire{s} ✔	“{0}”: {1} {p:copy|copies} ✔	„{0}“: {1} {p:Exemplar|Exemplare} ✔	«{0}»: {1} {p:ejemplar|ejemplares} ✔
+Retiré ✔	Removed ✔	Entfernt ✔	Quitado ✔
+La modification a échoué : {0}	The change failed: {0}	Die Änderung ist fehlgeschlagen: {0}	No se ha podido modificar: {0}
+Prix payé (€)	Price paid (€)	Bezahlter Preis (€)	Precio pagado (€)
+Type (porte-clés, lampe…)	Type (keyring, lamp…)	Art (Schlüsselanhänger, Lampe…)	Tipo (llavero, lámpara…)
+{#0} résultat(s) sur {#1} figurines.	{0} result(s) out of {1} minifigures.	{0} Treffer von {1} Minifiguren.	{0} resultado(s) de {1} minifiguras.
+Aucune figurine de votre collection ne correspond.	No minifigure in your collection matches.	Keine Minifigur Ihrer Sammlung passt.	Ninguna minifigura de su colección coincide.
+{#0} résultat(s).	{0} result(s).	{0} Treffer.	{0} resultado(s).
+{#0} article(s) différent(s), {#1} en tout dans « {2} ». Touchez un thème pour n'afficher que lui, un article pour en ajouter ou en retirer un.	{0} different item(s), {1} in total in “{2}”. Tap a theme to show only that one, an item to add or remove one.	{0} verschiedene Artikel, insgesamt {1} in „{2}“. Tippen Sie auf ein Thema, um nur dieses zu zeigen, auf einen Artikel, um einen hinzuzufügen oder zu entfernen.	{0} artículo(s) distinto(s), {1} en total en «{2}». Toque un tema para ver solo ese, o un artículo para añadir o quitar uno.
+{#0} figurine(s) différente(s), {#1} exemplaire(s) dans « {2} ». Touchez la photo pour la voir en grand, le reste pour ajouter, retirer un exemplaire ou corriger un numéro.	{0} different minifigure(s), {1} copy(ies) in “{2}”. Tap the photo to enlarge it, anywhere else to add or remove a copy or correct a number.	{0} verschiedene Minifigur(en), {1} Exemplar(e) in „{2}“. Foto antippen zum Vergrößern, den Rest zum Hinzufügen, Entfernen eines Exemplars oder Korrigieren einer Nummer.	{0} minifigura(s) distinta(s), {1} ejemplar(es) en «{2}». Toque la foto para verla en grande y el resto para añadir, quitar un ejemplar o corregir un número.
+Photo du site JB Spielwaren	Photo from the JB Spielwaren website	Foto von der JB-Spielwaren-Website	Foto de la web de JB Spielwaren
+📷 Changer les photos (recto, verso), recadrer, n°, note	📷 Change photos (front, back), crop, number, note	📷 Fotos ändern (Vorder-, Rückseite), zuschneiden, Nr., Notiz	📷 Cambiar fotos (anverso, reverso), recortar, n.º, nota
+📷 Ajouter la photo du blister	📷 Add the blister photo	📷 Blisterfoto hinzufügen	📷 Añadir la foto del blíster
+➕ Ajouter un exemplaire	➕ Add a copy	➕ Exemplar hinzufügen	➕ Añadir un ejemplar
+➖ Retirer un exemplaire	➖ Remove a copy	➖ Ein Exemplar entfernen	➖ Quitar un ejemplar
+✏️ Corriger un numéro	✏️ Correct a number	✏️ Nummer korrigieren	✏️ Corregir un número
+✏️ Indiquer le numéro	✏️ Enter the number	✏️ Nummer angeben	✏️ Indicar el número
+🔤 Renommer	🔤 Rename	🔤 Umbenennen	🔤 Cambiar el nombre
+🔤 Renommer (les {#0} exemplaires)	🔤 Rename (all {0} copies)	🔤 Umbenennen (alle {0} Exemplare)	🔤 Cambiar el nombre (los {0} ejemplares)
+🔗 Voir la page	🔗 View the page	🔗 Seite ansehen	🔗 Ver la página
+🔗 Voir sur BrickLink	🔗 View on BrickLink	🔗 Auf BrickLink ansehen	🔗 Ver en BrickLink
+🔗 Voir chez JB Spielwaren	🔗 View at JB Spielwaren	🔗 Bei JB Spielwaren ansehen	🔗 Ver en JB Spielwaren
+Ma photo	My photo	Mein Foto	Mi foto
+Photo ajoutée ✔ : ajoutez le verso, recadrez si besoin	Photo added ✔: add the back, crop if needed	Foto hinzugefügt ✔: Rückseite ergänzen, bei Bedarf zuschneiden	Foto añadida ✔: añada el reverso y recorte si hace falta
+Quel exemplaire retirer ?	Which copy should be removed?	Welches Exemplar entfernen?	¿Qué ejemplar quitar?
+Retirer {0} de votre collection ?	Remove {0} from your collection?	{0} aus Ihrer Sammlung entfernen?	¿Quitar {0} de su colección?
+Son étiquette est effacée et la case redevient libre.	Its label is deleted and the box becomes free again.	Sein Etikett wird gelöscht und das Feld wird wieder frei.	Su etiqueta se borra y la casilla queda libre.
+{0} retiré	{0} removed	{0} entfernt	{0} quitado
+Renommé « {0} »	Renamed “{0}”	Umbenannt in „{0}“	Renombrado «{0}»
+Renommé « {0} » ({#1} exemplaires)	Renamed “{0}” ({1} copies)	Umbenannt in „{0}“ ({1} Exemplare)	Renombrado «{0}» ({1} ejemplares)
+Quel exemplaire corriger ?	Which copy should be corrected?	Welches Exemplar korrigieren?	¿Qué ejemplar corregir?
+« {0} » : tapez un numéro, par exemple 52 ou 52/150.	“{0}”: type a number, for example 52 or 52/150.	„{0}“: Geben Sie eine Nummer ein, z. B. 52 oder 52/150.	«{0}»: escriba un número, por ejemplo 52 o 52/150.
+# Valeur de la collection (js/valeur.js)
+🧍 Figurines les plus précieuses	🧍 Most valuable minifigures	🧍 Wertvollste Minifiguren	🧍 Minifiguras más valiosas
+🧱 Sets les plus précieux	🧱 Most valuable sets	🧱 Wertvollste Sets	🧱 Sets más valiosos
+🔑 Porte-clés et objets dérivés	🔑 Keyrings and merchandise	🔑 Schlüsselanhänger und Fanartikel	🔑 Llaveros y objetos derivados
+🎨 Figurines customs (JB…)	🎨 Custom minifigures (JB…)	🎨 Custom-Minifiguren (JB…)	🎨 Minifiguras custom (JB…)
+Ouvrez d'abord votre collection.	Open your collection first.	Öffnen Sie zuerst Ihre Sammlung.	Abra primero su colección.
+Envoyer quand même ? Les articles absents n'auront plus de prix.	Send anyway? Missing items will no longer have a price.	Trotzdem senden? Fehlende Artikel haben dann keinen Preis mehr.	¿Enviar de todos modos? Los artículos que falten se quedarán sin precio.
+Envoyer quand même	Send anyway	Trotzdem senden	Enviar de todos modos
+Envoi de la liste ({#0} articles)…	Sending the list ({0} items)…	Liste wird gesendet ({0} Artikel)…	Enviando la lista ({0} artículos)…
+Liste envoyée ({#0} articles, dont {#1} à relever) : relevé des prix lancé. La valeur se mettra à jour toute seule à la fin (BrickLink limite à 2 250 articles par jour : une très grande collection se relève sur plusieurs jours).	List sent ({0} items, {1} to price): price check started. The value will update by itself at the end (BrickLink allows 2,250 items a day: a very large collection is priced over several days).	Liste gesendet ({0} Artikel, davon {1} zu prüfen): Preisabfrage gestartet. Der Wert aktualisiert sich am Ende von selbst (BrickLink erlaubt 2.250 Artikel pro Tag: Eine sehr große Sammlung wird über mehrere Tage abgefragt).	Lista enviada ({0} artículos, {1} por consultar): consulta de precios en marcha. El valor se actualizará solo al final (BrickLink limita a 2.250 artículos al día: una colección muy grande se consulta en varios días).
+Échec : {0}	Failed: {0}	Fehlgeschlagen: {0}	Error: {0}
+Relevé des prix terminé ✔	Price check finished ✔	Preisabfrage abgeschlossen ✔	Consulta de precios terminada ✔
+Le relevé des prix s'est arrêté en erreur.	The price check stopped with an error.	Die Preisabfrage wurde mit einem Fehler abgebrochen.	La consulta de precios se ha detenido por un error.
+Enregistrement des prix…	Saving prices…	Preise werden gespeichert…	Guardando precios…
+Prix LEGO France des sets (Avenue de la Brique) et dates (Brickset)	LEGO France set prices (Avenue de la Brique) and dates (Brickset)	LEGO-Frankreich-Preise der Sets (Avenue de la Brique) und Daten (Brickset)	Precios LEGO Francia de los sets (Avenue de la Brique) y fechas (Brickset)
+Prix LEGO France des sets (Avenue de la Brique) et dates (Brickset) : {#0} sets, environ {#1} min	LEGO France set prices (Avenue de la Brique) and dates (Brickset): {0} sets, about {1} min	LEGO-Frankreich-Preise der Sets (Avenue de la Brique) und Daten (Brickset): {0} Sets, ca. {1} Min.	Precios LEGO Francia de los sets (Avenue de la Brique) y fechas (Brickset): {0} sets, unos {1} min
+Prix BrickLink ({#0} articles à relever)…	BrickLink prices ({0} items to price)…	BrickLink-Preise ({0} Artikel abzufragen)…	Precios de BrickLink ({0} artículos por consultar)…
+Démarrage du relevé…	Starting the price check…	Abfrage wird gestartet…	Iniciando la consulta…
+⏳ Relevé des prix en cours	⏳ Price check in progress	⏳ Preisabfrage läuft	⏳ Consulta de precios en curso
+{#0} doublon(s) supprimé(s) ✔ Pensez à enregistrer, puis « Envoyer ma liste ».	{0} duplicate(s) removed ✔ Remember to save, then “Send my list”.	{0} Duplikat(e) entfernt ✔ Denken Sie ans Speichern, dann „Meine Liste senden“.	{0} duplicado(s) eliminado(s) ✔ Recuerde guardar y luego «Enviar mi lista».
+Pour chaque set, la ligne avec le rangement (remarques) est gardée.	For each set, the line with the storage location (notes) is kept.	Bei jedem Set bleibt die Zeile mit dem Aufbewahrungsort (Notizen) erhalten.	En cada set se conserva la línea con la ubicación (notas).
+Passer {#0} set(s) de « Boîte seule (vide) » à « Monté », avec boîte et notice ?	Change {0} set(s) from “Box only (empty)” to “Built”, with box and instructions?	{0} Set(s) von „Nur Karton (leer)“ auf „Aufgebaut“ mit Karton und Anleitung ändern?	¿Pasar {0} set(s) de «Solo caja (vacía)» a «Montado», con caja e instrucciones?
+{#0} set(s) corrigé(s) ✔ Pensez à enregistrer, puis « Envoyer ma liste ».	{0} set(s) corrected ✔ Remember to save, then “Send my list”.	{0} Set(s) korrigiert ✔ Denken Sie ans Speichern, dann „Meine Liste senden“.	{0} set(s) corregido(s) ✔ Recuerde guardar y luego «Enviar mi lista».
+Prix payé	Price paid	Bezahlter Preis	Precio pagado
+Épuisée chez JB Spielwaren : dernier prix JB	Sold out at JB Spielwaren: last JB price	Bei JB Spielwaren ausverkauft: letzter JB-Preis	Agotada en JB Spielwaren: último precio de JB
+Plus en vente chez JB : prix demandé sur eBay.de (médiane de {#0} annonces)	No longer sold by JB: asking price on eBay.de (median of {0} listings)	Nicht mehr bei JB erhältlich: Angebotspreis auf eBay.de (Median aus {0} Angeboten)	Ya no está a la venta en JB: precio pedido en eBay.de (mediana de {0} anuncios)
+Prix JB Spielwaren (encore en vente)	JB Spielwaren price (still on sale)	JB-Spielwaren-Preis (noch erhältlich)	Precio de JB Spielwaren (aún a la venta)
+Prix payé (lot {0}, {1})	Price paid (lot {0}, {1})	Bezahlter Preis (Posten {0}, {1})	Precio pagado (lote {0}, {1})
+Prix d'achat ({0}, {1})	Purchase price ({0}, {1})	Kaufpreis ({0}, {1})	Precio de compra ({0}, {1})
+Prix d'achat habituel d'une custom sur Whatnot (médiane de {#0} achats)	Usual purchase price of a custom on Whatnot (median of {0} purchases)	Üblicher Kaufpreis einer Custom auf Whatnot (Median aus {0} Käufen)	Precio de compra habitual de una custom en Whatnot (mediana de {0} compras)
+Annonces eBay France ({#0}, de {1} à {2})	eBay France listings ({0}, from {1} to {2})	eBay-Frankreich-Angebote ({0}, von {1} bis {2})	Anuncios de eBay Francia ({0}, de {1} a {2})
+✍️ valeur déclarée	✍️ declared value	✍️ angegebener Wert	✍️ valor declarado
+✍️ valeur déclarée : {0}	✍️ declared value: {0}	✍️ angegebener Wert: {0}	✍️ valor declarado: {0}
+✍️ Valeurs déclarées	✍️ Declared values	✍️ Angegebene Werte	✍️ Valores declarados
+✍️ Valeurs déclarées ({#0})	✍️ Declared values ({0})	✍️ Angegebene Werte ({0})	✍️ Valores declarados ({0})
+Pour une pièce exceptionnelle (signée, exemplaire rare…) : la valeur que vous déclarez remplace l'estimation. Gardez une preuve (photo de la signature, certificat, annonce comparable).	For an exceptional piece (signed, rare copy…): the value you declare replaces the estimate. Keep proof (photo of the signature, certificate, comparable listing).	Für ein besonderes Stück (signiert, seltenes Exemplar…): Der von Ihnen angegebene Wert ersetzt die Schätzung. Bewahren Sie einen Nachweis auf (Foto der Signatur, Zertifikat, vergleichbares Angebot).	Para una pieza excepcional (firmada, ejemplar raro…): el valor que declare sustituye a la estimación. Guarde una prueba (foto de la firma, certificado, anuncio comparable).
+➕ Déclarer une valeur	➕ Declare a value	➕ Wert angeben	➕ Declarar un valor
+Article de la collection	Collection item	Artikel der Sammlung	Artículo de la colección
+Valeur déclarée, par exemplaire (€)	Declared value per copy (€)	Angegebener Wert pro Exemplar (€)	Valor declarado por ejemplar (€)
+Nombre d'exemplaires concernés	Number of copies concerned	Anzahl betroffener Exemplare	Número de ejemplares afectados
+✔ Enregistrer la valeur déclarée	✔ Save the declared value	✔ Angegebenen Wert speichern	✔ Guardar el valor declarado
+Choisissez l'article dans la liste proposée (tapez quelques lettres de son nom).	Choose the item from the suggested list (type a few letters of its name).	Wählen Sie den Artikel aus der vorgeschlagenen Liste (einige Buchstaben des Namens eintippen).	Elija el artículo en la lista propuesta (escriba algunas letras de su nombre).
+Indiquez une valeur en euros (ex. 250).	Enter a value in euros (e.g. 250).	Geben Sie einen Wert in Euro an (z. B. 250).	Indique un valor en euros (p. ej. 250).
+{0} : {1} déclarés ✔ (pensez à enregistrer)	{0}: {1} declared ✔ (remember to save)	{0}: {1} angegeben ✔ (ans Speichern denken)	{0}: {1} declarados ✔ (recuerde guardar)
+Retirer la valeur déclarée de « {0} » ? L'article reprendra sa valeur estimée.	Remove the declared value of “{0}”? The item will go back to its estimated value.	Angegebenen Wert von „{0}“ entfernen? Der Artikel erhält wieder seinen geschätzten Wert.	¿Quitar el valor declarado de «{0}»? El artículo recuperará su valor estimado.
+📈 Évolution de la valeur	📈 Value over time	📈 Wertentwicklung	📈 Evolución del valor
+La courbe apparaîtra à partir de la prochaine consultation un autre jour : la valeur du jour est retenue à chaque visite de cet écran.	The chart will appear from your next visit on another day: the day's value is recorded each time you open this screen.	Die Kurve erscheint ab dem nächsten Besuch an einem anderen Tag: Der Tageswert wird bei jedem Öffnen dieses Bildschirms gespeichert.	La curva aparecerá a partir de la próxima consulta otro día: el valor del día se guarda cada vez que abre esta pantalla.
+Du {0} au {1}	From {0} to {1}	Vom {0} bis {1}	Del {0} al {1}
+⏳ Actualisation en cours : le total peut encore changer…	⏳ Updating: the total may still change…	⏳ Aktualisierung läuft: Die Summe kann sich noch ändern…	⏳ Actualizando: el total aún puede cambiar…
+⏳ Actualisation en cours : le total peut encore changer ({0})…	⏳ Updating: the total may still change ({0})…	⏳ Aktualisierung läuft: Die Summe kann sich noch ändern ({0})…	⏳ Actualizando: el total aún puede cambiar ({0})…
+✅ Valeur à jour	✅ Value up to date	✅ Wert aktuell	✅ Valor actualizado
+✅ Valeur à jour · prix du {0}	✅ Value up to date · prices of {0}	✅ Wert aktuell · Preise vom {0}	✅ Valor actualizado · precios del {0}
+Ouvrez d'abord votre collection pour voir sa valeur.	Open your collection first to see its value.	Öffnen Sie zuerst Ihre Sammlung, um ihren Wert zu sehen.	Abra primero su colección para ver su valor.
+Lecture des prix…	Reading prices…	Preise werden gelesen…	Leyendo precios…
+Pas encore de prix : touchez « Envoyer ma liste et relever les prix ».	No prices yet: tap “Send my list and check prices”.	Noch keine Preise: Tippen Sie auf „Meine Liste senden und Preise abfragen“.	Aún no hay precios: toque «Enviar mi lista y consultar precios».
+⏳ Aucun prix pour l'instant : le relevé BrickLink est sans doute encore en cours (environ 1 minute par 100 articles). Touchez « Actualiser » un peu plus tard.	⏳ No prices yet: the BrickLink check is probably still running (about 1 minute per 100 items). Tap “Refresh” a little later.	⏳ Noch keine Preise: Die BrickLink-Abfrage läuft wohl noch (ca. 1 Minute pro 100 Artikel). Tippen Sie etwas später auf „Aktualisieren“.	⏳ Aún no hay precios: la consulta de BrickLink seguramente sigue en curso (aprox. 1 minuto por cada 100 artículos). Toque «Actualizar» un poco más tarde.
+Prix du {0} : médiane des ventes BrickLink des 6 derniers mois en Europe, TVA comprise.	Prices of {0}: median of BrickLink sales in Europe over the last 6 months, VAT included.	Preise vom {0}: Median der BrickLink-Verkäufe in Europa der letzten 6 Monate, inkl. MwSt.	Precios del {0}: mediana de las ventas de BrickLink en Europa de los últimos 6 meses, IVA incluido.
+🧹 Supprimer les doublons	🧹 Remove duplicates	🧹 Duplikate entfernen	🧹 Eliminar duplicados
+{#0} set(s) notés « Boîte seule (vide) »	{0} set(s) marked “Box only (empty)”	{0} Set(s) als „Nur Karton (leer)“ vermerkt	{0} set(s) marcados «Solo caja (vacía)»
+dans l'onglet « Sets » :	in the “Sets” tab:	im Reiter „Sets“:	en la pestaña «Sets»:
+ils sont comptés comme des boîtes vides.	they are counted as empty boxes.	Sie werden als leere Kartons gezählt.	se cuentan como cajas vacías.
+dans l'onglet « Sets » : ils sont comptés comme des boîtes vides.	in the “Sets” tab: they are counted as empty boxes.	im Reiter „Sets“: Sie werden als leere Kartons gezählt.	en la pestaña «Sets»: se cuentan como cajas vacías.
+✔ Ce sont des sets montés complets (boîte et notice)	✔ These are complete built sets (box and instructions)	✔ Das sind vollständige aufgebaute Sets (Karton und Anleitung)	✔ Son sets montados completos (caja e instrucciones)
+Coût de rachat à neuf de la collection	Cost of replacing the collection new	Neu-Wiederbeschaffungswert der Sammlung	Coste de reponer la colección nueva
+{#0} article(s) valorisé(s)	{0} item(s) valued	{0} Artikel bewertet	{0} artículo(s) valorado(s)
+{#0} article(s) valorisé(s) · {#1} sans prix pour l'instant	{0} item(s) valued · {1} without a price for now	{0} Artikel bewertet · {1} vorerst ohne Preis	{0} artículo(s) valorado(s) · {1} sin precio por ahora
+prix LEGO France (encore en vente)	LEGO France price (still on sale)	LEGO-Frankreich-Preis (noch erhältlich)	precio LEGO Francia (aún a la venta)
+neuf	new	neu	nuevo
+occasion (aucune vente neuve)	used (no new sales)	gebraucht (keine Neuverkäufe)	segunda mano (sin ventas de nuevo)
+(d'après {#0} annonces eBay.de sans figurines)	(based on {0} eBay.de listings without minifigures)	(laut {0} eBay.de-Angeboten ohne Minifiguren)	(según {0} anuncios de eBay.de sin minifiguras)
+({#0} figurine(s) comptée(s) dans vos onglets)	({0} minifigure(s) counted in your tabs)	({0} Minifigur(en) in Ihren Reitern gezählt)	({0} minifigura(s) contada(s) en sus pestañas)
+sans figurines	without minifigures	ohne Minifiguren	sin minifiguras
+# Compte (js/compte.js)
+Connecté	Signed in	Angemeldet	Conectado
+Le service des comptes n'a pas pu être chargé. Vérifiez la connexion Internet, puis rouvrez l'appli.	The account service couldn't be loaded. Check your Internet connection, then reopen the app.	Der Kontodienst konnte nicht geladen werden. Prüfen Sie die Internetverbindung und öffnen Sie die App erneut.	No se ha podido cargar el servicio de cuentas. Compruebe la conexión a Internet y vuelva a abrir la app.
+: choisissez-en un d'au moins 8 caractères.	: choose one with at least 8 characters.	: Wählen Sie eines mit mindestens 8 Zeichen.	: elija una de al menos 8 caracteres.
+Dernière sauvegarde : {0} Elle se refait toute seule une fois par jour.	Last backup: {0} — repeated automatically once a day.	Letzte Sicherung: {0} – wird einmal täglich automatisch wiederholt.	Última copia: {0} — se repite sola una vez al día.
+Le pseudo « {0} » est déjà pris : choisissez-en un autre.	The username “{0}” is already taken: choose another one.	Der Benutzername „{0}“ ist schon vergeben: Wählen Sie einen anderen.	El seudónimo «{0}» ya está cogido: elija otro.
+📧 Compte créé. Ouvrez l'e-mail envoyé à	📧 Account created. Open the e-mail sent to	📧 Konto erstellt. Öffnen Sie die E-Mail an	📧 Cuenta creada. Abra el correo enviado a
+et touchez le lien de confirmation : vous reviendrez dans l'appli, connecté.	and tap the confirmation link: you'll come back to the app, signed in.	und tippen Sie auf den Bestätigungslink: Sie kommen angemeldet in die App zurück.	y toque el enlace de confirmación: volverá a la app con la sesión iniciada.
+Compte créé ✔	Account created ✔	Konto erstellt ✔	Cuenta creada ✔
+📧 E-mail envoyé à	📧 E-mail sent to	📧 E-Mail gesendet an	📧 Correo enviado a
+(s'il y a bien un compte à cette adresse) : touchez son lien « Choisir un nouveau mot de passe », vous reviendrez dans l'appli pour le taper.	(if there is an account at this address): tap its “Choose a new password” link, you'll come back to the app to type it.	(falls es ein Konto mit dieser Adresse gibt): Tippen Sie auf den Link „Neues Passwort wählen“, Sie kommen zum Eingeben in die App zurück.	(si hay una cuenta con esta dirección): toque su enlace «Elegir una nueva contraseña» y volverá a la app para escribirla.
+Rien reçu ? Regardez dans les	Nothing received? Look in the	Nichts erhalten? Sehen Sie im	¿No ha recibido nada? Mire en
+indésirables	spam	Spam-Ordner	correo no deseado
+(spam) et l'onglet	folder and the	und im Tab	(spam) y en la pestaña
+de Gmail. L'e-mail vient de « Briquothèque » (ou « Supabase Auth »).	tab in Gmail. The e-mail comes from “Briquothèque” (or “Supabase Auth”).	von Gmail nach. Die E-Mail kommt von „Briquothèque“ (oder „Supabase Auth“).	de Gmail. El correo viene de «Briquothèque» (o «Supabase Auth»).
+ou	or	oder	o
+Mot de passe changé ✔	Password changed ✔	Passwort geändert ✔	Contraseña cambiada ✔
+La sauvegarde en ligne contient {#0} articles, cette collection-ci seulement {#1}.	The online backup contains {0} items, this collection only {1}.	Die Online-Sicherung enthält {0} Artikel, diese Sammlung nur {1}.	La copia en línea contiene {0} artículos y esta colección solo {1}.
+La sauvegarde en ligne contient {#0} articles, cette collection-ci seulement {#1}. La remplacer quand même ? (Pour retrouver votre collection sur cet appareil, touchez plutôt « 📥 Récupérer ».)	The online backup contains {0} items, this collection only {1}. Replace it anyway? (To get your collection back on this device, tap “📥 Restore” instead.)	Die Online-Sicherung enthält {0} Artikel, diese Sammlung nur {1}. Trotzdem ersetzen? (Um Ihre Sammlung auf dieses Gerät zu holen, tippen Sie lieber auf „📥 Wiederherstellen“.)	La copia en línea contiene {0} artículos y esta colección solo {1}. ¿Reemplazarla de todos modos? (Para recuperar su colección en este dispositivo, toque mejor «📥 Recuperar».)
+Remplacer	Replace	Ersetzen	Reemplazar
+Installer	Install	Installieren	Instalar
+Pas de sauvegarde en ligne utilisable.	No usable online backup.	Keine verwendbare Online-Sicherung.	No hay ninguna copia en línea utilizable.
+Remplacer la collection de cet appareil par la sauvegarde en ligne du {0} ? Ce qui a été ajouté depuis sur cet appareil sera perdu.	Replace this device's collection with the online backup of {0}? Anything added on this device since then will be lost.	Die Sammlung dieses Geräts durch die Online-Sicherung vom {0} ersetzen? Was seitdem auf diesem Gerät hinzugefügt wurde, geht verloren.	¿Reemplazar la colección de este dispositivo por la copia en línea del {0}? Lo añadido desde entonces en este dispositivo se perderá.
+Installer sur cet appareil votre collection sauvegardée en ligne du {0} ?	Install on this device your collection backed up online on {0}?	Ihre am {0} online gesicherte Sammlung auf diesem Gerät installieren?	¿Instalar en este dispositivo su colección guardada en línea el {0}?
+{0} ({#1} articles)	{0} ({1} items)	{0} ({1} Artikel)	{0} ({1} artículos)
+Supprimer définitivement votre compte, votre pseudo et votre sauvegarde en ligne ? La collection de ce téléphone, elle, est gardée.	Permanently delete your account, username and online backup? The collection on this phone is kept.	Ihr Konto, Ihren Benutzernamen und Ihre Online-Sicherung endgültig löschen? Die Sammlung auf diesem Handy bleibt erhalten.	¿Eliminar definitivamente su cuenta, su seudónimo y su copia en línea? La colección de este teléfono se conserva.
+Compte supprimé	Account deleted	Konto gelöscht	Cuenta eliminada
+Copie impossible : affichez-le avec 👁️ et recopiez-le	Can't copy: show it with 👁️ and copy it by hand	Kopieren nicht möglich: Mit 👁️ anzeigen und abschreiben	No se puede copiar: muéstrela con 👁️ y cópiela a mano
+# Ajout de figurines et écrans principaux (js/app.js)
+1 ajout pas encore enregistré	1 addition not saved yet	1 Ergänzung noch nicht gespeichert	1 adición sin guardar aún
+⚠️ Mémoire du téléphone pleine : l'enregistrement a échoué. Libérez de la place (photos, applis), puis réessayez.	⚠️ Phone storage full: saving failed. Free up some space (photos, apps), then try again.	⚠️ Handyspeicher voll: Speichern fehlgeschlagen. Schaffen Sie Platz (Fotos, Apps) und versuchen Sie es erneut.	⚠️ Memoria del teléfono llena: no se ha podido guardar. Libere espacio (fotos, apps) y vuelva a intentarlo.
+⚠️ Enregistrement dans le téléphone impossible : {0}	⚠️ Can't save on the phone: {0}	⚠️ Speichern auf dem Handy nicht möglich: {0}	⚠️ No se puede guardar en el teléfono: {0}
+Photo de dos : encadrez la figurine.	Back view photo: frame the minifigure.	Foto von hinten: Rahmen Sie die Minifigur ein.	Foto de espaldas: encuadre la minifigura.
+Analyse de la photo de dos…	Analysing the back view photo…	Foto von hinten wird analysiert…	Analizando la foto de espaldas…
+Identification en cours…	Identifying…	Wird erkannt…	Identificando…
+Aucune figurine reconnue sur cette photo. Essayez avec la figurine seule, bien éclairée, sur un fond uni, en la recadrant au plus près.	No minifigure recognised in this photo. Try with the minifigure alone, well lit, on a plain background, cropped as close as possible.	Auf diesem Foto wurde keine Minifigur erkannt. Versuchen Sie es mit der Minifigur allein, gut beleuchtet, vor einfarbigem Hintergrund und eng zugeschnitten.	No se ha reconocido ninguna minifigura en esta foto. Pruebe con la minifigura sola, bien iluminada, sobre un fondo liso y recortada lo más cerca posible.
+Impossible de joindre le service de reconnaissance (Brickognize). Vérifiez la connexion Internet.	Can't reach the recognition service (Brickognize). Check your Internet connection.	Der Erkennungsdienst (Brickognize) ist nicht erreichbar. Prüfen Sie die Internetverbindung.	No se puede contactar con el servicio de reconocimiento (Brickognize). Compruebe la conexión a Internet.
+Voulez-vous chercher la figurine par son nom ?	Do you want to search for the minifigure by name?	Möchten Sie die Minifigur nach Namen suchen?	¿Quiere buscar la minifigura por su nombre?
+📦 Vous en avez déjà	📦 You already have	📦 Sie haben schon	📦 Ya tiene
+{#0} exemplaire{s}	{0} {p:copy|copies}	{0} {p:Exemplar|Exemplare}	{0} {p:ejemplar|ejemplares}
+Vous avez déjà {#0} exemplaire{s} de « {1} ».	You already have {0} {p:copy|copies} of “{1}”.	Sie haben schon {0} {p:Exemplar|Exemplare} von „{1}“.	Ya tiene {0} {p:ejemplar|ejemplares} de «{1}».
+Est-ce bien un exemplaire de plus que vous détenez (total {#0}) ?	Is this really one more copy that you own (total {0})?	Besitzen Sie wirklich ein weiteres Exemplar (insgesamt {0})?	¿Es de verdad un ejemplar más que tiene (total {0})?
+Est-ce bien {#0} exemplaires de plus que vous détenez (total {#1}) ?	Are these really {0} more copies that you own (total {1})?	Besitzen Sie wirklich {0} weitere Exemplare (insgesamt {1})?	¿Son de verdad {0} ejemplares más que tiene (total {1})?
+Si c'est la même figurine déjà enregistrée, touchez « Annuler ».	If it's the same minifigure already saved, tap “Cancel”.	Wenn es dieselbe, bereits gespeicherte Minifigur ist, tippen Sie auf „Abbrechen“.	Si es la misma minifigura ya guardada, toque «Cancelar».
+Oui, j'en ai {#0}	Yes, I have {0}	Ja, ich habe {0}	Sí, tengo {0}
+Ajouter {#0} exemplaires de « {1} » ?	Add {0} copies of “{1}”?	{0} Exemplare von „{1}“ hinzufügen?	¿Añadir {0} ejemplares de «{1}»?
+Oui, {#0} exemplaires	Yes, {0} copies	Ja, {0} Exemplare	Sí, {0} ejemplares
+Vos photos	Your photos	Ihre Fotos	Sus fotos
+Votre photo	Your photo	Ihr Foto	Su foto
+🆕 Nouveauté LEGO	🆕 New LEGO release	🆕 LEGO-Neuheit	🆕 Novedad LEGO
+🆕 Nouveauté LEGO · pas encore de code BrickLink (code Rebrickable)	🆕 New LEGO release · no BrickLink code yet (Rebrickable code)	🆕 LEGO-Neuheit · noch kein BrickLink-Code (Rebrickable-Code)	🆕 Novedad LEGO · aún sin código BrickLink (código Rebrickable)
+🔗 Voir la page BrickLink	🔗 View the BrickLink page	🔗 BrickLink-Seite ansehen	🔗 Ver la página de BrickLink
+🔗 Voir la page Rebrickable	🔗 View the Rebrickable page	🔗 Rebrickable-Seite ansehen	🔗 Ver la página de Rebrickable
+Code « {0} » : pas un vrai code BrickLink.	Code “{0}”: not a real BrickLink code.	Code „{0}“: kein echter BrickLink-Code.	Código «{0}»: no es un código BrickLink real.
+Thème	Theme	Thema	Tema
+Nom dans le fichier	Name in the file	Name in der Datei	Nombre en el archivo
+Couleur choisie par vous.	Colour chosen by you.	Von Ihnen gewählte Farbe.	Color elegido por usted.
+Rangée dans l'onglet « Star Wars ».	Filed in the “Star Wars” tab.	Im Reiter „Star Wars“ abgelegt.	Guardada en la pestaña «Star Wars».
+Rangée dans « Star Wars ».	Filed under “Star Wars”.	Unter „Star Wars“ abgelegt.	Guardada en «Star Wars».
+Rangée dans l'onglet « {0} ».	Filed in the “{0}” tab.	Im Reiter „{0}“ abgelegt.	Guardada en la pestaña «{0}».
+Nouvel onglet « {0} » : il sera créé dans le fichier.	New tab “{0}”: it will be created in the file.	Neuer Reiter „{0}“: Er wird in der Datei angelegt.	Nueva pestaña «{0}»: se creará en el archivo.
+« {0} » n'est pas un vrai code BrickLink : impossible de créer un QR code fiable.	“{0}” isn't a real BrickLink code: a reliable QR code can't be created.	„{0}“ ist kein echter BrickLink-Code: Ein zuverlässiger QR-Code kann nicht erstellt werden.	«{0}» no es un código BrickLink real: no se puede crear un código QR fiable.
+Ajout dans le fichier…	Adding to the file…	Wird zur Datei hinzugefügt…	Añadiendo al archivo…
+Ajout dans le fichier… ({#0} sur {#1})	Adding to the file… ({0} of {1})	Wird zur Datei hinzugefügt… ({0} von {1})	Añadiendo al archivo… ({0} de {1})
+L'ajout a échoué : {0}	Adding failed: {0}	Hinzufügen fehlgeschlagen: {0}	No se ha podido añadir: {0}
+Exemplaire de plus : tapez son numéro.	One more copy: type its number.	Weiteres Exemplar: Geben Sie seine Nummer ein.	Un ejemplar más: escriba su número.
+Même rangement que l'exemplaire que vous avez déjà.	Same storage as the copy you already have.	Gleicher Ablageort wie Ihr vorhandenes Exemplar.	Misma ubicación que el ejemplar que ya tiene.
+Le catalogue BrickLink n'est pas encore installé dans l'appli.	The BrickLink catalogue isn't installed in the app yet.	Der BrickLink-Katalog ist noch nicht in der App installiert.	El catálogo de BrickLink aún no está instalado en la app.
+40 premiers résultats : touchez la bonne figurine.	First 40 results: tap the right minifigure.	Erste 40 Treffer: Tippen Sie auf die richtige Minifigur.	Primeros 40 resultados: toque la minifigura correcta.
+{#0} résultat(s) : touchez la bonne figurine.	{0} result(s): tap the right minifigure.	{0} Treffer: Tippen Sie auf die richtige Minifigur.	{0} resultado(s): toque la minifigura correcta.
+Aucune figurine trouvée. Essayez un autre mot (en anglais).	No minifigure found. Try another word (in English).	Keine Minifigur gefunden. Versuchen Sie ein anderes Wort (auf Englisch).	No se ha encontrado ninguna minifigura. Pruebe otra palabra (en inglés).
+📦 Voir toute la série « {0} »	📦 View the whole series “{0}”	📦 Ganze Serie „{0}“ ansehen	📦 Ver toda la serie «{0}»
+{0} : {#1} figurines. Touchez-en une, ou ajoutez toute la série.	{0}: {1} minifigures. Tap one, or add the whole series.	{0}: {1} Minifiguren. Tippen Sie eine an oder fügen Sie die ganze Serie hinzu.	{0}: {1} minifiguras. Toque una o añada toda la serie.
+Nombre de séries complètes que vous avez	Number of complete series you have	Anzahl Ihrer vollständigen Serien	Número de series completas que tiene
+➕ Ajouter toute la série ({#0} figurines)	➕ Add the whole series ({0} minifigures)	➕ Ganze Serie hinzufügen ({0} Minifiguren)	➕ Añadir toda la serie ({0} minifiguras)
+➕ Ajouter {#0} séries complètes ({#1} figurines)	➕ Add {0} complete series ({1} minifigures)	➕ {0} vollständige Serien hinzufügen ({1} Minifiguren)	➕ Añadir {0} series completas ({1} minifiguras)
+Vous avez déjà {#0} exemplaires de chaque figurine de cette série.	You already have {0} copies of each minifigure in this series.	Sie haben schon {0} Exemplare jeder Minifigur dieser Serie.	Ya tiene {0} ejemplares de cada minifigura de esta serie.
+Toutes les figurines de cette série sont déjà dans votre collection.	All the minifigures in this series are already in your collection.	Alle Minifiguren dieser Serie sind schon in Ihrer Sammlung.	Todas las minifiguras de esta serie ya están en su colección.
+Ajouter {#0} figurine(s) de « {1} » ?	Add {0} minifigure(s) from “{1}”?	{0} Minifigur(en) aus „{1}“ hinzufügen?	¿Añadir {0} minifigura(s) de «{1}»?
+Ajouter {#0} figurine(s) de « {1} » ({#2} séries complètes) ?	Add {0} minifigure(s) from “{1}” ({2} complete series)?	{0} Minifigur(en) aus „{1}“ hinzufügen ({2} vollständige Serien)?	¿Añadir {0} minifigura(s) de «{1}» ({2} series completas)?
+{#0} exemplaire(s) déjà dans votre collection : pas ajouté(s).	{0} copy(ies) already in your collection: not added.	{0} Exemplar(e) schon in Ihrer Sammlung: nicht hinzugefügt.	{0} ejemplar(es) ya en su colección: no añadido(s).
+Ajout des figurines…	Adding minifigures…	Minifiguren werden hinzugefügt…	Añadiendo minifiguras…
+Ajout des figurines… ({#0} sur {#1})	Adding minifigures… ({0} of {1})	Minifiguren werden hinzugefügt… ({0} von {1})	Añadiendo minifiguras… ({0} de {1})
+{#0} figurine(s) ajoutée(s) :	{0} minifigure(s) added:	{0} Minifigur(en) hinzugefügt:	{0} minifigura(s) añadida(s):
+Pensez à enregistrer le fichier.	Remember to save the file.	Denken Sie daran, die Datei zu speichern.	Recuerde guardar el archivo.
+Nouveautés à jour du {0} ✔	New releases updated on {0} ✔	Neuheiten aktualisiert am {0} ✔	Novedades actualizadas el {0} ✔
+Nouveautés indisponibles (réseau ?)	New releases unavailable (network?)	Neuheiten nicht verfügbar (Netzwerk?)	Novedades no disponibles (¿red?)
+Aucun catalogue installé pour l'instant.	No catalogue installed yet.	Noch kein Katalog installiert.	Aún no hay ningún catálogo instalado.
+Catalogue mis à jour ✔ ({0} figurines)	Catalogue updated ✔ ({0} minifigures)	Katalog aktualisiert ✔ ({0} Minifiguren)	Catálogo actualizado ✔ ({0} minifiguras)
+Ce fichier n'a pas pu être utilisé : {0}	This file couldn't be used: {0}	Diese Datei konnte nicht verwendet werden: {0}	No se ha podido usar este archivo: {0}
+Vérifiez sur BrickLink : « Catalog Items », « Minifigures », « Tab-Delimited File ».	Check on BrickLink: “Catalog Items”, “Minifigures”, “Tab-Delimited File”.	Prüfen Sie auf BrickLink: „Catalog Items“, „Minifigures“, „Tab-Delimited File“.	Compruebe en BrickLink: «Catalog Items», «Minifigures», «Tab-Delimited File».
+{#0} figurines JB Spielwaren (catalogue du {1}). Sinon, collez un lien plus bas.	{0} JB Spielwaren minifigures (catalogue of {1}). Otherwise, paste a link below.	{0} Minifiguren von JB Spielwaren (Katalog vom {1}). Sonst unten einen Link einfügen.	{0} minifiguras de JB Spielwaren (catálogo del {1}). Si no, pegue un enlace más abajo.
+{#0} figurines JB Spielwaren (catalogue du {1}) + {#2} plus en vente chez JB (brickshellcases.com, archives, eBay.de, photos de collectionneurs). Sinon, collez un lien plus bas.	{0} JB Spielwaren minifigures (catalogue of {1}) + {2} no longer sold by JB (brickshellcases.com, archives, eBay.de, collectors' photos). Otherwise, paste a link below.	{0} Minifiguren von JB Spielwaren (Katalog vom {1}) + {2} nicht mehr bei JB erhältlich (brickshellcases.com, Archiv, eBay.de, Sammlerfotos). Sonst unten einen Link einfügen.	{0} minifiguras de JB Spielwaren (catálogo del {1}) + {2} ya no a la venta en JB (brickshellcases.com, archivo, eBay.de, fotos de coleccionistas). Si no, pegue un enlace más abajo.
+Catalogue JB indisponible : collez le lien de la figurine plus bas.	JB catalogue unavailable: paste the minifigure's link below.	JB-Katalog nicht verfügbar: Fügen Sie unten den Link der Minifigur ein.	Catálogo de JB no disponible: pegue el enlace de la minifigura más abajo.
+Collection : n° {0} déjà dans l'onglet Customs, rien ajouté.	Collection: no. {0} already in the Customs tab, nothing added.	Sammlung: Nr. {0} schon im Reiter Customs, nichts hinzugefügt.	Colección: n.º {0} ya en la pestaña Customs, no se ha añadido nada.
+Collection : ajoutée dans {0}	Collection: added to {0}	Sammlung: zu {0} hinzugefügt	Colección: añadida a {0}
+Collection : {#0} exemplaires ajoutés dans {1}	Collection: {0} copies added to {1}	Sammlung: {0} Exemplare zu {1} hinzugefügt	Colección: {0} ejemplares añadidos a {1}
+Collection : ajoutée dans {0} ; n° {1} déjà présent(s), non ajouté(s)	Collection: added to {0}; no. {1} already there, not added	Sammlung: zu {0} hinzugefügt; Nr. {1} schon vorhanden, nicht hinzugefügt	Colección: añadida a {0}; n.º {1} ya presente(s), no añadido(s)
+Collection : {#0} exemplaires ajoutés dans {1} ; n° {2} déjà présent(s), non ajouté(s)	Collection: {0} copies added to {1}; no. {2} already there, not added	Sammlung: {0} Exemplare zu {1} hinzugefügt; Nr. {2} schon vorhanden, nicht hinzugefügt	Colección: {0} ejemplares añadidos a {1}; n.º {2} ya presente(s), no añadido(s)
+⚠️ L'ajout à votre collection a échoué : {0} (le blister est bien dans la base de blisters).	⚠️ Adding to your collection failed: {0} (the blister is in the blister database).	⚠️ Hinzufügen zu Ihrer Sammlung fehlgeschlagen: {0} (der Blister ist in der Blister-Datenbank).	⚠️ No se ha podido añadir a su colección: {0} (el blíster sí está en la base de blísteres).
+Encadrez SEULEMENT le nom de la figurine (le petit cadre du blister).	Frame ONLY the minifigure's name (the small box on the blister).	Rahmen Sie NUR den Namen der Minifigur ein (das kleine Feld auf dem Blister).	Encuadre SOLO el nombre de la minifigura (el pequeño recuadro del blíster).
+Lecture du nom…	Reading the name…	Name wird gelesen…	Leyendo el nombre…
+Nom lu : « {0} ». Il n'est dans aucune de nos listes (site JB, brickshellcases, eBay.de) : il est repris ci-dessous, vérifiez-le. Le QR code ouvrira une recherche eBay.de sur ce nom (sans résultat tant que personne ne la vend).	Name read: “{0}”. It isn't in any of our lists (JB website, brickshellcases, eBay.de): it's copied below, check it. The QR code will open an eBay.de search for this name (no results until someone sells it).	Gelesener Name: „{0}“. Er steht in keiner unserer Listen (JB-Website, brickshellcases, eBay.de): Er wird unten übernommen, bitte prüfen. Der QR-Code öffnet eine eBay.de-Suche nach diesem Namen (ohne Treffer, solange niemand sie verkauft).	Nombre leído: «{0}». No está en ninguna de nuestras listas (web de JB, brickshellcases, eBay.de): se copia abajo, compruébelo. El código QR abrirá una búsqueda en eBay.de con ese nombre (sin resultados mientras nadie la venda).
+Nom trouvé sur le blister : « {0} ». Touchez la bonne figurine :	Name found on the blister: “{0}”. Tap the right minifigure:	Auf dem Blister gefundener Name: „{0}“. Tippen Sie auf die richtige Minifigur:	Nombre encontrado en el blíster: «{0}». Toque la minifigura correcta:
+Nom trouvé sur le blister : « {0} ». ✔ Confirmé par le décor du blister. Touchez la bonne figurine :	Name found on the blister: “{0}”. ✔ Confirmed by the blister artwork. Tap the right minifigure:	Auf dem Blister gefundener Name: „{0}“. ✔ Durch das Blister-Motiv bestätigt. Tippen Sie auf die richtige Minifigur:	Nombre encontrado en el blíster: «{0}». ✔ Confirmado por el diseño del blíster. Toque la minifigura correcta:
+Nom trouvé sur le blister : « {0} ». Le décor ne permet pas de le confirmer : vérifiez. Touchez la bonne figurine :	Name found on the blister: “{0}”. The artwork doesn't confirm it: check. Tap the right minifigure:	Auf dem Blister gefundener Name: „{0}“. Das Motiv bestätigt ihn nicht: bitte prüfen. Tippen Sie auf die richtige Minifigur:	Nombre encontrado en el blíster: «{0}». El diseño no permite confirmarlo: compruébelo. Toque la minifigura correcta:
+Le nom n'a pas pu être lu. Cherchez la figurine avec un mot, ou tapez son nom ci-dessous.	The name couldn't be read. Search for the minifigure with a word, or type its name below.	Der Name konnte nicht gelesen werden. Suchen Sie die Minifigur mit einem Wort oder tippen Sie den Namen unten ein.	No se ha podido leer el nombre. Busque la minifigura con una palabra o escriba su nombre abajo.
+Le nom n'a pas été trouvé sur la photo entière (reflet, photo floue ?). Touchez « Encadrer le nom moi-même », ou cherchez la figurine avec un mot.	The name wasn't found on the whole photo (reflection, blurry photo?). Tap “Frame the name myself”, or search for the minifigure with a word.	Der Name wurde auf dem ganzen Foto nicht gefunden (Spiegelung, unscharf?). Tippen Sie auf „Namen selbst einrahmen“ oder suchen Sie die Minifigur mit einem Wort.	No se ha encontrado el nombre en la foto entera (¿reflejo, foto borrosa?). Toque «Encuadrar el nombre yo mismo» o busque la minifigura con una palabra.
+🔎 Selon Brickognize, la figurine ressemble à la figurine officielle	🔎 According to Brickognize, the minifigure looks like the official minifigure	🔎 Laut Brickognize ähnelt die Minifigur der offiziellen Minifigur	🔎 Según Brickognize, la minifigura se parece a la minifigura oficial
+C'est une figurine officielle LEGO ? Voir les propositions	Is it an official LEGO minifigure? See the suggestions	Ist es eine offizielle LEGO-Minifigur? Vorschläge ansehen	¿Es una minifigura oficial de LEGO? Ver las propuestas
+Code de l'étiquette : {0}	Label code: {0}	Etikett-Code: {0}	Código de la etiqueta: {0}
+Code de l'étiquette : {0} (numéro d'article JB Spielwaren)	Label code: {0} (JB Spielwaren item number)	Etikett-Code: {0} (Artikelnummer von JB Spielwaren)	Código de la etiqueta: {0} (número de artículo de JB Spielwaren)
+N° déjà enregistrés : {0}	Numbers already saved: {0}	Bereits gespeicherte Nr.: {0}	N.º ya guardados: {0}
+N° des {#0} exemplaires (écrits sur les blisters)	Numbers of the {0} copies (written on the blisters)	Nummern der {0} Exemplare (auf den Blistern)	N.º de los {0} ejemplares (escritos en los blísteres)
+n° {0} déjà enregistré	no. {0} already saved	Nr. {0} schon gespeichert	n.º {0} ya guardado
+Donnez un nom à la figurine.	Give the minifigure a name.	Geben Sie der Minifigur einen Namen.	Ponga un nombre a la minifigura.
+Déjà enregistré : n° {0}.	Already saved: no. {0}.	Schon gespeichert: Nr. {0}.	Ya guardado: n.º {0}.
+C'est le même blister : il n'est pas ajouté une 2e fois.	It's the same blister: it isn't added a second time.	Es ist derselbe Blister: Er wird nicht ein zweites Mal hinzugefügt.	Es el mismo blíster: no se añade una segunda vez.
+N° tapé deux fois : {0}.	Number typed twice: {0}.	Nr. doppelt eingegeben: {0}.	N.º escrito dos veces: {0}.
+Corrigez les numéros, puis réessayez.	Correct the numbers, then try again.	Korrigieren Sie die Nummern und versuchen Sie es erneut.	Corrija los números y vuelva a intentarlo.
+{#0} exemplaire(s), mais {#1} numéro(s) tapé(s) : les autres seront enregistrés sans numéro. Continuer ?	{0} copy(ies), but {1} number(s) typed: the others will be saved without a number. Continue?	{0} Exemplar(e), aber {1} Nummer(n) eingegeben: Die anderen werden ohne Nummer gespeichert. Fortfahren?	{0} ejemplar(es), pero {1} número(s) escrito(s): los demás se guardarán sin número. ¿Continuar?
+Tapez d'abord les codes.	Type the codes first.	Geben Sie zuerst die Codes ein.	Escriba primero los códigos.
+Vérification…	Checking…	Wird geprüft…	Comprobando…
+{#0} code(s) : {#1} coché(s). Décochez ce que vous ne voulez pas ajouter.	{0} code(s): {1} ticked. Untick what you don't want to add.	{0} Code(s): {1} angehakt. Entfernen Sie den Haken bei allem, was Sie nicht hinzufügen möchten.	{0} código(s): {1} marcado(s). Desmarque lo que no quiera añadir.
+{#0} code(s) : {#1} coché(s). Décochez ce que vous ne voulez pas ajouter ; celles déjà dans votre collection sont décochées (cochez-les pour un exemplaire de plus).	{0} code(s): {1} ticked. Untick what you don't want to add; those already in your collection are unticked (tick them for one more copy).	{0} Code(s): {1} angehakt. Entfernen Sie den Haken bei allem, was Sie nicht hinzufügen möchten; bereits vorhandene sind nicht angehakt (anhaken für ein weiteres Exemplar).	{0} código(s): {1} marcado(s). Desmarque lo que no quiera añadir; las que ya están en su colección aparecen desmarcadas (márquelas para un ejemplar más).
+Tout décocher	Untick all	Alle Haken entfernen	Desmarcar todo
+⚠️ pas un code BrickLink	⚠️ not a BrickLink code	⚠️ kein BrickLink-Code	⚠️ no es un código BrickLink
+❓ pas dans le catalogue BrickLink de l'appli	❓ not in the app's BrickLink catalogue	❓ nicht im BrickLink-Katalog der App	❓ no está en el catálogo BrickLink de la app
+· 📦 déjà {#0} dans votre collection	· 📦 already {0} in your collection	· 📦 schon {0} in Ihrer Sammlung	· 📦 ya {0} en su colección
+➕ Ajouter {#0} figurine{s}	➕ Add {0} {p:minifigure|minifigures}	➕ {0} {p:Minifigur|Minifiguren} hinzufügen	➕ Añadir {0} {p:minifigura|minifiguras}
+{#0} de ces figurines sont déjà dans votre collection ({1}) : un exemplaire de plus sera ajouté pour chacune. Continuer ?	{0} of these minifigures are already in your collection ({1}): one more copy will be added for each. Continue?	{0} dieser Minifiguren sind schon in Ihrer Sammlung ({1}): Für jede wird ein weiteres Exemplar hinzugefügt. Fortfahren?	{0} de estas minifiguras ya están en su colección ({1}): se añadirá un ejemplar más de cada una. ¿Continuar?
+Oui, ajouter	Yes, add	Ja, hinzufügen	Sí, añadir
+{#0} figurine{s} ajoutée{s} ✔ (onglet{s} {1}).	{0} {p:minifigure|minifigures} added ✔ ({p:tab|tabs} {1}).	{0} {p:Minifigur|Minifiguren} hinzugefügt ✔ ({p:Reiter|Reiter} {1}).	{0} {p:minifigura añadida|minifiguras añadidas} ✔ ({p:pestaña|pestañas} {1}).
+Leurs étiquettes s'impriment depuis « 🖨️ Imprimer des étiquettes ».	Their labels are printed from “🖨️ Print labels”.	Ihre Etiketten werden über „🖨️ Etiketten drucken“ gedruckt.	Sus etiquetas se imprimen desde «🖨️ Imprimir etiquetas».
+L'ajout s'est arrêté après {#0} figurine(s) sur {#1} : {2}	Adding stopped after {0} of {1} minifigure(s): {2}	Hinzufügen nach {0} von {1} Minifigur(en) abgebrochen: {2}	La adición se ha detenido tras {0} de {1} minifigura(s): {2}
+Le catalogue BrickLink n'est pas encore installé dans l'appli : impossible de reconnaître les codes.	The BrickLink catalogue isn't installed in the app yet: the codes can't be recognised.	Der BrickLink-Katalog ist noch nicht in der App installiert: Die Codes können nicht erkannt werden.	El catálogo de BrickLink aún no está instalado en la app: no se pueden reconocer los códigos.
+Préparation du lecteur de texte (la première fois : environ 27 Mo à télécharger)…	Preparing the text reader (first time: about 27 MB to download)…	Texterkennung wird vorbereitet (beim ersten Mal ca. 27 MB Download)…	Preparando el lector de texto (la primera vez: unos 27 MB que descargar)…
+Lecture de la photo {#0} sur {#1}… ({#2} %) · {#3} code(s) trouvé(s)	Reading photo {0} of {1}… ({2} %) · {3} code(s) found	Foto {0} von {1} wird gelesen… ({2} %) · {3} Code(s) gefunden	Leyendo la foto {0} de {1}… ({2} %) · {3} código(s) encontrado(s)
+La lecture de la photo a échoué : {0}	Reading the photo failed: {0}	Lesen des Fotos fehlgeschlagen: {0}	No se ha podido leer la foto: {0}
+{#0} code(s) lu(s) sur la photo. Vérifiez la liste : une étiquette cachée ou floue peut manquer, ajoutez son code à la main.	{0} code(s) read on the photo. Check the list: a hidden or blurry label may be missing, add its code by hand.	{0} Code(s) auf dem Foto gelesen. Prüfen Sie die Liste: Ein verdecktes oder unscharfes Etikett kann fehlen, Code dann von Hand ergänzen.	{0} código(s) leído(s) en la foto. Revise la lista: puede faltar una etiqueta oculta o borrosa; añada su código a mano.
+{#0} code(s) lu(s) sur les {#1} photos. Vérifiez la liste : une étiquette cachée ou floue peut manquer, ajoutez son code à la main.	{0} code(s) read on the {1} photos. Check the list: a hidden or blurry label may be missing, add its code by hand.	{0} Code(s) auf den {1} Fotos gelesen. Prüfen Sie die Liste: Ein verdecktes oder unscharfes Etikett kann fehlen, Code dann von Hand ergänzen.	{0} código(s) leído(s) en las {1} fotos. Revise la lista: puede faltar una etiqueta oculta o borrosa; añada su código a mano.
+{#0} code(s) lu(s) sur la photo ({#1} déjà dans la liste). Vérifiez la liste : une étiquette cachée ou floue peut manquer, ajoutez son code à la main.	{0} code(s) read on the photo ({1} already in the list). Check the list: a hidden or blurry label may be missing, add its code by hand.	{0} Code(s) auf dem Foto gelesen ({1} schon in der Liste). Prüfen Sie die Liste: Ein verdecktes oder unscharfes Etikett kann fehlen, Code dann von Hand ergänzen.	{0} código(s) leído(s) en la foto ({1} ya en la lista). Revise la lista: puede faltar una etiqueta oculta o borrosa; añada su código a mano.
+{#0} code(s) lu(s) sur les {#1} photos ({#2} déjà dans la liste). Vérifiez la liste : une étiquette cachée ou floue peut manquer, ajoutez son code à la main.	{0} code(s) read on the {1} photos ({2} already in the list). Check the list: a hidden or blurry label may be missing, add its code by hand.	{0} Code(s) auf den {1} Fotos gelesen ({2} schon in der Liste). Prüfen Sie die Liste: Ein verdecktes oder unscharfes Etikett kann fehlen, Code dann von Hand ergänzen.	{0} código(s) leído(s) en las {1} fotos ({2} ya en la lista). Revise la lista: puede faltar una etiqueta oculta o borrosa; añada su código a mano.
+Fichier enregistré ✔	File saved ✔	Datei gespeichert ✔	Archivo guardado ✔
+{#0} exemplaires ajoutés à votre collection	{0} copies added to your collection	{0} Exemplare zu Ihrer Sammlung hinzugefügt	{0} ejemplares añadidos a su colección
+Ajoutée à votre collection	Added to your collection	Zu Ihrer Sammlung hinzugefügt	Añadida a su colección
+{#0} exemplaires ajoutés à votre collection ({#1} exemplaires en tout)	{0} copies added to your collection ({1} copies in total)	{0} Exemplare zu Ihrer Sammlung hinzugefügt ({1} Exemplare insgesamt)	{0} ejemplares añadidos a su colección ({1} ejemplares en total)
+Ajoutée à votre collection ({#0} exemplaires en tout)	Added to your collection ({0} copies in total)	Zu Ihrer Sammlung hinzugefügt ({0} Exemplare insgesamt)	Añadida a su colección ({0} ejemplares en total)
+{#0} exemplaires ajoutés dans {1}, cases {2}	{0} copies added to {1}, boxes {2}	{0} Exemplare zu {1} hinzugefügt, Felder {2}	{0} ejemplares añadidos a {1}, casillas {2}
+Ajoutée dans {0}, case {1}	Added to {0}, box {1}	Zu {0} hinzugefügt, Feld {1}	Añadida a {0}, casilla {1}
+· {#0} exemplaires dans la collection	· {0} copies in the collection	· {0} Exemplare in der Sammlung	· {0} ejemplares en la colección
+📷 Photographier la figurine suivante	📷 Photograph the next minifigure	📷 Nächste Minifigur fotografieren	📷 Fotografiar la siguiente minifigura
+🎨 Custom suivante	🎨 Next custom	🎨 Nächste Custom	🎨 Siguiente custom
+🔍 Chercher la figurine suivante	🔍 Search for the next minifigure	🔍 Nächste Minifigur suchen	🔍 Buscar la siguiente minifigura
+Rien n'a été ajouté.	Nothing was added.	Es wurde nichts hinzugefügt.	No se ha añadido nada.
+Impossible d'ouvrir la base de l'appli : {0}	Can't open the app's database: {0}	Die Datenbank der App kann nicht geöffnet werden: {0}	No se puede abrir la base de la app: {0}
+La sauvegarde en ligne a échoué : {0}	The online backup failed: {0}	Die Online-Sicherung ist fehlgeschlagen: {0}	No se ha podido hacer la copia en línea: {0}
+Aucune sauvegarde en ligne pour l'instant.	No online backup yet.	Noch keine Online-Sicherung.	Aún no hay copia en línea.
+Sauvegarde du {0} : {#1} figurines. Remplacer la collection de ce téléphone par cette sauvegarde ?	Backup of {0}: {1} minifigures. Replace this phone's collection with this backup?	Sicherung vom {0}: {1} Minifiguren. Die Sammlung dieses Handys durch diese Sicherung ersetzen?	Copia del {0}: {1} minifiguras. ¿Reemplazar la colección de este teléfono por esta copia?
+Restaurer	Restore	Wiederherstellen	Restaurar
+La restauration a échoué : {0}	Restoring failed: {0}	Wiederherstellung fehlgeschlagen: {0}	No se ha podido restaurar: {0}
+Dernière sauvegarde en ligne : {0}	Last online backup: {0}	Letzte Online-Sicherung: {0}	Última copia en línea: {0}
+# Échanges, amis, consulter, nouveautés, impression, sets, souhaits, magasins, objets, codes-barres
+({0}).	({0}).	({0}).	({0}).
+Échanges indisponibles : {0}	Exchanges unavailable: {0}	Tausch nicht verfügbar: {0}	Intercambios no disponibles: {0}
+Aucun double.	No duplicates.	Keine Doppelten.	Ninguna repetida.
+Rien à publier : pas de double ni de figurine dans votre liste de souhaits.	Nothing to publish: no duplicates and no minifigure in your wish list.	Nichts zu veröffentlichen: keine Doppelten und keine Minifigur auf Ihrer Wunschliste.	Nada que publicar: ni repetidas ni minifiguras en su lista de deseos.
+Retirer toutes vos annonces ? Les autres collectionneurs ne verront plus vos doubles ni vos souhaits (les propositions en cours restent).	Remove all your listings? Other collectors will no longer see your duplicates or wishes (ongoing proposals remain).	Alle Ihre Angebote entfernen? Andere Sammler sehen Ihre Doppelten und Wünsche dann nicht mehr (laufende Vorschläge bleiben).	¿Quitar todos sus anuncios? Los demás coleccionistas ya no verán sus repetidas ni sus deseos (las propuestas en curso se mantienen).
+{0} n'a encore rien publié : proposez-lui vos doubles, il pourra répondre par message.	{0} hasn't published anything yet: offer them your duplicates, they can reply by message.	{0} hat noch nichts veröffentlicht: Bieten Sie Ihre Doppelten an, die Antwort kann per Nachricht kommen.	{0} aún no ha publicado nada: ofrézcale sus repetidas, podrá responder por mensaje.
+Cochez au moins une figurine, ou écrivez un message.	Tick at least one minifigure, or write a message.	Haken Sie mindestens eine Minifigur an oder schreiben Sie eine Nachricht.	Marque al menos una minifigura o escriba un mensaje.
+Message non envoyé : {0}	Message not sent: {0}	Nachricht nicht gesendet: {0}	Mensaje no enviado: {0}
+Accepter cet échange ? Mettez-vous ensuite d'accord par message sur l'envoi.	Accept this exchange? Then agree on shipping by message.	Diesen Tausch annehmen? Klären Sie dann den Versand per Nachricht.	¿Aceptar este intercambio? Luego pónganse de acuerdo por mensaje sobre el envío.
+Refuser cette proposition ?	Decline this proposal?	Diesen Vorschlag ablehnen?	¿Rechazar esta propuesta?
+Annuler votre proposition ?	Cancel your proposal?	Ihren Vorschlag zurückziehen?	¿Cancelar su propuesta?
+Marquer l'échange comme fait (figurines bien reçues) ?	Mark the exchange as done (minifigures received)?	Tausch als erledigt markieren (Minifiguren erhalten)?	¿Marcar el intercambio como hecho (minifiguras recibidas)?
+Une demande existe déjà avec ce collectionneur.	A request already exists with this collector.	Mit diesem Sammler besteht schon eine Anfrage.	Ya existe una solicitud con este coleccionista.
+Demande impossible : {0}	Request not possible: {0}	Anfrage nicht möglich: {0}	Solicitud imposible: {0}
+Retirer {0} de vos amis ?	Remove {0} from your friends?	{0} aus Ihren Freunden entfernen?	¿Quitar a {0} de sus amigos?
+Refuser la demande de {0} ?	Decline {0}'s request?	Anfrage von {0} ablehnen?	¿Rechazar la solicitud de {0}?
+Annuler votre demande à {0} ?	Cancel your request to {0}?	Ihre Anfrage an {0} zurückziehen?	¿Cancelar su solicitud a {0}?
+Base JB indisponible (réseau ?).	JB database unavailable (network?).	JB-Datenbank nicht verfügbar (Netzwerk?).	Base de JB no disponible (¿red?).
+Épuisée chez JB	Sold out at JB	Bei JB ausverkauft	Agotada en JB
+Photo de collectionneur	Collector's photo	Sammlerfoto	Foto de coleccionista
+Base de blisters · pas encore dans le catalogue JB	Blister database · not yet in the JB catalogue	Blister-Datenbank · noch nicht im JB-Katalog	Base de blísteres · aún no en el catálogo de JB
+Base commune (photo d'un collectionneur)	Shared database (a collector's photo)	Gemeinsame Datenbank (Foto eines Sammlers)	Base común (foto de un coleccionista)
+{#0} figurine{s}	{0} {p:minifigure|minifigures}	{0} {p:Minifigur|Minifiguren}	{0} {p:minifigura|minifiguras}
+{#0} figurine{s}, dont {#1} avec vos photos (📷)	{0} {p:minifigure|minifigures}, {1} with your photos (📷)	{0} {p:Minifigur|Minifiguren}, davon {1} mit Ihren Fotos (📷)	{0} {p:minifigura|minifiguras}, {1} con sus fotos (📷)
+🎁 Minifigs à collectionner	🎁 Collectible minifigures	🎁 Sammelfiguren	🎁 Minifiguras coleccionables
+🔑 Porte-clés	🔑 Keyrings	🔑 Schlüsselanhänger	🔑 Llaveros
+🏷️ Étiquettes de sac	🏷️ Bag tags	🏷️ Taschenanhänger	🏷️ Etiquetas de bolso
+👕 Vêtements	👕 Clothing	👕 Kleidung	👕 Ropa
+🧩 Jeux et puzzles	🧩 Games and puzzles	🧩 Spiele und Puzzles	🧩 Juegos y puzles
+⏰ Montres et réveils	⏰ Watches and clocks	⏰ Uhren und Wecker	⏰ Relojes y despertadores
+pas encore disponibles	not available yet	noch nicht verfügbar	aún no disponibles
+{#0} article(s) apparu(s) ces 45 derniers jours, les plus récents d'abord.	{0} item(s) released in the last 45 days, newest first.	{0} Artikel in den letzten 45 Tagen erschienen, neueste zuerst.	{0} artículo(s) aparecido(s) en los últimos 45 días, los más recientes primero.
+Les dates d'apparition sont suivies depuis le 1er octobre 2026 : les sorties des prochaines semaines s'afficheront ici.	Release dates have been tracked since 1 October 2026: the coming weeks' releases will show up here.	Erscheinungsdaten werden seit dem 1. Oktober 2026 erfasst: Die Neuheiten der nächsten Wochen erscheinen hier.	Las fechas de aparición se siguen desde el 1 de octubre de 2026: los lanzamientos de las próximas semanas aparecerán aquí.
+En attendant, les {#0} article(s) déjà annoncé(s) pour l'an prochain :	Meanwhile, the {0} item(s) already announced for next year:	Bis dahin die {0} schon für nächstes Jahr angekündigten Artikel:	Mientras tanto, los {0} artículo(s) ya anunciado(s) para el año que viene:
+{#0} figurine(s). Touchez-en un pour l'ajouter à votre collection.	{0} minifigure(s). Tap one to add it to your collection.	{0} Minifigur(en). Tippen Sie eine an, um sie Ihrer Sammlung hinzuzufügen.	{0} minifigura(s). Toque una para añadirla a su colección.
+{#0} set(s). Touchez-en un pour l'ajouter à votre collection.	{0} set(s). Tap one to add it to your collection.	{0} Set(s). Tippen Sie eines an, um es Ihrer Sammlung hinzuzufügen.	{0} set(s). Toque uno para añadirlo a su colección.
+{#0} objet(s) dérivé(s). Touchez-en un pour l'ajouter à votre collection.	{0} merchandise item(s). Tap one to add it to your collection.	{0} Fanartikel. Tippen Sie einen an, um ihn Ihrer Sammlung hinzuzufügen.	{0} objeto(s) derivado(s). Toque uno para añadirlo a su colección.
+{#0} figurine(s), dont {#1} déjà à vous ✅. Touchez-en un pour l'ajouter à votre collection.	{0} minifigure(s), {1} already yours ✅. Tap one to add it to your collection.	{0} Minifigur(en), davon {1} schon Ihre ✅. Tippen Sie eine an, um sie Ihrer Sammlung hinzuzufügen.	{0} minifigura(s), {1} ya suyas ✅. Toque una para añadirla a su colección.
+{#0} set(s), dont {#1} déjà à vous ✅. Touchez-en un pour l'ajouter à votre collection.	{0} set(s), {1} already yours ✅. Tap one to add it to your collection.	{0} Set(s), davon {1} schon Ihre ✅. Tippen Sie eines an, um es Ihrer Sammlung hinzuzufügen.	{0} set(s), {1} ya suyos ✅. Toque uno para añadirlo a su colección.
+{#0} objet(s) dérivé(s), dont {#1} déjà à vous ✅. Touchez-en un pour l'ajouter à votre collection.	{0} merchandise item(s), {1} already yours ✅. Tap one to add it to your collection.	{0} Fanartikel, davon {1} schon Ihre ✅. Tippen Sie einen an, um ihn Ihrer Sammlung hinzuzufügen.	{0} objeto(s) derivado(s), {1} ya suyos ✅. Toque uno para añadirlo a su colección.
+… et {#0} autres : choisissez un thème ou filtrez.	… and {0} more: choose a theme or filter.	… und {0} weitere: Wählen Sie ein Thema oder filtern Sie.	… y {0} más: elija un tema o filtre.
+Pas de photo	No photo	Kein Foto	Sin foto
+sortie le {0}	released {0}	erscheint am {0}	sale el {0}
+dès {0}	from {0}	ab {0}	desde {0}
+Pièce LEGO : {0} ({1} × {2} mm) → étiquette {3} × {4} mm	LEGO piece: {0} ({1} × {2} mm) → label {3} × {4} mm	LEGO-Teil: {0} ({1} × {2} mm) → Etikett {3} × {4} mm	Pieza LEGO: {0} ({1} × {2} mm) → etiqueta {3} × {4} mm
+Face d'une brique 1×2	Side of a 1×2 brick	Seite eines 1×2-Steins	Cara de un ladrillo 1×2
+Face d'une brique 1×4	Side of a 1×4 brick	Seite eines 1×4-Steins	Cara de un ladrillo 1×4
+Face d'une brique 1×6	Side of a 1×6 brick	Seite eines 1×6-Steins	Cara de un ladrillo 1×6
+Aucune figurine, aucun set ni objet dans votre collection pour l'instant.	No minifigures, sets or items in your collection yet.	Noch keine Minifiguren, Sets oder Artikel in Ihrer Sammlung.	Aún no hay minifiguras, sets ni objetos en su colección.
+Rouleau : une étiquette de {0} × {1} mm par page.	Roll: one {0} × {1} mm label per page.	Rolle: ein Etikett von {0} × {1} mm pro Seite.	Rollo: una etiqueta de {0} × {1} mm por página.
+{#0} étiquette(s) à imprimer (dont {#1} déjà imprimée(s)).	{0} label(s) to print ({1} already printed).	{0} Etikett(en) zu drucken (davon {1} schon gedruckt).	{0} etiqueta(s) por imprimir ({1} ya impresa(s)).
+Aucune étiquette à imprimer : choisissez au moins une catégorie.	No labels to print: choose at least one category.	Keine Etiketten zu drucken: Wählen Sie mindestens eine Kategorie.	No hay etiquetas que imprimir: elija al menos una categoría.
+Préparation de {#0} étiquette(s)…	Preparing {0} label(s)…	{0} Etikett(en) werden vorbereitet…	Preparando {0} etiqueta(s)…
+{#0} étiquette(s) sur {#1} page(s). Aperçu ci-dessous.	{0} label(s) on {1} page(s). Preview below.	{0} Etikett(en) auf {1} Seite(n). Vorschau unten.	{0} etiqueta(s) en {1} página(s). Vista previa abajo.
+Dans le menu qui s'ouvre : choisissez l'imprimante (ou « Enregistrer au format PDF »), taille réelle (100 %), sans marges.	In the menu that opens: choose the printer (or “Save as PDF”), actual size (100%), no margins.	Im sich öffnenden Menü: Drucker wählen (oder „Als PDF speichern“), tatsächliche Größe (100 %), ohne Ränder.	En el menú que se abre: elija la impresora (o «Guardar como PDF»), tamaño real (100 %), sin márgenes.
+L'impression s'est bien passée ? Les {#0} étiquette(s) seront retenues comme imprimées (pour n'imprimer ensuite que les nouvelles).	Did printing go well? The {0} label(s) will be marked as printed (so only new ones are printed next time).	Hat das Drucken geklappt? Die {0} Etikett(en) werden als gedruckt vermerkt (damit danach nur neue gedruckt werden).	¿Ha ido bien la impresión? Las {0} etiqueta(s) quedarán marcadas como impresas (para imprimir luego solo las nuevas).
+Oui, retenir	Yes, mark them	Ja, vermerken	Sí, marcarlas
+Toutes les étiquettes sont de nouveau « à imprimer ».	All labels are “to print” again.	Alle Etiketten sind wieder „zu drucken“.	Todas las etiquetas vuelven a estar «por imprimir».
+Tapez le numéro du set (ex. 75192) ou son nom (ex. étoile de la mort, millennium falcon). Catalogue : {0} sets	Type the set number (e.g. 75192) or its name (e.g. death star, millennium falcon). Catalogue: {0} sets	Geben Sie die Setnummer (z. B. 75192) oder den Namen ein (z. B. Todesstern, Millennium Falcon). Katalog: {0} Sets	Escriba el número del set (p. ej. 75192) o su nombre (p. ej. estrella de la muerte, millennium falcon). Catálogo: {0} sets
+Le catalogue des sets n'est pas encore disponible.	The set catalogue isn't available yet.	Der Set-Katalog ist noch nicht verfügbar.	El catálogo de sets aún no está disponible.
+Tapez le nom de la marque.	Type the brand name.	Geben Sie den Markennamen ein.	Escriba el nombre de la marca.
+Indiquez au moins le numéro ou le nom de l'article.	Enter at least the item's number or name.	Geben Sie mindestens Nummer oder Namen des Artikels an.	Indique al menos el número o el nombre del artículo.
+{0} est déjà dans votre collection. L'ajouter quand même (autre exemplaire) ?	{0} is already in your collection. Add it anyway (another copy)?	{0} ist schon in Ihrer Sammlung. Trotzdem hinzufügen (weiteres Exemplar)?	{0} ya está en su colección. ¿Añadirlo de todos modos (otro ejemplar)?
+{0} ajouté à votre collection (avec vos sets).	{0} added to your collection (with your sets).	{0} zu Ihrer Sammlung hinzugefügt (bei Ihren Sets).	{0} añadido a su colección (con sus sets).
+Sa valeur : le prix du fabricant que vous avez indiqué, tant qu'il le vend.	Its value: the manufacturer's price you entered, as long as they sell it.	Sein Wert: der von Ihnen angegebene Herstellerpreis, solange er es verkauft.	Su valor: el precio del fabricante que ha indicado, mientras lo venda.
+Sa valeur sera estimée d'après les annonces eBay France au prochain relevé des prix.	Its value will be estimated from eBay France listings at the next price check.	Sein Wert wird bei der nächsten Preisabfrage anhand der eBay-Frankreich-Angebote geschätzt.	Su valor se estimará según los anuncios de eBay Francia en la próxima consulta de precios.
+Sa valeur sera estimée d'après les annonces eBay France au prochain relevé des prix, sinon d'après votre prix payé.	Its value will be estimated from eBay France listings at the next price check, otherwise from the price you paid.	Sein Wert wird bei der nächsten Preisabfrage anhand der eBay-Frankreich-Angebote geschätzt, sonst nach Ihrem bezahlten Preis.	Su valor se estimará según los anuncios de eBay Francia en la próxima consulta de precios o, si no, según el precio que pagó.
+30 premiers sets dont le nom contient « {0} » :	First 30 sets whose name contains “{0}”:	Erste 30 Sets, deren Name „{0}“ enthält:	Primeros 30 sets cuyo nombre contiene «{0}»:
+{#0} set(s) dont le nom contient « {1} » :	{0} set(s) whose name contains “{1}”:	{0} Set(s), deren Name „{1}“ enthält:	{0} set(s) cuyo nombre contiene «{1}»:
+{#0} pièces	{0} pieces	{0} Teile	{0} piezas
+Aucun set dont le nom contient « {0} ». Les noms du catalogue sont en anglais (ex. « Death Star », « Castle »).	No set whose name contains “{0}”. Catalogue names are in English (e.g. “Death Star”, “Castle”).	Kein Set, dessen Name „{0}“ enthält. Die Katalognamen sind auf Englisch (z. B. „Death Star“, „Castle“).	Ningún set cuyo nombre contenga «{0}». Los nombres del catálogo están en inglés (p. ej. «Death Star», «Castle»).
+Aucun set « {0} » dans le catalogue.	No set “{0}” in the catalogue.	Kein Set „{0}“ im Katalog.	No hay ningún set «{0}» en el catálogo.
+Figurines du set ({#0}) : cochez celles à ajouter à votre collection	Minifigures in the set ({0}): tick the ones to add to your collection	Minifiguren des Sets ({0}): Haken Sie die an, die Sie Ihrer Sammlung hinzufügen möchten	Minifiguras del set ({0}): marque las que quiera añadir a su colección
+Aucune figurine dans ce set.	No minifigures in this set.	Keine Minifiguren in diesem Set.	Este set no tiene minifiguras.
+code BrickLink inconnu : à ajouter à part (photo ou recherche)	unknown BrickLink code: add it separately (photo or search)	BrickLink-Code unbekannt: separat hinzufügen (Foto oder Suche)	código BrickLink desconocido: añádala aparte (foto o búsqueda)
+Le set {0} est déjà dans votre onglet « Sets ». L'ajouter quand même (autre exemplaire) ?	Set {0} is already in your “Sets” tab. Add it anyway (another copy)?	Set {0} ist schon in Ihrem Reiter „Sets“. Trotzdem hinzufügen (weiteres Exemplar)?	El set {0} ya está en su pestaña «Sets». ¿Añadirlo de todos modos (otro ejemplar)?
+Ajout du set…	Adding the set…	Set wird hinzugefügt…	Añadiendo el set…
+Ajout du set et de {#0} figurine(s)…	Adding the set and {0} minifigure(s)…	Set und {0} Minifigur(en) werden hinzugefügt…	Añadiendo el set y {0} minifigura(s)…
+Set {0} « {1} » ajouté à l'onglet « Sets ».	Set {0} “{1}” added to the “Sets” tab.	Set {0} „{1}“ zum Reiter „Sets“ hinzugefügt.	Set {0} «{1}» añadido a la pestaña «Sets».
+Figurines ajoutées :	Minifigures added:	Hinzugefügte Minifiguren:	Minifiguras añadidas:
+Ouvrez d'abord votre collection : la liste de souhaits y est rangée.	Open your collection first: the wish list is stored in it.	Öffnen Sie zuerst Ihre Sammlung: Die Wunschliste ist dort gespeichert.	Abra primero su colección: la lista de deseos se guarda en ella.
+« {0} » est déjà dans votre liste de souhaits ⭐	“{0}” is already in your wish list ⭐	„{0}“ ist schon auf Ihrer Wunschliste ⭐	«{0}» ya está en su lista de deseos ⭐
+⭐ « {0} » ajouté à votre liste de souhaits (pensez à « Enregistrer »)	⭐ “{0}” added to your wish list (remember to “Save”)	⭐ „{0}“ zur Wunschliste hinzugefügt (an „Speichern“ denken)	⭐ «{0}» añadido a su lista de deseos (recuerde «Guardar»)
+L'ajout à la liste de souhaits a échoué : {0}	Adding to the wish list failed: {0}	Hinzufügen zur Wunschliste fehlgeschlagen: {0}	No se ha podido añadir a la lista de deseos: {0}
+{#0} à venir	{0} upcoming	{0} demnächst	{0} próximamente
+✅ {#0} déjà dans votre collection	✅ {0} already in your collection	✅ {0} schon in Ihrer Sammlung	✅ {0} ya en su colección
+🔑 Objets dérivés	🔑 Merchandise	🔑 Fanartikel	🔑 Objetos derivados
+dans votre collection	in your collection	in Ihrer Sammlung	en su colección
+🗑️ Retirer de ma liste (je l'ai)	🗑️ Remove from my list (I have it)	🗑️ Von meiner Liste entfernen (habe ich)	🗑️ Quitar de mi lista (la tengo)
+➕ Je l'ai : ajouter à ma collection	➕ I have it: add to my collection	➕ Habe ich: zu meiner Sammlung hinzufügen	➕ La tengo: añadir a mi colección
+🗑️ Retirer de ma liste	🗑️ Remove from my list	🗑️ Von meiner Liste entfernen	🗑️ Quitar de mi lista
+« {0} » retiré de votre liste de souhaits (pensez à « Enregistrer »)	“{0}” removed from your wish list (remember to “Save”)	„{0}“ von Ihrer Wunschliste entfernt (an „Speichern“ denken)	«{0}» quitado de su lista de deseos (recuerde «Guardar»)
+Le retrait a échoué : {0}	Removal failed: {0}	Entfernen fehlgeschlagen: {0}	No se ha podido quitar: {0}
+Custom de votre liste de souhaits : tapez son numéro.	Custom from your wish list: type its number.	Custom von Ihrer Wunschliste: Geben Sie seine Nummer ein.	Custom de su lista de deseos: escriba su número.
+Elles sont déjà toutes dans votre liste de souhaits ⭐	They are all already in your wish list ⭐	Sie sind schon alle auf Ihrer Wunschliste ⭐	Ya están todas en su lista de deseos ⭐
+Ajouter {#0} figurine(s) de « {1} » à votre liste de souhaits ?	Add {0} minifigure(s) from “{1}” to your wish list?	{0} Minifigur(en) aus „{1}“ zu Ihrer Wunschliste hinzufügen?	¿Añadir {0} minifigura(s) de «{1}» a su lista de deseos?
+⭐ {#0} figurine(s) ajoutée(s) à votre liste de souhaits (pensez à « Enregistrer »)	⭐ {0} minifigure(s) added to your wish list (remember to “Save”)	⭐ {0} Minifigur(en) zu Ihrer Wunschliste hinzugefügt (an „Speichern“ denken)	⭐ {0} minifigura(s) añadida(s) a su lista de deseos (recuerde «Guardar»)
+Prix relevés le {0} sur Avenue de la Brique (comparateur français).	Prices checked on {0} on Avenue de la Brique (French price comparison site).	Preise am {0} auf Avenue de la Brique abgefragt (französischer Preisvergleich).	Precios consultados el {0} en Avenue de la Brique (comparador francés).
+Pas encore de prix relevé pour ce set (retiré de la vente, ou pas encore lu).	No price checked yet for this set (no longer sold, or not read yet).	Für dieses Set wurde noch kein Preis abgefragt (nicht mehr im Handel oder noch nicht gelesen).	Aún no hay precio para este set (retirado de la venta o aún no leído).
+🔎 Comparer les prix	🔎 Compare prices	🔎 Preise vergleichen	🔎 Comparar precios
+Position introuvable : autorisez la localisation pour ce site	Location not found: allow location for this site	Standort nicht gefunden: Erlauben Sie den Standortzugriff für diese Seite	Ubicación no encontrada: permita la ubicación para este sitio
+(icône à gauche de l'adresse, puis « Autorisations »), et activez la localisation du téléphone.	(icon to the left of the address, then “Permissions”), and turn on the phone's location.	(Symbol links neben der Adresse, dann „Berechtigungen“) und schalten Sie die Standortfunktion des Handys ein.	(icono a la izquierda de la dirección y luego «Permisos») y active la ubicación del teléfono.
+Recherche des magasins de jouets à moins de {#0} km…	Looking for toy shops within {0} km…	Spielwarengeschäfte im Umkreis von {0} km werden gesucht…	Buscando jugueterías a menos de {0} km…
+La carte OpenStreetMap ne répond pas pour l'instant ({0}). Réessayez dans un moment.	The OpenStreetMap map isn't responding right now ({0}). Try again in a moment.	Die OpenStreetMap-Karte antwortet gerade nicht ({0}). Versuchen Sie es gleich noch einmal.	El mapa de OpenStreetMap no responde por ahora ({0}). Vuelva a intentarlo en un momento.
+📍 Magasins à moins de {#0} km	📍 Shops within {0} km	📍 Geschäfte im Umkreis von {0} km	📍 Tiendas a menos de {0} km
+Magasins de jouets et boutiques LEGO d'après OpenStreetMap (carte libre, complétée par ses utilisateurs : un magasin peut manquer). Les prix en magasin ne sont publiés nulle part : bientôt, les prix vus par les utilisateurs de l'appli.	Toy shops and LEGO stores from OpenStreetMap (a free map filled in by its users: a shop may be missing). In-store prices aren't published anywhere: coming soon, prices seen by the app's users.	Spielwarengeschäfte und LEGO-Stores laut OpenStreetMap (freie Karte, von Nutzern ergänzt: Ein Geschäft kann fehlen). Ladenpreise werden nirgends veröffentlicht: bald die von App-Nutzern gesehenen Preise.	Jugueterías y tiendas LEGO según OpenStreetMap (mapa libre completado por sus usuarios: puede faltar alguna tienda). Los precios en tienda no se publican en ningún sitio: pronto, los precios vistos por los usuarios de la app.
+Aucun magasin de jouets connu d'OpenStreetMap à moins de {#0} km.	No toy shop known to OpenStreetMap within {0} km.	Kein OpenStreetMap bekanntes Spielwarengeschäft im Umkreis von {0} km.	Ninguna juguetería conocida por OpenStreetMap a menos de {0} km.
+Référence lue :	Reference read:	Gelesene Referenz:	Referencia leída:
+Vérifier sur BrickLink	Check on BrickLink	Auf BrickLink prüfen	Comprobar en BrickLink
+⏳ Lecture de l'étiquette… (jusqu'à une demi-minute)	⏳ Reading the label… (up to half a minute)	⏳ Etikett wird gelesen… (bis zu einer halben Minute)	⏳ Leyendo la etiqueta… (hasta medio minuto)
+Référence {0} reconnue ✔	Reference {0} recognised ✔	Referenz {0} erkannt ✔	Referencia {0} reconocida ✔
+Référence pas trouvée sur la photo. Photographiez la face avant, de près, bien à plat : la référence (ex. « KE48H ») est écrite au-dessus du code-barres. Vous pouvez aussi taper le nom ou la référence.	Reference not found in the photo. Photograph the front, close up and flat: the reference (e.g. “KE48H”) is written above the barcode. You can also type the name or the reference.	Referenz auf dem Foto nicht gefunden. Fotografieren Sie die Vorderseite aus der Nähe und flach: Die Referenz (z. B. „KE48H“) steht über dem Barcode. Sie können auch Namen oder Referenz eintippen.	No se ha encontrado la referencia en la foto. Fotografíe la cara delantera de cerca y bien plana: la referencia (p. ej. «KE48H») está escrita encima del código de barras. También puede escribir el nombre o la referencia.
+Chercher {0} sur BrickLink	Search {0} on BrickLink	{0} auf BrickLink suchen	Buscar {0} en BrickLink
+Écrivez d'abord ce que c'est (en anglais de préférence : key chain, key light, magnet…).	First write what it is (preferably in English: key chain, key light, magnet…).	Schreiben Sie zuerst, was es ist (am besten auf Englisch: key chain, key light, magnet…).	Escriba primero qué es (mejor en inglés: key chain, key light, magnet…).
+Indiquez le numéro BrickLink de l'objet (touchez « Trouver son numéro sur BrickLink »).	Enter the item's BrickLink number (tap “Find its number on BrickLink”).	Geben Sie die BrickLink-Nummer des Artikels an (tippen Sie auf „Nummer auf BrickLink finden“).	Indique el número BrickLink del objeto (toque «Encontrar su número en BrickLink»).
+{0} ajouté à l'onglet « {1} » ✔ (pensez à enregistrer)	{0} added to the “{1}” tab ✔ (remember to save)	{0} zum Reiter „{1}“ hinzugefügt ✔ (ans Speichern denken)	{0} añadido a la pestaña «{1}» ✔ (recuerde guardar)
+Vos objets dérivés ({#0})	Your merchandise ({0})	Ihre Fanartikel ({0})	Sus objetos derivados ({0})
+Code-barres retenu pour le set {0} ✔	Barcode saved for set {0} ✔	Barcode für Set {0} gespeichert ✔	Código de barras guardado para el set {0} ✔
+Ce téléphone ne sait pas lire les codes-barres depuis le navigateur (c'est le cas de Safari sur iPhone).	This phone can't read barcodes from the browser (as with Safari on iPhone).	Dieses Handy kann im Browser keine Barcodes lesen (so ist es bei Safari auf dem iPhone).	Este teléfono no puede leer códigos de barras desde el navegador (es el caso de Safari en iPhone).
+Tapez plutôt le numéro du set, écrit en gros sur la boîte.	Type the set number instead, written in large print on the box.	Geben Sie stattdessen die Setnummer ein, die groß auf dem Karton steht.	Escriba mejor el número del set, que aparece en grande en la caja.
+Taper le numéro	Type the number	Nummer eingeben	Escribir el número
+Lecture du code-barres…	Reading the barcode…	Barcode wird gelesen…	Leyendo el código de barras…
+Code-barres {0} pas encore connu : tapez le numéro du set (écrit en gros sur la boîte), l'appli le retiendra pour la prochaine fois.	Barcode {0} not known yet: type the set number (in large print on the box), the app will remember it next time.	Barcode {0} noch unbekannt: Geben Sie die Setnummer ein (groß auf dem Karton), die App merkt sie sich für das nächste Mal.	Código de barras {0} aún desconocido: escriba el número del set (en grande en la caja) y la app lo recordará la próxima vez.
+Aucun code-barres lu sur la photo : reprenez-la de plus près, bien nette et sans reflet, ou tapez le numéro du set (écrit en gros sur la boîte).	No barcode read in the photo: take it again closer, sharp and without glare, or type the set number (in large print on the box).	Kein Barcode auf dem Foto gelesen: Fotografieren Sie näher, scharf und ohne Spiegelung, oder geben Sie die Setnummer ein (groß auf dem Karton).	No se ha leído ningún código de barras en la foto: repítala más cerca, nítida y sin reflejos, o escriba el número del set (en grande en la caja).
+Rien à exporter : la collection est vide.	Nothing to export: the collection is empty.	Nichts zu exportieren: Die Sammlung ist leer.	Nada que exportar: la colección está vacía.
+Rien à exporter vers BrickLink.	Nothing to export to BrickLink.	Nichts nach BrickLink zu exportieren.	Nada que exportar a BrickLink.
+{#0} article(s) au format BrickLink. Ouvrir la page d'import de BrickLink (Wanted List → Upload) ? Collez-y le contenu du fichier.	{0} item(s) in BrickLink format. Open BrickLink's import page (Wanted List → Upload)? Paste the file's contents there.	{0} Artikel im BrickLink-Format. BrickLink-Importseite öffnen (Wanted List → Upload)? Fügen Sie dort den Dateiinhalt ein.	{0} artículo(s) en formato BrickLink. ¿Abrir la página de importación de BrickLink (Wanted List → Upload)? Pegue allí el contenido del archivo.
+{0} enregistré dans Téléchargements ✔	{0} saved in Downloads ✔	{0} in Downloads gespeichert ✔	{0} guardado en Descargas ✔
+Impossible de restaurer cette sauvegarde : {0}	Can't restore this backup: {0}	Diese Sicherung kann nicht wiederhergestellt werden: {0}	No se puede restaurar esta copia: {0}
+✕ Fermer	✕ Close	✕ Schließen	✕ Cerrar
+Recto	Front	Vorderseite	Anverso
+Verso	Back	Rückseite	Reverso
+Photo BrickLink	BrickLink photo	BrickLink-Foto	Foto de BrickLink
+Mon album {#0}/{#1}	My album {0}/{1}	Mein Album {0}/{1}	Mi álbum {0}/{1}
