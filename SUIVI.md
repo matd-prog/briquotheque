@@ -135,6 +135,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     (retours à la ligne gardés), motifs génériques « {0} · {1} », « ({0}) », « n° {0} » (morceaux traduits un à un).
     Vérifié : écran blister + fiche + Ma collection en de et en (seuls restent 2 noms de customs), contrôle complet
     4 configurations : 0 erreur, 0 fichier manquant.
+    PRÉSENTATIONS JB mises à jour (FR version 12, DE version 16) : captures refaites dans la langue de chaque
+    présentation (outils/presentation/captures.js fr|de), base commune 243 -> 276 figurines, taux remesurés le 19/10
+    sur 316 blisters (jamais vu 275 : 86 % au premier choix, 91 % seul ou d'un geste, 9 erreurs silencieuses ;
+    déjà connu 41 : 95 %), 4 langues disponibles (plus « prévues »), nouvelle diapositive « Une communauté de
+    collectionneurs » (comptes, échanges, amis, langues, appli Android).
   · v164 (19/10) : APPLI ANDROID (.apk) (demande de Mathias). Trusted Web Activity générée par Bubblewrap 1.25.0 (outil de
     Google) : ouvre https://matd-prog.github.io/briquotheque/ dans Chrome, plein écran, icône Briquothèque ; paquet
     io.github.matdprog.briquotheque, 992 Ko, Android 5 et plus ; affiche toujours la version en ligne (pas besoin de refaire
