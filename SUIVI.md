@@ -152,6 +152,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     → 19/10 : dépôt public matd-prog/matd-prog.github.io créé par Mathias ; on y a mis .well-known/assetlinks.json
     (paquet + empreinte de la clé), .nojekyll et un index.html qui renvoie vers /briquotheque/. Publication réussie :
     la barre d'adresse doit disparaître au prochain lancement de l'appli (sinon : vider le cache de Chrome).
+    VÉRIFIÉ par Mathias le 19/10 (capture) : appli en plein écran, sans barre d'adresse, connexion automatique OK.
     iPhone : pas de fichier possible (Apple : App Store, compte développeur 99 €/an) -> Safari, Partager, « Sur l'écran
     d'accueil ».
   · v163 (19/10) : CAMP STAR WARS INVISIBLE, SEULEMENT POUR L'IMPRESSION (demande de Mathias) : à l'ajout d'une figurine
