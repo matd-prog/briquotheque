@@ -4,6 +4,9 @@
 const { chromium } = require("playwright"); const fs = require("fs");
 const L = process.argv[2] || "fr", D = __dirname, O = process.env.SORTIE || __dirname, A = "/home/user/collection-lego-prive/album_photos/";
 const BASE = JSON.parse(fs.readFileSync("/home/user/collection-lego-prive/sauvegarde/collection.json", "utf8")).base;
+// voix off (dépôt privé, presentation/voix/, faite par l'action GitHub « Voix off (vidéo) ») : durée de chaque phrase
+const VOIX = "/home/user/collection-lego-prive/presentation/voix/";
+const DUREES = fs.existsSync(VOIX + "durees.json") ? JSON.parse(fs.readFileSync(VOIX + "durees.json", "utf8"))[L] || {} : {};
 const BL = JSON.parse(fs.readFileSync("/home/user/collection-lego-prive/presentation/blisters.json", "utf8"));
 
 const T = {
@@ -106,12 +109,25 @@ async function supabase(p) {
       align-items:center;gap:18px;text-align:center;padding:30px;font-family:system-ui,sans-serif;transition:opacity .6s}
     #film-carte b{font-size:44px;letter-spacing:.5px} #film-carte span{font-size:22px;color:#E9E2EC;max-width:330px}
     #film-carte i{font-style:normal;font-size:17px;color:#F28AA5} #film-carte .barre{width:70px;height:6px;border-radius:3px;background:#D9476B}` });
-  const legende = async (t, ms = 2600) => {
+  // sons du film (voix, clics), placés au montage ; chaque phrase attend la fin de la précédente
+  const ici = () => (Date.now() - t0) / 1000, sons = [];
+  let finVoix = 0;
+  const parler = async cle => {
+    if (!DUREES[cle]) return 0;
+    if (finVoix > ici()) await p.waitForTimeout((finVoix - ici()) * 1000);
+    sons.push({ voix: cle, t: ici() }); finVoix = ici() + DUREES[cle] + .35;
+    return DUREES[cle];
+  };
+  const legende = async (cle, ms = 2600) => {
+    const t = cle ? T[cle] : "";
+    if (cle) await parler(cle);
     await p.evaluate(t => { let z = document.getElementById("film-legende"); if (!z) { z = document.createElement("div"); z.id = "film-legende"; z.className = "nom-libre"; document.body.appendChild(z); }
       z.classList.toggle("cache", !t); if (t) z.textContent = t; }, t);
     await p.waitForTimeout(ms);
   };
-  const carte = async (lignes, ms) => {
+  const carte = async (lignes, ms, cle) => {
+    const du = await parler(cle);
+    ms = Math.max(ms, du * 1000 + 700);
     await p.evaluate(l => { const c = document.createElement("div"); c.id = "film-carte"; c.className = "nom-libre";
       c.innerHTML = `<div class="barre"></div><b>${l[0]}</b>${l[1] ? `<span>${l[1]}</span>` : ""}${l[2] ? `<i>${l[2]}</i>` : ""}`; document.body.appendChild(c); }, lignes);
     await p.waitForTimeout(ms);
@@ -123,6 +139,7 @@ async function supabase(p) {
     await el.scrollIntoViewIfNeeded(); const r = await el.boundingBox();
     await p.evaluate(([x, y]) => { const d = document.createElement("div"); d.className = "film-doigt"; d.style.left = x + "px"; d.style.top = y + "px";
       document.body.appendChild(d); setTimeout(() => d.remove(), 800); }, [r.x + r.width / 2, r.y + r.height / 2]);
+    sons.push({ clic: 1, t: ici() });
     await p.waitForTimeout(650);
     return el;
   };
@@ -132,24 +149,24 @@ async function supabase(p) {
   const versHaut = async sel => p.evaluate(s => { const e = document.querySelector(s); if (e) scrollTo({ top: e.getBoundingClientRect().top + scrollY - 70, behavior: "smooth" }); }, sel);
 
   // ---- le film ----
-  const debut = (Date.now() - t0) / 1000, coupes = [], ici = () => (Date.now() - t0) / 1000;
+  const debut = (Date.now() - t0) / 1000, coupes = [];
   // attente coupée au montage : on garde le début (avant) et la fin (apres), en secondes
-  const couper = (a, b, avant = 2, apres = 1.2) => { if (b - a > avant + apres + .5) coupes.push([a + avant, b - apres]); };
-  await carte([T.titre, T.sous, "JB Spielwaren · Custom Minifigures"], 3200);
-  await legende(T.accueil, 2800);
+  const couper = (a, b, avant = 2, apres = 1.2) => { avant = Math.max(avant, finVoix - a + .2); if (b - a > avant + apres + .5) coupes.push([a + avant, b - apres]); };
+  await carte([T.titre, T.sous, "JB Spielwaren · Custom Minifigures"], 3200, "titre");
+  await legende("accueil", 2800);
 
   // blister reconnu
   const x = BL.find(y => /CHROME BLACK TROOPER/.test(y.nom)) || BL[0];
   await doigt(".action-blister");
-  await legende(T.recto, 300);
+  await legende("recto", 300);
   let c0 = ici();
   await p.setInputFiles("#input-blister", A + x.recto);
   await p.waitForSelector("#input-base-verso", { state: "attached", timeout: 60000 });
   couper(c0, ici());
   await p.waitForTimeout(1800);
-  await legende(T.verso, 600);
+  await legende("verso", 600);
   await p.setInputFiles("#input-base-verso", A + x.verso);
-  await legende(T.lecture, 300);
+  await legende("lecture", 300);
   c0 = ici();
   await p.waitForFunction(() => !document.getElementById("base-fiche").hidden, null, { timeout: 120000 });
   await p.waitForFunction(() => Base.versoTexte, null, { timeout: 90000 }).catch(() => {});
@@ -157,9 +174,9 @@ async function supabase(p) {
   await p.waitForTimeout(1500);
   await p.evaluate(() => { document.querySelectorAll("#base-identite .alerte, #base-suggestions").forEach(a => a.style.display = "none"); });
   await versHaut(".recto-verso"); await p.waitForTimeout(900);
-  await legende(T.reconnu, 1200);
+  await legende("reconnu", 1200);
   await defiler(380, 1600); await p.waitForTimeout(1600);
-  await legende(T.numero, 400);
+  await legende("numero", 400);
   await versHaut("#base-numero"); await p.waitForTimeout(700);
   await doigt("#base-numero");
   await p.click("#base-numero"); await p.fill("#base-numero", ""); await p.type("#base-numero", "57", { delay: 260 });
@@ -168,44 +185,44 @@ async function supabase(p) {
   const ajouter = p.locator('[data-action="base-ajouter"]');
   await doigt(ajouter); await ajouter.click();
   if (await p.evaluate(() => document.getElementById("dialogue").open)) { await p.waitForTimeout(600); await p.click("#dialogue-oui"); }
-  await legende(T.ajoute, 2400);
+  await legende("ajoute", 2400);
 
   // Ma collection, customs en vignettes
   await p.evaluate(() => { Collection.onglet = "Customs"; Collection.vue = "vignettes"; Collection.ouvrir(); });
   await p.waitForTimeout(2500);
   await p.evaluate(() => document.querySelectorAll("#collection-contenu .vignette").forEach(v => { const i = v.querySelector("img.photo"); if (!i || !i.src.startsWith("blob:")) v.remove(); }));
   await versHaut("#collection-bascule"); await p.waitForTimeout(800);
-  await legende(T.collection, 900);
+  await legende("collection", 900);
   await defiler(700, 3500); await p.waitForTimeout(600); await defiler(-500, 1800); await p.waitForTimeout(500);
   const vig = p.locator("#collection-contenu .vignette").filter({ has: p.locator(".code", { hasText: /\d/ }) }).first();
   const nom = vig.locator(".nom-court");
   await doigt(nom); await nom.click();
   await p.waitForTimeout(1200);
-  await legende(T.fiche, 4200);
+  await legende("fiche", 4200);
   await p.keyboard.press("Escape"); await p.waitForTimeout(600);
 
   // communauté : accueil, puis amis
   await p.evaluate(() => { afficher("accueil"); scrollTo(0, 0); }); await p.waitForTimeout(900);
   await versHaut('[data-action="echanges"]'); await p.waitForTimeout(1000);
-  await legende(T.communaute, 2400);
+  await legende("communaute", 2400);
   const amis = p.locator('.tuile[data-action="amis"]');
   await doigt(amis); await amis.click(); await p.waitForTimeout(1500);
-  await legende(T.amis, 3200);
+  await legende("amis", 3200);
 
   // langues : écran de connexion avec ses boutons de langue
   await p.evaluate(() => { afficher("accueil"); scrollTo(0, 0); });
   await p.evaluate(() => { const z = document.createElement("div"); z.id = "film-langues"; z.className = "nom-libre";
     z.style.cssText = "position:fixed;left:16px;right:16px;top:42%;z-index:99998;background:#fff;border-radius:18px;padding:18px;box-shadow:0 10px 40px rgba(0,0,0,.3);display:flex;flex-wrap:wrap;gap:10px;justify-content:center";
     z.innerHTML = Langue.boutons(); z.querySelectorAll("button").forEach(b => b.removeAttribute("data-langue")); document.body.appendChild(z); });
-  await legende(T.langues, 3200);
+  await legende("langues", 3200);
   await p.evaluate(() => document.getElementById("film-langues").remove());
   await legende("", 200);
-  await carte([T.fin1, T.fin2, T.fin3], 3800);
+  await carte([T.fin1, T.fin2, T.fin3], 3800, "fin");
   const fin = (Date.now() - t0) / 1000;
 
   const chemin = await p.video().path();
   await ctx.close(); await b.close();
   fs.renameSync(chemin, `${O}/video_${L}.webm`);
-  fs.writeFileSync(`${O}/video_${L}.json`, JSON.stringify({ debut, fin, coupes }));
+  fs.writeFileSync(`${O}/video_${L}.json`, JSON.stringify({ debut, fin, coupes, sons }));
   console.log(L, "début", debut.toFixed(1), "s, fin", fin.toFixed(1), "s");
 })();

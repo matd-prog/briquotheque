@@ -133,6 +133,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     amis, 4 langues. Vidéos et liste des blisters filmés dans le dépôt PRIVÉ (presentation/). Contrôle complet OK.
     Retour de Mathias (l'image n'occupait qu'un quart de la vidéo, reste gris) : film enregistré à la taille de l'écran
     (412 × 915) puis agrandi au format téléphone 1080 × 2400 au montage (plein écran), ~10 Mo (pièce jointe possible).
+    SON (demande de Mathias) : voix off naturelle (edge-tts, Denise en français, Katja en allemand) faite par l'action
+    « Voix off (vidéo) » du dépôt privé (service de voix injoignable depuis la session) à partir de
+    presentation/textes_voix.json -> presentation/voix/*.mp3 ; « python3 monter.py durees » mesure chaque phrase, le
+    film attend la fin de chaque phrase ; musique de fond composée par programme (outils/presentation/musique.py, sans
+    droits), baissée sous la voix (~10 dB en dessous) ; petit clic à chaque bouton touché. FR 84 s, DE 88 s, ~12 Mo.
   · v165 (19/10) : TRADUCTIONS COMPLÉTÉES (vu en préparant les captures allemandes pour JB : l'écran du blister reconnu,
     la fiche d'une figurine et les messages étaient restés en français ; le contrôle complet ne passait pas par là).
     ~590 lignes ajoutées à langues/traductions.tsv (en, de, es) : blisters (js/base.js), fiche et Ma collection, Valeur,
