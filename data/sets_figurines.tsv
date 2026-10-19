@@ -1,4 +1,4 @@
-#date 2026-10-18
+#date 2026-10-19
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -2779,6 +2779,11 @@ set	figurine	quantite	nom	bricklink	ressemblance
 2996-1	fig-000464	1	Lord Sam Sinister	adv038	0.61
 2996-1	fig-000526	1	Pharaoh Hotep	adv021	1.0
 2998-1	fig-001212	1	Racer - Octan, Red Torso, Blue Legs, White Helmet	oct033	0.52
+2D001164-1	fig-017386	1	Police Officer, Vibrant Yellow Safety Vest, Dark Blue Legs, White Helmet	cty2048	0.61
+2D001182-1	fig-017390	1	Construction Worker, Reddish Orange Safety Jacket, Dark Blue Grey Legs, Red Hard Hat	cty2047	0.75
+2D001183-1	fig-017389	1	Kai, Dark Red Suit, Wrap	njo0930	0.8
+2D001184-1	fig-017387	1	Lloyd, Dark Green Suit, Wrap	njo1053	0.78
+2D001186-1	fig-017357	1	Valeria	frnd0892	0.62
 30000-1	fig-000077	1	Doctor, White Shirt with Star of Life Logo, Blue Cap, Glasses	doc034	0.88
 3000062305-1	fig-000244	1	Batzarro	sh0163	1.0
 30001-1	fig-000609	1	Fireman, Black Fire Jacket with Reflective Stripes, Radio, and Badge, Yellow Hands, White Helmet, Cheek Lines	cty0062	0.4

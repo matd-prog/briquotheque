@@ -1,4 +1,4 @@
-#date 2026-10-18
+#date 2026-10-19
 code	nom	annee	theme	pieces	figurines
 0003977811-1	Ninjago: Book of Adventures	2022	Books / Activity Books with LEGO Parts	1	1
 001-1	Gears	1965	System / Samsonite	43	0
@@ -3626,6 +3626,14 @@ code	nom	annee	theme	pieces	figurines
 2996-1	Adventurers Tomb	1998	Adventurers / Desert	81	2
 2997-1	Small Bucket	1998	Duplo / Basic Set	40	0
 2998-1	Stena Line Ferry	1998	Promotional / Ferries	197	1
+2D001164-1	Police Buggy	2026	City / Police	37	1
+2D001182-1	Construction Worker with Wheel Loader	2026	City / Construction	39	1
+2D001183-1	Kai with Motorcycle	2026	Ninjago	35	1
+2D001184-1	Lloyd with Mech	2026	Ninjago	45	1
+2D001185-1	Horse	2026	Friends	38	0
+2D001186-1	Valeria with Puppy	2026	Friends	20	1
+2D001187-1	Cockatoo	2026	Creator / Creator 3-in-1	69	0
+2D001188-1	Car	2026	Creator / Creator 3-in-1	76	0
 2DD00084-1	Minecraft Trading Cards Series 3 On Fire - Starterpack (German Version)	2026	Gear	2	0
 2DI00237-1	Minecraft Trading Cards Series 3: On Fire - Starter-Pack (Polish Version)	2026	Gear	3	0
 3-4	Basic Set	1973	Universal Building Set	191	0
@@ -18236,14 +18244,6 @@ code	nom	annee	theme	pieces	figurines
 9511-1	Medium Building Plates	1995	Educational and Dacta / Duplo and Explore	4	0
 951178-1	Basic Bricks	1987	Educational and Dacta / Universal Building Set	18	0
 951351-1	Guard and Raptor	2026	Jurassic World	21	1
-951440-1	Police Buggy	2026	City / Police	37	0
-951441-1	Construction Worker with Wheel Loader	2026	City / Construction	39	0
-951442-1	Cockatoo	2026	Creator / Creator 3-in-1	69	0
-951443-1	Car	2026	Creator / Creator 3-in-1	76	0
-951445-1	Horse	2026	Friends	38	0
-951446-1	Valeria with Puppy	2026	Friends	20	0
-951466-1	Kai with Motorcycle	2026	Ninjago	35	0
-951467-1	Lloyd with Mech	2026	Ninjago	45	0
 9515-1	The Malevolence	2012	Star Wars	1101	6
 9516-1	Jabba's Palace	2012	Star Wars	717	8
 9517-1	Measurement Activities	1995	Educational and Dacta / Duplo and Explore	60	0
@@ -19279,7 +19279,7 @@ DATABASE-1	Unused Parts Database Set - Pre-1965	1965	Other / Database Sets	201	0
 DATABASE-2	Unused Parts Database Set -1966 to 200﻿0	2000	Other / Database Sets	218	0
 DATABASE-2001	2001 - Unused Parts Database Set	2001	Other / Database Sets	68	0
 DATABASE-2002	2002 - Unused Parts Database Set	2002	Other / Database Sets	29	0
-DATABASE-2003	2003 - Unused Parts Database Set	2003	Other / Database Sets	47	0
+DATABASE-2003	2003 - Unused Parts Database Set	2003	Other / Database Sets	48	0
 DATABASE-2004	2004 - Unused Parts Database Set	2004	Other / Database Sets	83	0
 DATABASE-2005	2005 - Unused Parts Database Set	2005	Other / Database Sets	82	0
 DATABASE-2006	2006 - Unused Parts Database Set	2006	Other / Database Sets	18	0
@@ -19290,7 +19290,7 @@ DATABASE-2010	2010 - Unused Parts Database Set	2010	Other / Database Sets	45	0
 DATABASE-2011	2011 - Unused Parts Database Set	2011	Other / Database Sets	35	0
 DATABASE-2012	2012 - Unused Parts Database Set	2012	Other / Database Sets	67	0
 DATABASE-2013	2013 - Unused Parts Database Set	2013	Other / Database Sets	38	0
-DATABASE-2014	2014 - Unused Parts Database Set	2014	Other / Database Sets	30	0
+DATABASE-2014	2014 - Unused Parts Database Set	2014	Other / Database Sets	31	0
 DATABASE-2015	2015 - Unused Parts Database Set	2015	Other / Database Sets	57	0
 DATABASE-2016	2016 - Unused Parts Database Set	2016	Other / Database Sets	40	0
 DATABASE-2017	2017 - Unused Parts Database Set	2017	Other / Database Sets	45	0
