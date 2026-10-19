@@ -125,6 +125,17 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v164 (19/10) : APPLI ANDROID (.apk) (demande de Mathias). Trusted Web Activity générée par Bubblewrap 1.25.0 (outil de
+    Google) : ouvre https://matd-prog.github.io/briquotheque/ dans Chrome, plein écran, icône Briquothèque ; paquet
+    io.github.matdprog.briquotheque, 992 Ko, Android 5 et plus ; affiche toujours la version en ligne (pas besoin de refaire
+    l'APK à chaque version). Fabriqué par l'action « Appli Android (APK) » du dépôt PRIVÉ (android/generer.js,
+    .github/workflows/apk.yml), signé avec android/briquotheque.keystore (mot de passe : android/mot_de_passe_cle.txt ;
+    secrets GitHub impossibles à créer depuis la session) — CLÉ À GARDER : indispensable pour les mises à jour et le Play
+    Store ; empreinte SHA-256 dans android/empreinte_sha256.txt. Copie publiée : telechargement/briquotheque.apk, bouton
+    « 📥 Télécharger l'appli Android (.apk) » dans les Outils. Sans fichier .well-known/assetlinks.json à la racine de
+    matd-prog.github.io (dépôt matd-prog.github.io inexistant), Chrome affiche une fine barre d'adresse en haut de l'appli.
+    iPhone : pas de fichier possible (Apple : App Store, compte développeur 99 €/an) -> Safari, Partager, « Sur l'écran
+    d'accueil ».
   · v163 (19/10) : CAMP STAR WARS INVISIBLE, SEULEMENT POUR L'IMPRESSION (demande de Mathias) : à l'ajout d'une figurine
     Star Wars, le camp est choisi tout seul (votre table, même personnage déjà classé, mots-clés du nom ; sinon gris) et
     enregistré, mais affiché nulle part (pastille de Ma collection retirée). Il décide du fond de l'étiquette (vert, rouge,
