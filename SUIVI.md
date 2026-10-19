@@ -134,6 +134,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     Store ; empreinte SHA-256 dans android/empreinte_sha256.txt. Copie publiée : telechargement/briquotheque.apk, bouton
     « 📥 Télécharger l'appli Android (.apk) » dans les Outils. Sans fichier .well-known/assetlinks.json à la racine de
     matd-prog.github.io (dépôt matd-prog.github.io inexistant), Chrome affiche une fine barre d'adresse en haut de l'appli.
+    → 19/10 : dépôt public matd-prog/matd-prog.github.io créé par Mathias ; on y a mis .well-known/assetlinks.json
+    (paquet + empreinte de la clé), .nojekyll et un index.html qui renvoie vers /briquotheque/. Publication réussie :
+    la barre d'adresse doit disparaître au prochain lancement de l'appli (sinon : vider le cache de Chrome).
     iPhone : pas de fichier possible (Apple : App Store, compte développeur 99 €/an) -> Safari, Partager, « Sur l'écran
     d'accueil ».
   · v163 (19/10) : CAMP STAR WARS INVISIBLE, SEULEMENT POUR L'IMPRESSION (demande de Mathias) : à l'ajout d'une figurine
