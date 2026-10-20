@@ -1,4 +1,4 @@
-#date 2026-10-19
+#date 2026-10-20
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -7890,7 +7890,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 5984-1	fig-002255	1	Space Police III - Officer	sp119	0.64
 5985-1	fig-002254	1	Space Police III - Jawson	sp113	0.64
 5985-1	fig-002285	1	Space Police III - Craniac	sp115	0.64
-5985-1	fig-002287	1	Space Police III - Officer	sp118	0.61
+5985-1	fig-002287	1	Space Police III - Officer, Epaulettes	sp116	0.64
 5985-1	fig-002288	1	Space Police III - Officer	sp119	0.64
 5985-1	fig-010425	1	Space Police 3 Droid - K99	sp129	1.0
 5986-1	fig-000359	1	Johnny Thunder (Desert)	adv010	1.0
