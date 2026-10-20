@@ -599,9 +599,9 @@ const Valeur = {
                        sourceCustom: `✍️ valeur déclarée${dv.justification ? ` : ${dv.justification}` : ""}` });
         continue;
       }
-      if (a.type === "JB") { // objet JB (tile, vignette…) : son prix payé
-        const q = a.quantite || 1;
-        if (!(a.prixPaye > 0)) { sans.push(a); continue; }
+      if (a.type === "JB") { // objet JB (tile, vignette…) : son prix payé ; souvent offert (sans prix) : compté pour rien,
+        const q = a.quantite || 1;                       // sans le signaler (Mathias, 20/10 : pas le but de les valoriser)
+        if (!(a.prixPaye > 0)) continue;
         total += a.prixPaye * q; totalOccasion += a.prixPaye * q;
         parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + a.prixPaye * q;
         details.push({ ...a, v: a.prixPaye * q, vOccasion: a.prixPaye * q, unitaire: a.prixPaye, brut: a.prixPaye * q,
@@ -783,12 +783,6 @@ const Valeur = {
           return m.length ? `<div class="carte"><p class="sous-titre">🏷️ Autres marques sans prix (${m.length})</p>
             <p class="score">Pas encore d'annonces eBay France relevées, et pas de prix payé indiqué :</p>
             ${m.slice(0, 40).map(a => `<div class="ligne-valeur"><span>${echapper(a.marque)} ${echapper(a.code)} <span class="score">${a.nom && a.nom !== `${a.marque} ${a.code}` ? echapper(a.nom) : ""}</span></span></div>`).join("")}</div>` : "";
-        })()}
-        ${(() => { // objets JB sans prix payé : à compléter (Ma collection › Objets JB › ✏️ Modifier)
-          const j = sans.filter(a => a.type === "JB");
-          return j.length ? `<div class="carte"><p class="sous-titre">🟪 Objets JB sans prix (${j.length})</p>
-            <p class="score">Indiquez leur prix payé (Ma collection › Objets JB › ✏️ Modifier) :</p>
-            ${j.slice(0, 40).map(a => `<div class="ligne-valeur"><span>${echapper(a.nom)} <span class="score">${echapper(a.etat || "")}</span></span></div>`).join("")}</div>` : "";
         })()}
         ${(() => { // customs sans prix : pour comprendre pourquoi (code, nom)
           const c = sans.filter(a => a.type === "CUSTOM");

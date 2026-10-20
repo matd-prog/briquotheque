@@ -1362,3 +1362,7 @@ Tiles et objets JB Spielwaren	JB Spielwaren tiles and items	Fliesen und Artikel 
 Indiquez leur prix payé (Ma collection › Objets JB › ✏️ Modifier) :	Enter the price you paid (My collection › JB items › ✏️ Edit):	Geben Sie den bezahlten Preis an (Meine Sammlung › JB-Artikel › ✏️ Bearbeiten):	Indique su precio pagado (Mi colección › Objetos JB › ✏️ Modificar):
 {0} ({#1})	{0} ({1})	{0} ({1})	{0} ({1})
 {0} : {#1}	{0}: {1}	{0}: {1}	{0}: {1}
+Prix payé par exemplaire (facultatif : vide si offert)	Price paid per copy (optional: leave empty if it was a gift)	Bezahlter Preis pro Stück (optional: leer lassen, wenn geschenkt)	Precio pagado por ejemplar (opcional: vacío si fue un regalo)
+vide si offert	empty if it was a gift	leer, wenn geschenkt	vacío si fue un regalo
+: tile (petite plaque imprimée), vignette, élément chromé, pièce imprimée, poster… Souvent offerts : le prix payé est facultatif.	: tile (small printed plate), vignette, chrome part, printed piece, poster… Often given as gifts: the price paid is optional.	: Fliese (kleine bedruckte Platte), Vignette, Chromteil, bedrucktes Teil, Poster… Oft geschenkt: Der bezahlte Preis ist optional.	: tile (pequeña placa impresa), viñeta, pieza cromada, pieza impresa, póster… A menudo son regalos: el precio pagado es opcional.
+Nom, photo, quantité	Name, photo, quantity	Name, Foto, Menge	Nombre, foto, cantidad

@@ -183,7 +183,7 @@ const Collection = {
       { cle: "A", titre: "Nom", valeur: a.nom },
       { cle: "B", titre: "Type", type: "choix", valeur: a.type, options: TYPES_JB },
       { cle: "C", titre: "Quantité", type: "nombre", valeur: a.quantite || 1 },
-      { cle: "D", titre: "Prix payé (€), par exemplaire", type: "nombre", valeur: a.prixPaye || "" },
+      { cle: "D", titre: "Prix payé par exemplaire (facultatif : vide si offert)", type: "nombre", valeur: a.prixPaye || "" },
       { cle: "E", titre: "Date d'achat", valeur: a.date },
       { cle: "F", titre: "Remarques", valeur: a.remarques },
     ] : set ? [

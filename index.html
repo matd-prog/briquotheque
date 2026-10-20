@@ -101,7 +101,7 @@
       <label class="tuile" for="input-blister"><span class="icone">📦</span><b>Photographier un blister</b><small>Recto, verso, n°</small></label>
       <button class="tuile" data-action="customs-voir"><span class="icone">🎨</span><b>Mes customs JB</b><small>Mes blisters, en photos</small></button>
       <button class="tuile" data-action="objets-jb-voir"><span class="icone">🟪</span><b>Tiles et objets JB</b><small>Tiles, vignettes, chromés…</small></button>
-      <button class="tuile" data-action="objet-jb"><span class="icone">➕</span><b>Ajouter un tile ou un objet</b><small>Photo, prix payé</small></button>
+      <button class="tuile" data-action="objet-jb"><span class="icone">➕</span><b>Ajouter un tile ou un objet</b><small>Nom, photo, quantité</small></button>
       <button class="tuile" data-action="custom"><span class="icone">🔗</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
       <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
       <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base de blisters</b><small>Commune à tous : photos, envois</small></button>
@@ -301,7 +301,7 @@
   <!-- Tiles et autres objets JB Spielwaren (js/objets_jb.js) -->
   <section id="ecran-objet-jb" class="ecran" hidden>
     <p class="intro">🟪 <b>Tile ou objet JB Spielwaren</b> : tile (petite plaque imprimée), vignette, élément chromé, pièce
-      imprimée, poster… Ils ne sont dans aucun catalogue : donnez-leur un nom, et leur prix payé fait leur valeur.</p>
+      imprimée, poster… Souvent offerts : le prix payé est facultatif.</p>
     <label class="gros-bouton vert">📷 Photographier l'objet (facultatif)
       <input type="file" id="input-jb-photo" accept="image/*" capture="environment" hidden></label>
     <img id="jb-apercu" class="photo-apercu" alt="" hidden>
@@ -311,8 +311,8 @@
     <input id="jb-nom" class="champ" autocomplete="off" placeholder="ex. Tile Darth Donut, ou ce qui est imprimé dessus">
     <label for="jb-quantite" class="etiquette-champ">Quantité</label>
     <input id="jb-quantite" class="champ" type="number" min="1" value="1" inputmode="numeric">
-    <label for="jb-prix" class="etiquette-champ">Prix payé par exemplaire (€, port compris)</label>
-    <input id="jb-prix" class="champ" inputmode="decimal" autocomplete="off" placeholder="ex. 6,50">
+    <label for="jb-prix" class="etiquette-champ">Prix payé par exemplaire (facultatif : vide si offert)</label>
+    <input id="jb-prix" class="champ" inputmode="decimal" autocomplete="off" placeholder="vide si offert">
     <label for="jb-date" class="etiquette-champ">Date d'achat (facultatif)</label>
     <input id="jb-date" class="champ" autocomplete="off" placeholder="ex. 12/10/2026">
     <label for="jb-remarques" class="etiquette-champ">Remarques (facultatif)</label>

@@ -40,7 +40,7 @@ const COLONNES_OBJETS = [
 ];
 // Objets JB Spielwaren autres que les figurines (demande de Mathias, 20/10/2026) : tiles (petites plaques imprimées),
 // vignettes, éléments chromés, pièces imprimées, posters, dioramas… Ils ne sont dans aucun catalogue : nom libre, photo
-// facultative (gardée dans le téléphone), valeur = prix payé (unitaire) × quantité.
+// facultative (gardée dans le téléphone), prix payé facultatif (souvent offerts) ; valeur = prix payé × quantité, 0 si offert.
 const ONGLET_JB = "Objets JB";
 const TYPES_JB = ["Tile (plaque imprimée)", "Vignette", "Élément chromé", "Pièce imprimée", "Poster / carte", "Diorama / MOC", "Autre"];
 const COLONNES_JB = [

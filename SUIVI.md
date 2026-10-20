@@ -125,6 +125,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v169 (20/10) : TILES : PRIX PAYÉ FACULTATIF (Mathias : souvent offerts, pas le but de les valoriser). Libellés « facultatif :
+    vide si offert » (écran d'ajout, fiche), texte d'intro ; objet JB sans prix = compté pour 0, plus de carte « Objets JB
+    sans prix » dans Valeur ; ceux qui ont un prix (achats repris) restent comptés à leur prix payé. Contrôle complet OK.
   · v168 (20/10) : RUBRIQUE « 🟪 JB SPIELWAREN » + TILES ET OBJETS JB (demande de Mathias). Accueil : rubrique JB
     Spielwaren (photographier un blister, Mes customs JB, Tiles et objets JB, ajouter un tile ou un objet, Figurine custom,
     Mes achats customs, Base de blisters, Catalogue JB : ces 4 dernières déplacées des autres rubriques). Tableau
