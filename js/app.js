@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v166"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v167"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -338,7 +338,7 @@ async function chargerClasseur(octets, nom, nonEnregistres = 0) {
 async function relireContenu() {
   etat.table = await lireTableCamps(etat.classeur);
   etat.collection = await lireCollection(etat.classeur);
-  if (regrouperCustoms() + corrigerNomsCustoms()) etat.collection = await lireCollection(etat.classeur);
+  if (rangerCustoms() + regrouperCustoms() + corrigerNomsCustoms()) etat.collection = await lireCollection(etat.classeur);
   const nb = Object.values(etat.collection).reduce((s, o) => s + o.cases.filter(c => c.code).length, 0);
   $("fichier-info").textContent = `${etat.classeur.estBase ? "🗄️" : "📗"} Ma collection · ${nb} figurines`;
   document.body.classList.toggle("mode-base", !!etat.classeur.estBase);
@@ -1044,6 +1044,18 @@ function regrouperCustoms() {
       n++;
     }
   }
+  return n;
+}
+
+// Custom enregistrée dans un autre onglet (code « CUSTOM », ex. « STORMTROOPER transparent » dans Star Wars, vu le
+// 20/10/2026 en comparant achats et collection) : rangée dans l'onglet Customs, pour être estimée comme une custom.
+// Collection rangée dans l'appli seulement ; renvoie le nombre d'exemplaires déplacés.
+function rangerCustoms() {
+  if (!etat.classeur || !etat.classeur.estBase || !etat.classeur.figDeplacer) return 0;
+  let n = 0;
+  for (const [onglet, o] of Object.entries(etat.collection))
+    if (onglet !== THEME_CUSTOMS.onglet)
+      for (const c of o.cases.filter(c => /^custom$/i.test(c.code || ""))) { etat.classeur.figDeplacer(c.row, THEME_CUSTOMS.onglet); n++; }
   return n;
 }
 

@@ -125,6 +125,22 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v167 (20/10) : VALEUR DES CUSTOMS VÉRIFIÉE (Mathias : 15 800 € de customs alors que ses achats Whatnot faisaient
+    23-24 000 €). Sauvegarde du 18/10 : achats JB + Whatnot = 27 043 € port compris, dont customs 16 717 € (646) ; le reste :
+    LEGO officiels ~3 600 € (autres onglets), tuiles/briques/posters/vignettes/bundles ~4 800 €, et 45 figurines des lots
+    « Diverse Chrome Minifigures » (1 887 €) + 5 « Stream-exklusive Figur » écartées à tort -> import_whatnot.py (dépôt
+    privé) : lot de figurines chromées et figurine exclusive du direct = « lot custom » ; 696 customs achetées, 18 714 €.
+    Collection : 610 customs (≈ 26 € l'une, comme le prix moyen payé) ; ~80 achetées pas dans l'onglet Customs -> liste à
+    vérifier verification/achats_vs_collection.xlsx (dépôt privé, 55 figurines nommées, 93 exemplaires ; pistes : noms
+    d'achat ≠ nom imprimé). Valeur : 255 exemplaires (116 figurines spéciales) au prix par défaut (médiane des lots
+    Whatnot) faute de prix propre -> relevé eBay.de des 247 noms de customs de la collection (noms_ebay_customs.txt,
+    couleurs françaises traduites pour la recherche : outils/prix_ebay_jb.py accepte « nom<TAB>recherche »), lancé depuis
+    la session (clés eBay de l'environnement cloud, pas dans les secrets GitHub ; action « Prix eBay des customs » prête
+    si on les y met) : 108 avec annonces, 60 avec 2 et plus ; fusionné dans prix_ebay.tsv. Résultat : customs 15 850 ->
+    16 324 €, 240 exemplaires encore au prix par défaut (24 €) -> « ✍️ Valeurs déclarées » pour les pièces dont Mathias
+    connaît la cote. App : rangerCustoms() (js/app.js, relireContenu) range dans Customs une figurine au code « CUSTOM »
+    restée dans un autre onglet (« STORMTROOPER transparent » dans Star Wars) ; figDeplacer (js/base_collection.js).
+    Contrôle complet OK.
   · v166 (19/10) : VIDÉO DE PRÉSENTATION (demande de Mathias) + 49 traductions de textes courts oubliés (bandeau
     « ⏳ En cours… patientez », boutons du blister, erreurs, exports, magasins…), repérés en filmant la version allemande.
     outils/presentation/video.js fr|de (Playwright, téléphone 412×915, compte simulé « Barjo », amis fictifs, aucun prix)
