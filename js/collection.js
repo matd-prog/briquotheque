@@ -56,15 +56,17 @@ const Collection = {
     $("collection-contenu").addEventListener("click", e => this.clic(e));
   },
 
-  // Sets et objets dérivés, montrés à côté des figurines (tableaux « Sets » et « Objets dérivés »)
+  // Sets, objets dérivés et objets JB (tiles…), montrés à côté des figurines (tableaux « Sets », « Objets dérivés », « Objets JB »)
   ARTICLES: { [ONGLET_SETS]: { icone: "🧱", lire: cl => lireSets(cl), quantite: "K", colonnes: COLONNES_SETS },
-              [ONGLET_OBJETS]: { icone: "🔑", lire: cl => lireObjets(cl), quantite: "E", colonnes: COLONNES_OBJETS } },
-  _articles: { [ONGLET_SETS]: [], [ONGLET_OBJETS]: [] },
+              [ONGLET_OBJETS]: { icone: "🔑", lire: cl => lireObjets(cl), quantite: "E", colonnes: COLONNES_OBJETS },
+              [ONGLET_JB]: { icone: "🟪", lire: cl => lireObjetsJB(cl), quantite: "C", colonnes: COLONNES_JB } },
+  _articles: { [ONGLET_SETS]: [], [ONGLET_OBJETS]: [], [ONGLET_JB]: [] },
   _estArticles(o) { return !!this.ARTICLES[o]; },
   themeArticle: {}, // thème choisi dans Sets, Objets dérivés ("" : tous)
 
   // Thème d'un set ou d'un objet, avec les noms des onglets de figurines quand c'est possible (Star Wars, Super-héros…)
   _themeArticle(a, onglet) {
+    if (onglet === ONGLET_JB) return String(a.type || "").trim() || "Autre"; // tiles, vignettes… : rangés par type
     if (onglet === ONGLET_SETS) {
       if (!estLego(a)) return "Autres marques";
       const t = String(a.theme || "").trim();
@@ -97,6 +99,7 @@ const Collection = {
     }
   },
   _ficheArticle(a, onglet, vignette = false) {
+    if (onglet === ONGLET_JB) return this._ficheJB(a, vignette);
     const set = onglet === ONGLET_SETS, lego = !set || estLego(a);
     const image = set ? (lego ? urlImageSet(a.code) : "") : `https://img.bricklink.com/ItemImage/GN/0/${encodeURIComponent(a.code)}.png`;
     const photo = image ? `<img class="photo" loading="lazy" src="${echapper(image)}" alt="" onerror="this.style.visibility='hidden'">`
@@ -113,10 +116,31 @@ const Collection = {
           <div class="code">${echapper(details)}</div><div class="lieu">${echapper(onglet)}</div></div>${bouton}</div>`;
   },
 
+  // Objet JB (tile, vignette…) : sa photo prise par l'utilisateur, sinon l'icône ; pas de page de catalogue
+  _ficheJB(a, vignette) {
+    const url = ObjetsJB.urlPhoto(a.row);
+    const photo = url ? `<img class="photo" src="${url}" alt="">` : `<span class="photo-custom">🟪</span>`;
+    const n = a.quantite || 1, details = [a.type, a.date].filter(Boolean).join(" · ");
+    const attrs = `data-onglet="${echapper(ONGLET_JB)}" data-article="${a.row}"`;
+    const nom = `${echapper(a.nom)}${n > 1 ? ` <span class="badge">×${n}</span>` : ""}`;
+    return vignette ? `<div class="vignette cliquable" ${attrs}>${photo}<div class="nom-court">${nom}</div><div class="code">${echapper(details)}</div></div>`
+      : `<div class="fiche cliquable" ${attrs}>${photo}<div class="infos"><div class="nom-court">${nom}</div>
+          <div class="code">${echapper(details)}</div><div class="lieu">${echapper(ONGLET_JB)}</div></div></div>`;
+  },
+
   // Set ou objet touché : fiche avec sa photo et ses options (modifier, un de plus, un de moins)
   _ficheArticle2(onglet, row) {
     const a = this._articles[onglet].find(x => String(x.row) === String(row));
     if (!a) return;
+    if (onglet === ONGLET_JB) {
+      const n = a.quantite || 1, url = ObjetsJB.urlPhoto(a.row);
+      Visionneuse.ouvrir(`${a.nom} · ${[a.type, n > 1 ? `${n} exemplaires` : ""].filter(Boolean).join(" · ")}`, url ? [{ src: url, legende: "Ma photo" }] : [], "", "", [
+        { texte: "✏️ Modifier (nom, type, prix, remarques…)", faire: () => this._modifierArticle(onglet, a) },
+        { texte: url ? "📷 Changer la photo" : "📷 Ajouter une photo", faire: () => ObjetsJB.choisirPhoto(a.row) },
+        { texte: "➕ Un exemplaire de plus", faire: () => this._detailsArticle(onglet, row, 1) },
+        { texte: n > 1 ? "➖ En retirer un" : "➖ Retirer de la collection", faire: () => this._detailsArticle(onglet, row, 2) }]);
+      return;
+    }
     const set = onglet === ONGLET_SETS, lego = !set || estLego(a), n = a.quantite || 1;
     const image = set ? (lego ? urlImageSet(a.code) : "") : `https://img.bricklink.com/ItemImage/GN/0/${encodeURIComponent(a.code)}.png`;
     const lien = set ? (lego ? urlBricklinkSet(a.code) : urlEbayMarque(a)) : `https://www.bricklink.com/v2/catalog/catalogitem.page?G=${encodeURIComponent(a.code)}`;
@@ -142,6 +166,7 @@ const Collection = {
       else {
         if (!(await demander(`Retirer « ${a.nom || a.code} » de votre collection ?`, "Retirer", "Annuler"))) return;
         for (const [l] of d.colonnes) await etat.classeur.viderCellule(onglet, l + row);
+        if (onglet === ONGLET_JB) await ObjetsJB.oublierPhoto(row);
       }
       etat.nonEnregistres++;
       await memoriser();
@@ -154,7 +179,14 @@ const Collection = {
   // Fiche d'un set ou d'un objet : tous ses champs modifiables (même colonnes que l'onglet du fichier)
   async _modifierArticle(onglet, a) {
     const set = onglet === ONGLET_SETS, lego = !set || estLego(a), ouiNon = v => /^(oui|true|1|x)$/i.test(String(v || "").trim());
-    const champs = set ? [
+    const champs = onglet === ONGLET_JB ? [
+      { cle: "A", titre: "Nom", valeur: a.nom },
+      { cle: "B", titre: "Type", type: "choix", valeur: a.type, options: TYPES_JB },
+      { cle: "C", titre: "Quantité", type: "nombre", valeur: a.quantite || 1 },
+      { cle: "D", titre: "Prix payé (€), par exemplaire", type: "nombre", valeur: a.prixPaye || "" },
+      { cle: "E", titre: "Date d'achat", valeur: a.date },
+      { cle: "F", titre: "Remarques", valeur: a.remarques },
+    ] : set ? [
       { cle: "B", titre: "Nom", valeur: a.nom },
       ...(lego ? [] : [{ cle: "M", titre: "Marque", valeur: a.marque }]),
       { cle: "F", titre: "État", type: "choix", valeur: a.etat, options: ["Neuf scellé", "Monté", "Démonté (en boîte)", "Sans figurines", "Incomplet", "Boîte seule (vide)", "Autre"] },
@@ -178,12 +210,12 @@ const Collection = {
         let val = v[c.cle];
         if (c.type === "case") val = val ? "oui" : "non";
         if (c.type === "nombre") val = String(val).replace(",", ".").replace(/[^\d.]/g, "");
-        if (c.cle === "K" || c.cle === "E") val = String(Math.max(1, parseInt(val, 10) || 1));
+        if (c.cle === this.ARTICLES[onglet].quantite) val = String(Math.max(1, parseInt(val, 10) || 1));
         await etat.classeur.ecrireTexte(onglet, c.cle + a.row, val);
       }
       etat.nonEnregistres++;
       await memoriser();
-      toast(`« ${v.B || a.code} » modifié ✔`);
+      toast(`« ${onglet === ONGLET_JB ? v.A : v.B || a.code} » modifié ✔`);
     } catch (err) { console.error(err); await demander("La modification a échoué : " + err.message, "OK", "Fermer"); }
     await this._chargerArticles();
     this.rendre();

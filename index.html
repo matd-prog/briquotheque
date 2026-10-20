@@ -79,7 +79,6 @@
         <input type="file" id="input-galerie" accept="image/*" hidden></label>
       <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Figurine (BrickLink)</small></button>
       <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
-      <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Set LEGO</b><small>Ou Youmko, Pantasy, Cobi…</small></button>
       <label class="tuile"><span class="icone">🛒</span><b>Scanner une boîte</b><small>Code-barres d'un set, en magasin</small>
         <input type="file" id="input-boite" accept="image/*" capture="environment" hidden></label>
@@ -92,9 +91,21 @@
       <button class="tuile" data-action="valeur"><span class="icone">💶</span><b>Valeur</b><small>Ventes BrickLink sur 6 mois</small></button>
       <button class="tuile" data-action="statistiques"><span class="icone">📊</span><b>Statistiques</b><small>Séries complètes, manquantes</small></button>
       <button class="tuile" data-action="souhaits"><span class="icone">⭐</span><b>Ma liste de souhaits</b><small>Ce que vous voulez, sorties</small></button>
-      <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
       <button class="tuile" data-action="justificatifs"><span class="icone">🧾</span><b>Justificatifs</b><small>Tickets, factures, captures</small></button>
       <button class="tuile" data-action="assurance"><span class="icone">🛡️</span><b>Dossier assureur</b><small>Inventaire estimé en PDF</small></button>
+    </div>
+
+    <!-- Tout JB Spielwaren au même endroit (demande de Mathias, 20/10/2026) : blisters, customs, tiles et autres objets -->
+    <p class="section-titre">🟪 JB Spielwaren</p>
+    <div class="tuiles">
+      <label class="tuile" for="input-blister"><span class="icone">📦</span><b>Photographier un blister</b><small>Recto, verso, n°</small></label>
+      <button class="tuile" data-action="customs-voir"><span class="icone">🎨</span><b>Mes customs JB</b><small>Mes blisters, en photos</small></button>
+      <button class="tuile" data-action="objets-jb-voir"><span class="icone">🟪</span><b>Tiles et objets JB</b><small>Tiles, vignettes, chromés…</small></button>
+      <button class="tuile" data-action="objet-jb"><span class="icone">➕</span><b>Ajouter un tile ou un objet</b><small>Photo, prix payé</small></button>
+      <button class="tuile" data-action="custom"><span class="icone">🔗</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
+      <button class="tuile" data-action="achats"><span class="icone">🏷️</span><b>Mes achats customs</b><small>Prix payé et revente</small></button>
+      <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base de blisters</b><small>Commune à tous : photos, envois</small></button>
+      <button class="tuile" data-action="consulter"><span class="icone">🗂️</span><b>Catalogue JB</b><small>Toutes les customs JB</small></button>
     </div>
 
     <p class="section-titre">🤝 Communauté</p>
@@ -102,14 +113,12 @@
       <button class="tuile" data-action="echanges"><span class="icone">🔄</span><b>Échanges</b><small id="tuile-echanges-info">Doubles contre souhaits</small></button>
       <button class="tuile" data-action="amis"><span class="icone">👥</span><b>Mes amis</b><small>En ligne, demandes d'amis</small></button>
       <button class="tuile" data-action="compte"><span class="icone">👤</span><b>Mon compte</b><small id="tuile-compte-info">Connexion, sauvegarde en ligne</small></button>
-      <button class="tuile" data-action="base"><span class="icone">📚</span><b>Base de blisters</b><small>Commune à tous : photos, envois</small></button>
     </div>
 
     <p class="section-titre">🔎 Découvrir</p>
     <div class="tuiles">
       <button class="tuile" data-action="nouveautes"><span class="icone">🆕</span><b>Nouveautés</b><small>Sorties LEGO par thème</small></button>
       <button class="tuile" data-action="magasins-autour"><span class="icone">📍</span><b>Magasins proches</b><small>Boutiques LEGO et jouets</small></button>
-      <button class="tuile" data-action="consulter"><span class="icone">🗂️</span><b>Catalogue JB</b><small>Toutes les customs JB</small></button>
     </div>
 
     <p class="section-titre">🖨️ Imprimer et exporter</p>
@@ -193,6 +202,7 @@
         <label class="tuile"><span class="icone">🛒</span><b>Scanner une boîte</b><small>Code-barres d'un set</small>
           <input type="file" id="input-boite-collection" accept="image/*" capture="environment" hidden></label>
         <button class="tuile" data-action="objet"><span class="icone">🔑</span><b>Objet dérivé</b><small>Porte-clés, lampes, magnets…</small></button>
+        <button class="tuile" data-action="objet-jb"><span class="icone">🟪</span><b>Tile ou objet JB</b><small>Tiles, vignettes, chromés…</small></button>
       </div>
     </details>
     <input id="collection-recherche" class="champ" type="search" placeholder="🔍 Nom ou code…" autocomplete="off">
@@ -275,17 +285,41 @@
     <input id="objet-code" class="champ" autocomplete="off" autocapitalize="characters" placeholder="ex. 5005374 ou LGL-KE7">
     <label for="objet-type" class="etiquette-champ">Type</label>
     <select id="objet-type" class="champ">
-      <option>Porte-clés</option><option>Porte-clés lumineux</option><option>Lampe / torche</option><option>Magnet</option>
-      <option>Montre / réveil</option><option>Stylo / papeterie</option><option>Autre</option>
+      <option value="Porte-clés">Porte-clés</option><option value="Porte-clés lumineux">Porte-clés lumineux</option><option value="Lampe / torche">Lampe / torche</option><option value="Magnet">Magnet</option>
+      <option value="Montre / réveil">Montre / réveil</option><option value="Stylo / papeterie">Stylo / papeterie</option><option value="Autre">Autre</option>
     </select>
     <label for="objet-etat" class="etiquette-champ">État</label>
-    <select id="objet-etat" class="champ"><option>Neuf (emballage)</option><option>Occasion</option></select>
+    <select id="objet-etat" class="champ"><option value="Neuf (emballage)">Neuf (emballage)</option><option value="Occasion">Occasion</option></select>
     <label for="objet-quantite" class="etiquette-champ">Quantité</label>
     <input id="objet-quantite" class="champ" type="number" min="1" value="1" inputmode="numeric">
     <label for="objet-remarques" class="etiquette-champ">Remarques (facultatif)</label>
     <input id="objet-remarques" class="champ" autocomplete="off" placeholder="ex. carton 3, pile à changer">
     <button class="gros-bouton vert" data-action="objet-ajouter">➕ Ajouter à ma collection</button>
     <div id="objet-liste"></div>
+  </section>
+
+  <!-- Tiles et autres objets JB Spielwaren (js/objets_jb.js) -->
+  <section id="ecran-objet-jb" class="ecran" hidden>
+    <p class="intro">🟪 <b>Tile ou objet JB Spielwaren</b> : tile (petite plaque imprimée), vignette, élément chromé, pièce
+      imprimée, poster… Ils ne sont dans aucun catalogue : donnez-leur un nom, et leur prix payé fait leur valeur.</p>
+    <label class="gros-bouton vert">📷 Photographier l'objet (facultatif)
+      <input type="file" id="input-jb-photo" accept="image/*" capture="environment" hidden></label>
+    <img id="jb-apercu" class="photo-apercu" alt="" hidden>
+    <label for="jb-type" class="etiquette-champ">Type</label>
+    <select id="jb-type" class="champ"></select>
+    <label for="jb-nom" class="etiquette-champ">Nom</label>
+    <input id="jb-nom" class="champ" autocomplete="off" placeholder="ex. Tile Darth Donut, ou ce qui est imprimé dessus">
+    <label for="jb-quantite" class="etiquette-champ">Quantité</label>
+    <input id="jb-quantite" class="champ" type="number" min="1" value="1" inputmode="numeric">
+    <label for="jb-prix" class="etiquette-champ">Prix payé par exemplaire (€, port compris)</label>
+    <input id="jb-prix" class="champ" inputmode="decimal" autocomplete="off" placeholder="ex. 6,50">
+    <label for="jb-date" class="etiquette-champ">Date d'achat (facultatif)</label>
+    <input id="jb-date" class="champ" autocomplete="off" placeholder="ex. 12/10/2026">
+    <label for="jb-remarques" class="etiquette-champ">Remarques (facultatif)</label>
+    <input id="jb-remarques" class="champ" autocomplete="off" placeholder="ex. stream du 12/10, boîte 2">
+    <button class="gros-bouton vert" data-action="objet-jb-ajouter">➕ Ajouter à ma collection</button>
+    <button class="bouton gris" data-action="objets-jb-voir">🟪 Voir mes tiles et objets JB</button>
+    <button class="bouton bleu" id="jb-importer" data-action="objet-jb-importer" hidden>📥 Reprendre mes achats (tiles, vignettes… des directs Whatnot)</button>
   </section>
 
   <!-- Compte en ligne (js/compte.js, Supabase) : connexion, sauvegarde en ligne de la collection -->
@@ -445,7 +479,7 @@
     <div id="set-details" hidden>
       <label for="set-etat" class="etiquette-champ">État</label>
       <select id="set-etat" class="champ">
-        <option>Neuf scellé</option><option>Monté</option><option>Démonté (en boîte)</option><option>Sans figurines</option><option>Incomplet</option><option>Boîte seule (vide)</option><option>Autre</option>
+        <option value="Neuf scellé">Neuf scellé</option><option value="Monté">Monté</option><option value="Démonté (en boîte)">Démonté (en boîte)</option><option value="Sans figurines">Sans figurines</option><option value="Incomplet">Incomplet</option><option value="Boîte seule (vide)">Boîte seule (vide)</option><option value="Autre">Autre</option>
       </select>
       <label class="case-a-cocher"><input type="checkbox" id="set-boite"> Boîte d'origine</label>
       <label class="case-a-cocher"><input type="checkbox" id="set-notice"> Notice</label>
@@ -796,6 +830,7 @@
 <script src="js/sets.js"></script>
 <script src="js/import_sets.js"></script>
   <script src="js/objets.js"></script>
+  <script src="js/objets_jb.js"></script>
   <script src="js/ecran_nouveautes.js"></script>
   <script src="js/souhaits.js"></script>
   <script src="js/impression.js"></script>

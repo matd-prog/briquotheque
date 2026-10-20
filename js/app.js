@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v167"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v168"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -231,7 +231,7 @@ function demanderFormulaire(titre, champs) {
     $("menu-boutons").innerHTML = champs.map((c, i) => c.type === "case"
       ? `<label class="case-a-cocher"><input type="checkbox" data-f="${i}" ${c.valeur ? "checked" : ""}> ${echapper(c.titre)}</label>`
       : `<label class="etiquette-champ">${echapper(c.titre)}</label>` + (c.type === "choix"
-        ? `<select class="champ" data-f="${i}">${[...new Set([...(c.valeur ? [c.valeur] : []), ...c.options])].map(o => `<option ${o === c.valeur ? "selected" : ""}>${echapper(o)}</option>`).join("")}</select>`
+        ? `<select class="champ" data-f="${i}">${[...new Set([...(c.valeur ? [c.valeur] : []), ...c.options])].map(o => `<option value="${echapper(o)}" ${o === c.valeur ? "selected" : ""}>${echapper(o)}</option>`).join("")}</select>`
         : `<input class="champ" data-f="${i}" autocomplete="off" ${c.type === "nombre" ? 'inputmode="decimal"' : ""} value="${echapper(c.valeur ?? "")}">`)).join("") +
       `<button class="gros-bouton vert" data-ok>✔ Enregistrer</button>`;
     const fin = v => { if (d.open) d.close(); ok(v); };
@@ -625,7 +625,7 @@ function choisirCandidat(i) {
     <div class="apercu-etiquette excel-seul" id="apercu"></div>
     <label class="etiquette-champ" for="choix-theme">Thème</label>
     <select id="choix-theme" class="champ">
-      ${[STAR_WARS, ...ONGLETS_THEMES.filter(t => t !== THEME_CUSTOMS.onglet)].map(t => `<option ${t === etat.theme ? "selected" : ""}>${echapper(t)}</option>`).join("")}
+      ${[STAR_WARS, ...ONGLETS_THEMES.filter(t => t !== THEME_CUSTOMS.onglet)].map(t => `<option value="${echapper(t)}" ${t === etat.theme ? "selected" : ""}>${echapper(t)}</option>`).join("")}
     </select>
     <div id="bloc-camps">
       <div class="camps">

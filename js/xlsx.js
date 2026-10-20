@@ -38,6 +38,15 @@ const COLONNES_OBJETS = [
   ["A", "Numéro BrickLink", 16], ["B", "Nom", 40], ["C", "Type", 20], ["D", "État", 12], ["E", "Quantité", 9],
   ["F", "Remarques", 36], ["G", "Ajouté le", 11],
 ];
+// Objets JB Spielwaren autres que les figurines (demande de Mathias, 20/10/2026) : tiles (petites plaques imprimées),
+// vignettes, éléments chromés, pièces imprimées, posters, dioramas… Ils ne sont dans aucun catalogue : nom libre, photo
+// facultative (gardée dans le téléphone), valeur = prix payé (unitaire) × quantité.
+const ONGLET_JB = "Objets JB";
+const TYPES_JB = ["Tile (plaque imprimée)", "Vignette", "Élément chromé", "Pièce imprimée", "Poster / carte", "Diorama / MOC", "Autre"];
+const COLONNES_JB = [
+  ["A", "Nom", 40], ["B", "Type", 20], ["C", "Quantité", 9], ["D", "Prix payé (€)", 12], ["E", "Date d'achat", 12],
+  ["F", "Remarques", 36], ["G", "Ajouté le", 11], ["H", "Source", 30],
+];
 // Figurines customs achetées (reçus JB, historique Whatnot) : une ligne par exemplaire, avec son prix payé
 const ONGLET_CUSTOMS_ACHETEES = "Customs achetées";
 const COLONNES_CUSTOMS_ACHETEES = [
@@ -906,6 +915,30 @@ async function ecrireAVendre(cl, lignes) {
   }
   for (let r = row + 1; r <= nbAvant; r++) for (const [c] of COLONNES_A_VENDRE) await cl.ecrireTexte(ONGLET_A_VENDRE, c + r, "");
   return { lignes: finales.length, vendus: vendus.length };
+}
+
+// Objets JB : [{ row, nom, type, quantite, prixPaye (unitaire), date, remarques, source }]
+async function lireObjetsJB(cl) {
+  if (!cl.aOnglet(ONGLET_JB)) return [];
+  const res = [], derniere = await cl.derniereLigne(ONGLET_JB);
+  for (let row = 2; row <= derniere; row++) {
+    const v = async l => cl.valeur(ONGLET_JB, l + row);
+    const nom = await v("A");
+    if (nom) res.push({ row, code: "", nom, type: await v("B"), quantite: +(await v("C")) || 1,
+                        prixPaye: parseFloat(String(await v("D") || "").replace(",", ".")) || 0, date: await v("E"),
+                        remarques: await v("F"), source: await v("H") });
+  }
+  return res;
+}
+
+async function ajouterObjetJB(cl, { nom, type, quantite, prixPaye, date, remarques, source }) {
+  await cl.creerOngletSets(ONGLET_JB, COLONNES_JB);
+  const row = (await cl.derniereLigne(ONGLET_JB)) + 1;
+  const valeurs = [nom, type, quantite > 1 ? quantite : "", prixPaye > 0 ? prixPaye.toFixed(2) : "", date, remarques,
+                   new Date().toLocaleDateString("fr-FR"), source];
+  for (let i = 0; i < valeurs.length; i++)
+    if (valeurs[i] !== "" && valeurs[i] != null) await cl.ecrireTexte(ONGLET_JB, COLONNES_JB[i][0] + row, String(valeurs[i]));
+  return row;
 }
 
 async function ajouterObjet(cl, { code, nom, type, etat, quantite, remarques }) {

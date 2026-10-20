@@ -24,6 +24,7 @@ const GROUPES_VALEUR = [
   ["🧱 Sets les plus précieux", d => d.type === "SET"],
   ["🔑 Porte-clés et objets dérivés", d => d.type === "GEAR"],
   ["🎨 Figurines customs (JB…)", d => d.type === "CUSTOM"],
+  ["🟪 Tiles et objets JB", d => d.type === "JB"],
   ["🏷️ Autres marques (Youmko, Pantasy…)", d => d.type === "MARQUE"],
   ["📦 Boîtes seules", d => d.type === "BOX"],
 ];
@@ -137,6 +138,8 @@ const Valeur = {
                  achat: c.prix > 0 ? { prix: c.prix, vendeur: c.vendeur, date: c.date, lot: /^Custom JB \(lot/.test(c.nom) } : null });
     for (const o of await lireObjets(etat.classeur))
       res.push({ type: "GEAR", code: o.code, nom: o.nom || o.type, onglet: ONGLET_OBJETS, etat: o.etat, quantite: o.quantite });
+    for (const o of await lireObjetsJB(etat.classeur)) // tiles, vignettes… de JB : dans aucun catalogue, valeur = prix payé
+      res.push({ type: "JB", code: "", nom: o.nom, onglet: ONGLET_JB, etat: o.type, quantite: o.quantite, prixPaye: o.prixPaye });
     return res;
   },
 
@@ -144,7 +147,7 @@ const Valeur = {
   async envoyer() {
     if (!etat.classeur) { await demander("Ouvrez d'abord votre collection.", "OK", "Fermer"); return; }
     const articles = await this._articles();
-    const codes = [...new Set(articles.filter(a => a.type !== "CUSTOM" && a.type !== "MARQUE")
+    const codes = [...new Set(articles.filter(a => a.type !== "CUSTOM" && a.type !== "MARQUE" && a.type !== "JB")
       .flatMap(a => [`${a.type} ${a.code}`, ...(a.figs || []).map(f => `MINIFIG ${f.code}`)]))].sort();
     // garde-fou : une liste vide (ou beaucoup plus courte que la précédente) effacerait les prix déjà relevés
     const ouvert = etat.classeur.estBase ? "la collection rangée dans l'appli" : "le fichier Excel ouvert";
@@ -596,6 +599,15 @@ const Valeur = {
                        sourceCustom: `✍️ valeur déclarée${dv.justification ? ` : ${dv.justification}` : ""}` });
         continue;
       }
+      if (a.type === "JB") { // objet JB (tile, vignette…) : son prix payé
+        const q = a.quantite || 1;
+        if (!(a.prixPaye > 0)) { sans.push(a); continue; }
+        total += a.prixPaye * q; totalOccasion += a.prixPaye * q;
+        parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + a.prixPaye * q;
+        details.push({ ...a, v: a.prixPaye * q, vOccasion: a.prixPaye * q, unitaire: a.prixPaye, brut: a.prixPaye * q,
+                       sourceCustom: "Prix payé", ventes: 0, neuf: true });
+        continue;
+      }
       if (a.type === "MARQUE") {
         const m = prixMarque(a);
         if (!m) { sans.push(a); continue; }
@@ -771,6 +783,12 @@ const Valeur = {
           return m.length ? `<div class="carte"><p class="sous-titre">🏷️ Autres marques sans prix (${m.length})</p>
             <p class="score">Pas encore d'annonces eBay France relevées, et pas de prix payé indiqué :</p>
             ${m.slice(0, 40).map(a => `<div class="ligne-valeur"><span>${echapper(a.marque)} ${echapper(a.code)} <span class="score">${a.nom && a.nom !== `${a.marque} ${a.code}` ? echapper(a.nom) : ""}</span></span></div>`).join("")}</div>` : "";
+        })()}
+        ${(() => { // objets JB sans prix payé : à compléter (Ma collection › Objets JB › ✏️ Modifier)
+          const j = sans.filter(a => a.type === "JB");
+          return j.length ? `<div class="carte"><p class="sous-titre">🟪 Objets JB sans prix (${j.length})</p>
+            <p class="score">Indiquez leur prix payé (Ma collection › Objets JB › ✏️ Modifier) :</p>
+            ${j.slice(0, 40).map(a => `<div class="ligne-valeur"><span>${echapper(a.nom)} <span class="score">${echapper(a.etat || "")}</span></span></div>`).join("")}</div>` : "";
         })()}
         ${(() => { // customs sans prix : pour comprendre pourquoi (code, nom)
           const c = sans.filter(a => a.type === "CUSTOM");

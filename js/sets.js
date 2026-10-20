@@ -76,7 +76,7 @@ const EcranSet = {
     $("set-fiche").innerHTML = "";
     $("set-details").hidden = true;
     // marque : LEGO par défaut ; la dernière autre marque choisie reste proposée pendant la session (plusieurs Cobi à la suite)
-    $("set-marque").innerHTML = ["LEGO", ...MARQUES_ALTERNATIVES].map(m => `<option>${echapper(m)}</option>`).join("") +
+    $("set-marque").innerHTML = ["LEGO", ...MARQUES_ALTERNATIVES].map(m => `<option value="${echapper(m)}">${echapper(m)}</option>`).join("") +
       `<option value="autre">Autre marque…</option>`;
     $("set-marque").value = this.marqueRetenue || "LEGO";
     if (this.marqueAutre) { $("set-marque").value = "autre"; $("set-marque-autre").value = this.marqueAutre.trim(); }

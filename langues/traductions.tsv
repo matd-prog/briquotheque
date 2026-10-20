@@ -1311,3 +1311,54 @@ Prix LEGO	LEGO price	LEGO-Preis	Precio LEGO
 Supprimer {#0} ligne(s) en double de l'onglet « Sets » ?	Delete {0} duplicate line(s) from the “Sets” tab?	{0} doppelte Zeile(n) aus dem Reiter „Sets“ löschen?	¿Eliminar {0} línea(s) duplicada(s) de la pestaña «Sets»?
 Par onglet	By tab	Nach Reiter	Por pestaña
 Prix {0} (encore en vente)	{0} price (still on sale)	{0}-Preis (noch erhältlich)	Precio {0} (aún a la venta)
+🟪 JB Spielwaren	🟪 JB Spielwaren	🟪 JB Spielwaren	🟪 JB Spielwaren
+Photographier un blister	Photograph a blister	Blister fotografieren	Fotografiar un blíster
+Recto, verso, n°	Front, back, no.	Vorder-, Rückseite, Nr.	Anverso, reverso, n.º
+Mes customs JB	My JB customs	Meine JB-Customs	Mis customs JB
+Mes blisters, en photos	My blisters, in photos	Meine Blister, mit Fotos	Mis blísteres, en fotos
+Tiles et objets JB	JB tiles and items	JB-Fliesen und -Artikel	Tiles y objetos JB
+🟪 Tiles et objets JB	🟪 JB tiles and items	🟪 JB-Fliesen und -Artikel	🟪 Tiles y objetos JB
+Tiles, vignettes, chromés…	Tiles, vignettes, chrome parts…	Fliesen, Vignetten, Chromteile…	Tiles, viñetas, cromados…
+Ajouter un tile ou un objet	Add a tile or an item	Fliese oder Artikel hinzufügen	Añadir un tile o un objeto
+Photo, prix payé	Photo, price paid	Foto, bezahlter Preis	Foto, precio pagado
+Tile ou objet JB	JB tile or item	JB-Fliese oder -Artikel	Tile u objeto JB
+Tile ou objet JB Spielwaren	JB Spielwaren tile or item	Fliese oder Artikel von JB Spielwaren	Tile u objeto de JB Spielwaren
+: tile (petite plaque imprimée), vignette, élément chromé, pièce imprimée, poster… Ils ne sont dans aucun catalogue : donnez-leur un nom, et leur prix payé fait leur valeur.	: tile (small printed plate), vignette, chrome part, printed piece, poster… They aren't in any catalogue: give them a name, and the price you paid is their value.	: Fliese (kleine bedruckte Platte), Vignette, Chromteil, bedrucktes Teil, Poster… Sie stehen in keinem Katalog: Geben Sie ihnen einen Namen, ihr bezahlter Preis ist ihr Wert.	: tile (pequeña placa impresa), viñeta, pieza cromada, pieza impresa, póster… No están en ningún catálogo: póngales un nombre y su precio pagado será su valor.
+📷 Photographier l'objet (facultatif)	📷 Photograph the item (optional)	📷 Artikel fotografieren (optional)	📷 Fotografiar el objeto (opcional)
+ex. Tile Darth Donut, ou ce qui est imprimé dessus	e.g. Darth Donut tile, or what is printed on it	z. B. Fliese Darth Donut, oder was darauf gedruckt ist	p. ej. Tile Darth Donut, o lo que lleva impreso
+Prix payé par exemplaire (€, port compris)	Price paid per copy (€, shipping included)	Bezahlter Preis pro Stück (€, inkl. Versand)	Precio pagado por ejemplar (€, envío incluido)
+ex. 6,50	e.g. 6.50	z. B. 6,50	p. ej. 6,50
+Date d'achat (facultatif)	Purchase date (optional)	Kaufdatum (optional)	Fecha de compra (opcional)
+ex. 12/10/2026	e.g. 12/10/2026	z. B. 12.10.2026	p. ej. 12/10/2026
+ex. stream du 12/10, boîte 2	e.g. stream of 12/10, box 2	z. B. Stream vom 12.10., Kiste 2	p. ej. directo del 12/10, caja 2
+🟪 Voir mes tiles et objets JB	🟪 See my JB tiles and items	🟪 Meine JB-Fliesen und -Artikel ansehen	🟪 Ver mis tiles y objetos JB
+📥 Reprendre mes achats (tiles, vignettes… des directs Whatnot)	📥 Import my purchases (tiles, vignettes… from Whatnot streams)	📥 Meine Käufe übernehmen (Fliesen, Vignetten… aus den Whatnot-Streams)	📥 Recuperar mis compras (tiles, viñetas… de los directos de Whatnot)
+Objets JB	JB items	JB-Artikel	Objetos JB
+Tile (plaque imprimée)	Tile (printed plate)	Fliese (bedruckte Platte)	Tile (placa impresa)
+Vignette	Vignette	Vignette	Viñeta
+Élément chromé	Chrome part	Chromteil	Pieza cromada
+Pièce imprimée	Printed piece	Bedrucktes Teil	Pieza impresa
+Poster / carte	Poster / card	Poster / Karte	Póster / tarjeta
+Diorama / MOC	Diorama / MOC	Diorama / MOC	Diorama / MOC
+Date d'achat	Purchase date	Kaufdatum	Fecha de compra
+Remarques	Notes	Notizen	Notas
+Prix payé (€), par exemplaire	Price paid (€), per copy	Bezahlter Preis (€), pro Stück	Precio pagado (€), por ejemplar
+✏️ Modifier (nom, type, prix, remarques…)	✏️ Edit (name, type, price, notes…)	✏️ Bearbeiten (Name, Art, Preis, Notizen…)	✏️ Modificar (nombre, tipo, precio, notas…)
+📷 Ajouter une photo	📷 Add a photo	📷 Foto hinzufügen	📷 Añadir una foto
+📷 Changer la photo	📷 Change the photo	📷 Foto ändern	📷 Cambiar la foto
+Photo ajoutée ✔	Photo added ✔	Foto hinzugefügt ✔	Foto añadida ✔
+Donnez un nom à l'objet (ex. « Tile Darth Donut » ou ce qui est imprimé dessus).	Give the item a name (e.g. “Darth Donut tile” or what is printed on it).	Geben Sie dem Artikel einen Namen (z. B. „Fliese Darth Donut“ oder was darauf gedruckt ist).	Ponga un nombre al objeto (p. ej. «Tile Darth Donut» o lo que lleva impreso).
+« {0} » ajouté à vos objets JB ✔	“{0}” added to your JB items ✔	„{0}“ zu Ihren JB-Artikeln hinzugefügt ✔	«{0}» añadido a sus objetos JB ✔
+Lecture des achats impossible : {0}	Can't read the purchases: {0}	Käufe können nicht gelesen werden: {0}	No se pueden leer las compras: {0}
+Rien de nouveau : tous vos achats de tiles et objets JB sont déjà repris.	Nothing new: all your JB tile and item purchases are already imported.	Nichts Neues: Alle Ihre Käufe von JB-Fliesen und -Artikeln sind schon übernommen.	Nada nuevo: todas sus compras de tiles y objetos JB ya están recuperadas.
+Reprendre {#0} achats de vos directs et commandes JB ({1}, port compris) ?	Import {0} purchases from your JB streams and orders ({1}, shipping included)?	{0} Käufe aus Ihren JB-Streams und -Bestellungen übernehmen ({1}, inkl. Versand)?	¿Recuperar {0} compras de sus directos y pedidos de JB ({1}, envío incluido)?
+Reprendre	Import	Übernehmen	Recuperar
+Reprise des achats…	Importing purchases…	Käufe werden übernommen…	Recuperando compras…
+Reprise des achats… ({#0} sur {#1})	Importing purchases… ({0} of {1})	Käufe werden übernommen… ({0} von {1})	Recuperando compras… ({0} de {1})
+{#0} achats repris dans vos objets JB ✔	{0} purchases imported into your JB items ✔	{0} Käufe in Ihre JB-Artikel übernommen ✔	{0} compras recuperadas en sus objetos JB ✔
+La reprise a échoué : {0}	The import failed: {0}	Übernahme fehlgeschlagen: {0}	No se ha podido recuperar: {0}
+Tiles et objets JB Spielwaren	JB Spielwaren tiles and items	Fliesen und Artikel von JB Spielwaren	Tiles y objetos de JB Spielwaren
+🟪 Objets JB sans prix ({#0})	🟪 JB items without a price ({0})	🟪 JB-Artikel ohne Preis ({0})	🟪 Objetos JB sin precio ({0})
+Indiquez leur prix payé (Ma collection › Objets JB › ✏️ Modifier) :	Enter the price you paid (My collection › JB items › ✏️ Edit):	Geben Sie den bezahlten Preis an (Meine Sammlung › JB-Artikel › ✏️ Bearbeiten):	Indique su precio pagado (Mi colección › Objetos JB › ✏️ Modificar):
+{0} ({#1})	{0} ({1})	{0} ({1})	{0} ({1})
+{0} : {#1}	{0}: {1}	{0}: {1}	{0}: {1}

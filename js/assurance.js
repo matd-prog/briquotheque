@@ -7,12 +7,13 @@ const CATEGORIES_ASSURANCE = [
   ["Sets", d => d.type === "SET"],
   ["Objets dérivés et porte-clés", d => d.type === "GEAR"],
   ["Figurines personnalisées (customs)", d => d.type === "CUSTOM"],
+  ["Tiles et objets JB Spielwaren", d => d.type === "JB"],
   ["Autres marques (Youmko, Pantasy…)", d => d.type === "MARQUE"],
   ["Boîtes seules", d => d.type === "BOX"],
 ];
 const IMAGE_BRICKLINK = { MINIFIG: "MN", SET: "SN", GEAR: "GN", BOX: "ON" };
 // photo d'un article : BrickLink, ou pour une custom la photo du catalogue JB
-const photoArticle = d => d.type === "MARQUE" ? "" : d.type === "CUSTOM" ? ((CatalogueJB.parCode && (CatalogueJB.parCode.get(d.code) || {}).image) || "")
+const photoArticle = d => d.type === "MARQUE" || d.type === "JB" ? "" : d.type === "CUSTOM" ? ((CatalogueJB.parCode && (CatalogueJB.parCode.get(d.code) || {}).image) || "")
   : `https://img.bricklink.com/ItemImage/${IMAGE_BRICKLINK[d.type]}/0/${encodeURIComponent(d.code)}.png`;
 
 const Assurance = {

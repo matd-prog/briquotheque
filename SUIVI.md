@@ -125,6 +125,20 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v168 (20/10) : RUBRIQUE « 🟪 JB SPIELWAREN » + TILES ET OBJETS JB (demande de Mathias). Accueil : rubrique JB
+    Spielwaren (photographier un blister, Mes customs JB, Tiles et objets JB, ajouter un tile ou un objet, Figurine custom,
+    Mes achats customs, Base de blisters, Catalogue JB : ces 4 dernières déplacées des autres rubriques). Tableau
+    « Objets JB » (js/xlsx.js ONGLET_JB, COLONNES_JB : nom, type, quantité, prix payé unitaire, date, remarques, ajouté le,
+    source ; TYPES_JB : tile, vignette, élément chromé, pièce imprimée, poster / carte, diorama / MOC, autre), base de
+    l'appli (TABLES_BASE), onglet « 🟪 Objets JB » de Ma collection rangé par type (fiche : modifier, photo, + / -).
+    js/objets_jb.js : écran d'ajout (photo facultative réduite à 1000 px, Memoire « objets-jb-photos »), reprise des achats
+    (achats.tsv du dépôt privé, jeton GitHub) : vendeur JB, tiles/vignettes/chromés/pièces imprimées/posters/dioramas,
+    LEGO officiels et bundles écartés, une ligne par achat, sans doublon (colonne Source). Essai sur la sauvegarde du
+    18/10 : 270 achats repris, 2 800 €. Valeur : type JB = prix payé × quantité (« 🟪 Tiles et objets JB » dans Valeur et le
+    dossier assureur, export Excel « Objets JB »). Corrigé en passant : les menus déroulants (état d'un set, type d'objet,
+    onglet d'une figurine, formulaires) enregistraient le texte TRADUIT en anglais/allemand/espagnol (« Neu versiegelt » au
+    lieu de « Neuf scellé », ce qui faussait la valeur) -> chaque choix a sa valeur en français (value=…).
+    Traductions : 49 lignes + motifs « {0} ({#1}) », « {0} : {#1} ». Contrôle complet OK (4 noms de figurines restent).
   · v167 (20/10) : VALEUR DES CUSTOMS VÉRIFIÉE (Mathias : 15 800 € de customs alors que ses achats Whatnot faisaient
     23-24 000 €). Sauvegarde du 18/10 : achats JB + Whatnot = 27 043 € port compris, dont customs 16 717 € (646) ; le reste :
     LEGO officiels ~3 600 € (autres onglets), tuiles/briques/posters/vignettes/bundles ~4 800 €, et 45 figurines des lots

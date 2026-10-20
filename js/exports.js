@@ -32,6 +32,8 @@ const Exports = {
       colonnes: [["Numéro", 11], ["Nom", 40], ["Année", 7], ["Thème", 20], ["État", 14], ["Boîte", 7], ["Notice", 7], ["Figurines", 30], ["Quantité", 9], ["Remarques", 30], ["Marque", 14], ["Prix payé (€)", 12], ["Prix fabricant (€)", 12]] });
     feuilles.push({ nom: "Objets dérivés", titre: "Objets dérivés", lignes: (await lire(lireObjets)).map(o => [o.code, o.nom, o.type, o.etat, o.quantite || 1, o.remarques]),
       colonnes: [["Code", 14], ["Nom", 40], ["Type", 18], ["État", 14], ["Quantité", 9], ["Remarques", 30]] });
+    feuilles.push({ nom: "Objets JB", titre: "Objets JB", lignes: (await lire(lireObjetsJB)).map(o => [o.nom, o.type, o.quantite || 1, o.prixPaye || "", o.date, o.remarques]),
+      colonnes: [["Nom", 40], ["Type", 20], ["Quantité", 9], ["Prix payé (€)", 12], ["Date d'achat", 12], ["Remarques", 30]] });
     feuilles.push({ nom: "Souhaits", titre: "Souhaits", lignes: (await lire(lireSouhaits)).map(s => [s.type, s.code, s.nom, s.theme, s.sortie, s.remarques, s.ajoute]),
       colonnes: COLONNES_SOUHAITS.map(([, t, l]) => [t, l]) });
     for (const f of feuilles) f.lignes = f.lignes.map(l => l.map(v => v == null ? "" : v));
