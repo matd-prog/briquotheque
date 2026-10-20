@@ -10,6 +10,8 @@ le prix le plus bas, le prix du milieu (médiane) et le plus haut, sans le port,
 Ce sont des prix DEMANDÉS (annonces en cours), pas des ventes conclues : eBay ne donne pas les ventes
 conclues par cette API. Un prix demandé est souvent plus haut que le prix auquel l'objet se vend.
 
+Fichier d'entrée : un nom par ligne, ou « nom<TAB>nom à chercher » (ex. « World Record Clone Rouge<TAB>World Record
+Clone Red ») : la recherche se fait avec le second, le TSV garde le premier (celui de la collection, que l'appli rapproche).
 Utilisation : python3 outils/prix_ebay_jb.py noms.txt sortie.tsv
 """
 import datetime, re, statistics, sys, time, unicodedata, os
@@ -61,13 +63,13 @@ def relever(nom):
 
 def main():
     entree, sortie = sys.argv[1], sys.argv[2]
-    noms = [l.strip() for l in open(entree, encoding="utf-8") if l.strip()]
+    noms = [(l.rstrip("\n").split("\t") + [""])[:2] for l in open(entree, encoding="utf-8") if l.strip()]
     jour = datetime.date.today().isoformat()
     lignes = ["nom\tannonces\tprix_min\tprix_median\tprix_max\tport_median\tdate\texemples"]
     trouves = 0
-    for i, nom in enumerate(noms, 1):
+    for i, (nom, cherche) in enumerate(noms, 1):
         try:
-            a = relever(nom)
+            a = relever(cherche.strip() or nom.strip())
         except Exception as e:  # une recherche en erreur n'arrête pas le relevé
             print(f"{nom} : erreur {e}", file=sys.stderr)
             a = []
