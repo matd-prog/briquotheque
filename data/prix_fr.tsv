@@ -1,4 +1,4 @@
-#date 2026-10-20
+#date 2026-10-21
 code	prix	meilleur	url	date	marchand	total
 1000858708-1				2026-10-18		
 1000858718-1				2026-10-18		
@@ -1624,20 +1624,244 @@ code	prix	meilleur	url	date	marchand	total
 76287-1	14.99	30.97	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76287-iron-man-avec-une-moto-et-hulk/p10202	2026-10-20	Amazon	34.96
 76288-1	21.99	18.95	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76288-iron-man-et-l-iron-legion-contre-le-soldat-de-l-hydra/p10058	2026-10-20	Brickmo	28.90
 76289-1	29.99	43.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76289-figurine-de-thor-contre-surtur-a-construire/p10070	2026-10-20	Amazon	43.90
+76290-1	49.99	73.42	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76290-les-avengers-contre-le-leviathan/p10061	2026-10-21	Amazon	73.42
+76291-1	99.99	89.95	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76291-avengers-rassemblement-l-ere-d-ultron/p10062	2026-10-21	Brickmo	99.90
+76292-1	38.49	54.95	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76292-captain-america-vs-hulk-rouge/p10401	2026-10-21	Brickmo	64.90
+76293-1	34.99	32.54	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76293-calendrier-de-l-avent-lego-marvel-2024-spider-man/p10073	2026-10-21	Carrefour [Marketplace]	42.53
+76294-1	329.99	549.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76294-les-x-men-l-institut-xavier/p10383	2026-10-21	Carrefour [Marketplace]	557.98
+76295-1	79.99	79.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76295-l-heliporteur-des-avengers/p10212	2026-10-21	Brickmo	89.94
+76296-1	34.99	25.95	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76296-figurine-du-nouveau-captain-america-a-construire/p10402	2026-10-21	Brickmo	35.90
+76297-1	44.99	39.95	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76297-la-danse-de-bebe-groot/p10060	2026-10-21	Brickmo	49.90
+76298-1	34.99	36.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76298-figurine-d-iron-spider-man-a-construire/p9905	2026-10-21	Golden Brick	41.98
+76300-1	299.99	289.99	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76300-batman-arkham-asylum/p10999	2026-10-21	PcComponentes	289.99
+76301-1	19.99	28.99	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76301-batman-et-la-batmobile-contre-mr-freeze/p10491	2026-10-21	Amazon	32.98
+76302-1	14.99	14.95	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76302-le-robot-de-superman-contre-lex-luthor/p10492	2026-10-21	Brickmo	24.90
+76303-1	59.99	44.39	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76303-la-batmobile-tumbler-de-batman-contre-double-face-et-le-joker/p10493	2026-10-21	Alternate.fr	54.29
+76304-1	99.99	65.94	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76304-batmobile-batman-forever/p10818	2026-10-21	Carrefour [Marketplace]	70.93
+76307-1	14.99	10.69	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76307-le-robot-d-iron-man-contre-ultron/p10464	2026-10-21	Alternate.fr	20.59
+76308-1	14.99	10.49	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76308-le-robot-de-spider-man-contre-anti-venom/p10494	2026-10-21	Alternate.fr	20.39
+76309-1	29.99	17.59	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76309-spider-man-contre-le-bolide-de-venom/p10495	2026-10-21	Carrefour	19.58
+76310-1	29.99	59.00	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76310-la-voiture-d-iron-man-et-black-panther-contre-hulk-rouge/p10510	2026-10-21	Amazon	59.00
+76311-1	49.99	44.95	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76311-spider-verse-miles-morales-contre-la-tache/p10489	2026-10-21	Brickmo	54.90
+76312-1	29.99	22.95	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76312-le-tout-terrain-de-hulk-contre-thanos/p10706	2026-10-21	Brickmo	32.90
+76313-1	99.99	88.83	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76313-logo-marvel-et-ses-super-heros/p10490	2026-10-21	Galaxus	88.83
+76314-1	99.99	88.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76314-le-combat-de-captain-america-civil-war/p10496	2026-10-21	Galaxus	88.90
+76315-1	54.99	39.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76315-le-laboratoire-d-iron-man-la-salle-des-armures/p10705	2026-10-21	Amazon	39.99
+76316-1	59.99	42.01	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76316-les-quatre-fantastiques-contre-la-figurine-de-galactus/p10920	2026-10-21	Amazon	42.01
+76317-1	49.99	58.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76317-l-appartement-de-peter-parker/p10815	2026-10-21	Galaxus	58.90
+76319-1	34.99	19.59	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76319-captain-america-contre-thanos/p10817	2026-10-21	Amazon	23.58
+76320-1	19.99	11.89	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76320-iron-man-et-war-machine-contre-les-drones-de-hammer/p10816	2026-10-21	Carrefour	13.88
+76321-1	49.99	36.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76321-la-scene-du-train-de-spider-man-et-docteur-octopus/p10811	2026-10-21	Alternate.fr	46.89
+76322-1	49.99	36.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76322-avengers-endgame-thor-contre-chitauri/p10813	2026-10-21	Alternate.fr	46.89
+76323-1	99.99	76.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76323-combat-final-d-avengers-endgame/p10731	2026-10-21	Alternate.fr	86.80
+76324-1	129.99	94.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76324-spider-man-contre-oscorp/p10810	2026-10-21	Amazon	94.99
+76325-1	119.99	79.48	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76325-le-quinjet-d-avengers-l-ere-d-ultron/p10814	2026-10-21	Carrefour [Marketplace]	84.47
+76326-1	59.99	44.39	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76326-buste-d-iron-spider-man/p10760	2026-10-21	Alternate.fr	54.29
+76327-1	59.99	44.39	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76327-buste-d-iron-man-mk4/p10759	2026-10-21	Alternate.fr	54.29
+76328-1	149.99	180.00	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76328-batman-la-batmobile-de-la-serie-tv-classique/p10281	2026-10-21	Amazon	180.00
+76329-1	69.99	69.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76329-le-masque-de-miles-morales/p10937	2026-10-21	LEGO	69.99
+76330-1	79.99	59.90	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76330-logo-de-batman/p11152	2026-10-21	Alternate.fr	69.80
+76331-1	29.99	19.46	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76331-la-batmobile-de-batman-v-superman/p11153	2026-10-21	Amazon	23.45
+76332-1	29.99	20.99	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76332-la-batmobile-de-the-batman/p11154	2026-10-21	Alternate.fr	30.89
+76333-1	29.99	29.99	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76333-la-batmobile-de-batman-robin/p11155	2026-10-21	JouéClub	34.98
+76334-1	24.99	18.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76334-le-combat-legendaire-entre-spider-man-et-sandman/p11215	2026-10-21	Amazon	22.98
+76335-1	9.99	7.39	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76335-spider-man-et-sa-moto-contre-ghost-rider/p11220	2026-10-21	Alternate.fr	17.29
+76336-1	19.99	14.09	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76336-spider-man-et-sa-voiture-contre-wolverine-venomise/p11219	2026-10-21	Alternate.fr	23.99
+76337-1	14.99	9.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76337-le-robot-de-miles-morales-contre-spider-man-2099/p11277	2026-10-21	Amazon	13.89
+76338-1	29.99	19.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76338-le-combat-des-robots-spider-man-contre-docteur-octopus/p11278	2026-10-21	Joybuy	23.98
+76339-1	69.99	50.51	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76339-les-quatre-fantastiques-h-e-r-b-i-e/p11792	2026-10-21	Amazon	50.51
 76340-1	34.99	24.59	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76340-calendrier-de-l-avent-lego-marvel-2026/p11799	2026-10-18	Alternate.fr	34.49
+76341-1	59.99	36.79	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76341-groot-en-tenue-de-ravageur/p11276	2026-10-21	Amazon	36.79
+76342-1	109.99	84.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76342-spider-man-contre-mysterio-le-daily-bugle/p11216	2026-10-21	Alternate.fr	94.80
+76343-1	49.99	34.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76343-le-combat-legendaire-entre-hulkbuster-et-hulk/p11218	2026-10-21	Cdiscount	34.99
+76344-1	129.99	93.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76344-iron-man-mark-3-edition-collector/p11217	2026-10-21	Amazon	93.99
 76345-1	49.99	39.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76345-buste-du-docteur-doom/p12402	2026-10-18	Amazon	39.99
+76346-1	99.99	68.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76346-spider-man-la-figurine-de-heros/p11704	2026-10-21	Amazon	68.99
 76347-1	59.99	44.19	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76347-avengers-doomsday-le-quinjet/p12403	2026-10-18	Alternate.fr	54.09
 76348-1	99.99	76.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76348-le-combat-legendaire-avengers-doomsday/p12404	2026-10-18	Alternate.fr	86.80
+76349-1	49.99	34.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76349-la-poursuite-en-prison-mobile-de-spider-man/p11703	2026-10-21	Cdiscount	34.99
+76350-1	89.99	64.79	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76350-l-affrontement-legendaire-entre-spider-man-et-hulk/p11702	2026-10-21	Amazon	64.79
 76352-1	109.99	84.90	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76352-avengers-doomsday-la-nouvelle-tour-des-avengers/p12405	2026-10-18	Alternate.fr	94.80
+76354-1	369.99	261.58	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76354-l-heliporteur-du-shield/p11647	2026-10-21	Amazon	261.58
 76355-1	209.99	209.99	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/76355-la-batmobile-de-batman-le-defi/p12622	2026-10-18	LEGO	209.99
+76356-1	49.99	49.99	https://www.avenuedelabrique.com/lego-marvel-super-heroes/76356-buste-de-venom/p11859	2026-10-21	LEGO	55.94
+76424-1	14.99	10.69	https://www.avenuedelabrique.com/lego-harry-potter/76424-la-ford-anglia-volante/p9541	2026-10-21	Alternate.fr	20.59
+76425-1	19.99	19.89	https://www.avenuedelabrique.com/lego-harry-potter/76425-hedwige-au-4-privet-drive/p9540	2026-10-21	Golden Brick	24.88
+76426-1	37.99	105.02	https://www.avenuedelabrique.com/lego-harry-potter/76426-le-hangar-a-bateaux-de-poudlard/p9539	2026-10-21	Amazon	105.02
+76427-1	59.99	54.95	https://www.avenuedelabrique.com/lego-harry-potter/76427-buck/p10093	2026-10-21	Brickmo	64.90
+76428-1	52.49	74.50	https://www.avenuedelabrique.com/lego-harry-potter/76428-la-cabane-de-hagrid-une-visite-inattendue/p9537	2026-10-21	Amazon	74.50
+76429-1	99.99	76.99	https://www.avenuedelabrique.com/lego-harry-potter/76429-le-choixpeau-magique-qui-parle/p9810	2026-10-21	Cdiscount	76.99
+76430-1	31.49	62.30	https://www.avenuedelabrique.com/lego-harry-potter/76430-la-voliere-du-chateau-de-poudlard/p9538	2026-10-21	Amazon	62.30
+76431-1	39.99	83.58	https://www.avenuedelabrique.com/lego-harry-potter/76431-le-chateau-de-poudlard-le-cours-de-potions/p10094	2026-10-21	Amazon	83.58
+76432-1	29.99	29.95	https://www.avenuedelabrique.com/lego-harry-potter/76432-la-foret-interdite-les-creatures-magiques/p9536	2026-10-21	Brickmo	39.90
+76433-1	48.99	57.95	https://www.avenuedelabrique.com/lego-harry-potter/76433-mandragore/p10095	2026-10-21	Brickmo	67.90
+76434-1	19.99	19.85	https://www.avenuedelabrique.com/lego-harry-potter/76434-aragog-dans-la-foret-interdite/p10096	2026-10-21	Brickmo	29.80
+76435-1	199.99	347.71	https://www.avenuedelabrique.com/lego-harry-potter/76435-le-chateau-de-poudlard-la-grande-salle/p10097	2026-10-21	Amazon	347.71
+76437-1	259.99	259.95	https://www.avenuedelabrique.com/lego-harry-potter/76437-le-terrier-edition-collector/p10255	2026-10-21	Brickmo	269.90
+76438-1	34.99	79.99	https://www.avenuedelabrique.com/lego-harry-potter/76438-calendrier-de-l-avent-lego-harry-potter-2024/p10054	2026-10-21	Fnac [Marketplace]	88.98
+76439-1	89.99	89.00	https://www.avenuedelabrique.com/lego-harry-potter/76439-ollivander-et-madame-guipure-pret-a-porter-pour-mages-et-sorciers/p10098	2026-10-21	Brickmo	98.95
+76440-1	139.99	158.00	https://www.avenuedelabrique.com/lego-harry-potter/76440-le-tournoi-des-trois-sorciers-l-arrivee/p10099	2026-10-21	Brickmo	167.95
+76441-1	24.99	21.95	https://www.avenuedelabrique.com/lego-harry-potter/76441-le-chateau-de-poudlard-le-club-de-duel/p10497	2026-10-21	Brickmo	31.90
+76442-1	19.99	13.99	https://www.avenuedelabrique.com/lego-harry-potter/76442-le-chateau-de-poudlard-le-cours-de-sortileges/p10498	2026-10-21	Cdiscount	16.98
+76443-1	49.99	41.95	https://www.avenuedelabrique.com/lego-harry-potter/76443-la-balade-en-moto-de-hagrid-et-harry/p10466	2026-10-21	Brickmo	51.90
+76444-1	199.99	127.79	https://www.avenuedelabrique.com/lego-harry-potter/76444-les-boutiques-magiques-du-chemin-de-traverse/p10468	2026-10-21	Amazon	127.79
+76445-1	49.99	33.79	https://www.avenuedelabrique.com/lego-harry-potter/76445-le-chateau-de-poudlard-le-cours-de-botanique/p10890	2026-10-21	Joybuy	33.79
+76446-1	49.99	36.99	https://www.avenuedelabrique.com/lego-harry-potter/76446-aventure-en-magicobus/p10508	2026-10-21	Amazon	36.99
+76447-1	79.99	63.99	https://www.avenuedelabrique.com/lego-harry-potter/76447-le-chateau-de-poudlard-les-cours-de-vol/p10509	2026-10-21	Amazon	63.99
+76448-1	19.99	18.95	https://www.avenuedelabrique.com/lego-harry-potter/76448-fumseck-le-phenix-de-dumbledore/p10888	2026-10-21	Brickmo	28.90
+76449-1	59.99	42.49	https://www.avenuedelabrique.com/lego-harry-potter/76449-le-monstrueux-livre-des-monstres/p10884	2026-10-21	Carrefour	42.49
+76450-1	99.99	68.30	https://www.avenuedelabrique.com/lego-harry-potter/76450-book-nook-le-poudlard-express/p10886	2026-10-21	Amazon	68.30
+76451-1	89.99	59.79	https://www.avenuedelabrique.com/lego-harry-potter/76451-privet-drive-la-visite-de-tante-marge/p10883	2026-10-21	Amazon	59.79
+76452-1	99.99	69.61	https://www.avenuedelabrique.com/lego-harry-potter/76452-magasin-d-accessoires-de-quidditch-et-marchand-de-glaces/p10881	2026-10-21	Carrefour [Marketplace]	74.60
+76453-1	149.99	139.95	https://www.avenuedelabrique.com/lego-harry-potter/76453-le-manoir-des-malefoy/p10467	2026-10-21	Brickmo	149.90
+76454-1	249.99	173.99	https://www.avenuedelabrique.com/lego-harry-potter/76454-le-chateau-de-poudlard-la-tour-principale/p10879	2026-10-21	Amazon	173.99
+76456-1	34.99	29.88	https://www.avenuedelabrique.com/lego-harry-potter/76456-calendrier-de-l-avent-lego-harry-potter-2025/p10812	2026-10-21	Cdiscount	37.78
+76457-1	379.99	332.00	https://www.avenuedelabrique.com/lego-harry-potter/76457-village-de-pre-au-lard-edition-collector/p11044	2026-10-21	Alternate.fr	341.90
+76458-1	69.99	69.90	https://www.avenuedelabrique.com/lego-harry-potter/76458-la-famille-de-sombrals/p10876	2026-10-21	Brickmo	79.85
+76459-1	19.99	12.90	https://www.avenuedelabrique.com/lego-harry-potter/76459-hagrid-et-harry-s-echappent-de-privet-drive/p11228	2026-10-21	Joybuy	16.89
+76460-1	14.99	10.59	https://www.avenuedelabrique.com/lego-harry-potter/76460-le-chateau-de-poudlard-la-ceremonie-du-choixpeau-magique/p11226	2026-10-21	Alternate.fr	20.49
+76461-1	29.99	18.74	https://www.avenuedelabrique.com/lego-harry-potter/76461-le-lutin-de-cornouailles/p11224	2026-10-21	Carrefour	20.73
+76462-1	49.99	35.99	https://www.avenuedelabrique.com/lego-harry-potter/76462-le-blason-des-maisons-de-poudlard/p11723	2026-10-21	Amazon	35.99
+76463-1	99.99	64.90	https://www.avenuedelabrique.com/lego-harry-potter/76463-le-chateau-de-poudlard-l-infirmerie/p11230	2026-10-21	Amazon	64.90
+76464-1	59.99	42.49	https://www.avenuedelabrique.com/lego-harry-potter/76464-le-chaudron-le-cours-de-potions-cache/p11223	2026-10-21	Carrefour	42.49
+76466-1	159.99	119.90	https://www.avenuedelabrique.com/lego-harry-potter/76466-l-ecole-des-sorciers-edition-collector/p11227	2026-10-21	Amazon	119.90
+76467-1	99.99	69.82	https://www.avenuedelabrique.com/lego-harry-potter/76467-la-maison-de-luna-lovegood/p11229	2026-10-21	Carrefour [Marketplace]	74.81
+76469-1	34.99	24.49	https://www.avenuedelabrique.com/lego-harry-potter/76469-dobby-l-elfe-libre/p11724	2026-10-21	Alternate.fr	34.39
+76470-1	79.99	57.99	https://www.avenuedelabrique.com/lego-harry-potter/76470-la-ford-anglia-ensorcelee/p11225	2026-10-21	Cdiscount	57.99
+76471-1	99.99	73.90	https://www.avenuedelabrique.com/lego-harry-potter/76471-les-boutiques-magiques-de-l-allee-des-embrumes/p11725	2026-10-21	Alternate.fr	83.80
+76473-1	249.99	181.98	https://www.avenuedelabrique.com/lego-harry-potter/76473-le-chateau-de-poudlard-l-aile-est/p11807	2026-10-21	Amazon	181.98
+76474-1	99.99	61.99	https://www.avenuedelabrique.com/lego-harry-potter/76474-les-plantes-du-cours-de-botanique-de-poudlard/p11808	2026-10-21	Amazon	61.99
+76475-1	29.99	20.99	https://www.avenuedelabrique.com/lego-harry-potter/76475-la-foret-interdite-expecto-patronum/p11726	2026-10-21	Alternate.fr	30.89
 76476-1	429.99	429.99	https://www.avenuedelabrique.com/lego-harry-potter/76476-le-ministere-de-la-magie-edition-collector/p12491	2026-10-18	LEGO	429.99
+76477-1	49.99	49.99	https://www.avenuedelabrique.com/lego-harry-potter/76477-norbert-le-bebe-dragon-de-hagrid/p11809	2026-10-21	LEGO	55.94
+76478-1	119.99	119.99	https://www.avenuedelabrique.com/lego-harry-potter/76478-book-nook-le-bureau-de-dumbledore/p11810	2026-10-21	LEGO	119.99
+76780-1	49.99	49.95	https://www.avenuedelabrique.com/lego-mercredi-wednesday-addams/76780-figurine-de-mercredi-addams/p10298	2026-10-21	Brickmo	59.90
+76781-1	89.99	154.31	https://www.avenuedelabrique.com/lego-mercredi-wednesday-addams/76781-la-chambre-de-mercredi-et-enid/p10297	2026-10-21	Amazon	154.31
+76784-1	24.99	17.79	https://www.avenuedelabrique.com/lego-mercredi-wednesday-addams/76784-le-dahlia-noir/p10807	2026-10-21	Alternate.fr	27.69
+76785-1	79.99	59.99	https://www.avenuedelabrique.com/lego-mercredi-wednesday-addams/76785-l-appartement-de-la-chose/p11046	2026-10-21	Golden Brick	64.98
+76786-1	99.99	84.99	https://www.avenuedelabrique.com/lego-mercredi-wednesday-addams/76786-le-manoir-de-morticia/p11045	2026-10-21	Cdiscount	84.99
 76787-1	39.99	29.99	https://www.avenuedelabrique.com/lego-mercredi-wednesday-addams/76787-le-sac-a-dos-de-mercredi/p12488	2026-10-18	Alternate.fr	39.89
 76788-1	69.99	53.75	https://www.avenuedelabrique.com/lego-mercredi-wednesday-addams/76788-l-academie-nevermore/p12487	2026-10-18	Brickmo	63.70
+76919-1	26.99	21.99	https://www.avenuedelabrique.com/lego-speed-champions/76919-la-voiture-de-course-de-formule-1-mclaren-2023/p9822	2026-10-21	Brickmo	31.94
+76920-1	26.99	25.10	https://www.avenuedelabrique.com/lego-speed-champions/76920-la-voiture-de-sport-ford-mustang-dark-horse/p9544	2026-10-21	Carrefour [Marketplace]	35.09
+76921-1	26.99	25.10	https://www.avenuedelabrique.com/lego-speed-champions/76921-voiture-de-course-audi-s1-e-tron-quattro/p9543	2026-10-21	Carrefour [Marketplace]	35.09
+76922-1	49.99	51.14	https://www.avenuedelabrique.com/lego-speed-champions/76922-voitures-de-course-bmw-m4-gt3-et-bmw-m-hybrid-v8/p9542	2026-10-21	Carrefour [Marketplace]	61.13
+76923-1	18.89	26.95	https://www.avenuedelabrique.com/lego-speed-champions/76923-lamborghini-lambo-v12-vision-gt-super-car/p10045	2026-10-21	Brickmo	36.90
+76924-1	49.99	32.99	https://www.avenuedelabrique.com/lego-speed-champions/76924-mercedes-amg-g-63-et-mercedes-amg-sl-63/p10046	2026-10-21	Cdiscount	32.99
+76925-1	49.99	59.95	https://www.avenuedelabrique.com/lego-speed-champions/76925-aston-martin-vantage-safety-car-amr23/p10069	2026-10-21	Brickmo	69.90
+76934-1	26.99	19.99	https://www.avenuedelabrique.com/lego-speed-champions/76934-supercar-ferrari-f40/p10200	2026-10-21	JouéClub	24.98
+76935-1	26.99	22.95	https://www.avenuedelabrique.com/lego-speed-champions/76935-nascar-next-gen-chevrolet-camaro-zl1/p10201	2026-10-21	Brickmo	32.90
+76962-1	24.99	48.49	https://www.avenuedelabrique.com/lego-jurassic-world/76962-bebe-bumpy-l-ankylosaure/p10156	2026-10-21	Amazon	48.49
+76963-1	39.99	73.78	https://www.avenuedelabrique.com/lego-jurassic-world/76963-le-centre-de-sauvetage-des-bebes-dinosaures/p9488	2026-10-21	Amazon	73.78
+76964-1	39.99	66.08	https://www.avenuedelabrique.com/lego-jurassic-world/76964-les-fossiles-de-dinosaures-le-crane-du-t-rex/p9487	2026-10-21	Amazon	66.08
+76965-1	64.99	57.95	https://www.avenuedelabrique.com/lego-jurassic-world/76965-missions-dinosaures-la-decouverte-du-stegosaure/p10158	2026-10-21	Brickmo	67.90
+76966-1	89.99	129.00	https://www.avenuedelabrique.com/lego-jurassic-world/76966-missions-dinosaures-le-camion-de-transport-de-l-allosaure/p10157	2026-10-21	Amazon	129.00
+76967-1	24.99	23.95	https://www.avenuedelabrique.com/lego-jurassic-world/76967-petite-mangeuse-la-femelle-t-rex/p10502	2026-10-21	Brickmo	33.90
+76968-1	249.99	194.99	https://www.avenuedelabrique.com/lego-jurassic-world/76968-les-fossiles-de-dinosaures-le-tyrannosaurus-rex/p10719	2026-10-21	Cdiscount	194.99
+76969-1	44.99	33.39	https://www.avenuedelabrique.com/lego-jurassic-world/76969-les-fossiles-de-dinosaures-le-crane-du-triceratops/p10501	2026-10-21	Alternate.fr	43.29
+76970-1	24.99	18.49	https://www.avenuedelabrique.com/lego-jurassic-world/76970-dolores-le-bebe-aquilops/p10738	2026-10-21	Brickmo	28.44
+76972-1	34.99	22.99	https://www.avenuedelabrique.com/lego-jurassic-world/76972-le-velociraptor-et-l-evasion-en-4x4/p10739	2026-10-21	Golden Brick	27.98
+76973-1	99.99	89.99	https://www.avenuedelabrique.com/lego-jurassic-world/76973-la-poursuite-du-velociraptor-et-du-titanosaure/p10742	2026-10-21	The Place 2 Brick	94.98
+76974-1	59.99	49.99	https://www.avenuedelabrique.com/lego-jurassic-world/76974-le-bateau-en-mission-et-le-mosasaure-en-briques/p10740	2026-10-21	Carrefour	49.99
+76975-1	49.99	35.71	https://www.avenuedelabrique.com/lego-jurassic-world/76975-le-t-rex-et-l-evasion-sur-la-riviere/p10741	2026-10-21	Cdiscount	35.71
+76976-1	149.99	104.99	https://www.avenuedelabrique.com/lego-jurassic-world/76976-mission-aerienne-avec-le-spinosaure-et-le-quetzalcoatlus/p10743	2026-10-21	Amazon	104.99
+76996-1	34.99	52.90	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/76996-le-robot-gardien-de-knuckles/p9599	2026-10-21	Amazon	52.90
+76997-1	54.99	46.95	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/76997-le-bateau-d-aventures-de-tails/p10056	2026-10-21	Brickmo	56.90
+76998-1	34.99	32.54	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/76998-knuckles-et-le-sanctuaire-du-master-emerald/p10055	2026-10-21	Carrefour [Marketplace]	42.53
+76999-1	79.99	73.90	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/76999-super-sonic-contre-egg-drillster/p10057	2026-10-21	Galaxus	73.90
+77000-1	69.99	74.49	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77000-shadow-the-hedgehog/p10229	2026-10-21	Amazon	74.49
+77001-1	19.99	12.49	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77001-conflit-au-feu-de-camp-de-sonic/p10316	2026-10-21	Cdiscount	15.48
+77002-1	29.99	15.99	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77002-cyclone-contre-metal-sonic/p10391	2026-10-21	Carrefour	17.98
+77003-1	44.99	41.92	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77003-super-shadow-contre-biolizard/p10317	2026-10-21	Galaxus	41.92
+77005-1	39.99	20.99	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77005-knuckles-contre-l-egg-crusher-de-dr-eggman/p10808	2026-10-21	Carrefour	22.98
+77006-1	69.99	52.90	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77006-le-camion-de-controle-de-l-equipe-sonic/p10809	2026-10-21	Alternate.fr	62.80
+77037-1	44.99	33.39	https://www.avenuedelabrique.com/lego-horizon-adventures/77037-aloy-et-varl-contre-testudien-et-dents-de-scie/p10433	2026-10-21	Alternate.fr	43.29
+77046-1	14.99	14.95	https://www.avenuedelabrique.com/lego-animal-crossing/77046-gouter-d-anniversaire-de-lico/p9475	2026-10-21	Brickmo	24.90
+77047-1	19.99	15.49	https://www.avenuedelabrique.com/lego-animal-crossing/77047-activites-de-plein-air-de-clara/p9476	2026-10-21	KidInn	18.48
+77048-1	17.99	21.85	https://www.avenuedelabrique.com/lego-animal-crossing/77048-excursion-maritime-d-amiral/p9477	2026-10-21	Amazon	25.84
+77049-1	27.99	31.95	https://www.avenuedelabrique.com/lego-animal-crossing/77049-marie-en-visite/p9478	2026-10-21	Brickmo	41.90
+77050-1	74.99	42.39	https://www.avenuedelabrique.com/lego-animal-crossing/77050-boutique-nook-et-maison-de-rosie/p9479	2026-10-21	Alternate.fr	52.29
+77051-1	22.79	25.73	https://www.avenuedelabrique.com/lego-animal-crossing/77051-voyage-aerien-avec-dodo-airlines/p10040	2026-10-21	Amazon	29.72
+77052-1	55.99	58.90	https://www.avenuedelabrique.com/lego-animal-crossing/77052-concert-de-keke-sur-la-place/p10041	2026-10-21	Alternate.fr	68.80
+77053-1	9.99	7.29	https://www.avenuedelabrique.com/lego-animal-crossing/77053-observation-des-etoiles-avec-celeste/p10260	2026-10-21	Alternate.fr	17.19
+77054-1	29.99	23.95	https://www.avenuedelabrique.com/lego-animal-crossing/77054-caravane-et-stand-de-jardinage-de-racine/p10261	2026-10-21	Brickmo	33.90
+77055-1	39.99	30.99	https://www.avenuedelabrique.com/lego-animal-crossing/77055-boutique-de-vetements-des-soeurs-doigts-de-fee/p10262	2026-10-21	LIDL	35.98
+77056-1	79.99	59.90	https://www.avenuedelabrique.com/lego-animal-crossing/77056-les-collections-du-musee-de-thibou/p10792	2026-10-21	Alternate.fr	69.80
+77057-1	89.99	69.95	https://www.avenuedelabrique.com/lego-animal-crossing/77057-les-maisons-creatives-au-gre-des-saisons/p10793	2026-10-21	Brickmo	79.90
+77058-1	19.99	14.19	https://www.avenuedelabrique.com/lego-animal-crossing/77058-la-maison-douillette-de-mirza/p10794	2026-10-21	Alternate.fr	24.09
+77059-1	59.99	44.19	https://www.avenuedelabrique.com/lego-animal-crossing/77059-promenade-avec-meli-et-melo/p11795	2026-10-21	Alternate.fr	54.09
+77070-1	14.99	12.49	https://www.avenuedelabrique.com/lego-fortnite/77070-durrr-burger/p10225	2026-10-21	Brickmo	22.44
+77071-1	39.99	25.99	https://www.avenuedelabrique.com/lego-fortnite/77071-lama-de-ravitaillement/p10226	2026-10-21	Auchan	25.99
+77072-1	99.99	99.00	https://www.avenuedelabrique.com/lego-fortnite/77072-banane-pelee/p10227	2026-10-21	Brickmo	108.95
+77073-1	99.99	66.90	https://www.avenuedelabrique.com/lego-fortnite/77073-bus-de-combat/p10228	2026-10-21	Amazon	66.90
+77075-1	19.99	11.19	https://www.avenuedelabrique.com/lego-fortnite/77075-le-camp-de-banane-et-mecano/p10786	2026-10-21	Carrefour	13.18
+77076-1	59.99	34.99	https://www.avenuedelabrique.com/lego-fortnite/77076-le-restaurant-durrr-burger/p10787	2026-10-21	Auchan	34.99
+77077-1	99.99	68.93	https://www.avenuedelabrique.com/lego-fortnite/77077-klombo/p10788	2026-10-21	Carrefour [Marketplace]	73.92
+77078-1	229.99	149.99	https://www.avenuedelabrique.com/lego-fortnite/77078-chef-de-l-equipe-mecha/p10785	2026-10-21	Amazon	149.99
+77079-1	14.99	8.99	https://www.avenuedelabrique.com/lego-fortnite/77079-monsieur-tomate/p11720	2026-10-21	Amazon	12.98
+77080-1	39.99	26.79	https://www.avenuedelabrique.com/lego-fortnite/77080-ravitaillement/p11721	2026-10-21	Cdiscount	26.79
+77081-1	99.99	71.79	https://www.avenuedelabrique.com/lego-fortnite/77081-kit/p11722	2026-10-21	Amazon	71.79
+77082-1	199.99	146.07	https://www.avenuedelabrique.com/lego-fortnite/77082-la-bamboche/p11811	2026-10-21	Amazon	146.07
+77092-1	299.99	453.99	https://www.avenuedelabrique.com/lego-zelda/77092-venerable-arbre-mojo-2-en-1/p10173	2026-10-21	Golden Brick	458.98
+77093-1	119.99	104.99	https://www.avenuedelabrique.com/lego-zelda/77093-ocarina-of-time-le-combat-final/p11484	2026-10-21	Cdiscount	104.99
 77094-1			https://www.avenuedelabrique.com/lego-zelda/77094-link-and-epona/p12849	2026-10-18		
+77117-1	9.99	7.59	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77117-sonic-le-bolide-ultra-rapide/p11358	2026-10-21	Alternate.fr	17.49
+77118-1	39.99	28.99	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77118-la-voiture-de-silver-contre-le-monster-truck-de-knuckles/p11357	2026-10-21	Cdiscount	28.99
 77119-1	29.99	20.99	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77119-le-tornado-1-de-tails/p11802	2026-10-18	Alternate.fr	30.89
 77120-1	49.99	44.99	https://www.avenuedelabrique.com/lego-sonic-the-hedgehog/77120-le-robot-de-shadow-contre-le-g-u-n-trooper/p11812	2026-10-18	Cdiscount	44.99
+77237-1	26.99	17.52	https://www.avenuedelabrique.com/lego-speed-champions/77237-voiture-de-sport-dodge-challenger-srt-hellcat/p10797	2026-10-21	E.Leclerc	22.42
+77238-1	49.99	31.99	https://www.avenuedelabrique.com/lego-speed-champions/77238-lamborghini-revuelto-et-huracan-sto/p10798	2026-10-21	Carrefour	33.98
+77239-1	26.99	17.52	https://www.avenuedelabrique.com/lego-speed-champions/77239-supercar-porsche-911-gt3-rs/p10799	2026-10-21	E.Leclerc	22.42
+77240-1	26.99	17.52	https://www.avenuedelabrique.com/lego-speed-champions/77240-hypercar-bugatti-centodieci/p10800	2026-10-21	Cdiscount	20.51
+77241-1	26.99	19.90	https://www.avenuedelabrique.com/lego-speed-champions/77241-honda-s2000-2-fast-2-furious/p10744	2026-10-21	E.Leclerc	24.80
+77242-1	26.99	15.29	https://www.avenuedelabrique.com/lego-speed-champions/77242-voiture-f1-ferrari-sf-24/p10440	2026-10-21	Carrefour	17.28
+77243-1	26.99	17.49	https://www.avenuedelabrique.com/lego-speed-champions/77243-voiture-f1-oracle-red-bull-racing-rb20/p10441	2026-10-21	Joybuy	21.48
+77244-1	26.99	15.99	https://www.avenuedelabrique.com/lego-speed-champions/77244-voiture-f1-mercedes-amg-w15/p10442	2026-10-21	Carrefour	17.98
+77245-1	26.99	16.99	https://www.avenuedelabrique.com/lego-speed-champions/77245-voiture-f1-aston-martin-aramco-amr24/p10474	2026-10-21	Cdiscount	19.98
+77246-1	26.99	17.99	https://www.avenuedelabrique.com/lego-speed-champions/77246-voiture-f1-visa-cash-app-rb-vcarb-01/p10444	2026-10-21	Cdiscount	20.98
+77247-1	26.99	69.99	https://www.avenuedelabrique.com/lego-speed-champions/77247-voiture-f1-kick-sauber-team-c44/p10443	2026-10-21	Amazon	69.99
+77248-1	26.99	15.99	https://www.avenuedelabrique.com/lego-speed-champions/77248-voiture-f1-bwt-alpine-team-a524/p10445	2026-10-21	Carrefour	17.98
+77249-1	26.99	15.99	https://www.avenuedelabrique.com/lego-speed-champions/77249-voiture-f1-williams-racing-fw46/p10446	2026-10-21	Carrefour	17.98
+77250-1	26.99	17.52	https://www.avenuedelabrique.com/lego-speed-champions/77250-voiture-f1-moneygram-haas-team-vf-24/p10447	2026-10-21	E.Leclerc	22.42
+77251-1	26.99	15.99	https://www.avenuedelabrique.com/lego-speed-champions/77251-voiture-f1-mclaren-team-mcl38/p10448	2026-10-21	Carrefour	17.98
+77252-1	27.99	27.99	https://www.avenuedelabrique.com/lego-speed-champions/77252-voiture-de-course-de-l-ecurie-apxgp-tiree-du-film-f1/p11222	2026-10-21	JouéClub	32.98
+77253-1	27.99	18.16	https://www.avenuedelabrique.com/lego-speed-champions/77253-hypercar-bugatti-vision-gt/p11315	2026-10-21	Cdiscount	21.15
+77254-1	27.99	16.99	https://www.avenuedelabrique.com/lego-speed-champions/77254-voiture-de-course-ferrari-sf90-xx-stradale/p11314	2026-10-21	Amazon	20.98
+77255-1	27.99	17.90	https://www.avenuedelabrique.com/lego-speed-champions/77255-flash-mcqueen/p11096	2026-10-21	Amazon	21.89
+77256-1	27.99	18.89	https://www.avenuedelabrique.com/lego-speed-champions/77256-la-machine-a-remonter-le-temps-de-retour-vers-le-futur/p11170	2026-10-21	Cdiscount	21.88
+77257-1	27.99	18.99	https://www.avenuedelabrique.com/lego-speed-champions/77257-mclaren-w1/p11316	2026-10-21	Carrefour	20.98
+77258-1	27.99	18.00	https://www.avenuedelabrique.com/lego-speed-champions/77258-voiture-de-course-f1-academy-lego/p11260	2026-10-21	Cdiscount	20.99
+77259-1	27.99	17.03	https://www.avenuedelabrique.com/lego-speed-champions/77259-voiture-de-course-audi-revolut-f1-team-r26/p11490	2026-10-21	Amazon	21.02
+77260-1	27.99	17.99	https://www.avenuedelabrique.com/lego-speed-champions/77260-la-toyota-supra-mk4-de-fast-and-furious/p11737	2026-10-21	Carrefour	19.98
+77261-1	27.99	19.90	https://www.avenuedelabrique.com/lego-speed-champions/77261-ferrari-499p/p11738	2026-10-21	Cdiscount	22.89
+77262-1	27.99	18.16	https://www.avenuedelabrique.com/lego-speed-champions/77262-la-ford-mustang-hoonicorn-v1-de-1965-de-ken-block/p11685	2026-10-21	Cdiscount	21.15
+77263-1	27.99	19.59	https://www.avenuedelabrique.com/lego-speed-champions/77263-bmw-m3-e30/p11850	2026-10-21	Alternate.fr	29.49
+77264-1	54.99	39.99	https://www.avenuedelabrique.com/lego-speed-champions/77264-la-jaguar-project-7-et-le-land-rover-defender/p11796	2026-10-21	Amazon	39.99
+77977-1	24.99	16.99	https://www.avenuedelabrique.com/lego-jurassic-world/77977-bebe-dinosaure-le-pteranodon/p11687	2026-10-21	Cdiscount	19.98
+77978-1	29.99	20.99	https://www.avenuedelabrique.com/lego-jurassic-world/77978-camion-de-transport-du-jeune-t-rex/p11688	2026-10-21	Alternate.fr	30.89
+77981-1	44.99	44.99	https://www.avenuedelabrique.com/lego-jurassic-world/77981-le-sauvetage-du-velociraptor-du-stegosaure-et-du-pteranodon/p11689	2026-10-21	Auchan	44.99
+77982-1	69.99	52.90	https://www.avenuedelabrique.com/lego-jurassic-world/77982-l-evasion-du-spinosaure/p11690	2026-10-21	Alternate.fr	62.80
+77983-1	99.99	73.90	https://www.avenuedelabrique.com/lego-jurassic-world/77983-l-attaque-du-bateau-par-le-mosasaure/p11691	2026-10-21	Alternate.fr	83.80
+77984-1	199.99	199.00	https://www.avenuedelabrique.com/lego-jurassic-world/77984-jurassic-park-jeep-wrangler/p11600	2026-10-21	Galaxus	199.00
+77985-1	99.99	73.90	https://www.avenuedelabrique.com/lego-jurassic-world/77985-les-fossiles-de-dinosaure-le-triceratops/p11602	2026-10-21	Alternate.fr	83.80
+80050-1	20.99	41.99	https://www.avenuedelabrique.com/lego-monkie-kid/80050-les-vehicules-creatifs/p9590	2026-10-21	Amazon	41.99
+80051-1	44.99	44.99	https://www.avenuedelabrique.com/lego-monkie-kid/80051-le-mini-robot-de-monkie-kid/p9591	2026-10-21	LEGO	50.94
+80053-1	59.49	119.00	https://www.avenuedelabrique.com/lego-monkie-kid/80053-le-robot-dragon-de-mei/p9592	2026-10-21	Amazon	119.00
+80054-1	179.99	179.99	https://www.avenuedelabrique.com/lego-monkie-kid/80054-le-5eme-anniversaire-de-la-ville-de-megapolis/p9505	2026-10-21	LEGO	179.99
+80055-1	69.99	69.99	https://www.avenuedelabrique.com/lego-monkie-kid/80055-le-puissant-camion-de-l-equipe-de-monkie-kid/p10102	2026-10-21	LEGO	69.99
+80056-1	84.99	84.99	https://www.avenuedelabrique.com/lego-monkie-kid/80056-la-bete-a-9-tetes/p10103	2026-10-21	LEGO	84.99
+80057-1	109.99	109.99	https://www.avenuedelabrique.com/lego-monkie-kid/80057-le-robot-cercle-de-feu-de-nezha/p10104	2026-10-21	LEGO	109.99
+80058-1	139.99	139.99	https://www.avenuedelabrique.com/lego-monkie-kid/80058-la-pagode-celeste/p10105	2026-10-21	LEGO	139.99
+80065-1	79.99	79.99	https://www.avenuedelabrique.com/lego-monkie-kid/80065-le-robot-celeste-d-erlang/p10414	2026-10-21	LEGO	79.99
+80066-1	59.99	59.99	https://www.avenuedelabrique.com/lego-monkie-kid/80066-la-creature-mythique-qilin/p10413	2026-10-21	LEGO	59.99
+80112-1	79.99	262.23	https://www.avenuedelabrique.com/lego-saisonnier/80112-le-dragon-de-bon-augure/p9503	2026-10-21	Carrefour [Marketplace]	262.23
+80113-1	99.99	196.78	https://www.avenuedelabrique.com/lego-saisonnier/80113-la-fete-de-famille/p9504	2026-10-21	Carrefour [Marketplace]	196.78
+80116-1	99.99	99.00	https://www.avenuedelabrique.com/lego-saisonnier/80116-la-lanterne-qui-trotte/p10411	2026-10-21	Brickmo	108.95
+80117-1	79.99	154.99	https://www.avenuedelabrique.com/lego-saisonnier/80117-la-bonne-fortune/p10410	2026-10-21	Carrefour [Marketplace]	154.99
 80118-1	47.99	47.99	https://www.avenuedelabrique.com/lego-saisonnier/80118-le-feu-d-artifice-porte-bonheur/p11236	2026-10-18	LEGO	
 80119-1	99.99	99.99	https://www.avenuedelabrique.com/lego-saisonnier/80119-tableau-vivant-le-galop-des-chevaux/p11237	2026-10-18	LEGO	
+80120-1	49.99	49.99	https://www.avenuedelabrique.com/lego-saisonnier/80120-saut-de-la-carpe-symbole-de-prosperite/p11793	2026-10-21	LEGO	55.94
+80121-1	109.99	109.99	https://www.avenuedelabrique.com/lego-saisonnier/80121-l-auberge-traditionnelle-du-clair-de-lune/p11794	2026-10-21	LEGO	109.99
 854326-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854326-porte-cles-le-mandalorien/p11684	2026-10-18	LEGO	
 854327-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854327-porte-cles-simba/p11381	2026-10-18	LEGO	
 854328-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854328-porte-cles-dumbo/p11380	2026-10-18	LEGO	
@@ -1657,6 +1881,15 @@ code	prix	meilleur	url	date	marchand	total
 910071-1	219.99		https://www.avenuedelabrique.com/lego-bricklink/910071-la-forge-du-far-west/p12881	2026-10-17		
 910072-1	219.99		https://www.avenuedelabrique.com/lego-bricklink/910072-la-gare-de-marchandises-de-woodbrick/p12885	2026-10-17		
 910073-1	49.99		https://www.avenuedelabrique.com/lego-bricklink/910073-le-jardin-de-citrouilles/p12884	2026-10-17		
+912405-1				2026-10-21		
+912406-1				2026-10-21		
+912411-1				2026-10-21		
+912412-1				2026-10-21		
+912413-1				2026-10-21		
+912505-1				2026-10-21		
+912510-1				2026-10-21		
+912512-1				2026-10-21		
+912513-1				2026-10-21		
 951345-1				2026-10-18		
 951351-1				2026-10-18		
 951440-1				2026-10-18		
@@ -1667,3 +1900,7 @@ code	prix	meilleur	url	date	marchand	total
 951446-1				2026-10-18		
 951466-1				2026-10-18		
 951467-1				2026-10-18		
+952409-1				2026-10-21		
+952504-1				2026-10-21		
+952506-1				2026-10-21		
+952509-1				2026-10-21		
