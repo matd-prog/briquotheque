@@ -8,6 +8,12 @@
 const nomComplet = e => [e.nom, e.precision].filter(Boolean).join(" – ");
 const cleFigurine = (nom, precision) => normaliser([nom, precision].filter(Boolean).join(" "));
 
+// Date d'achat avec le calendrier du téléphone (<input type="date">, Mathias, 22/10/2026 : pas de date à taper avec
+// des barres) : le champ parle en AAAA-MM-JJ, l'appli garde JJ/MM/AAAA comme avant
+const aujourdhuiChamp = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+const dateChamp = t => { const m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(t || "").trim()); return m ? `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}` : /^\d{4}-\d\d-\d\d$/.test(t || "") ? t : ""; };
+const dateLue = v => { const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(String(v || "").trim()); return m ? `${m[3]}/${m[2]}/${m[1]}` : String(v || "").trim(); };
+
 // Prix tapé (« 24,90 », « 24.90 € ») -> nombre ; vide ou illisible -> 0 (prix inconnu, ou blister offert)
 const lirePrixSaisi = t => Math.max(0, parseFloat(String(t || "").replace(/\s|€/g, "").replace(",", ".")) || 0);
 
@@ -51,7 +57,8 @@ const Base = {
     for (const id of ["base-etape-verso", "base-verso-refaire", "base-autre"]) if ($(id)) $(id).hidden = true;
     $("base-fiche").hidden = true;
     $("base-etat").textContent = "";
-    for (const id of ["base-nom", "base-precision", "base-serie", "base-remarque", "base-numero", "base-prix", "base-date-achat"]) if ($(id)) $(id).value = "";
+    for (const id of ["base-nom", "base-precision", "base-serie", "base-remarque", "base-numero", "base-prix"]) if ($(id)) $(id).value = "";
+    if ($("base-date-achat")) $("base-date-achat").value = aujourdhuiChamp(); // calendrier sur le jour même
     if ($("base-nombre")) { $("base-nombre").value = 1; this._grilleNumeros(); }
     if ($("base-non-numerote")) { $("base-non-numerote").checked = false; this._numerote(); }
     if ($("base-deja")) $("base-deja").textContent = "";
@@ -1113,7 +1120,7 @@ const Base = {
     const commun = { recadre: true, nom, precision, numerote: !nonNumerote, serie: nonNumerote ? "" : $("base-serie").value.trim(), remarque: $("base-remarque").value.trim().toUpperCase(),
                      code, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte || "", exporte: false,
                      // prix payé d'un exemplaire (facultatif) et date d'achat : jamais envoyés (ni base commune, ni .zip)
-                     prixPaye: lirePrixSaisi($("base-prix") && $("base-prix").value), dateAchat: $("base-date-achat") ? $("base-date-achat").value.trim() : "" };
+                     prixPaye: lirePrixSaisi($("base-prix") && $("base-prix").value), dateAchat: $("base-date-achat") ? dateLue($("base-date-achat").value) : "" };
     for (const numero of numeros)
       this.entrees.push({ ...commun, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
                           numero: nonNumerote ? "" : numero, date: new Date().toISOString() });
@@ -1183,7 +1190,7 @@ const Base = {
     $("base-nom").value = p.nom; if ($("base-precision")) $("base-precision").value = p.precision || ""; $("base-serie").value = p.serie; $("base-remarque").value = p.remarque;
     // autre exemplaire : même prix et même date proposés (même lot, même vente), modifiables
     if ($("base-prix")) $("base-prix").value = p.prixPaye ? String(p.prixPaye).replace(".", ",") : "";
-    if ($("base-date-achat")) $("base-date-achat").value = p.dateAchat || "";
+    if ($("base-date-achat")) $("base-date-achat").value = dateChamp(p.dateAchat) || aujourdhuiChamp();
     if ($("base-non-numerote")) { $("base-non-numerote").checked = p.nonNumerote; this._numerote(); }
     $("base-fiche").hidden = false;
     $("base-etat").textContent = fichier ? "Même figurine : photographiez le verso, puis tapez le numéro de cet exemplaire."
@@ -1348,7 +1355,7 @@ const Base = {
       <label class="case-a-cocher"><input type="checkbox" data-modif="nonnum" ${e.numerote === false ? "checked" : ""}> Non numérotée</label>
       ${champ("remarque", "Note particulière", e.remarque, 'autocapitalize="characters"')}
       <div class="deux-champs"><div>${champ("prix", "Prix payé (€)", e.prixPaye ? String(e.prixPaye).replace(".", ",") : "", 'inputmode="decimal"')}</div>
-        <div>${champ("dateachat", "Acheté le", e.dateAchat)}</div></div>
+        <div>${champ("dateachat", "Acheté le", dateChamp(e.dateAchat), 'type="date"')}</div></div>
       <p class="etiquette-champ">Changer la photo</p>
       <div class="recto-verso"><img class="photo-apercu" data-modif-img="recto" src="${URL.createObjectURL(e.photo)}" alt="Recto">
         ${e.verso ? `<img class="photo-apercu" data-modif-img="verso" src="${URL.createObjectURL(e.verso)}" alt="Verso">` : `<p class="photo-apercu aide" data-modif-img="verso">Pas de verso</p>`}</div>
@@ -1443,7 +1450,7 @@ const Base = {
     const nonNum = carte.querySelector('[data-modif="nonnum"]').checked;
     const nouveau = { nom: v("nom").toUpperCase(), precision: v("precision"), numero: nonNum ? "" : v("numero"),
                       serie: nonNum ? "" : v("serie").replace(/\D/g, ""), remarque: v("remarque").toUpperCase(), numerote: !nonNum,
-                      prixPaye: lirePrixSaisi(v("prix")), dateAchat: v("dateachat") };
+                      prixPaye: lirePrixSaisi(v("prix")), dateAchat: dateLue(v("dateachat")) };
     if (!nouveau.nom) { await demander("Le nom ne peut pas être vide.", "OK", "Fermer"); return; }
     const cle = cleFigurine(nouveau.nom, nouveau.precision);
     const doublon = nouveau.numero && this.entrees.find(x => x !== e && x.numero === nouveau.numero && cleFigurine(x.nom, x.precision) === cle);

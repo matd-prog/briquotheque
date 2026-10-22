@@ -80,7 +80,8 @@ const EcranSet = {
       `<option value="autre">Autre marque…</option>`;
     $("set-marque").value = this.marqueRetenue || "LEGO";
     if (this.marqueAutre) { $("set-marque").value = "autre"; $("set-marque-autre").value = this.marqueAutre.trim(); }
-    for (const id of ["set-m-numero", "set-m-nom", "set-m-pieces", "set-m-annee", "set-m-prix-fabricant", "set-prix", "set-date"]) $(id).value = "";
+    for (const id of ["set-m-numero", "set-m-nom", "set-m-pieces", "set-m-annee", "set-m-prix-fabricant", "set-prix"]) $(id).value = "";
+    $("set-date").value = aujourdhuiChamp();
     this.majMarque();
     afficher("set");
     $("set-info").textContent = "Chargement du catalogue des sets…";
@@ -109,7 +110,7 @@ const EcranSet = {
     this.set = null; this.figs = [];
     $("set-figs-titre").textContent = ""; $("set-figs").innerHTML = "";
     $("set-etat").value = ETATS_SET[0]; $("set-boite").checked = true; $("set-notice").checked = true;
-    $("set-prix").value = ""; $("set-date").value = "";
+    $("set-prix").value = ""; $("set-date").value = aujourdhuiChamp();
     $("set-details").hidden = false;
   },
 
@@ -128,7 +129,7 @@ const EcranSet = {
     try {
       await ajouterSet(etat.classeur, { code, nom: nom || `${marque} ${numero}`, annee: $("set-m-annee").value.trim(), theme: "",
         pieces: $("set-m-pieces").value.trim(), etat: $("set-etat").value, boite: $("set-boite").checked, notice: $("set-notice").checked,
-        marque, prixPaye, prixFabricant, dateAchat: $("set-date").value.trim() });
+        marque, prixPaye, prixFabricant, dateAchat: dateLue($("set-date").value) });
       etat.nonEnregistres++;
       await memoriser();
       await relireContenu();
@@ -203,7 +204,7 @@ const EcranSet = {
     $("set-etat").value = ETATS_SET[0];
     $("set-boite").checked = true;
     $("set-notice").checked = true;
-    $("set-prix").value = ""; $("set-date").value = "";
+    $("set-prix").value = ""; $("set-date").value = aujourdhuiChamp();
     this._figurines();
     $("set-details").hidden = false;
     if (typeof PrixEnLigne !== "undefined") PrixEnLigne.afficher(s.code); // meilleur prix en ligne, magasins autour (js/magasins.js)
@@ -279,7 +280,7 @@ const EcranSet = {
         boite: $("set-boite").checked, notice: $("set-notice").checked,
         // code BrickLink si sûr ou coché par vous, sinon le nom donné par Rebrickable
         figurines: this.figs.map(f => ((f.code && (f.sur || f.cocher)) ? f.code : f.nom) + (f.quantite > 1 ? ` ×${f.quantite}` : "")).join(", "),
-        prixPaye: lirePrixSaisi($("set-prix").value), dateAchat: $("set-date").value.trim(),
+        prixPaye: lirePrixSaisi($("set-prix").value), dateAchat: dateLue($("set-date").value),
       });
       etat.nonEnregistres++;
       for (const f of choisies) {

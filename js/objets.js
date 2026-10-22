@@ -76,7 +76,8 @@ async function lireReferenceObjet(fichier) {
 
 const EcranObjet = {
   async ouvrir() {
-    for (const id of ["objet-nom", "objet-code", "objet-remarques", "objet-prix", "objet-date"]) $(id).value = "";
+    for (const id of ["objet-nom", "objet-code", "objet-remarques", "objet-prix"]) $(id).value = "";
+    $("objet-date").value = aujourdhuiChamp();
     $("objet-quantite").value = 1;
     $("objet-nouveautes").innerHTML = "";
     afficher("objet");
@@ -159,7 +160,7 @@ const EcranObjet = {
     if (!code) { await demander("Indiquez le numéro BrickLink de l'objet (touchez « Trouver son numéro sur BrickLink »).", "OK", "Fermer"); return; }
     const objet = { code, nom: $("objet-nom").value.trim(), type: $("objet-type").value, etat: $("objet-etat").value,
                     quantite: Math.max(1, +$("objet-quantite").value || 1), remarques: $("objet-remarques").value.trim(),
-                    prixPaye: lirePrixSaisi($("objet-prix").value), dateAchat: $("objet-date").value.trim() };
+                    prixPaye: lirePrixSaisi($("objet-prix").value), dateAchat: dateLue($("objet-date").value) };
     try {
       await ajouterObjet(etat.classeur, objet);
       etat.nonEnregistres++;

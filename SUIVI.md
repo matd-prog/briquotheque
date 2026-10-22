@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v172 (22/10) : DATE D'ACHAT AU CALENDRIER (Mathias). Tous les champs « Acheté le » / « Date d'achat » (figurine, blister
+    JB y compris contribuer.html, set, objet, tile JB, fiches à modifier) ouvrent le calendrier du téléphone, sur la date du
+    jour par défaut ; plus besoin de taper les barres obliques. Dates toujours enregistrées en JJ/MM/AAAA (base.js : dateChamp,
+    dateLue, aujourdhuiChamp ; demanderFormulaire accepte type « date »).
   · v171 (22/10) : PRIX PAYÉ FACULTATIF SUR TOUS LES AJOUTS (Mathias). « Prix payé (€, facultatif) » + « Acheté le »
     (champsAchat / lireAchat, js/app.js) : figurine reconnue ou cherchée (blocExemplaires), custom du catalogue JB ou par
     lien, set LEGO ou autre marque (champs set-prix / set-date communs, l'ancien set-m-prix retiré ; colonne P « Date

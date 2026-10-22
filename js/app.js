@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v171"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v172"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -232,13 +232,14 @@ function demanderFormulaire(titre, champs) {
       ? `<label class="case-a-cocher"><input type="checkbox" data-f="${i}" ${c.valeur ? "checked" : ""}> ${echapper(c.titre)}</label>`
       : `<label class="etiquette-champ">${echapper(c.titre)}</label>` + (c.type === "choix"
         ? `<select class="champ" data-f="${i}">${[...new Set([...(c.valeur ? [c.valeur] : []), ...c.options])].map(o => `<option value="${echapper(o)}" ${o === c.valeur ? "selected" : ""}>${echapper(o)}</option>`).join("")}</select>`
+        : c.type === "date" ? `<input class="champ" data-f="${i}" type="date" value="${dateChamp(c.valeur)}">` // calendrier du téléphone
         : `<input class="champ" data-f="${i}" autocomplete="off" ${c.type === "nombre" ? 'inputmode="decimal"' : ""} value="${echapper(c.valeur ?? "")}">`)).join("") +
       `<button class="gros-bouton vert" data-ok>✔ Enregistrer</button>`;
     const fin = v => { if (d.open) d.close(); ok(v); };
     $("menu-boutons").onclick = e => {
       if (!e.target.closest("[data-ok]")) return;
       const res = {};
-      champs.forEach((c, i) => { const el = $("menu-boutons").querySelector(`[data-f="${i}"]`); res[c.cle] = c.type === "case" ? el.checked : el.value.trim(); });
+      champs.forEach((c, i) => { const el = $("menu-boutons").querySelector(`[data-f="${i}"]`); res[c.cle] = c.type === "case" ? el.checked : c.type === "date" ? dateLue(el.value) : el.value.trim(); });
       fin(res);
     };
     $("menu-fermer").onclick = () => fin(null);
@@ -518,9 +519,9 @@ function champsAchat(id) {
       <div><label class="etiquette-champ" for="${id}-prix">Prix payé (€, facultatif)</label>
         <input id="${id}-prix" class="champ" inputmode="decimal" autocomplete="off" placeholder="par exemplaire"></div>
       <div><label class="etiquette-champ" for="${id}-date">Acheté le (facultatif)</label>
-        <input id="${id}-date" class="champ" autocomplete="off" placeholder="ex. 20/10/2026"></div></div>`;
+        <input id="${id}-date" class="champ" type="date" value="${aujourdhuiChamp()}"></div></div>`;
 }
-const lireAchat = id => ({ prixPaye: lirePrixSaisi(($(id + "-prix") || {}).value), dateAchat: (($(id + "-date") || {}).value || "").trim() });
+const lireAchat = id => ({ prixPaye: lirePrixSaisi(($(id + "-prix") || {}).value), dateAchat: dateLue(($(id + "-date") || {}).value) });
 
 // Confirmation avant d'ajouter n exemplaires : doublon d'une figurine déjà enregistrée, ou vraiment plusieurs exemplaires ?
 async function confirmerExemplaires(code, nom, n) {

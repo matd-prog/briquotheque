@@ -55,7 +55,8 @@ const ObjetsJB = {
 
   // Écran d'ajout
   ouvrir() {
-    for (const id of ["jb-nom", "jb-prix", "jb-date", "jb-remarques"]) $(id).value = "";
+    for (const id of ["jb-nom", "jb-prix", "jb-remarques"]) $(id).value = "";
+    $("jb-date").value = aujourdhuiChamp();
     $("jb-quantite").value = 1;
     $("jb-type").innerHTML = TYPES_JB.map(t => `<option value="${echapper(t)}">${echapper(t)}</option>`).join(""); // valeur en français, quelle que soit la langue affichée
     this._photoAjout = null;
@@ -80,7 +81,7 @@ const ObjetsJB = {
     if (!nom) { await demander("Donnez un nom à l'objet (ex. « Tile Darth Donut » ou ce qui est imprimé dessus).", "OK", "Fermer"); return; }
     const objet = { nom, type: $("jb-type").value, quantite: Math.max(1, parseInt($("jb-quantite").value, 10) || 1),
                     prixPaye: parseFloat($("jb-prix").value.replace(",", ".").replace(/[^\d.]/g, "")) || 0,
-                    date: $("jb-date").value.trim(), remarques: $("jb-remarques").value.trim(), source: "" };
+                    date: dateLue($("jb-date").value), remarques: $("jb-remarques").value.trim(), source: "" };
     try {
       const row = await ajouterObjetJB(etat.classeur, objet);
       if (this._photoAjout) await this._poserPhoto(row, this._photoAjout);

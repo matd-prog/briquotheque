@@ -184,7 +184,7 @@ const Collection = {
       { cle: "B", titre: "Type", type: "choix", valeur: a.type, options: TYPES_JB },
       { cle: "C", titre: "Quantité", type: "nombre", valeur: a.quantite || 1 },
       { cle: "D", titre: "Prix payé par exemplaire (facultatif : vide si offert)", type: "nombre", valeur: a.prixPaye || "" },
-      { cle: "E", titre: "Date d'achat", valeur: a.date },
+      { cle: "E", titre: "Date d'achat", type: "date", valeur: a.date },
       { cle: "F", titre: "Remarques", valeur: a.remarques },
     ] : set ? [
       { cle: "B", titre: "Nom", valeur: a.nom },
@@ -194,7 +194,7 @@ const Collection = {
       { cle: "H", titre: "Notice", type: "case", valeur: ouiNon(a.notice) },
       { cle: "K", titre: "Quantité", type: "nombre", valeur: a.quantite || 1 },
       { cle: "N", titre: "Prix payé (€)", type: "nombre", valeur: a.prixPaye || "" },
-      { cle: "P", titre: "Acheté le", valeur: a.dateAchat || "" },
+      { cle: "P", titre: "Acheté le", type: "date", valeur: a.dateAchat || "" },
       ...(lego ? [] : [{ cle: "O", titre: "Prix fabricant (€)", type: "nombre", valeur: a.prixFabricant || "" }]),
       { cle: "L", titre: "Remarques", valeur: a.remarques },
     ] : [
@@ -203,7 +203,7 @@ const Collection = {
       { cle: "D", titre: "État", type: "choix", valeur: a.etat, options: ["Neuf (emballage)", "Occasion"] },
       { cle: "E", titre: "Quantité", type: "nombre", valeur: a.quantite || 1 },
       { cle: "H", titre: "Prix payé (€)", type: "nombre", valeur: a.prixPaye || "" },
-      { cle: "I", titre: "Acheté le", valeur: a.dateAchat || "" },
+      { cle: "I", titre: "Acheté le", type: "date", valeur: a.dateAchat || "" },
       { cle: "F", titre: "Remarques", valeur: a.remarques },
     ];
     const v = await demanderFormulaire(`${a.nom || a.code}\n${a.code} · ${onglet}`, champs);
@@ -626,7 +626,7 @@ const Collection = {
     if (!x) return;
     const v = await demanderFormulaire(`${x.nom || x.code}`, [
       { cle: "prix", titre: "Prix payé par exemplaire (€, facultatif)", type: "nombre", valeur: x.prixPaye || "" },
-      { cle: "date", titre: "Acheté le (facultatif)", valeur: x.dateAchat || "" }]);
+      { cle: "date", titre: "Acheté le (facultatif)", type: "date", valeur: x.dateAchat || "" }]);
     if (!v) return;
     await this._modifierFichier(() => etat.classeur.figAchat(x.row, lirePrixSaisi(v.prix), String(v.date || "").trim()), "Prix payé enregistré");
   },

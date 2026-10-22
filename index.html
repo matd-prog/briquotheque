@@ -298,7 +298,7 @@
       <div><label class="etiquette-champ" for="objet-prix">Prix payé (€, facultatif)</label>
         <input id="objet-prix" class="champ" inputmode="decimal" autocomplete="off" placeholder="par exemplaire"></div>
       <div><label class="etiquette-champ" for="objet-date">Acheté le (facultatif)</label>
-        <input id="objet-date" class="champ" autocomplete="off" placeholder="ex. 20/10/2026"></div></div>
+        <input id="objet-date" class="champ" type="date"></div></div>
     <button class="gros-bouton vert" data-action="objet-ajouter">➕ Ajouter à ma collection</button>
     <div id="objet-liste"></div>
   </section>
@@ -319,7 +319,7 @@
     <label for="jb-prix" class="etiquette-champ">Prix payé par exemplaire (facultatif : vide si offert)</label>
     <input id="jb-prix" class="champ" inputmode="decimal" autocomplete="off" placeholder="vide si offert">
     <label for="jb-date" class="etiquette-champ">Date d'achat (facultatif)</label>
-    <input id="jb-date" class="champ" autocomplete="off" placeholder="ex. 12/10/2026">
+    <input id="jb-date" class="champ" type="date">
     <label for="jb-remarques" class="etiquette-champ">Remarques (facultatif)</label>
     <input id="jb-remarques" class="champ" autocomplete="off" placeholder="ex. stream du 12/10, boîte 2">
     <button class="gros-bouton vert" data-action="objet-jb-ajouter">➕ Ajouter à ma collection</button>
@@ -490,7 +490,7 @@
         <div><label class="etiquette-champ" for="set-prix">Prix payé (€, facultatif)</label>
           <input id="set-prix" class="champ" inputmode="decimal" autocomplete="off" placeholder="ex. 79,99"></div>
         <div><label class="etiquette-champ" for="set-date">Acheté le (facultatif)</label>
-          <input id="set-date" class="champ" autocomplete="off" placeholder="ex. 20/10/2026"></div></div>
+          <input id="set-date" class="champ" type="date"></div></div>
       <p class="sous-titre" id="set-figs-titre"></p>
       <div id="set-figs" class="base-liste"></div>
       <p class="question">Ajouter ce set à ma collection ?</p>
@@ -590,7 +590,7 @@
         <div><label for="base-prix" class="etiquette-champ">Prix payé (€, facultatif)</label>
           <input id="base-prix" class="champ" inputmode="decimal" autocomplete="off" placeholder="ex. 24,90"></div>
         <div><label for="base-date-achat" class="etiquette-champ">Acheté le (facultatif)</label>
-          <input id="base-date-achat" class="champ" autocomplete="off" placeholder="ex. 20/10/2026"></div>
+          <input id="base-date-achat" class="champ" type="date"></div>
       </div>
       <p class="aide">Prix d'un exemplaire, port compris : il sert à la valeur de la collection et aux prix de revente. Il reste dans votre téléphone.</p>
       <div id="base-bloc-excel" hidden>
