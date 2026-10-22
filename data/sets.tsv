@@ -1,4 +1,4 @@
-#date 2026-10-20
+#date 2026-10-22
 code	nom	annee	theme	pieces	figurines
 0003977811-1	Ninjago: Book of Adventures	2022	Books / Activity Books with LEGO Parts	1	1
 001-1	Gears	1965	System / Samsonite	43	0
@@ -117,10 +117,10 @@ code	nom	annee	theme	pieces	figurines
 10020-1	Santa Fe Super Chief	2002	Train / 9V	435	2
 10020-2	Santa Fe Super Chief - Limited Edition	2002	Train / 9V	441	2
 10021-1	U.S.S. Constellation	2003	Hobby Sets	975	0
-10022-1	Santa Fe Cars - Set II (dining, observation, or sleeping car)	2002	Train / 9V	411	0
+10022-1	Santa Fe Cars - Set II (Dining, Observation, or Sleeping Car)	2002	Train / 9V	411	0
 10023-1	Master Builder Set	2002	Bionicle	111	0
 10024-1	Red Baron	2002	Creator / Creator Expert	670	0
-10025-1	Santa Fe Cars - Set I (mail or baggage car)	2002	Train / 9V	326	0
+10025-1	Santa Fe Cars - Set I (Mail or Baggage Car)	2002	Train / 9V	326	0
 10026-1	Naboo Starfighter	2002	Star Wars / Ultimate Collector Series	188	0
 10027-1	Train Engine Shed	2003	Town / World City	670	2
 10029-1	Lunar Lander	2003	Discovery	469	2
@@ -2223,7 +2223,7 @@ code	nom	annee	theme	pieces	figurines
 2000456-1	SPIKE Prime Marketing Kit	2019	Educational and Dacta / SPIKE	150	0
 2000457-1	SPIKE Prime Elements Set	2020	Educational and Dacta / SPIKE	374	0
 2000458-1	SPIKE Essential Introductory Set	2021	Educational and Dacta / SPIKE	112	1
-2000460-1	BOOMTOWN BUILD  Discover More	2019	FIRST LEGO League	12	0
+2000460-1	BOOMTOWN BUILD Discover More	2019	FIRST LEGO League	12	0
 2000461-1	Discover More	2020	FIRST LEGO League	12	0
 2000470-1	BricQ Motion Prime Personal Learning Kit	2021	Educational and Dacta	78	0
 2000471-1	BricQ Motion Essential Personal Learning Kit	2021	Educational and Dacta	62	2
@@ -2778,7 +2778,7 @@ code	nom	annee	theme	pieces	figurines
 2148-2	LEGO Truck [Toy Fair 1998 25th Anniversary Edition]	1998	Town	105	1
 2149-1	Color Line Container Lorry	1997	Town / Classic Town	185	1
 215-1	Red Indians	1977	Building Set with People	75	0
-215-2	2 x 8 Bricks  (EUR/UK/AUS)	1958	System / Supplemental	6	0
+215-2	2 x 8 Bricks (EUR/UK/AUS)	1958	System / Supplemental	6	0
 215-2B	2 x 8 Bricks, Blue (EUR/UK/AUS)	1958	System / Supplemental	6	0
 215-2R	2 x 8 Bricks, Red (EUR/UK/AUS)	1958	System / Supplemental	6	0
 215-2W	2 x 8 Bricks, White (EUR/UK/AUS)	1958	System / Supplemental	6	0
@@ -7439,7 +7439,7 @@ code	nom	annee	theme	pieces	figurines
 42218-1	John Deere 1470H Wheeled Harvester	2026	Technic	117	0
 42219-1	Monster Jam Grave Digger Fire and Ice	2026	Technic	263	0
 4222-1	Challenger Set 300	1998	Universal Building Set / Classic Basic	364	2
-42220-1	Monster Jam  Sparkle Smash Pull-Back	2026	Technic	243	0
+42220-1	Monster Jam Sparkle Smash Pull-Back	2026	Technic	243	0
 42221-1	NASA Artemis Space Launch System Rocket	2026	Technic	632	0
 42222-1	Bugatti Chiron Pur Sport Hypercar	2026	Technic	771	0
 42223-1	1966 Ford GT40 MKII Race Car	2026	Technic	793	0
@@ -8251,7 +8251,7 @@ code	nom	annee	theme	pieces	figurines
 45832-1	BIOGLOW Challenge set	2026	FIRST LEGO League	2096	0
 45833-1	BIOGLOW Explore Set	2026	FIRST LEGO League	761	0
 45834-1	BIOGLOW Future Edition Set	2026	FIRST LEGO League	1990	0
-45835-1	FIRST LEGO League Future Edition Grades K-2	2026	FIRST LEGO League	709	2
+45835-1	BIOGLOW FIRST LEGO League Future Edition Grades K-2	2026	FIRST LEGO League	709	2
 4584-1	Hot Scorcher	2002	Racers	58	1
 4585-1	Nitro Pulverizer	2002	Racers	61	1
 4586-1	Stunt Race Track	2002	Racers	168	1
@@ -11254,7 +11254,7 @@ code	nom	annee	theme	pieces	figurines
 6382-1	Fire Station	1981	Town / Classic Town	396	4
 6382234-1	The LEGO Store (Hangzhou) - 1st Anniversary	2021	LEGO Brand Store	8	2
 6382975-1	Tantive IV	2019	Star Wars	56	0
-6383-1	Public Works Center	1981	Town / Classic Town	419	4
+6383-1	Public Works Center	1981	Town / Classic Town	413	4
 6384-1	Police Station	1983	Town / Classic Town	399	4
 6384212-1	Stuttgart Brand Store Opening Associate Figure	2021	LEGO Brand Store	129	0
 6384214-1	New York 5th Avenue Brand Store Opening Associate Figure	2021	LEGO Brand Store	130	0
@@ -11811,6 +11811,7 @@ code	nom	annee	theme	pieces	figurines
 6606280-1	Building our Singapore Together	2025	Promotional	3	1
 6607-1	Service Truck	1982	Town / Classic Town	25	1
 6608-1	Tractor	1982	Town / Classic Town	21	1
+6608666-1	Giraffe Playtime	2025	Promotional / Bricktober	108	0
 6609-1	Race Car	1980	Town / Classic Town	17	1
 661-1	Spirit of St. Louis	1976	Legoland / Airport	50	0
 6610-1	Shell Petrol Pumps	1981	Town / Classic Town	29	1
@@ -15469,7 +15470,7 @@ code	nom	annee	theme	pieces	figurines
 76452-1	Quality Quidditch Supplies & Ice Cream Parlour	2025	Harry Potter	795	7
 76453-1	Malfoy Manor	2025	Harry Potter	1602	9
 76454-1	Hogwarts Castle: The Main Tower	2025	Harry Potter	2131	12
-76456-1	Harry Potter Advent  Calendar 2025	2025	Seasonal / Advent / Harry Potter	278	8
+76456-1	Harry Potter Advent Calendar 2025	2025	Seasonal / Advent / Harry Potter	278	8
 76457-1	Hogsmeade Village – Collectors' Edition	2025	Harry Potter	3228	12
 76458-1	Thestral Family	2025	Harry Potter	548	0
 76459-1	Hagrid & Harry's Privet Drive Escape	2026	Harry Potter	124	4
@@ -18517,7 +18518,7 @@ code	nom	annee	theme	pieces	figurines
 970615-1	8-Stud Axles (Pack of 50)	2002	Educational and Dacta / Service Packs / Technic	50	0
 970616-1	10-Stud Axles (Pack of 50)	2002	Educational and Dacta / Service Packs / Technic	50	0
 970617-1	12-Stud Axles (Pack of 50)	2002	Educational and Dacta / Service Packs / Technic	50	0
-970618-1	Axle Extenders (Pack of 50)  {Axle Joiners}	2002	Educational and Dacta / Service Packs / Technic	50	0
+970618-1	Axle Extenders (Pack of 50) {Axle Joiners}	2002	Educational and Dacta / Service Packs / Technic	50	0
 970619-1	Catches {Technic Pole Reverser Handles}	2002	Educational and Dacta / Service Packs / Technic	50	0
 970620-1	8 Tooth Gears (Pack of 100) 'Spur' Gears	2002	Educational and Dacta / Service Packs / Technic	100	0
 970621-1	12 Tooth Bevel Gears (Pack of 50)	2002	Educational and Dacta / Service Packs / Technic	50	0
@@ -18827,7 +18828,7 @@ code	nom	annee	theme	pieces	figurines
 9781837251766-1	Ninjago: Dragons Rising: Dragon Powers	2026	Books / Activity Books with LEGO Parts	11	1
 9781837251773-1	Star Wars: Grogu's Adventures	2026	Books / Activity Books with LEGO Parts	11	1
 9781837251797-1	DC Comics Super Heroes: Batman Needs You	2026	Books / Activity Books with LEGO Parts	6	1
-9781837251995-1	Ninjago: The Epic History Activity Box	2026	Books / Activity Books with LEGO Parts	18	3
+9781837251995-1	Ninjago: The Epic History Activity Box	2026	Books / Activity Books with LEGO Parts	19	3
 9781837252145-1	Minecraft: Rare Mob Expedition: Search & Find Sticker Activity	2026	Books / Activity Books with LEGO Parts	10	1
 9781837252169-1	Star Wars: The Dark Lord	2026	Books / Activity Books with LEGO Parts	7	1
 9781837252176-1	Harry Potter: Magical Lessons	2026	Books / Activity Books with LEGO Parts	17	1
@@ -19292,18 +19293,18 @@ DATABASE-2011	2011 - Unused Parts Database Set	2011	Other / Database Sets	35	0
 DATABASE-2012	2012 - Unused Parts Database Set	2012	Other / Database Sets	67	0
 DATABASE-2013	2013 - Unused Parts Database Set	2013	Other / Database Sets	38	0
 DATABASE-2014	2014 - Unused Parts Database Set	2014	Other / Database Sets	31	0
-DATABASE-2015	2015 - Unused Parts Database Set	2015	Other / Database Sets	57	0
+DATABASE-2015	2015 - Unused Parts Database Set	2015	Other / Database Sets	58	0
 DATABASE-2016	2016 - Unused Parts Database Set	2016	Other / Database Sets	40	0
 DATABASE-2017	2017 - Unused Parts Database Set	2017	Other / Database Sets	45	0
-DATABASE-2018	2018 - Unused Parts Database Set	2018	Other / Database Sets	62	0
-DATABASE-2019	2019 - Unused Parts Database Set	2019	Other / Database Sets	43	0
+DATABASE-2018	2018 - Unused Parts Database Set	2018	Other / Database Sets	63	0
+DATABASE-2019	2019 - Unused Parts Database Set	2019	Other / Database Sets	46	0
 DATABASE-2020	2020 - Unused Parts Database Set	2020	Other / Database Sets	28	0
 DATABASE-2021	2021 - Unused Parts Database Set	2021	Other / Database Sets	38	0
 DATABASE-2022	2022 - Unused Parts Database Set	2022	Other / Database Sets	73	0
 DATABASE-2023	2023 - Unused Parts Database Set	2023	Other / Database Sets	57	0
 DATABASE-2024	2024 - Unused Parts Database Set	2024	Other / Database Sets	38	0
 DATABASE-2025	2025 - Unused Parts Database Set	2025	Other / Database Sets	29	0
-DATABASE-2026	2026 - Unused Parts Database Set	2026	Other / Database Sets	31	0
+DATABASE-2026	2026 - Unused Parts Database Set	2026	Other / Database Sets	32	0
 DATABASE-HO-1	Database Set for 1:87 Mercedes Sport	1963	Other / Database Sets	11	0
 DATABASE-HO-2	Database Set for 1:87 VW Vans	1958	Other / Database Sets	26	0
 DATABASE-HO-3	Database Set for 1:87 VW Beetles (Short)	1958	Other / Database Sets	30	0
@@ -19360,7 +19361,7 @@ Duck75-1	75th Anniversary Duck on Wheels	2007	LEGO Brand Store	44	0
 EASTERCHICK-1	Easter Chick	2019	Seasonal / Easter	30	0
 EASTERCHICK-2	Chick	2019	Seasonal / Easter	23	0
 EASTEREGG-1	Easter Egg	2023	Seasonal / Easter	77	0
-EDMONTON-1	LEGO Store Grand Opening Exclusive Set, Southgate Mall, Edmonton,  AB, Canada	2013	LEGO Brand Store	14	3
+EDMONTON-1	LEGO Store Grand Opening Exclusive Set, Southgate Mall, Edmonton, AB, Canada	2013	LEGO Brand Store	14	3
 EG00001-1	Billboard Fun	2023	LEGO Ideas and CUUSOO	199	0
 EG00002-1	Cyber Explorers	2023	LEGO Ideas and CUUSOO	200	0
 EG00003-1	4-Season Greenhouse	2023	LEGO Ideas and CUUSOO	200	0
@@ -19596,6 +19597,7 @@ L0002249-1	Hero with Illager	2026	Minecraft	9	2
 L0002250-1	Smith with Smithing Table, Netherite Armor and Armor Stand	2026	Minecraft	19	1
 L0002251-1	Cactus Knight	2026	Minecraft	26	2
 L0002252-1	Space Sentinel, Enderman and Endermite	2026	Minecraft	24	2
+L0002253-1	Parrot Handler with Skeleton, Skeleton Spawner and Dungeon	2026	Minecraft	24	2
 L0002254-1	Hero, Zombie and TNT Launcher	2026	Minecraft	24	2
 L0002260-1	Magma Cube	2026	Minecraft	39	1
 L0002261-1	Raptor and Volcano	2026	Jurassic World	28	0
@@ -19639,9 +19641,9 @@ LEGOLAND-1	LEGOLAND The Netherlands 2025	2025	LEGO Exclusive	2	0
 LEGOSTORE100-1	LEGO Store 100th LEGO Store Grand Opening Set, White Plains, NY, June 28-30, 2013	2013	LEGO Brand Store	5	0
 LEGOWORLD-DBASE-1	Database Set for LEGO World Letter Tiles	2013	Other / Database Sets	39	0
 LESTER-1	Lester (LEGO Store Leicester Square Grand Opening Version)	2016	LEGO Brand Store	4	1
-LG10002-1	3MP Digital Camera - Colourful	2011	Gear	3	0
+LG10002-1	3MP Digital Camera - Colourful	2009	Gear	3	0
 LG10003-1	Stop Animation Video Camera	2009	Gear	11	2
-LG10007-1	Digital Camera - Pink	2011	Gear	3	0
+LG10007-1	Digital Camera - Pink	2009	Gear	3	0
 LGLKE129-1	The LEGO Batman Movie Key Chain Light Display Case - Batgirl	2019	Gear / Key Chain	8	1
 LGLNI25-1	Display Night Light with Set 30548-1	2020	Gear / Houseware	4	0
 LHGO-1	LEGO House Grand Opening	2017	LEGO Exclusive	26	0
