@@ -130,8 +130,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     blisters 0,65–1 (presque tous > 0,72), tiles / porte-clés / captures ≤ 0,68 → ≥ 0,75 : passage direct à la reconnaissance
     du blister ; 0,70–0,75 : bandeau. Le décor seul (v173) est abandonné : des tiles y montaient à 0,95. En parallèle,
     Brickognize « tous objets » (/predict/, champ type fig/set/part) : set → bandeau « Ajouter ce set » (n° pré-rempli) ;
-    pièce → « Tile ou objet JB » / « Objet dérivé ». Sans figurine reconnue : question directe. À valider sur le téléphone
-    (pas de photo de figurine seule réelle pour la mesure ; Brickognize injoignable depuis la session).
+    pièce → « Tile ou objet JB » / « Objet dérivé ». Sans figurine reconnue : question directe. Testé et validé par Mathias
+    sur son téléphone le 22/10 (« ça marche »).
   · v173 (22/10) : PHOTO DE BLISTER PRISE COMME FIGURINE (Mathias : « il m'identifie un blister comme étant une figurine »).
     « Photographier une figurine » envoie la photo à Brickognize, qui ne connaît que les figurines seules. Le décor de la photo
     entière est maintenant comparé aux blisters JB connus (seuil 0,94 : blisters photographiés 0,95–1, figurines seules et
