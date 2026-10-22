@@ -1,4 +1,4 @@
-#date 2026-10-21
+#date 2026-10-22
 type	code	bricklink	ressemblance	nom	theme	annee	image	vu_le	sets
 figurine	fig-017390	cty2047	0.75	Construction Worker, Reddish Orange Safety Jacket, Dark Blue Grey Legs, Red Hard Hat	City / Construction	2026	https://cdn.rebrickable.com/media/sets/fig-017390.jpg	2026-10-19	2D001182-1
 figurine	fig-017389	njo0930	0.8	Kai, Dark Red Suit, Wrap	Ninjago	2026	https://cdn.rebrickable.com/media/sets/fig-017389.jpg	2026-10-19	2D001183-1
@@ -312,7 +312,7 @@ figurine	fig-017867	dis197	0.92	Mickey Mouse	Disney	2026	https://cdn.rebrickable
 figurine	fig-017865	dis196	0.71	Fire Department Chief	Disney	2026	https://cdn.rebrickable.com/media/sets/fig-017865.jpg		43302-1
 figurine	fig-017864		0.68	Popcorn Seller	Disney	2026	https://cdn.rebrickable.com/media/sets/fig-017864.jpg		43302-1
 figurine	fig-017863	gen197	0.95	Lady Liberty, Monochrome White	Architecture	2026	https://cdn.rebrickable.com/media/sets/fig-017863.jpg		21066-1
-figurine	fig-017862		0.45	Iron Man Mark 85 Armor, Pearl Gold Arms, Angular Helmet, Neck bracket	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-017862.jpg		L0002277-1 L0002277-2
+figurine	fig-017862		0.45	Iron Man Mark 85 Armor, Pearl Gold Arms, Angular Helmet, Neck Bracket	Super Heroes Marvel / Avengers	2026	https://cdn.rebrickable.com/media/sets/fig-017862.jpg		L0002277-1 L0002277-2
 figurine	fig-017861		0.44	Firefighter, Black Fire Suit, Vibrant Yellow Helmet	City / Fire	2026	https://cdn.rebrickable.com/media/sets/fig-017861.jpg		L0002224-1
 figurine	fig-017860		0.46	Race Driver, White Torso, Dark Blue Legs, Red Helmet	Promotional	2026	https://cdn.rebrickable.com/media/sets/fig-017860.jpg		6648849-1
 figurine	fig-017858	min273	1.0	Breeze	Minecraft	2026	https://cdn.rebrickable.com/media/sets/fig-017858.jpg		L0002251-1
@@ -666,7 +666,7 @@ figurine	fig-017422		0.51	Explosives Expert, White Torso, Reddish Brown Legs, Fe
 figurine	fig-017421		0.67	Dark Green Torso, Sand Blue Legs, Dark Brown Hair	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017421.jpg		910055-1
 figurine	fig-017420		0.69	Climber, Dark Tan Shirt, Reddish Brown Apron, Reddish Brown Cap, Backpack	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017420.jpg		910055-1
 figurine	fig-017419		0.6	Bandit, Black Dress, Dark Red Hair	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017419.jpg		910055-1
-figurine	fig-017418		0.65	Bandit, Red Shirt, Black legs, Fedora, Mask	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017418.jpg		910055-1
+figurine	fig-017418		0.65	Bandit, Red Shirt, Black Legs, Fedora, Mask	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017418.jpg		910055-1
 figurine	fig-017417	bdp231	0.72	Bandit, Tan Coat, Black Legs, Fedora, Mask	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017417.jpg		910055-1
 figurine	fig-017416	bdp299	0.71	Prospector, Reddish Brown Coat, Fur Collar, Dark Blue Legs, Dark Blue Beanie	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017416.jpg		910055-1
 figurine	fig-017415		0.65	Prospector, Red Torso, Dark Blue Legs, Beard, Fedora	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017415.jpg		910055-1
@@ -678,7 +678,7 @@ figurine	fig-017410		0.6	Waiter, Black Suit, Black Hair	BrickLink Designer Progr
 figurine	fig-017409		0.63	Painter, Sand Green Torso, Medium Nougat Apron, Dark Orange Hair	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017409.jpg		910054-1
 figurine	fig-017408		0.64	Ballerina, White Outfit, Medium Legs, Dark Brown Hair	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017408.jpg		910054-1
 figurine	fig-017407		0.66	Ballerina Teacher, White Torso, Dark Turquoise Legs, Dark Brown Hair	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017407.jpg		910054-1
-figurine	fig-017406		0.53	Sculptor, Black Fire Suit, Dark Bluish grey Legs, Light Bluish Grey Hair	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017406.jpg		910054-1
+figurine	fig-017406		0.53	Sculptor, Black Fire Suit, Dark Bluish Grey Legs, Light Bluish Grey Hair	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017406.jpg		910054-1
 figurine	fig-017405		0.59	Musician, Dark Bluish Grey Jacket, Dark Brown Hair, Light Bluish Grey Hair	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017405.jpg		910054-1
 figurine	fig-017404		0.62	Tan Coat, Dark Green Legs, Dark Tan Hair	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017404.jpg		910054-1
 figurine	fig-017403		0.51	Police Officer, Black Vest, Bright Light Blue Shirt, Black Hair	BrickLink Designer Program	2026	https://cdn.rebrickable.com/media/sets/fig-017403.jpg		910054-1
@@ -1651,6 +1651,7 @@ objet	10018250-1	10018250		Red Tile 1x1 Jibbitz	Gear	2026	https://cdn.rebrickabl
 objet	10018249-1	10018249		Spaceship Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018249-1.jpg		
 objet	10018248-1	10018248		Red Tile 2x2 Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018248-1.jpg		
 objet	10018247-1	10018247		Castle Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018247-1.jpg		
+set	L0002253-1	L0002253-1		Parrot Handler with Skeleton, Skeleton Spawner and Dungeon	Minecraft	2026	https://cdn.rebrickable.com/media/sets/l0002253-1.jpg	2026-10-22	
 set	6670124-1	6670124-1		Giraffe Surprise	Promotional / Bricktober	2026	https://cdn.rebrickable.com/media/sets/6670124-1.jpg	2026-10-20	
 set	2D001188-1	2D001188-1		Car	Creator / Creator 3-in-1	2026	https://cdn.rebrickable.com/media/sets/2d001188-1.jpg	2026-10-19	
 set	2D001187-1	2D001187-1		Cockatoo	Creator / Creator 3-in-1	2026	https://cdn.rebrickable.com/media/sets/2d001187-1.jpg	2026-10-19	
@@ -1665,7 +1666,7 @@ set	11388-1	11388-1		Venetian Neighborhood	Icons	2026	https://cdn.rebrickable.co
 set	L0002208-1	L0002208-1		Arin	Ninjago	2026	https://cdn.rebrickable.com/media/sets/l0002208-1.jpg	2026-10-16	
 set	5011164-1	5011164-1		Fig Beetle Garden	Botanicals	2026	https://cdn.rebrickable.com/media/sets/5011164-1.jpg	2026-10-16	
 set	L0002241-1	L0002241-1		K-2S0	Star Wars	2026	https://cdn.rebrickable.com/media/sets/l0002241-1.jpg	2026-10-14	
-set	45835-1	45835-1		FIRST LEGO League Future Edition Grades K-2	FIRST LEGO League	2026	https://cdn.rebrickable.com/media/sets/45835-1.jpg	2026-10-14	
+set	45835-1	45835-1		BIOGLOW FIRST LEGO League Future Edition Grades K-2	FIRST LEGO League	2026	https://cdn.rebrickable.com/media/sets/45835-1.jpg	2026-10-14	
 set	6675837-1	6675837-1		Witch's Flight	Promotional	2026	https://cdn.rebrickable.com/media/sets/6675837-1.jpg	2026-10-12	
 set	67006-1	67006-1		The Marvel Skyline	Super Heroes Marvel	2027	https://cdn.rebrickable.com/media/sets/67006-1.jpg	2026-10-10	
 set	6644847-1	6644847-1		Web Goal Challenge	Promotional	2026	https://cdn.rebrickable.com/media/sets/6644847-1.jpg	2026-10-10	
@@ -2253,7 +2254,7 @@ set	42238-1	42238-1		Ducati Desmo450 MX Factory Motorcycle	Technic	2026	https://
 set	42236-1	42236-1		Custom Garage Ford Mustang GT Car	Technic	2026	https://cdn.rebrickable.com/media/sets/42236-1.jpg		
 set	42235-1	42235-1		Ferrari 488 PISTA Car	Technic	2026	https://cdn.rebrickable.com/media/sets/42235-1.jpg		
 set	42234-1	42234-1		Dodge Viper GTS-R Sports Car	Technic	2026	https://cdn.rebrickable.com/media/sets/42234-1.jpg		
-set	42233-9	42233-9		Mighty Machines Series 1  - Complete - All Sets	Technic	2026	https://cdn.rebrickable.com/media/sets/42233-9.jpg		
+set	42233-9	42233-9		Mighty Machines Series 1 - Complete - All Sets	Technic	2026	https://cdn.rebrickable.com/media/sets/42233-9.jpg		
 set	42233-8	42233-8		Bulldozer	Technic	2026	https://cdn.rebrickable.com/media/sets/42233-8.jpg		
 set	42233-7	42233-7		Mobile Crane	Technic	2026	https://cdn.rebrickable.com/media/sets/42233-7.jpg		
 set	42233-6	42233-6		Excavator	Technic	2026	https://cdn.rebrickable.com/media/sets/42233-6.jpg		
@@ -2275,7 +2276,7 @@ set	42224-1	42224-1		Porsche 911 GT3 R REXY AO Racing Car	Technic	2026	https://c
 set	42223-1	42223-1		1966 Ford GT40 MKII Race Car	Technic	2026	https://cdn.rebrickable.com/media/sets/42223-1.jpg		
 set	42222-1	42222-1		Bugatti Chiron Pur Sport Hypercar	Technic	2026	https://cdn.rebrickable.com/media/sets/42222-1.jpg		
 set	42221-1	42221-1		NASA Artemis Space Launch System Rocket	Technic	2026	https://cdn.rebrickable.com/media/sets/42221-1.jpg		
-set	42220-1	42220-1		Monster Jam  Sparkle Smash Pull-Back	Technic	2026	https://cdn.rebrickable.com/media/sets/42220-1.jpg		
+set	42220-1	42220-1		Monster Jam Sparkle Smash Pull-Back	Technic	2026	https://cdn.rebrickable.com/media/sets/42220-1.jpg		
 set	42219-1	42219-1		Monster Jam Grave Digger Fire and Ice	Technic	2026	https://cdn.rebrickable.com/media/sets/42219-1.jpg		
 set	42218-1	42218-1		John Deere 1470H Wheeled Harvester	Technic	2026	https://cdn.rebrickable.com/media/sets/42218-1.jpg		
 set	40975-1	40975-1		Mini Hogwarts Castle	Harry Potter	2026	https://cdn.rebrickable.com/media/sets/40975-1.jpg		
