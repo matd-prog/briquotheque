@@ -127,6 +127,9 @@
       <p class="aide">Prix d'un exemplaire, port compris : il sert à la valeur de la collection et aux prix de revente. Il reste dans votre téléphone.</p>
       <!-- un prix par n° (Mathias, 22/10/2026) : les exemplaires d'un même listing ne sont pas tous payés le même prix -->
       <div id="base-prix-detail" hidden>
+        <label for="base-prix-total" class="etiquette-champ">Prix total payé pour tous les exemplaires (facultatif)</label>
+        <input id="base-prix-total" class="champ" inputmode="decimal" autocomplete="off" placeholder="ex. 75">
+        <p class="aide" id="base-prix-moyen"></p>
         <p class="etiquette-champ">Prix de chaque exemplaire (si les prix diffèrent ; vide : le prix ci-dessus)</p>
         <div id="base-prix-numeros" class="grille-prix"></div>
       </div>

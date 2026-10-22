@@ -57,7 +57,7 @@ const Base = {
     for (const id of ["base-etape-verso", "base-verso-refaire", "base-autre"]) if ($(id)) $(id).hidden = true;
     $("base-fiche").hidden = true;
     $("base-etat").textContent = "";
-    for (const id of ["base-nom", "base-precision", "base-serie", "base-remarque", "base-numero", "base-prix"]) if ($(id)) $(id).value = "";
+    for (const id of ["base-nom", "base-precision", "base-serie", "base-remarque", "base-numero", "base-prix", "base-prix-total"]) if ($(id)) $(id).value = "";
     if ($("base-date-achat")) $("base-date-achat").value = aujourdhuiChamp(); // calendrier sur le jour même
     if ($("base-nombre")) { $("base-nombre").value = 1; this._grilleNumeros(); }
     if ($("base-non-numerote")) { $("base-non-numerote").checked = false; this._numerote(); }
@@ -975,12 +975,35 @@ const Base = {
       l.querySelector("span").textContent = !non && nums[i] ? `n° ${nums[i]}` : `Exemplaire ${i + 1}`;
       l.querySelector("input").placeholder = ($("base-prix") && $("base-prix").value.trim()) || "prix";
     });
+    this._majPrixMoyen();
   },
+  // Prix de chaque exemplaire : celui tapé à côté de son n° ; sinon, avec un prix total (Mathias, 22/10/2026), le reste
+  // du total partagé à parts égales entre les exemplaires sans prix (prix moyen) ; sinon le prix commun
   _prixExemplaires(n) {
     const zone = $("base-prix-numeros");
     const commun = lirePrixSaisi($("base-prix") && $("base-prix").value);
+    const total = n > 1 ? lirePrixSaisi($("base-prix-total") && $("base-prix-total").value) : 0;
     const champs = zone ? [...zone.querySelectorAll("input")] : [];
-    return Array.from({ length: n }, (_, i) => lirePrixSaisi(champs[i] && champs[i].value) || commun);
+    const tapes = Array.from({ length: n }, (_, i) => lirePrixSaisi(champs[i] && champs[i].value));
+    const vides = tapes.filter(x => !x).length;
+    const moyen = total && vides ? Math.round(Math.max(0, total - tapes.reduce((a, b) => a + b, 0)) / vides * 100) / 100 : 0;
+    return tapes.map(x => x || moyen || commun);
+  },
+  // « Soit 25 € par exemplaire » sous le prix total
+  _majPrixMoyen() {
+    const z = $("base-prix-moyen");
+    if (!z) return;
+    const n = Math.min(99, Math.max(1, parseInt(($("base-nombre") || {}).value, 10) || 1));
+    const total = lirePrixSaisi($("base-prix-total") && $("base-prix-total").value);
+    if (n < 2 || !total) { z.textContent = ""; return; }
+    const champs = [...$("base-prix-numeros").querySelectorAll("input")].slice(0, n);
+    const tapes = champs.map(c => lirePrixSaisi(c.value)), vides = tapes.filter(x => !x).length, somme = tapes.reduce((a, b) => a + b, 0);
+    const eur = x => x.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+    const moyen = this._prixExemplaires(n)[tapes.findIndex(x => !x)];
+    z.textContent = somme > total + 0.005 ? `⚠️ Les prix tapés (${eur(somme)}) dépassent le total.`
+      : !vides ? `Chaque exemplaire a son prix (total : ${eur(somme)}).`
+      : somme ? `Soit ${eur(moyen)} pour chacun des ${vides} exemplaire${vides > 1 ? "s" : ""} sans prix.`
+      : `Soit ${eur(moyen)} par exemplaire (prix moyen).`;
   },
 
   // Vos blisters déjà recensés dont le décor ressemble à la photo (même figurine photographiée, ou confusion possible)
@@ -1666,6 +1689,8 @@ if ($("base-precision")) $("base-precision").addEventListener("input", () => Bas
 if ($("base-filtre")) { let m; $("base-filtre").addEventListener("input", () => { Base.filtreExact = null; clearTimeout(m); m = setTimeout(() => { Base.vue = "photos"; Base._afficherListe(); }, 250); }); }
 if ($("base-numeros")) $("base-numeros").addEventListener("input", () => { Base._etatNumeros(); Base._grillePrix(); });
 if ($("base-prix")) $("base-prix").addEventListener("input", () => Base._grillePrix());
+if ($("base-prix-total")) $("base-prix-total").addEventListener("input", () => Base._majPrixMoyen());
+if ($("base-prix-numeros")) $("base-prix-numeros").addEventListener("input", () => Base._majPrixMoyen());
 if ($("base-notes")) $("base-notes").addEventListener("click", e => {
   const b = e.target.closest("[data-note]");
   if (!b) return;

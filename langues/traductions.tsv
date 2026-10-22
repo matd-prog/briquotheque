@@ -1411,3 +1411,10 @@ prix	price	Preis	precio
 {0} : prix payé (€)	{0}: price paid (€)	{0}: bezahlter Preis (€)	{0}: precio pagado (€)
 {0} : acheté le	{0}: bought on	{0}: gekauft am	{0}: comprado el
 {0} · {#1} exemplaires	{0} · {1} {p:copy|copies}	{0} · {1} {p:Exemplar|Exemplare}	{0} · {1} {p:ejemplar|ejemplares}
+Prix total payé pour tous les exemplaires (facultatif)	Total price paid for all copies (optional)	Gesamtpreis für alle Exemplare (optional)	Precio total pagado por todos los ejemplares (opcional)
+ex. 75	e.g. 75	z. B. 75	p. ej. 75
+⚠️ Les prix tapés ({0}) dépassent le total.	⚠️ The prices entered ({0}) exceed the total.	⚠️ Die eingegebenen Preise ({0}) übersteigen den Gesamtpreis.	⚠️ Los precios introducidos ({0}) superan el total.
+Chaque exemplaire a son prix (total : {0}).	Each copy has its price (total: {0}).	Jedes Exemplar hat seinen Preis (gesamt: {0}).	Cada ejemplar tiene su precio (total: {0}).
+Soit {0} pour chacun des {#1} exemplaire{s} sans prix.	That is {0} for each of the {1} {p:copy|copies} without a price.	Also {0} für jedes der {1} {p:Exemplar|Exemplare} ohne Preis.	Es decir, {0} para cada uno de los {1} {p:ejemplar|ejemplares} sin precio.
+Soit {0} par exemplaire (prix moyen).	That is {0} per copy (average price).	Also {0} pro Exemplar (Durchschnittspreis).	Es decir, {0} por ejemplar (precio medio).
+Prix total payé pour les {#0} exemplaires (facultatif : partagé entre ceux laissés sans prix)	Total price paid for the {0} copies (optional: shared among those left without a price)	Gesamtpreis für die {0} Exemplare (optional: verteilt auf die ohne Preis)	Precio total pagado por los {0} ejemplares (opcional: repartido entre los que no tienen precio)

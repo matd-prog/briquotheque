@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v176 (22/10) : PRIX TOTAL D'UN BLISTER À PLUSIEURS EXEMPLAIRES (Mathias). Ajout de blister (appli et contribuer.html) :
+    « Prix total payé pour tous les exemplaires » ; le reste du total après les prix tapés par n° est partagé à parts égales
+    entre les exemplaires sans prix (prix moyen), affiché en direct (« Soit 27,50 € pour chacun des 2 exemplaires sans
+    prix ») ; priorité : prix du n° > part du total > prix commun. Même champ en tête du formulaire de la fiche Ma collection.
   · v175 (22/10) : UN PRIX PAR NUMÉRO (Mathias : « certains numéros ne sont pas achetés au même prix »). Ajout de blister à
     plusieurs exemplaires (appli et contribuer.html) : sous le prix commun, « Prix de chaque exemplaire » = un champ par n°
     (vide = prix commun) ; chaque entrée de la base garde son prix (Base._grillePrix, _prixExemplaires ; n° écartés en

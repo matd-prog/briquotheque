@@ -639,14 +639,19 @@ const Collection = {
     const champs = cases.length === 1
       ? [{ cle: "p0", titre: "Prix payé par exemplaire (€, facultatif)", type: "nombre", valeur: euros(cases[0].prixPaye || lies[0].b.prixPaye) },
          { cle: "d0", titre: "Acheté le (facultatif)", type: "date", valeur: cases[0].dateAchat || lies[0].b.dateAchat || "" }]
-      : lies.flatMap(({ x, b }, i) => [
+      : [{ cle: "total", titre: `Prix total payé pour les ${cases.length} exemplaires (facultatif : partagé entre ceux laissés sans prix)`, type: "nombre", valeur: "" },
+         ...lies.flatMap(({ x, b }, i) => [
           { cle: "p" + i, titre: `${etiquette(x, i)} : prix payé (€)`, type: "nombre", valeur: euros(x.prixPaye || b.prixPaye) },
-          { cle: "d" + i, titre: `${etiquette(x, i)} : acheté le`, type: "date", valeur: x.dateAchat || b.dateAchat || "" }]);
+          { cle: "d" + i, titre: `${etiquette(x, i)} : acheté le`, type: "date", valeur: x.dateAchat || b.dateAchat || "" }])];
     const v = await demanderFormulaire(cases.length === 1 ? (cases[0].nom || cases[0].code) : `${nom} · ${cases.length} exemplaires`, champs);
     if (!v) return;
+    // prix total (Mathias, 22/10/2026) : ce qui reste après les prix tapés, partagé à parts égales (prix moyen)
+    const tapes = cases.map((x, i) => lirePrixSaisi(v["p" + i])), vides = tapes.filter(p => !p).length;
+    const total = lirePrixSaisi(v.total);
+    const moyen = total && vides ? Math.round(Math.max(0, total - tapes.reduce((a, b) => a + b, 0)) / vides * 100) / 100 : 0;
     await this._modifierFichier(async () => {
       for (const [i, x] of cases.entries()) {
-        const prix = lirePrixSaisi(v["p" + i]), date = String(v["d" + i] || "").trim();
+        const prix = tapes[i] || moyen, date = String(v["d" + i] || "").trim();
         if (prix !== (x.prixPaye || 0) || date !== (x.dateAchat || "")) await etat.classeur.figAchat(x.row, prix, date);
       }
     }, "Prix payé enregistré");
