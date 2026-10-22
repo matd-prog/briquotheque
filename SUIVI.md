@@ -172,7 +172,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     js/objets_jb.js : écran d'ajout (photo facultative réduite à 1000 px, Memoire « objets-jb-photos »), reprise des achats
     (achats.tsv du dépôt privé, jeton GitHub) : vendeur JB, tiles/vignettes/chromés/pièces imprimées/posters/dioramas,
     LEGO officiels et bundles écartés, une ligne par achat, sans doublon (colonne Source). Essai sur la sauvegarde du
-    18/10 : 270 achats repris, 2 800 €. Valeur : type JB = prix payé × quantité (« 🟪 Tiles et objets JB » dans Valeur et le
+    18/10 : 270 achats repris, 2 800 €. DÉCISION de Mathias (22/10) : les tiles reprises des achats GARDENT leur prix dans la
+    valeur (option 1 ; ajoutées à la main sans prix = 0 €, sans signalement). Valeur : type JB = prix payé × quantité (« 🟪 Tiles et objets JB » dans Valeur et le
     dossier assureur, export Excel « Objets JB »). Corrigé en passant : les menus déroulants (état d'un set, type d'objet,
     onglet d'une figurine, formulaires) enregistraient le texte TRADUIT en anglais/allemand/espagnol (« Neu versiegelt » au
     lieu de « Neuf scellé », ce qui faussait la valeur) -> chaque choix a sa valeur en français (value=…).
