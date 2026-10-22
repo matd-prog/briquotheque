@@ -8,6 +8,9 @@
 const nomComplet = e => [e.nom, e.precision].filter(Boolean).join(" – ");
 const cleFigurine = (nom, precision) => normaliser([nom, precision].filter(Boolean).join(" "));
 
+// Prix tapé (« 24,90 », « 24.90 € ») -> nombre ; vide ou illisible -> 0 (prix inconnu, ou blister offert)
+const lirePrixSaisi = t => Math.max(0, parseFloat(String(t || "").replace(/\s|€/g, "").replace(",", ".")) || 0);
+
 const Base = {
   photo: null,     // photo en cours (Blob JPEG réduit, remis d'aplomb)
   codeLu: "",      // code de la figurine reconnue, s'il y en a une, et son nom (nomLu)
@@ -48,7 +51,7 @@ const Base = {
     for (const id of ["base-etape-verso", "base-verso-refaire", "base-autre"]) if ($(id)) $(id).hidden = true;
     $("base-fiche").hidden = true;
     $("base-etat").textContent = "";
-    for (const id of ["base-nom", "base-precision", "base-serie", "base-remarque", "base-numero"]) if ($(id)) $(id).value = "";
+    for (const id of ["base-nom", "base-precision", "base-serie", "base-remarque", "base-numero", "base-prix", "base-date-achat"]) if ($(id)) $(id).value = "";
     if ($("base-nombre")) { $("base-nombre").value = 1; this._grilleNumeros(); }
     if ($("base-non-numerote")) { $("base-non-numerote").checked = false; this._numerote(); }
     if ($("base-deja")) $("base-deja").textContent = "";
@@ -1108,7 +1111,9 @@ const Base = {
       numeros = garder; n = garder.length;
     }
     const commun = { recadre: true, nom, precision, numerote: !nonNumerote, serie: nonNumerote ? "" : $("base-serie").value.trim(), remarque: $("base-remarque").value.trim().toUpperCase(),
-                     code, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte || "", exporte: false };
+                     code, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte || "", exporte: false,
+                     // prix payé d'un exemplaire (facultatif) et date d'achat : jamais envoyés (ni base commune, ni .zip)
+                     prixPaye: lirePrixSaisi($("base-prix") && $("base-prix").value), dateAchat: $("base-date-achat") ? $("base-date-achat").value.trim() : "" };
     for (const numero of numeros)
       this.entrees.push({ ...commun, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
                           numero: nonNumerote ? "" : numero, date: new Date().toISOString() });
@@ -1133,7 +1138,7 @@ const Base = {
     // on garde la figurine : « Autre exemplaire » ne demande que le numéro
     this._precedent = { source: this.source, sourceVerso: this.sourceVerso, cadre: this.cadre, cadreVerso: this.cadreVerso,
                         nom, precision, code, nomLu: this.nomLu, codeLu: this.codeLu, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte, serie: commun.serie,
-                        remarque: commun.remarque, nonNumerote };
+                        remarque: commun.remarque, nonNumerote, prixPaye: commun.prixPaye, dateAchat: commun.dateAchat };
     this._nouvelle();
     if (compteExcel) $("base-etat").textContent = compteExcel;
     window.scrollTo(0, 0); // « 📷 Photographier un blister » (suivant) et « Autre exemplaire » juste sous les yeux
@@ -1150,6 +1155,7 @@ const Base = {
     if (!e) return;
     this._precedent = { photo: e.photo, verso: e.verso, versoTexte: e.versoTexte || "", nom: e.nom, precision: e.precision || "", code: e.code || "",
                         nomLu: e.nom, codeLu: e.code || "", serie: e.serie || "", remarque: e.remarque || "", nonNumerote: e.numerote === false,
+                        prixPaye: e.prixPaye || 0, dateAchat: e.dateAchat || "",
                         source: null, sourceVerso: null, cadre: null, cadreVerso: null };
     this.autreExemplaire();
     $("base-etat").textContent = "Exemplaire de plus, mêmes photos : tapez seulement son numéro, puis « Ajouter ». Pour prendre des photos de cet exemplaire, touchez « Autre exemplaire … : photographier ».";
@@ -1175,6 +1181,9 @@ const Base = {
     $("base-photo").src = URL.createObjectURL(this.photo);
     if (this.verso) { $("base-verso").src = URL.createObjectURL(this.verso); $("base-verso").hidden = false; }
     $("base-nom").value = p.nom; if ($("base-precision")) $("base-precision").value = p.precision || ""; $("base-serie").value = p.serie; $("base-remarque").value = p.remarque;
+    // autre exemplaire : même prix et même date proposés (même lot, même vente), modifiables
+    if ($("base-prix")) $("base-prix").value = p.prixPaye ? String(p.prixPaye).replace(".", ",") : "";
+    if ($("base-date-achat")) $("base-date-achat").value = p.dateAchat || "";
     if ($("base-non-numerote")) { $("base-non-numerote").checked = p.nonNumerote; this._numerote(); }
     $("base-fiche").hidden = false;
     $("base-etat").textContent = fichier ? "Même figurine : photographiez le verso, puis tapez le numéro de cet exemplaire."
@@ -1338,6 +1347,8 @@ const Base = {
         <div>${champ("serie", "Série limitée à", e.serie, 'inputmode="numeric"')}</div></div>
       <label class="case-a-cocher"><input type="checkbox" data-modif="nonnum" ${e.numerote === false ? "checked" : ""}> Non numérotée</label>
       ${champ("remarque", "Note particulière", e.remarque, 'autocapitalize="characters"')}
+      <div class="deux-champs"><div>${champ("prix", "Prix payé (€)", e.prixPaye ? String(e.prixPaye).replace(".", ",") : "", 'inputmode="decimal"')}</div>
+        <div>${champ("dateachat", "Acheté le", e.dateAchat)}</div></div>
       <p class="etiquette-champ">Changer la photo</p>
       <div class="recto-verso"><img class="photo-apercu" data-modif-img="recto" src="${URL.createObjectURL(e.photo)}" alt="Recto">
         ${e.verso ? `<img class="photo-apercu" data-modif-img="verso" src="${URL.createObjectURL(e.verso)}" alt="Verso">` : `<p class="photo-apercu aide" data-modif-img="verso">Pas de verso</p>`}</div>
@@ -1431,7 +1442,8 @@ const Base = {
     const v = k => carte.querySelector(`[data-modif="${k}"]`).value.trim();
     const nonNum = carte.querySelector('[data-modif="nonnum"]').checked;
     const nouveau = { nom: v("nom").toUpperCase(), precision: v("precision"), numero: nonNum ? "" : v("numero"),
-                      serie: nonNum ? "" : v("serie").replace(/\D/g, ""), remarque: v("remarque").toUpperCase(), numerote: !nonNum };
+                      serie: nonNum ? "" : v("serie").replace(/\D/g, ""), remarque: v("remarque").toUpperCase(), numerote: !nonNum,
+                      prixPaye: lirePrixSaisi(v("prix")), dateAchat: v("dateachat") };
     if (!nouveau.nom) { await demander("Le nom ne peut pas être vide.", "OK", "Fermer"); return; }
     const cle = cleFigurine(nouveau.nom, nouveau.precision);
     const doublon = nouveau.numero && this.entrees.find(x => x !== e && x.numero === nouveau.numero && cleFigurine(x.nom, x.precision) === cle);

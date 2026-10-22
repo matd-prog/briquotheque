@@ -75,7 +75,7 @@ const EcranAchats = {
   async _exemplaires() {
     const recense = ((await Memoire.lire("base")) || []).filter(e => e.nom);
     if (recense.length) return { source: "recensement", liste: recense.map(e => ({ nom: nomComplet(e), numero: e.numero || "", serie: e.serie || "", code: e.code || "", note: e.remarque || "",
-      groupe: e.precision ? cleFigurine(e.nom, e.precision) : "" })) };
+      groupe: e.precision ? cleFigurine(e.nom, e.precision) : "", prixPaye: e.prixPaye || 0 })) };
     const liste = [];
     const onglet = etat.collection && etat.collection[THEME_CUSTOMS.onglet];
     for (const c of (onglet ? onglet.cases : [])) {
@@ -113,7 +113,9 @@ const EcranAchats = {
       const vendre = g.ex.filter(e => !garde.includes(e));
       if (!vendre.length) continue;
       const jb = (g.code && CatalogueJB.parCode && CatalogueJB.parCode.get(g.code.toUpperCase())) || null;
-      const cout = med(paye(g.nom));
+      // prix payé : celui tapé avec les blisters (prix réel de chaque exemplaire), sinon les achats retrouvés par le nom
+      const tapes = g.ex.map(e => e.prixPaye).filter(p => p > 0);
+      const cout = tapes.length ? med(tapes) : med(paye(g.nom));
       const eb = this.ebayPour(g.nom) || (jb && this.ebayPour(jb.nom));
       const conseille = cout ? this._revente(cout) : 0;
       let prix = Math.max(conseille, eb ? Math.round(eb.med) : 0);

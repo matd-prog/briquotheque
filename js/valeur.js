@@ -92,6 +92,23 @@ const Valeur = {
           if (type === "MINIFIG" && codeInvalide(c.code)) continue;
           res.push({ type, code: c.code.toLowerCase(), nom: c.nom, onglet, etat: "" });
         }
+    // Prix payé tapé avec le blister (écran Base de blisters, depuis le 22/10/2026) : rattaché à l'exemplaire de l'onglet
+    // Customs de même code (sinon même nom) et même numéro ; chaque blister ne sert qu'une fois
+    try {
+      const payes = ((await Memoire.lire("base")) || []).filter(e => e.prixPaye > 0 && e.possede !== false);
+      if (payes.length) {
+        const num = n => { const m = /\s(\d{1,4})\s*(?:\/\s*\d{1,4})?\s*$/.exec(n || ""); return m ? m[1] : ""; };
+        const pris = new Set();
+        const trouver = (a, test) => payes.find(e => !pris.has(e) && String(e.numero || "") === num(a.nom) && test(e));
+        for (const a of res.filter(x => x.type === "CUSTOM")) {
+          const e = (a.code && trouver(a, e => (e.code || "").toUpperCase() === a.code))
+            || trouver(a, e => cleCustom(nomComplet(e)) === cleCustom(a.nom) || cleCustom(e.nom) === cleCustom(a.nom));
+          if (!e) continue;
+          pris.add(e);
+          a.achat = { prix: e.prixPaye, vendeur: "", date: e.dateAchat || "", saisi: true };
+        }
+      }
+    } catch (err) { console.warn("prix des blisters", err); }
     try { await CatalogueSets.charger(); } catch (e) { /* sans catalogue : sets comptés comme sets entiers */ }
     // Pas de doublon : une figurine rangée dans les onglets de figurines n'est pas comptée une 2e fois dans un set
     // (elle est retirée du prix du set) ni comme figurine de série de l'onglet Sets. Chaque exemplaire ne sert qu'une fois.
@@ -517,6 +534,7 @@ const Valeur = {
       if (jb && jb.prix && jb.source === "jb" && !jb.epuisee) return { v: jb.prix, enVente: true, source: "Prix JB Spielwaren (encore en vente)" };
       if (a.achat) { // ligne de l'onglet Customs achetées : son propre prix payé (port compris)
         const quand = /^\d{4}-\d\d-\d\d$/.test(a.achat.date) ? new Date(a.achat.date).toLocaleDateString("fr-FR") : a.achat.date;
+        if (a.achat.saisi) return { v: a.achat.prix, jb, source: quand ? `Prix payé (indiqué avec le blister, ${quand})` : "Prix payé (indiqué avec le blister)" };
         return { v: a.achat.prix, jb, source: a.achat.lot ? `Prix payé (lot ${a.achat.vendeur}, ${quand})` : `Prix d'achat (${a.achat.vendeur}, ${quand})` };
       }
       const mots = motsCustom([a.nom, jb && jb.nom].filter(Boolean).join(" "));

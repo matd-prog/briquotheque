@@ -125,6 +125,15 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v170 (22/10) : PRIX PAYÉ DE CHAQUE BLISTER (Mathias : il va reprendre ses blisters en indiquant le prix payé, pour la
+    valeur et la revente). Écran Base de blisters (appli ET mini-appli contribuer.html) : « Prix payé (€, facultatif) »
+    et « Acheté le (facultatif) » sous la note ; enregistrés dans le blister (prixPaye, dateAchat), proposés à nouveau
+    pour « Autre exemplaire » / ➕, modifiables (✏️ du blister). Jamais envoyés : ni base commune, ni fichier .zip (colonnes
+    fixes). Valeur (js/valeur.js _articles) : prix rattaché à l'exemplaire de l'onglet Customs de même code (sinon même
+    nom) et même n° -> custom encore en vente chez JB : prix JB (coût de rachat) ; épuisée : le plus haut entre ce prix,
+    le dernier prix JB et eBay.de ; hors catalogue : ce prix au lieu du prix par défaut. Revente (js/achats.js) : prix
+    payé = médiane des prix tapés des exemplaires, sinon achats Whatnot retrouvés par le nom. Testé (Playwright) : prix
+    enregistré, proposé pour l'exemplaire suivant, modifiable ; valeur 55 € (épuisée) au lieu de 24 €. Contrôle complet OK.
   · v169 (20/10) : TILES : PRIX PAYÉ FACULTATIF (Mathias : souvent offerts, pas le but de les valoriser). Libellés « facultatif :
     vide si offert » (écran d'ajout, fiche), texte d'intro ; objet JB sans prix = compté pour 0, plus de carte « Objets JB
     sans prix » dans Valeur ; ceux qui ont un prix (achats repris) restent comptés à leur prix payé. Contrôle complet OK.

@@ -577,6 +577,14 @@
         <button class="petit" data-note="CADEAU / GIVEAWAY">🎁 CADEAU</button>
         <button class="petit" data-note="BRICKS OF MAZE">🧩 BRICKS OF MAZE</button>
       </div>
+      <!-- prix payé de chaque blister (Mathias, 22/10/2026) : valeur de la collection et prix de revente ; reste dans le téléphone -->
+      <div class="deux-champs">
+        <div><label for="base-prix" class="etiquette-champ">Prix payé (€, facultatif)</label>
+          <input id="base-prix" class="champ" inputmode="decimal" autocomplete="off" placeholder="ex. 24,90"></div>
+        <div><label for="base-date-achat" class="etiquette-champ">Acheté le (facultatif)</label>
+          <input id="base-date-achat" class="champ" autocomplete="off" placeholder="ex. 20/10/2026"></div>
+      </div>
+      <p class="aide">Prix d'un exemplaire, port compris : il sert à la valeur de la collection et aux prix de revente. Il reste dans votre téléphone.</p>
       <div id="base-bloc-excel" hidden>
         <input type="checkbox" id="base-excel" checked hidden>
         <p class="score" id="base-excel-info"></p>
