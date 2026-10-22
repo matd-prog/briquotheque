@@ -1,6 +1,7 @@
 // Fonctionnement de l'écran : photo -> identification -> « Ajouter à ma collection ? » -> étiquette dans Excel
 
 const BRICKOGNIZE = "https://api.brickognize.com/predict/figs/";
+const BRICKOGNIZE_TOUT = "https://api.brickognize.com/predict/"; // figurines, sets et pièces : dit ce que montre la photo
 const $ = id => document.getElementById(id);
 
 const etat = {
@@ -97,7 +98,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v173"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v174"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -385,7 +386,7 @@ for (const id of ["input-photo", "input-galerie"]) {
     const f = e.target.files[0];
     e.target.value = "";
     if (!f) return;
-    $("recadrage-titre").textContent = "Encadrez la figurine : glissez le cadre, ou tirez ses coins.";
+    $("recadrage-titre").textContent = "Encadrez la figurine (ou le blister, le set…) : glissez le cadre, ou tirez ses coins.";
     const photo = await Recadrage.ouvrir(f).catch(() => null);
     if (!photo) { afficher("accueil"); return; }
     etat.photos = [];
@@ -405,10 +406,10 @@ $("input-dos").addEventListener("change", async e => {
   identifier(photo);
 });
 
-async function interrogerBrickognize(photo) {
+async function interrogerBrickognize(photo, adresse = BRICKOGNIZE) {
   const form = new FormData();
   form.append("query_image", photo, "photo.jpg");
-  const rep = await fetch(BRICKOGNIZE, { method: "POST", body: form });
+  const rep = await fetch(adresse, { method: "POST", body: form });
   if (!rep.ok) throw new Error("Brickognize a répondu " + rep.status);
   const donnees = await rep.json();
   return (donnees.items || []).slice(0, 10).map(it => ({
@@ -417,6 +418,7 @@ async function interrogerBrickognize(photo) {
     image: it.img_url || "",
     score: typeof it.score === "number" ? it.score : null,
     categorie: it.category || "",
+    type: it.type || "", // fig, set ou part (adresse /predict/)
     lien: ((it.external_sites || []).find(s => /bricklink/i.test(s.name || s.url || "")) || {}).url || urlBricklink(String(it.id || "")),
   })).filter(it => it.id);
 }
@@ -435,26 +437,50 @@ function combiner(photos) {
     .slice(0, NB_PROPOSITIONS);
 }
 
-// Photo de blister JB prise par « Photographier une figurine » (Mathias, 22/10/2026) : Brickognize n'y voit qu'une
-// figurine. Le décor de la photo entière est comparé aux blisters connus ; très ressemblant (mesure du 22/10 : blisters
-// photographiés 0,95 à 1, figurines seules et autres photos 0,93 au plus), l'écran de résultat propose en avant de la
-// reconnaître comme blister ; sinon, un simple lien le permet quand même.
-const SEUIL_DECOR_BLISTER = 0.94;
+// Figurine, blister JB ou autre chose ? (Mathias, 22/10/2026 : « différencier quand c'est une figurine, un blister, ou
+// autre chose ») La même photo sert à tout ; on ne choisit plus le bon bouton avant de photographier.
+// - Blister JB : la photo entière est comparée aux blisters connus par la reconnaissance d'image (js/vision.js). Mesure
+//   du 22/10 : blisters (dont jamais vus) 0,65 à 1, presque tous au-dessus de 0,72 ; tiles, porte-clés, captures
+//   d'écran 0,68 au plus. Sûr (≥ 0,75) : on passe tout de suite à la reconnaissance des blisters ; entre 0,70 et 0,75 :
+//   proposé en avant sur l'écran de résultat. (Le décor seul ne suffisait pas : des tiles y montaient à 0,95.)
+// - Set ou pièce : Brickognize, tous objets (/predict/), dit si la photo ressemble surtout à un set, une pièce ou une
+//   figurine. Set : proposé comme set (n° trouvé) ; pièce (tile, élément…) : proposée comme tile JB ou objet dérivé.
+const SEUIL_BLISTER_SUR = 0.75, SEUIL_BLISTER_PEUT_ETRE = 0.7;
 async function blisterRessemblant(fichier) {
-  if (typeof CatalogueJB === "undefined" || typeof empreinteImage !== "function" || !fichier) return null;
-  try {
+  if (typeof Vision === "undefined" || typeof CatalogueJB === "undefined" || !fichier) return null;
+  const essai = (async () => {
     await CatalogueJB.charger();
-    await CatalogueJB.chargerEmpreintes();
-    const [r] = CatalogueJB.classerParDecor(await createImageBitmap(fichier), 1);
-    return r && r.score >= SEUIL_DECOR_BLISTER ? r.f : null;
-  } catch (err) { console.warn(err); return null; }
+    let meilleur = null;
+    for (const [f, score] of await Vision.classer(await createImageBitmap(fichier))) if (!meilleur || score > meilleur.score) meilleur = { f, score };
+    return meilleur && meilleur.score >= SEUIL_BLISTER_PEUT_ETRE ? { nom: meilleur.f.nom, score: meilleur.score } : null;
+  })().catch(err => { console.warn(err); return null; });
+  // première fois : modèle de vision à télécharger (24 Mo) ; la figurine ne l'attend pas plus de 20 s
+  return Promise.race([essai, new Promise(ok => setTimeout(() => ok(null), 20000))]);
+}
+// Ce que Brickognize voit d'autre qu'une figurine : { sorte: "set" | "piece", id, nom } ou null
+function autreQueFigurine(general, figurines) {
+  const g = general[0], fig = (figurines[0] && figurines[0].score) || 0;
+  if (!g || g.score == null || g.score < 0.5) return null;
+  if (g.type === "set" && g.score > fig) return { sorte: "set", id: g.id, nom: g.nom };
+  if (g.type === "part" && fig < 0.5) return { sorte: "piece", id: g.id, nom: g.nom };
+  return null;
 }
 function afficherAlerteBlister() {
   const z = $("alerte-blister");
   z.hidden = !(etat.origine === "photo" && etat.photos.length && etat.fichierPhoto);
+  const autre = etat.autreVu;
   z.innerHTML = z.hidden ? "" : etat.blisterVu
     ? `<div class="alerte">📦 Cette photo ressemble au blister JB « ${echapper(etat.blisterVu.nom)} ». S'il s'agit d'un blister, faites-le reconnaître comme blister (nom, n°, base commune).
         <button class="gros-bouton vert" data-action="photo-vers-blister">📦 Reconnaître le blister JB</button></div>`
+    : autre && autre.sorte === "set"
+    ? `<div class="alerte">🧱 Cette photo ressemble plutôt au set LEGO « ${echapper(autre.nom)} » (${echapper(autre.id)}).
+        <button class="gros-bouton vert" data-action="photo-vers-set">🧱 Ajouter ce set</button></div>
+       <button class="bouton-lien" data-action="photo-vers-blister">📦 C'est un blister JB ? Le reconnaître comme blister</button>`
+    : autre
+    ? `<div class="alerte">🟪 Cette photo ressemble plutôt à une pièce (« ${echapper(autre.nom)} ») qu'à une figurine.
+        <button class="bouton bleu" data-action="objet-jb">🟪 Tile ou objet JB</button>
+        <button class="bouton bleu" data-action="objet">🔑 Objet dérivé</button></div>
+       <button class="bouton-lien" data-action="photo-vers-blister">📦 C'est un blister JB ? Le reconnaître comme blister</button>`
     : `<button class="bouton-lien" data-action="photo-vers-blister">📦 C'est un blister JB ? Le reconnaître comme blister</button>`;
 }
 async function photoVersBlister() {
@@ -462,6 +488,22 @@ async function photoVersBlister() {
   if (!f) return;
   await Base.ouvrir();
   Base.lirePhoto(f);
+}
+async function photoVersSet() {
+  const a = etat.autreVu;
+  if (!a) return;
+  await EcranSet.ouvrir();
+  $("set-numero").value = a.id;
+  EcranSet.chercher();
+}
+// Pas une figurine : on demande quoi en faire ; true si l'utilisateur a choisi une autre voie
+async function proposerAutreChose(autre) {
+  if (autre.sorte === "set") {
+    if (await demander(`Pas de figurine seule sur cette photo, mais elle ressemble au set LEGO « ${autre.nom} » (${autre.id}).\n\nL'ajouter comme set ?`, "🧱 Oui, ajouter ce set", "Fermer")) photoVersSet();
+    return true;
+  }
+  if (await demander(`Pas de figurine seule sur cette photo : elle ressemble plutôt à une pièce (« ${autre.nom} »).\n\nL'ajouter comme tile ou objet JB ?`, "🟪 Tile ou objet JB", "Fermer")) ObjetsJB.ouvrir();
+  return true;
 }
 
 async function identifier(photo) {
@@ -471,21 +513,31 @@ async function identifier(photo) {
   afficher("chargement");
   // nouvelles figurines qui ressemblent (Brickognize ne les connaît souvent pas encore) : première photo seulement
   const premiere = !etat.photos.length;
-  if (premiere) etat.blisterVu = null;
+  if (premiere) { etat.blisterVu = null; etat.autreVu = null; }
   const pBlister = premiere ? blisterRessemblant(etat.fichierPhoto) : Promise.resolve(etat.blisterVu);
+  const pGeneral = premiere ? interrogerBrickognize(photo, BRICKOGNIZE_TOUT).catch(err => { console.warn(err); return []; }) : Promise.resolve([]);
   const pSemblables = premiere && typeof Nouveautes !== "undefined"
     ? Nouveautes.semblables(photo).catch(err => { console.warn(err); return []; }) : Promise.resolve([]);
+  const pItems = interrogerBrickognize(photo);
+  pItems.catch(() => {});
   try {
-    const items = await interrogerBrickognize(photo);
+    etat.blisterVu = await pBlister;
+    if (premiere && etat.blisterVu && etat.blisterVu.score >= SEUIL_BLISTER_SUR) {
+      toast(`📦 Blister JB sur la photo (« ${etat.blisterVu.nom} ») : reconnaissance du blister`, 4000);
+      photoVersBlister();
+      return;
+    }
+    const items = await pItems;
     const proches = await pSemblables;
     const semblables = proches.map(x => Nouveautes.candidat(x.n));
-    etat.blisterVu = await pBlister;
+    if (premiere) etat.autreVu = autreQueFigurine(await pGeneral, items);
     if (!items.length && !semblables.length) {
       afficher(etat.photos.length ? "resultat" : "accueil");
       if (premiere && etat.blisterVu) {
         if (await demander(`Aucune figurine seule reconnue, mais la photo ressemble au blister JB « ${etat.blisterVu.nom} ».\n\nLe reconnaître comme blister ?`, "📦 Oui, c'est un blister", "Fermer")) photoVersBlister();
         return;
       }
+      if (premiere && etat.autreVu && await proposerAutreChose(etat.autreVu)) return;
       await demander("Aucune figurine reconnue sur cette photo. Essayez avec la figurine seule, bien éclairée, sur un fond uni, en la recadrant au plus près.", "OK", "Fermer");
       return;
     }
@@ -1919,6 +1971,7 @@ document.addEventListener("click", async e => {
   }
   else if (action === "saisie") ouvrirSaisie();
   else if (action === "photo-vers-blister") photoVersBlister();
+  else if (action === "photo-vers-set") photoVersSet();
   else if (action === "nouveautes") EcranNouveautes.ouvrir();
   else if (action === "nouveautes-series") { $("recherche-texte").value = ""; ouvrirRecherche(true); }
   else if (action === "collection") Collection.ouvrir();
