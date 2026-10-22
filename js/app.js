@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v172"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v173"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -389,6 +389,7 @@ for (const id of ["input-photo", "input-galerie"]) {
     const photo = await Recadrage.ouvrir(f).catch(() => null);
     if (!photo) { afficher("accueil"); return; }
     etat.photos = [];
+    etat.fichierPhoto = f; // photo entière : si c'est un blister JB, elle passe à la reconnaissance des blisters
     identifier(photo);
   });
 }
@@ -434,6 +435,35 @@ function combiner(photos) {
     .slice(0, NB_PROPOSITIONS);
 }
 
+// Photo de blister JB prise par « Photographier une figurine » (Mathias, 22/10/2026) : Brickognize n'y voit qu'une
+// figurine. Le décor de la photo entière est comparé aux blisters connus ; très ressemblant (mesure du 22/10 : blisters
+// photographiés 0,95 à 1, figurines seules et autres photos 0,93 au plus), l'écran de résultat propose en avant de la
+// reconnaître comme blister ; sinon, un simple lien le permet quand même.
+const SEUIL_DECOR_BLISTER = 0.94;
+async function blisterRessemblant(fichier) {
+  if (typeof CatalogueJB === "undefined" || typeof empreinteImage !== "function" || !fichier) return null;
+  try {
+    await CatalogueJB.charger();
+    await CatalogueJB.chargerEmpreintes();
+    const [r] = CatalogueJB.classerParDecor(await createImageBitmap(fichier), 1);
+    return r && r.score >= SEUIL_DECOR_BLISTER ? r.f : null;
+  } catch (err) { console.warn(err); return null; }
+}
+function afficherAlerteBlister() {
+  const z = $("alerte-blister");
+  z.hidden = !(etat.origine === "photo" && etat.photos.length && etat.fichierPhoto);
+  z.innerHTML = z.hidden ? "" : etat.blisterVu
+    ? `<div class="alerte">📦 Cette photo ressemble au blister JB « ${echapper(etat.blisterVu.nom)} ». S'il s'agit d'un blister, faites-le reconnaître comme blister (nom, n°, base commune).
+        <button class="gros-bouton vert" data-action="photo-vers-blister">📦 Reconnaître le blister JB</button></div>`
+    : `<button class="bouton-lien" data-action="photo-vers-blister">📦 C'est un blister JB ? Le reconnaître comme blister</button>`;
+}
+async function photoVersBlister() {
+  const f = etat.fichierPhoto;
+  if (!f) return;
+  await Base.ouvrir();
+  Base.lirePhoto(f);
+}
+
 async function identifier(photo) {
   const url = URL.createObjectURL(photo);
   $("photo-apercu").src = url;
@@ -441,14 +471,21 @@ async function identifier(photo) {
   afficher("chargement");
   // nouvelles figurines qui ressemblent (Brickognize ne les connaît souvent pas encore) : première photo seulement
   const premiere = !etat.photos.length;
+  if (premiere) etat.blisterVu = null;
+  const pBlister = premiere ? blisterRessemblant(etat.fichierPhoto) : Promise.resolve(etat.blisterVu);
   const pSemblables = premiere && typeof Nouveautes !== "undefined"
     ? Nouveautes.semblables(photo).catch(err => { console.warn(err); return []; }) : Promise.resolve([]);
   try {
     const items = await interrogerBrickognize(photo);
     const proches = await pSemblables;
     const semblables = proches.map(x => Nouveautes.candidat(x.n));
+    etat.blisterVu = await pBlister;
     if (!items.length && !semblables.length) {
       afficher(etat.photos.length ? "resultat" : "accueil");
+      if (premiere && etat.blisterVu) {
+        if (await demander(`Aucune figurine seule reconnue, mais la photo ressemble au blister JB « ${etat.blisterVu.nom} ».\n\nLe reconnaître comme blister ?`, "📦 Oui, c'est un blister", "Fermer")) photoVersBlister();
+        return;
+      }
       await demander("Aucune figurine reconnue sur cette photo. Essayez avec la figurine seule, bien éclairée, sur un fond uni, en la recadrant au plus près.", "OK", "Fermer");
       return;
     }
@@ -601,6 +638,7 @@ function blocVariantes(code) {
 
 function choisirCandidat(i) {
   const cand = etat.candidats[i];
+  afficherAlerteBlister();
   etat.choisi = cand;
   etat.theme = proposerTheme(cand);
   etat.camp = proposerCamp(cand.id, cand.nom, etat.table).camp;
@@ -1180,7 +1218,7 @@ let indiceBlister = [];
 
 // « 📦 Photographier un blister » : même chemin que le recensement (recto, verso, identification, n° déjà
 // recensés) ; la figurine est ajoutée en même temps à l'onglet Customs du fichier Excel (case cochée par défaut)
-$("input-blister").addEventListener("change", async e => {
+for (const id of ["input-blister", "input-blister-galerie"]) $(id).addEventListener("change", async e => {
   const f = e.target.files[0];
   e.target.value = "";
   if (!f) return;
@@ -1880,6 +1918,7 @@ document.addEventListener("click", async e => {
     else afficher(etat.classeur ? "accueil" : "fichier");
   }
   else if (action === "saisie") ouvrirSaisie();
+  else if (action === "photo-vers-blister") photoVersBlister();
   else if (action === "nouveautes") EcranNouveautes.ouvrir();
   else if (action === "nouveautes-series") { $("recherche-texte").value = ""; ouvrirRecherche(true); }
   else if (action === "collection") Collection.ouvrir();

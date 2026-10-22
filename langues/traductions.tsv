@@ -1383,3 +1383,11 @@ Quel exemplaire ?	Which copy?	Welches Exemplar?	¿Qué ejemplar?
 Prix payé par exemplaire (€, facultatif)	Price paid per copy (€, optional)	Bezahlter Preis pro Stück (€, optional)	Precio pagado por ejemplar (€, opcional)
 Prix payé enregistré ✔	Price paid saved ✔	Bezahlter Preis gespeichert ✔	Precio pagado guardado ✔
 Prix payé (pas de prix de marché)	Price paid (no market price)	Bezahlter Preis (kein Marktpreis)	Precio pagado (sin precio de mercado)
+Blister, photo déjà prise	Blister, existing photo	Blister, vorhandenes Foto	Blíster, foto ya tomada
+Blister JB, depuis la galerie	JB blister, from the gallery	JB-Blister, aus der Galerie	Blíster JB, desde la galería
+📦 Cette photo ressemble au blister JB « {0} ». S'il s'agit d'un blister, faites-le reconnaître comme blister (nom, n°, base commune).	📦 This photo looks like the JB blister “{0}”. If it is a blister, have it recognised as a blister (name, number, shared database).	📦 Dieses Foto ähnelt dem JB-Blister „{0}“. Wenn es ein Blister ist, lassen Sie ihn als Blister erkennen (Name, Nr., gemeinsame Datenbank).	📦 Esta foto se parece al blíster JB «{0}». Si es un blíster, hágalo reconocer como blíster (nombre, n.º, base común).
+📦 Reconnaître le blister JB	📦 Recognise the JB blister	📦 JB-Blister erkennen	📦 Reconocer el blíster JB
+📦 C'est un blister JB ? Le reconnaître comme blister	📦 Is it a JB blister? Recognise it as a blister	📦 Ist es ein JB-Blister? Als Blister erkennen	📦 ¿Es un blíster JB? Reconocerlo como blíster
+Aucune figurine seule reconnue, mais la photo ressemble au blister JB « {0} ».	No loose minifigure recognised, but the photo looks like the JB blister “{0}”.	Keine einzelne Minifigur erkannt, aber das Foto ähnelt dem JB-Blister „{0}“.	No se ha reconocido ninguna minifigura suelta, pero la foto se parece al blíster JB «{0}».
+Le reconnaître comme blister ?	Recognise it as a blister?	Als Blister erkennen?	¿Reconocerlo como blíster?
+📦 Oui, c'est un blister	📦 Yes, it's a blister	📦 Ja, es ist ein Blister	📦 Sí, es un blíster

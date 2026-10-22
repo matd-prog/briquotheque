@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v173 (22/10) : PHOTO DE BLISTER PRISE COMME FIGURINE (Mathias : « il m'identifie un blister comme étant une figurine »).
+    « Photographier une figurine » envoie la photo à Brickognize, qui ne connaît que les figurines seules. Le décor de la photo
+    entière est maintenant comparé aux blisters JB connus (seuil 0,94 : blisters photographiés 0,95–1, figurines seules et
+    autres photos ≤ 0,93) : bandeau « Cette photo ressemble au blister JB … » + bouton qui passe à la reconnaissance des
+    blisters avec la même photo ; sinon petit lien « C'est un blister JB ? ». Nouvelle tuile « Blister, photo déjà prise »
+    (galerie) à l'accueil et dans Ma collection > Ajouter.
   · v172 (22/10) : DATE D'ACHAT AU CALENDRIER (Mathias). Tous les champs « Acheté le » / « Date d'achat » (figurine, blister
     JB y compris contribuer.html, set, objet, tile JB, fiches à modifier) ouvrent le calendrier du téléphone, sur la date du
     jour par défaut ; plus besoin de taper les barres obliques. Dates toujours enregistrées en JJ/MM/AAAA (base.js : dateChamp,

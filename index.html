@@ -77,6 +77,8 @@
     <div class="tuiles">
       <label class="tuile"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Figurine, depuis la galerie</small>
         <input type="file" id="input-galerie" accept="image/*" hidden></label>
+      <label class="tuile"><span class="icone">🖼️</span><b>Blister, photo déjà prise</b><small>Blister JB, depuis la galerie</small>
+        <input type="file" id="input-blister-galerie" accept="image/*" hidden></label>
       <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Figurine (BrickLink)</small></button>
       <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Set LEGO</b><small>Ou Youmko, Pantasy, Cobi…</small></button>
@@ -195,6 +197,7 @@
         <label class="tuile" for="input-photo"><span class="icone">📷</span><b>Figurine</b><small>La photographier</small></label>
         <label class="tuile" for="input-blister"><span class="icone">📦</span><b>Blister JB</b><small>Le photographier</small></label>
         <label class="tuile" for="input-galerie"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Figurine, depuis la galerie</small></label>
+        <label class="tuile" for="input-blister-galerie"><span class="icone">🖼️</span><b>Blister, photo déjà prise</b><small>Blister JB, depuis la galerie</small></label>
         <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Figurine (BrickLink)</small></button>
         <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
         <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>
@@ -643,6 +646,8 @@
 
   <!-- 4. Résultat -->
   <section id="ecran-resultat" class="ecran" hidden>
+    <!-- photo de blister prise par « Photographier une figurine » (Mathias, 22/10/2026) : passage à la reconnaissance des blisters -->
+    <div id="alerte-blister" hidden></div>
     <div id="carte-principale" class="carte"></div>
     <div id="zone-ajout"></div>
     <div id="autres" class="autres">
