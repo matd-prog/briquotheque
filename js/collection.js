@@ -194,6 +194,7 @@ const Collection = {
       { cle: "H", titre: "Notice", type: "case", valeur: ouiNon(a.notice) },
       { cle: "K", titre: "Quantité", type: "nombre", valeur: a.quantite || 1 },
       { cle: "N", titre: "Prix payé (€)", type: "nombre", valeur: a.prixPaye || "" },
+      { cle: "P", titre: "Acheté le", valeur: a.dateAchat || "" },
       ...(lego ? [] : [{ cle: "O", titre: "Prix fabricant (€)", type: "nombre", valeur: a.prixFabricant || "" }]),
       { cle: "L", titre: "Remarques", valeur: a.remarques },
     ] : [
@@ -201,6 +202,8 @@ const Collection = {
       { cle: "C", titre: "Type (porte-clés, lampe…)", valeur: a.type },
       { cle: "D", titre: "État", type: "choix", valeur: a.etat, options: ["Neuf (emballage)", "Occasion"] },
       { cle: "E", titre: "Quantité", type: "nombre", valeur: a.quantite || 1 },
+      { cle: "H", titre: "Prix payé (€)", type: "nombre", valeur: a.prixPaye || "" },
+      { cle: "I", titre: "Acheté le", valeur: a.dateAchat || "" },
       { cle: "F", titre: "Remarques", valeur: a.remarques },
     ];
     const v = await demanderFormulaire(`${a.nom || a.code}\n${a.code} · ${onglet}`, champs);
@@ -508,6 +511,7 @@ const Collection = {
       a("moins", cases.length > 1 ? "➖ Retirer un exemplaire" : "➖ Retirer de la collection", () => this._retirer(onglet, cases)),
       ...(custom ? [a("numero", nums.length ? "✏️ Corriger un numéro" : "✏️ Indiquer le numéro", () => this._corrigerNumero(onglet, cases))] : []),
       a("nom", "🔤 Renommer" + (cases.length > 1 ? ` (les ${cases.length} exemplaires)` : ""), () => this._renommer(onglet, cases)),
+      ...(this._base() ? [a("prix", cases.some(x => x.prixPaye > 0) ? "💶 Prix payé, date d'achat" : "💶 Indiquer le prix payé", () => this._prixPaye(onglet, cases))] : []),
       ...(lien ? [a("lien", custom ? "🔗 Voir la page" : "🔗 Voir sur BrickLink", () => {
         const l = lienOuvrable(lien);
         if (l.startsWith("intent:")) location.href = l; else window.open(l, "_blank", "noopener");
@@ -614,6 +618,17 @@ const Collection = {
         await renommerFigurine(etat.classeur, onglet, x.row, x.col, num ? `${nom} ${num}` : nom);
       }
     }, `Renommé « ${nom} »${cases.length > 1 ? ` (${cases.length} exemplaires)` : ""}`);
+  },
+
+  // Prix payé et date d'achat d'un exemplaire (facultatifs) : valeur sans prix de marché, revente
+  async _prixPaye(onglet, cases) {
+    const x = await this._choisirExemplaire("Quel exemplaire ?", cases);
+    if (!x) return;
+    const v = await demanderFormulaire(`${x.nom || x.code}`, [
+      { cle: "prix", titre: "Prix payé par exemplaire (€, facultatif)", type: "nombre", valeur: x.prixPaye || "" },
+      { cle: "date", titre: "Acheté le (facultatif)", valeur: x.dateAchat || "" }]);
+    if (!v) return;
+    await this._modifierFichier(() => etat.classeur.figAchat(x.row, lirePrixSaisi(v.prix), String(v.date || "").trim()), "Prix payé enregistré");
   },
 
   async _corrigerNumero(onglet, cases) {

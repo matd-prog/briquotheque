@@ -1375,3 +1375,11 @@ Prix payé (€)	Price paid (€)	Bezahlter Preis (€)	Precio pagado (€)
 Acheté le	Bought on	Gekauft am	Comprado el
 Prix payé (indiqué avec le blister)	Price paid (entered with the blister)	Bezahlter Preis (beim Blister angegeben)	Precio pagado (indicado con el blíster)
 Prix payé (indiqué avec le blister, {0})	Price paid (entered with the blister, {0})	Bezahlter Preis (beim Blister angegeben, {0})	Precio pagado (indicado con el blíster, {0})
+par exemplaire	per copy	pro Stück	por ejemplar
+ex. 79,99	e.g. 79.99	z. B. 79,99	p. ej. 79,99
+💶 Prix payé, date d'achat	💶 Price paid, purchase date	💶 Bezahlter Preis, Kaufdatum	💶 Precio pagado, fecha de compra
+💶 Indiquer le prix payé	💶 Enter the price paid	💶 Bezahlten Preis angeben	💶 Indicar el precio pagado
+Quel exemplaire ?	Which copy?	Welches Exemplar?	¿Qué ejemplar?
+Prix payé par exemplaire (€, facultatif)	Price paid per copy (€, optional)	Bezahlter Preis pro Stück (€, optional)	Precio pagado por ejemplar (€, opcional)
+Prix payé enregistré ✔	Price paid saved ✔	Bezahlter Preis gespeichert ✔	Precio pagado guardado ✔
+Prix payé (pas de prix de marché)	Price paid (no market price)	Bezahlter Preis (kein Marktpreis)	Precio pagado (sin precio de mercado)

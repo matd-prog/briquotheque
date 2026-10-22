@@ -208,7 +208,8 @@ class BaseCollection {
     const sw = this.campsSW ? [...ONGLETS_COLORES, ...(this._figs(THEME_STAR_WARS_UNIQUE.onglet).length ? [THEME_STAR_WARS_UNIQUE.onglet] : [])]
       : [THEME_STAR_WARS_UNIQUE.onglet];
     for (const nom of [...sw, ...ONGLETS_THEMES.filter(o => this.aOnglet(o))]) {
-      const cases = this._figs(nom).map(f => ({ row: f.id, col: 1, ref: `n°${f.id}`, code: f.code, nom: f.nom || "", lien: f.lien || "", image: true, camp: f.camp || "" }));
+      const cases = this._figs(nom).map(f => ({ row: f.id, col: 1, ref: `n°${f.id}`, code: f.code, nom: f.nom || "", lien: f.lien || "", image: true, camp: f.camp || "",
+                                              prixPaye: f.prixPaye || 0, dateAchat: f.dateAchat || "" }));
       res[nom] = { derniere: cases.length, cases };
     }
     return res;
@@ -218,17 +219,19 @@ class BaseCollection {
     return this._figs().map(f => ({ row: f.id, code: f.code, personnage: f.nom || "", camp: f.camp || f.onglet, statut: "Confirmé", origine: `${this._ongletAffiche(f)}!n°${f.id}` }));
   }
 
-  figAjouter({ code, nom, camp, theme, lien }) {
+  figAjouter({ code, nom, camp, theme, lien, prixPaye, dateAchat }) {
     const onglet = camp ? THEME_STAR_WARS_UNIQUE.onglet : theme;
     const id = this._prochainId(TABLE_FIGURINES);
     const f = this._poser(TABLE_FIGURINES, id, { onglet, code, nom: nom || "", lien: lien || "", camp: camp || "",
-                                                ajoute: new Date().toLocaleDateString("fr-FR") });
+                                                ajoute: new Date().toLocaleDateString("fr-FR"),
+                                                ...(prixPaye > 0 ? { prixPaye } : {}), ...(dateAchat ? { dateAchat } : {}) });
     return { onglet: this._ongletAffiche(f), ref: `n°${id}`, row: id, col: 1, nouvelleLigne: false };
   }
 
   figRetirer(row) { this._enlever(TABLE_FIGURINES, row); }
   figRecoder(row, code, lien) { const f = this._table(TABLE_FIGURINES).get(row); if (f) this._poser(TABLE_FIGURINES, row, { ...f, code, ...(lien != null ? { lien } : {}) }); }
   figRenommer(row, nom) { const f = this._table(TABLE_FIGURINES).get(row); if (f) this._poser(TABLE_FIGURINES, row, { ...f, nom }); }
+  figAchat(row, prixPaye, dateAchat) { const f = this._table(TABLE_FIGURINES).get(row); if (f) this._poser(TABLE_FIGURINES, row, { ...f, prixPaye: prixPaye || 0, dateAchat: dateAchat || "" }); }
   figDeplacer(row, onglet) { const f = this._table(TABLE_FIGURINES).get(row); if (f) this._poser(TABLE_FIGURINES, row, { ...f, onglet }); }
 
   // Étiquettes dessinées à la demande (vue « planche » de Ma collection)

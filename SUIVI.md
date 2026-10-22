@@ -125,6 +125,15 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v171 (22/10) : PRIX PAYÉ FACULTATIF SUR TOUS LES AJOUTS (Mathias). « Prix payé (€, facultatif) » + « Acheté le »
+    (champsAchat / lireAchat, js/app.js) : figurine reconnue ou cherchée (blocExemplaires), custom du catalogue JB ou par
+    lien, set LEGO ou autre marque (champs set-prix / set-date communs, l'ancien set-m-prix retiré ; colonne P « Date
+    d'achat »), objet dérivé (colonnes H « Prix payé », I « Date d'achat »), blister (v170), tile/objet JB (v168).
+    Figurines : prixPaye / dateAchat dans l'enregistrement (figAjouter, figLireCollection, figAchat) ; fiche d'une
+    figurine : « 💶 Indiquer le prix payé » / « 💶 Prix payé, date d'achat » (exemplaire choisi) ; fiches de set et
+    d'objet : champs prix et date dans ✏️ Modifier. Valeur : sans prix de marché (ni BrickLink…), le prix payé fait la
+    valeur (« Prix payé (pas de prix de marché) ») ; custom : prix tapé à l'ajout, sinon celui du blister. Testé
+    (Playwright) : figurine 12,50 €, objet 7 €, valeur, modification depuis la fiche. Contrôle complet OK.
   · v170 (22/10) : PRIX PAYÉ DE CHAQUE BLISTER (Mathias : il va reprendre ses blisters en indiquant le prix payé, pour la
     valeur et la revente). Écran Base de blisters (appli ET mini-appli contribuer.html) : « Prix payé (€, facultatif) »
     et « Acheté le (facultatif) » sous la note ; enregistrés dans le blister (prixPaye, dateAchat), proposés à nouveau

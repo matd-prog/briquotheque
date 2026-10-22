@@ -85,12 +85,13 @@ const Valeur = {
         // figurine custom (code JB-, CUS-…, ou rangée dans l'onglet Customs, même sans code) : pas sur BrickLink
         if ((c.code && /^(JB|CUS|BSC|EBAY)-/i.test(c.code))
             || (onglet === THEME_CUSTOMS.onglet && (c.code || c.nom) && !/^[a-z]{2,7}\d{2,4}[a-z]?$/i.test(c.code || "")))
-          res.push({ type: "CUSTOM", code: (c.code || "").toUpperCase(), nom: c.nom, onglet, etat: "" });
+          res.push({ type: "CUSTOM", code: (c.code || "").toUpperCase(), nom: c.nom, onglet, etat: "",
+                     ...(c.prixPaye > 0 ? { achat: { prix: c.prixPaye, vendeur: "", date: c.dateAchat || "", saisi: true } } : {}) });
         else if (c.code) {
           // dans les onglets de figurines : aussi des sets (30612-1, packs) et des porte-clés ou objets (850353)
           const type = /^\d{4,7}-\d+$/.test(c.code) ? "SET" : /^\d{5,8}$/.test(c.code) ? "GEAR" : "MINIFIG";
           if (type === "MINIFIG" && codeInvalide(c.code)) continue;
-          res.push({ type, code: c.code.toLowerCase(), nom: c.nom, onglet, etat: "" });
+          res.push({ type, code: c.code.toLowerCase(), nom: c.nom, onglet, etat: "", prixPaye: c.prixPaye || 0 });
         }
     // Prix payé tapé avec le blister (écran Base de blisters, depuis le 22/10/2026) : rattaché à l'exemplaire de l'onglet
     // Customs de même code (sinon même nom) et même numéro ; chaque blister ne sert qu'une fois
@@ -100,7 +101,7 @@ const Valeur = {
         const num = n => { const m = /\s(\d{1,4})\s*(?:\/\s*\d{1,4})?\s*$/.exec(n || ""); return m ? m[1] : ""; };
         const pris = new Set();
         const trouver = (a, test) => payes.find(e => !pris.has(e) && String(e.numero || "") === num(a.nom) && test(e));
-        for (const a of res.filter(x => x.type === "CUSTOM")) {
+        for (const a of res.filter(x => x.type === "CUSTOM" && !(x.achat && x.achat.saisi))) {
           const e = (a.code && trouver(a, e => (e.code || "").toUpperCase() === a.code))
             || trouver(a, e => cleCustom(nomComplet(e)) === cleCustom(a.nom) || cleCustom(e.nom) === cleCustom(a.nom));
           if (!e) continue;
@@ -124,7 +125,7 @@ const Valeur = {
       const code = /-\d+$/.test(s.code) ? s.code : s.code + "-1";
       const cat = CatalogueSets.sets && CatalogueSets.sets.get(code.toLowerCase());
       const figs = ((CatalogueSets.figurines && CatalogueSets.figurines.get(code.toLowerCase())) || []).filter(f => f.bricklink);
-      const a = { type: "SET", code, nom: s.nom, onglet: "Sets", etat: s.etat, quantite: s.quantite || 1 };
+      const a = { type: "SET", code, nom: s.nom, onglet: "Sets", etat: s.etat, quantite: s.quantite || 1, prixPaye: s.prixPaye || 0 };
       if (/boîte seule|boite seule/i.test(s.etat)) a.type = "BOX"; // boîte vide : prix des boîtes d'origine vendues
       else if (cat && /^Collectible Minifigures/.test(cat.theme) && figs.length === 1) { // figurine de série : prix de la figurine
         Object.assign(a, { type: "MINIFIG", code: figs[0].bricklink.toLowerCase() });
@@ -154,7 +155,7 @@ const Valeur = {
       res.push({ type: "CUSTOM", code: (c.code || "").toUpperCase(), nom: c.nom, onglet: ONGLET_CUSTOMS_ACHETEES, etat: "",
                  achat: c.prix > 0 ? { prix: c.prix, vendeur: c.vendeur, date: c.date, lot: /^Custom JB \(lot/.test(c.nom) } : null });
     for (const o of await lireObjets(etat.classeur))
-      res.push({ type: "GEAR", code: o.code, nom: o.nom || o.type, onglet: ONGLET_OBJETS, etat: o.etat, quantite: o.quantite });
+      res.push({ type: "GEAR", code: o.code, nom: o.nom || o.type, onglet: ONGLET_OBJETS, etat: o.etat, quantite: o.quantite, prixPaye: o.prixPaye || 0 });
     for (const o of await lireObjetsJB(etat.classeur)) // tiles, vignettes… de JB : dans aucun catalogue, valeur = prix payé
       res.push({ type: "JB", code: "", nom: o.nom, onglet: ONGLET_JB, etat: o.type, quantite: o.quantite, prixPaye: o.prixPaye });
     return res;
@@ -643,6 +644,13 @@ const Valeur = {
         continue;
       }
       const r = evaluer(a, true), o = evaluer(a, false);
+      if (!r && a.prixPaye > 0) { // aucun prix de marché : le prix payé indiqué à l'ajout
+        const v = a.prixPaye * (a.quantite || 1);
+        total += v; totalOccasion += v;
+        parOnglet[a.onglet] = (parOnglet[a.onglet] || 0) + v;
+        details.push({ ...a, v, vOccasion: v, unitaire: a.prixPaye, brut: v, sourceCustom: "Prix payé (pas de prix de marché)", ventes: 0, neuf: true });
+        continue;
+      }
       if (!r) { sans.push(a); continue; }
       if (r.date > date) date = r.date;
       total += r.v; totalOccasion += o ? o.v : 0;

@@ -97,7 +97,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v170"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v171"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -507,8 +507,20 @@ function blocExemplaires(code, id) {
       ? `📦 Vous en avez déjà <b>${deja.length} exemplaire${deja.length > 1 ? "s" : ""}</b> (${echapper(onglets.join(", "))}${deja.length <= 4 && deja[0].includes("case ") ? ` : ${echapper(deja.map(d => d.split("case ")[1]).join(", "))}` : ""}).`
       : "✨ Nouvelle figurine : vous n'en avez pas encore."}</div>
     <label class="etiquette-champ" for="${id}-nombre">Nombre d'exemplaires à ajouter</label>
-    <input id="${id}-nombre" class="champ" type="number" inputmode="numeric" min="1" max="99" value="1">`;
+    <input id="${id}-nombre" class="champ" type="number" inputmode="numeric" min="1" max="99" value="1">
+    ${champsAchat(id)}`;
 }
+
+// Prix payé et date d'achat, facultatifs, à chaque ajout (Mathias, 22/10/2026) : gardés avec l'article ; pour une
+// figurine sans prix de marché (ni BrickLink, ni JB…), le prix payé sert de valeur
+function champsAchat(id) {
+  return `<div class="deux-champs">
+      <div><label class="etiquette-champ" for="${id}-prix">Prix payé (€, facultatif)</label>
+        <input id="${id}-prix" class="champ" inputmode="decimal" autocomplete="off" placeholder="par exemplaire"></div>
+      <div><label class="etiquette-champ" for="${id}-date">Acheté le (facultatif)</label>
+        <input id="${id}-date" class="champ" autocomplete="off" placeholder="ex. 20/10/2026"></div></div>`;
+}
+const lireAchat = id => ({ prixPaye: lirePrixSaisi(($(id + "-prix") || {}).value), dateAchat: (($(id + "-date") || {}).value || "").trim() });
 
 // Confirmation avant d'ajouter n exemplaires : doublon d'une figurine déjà enregistrée, ou vraiment plusieurs exemplaires ?
 async function confirmerExemplaires(code, nom, n) {
@@ -711,6 +723,7 @@ async function ajouter() {
     return;
   }
   const n = Math.min(99, Math.max(1, parseInt(($("ajout-nombre") || {}).value, 10) || 1));
+  const achat = lireAchat("ajout");
   if (!(await confirmerExemplaires(code, nom, n))) return;
 
   const couleur = couleurChoisie();
@@ -723,7 +736,7 @@ async function ajouter() {
     let res;
     for (let i = 0; i < n; i++) {
       if (n > 1) $("texte-chargement").textContent = `Ajout dans le fichier… (${i + 1} sur ${n})`;
-      res = await ajouterFigurine(etat.classeur, { code, nom, ...choix });
+      res = await ajouterFigurine(etat.classeur, { code, nom, ...choix, ...achat });
       cases.push(res.ref);
       etat.nonEnregistres++;
     }
@@ -1511,6 +1524,7 @@ async function ajouterCustom() {
       `les autres seront enregistrés sans numéro. Continuer ?`, "Continuer", "Annuler"))) return;
   if (!(await confirmerExemplaires(code, $("custom-nom").value.trim(), n))) return;
   const nomDe = i => [$("custom-nom").value.trim(), numeros[i] || (numeros.length === 1 && n === 1 ? numeros[0] : "")].filter(Boolean).join(" ");
+  const achat = lireAchat("custom-nombre");
   const onglet = THEME_CUSTOMS.onglet;
   const nouvelOnglet = !etat.classeur.aOnglet(onglet);
   $("texte-chargement").textContent = "Ajout dans le fichier…";
@@ -1520,7 +1534,7 @@ async function ajouterCustom() {
     const cases = [];
     let res;
     for (let i = 0; i < n; i++) {
-      res = await ajouterFigurine(etat.classeur, { code, nom: nomDe(i), theme: onglet, lien });
+      res = await ajouterFigurine(etat.classeur, { code, nom: nomDe(i), theme: onglet, lien, ...achat });
       cases.push(res.ref);
       etat.nonEnregistres++;
     }

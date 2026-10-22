@@ -23,7 +23,7 @@ const COLONNES_SETS = [
   ["A", "Numéro", 11], ["B", "Nom", 38], ["C", "Année", 7], ["D", "Thème", 28], ["E", "Pièces", 8],
   ["F", "État", 14], ["G", "Boîte", 7], ["H", "Notice", 7], ["I", "Figurines", 40], ["J", "Ajouté le", 11],
   ["K", "Quantité", 8], ["L", "Remarques", 36], ["M", "Marque", 14], ["N", "Prix payé (€)", 12],
-  ["O", "Prix fabricant (€)", 12],
+  ["O", "Prix fabricant (€)", 12], ["P", "Date d'achat", 12],
 ];
 // Marques de briques autres que LEGO : des sets seulement (leurs figurines, rares, sont des accessoires), ajoutés à la
 // main ; valeur : prix sur le site du fabricant s'il le vend encore (saisi en €), sinon annonces eBay.fr, sinon prix payé
@@ -36,7 +36,7 @@ const urlEbayMarque = s => `https://www.ebay.fr/sch/i.html?_nkw=${encodeURICompo
 const ONGLET_OBJETS = "Objets dérivés";
 const COLONNES_OBJETS = [
   ["A", "Numéro BrickLink", 16], ["B", "Nom", 40], ["C", "Type", 20], ["D", "État", 12], ["E", "Quantité", 9],
-  ["F", "Remarques", 36], ["G", "Ajouté le", 11],
+  ["F", "Remarques", 36], ["G", "Ajouté le", 11], ["H", "Prix payé (€)", 12], ["I", "Date d'achat", 12],
 ];
 // Objets JB Spielwaren autres que les figurines (demande de Mathias, 20/10/2026) : tiles (petites plaques imprimées),
 // vignettes, éléments chromés, pièces imprimées, posters, dioramas… Ils ne sont dans aucun catalogue : nom libre, photo
@@ -776,14 +776,15 @@ async function lireSets(cl) {
                          boite: await v("G"), notice: await v("H"), figurines: await v("I"),
                          quantite: +(await v("K")) || 1, remarques: await v("L"), marque: String((await v("M")) || "").trim(),
                          prixPaye: parseFloat(String((await v("N")) || "").replace(/\s/g, "").replace(",", ".")) || 0,
-                         prixFabricant: parseFloat(String((await v("O")) || "").replace(/\s/g, "").replace(",", ".")) || 0 });
+                         prixFabricant: parseFloat(String((await v("O")) || "").replace(/\s/g, "").replace(",", ".")) || 0,
+                         dateAchat: await v("P") });
   }
   return res;
 }
 
 // Ajoute un set à l'onglet « Sets » (créé s'il n'existe pas) : une ligne à la fin du tableau
 // boite, notice : true / false, ou null si on ne sait pas
-async function ajouterSet(cl, { code, nom, annee, theme, pieces, etat, boite, notice, figurines, quantite, remarques, marque, prixPaye, prixFabricant }) {
+async function ajouterSet(cl, { code, nom, annee, theme, pieces, etat, boite, notice, figurines, quantite, remarques, marque, prixPaye, prixFabricant, dateAchat }) {
   await cl.creerOngletSets();
   for (const [c, titre] of COLONNES_SETS) // onglet créé avant l'ajout de nouvelles colonnes : titres manquants
     if (!(await cl.valeur(ONGLET_SETS, c + "1"))) await cl.ecrireTexte(ONGLET_SETS, c + "1", titre);
@@ -792,7 +793,7 @@ async function ajouterSet(cl, { code, nom, annee, theme, pieces, etat, boite, no
   const valeurs = [code, nom, annee, theme, pieces, etat, ouiNon(boite), ouiNon(notice),
                    figurines || "", new Date().toLocaleDateString("fr-FR"), quantite > 1 ? quantite : "", remarques || "",
                    marque && !/^lego$/i.test(marque) ? marque : "", prixPaye > 0 ? String(prixPaye).replace(".", ",") : "",
-                   prixFabricant > 0 ? String(prixFabricant).replace(".", ",") : ""];
+                   prixFabricant > 0 ? String(prixFabricant).replace(".", ",") : "", dateAchat || ""];
   for (let i = 0; i < valeurs.length; i++)
     if (valeurs[i] !== "" && valeurs[i] != null) await cl.ecrireTexte(ONGLET_SETS, COLONNES_SETS[i][0] + row, String(valeurs[i]));
   return row;
@@ -832,7 +833,8 @@ async function lireObjets(cl) {
     const v = async l => cl.valeur(ONGLET_OBJETS, l + row);
     const code = await v("A");
     if (code) res.push({ row, code, nom: await v("B"), type: await v("C"), etat: await v("D"),
-                         quantite: +(await v("E")) || 1, remarques: await v("F") });
+                         quantite: +(await v("E")) || 1, remarques: await v("F"),
+                         prixPaye: parseFloat(String((await v("H")) || "").replace(/\s/g, "").replace(",", ".")) || 0, dateAchat: await v("I") });
   }
   return res;
 }
@@ -941,10 +943,11 @@ async function ajouterObjetJB(cl, { nom, type, quantite, prixPaye, date, remarqu
   return row;
 }
 
-async function ajouterObjet(cl, { code, nom, type, etat, quantite, remarques }) {
+async function ajouterObjet(cl, { code, nom, type, etat, quantite, remarques, prixPaye, dateAchat }) {
   await cl.creerOngletSets(ONGLET_OBJETS, COLONNES_OBJETS);
   const row = (await cl.derniereLigne(ONGLET_OBJETS)) + 1;
-  const valeurs = [code, nom, type, etat, quantite > 1 ? quantite : "", remarques, new Date().toLocaleDateString("fr-FR")];
+  const valeurs = [code, nom, type, etat, quantite > 1 ? quantite : "", remarques, new Date().toLocaleDateString("fr-FR"),
+                   prixPaye > 0 ? String(prixPaye).replace(".", ",") : "", dateAchat || ""];
   for (let i = 0; i < valeurs.length; i++)
     if (valeurs[i] !== "" && valeurs[i] != null) await cl.ecrireTexte(ONGLET_OBJETS, COLONNES_OBJETS[i][0] + row, String(valeurs[i]));
   return row;
@@ -974,8 +977,8 @@ async function premiereCaseLibre(cl, onglet) {
 }
 
 // camp : Gentil / Méchant / Zone grise pour Star Wars ; theme : onglet de thème pour les autres
-async function ajouterFigurine(cl, { code, nom, camp, theme, lien }) {
-  if (cl.estBase) return cl.figAjouter({ code, nom, camp, theme, lien });
+async function ajouterFigurine(cl, { code, nom, camp, theme, lien, prixPaye, dateAchat }) {
+  if (cl.estBase) return cl.figAjouter({ code, nom, camp, theme, lien, prixPaye, dateAchat });
   const onglet = camp ? CAMPS[camp].onglet : theme;
   if (!cl.aOnglet(onglet)) await cl.creerOnglet(onglet, ONGLET_MODELE, couleurOnglet(onglet));
   const pos = await premiereCaseLibre(cl, onglet);
