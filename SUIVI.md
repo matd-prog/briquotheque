@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v175 (22/10) : UN PRIX PAR NUMÉRO (Mathias : « certains numéros ne sont pas achetés au même prix »). Ajout de blister à
+    plusieurs exemplaires (appli et contribuer.html) : sous le prix commun, « Prix de chaque exemplaire » = un champ par n°
+    (vide = prix commun) ; chaque entrée de la base garde son prix (Base._grillePrix, _prixExemplaires ; n° écartés en
+    doublon retirés avec leur prix). Fiche Ma collection « 💶 Prix payé, date d'achat » : plusieurs exemplaires -> un prix et
+    une date par n° dans le même formulaire, pré-remplis avec le prix tapé sur le blister du même n° (Collection._achatBlister).
   · v174 (22/10) : FIGURINE, BLISTER OU AUTRE CHOSE, RECONNU SUR LA MÊME PHOTO (Mathias). « 📷 Photographier » (accueil, Ma
     collection > Ajouter) : la photo entière passe par la reconnaissance d'image des blisters (vision.js) ; mesure du 22/10 :
     blisters 0,65–1 (presque tous > 0,72), tiles / porte-clés / captures ≤ 0,68 → ≥ 0,75 : passage direct à la reconnaissance

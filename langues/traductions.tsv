@@ -1405,3 +1405,9 @@ L'ajouter comme set ?	Add it as a set?	Als Set hinzufügen?	¿Añadirlo como set
 🧱 Oui, ajouter ce set	🧱 Yes, add this set	🧱 Ja, dieses Set hinzufügen	🧱 Sí, añadir este set
 Pas de figurine seule sur cette photo : elle ressemble plutôt à une pièce (« {0} »).	No loose minifigure in this photo: it looks more like a part (“{0}”).	Keine einzelne Minifigur auf diesem Foto: Es ähnelt eher einem Teil („{0}“).	No hay ninguna minifigura suelta en esta foto: se parece más a una pieza («{0}»).
 L'ajouter comme tile ou objet JB ?	Add it as a JB tile or item?	Als JB-Fliese oder -Objekt hinzufügen?	¿Añadirlo como tile u objeto JB?
+Prix de chaque exemplaire (si les prix diffèrent ; vide : le prix ci-dessus)	Price of each copy (if prices differ; empty: the price above)	Preis jedes Exemplars (falls die Preise abweichen; leer: der Preis oben)	Precio de cada ejemplar (si los precios difieren; vacío: el precio de arriba)
+Exemplaire {#0}	Copy {0}	Exemplar {0}	Ejemplar {0}
+prix	price	Preis	precio
+{0} : prix payé (€)	{0}: price paid (€)	{0}: bezahlter Preis (€)	{0}: precio pagado (€)
+{0} : acheté le	{0}: bought on	{0}: gekauft am	{0}: comprado el
+{0} · {#1} exemplaires	{0} · {1} {p:copy|copies}	{0} · {1} {p:Exemplar|Exemplare}	{0} · {1} {p:ejemplar|ejemplares}

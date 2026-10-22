@@ -621,14 +621,35 @@ const Collection = {
   },
 
   // Prix payé et date d'achat d'un exemplaire (facultatifs) : valeur sans prix de marché, revente
+  // Prix payé et date d'achat de chaque exemplaire (Mathias, 22/10/2026 : les n° d'un même listing ne sont pas tous
+  // payés le même prix) : plusieurs exemplaires -> un prix et une date par n°, dans le même formulaire. Valeur proposée :
+  // celle de l'exemplaire, sinon le prix tapé avec son blister (même n°).
+  _achatBlister(c, x) {
+    const num = this._numero(x).split("/")[0];
+    let e = null;
+    try { e = num && this._miens(c).find(b => String(b.numero || "").split("/")[0] === num && (b.prixPaye > 0 || b.dateAchat)); } catch (err) { /* pas de blister */ }
+    return e || {};
+  },
   async _prixPaye(onglet, cases) {
-    const x = await this._choisirExemplaire("Quel exemplaire ?", cases);
-    if (!x) return;
-    const v = await demanderFormulaire(`${x.nom || x.code}`, [
-      { cle: "prix", titre: "Prix payé par exemplaire (€, facultatif)", type: "nombre", valeur: x.prixPaye || "" },
-      { cle: "date", titre: "Acheté le (facultatif)", type: "date", valeur: x.dateAchat || "" }]);
+    try { await this._chargerMesBlisters(); } catch (err) { console.warn(err); } // blisters ajoutés depuis l'ouverture
+    const lies = cases.map(x => ({ x, b: this._achatBlister(cases[0], { ...x, onglet }) }));
+    const nom = this._sansNumero(cases[0].nom) || cases[0].code;
+    const euros = n => n > 0 ? String(n).replace(".", ",") : "";
+    const etiquette = (x, i) => { const n = this._numero({ ...x, onglet }); return n ? `n° ${n}` : `Exemplaire ${i + 1}`; };
+    const champs = cases.length === 1
+      ? [{ cle: "p0", titre: "Prix payé par exemplaire (€, facultatif)", type: "nombre", valeur: euros(cases[0].prixPaye || lies[0].b.prixPaye) },
+         { cle: "d0", titre: "Acheté le (facultatif)", type: "date", valeur: cases[0].dateAchat || lies[0].b.dateAchat || "" }]
+      : lies.flatMap(({ x, b }, i) => [
+          { cle: "p" + i, titre: `${etiquette(x, i)} : prix payé (€)`, type: "nombre", valeur: euros(x.prixPaye || b.prixPaye) },
+          { cle: "d" + i, titre: `${etiquette(x, i)} : acheté le`, type: "date", valeur: x.dateAchat || b.dateAchat || "" }]);
+    const v = await demanderFormulaire(cases.length === 1 ? (cases[0].nom || cases[0].code) : `${nom} · ${cases.length} exemplaires`, champs);
     if (!v) return;
-    await this._modifierFichier(() => etat.classeur.figAchat(x.row, lirePrixSaisi(v.prix), String(v.date || "").trim()), "Prix payé enregistré");
+    await this._modifierFichier(async () => {
+      for (const [i, x] of cases.entries()) {
+        const prix = lirePrixSaisi(v["p" + i]), date = String(v["d" + i] || "").trim();
+        if (prix !== (x.prixPaye || 0) || date !== (x.dateAchat || "")) await etat.classeur.figAchat(x.row, prix, date);
+      }
+    }, "Prix payé enregistré");
   },
 
   async _corrigerNumero(onglet, cases) {

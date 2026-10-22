@@ -125,6 +125,11 @@
           <input id="base-date-achat" class="champ" type="date"></div>
       </div>
       <p class="aide">Prix d'un exemplaire, port compris : il sert à la valeur de la collection et aux prix de revente. Il reste dans votre téléphone.</p>
+      <!-- un prix par n° (Mathias, 22/10/2026) : les exemplaires d'un même listing ne sont pas tous payés le même prix -->
+      <div id="base-prix-detail" hidden>
+        <p class="etiquette-champ">Prix de chaque exemplaire (si les prix diffèrent ; vide : le prix ci-dessus)</p>
+        <div id="base-prix-numeros" class="grille-prix"></div>
+      </div>
       <button class="gros-bouton vert" data-action="base-ajouter">📚 Ajouter à ma collection</button>
       <p class="aide">Le blister rejoint aussi la base commune de reconnaissance (s'il n'y est pas déjà).</p>
       <button class="bouton-lien" data-action="base-ajouter-commune">Ce blister n'est pas à moi (vu en boutique, photo d'un ami…) : seulement pour la base commune</button>
