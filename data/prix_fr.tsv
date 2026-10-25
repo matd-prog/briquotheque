@@ -1,4 +1,4 @@
-#date 2026-10-24
+#date 2026-10-25
 code	prix	meilleur	url	date	marchand	total
 1000858708-1				2026-10-18		
 1000858718-1				2026-10-18		
@@ -338,7 +338,7 @@ code	prix	meilleur	url	date	marchand	total
 30734-1	3.99	3.99	https://www.avenuedelabrique.com/lego-speed-champions/30734-voiture-miniature-f1-academy-polybag/p11508	2026-10-18	LEGO	
 30735-1	3.99	3.99	https://www.avenuedelabrique.com/lego-technic/30735-la-voiture-hot-rod-polybag/p11394	2026-10-18	LEGO	
 30736-1	3.99	3.09	https://www.avenuedelabrique.com/lego-technic/30736-l-hydravion-blanc-polybag/p11517	2026-10-23	Alternate.fr	12.99
-30762-1	3.99		https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/30762-retro-video-game-batman-polybag/p11912	2026-10-17		
+30762-1	3.99		https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/30762-retro-video-game-batman-polybag/p11912	2026-10-25		
 31145-1	9.99	9.99	https://www.avenuedelabrique.com/lego-creator/31145-le-dragon-rouge/p9564	2026-10-18	LEGO	
 31146-1	19.99	12.74	https://www.avenuedelabrique.com/lego-creator/31146-le-camion-remorque-avec-helicoptere/p9563	2026-10-23	Carrefour	14.73
 31147-1	19.99	13.99	https://www.avenuedelabrique.com/lego-creator/31147-l-appareil-photo-retro/p9562	2026-10-23	Alternate.fr	23.89
@@ -572,7 +572,7 @@ code	prix	meilleur	url	date	marchand	total
 40896-1	19.99	99.00	https://www.avenuedelabrique.com/lego-ideas/40896-the-x-files-le-laboratoire-de-scully/p12333	2026-10-23	LToys	107.99
 40897-1			https://www.avenuedelabrique.com/lego-star-wars/40897-le-sabre-laser-de-dark-vador/p12718	2026-10-18		
 40898-1			https://www.avenuedelabrique.com/lego-icons/40898-bateau-taxi-venitien/p13486	2026-10-18		
-40899-1	19.99		https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40899-astro-bot/p13187	2026-10-17		
+40899-1	19.99		https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40899-astro-bot/p13187	2026-10-25		
 40900-1		24.99	https://www.avenuedelabrique.com/lego-creator/40900-l-arbre-hante-effrayant/p12989	2026-10-18	The Place 2 Brick	29.98
 40901-1		45.00	https://www.avenuedelabrique.com/lego-harry-potter/40901-kiosque-a-cafe-du-ministere-et-stand-de-la-gazette-du-sorcier/p12524	2026-10-18	LToys	53.99
 40902-1	24.99	35.00	https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40902-hommage-a-leonard-de-vinci/p11911	2026-10-23	BrickPlus	39.40
@@ -1878,12 +1878,12 @@ code	prix	meilleur	url	date	marchand	total
 910065-1	209.99	399.99	https://www.avenuedelabrique.com/lego-bricklink/910065-cap-coco/p11855	2026-10-18	The Place 2 Brick	404.98
 910066-1	119.99	199.99	https://www.avenuedelabrique.com/lego-bricklink/910066-la-locomotive-brick-railroad/p11852	2026-10-18	The Place 2 Brick	204.98
 910067-1	79.99	149.99	https://www.avenuedelabrique.com/lego-bricklink/910067-la-montgolfiere/p11851	2026-10-18	The Place 2 Brick	154.98
-910068-1	359.99		https://www.avenuedelabrique.com/lego-bricklink/910068-la-faculte-des-sciences/p11853	2026-10-17		
-910069-1	349.99		https://www.avenuedelabrique.com/lego-bricklink/910069-le-village-de-pecheurs/p12882	2026-10-17		
-910070-1	269.99		https://www.avenuedelabrique.com/lego-bricklink/910070-l-auberge-du-dragon-dormant/p12883	2026-10-17		
-910071-1	219.99		https://www.avenuedelabrique.com/lego-bricklink/910071-la-forge-du-far-west/p12881	2026-10-17		
-910072-1	219.99		https://www.avenuedelabrique.com/lego-bricklink/910072-la-gare-de-marchandises-de-woodbrick/p12885	2026-10-17		
-910073-1	49.99		https://www.avenuedelabrique.com/lego-bricklink/910073-le-jardin-de-citrouilles/p12884	2026-10-17		
+910068-1	359.99	599.99	https://www.avenuedelabrique.com/lego-bricklink/910068-la-faculte-des-sciences/p11853	2026-10-25	Brickeez	599.99
+910069-1	349.99		https://www.avenuedelabrique.com/lego-bricklink/910069-le-village-de-pecheurs/p12882	2026-10-25		
+910070-1	269.99		https://www.avenuedelabrique.com/lego-bricklink/910070-l-auberge-du-dragon-dormant/p12883	2026-10-25		
+910071-1	219.99		https://www.avenuedelabrique.com/lego-bricklink/910071-la-forge-du-far-west/p12881	2026-10-25		
+910072-1	219.99		https://www.avenuedelabrique.com/lego-bricklink/910072-la-gare-de-marchandises-de-woodbrick/p12885	2026-10-25		
+910073-1	49.99		https://www.avenuedelabrique.com/lego-bricklink/910073-le-jardin-de-citrouilles/p12884	2026-10-25		
 912405-1				2026-10-21		
 912406-1				2026-10-21		
 912411-1				2026-10-21		

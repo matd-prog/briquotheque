@@ -1,4 +1,4 @@
-#date 2026-10-24
+#date 2026-10-25
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -1233,10 +1233,10 @@ set	figurine	quantite	nom	bricklink	ressemblance
 11377-1	fig-017715	1	Soldier of Gondor, Raised Eyebrow	lor155	0.62
 11377-1	fig-017716	1	Aragorn (King Elessar)	lor163	1.0
 11377-1	fig-017717	1	Arwen, Yellowish Green Dress	lor164	1.0
-11378-1	fig-017529	1	Pan Am Air Hostess, Sand Blue Uniform	twn545	0.31
-11378-1	fig-017530	1	Pan Am Air Hostess, Blue Uniform	twn546	0.34
+11378-1	fig-017529	1	Pan Am Air Hostess, Sand Blue Uniform	twn543	0.31
+11378-1	fig-017530	1	Pan Am Air Hostess, Blue Uniform	twn545	0.34
 11378-1	fig-017531	1	Pan Am Pilot, Black Uniform	twn544	0.76
-11378-1	fig-017532	1	Pan Am Pilot, Dark Blue Uniform	twn556	0.45
+11378-1	fig-017532	1	Pan Am Purser, Dark Blue Uniform	twn546	0.7
 11379-1	fig-018160	1	Author/Store Owner	twn511	0.35
 11379-1	fig-018161	1	Reader		0.0
 11382-1	fig-017996	1	Astronaut	edu034	0.78
@@ -7771,6 +7771,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 5907762001359-1	fig-014187	1	Stormtrooper, Black Squares on Back of Helmet, Female, Nougat Head	sw1456	0.52
 5907762001434-1	fig-016819	1	The Joker, Prison Clothes	sh1075	0.65
 5907762001434-1	fig-017485	1	Batman, Black Suit, Black Cape and Cowl, Rubber Cape	sh1123	0.86
+5907762001465-1	fig-010828	2	Ghost-Spider / Spider-Gwen, Open Front Hood, White Hands	sh1030	0.7
 5909-1	fig-000195	1	Harry Cane	adv009	1.0
 5909-1	fig-000464	1	Lord Sam Sinister	adv038	0.61
 5909-1	fig-000629	1	Baron Von Barron	adv003	0.66
@@ -21986,6 +21987,28 @@ set	figurine	quantite	nom	bricklink	ressemblance
 910062-1	fig-017917	1	Dwarf	idea180	0.47
 910062-1	fig-017918	1	Horse Knight, Dark Orange Hair	bdp355	1.0
 910062-1	fig-017919	1	Horse Knight, Black Hair	bdp356	1.0
+910064-1	fig-016358	1	Griffin Knight, Female, Dark Red Arms	idea236	0.63
+910064-1	fig-018225	1	Snake, Black Armor, Neck Armor, Helmet with Yellow Plume, Beard	bdp215	0.4
+910064-1	fig-018226	1	Snake, Black Armor, Neck Armor, Black Hair, Bandana	bdp282	0.51
+910064-1	fig-018227	1	White King, Crown	bdp310	0.39
+910064-1	fig-018228	1	White Knight, Helmet	bdp210	0.57
+910064-1	fig-018229	1	Cook	poc013	0.65
+910064-1	fig-018230	1	The Madam of the Keep	hp633	0.41
+910064-1	fig-018231	1	The Clerk	twn476	0.36
+910064-1	fig-018232	1	Snake, Black Armor, Hood, Quiver	bdp281	0.57
+910064-1	fig-018233	1	Snake, Black Armor, Neck Armor, Dark Orange Hair, Bandana	bdp295	0.53
+910064-1	fig-018234	1	Kraken Warrior, Black Hair	idea234	0.57
+910064-1	fig-018235	1	Snake, Black Armor, Neck Armor, Black Helmet with Plume, Woman	bdp329	0.37
+910064-1	fig-018236	1	Snake, Black Armor, Silver Neck Armor, Helmet	bdp222	0.55
+910064-1	fig-018237	1	Snake, Black Armor, Katana Holder, Black Hair	bdp356	0.42
+910064-1	fig-018238	1	Snake, Black Armor, Neck Armor, Black Helmet with Plume, Moustache	bdp216	0.44
+910064-1	fig-018239	1	Snake, Black Armor, Neck Armor, Dark Bluish Gray Hair	bdp279	0.56
+910064-1	fig-018240	1	Snake, Black Armor, Black Helmet with Plume, Black Goatee	drm102	0.41
+910064-1	fig-018241	1	Snake, Black Armor, Quiver, Reddish Brown Hair	bdp283	0.54
+910064-1	fig-018242	1	Griffin Knight, Reddish Brown Hair	bdp353	0.97
+910064-1	fig-018243	1	Snake, Black Armor, Black Hair, Moustache	bdp332	0.5
+910066-1	fig-018244	1	Train Driver, Dark Blue Torso, Dark Tan Legs, Dark Brown Cap	cty2027	0.78
+910067-1	fig-018245	1	Balloon Controller	cty1982	0.34
 911-1	fig-000782	2	LEGOLAND Black	old048	0.58
 911-1	fig-004697	2	LEGOLAND Red	old025	0.6
 911610-1	fig-010468	1	Imperial Probe Droid - Dark Bluish Grey Plate	sw0712a	0.94
@@ -22269,11 +22292,11 @@ set	figurine	quantite	nom	bricklink	ressemblance
 9365-1	fig-008132	1	Man, White Jacket with Zipper, White Legs, White Hat	zip034	0.49
 9365-1	fig-008133	1	Fireman, Plain Black, White Helmet, Airtanks	4555pb176	0.45
 9376-1	fig-000339	2	Bat Lord (Fright Knights) - No Cape	cas022	0.65
+9376-1	fig-000645	2	King (Royal Knights) - Blue Legs, Blue Hips, No Cape	cas552	0.52
 9376-1	fig-000646	2	Knight (Fright Knights) - Black Helmet, No Plume	cas023	0.69
 9376-1	fig-002229	2	Skeleton, Standard Face, Ball Joint Arms (3626b Head)	gen010	0.58
 9376-1	fig-005145	2	Ghost - White Legs	gen012	0.75
 9376-1	fig-006551	2	Witch (Fright Knights) - Willa, No Cape	cas032	0.55
-9376-1	fig-007104	2	King (Royal Knights) - Blue Legs, Black Hips	cas552	0.65
 9376-1	fig-018056	2	Knight (Royal Knights) - Black Legs, Red Helmet	cas243	0.51
 9440-1	fig-001490	1	Zane ZX with Shoulder Armour	njo0031	0.66
 9441-1	fig-000452	1	Rattla	njo0033	1.0
