@@ -1,4 +1,4 @@
-#date 2026-10-27
+#date 2026-10-28
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -22007,8 +22007,35 @@ set	figurine	quantite	nom	bricklink	ressemblance
 910064-1	fig-018241	1	Snake, Black Armor, Quiver, Reddish Brown Hair	bdp283	0.54
 910064-1	fig-018242	1	Griffin Knight, Reddish Brown Hair	bdp353	0.97
 910064-1	fig-018243	1	Snake, Black Armor, Black Hair, Moustache	bdp332	0.5
+910065-1	fig-018246	1	Pirate, Woman, Reddish Brown Torso, Dark Blue Legs, Black Tricon	pi202	0.73
+910065-1	fig-018247	1	Prisoner, White Shirt, Black Legs, Dark Orange Hair	bdp295	0.72
+910065-1	fig-018248	1	Coconut Cape Soldier, Armor, Dark Bluish Grey Sideburns	bdp279	0.37
+910065-1	fig-018249	1	Coconut Cape Soldier, Armor, Black Hair	bdp356	0.42
+910065-1	fig-018250	1	Coconut Cape Soldier, Armor, Reddish Brown Beard, Plume	bdp189	0.41
+910065-1	fig-018251	1	Coconut Cape Soldier, Armor, Smirk	sh1146	0.34
+910065-1	fig-018252	1	Coconut Cape Soldier, Armor, Moustache, Plume	bdp332	0.32
+910065-1	fig-018253	1	Important Guy, Medium Lavender Torso	bdp343	0.42
+910065-1	fig-018254	1	Lady, White Torso, Lavender Dress	bdp296	0.5
 910066-1	fig-018244	1	Train Driver, Dark Blue Torso, Dark Tan Legs, Dark Brown Cap	cty2027	0.78
 910067-1	fig-018245	1	Balloon Controller	cty1982	0.34
+910068-1	fig-018255	1	Scientist, White Labcoat, Sand Blue Legs, Black Hair	bdp274	0.52
+910068-1	fig-018256	1	Scientist, White Labcoat, Dark Blue Legs, Light Bluish Grey Hair	bdp341	0.53
+910068-1	fig-018257	1	Cyclist, Yellowish Green Torso, Sand Green Legs, Backpack	bdp312	0.47
+910068-1	fig-018258	1	Teacher, Grey Suit	bdp307	0.38
+910068-1	fig-018259	1	Janitor, Bright Light Blue Shirt, Blue Legs, Dark Blue Cap	bdp348	0.6
+910068-1	fig-018260	1	Unknown Role, Olive Green Torso, Nougat Legs, Tan Hair	bdp330	0.45
+910068-1	fig-018261	1	Unknown Role, Tan Coat, Black Beret	bdp329	0.46
+910068-1	fig-018262	1	Unknown Role, Light Bluish Grey Sweater, Dark Turquoise Legs, Reddish Brown Hair	bdp284	0.51
+910068-1	fig-018263	1	Student, Dark Turquoise Torso, Dark Green Legs, Dark Brown Hair, Scarf	bdp308	0.52
+910068-1	fig-018264	1	Student, Dark Orange Torso, Dark Blue Legs, Beanie, Headphones	bdp315	0.48
+910068-1	fig-018265	1	Unknown Role, Tan Sweater, Olive Green Legs, Dark Orange Hair	bdp267	0.54
+910068-1	fig-018266	1	Unknown Role, Dark Red Torso, Dark Tan Legs, Dark Brown Hair	bdp333	0.55
+910068-1	fig-018267	1	Unknown Role, Black Suit, Dark Brown Hair	bdp279	0.53
+910068-1	fig-018268	1	Artist, Reddish Brown Apron, Black Hair	bdp260	0.61
+910068-1	fig-018269	1	Doctor, White Labcoat, Bright Light Blue Legs, Bright Light Yellow Hair	bdp326	0.55
+910068-1	fig-018270	1	Teacher, Bright Light Blue Sweater, Sand Blue Legs, Black Hair	bdp290	0.61
+910068-1	fig-018271	1	Teacher, Dark Blue Jacket, Dark Brown Legs, Light Bluish Grey Hair	bdp268	0.57
+910068-1	fig-018272	1	Botanist, Medium Nougat Apron, Black Hair	bdp343	0.47
 911-1	fig-000782	2	LEGOLAND Black	old048	0.58
 911-1	fig-004697	2	LEGOLAND Red	old025	0.6
 911610-1	fig-010468	1	Imperial Probe Droid - Dark Bluish Grey Plate	sw0712a	0.94
