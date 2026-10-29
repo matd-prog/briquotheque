@@ -1,4 +1,4 @@
-#date 2026-10-28
+#date 2026-10-29
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -4597,6 +4597,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 40866-1	fig-015529	1	Santa, Black Boots, 3626cpr3560 Head, 102264 Hat	hol381	0.59
 40866-1	fig-018159	1	Mrs. Claus, Red Dress, Gold Glasses	hol384	0.65
 40872-1	fig-016676	1	Ghost, Glow in the Dark, Pin Hole	sh1117	0.32
+40889-1	fig-016348	1	Classic Spaceman, Dark Turquoise with Airtanks	idea227	0.36
 40891-1	fig-017245	1	Sheriff Hopper	st024	0.35
 40891-1	fig-017246	1	Joyce Byers	st023	0.81
 40893-1	fig-017703	1	Orc, 67037 Helmet	lor165	0.67
@@ -11215,6 +11216,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 6679-2	fig-000726	1	Man, Red Top with Exxon Logo, Black Legs, Black Hat	exx003	0.55
 6680-1	fig-008221	1	Doctor, Woman, White Jacket with Red Cross, White Legs, Black Pigtails	doc008	0.8
 6680-1	fig-008222	1	Doctor, White Jacket with Red Cross, White Legs, Red Hat	doc007	0.89
+6680477-1	fig-018275	1	Woman, Dark Pink Hoodie, Tan Legs, Red Helmet	hol416	0.64
 6681-1	fig-000811	1	Policeman with Zipper Jacket, White Hat	cop013	0.54
 6682-1	fig-000675	1	Man, Black Overalls, Red Hard Hat (3626a Head)	post005	0.45
 6683-1	fig-008753	1	Chef, Red Neckerchief, Black Legs (3626a Head)	chef002	0.58
@@ -22928,6 +22930,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 9781837251995-1	fig-017178	1	Garmadon	njo1001	0.55
 9781837251995-1	fig-017208	1	Kai	njo1048	0.83
 9781837252145-1	fig-017970	1	Alex, Flat Silver Helmet	min158	0.48
+9781837252152-1	fig-018274	1	Cole	njo0199	0.85
 9781837252169-1	fig-014190	1	Darth Vader, White Skin, 50231 Cape, Robe Hem and Stripes on Legs	sw1502	0.51
 9781837252176-1	fig-017971	1	Hermione Granger, Gryffindor Robes Open, Hair in Bun	hp617	0.59
 9781838526771-1	fig-012479	1	Biggs Darklighter - Black Hair	sw1038	0.77
