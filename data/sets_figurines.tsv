@@ -1,4 +1,4 @@
-#date 2026-11-01
+#date 2026-11-02
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -1260,8 +1260,26 @@ set	figurine	quantite	nom	bricklink	ressemblance
 11387-1	fig-018163	1	Child, White Torso, Red Legs, Dark Brown Hair	LLP038	0.81
 11387-1	fig-018164	1	Child, Dark Turquoise Hoodie, Blue Medium Legs, Dark Blue Beanie	LLP039	0.82
 11387-1	fig-018165	1	Woman, Dark Green Torso, Dark Tan Legs, Light Bluish Grey Hair	cty1961	0.7
+11388-1	fig-018277	1	Waiter, White Jacket, Bright Light Blue Legs, Tan Hair	hol345	0.55
+11388-1	fig-018278	1	Tourist, Dark Brown Jacket, Sand Blue Legs, Reddish Brown Hair	hol330	0.61
+11388-1	fig-018279	1	Glass Shop Proprietor, Light Bluish Grey Suit, Black Hair	sh1100	0.37
+11388-1	fig-018280	1	Glassblower, Reddish Brown Overall	hol433	0.41
+11388-1	fig-018281	1	Shopper, Bright Light Blue Plaid Shirt, Dark Orange Legs, Black Hair	twn532	0.48
+11388-1	fig-018282	1	Tourist, Tan Sweater, Dark Brown Legs, Medium Nougat Hair	idea240	0.66
+11388-1	fig-018283	1	Gondolier, Black Striped Shirt, Dark Blue Legs	hp630	0.55
+11388-1	fig-018284	1	Carnival Goer, Gold Costume	frnd0838	0.3
+11388-1	fig-018285	1	Violist, Dark Red Suit	sh1156	0.49
+11388-1	fig-018286	1	Flower Girl, White Shirt, Sand Green Legs, Dark Orange Hair	twn537	0.49
+11388-1	fig-018287	1	Reader, Dark Green Jacket, Medium Nougat Legs, Light Bluish Grey Cap	sh1118	0.42
+11388-1	fig-018288	1	Workman, Medium Nougat Overall, Dark Green Cap	cty1851	0.41
+11388-1	fig-018289	1	Carnaval Goer, Dark Blue Costume	sw1493	0.34
+11388-1	fig-018290	1	Tourist, Tan Coat, Dark Green Legs, Dark Orange Hair	idea242	0.64
+11388-1	fig-018291	1	Tourist, Dark Orange Jacket, Dark Brown Legs, Cap, Dark Bluish Grey Moustache	cty2046	0.46
+11388-1	fig-018292	1	Tourist, Yellowish Green Shirt, Sand Blue Legs, Dark Brown Hair	cty1954	0.59
+11388-1	fig-018293	1	Gondolier, Red Striped Shirt, Dark Blue Legs	bdp318	0.53
 11389-1	fig-017454	1	Dr. Ryland Grace	phm001	0.55
 11389-1	fig-017455	1	Rocky (Alien)	phm002	0.7
+11390-1	fig-018276	1	Goku		0.0
 1177-1	fig-000364	1	Santa, Plain Red with White Hips	hol008	0.85
 1180-1	fig-000361	1	Astronaut, White, Blue Cap, Headset	spp001	0.64
 1181-1	fig-000079	1	Astronaut, White, White Hips, Helmet with Large Chrome Gold Visor, Headset	spp016	0.6
@@ -4603,6 +4621,8 @@ set	figurine	quantite	nom	bricklink	ressemblance
 40893-1	fig-017703	1	Orc, 67037 Helmet	lor165	0.67
 40893-1	fig-017704	1	Orc, Olive Green, Yellow Eyes	lor166	0.84
 40896-1	fig-018006	1	Dana Scully, Scrubs	idea281	0.83
+40898-1	fig-018294	1	Tourist, Lime Shirt, Medium Azure Legs, Dark Brown Hair	idea240	0.66
+40898-1	fig-018295	1	Taxi Captain, Light Bluish Grey Jacker, Black Legs, Dark Blue Cap	bdp309	0.42
 40901-1	fig-018080	1	Cornelius Fudge, Black Suit	hp579	0.53
 40901-1	fig-018081	1	Daily Prophet Vendor	sh1139	0.33
 40901-1	fig-018082	1	Fountain Statue	hp629	0.46

@@ -1,4 +1,4 @@
-#date 2026-11-01
+#date 2026-11-02
 code	nom	annee	theme	pieces	figurines
 0003977811-1	Ninjago: Book of Adventures	2022	Books / Activity Books with LEGO Parts	1	1
 001-1	Gears	1965	System / Samsonite	43	0
@@ -437,6 +437,7 @@ code	nom	annee	theme	pieces	figurines
 10368-1	Chrysanthemum	2024	Botanicals	278	0
 10369-1	Plum Blossom	2024	Botanicals	327	0
 10370-1	Poinsettia	2024	Seasonal / Christmas	608	0
+10371-1	Cozy Plants	2026	Botanicals	248	0
 10372-1	Hibiscus	2025	Botanicals	660	0
 10373-1	Mini Bonsai Trees	2025	Botanicals	709	0
 10374-1	Bouquet of Pink Roses	2025	Botanicals	789	0
@@ -1157,8 +1158,10 @@ code	nom	annee	theme	pieces	figurines
 11385-1	Star Trek: U.S.S. Enterprise NCC-1701 Bridge	2026	Icons	1701	8
 11386-1	SpongeBob SquarePants: Bikini Bottom	2026	Icons	1794	4
 11387-1	Holiday House	2026	Seasonal / Christmas	1354	4
+11388-1	Venetian Neighborhood	2026	Icons	5683	17
 11389-1	Project Hail Mary	2026	Icons	830	2
 1139-1	Motor-Mount Plate with Magnetic Couplers	1981	Service Packs / Train	5	0
+11390-1	Dragon Ball: Shenron & Goku	2026	Icons	1764	1
 114-1	Universal Building Set	1977	Universal Building Set	390	0
 114-2	Small Train Set	1966	Train / 4.5V	88	0
 1140-1	12V Light Bricks	1981	Service Packs	2	0
@@ -2460,6 +2463,7 @@ code	nom	annee	theme	pieces	figurines
 21062-1	Trevi Fountain	2025	Architecture	1880	3
 21063-1	Neuschwanstein Castle	2025	Architecture	3455	0
 21064-1	Paris - City of Love	2026	Architecture	958	0
+21065-1	Sagrada Família	2026	Architecture	12060	0
 21066-1	New York City – The Big Apple	2026	Architecture	1465	1
 21067-1	Tower Bridge	2026	Architecture	3745	0
 21068-1	Shanghai	2025	Architecture	597	0
@@ -6365,6 +6369,7 @@ code	nom	annee	theme	pieces	figurines
 40894-1	Koenigsegg Sadair's Spear Steering Wheel	2026	Technic	228	0
 40896-1	The X-Files: Scully's Lab	2026	LEGO Ideas and CUUSOO	221	1
 40897-1	Darth Vader's Lightsaber	2026	Star Wars	174	0
+40898-1	Venetian Water Taxi	2026	Icons	322	2
 40899-1	Astro Bot	2026	Other	276	0
 409-1	38 Slimbricks Assorted Sizes (The Building Toy)	1965	System / Samsonite	38	0
 4090-1	Motion Madness	2003	Creator / Inventor	243	0
@@ -19190,7 +19195,7 @@ Bricktober-1	Toys 'R' Us Bricktober Promotional Brick Set	2009	Promotional / Bri
 Build-a-Mini-0	Build-A-Minifigure Station Exclusive Parts	2018	Other / Database Sets	17	0
 Build-a-Mini-2018	2018 Build-A-Minifigure Station Exclusive Parts	2018	Other / Database Sets	3	0
 Build-a-Mini-2019	2019 Build-A-Minifigure Station Exclusive Parts	2019	Other / Database Sets	34	0
-Build-a-Mini-2020	2020 Build-A-Minifigure Station Exclusive Parts	2020	Other / Database Sets	24	0
+Build-a-Mini-2020	2020 Build-A-Minifigure Station Exclusive Parts	2020	Other / Database Sets	23	0
 Build-a-Mini-2021	2021 Build-A-Minifigure Station Exclusive Parts	2021	Other / Database Sets	30	0
 Build-a-Mini-2022	2022 Build-A-Minifigure Station Exclusive Parts	2022	Other / Database Sets	55	0
 Build-a-Mini-2023	2023 Build-A-Minifigure Station Exclusive Parts	2023	Other / Database Sets	42	0
@@ -19289,7 +19294,7 @@ DALLAS-1	LEGO Store Grand Opening Exclusive Set, NorthPark Center, Dallas, TX	20
 DANISHHEART-1	Danish Heart	2023	Seasonal / Christmas	16	0
 DATABASE-0	Unsorted Unused Parts Database Set	2023	Other / Database Sets	17	0
 DATABASE-1	Unused Parts Database Set - Pre-1965	1965	Other / Database Sets	201	0
-DATABASE-2	Unused Parts Database Set -1966 to 200﻿0	2000	Other / Database Sets	218	0
+DATABASE-2	Unused Parts Database Set -1966 to 200﻿0	2000	Other / Database Sets	217	0
 DATABASE-2001	2001 - Unused Parts Database Set	2001	Other / Database Sets	68	0
 DATABASE-2002	2002 - Unused Parts Database Set	2002	Other / Database Sets	29	0
 DATABASE-2003	2003 - Unused Parts Database Set	2003	Other / Database Sets	48	0
@@ -19312,10 +19317,10 @@ DATABASE-2019	2019 - Unused Parts Database Set	2019	Other / Database Sets	46	0
 DATABASE-2020	2020 - Unused Parts Database Set	2020	Other / Database Sets	28	0
 DATABASE-2021	2021 - Unused Parts Database Set	2021	Other / Database Sets	38	0
 DATABASE-2022	2022 - Unused Parts Database Set	2022	Other / Database Sets	73	0
-DATABASE-2023	2023 - Unused Parts Database Set	2023	Other / Database Sets	57	0
+DATABASE-2023	2023 - Unused Parts Database Set	2023	Other / Database Sets	55	0
 DATABASE-2024	2024 - Unused Parts Database Set	2024	Other / Database Sets	38	0
-DATABASE-2025	2025 - Unused Parts Database Set	2025	Other / Database Sets	29	0
-DATABASE-2026	2026 - Unused Parts Database Set	2026	Other / Database Sets	32	0
+DATABASE-2025	2025 - Unused Parts Database Set	2025	Other / Database Sets	27	0
+DATABASE-2026	2026 - Unused Parts Database Set	2026	Other / Database Sets	31	0
 DATABASE-HO-1	Database Set for 1:87 Mercedes Sport	1963	Other / Database Sets	11	0
 DATABASE-HO-2	Database Set for 1:87 VW Vans	1958	Other / Database Sets	26	0
 DATABASE-HO-3	Database Set for 1:87 VW Beetles (Short)	1958	Other / Database Sets	30	0
@@ -19612,6 +19617,7 @@ L0002253-1	Parrot Handler with Skeleton, Skeleton Spawner and Dungeon	2026	Minec
 L0002254-1	Hero, Zombie and TNT Launcher	2026	Minecraft	24	2
 L0002260-1	Magma Cube	2026	Minecraft	39	1
 L0002261-1	Raptor and Volcano	2026	Jurassic World	28	0
+L0002262-1	Raptor in Enclosure	2026	Jurassic World	16	0
 L0002265-1	Kitten and Vet's Office	2026	Friends	24	0
 L0002266-1	Corgi and Ice Cream Stand	2026	Friends	16	0
 L0002270-1	Mr. Freeze & Snowman	2026	Super Heroes DC / Batman	12	1
