@@ -125,6 +125,14 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v179 (06/11) : CONTRÔLE COMPLET RANGÉ DANS LE DÉPÔT (Mathias). Le script de contrôle d'avant publication vivait dans
+    le dossier temporaire de Claude et a disparu à la réinitialisation de l'environnement (06/11). Réécrit :
+    outils/tests/controle_complet.js (NODE_PATH=$(npm root -g) node outils/tests/controle_complet.js [--donnees
+    sauvegarde/collection.json du dépôt privé] [--langues fr,en]) : serveur intégré, Internet coupé, collection d'essai
+    sans donnée privée, accueil + chaque écran/menu ouvert + Ma collection (onglets, liste, vignettes, fiche), fr/en/de/es
+    en téléphone, fr/de en ordinateur ; relève erreurs JS, fichiers 404, textes non traduits ; code 1 si erreur ou 404.
+    Vérifié qu'il détecte une erreur et un fichier manquant introduits exprès. Premier passage : 6 textes jamais traduits
+    (écrans vides : statistiques, achats, échanges sans compte, fiche sans photo) -> traduits ; 0 partout.
   · v178 (06/11) : SESSION VÉRIFIÉE AU DÉMARRAGE + « AJOUTER UN BLISTER JB » (Mathias). Après la pause de Supabase, la session
     gardée dans le téléphone n'était plus valable et l'appli ne disait rien (Compte.ouvrirPortail ne regardait que la
     présence d'une session). Maintenant : getUser() à chaque démarrage ; refusée (401, ou rafraîchissement refusé) ->

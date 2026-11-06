@@ -193,8 +193,7 @@ const EcranAchats = {
     if (this.vue === "vendre") { $("achats-filtre").hidden = true; return this._listerVente(); }
     $("achats-filtre").hidden = this.vue !== "figurines";
     if (!this.achats.length) {
-      $("achats-liste").innerHTML = `<p class="aide">L'onglet « ${ONGLET_CUSTOMS_ACHETEES} » est vide : dans l'écran Valeur, touchez
-        « 📥 Ajouter mes customs achetées ».</p>`;
+      $("achats-liste").innerHTML = `<p class="aide">L'onglet « ${ONGLET_CUSTOMS_ACHETEES} » est vide : dans l'écran Valeur, touchez « 📥 Ajouter mes customs achetées ».</p>`;
       return;
     }
     if (this.vue === "nommer") this._listerLots(lots); else this._listerFigurines();

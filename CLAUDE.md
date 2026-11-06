@@ -20,3 +20,5 @@
   montre, les mettre à jour toutes les deux (captures d'écran refaites avec Playwright, nombre de figurines de la base
   commune, taux de reconnaissance remesurés, nouvelles fonctions), sans attendre que Mathias le demande. Jamais de prix
   ni de données d'achat sur les captures.
+- **Avant chaque publication** : lancer le contrôle complet, rangé dans le dépôt (pas dans le dossier temporaire, qui
+  disparaît quand l'environnement est réinitialisé) : `NODE_PATH=$(npm root -g) node outils/tests/controle_complet.js`.

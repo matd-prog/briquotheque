@@ -136,8 +136,7 @@ const Echanges = {
   async rendre() {
     const z = $("echanges-contenu");
     if (!(await this._connecte())) {
-      z.innerHTML = `<p class="intro">🔄 <b>Échanges</b> : publiez vos doubles et votre liste de souhaits, l'appli trouve les collectionneurs
-          qui ont ce que vous cherchez et cherchent ce que vous avez en double.</p>
+      z.innerHTML = `<p class="intro">🔄 <b>Échanges</b> : publiez vos doubles et votre liste de souhaits, l'appli trouve les collectionneurs qui ont ce que vous cherchez et cherchent ce que vous avez en double.</p>
         <p class="alerte info">Il faut un compte pour échanger.</p>
         <button class="gros-bouton vert" data-action="compte">👤 Se connecter ou créer un compte</button>`;
       return;
