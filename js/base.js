@@ -1258,15 +1258,16 @@ const Base = {
 
   // Reprendre des blisters d'un fichier .zip « Envoyer » (autre téléphone, ou Safari avant l'installation sur l'écran
   // d'accueil : sur iPhone, l'appli installée ne voit pas ce qui a été fait dans Safari). Déjà présents : ignorés.
-  async reprendre(fichier) {
+  async reprendre(fichier, transfert = false) {
     let zip;
     try { zip = await JSZip.loadAsync(fichier); } catch (err) { await demander("Ce fichier n'est pas un envoi de blisters (.zip).", "OK", "Fermer"); return; }
     const tsv = zip.file("base.tsv");
     if (!tsv) { await demander("Ce fichier .zip ne contient pas de blisters.", "OK", "Fermer"); return; }
     const [entete, ...lignes] = (await tsv.async("string")).split("\n").filter(l => l.trim());
     const col = entete.split("\t");
+    transfert = transfert || !!zip.file("transfert.txt"); // fichier de transfert de la mini-appli : ce sont les siens
     // appli principale : l'envoi d'un ami va seulement dans la base commune (sa collection reste la sienne)
-    const ami = typeof BaseCommune !== "undefined" &&
+    const ami = !transfert && typeof BaseCommune !== "undefined" &&
       !(await demander("Ce fichier de blisters vient de qui ?\n\n• De vous (photos faites avant, ou sur un autre téléphone) : ils reviennent dans votre collection.\n" +
         "• D'un ami : ses blisters vont seulement dans la base commune de reconnaissance.", "De moi", "D'un ami"));
     if (ami) {
@@ -1295,13 +1296,23 @@ const Base = {
         remarque: v.remarque || "", code: v.code || "", date: v.date || new Date().toISOString(),
         photo: new Blob([await photo.async("arraybuffer")], { type: "image/jpeg" }),
         verso: verso ? new Blob([await verso.async("arraybuffer")], { type: "image/jpeg" }) : null, versoTexte: (v.texte_verso || "").replace(/ \/ /g, "\n"),
-        exporte: false, possede: v.possede !== "non" });
+        exporte: false, possede: v.possede !== "non",
+        ...(parseFloat(v.prix_paye) > 0 ? { prixPaye: parseFloat(v.prix_paye) } : {}), ...(v.date_achat ? { dateAchat: v.date_achat } : {}),
+        ...(v.entiere === "oui" ? { entiere: true } : {}), ...(v.verso_entier === "oui" ? { versoEntier: true } : {}) });
       connus.add(v.id); ajoutes++;
     }
     await Memoire.ecrire(this.entrees, "base");
     this._afficherListe();
+    // appli complète : les blisters repris rejoignent aussi Ma collection (onglet Customs)
+    let enCollection = 0;
+    if (ajoutes && typeof rattraperCustoms === "function" && typeof etat !== "undefined" && etat.classeur && etat.classeur.estBase) {
+      $("base-etat").textContent = "Rangement dans Ma collection…";
+      try { rattrapageFait = false; enCollection = await rattraperCustoms(); } catch (err) { console.error(err); }
+      $("base-etat").textContent = "";
+    }
     await demander((ajoutes ? `${ajoutes} blister${ajoutes > 1 ? "s repris" : " repris"} ✔` : "Aucun nouveau blister dans ce fichier") + (deja ? ` (${deja} déjà dans l'appli)` : "") +
-      ".\n\nVous pouvez continuer à photographier : rien n'est perdu.", "OK", "Fermer");
+      "." + (enCollection ? `\n\n${enCollection} exemplaire${enCollection > 1 ? "s rangés" : " rangé"} dans Ma collection (Customs).` : "") +
+      "\n\nVous pouvez continuer à photographier : rien n'est perdu.", "OK", "Fermer");
   },
 
   // Première ouverture de l'appli installée, sans aucun blister : proposer de reprendre ceux faits avant
@@ -1603,22 +1614,39 @@ const Base = {
   },
 
   // .zip : base.tsv (id, nom, série, remarque, code reconnu, date, photo) + photos/<id>.jpg
-  async exporter() {
+  // transfert (Mathias, 06/11/2026) : passage de la mini-appli à l'appli complète, sur le même téléphone. Le fichier
+  // garde alors aussi le prix payé, la date d'achat et les photos laissées entières ; il n'est pas compté comme envoyé.
+  // Sans transfert (fichier envoyé à Mathias) : jamais de prix ni de date d'achat.
+  async exporter(transfert = false) {
     if (!this.entrees.length) return;
     const zip = new JSZip();
-    const lignes = ["id\tnom\tnumerote\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso\tprecision\tpossede\ttexte_verso"];
+    const lignes = ["id\tnom\tnumerote\tnumero\tserie\tremarque\tcode\tdate\tphoto\tverso\tprecision\tpossede\ttexte_verso" +
+                    (transfert ? "\tprix_paye\tdate_achat\tentiere\tverso_entier" : "")];
     for (const e of this.entrees) {
       zip.file(`photos/${e.id}.jpg`, e.photo);
       if (e.verso) zip.file(`photos/${e.id}_verso.jpg`, e.verso);
       lignes.push([e.id, e.nom, e.numerote === false ? "non" : "oui", e.numero, e.serie, e.remarque, e.code, e.date, `photos/${e.id}.jpg`, e.verso ? `photos/${e.id}_verso.jpg` : "", e.precision, e.possede === false ? "non" : "oui",
-                  String(e.versoTexte || "").split("\n").join(" / ")].map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
+                  String(e.versoTexte || "").split("\n").join(" / "),
+                  ...(transfert ? [e.prixPaye > 0 ? e.prixPaye : "", e.dateAchat, e.entiere ? "oui" : "", e.versoEntier ? "oui" : ""] : [])]
+                  .map(v => String(v || "").replace(/[\t\n]/g, " ")).join("\t"));
     }
     zip.file("base.tsv", lignes.join("\n") + "\n");
+    if (transfert) zip.file("transfert.txt", "Transfert de la mini-appli Blisters JB vers l'appli complète Briquothèque\n");
     const contenu = await zip.generateAsync({ type: "blob" });
-    const nom = `blisters_JB_${horodatage()}.zip`;
+    const nom = `${transfert ? "transfert_vers_appli_complete" : "blisters_JB"}_${horodatage()}.zip`;
     const fichier = new File([contenu], nom, { type: "application/zip" });
     // iPhone (et Android) : menu « Partager » (Messages, WhatsApp, Mail, AirDrop, Fichiers…) ; sinon téléchargement
     let envoye = false;
+    if (transfert) {
+      if (navigator.canShare && navigator.canShare({ files: [fichier] })) {
+        if (!(await demander(`Fichier de transfert prêt : ${this.entrees.length} blister${this.entrees.length > 1 ? "s" : ""}, avec leurs photos, numéros, prix et dates.\n\n` +
+            "Touchez « Enregistrer », puis « Enregistrer dans Fichiers » : vous le choisirez ensuite dans l'appli complète.", "💾 Enregistrer", "Annuler"))) return;
+        try { await navigator.share({ files: [fichier], title: "Transfert Blisters JB" }); }
+        catch (err) { if (err.name !== "AbortError") { console.error(err); this._telecharger(fichier, true); } return; }
+      } else this._telecharger(fichier, true);
+      toast("Fichier de transfert enregistré ✔ Vos blisters restent aussi ici.", 5000);
+      return; // pas un envoi : les blisters ne sont pas marqués comme envoyés
+    }
     if (navigator.canShare && navigator.canShare({ files: [fichier] })) {
       if (await demander(`Fichier prêt : ${this.entrees.length} blister${this.entrees.length > 1 ? "s" : ""}.\n\nTouchez « Envoyer » puis choisissez Messages, ` +
           "WhatsApp, Mail… (ou « Enregistrer dans Fichiers »).", "📤 Envoyer", "Annuler")) {
@@ -1637,12 +1665,13 @@ const Base = {
     toast(`${this.entrees.length} blister${this.entrees.length > 1 ? "s envoyés" : " envoyé"} ✔ Merci !`, 5000);
   },
 
-  _telecharger(fichier) {
+  _telecharger(fichier, transfert = false) {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(fichier);
     a.download = fichier.name;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+    if (transfert) { demander(`Fichier « ${fichier.name} » enregistré dans Téléchargements : choisissez-le ensuite dans l'appli complète.`, "OK", "Fermer"); return true; }
     demander(`Fichier « ${fichier.name} » enregistré dans Téléchargements.\n\n` +
       "Envoyez-le moi (ou mettez-le dans Google Drive) pour que je l'ajoute à la base de l'appli.", "OK", "Fermer");
     return true;
@@ -1746,6 +1775,7 @@ document.addEventListener("click", e => {
   else if (action === "base-ajouter-commune") Base.ajouterCommune();
   else if (action === "base-commune-envoyer") BaseCommune.envoyerTout(Base);
   else if (action === "base-exporter") Base.exporter();
+  else if (action === "base-transfert") Base.exporter(true);
   else if (action === "base-vider") Base.vider();
   else if (action === "base-autre") Base.autreExemplaire();
   else if (action === "base-passer-verso") Base.passerVerso();

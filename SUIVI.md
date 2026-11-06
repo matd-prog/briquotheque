@@ -125,6 +125,15 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v185 (06/11) : PASSAGE DE LA MINI-APPLI À L'APPLI COMPLÈTE, SANS RIEN PERDRE (Mathias, pour son ami sur iPhone). Sur
+    iPhone, chaque appli de l'écran d'accueil a son propre stockage, et la mini-appli range ses blisters dans une autre base
+    (« blisters-jb ») que l'appli complète (« briquotheque-memoire ») : transfert par fichier. Mini-appli : carte « 🚀 Passer
+    à l'appli complète » (3 étapes, lien à copier) et « 📦 Préparer le transfert » = Base.exporter(true) : .zip avec photos,
+    n°, notes, verso lu + prix payé, date d'achat, photos entières (jamais dans l'envoi à Mathias), fichier transfert.txt ;
+    blisters gardés et pas marqués envoyés. Appli complète : « 📲 Je viens de la mini-appli Blisters JB » sur l'écran de
+    bienvenue -> collection créée, Base.reprendre(f, true) (sans la question « de moi / d'un ami »), puis rattraperCustoms()
+    -> rangés dans Ma collection (Customs). Testé (2 navigateurs iPhone simulés, stockages séparés) : 3 blisters, n°, prix,
+    dates, photos et verso repris, 3 exemplaires dans Customs, prix pris par la valeur. Brouillon Gmail pour l'ami préparé.
   · v184 (06/11) : AUTRE EXEMPLAIRE DEPUIS UNE PHOTO DÉJÀ PRISE (Mathias). Sous « ➕ Autre exemplaire de « … » :
     photographier », nouveau bouton « 🖼️ Autre exemplaire : choisir une photo déjà prise » (input-base-autre-galerie,
     sans capture), même suite (Base.autreExemplaire). Appli et contribuer.html ; aussi depuis la fiche Ma collection

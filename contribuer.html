@@ -38,6 +38,20 @@
     <p class="intro">Photographiez vos blisters JB Spielwaren <b>un par un</b>, de face. Le nom est lu tout seul :
       vérifiez-le : l'appli vous dit s'il est déjà connu et si vous l'avez déjà photographié. Notez le numéro écrit à la main, puis « Ajouter ». Quand vous avez fini, touchez « Envoyer » et envoyez le fichier
       à Mathias (Messages, WhatsApp, Mail…). Merci !</p>
+    <!-- passage à l'appli complète, sur le même téléphone, sans rien perdre (Mathias, 06/11/2026) -->
+    <details class="carte" id="vers-appli-complete">
+      <summary><b>🚀 Passer à l'appli complète Briquothèque</b> (toute votre collection : figurines, sets, valeur…), sans perdre vos blisters</summary>
+      <ol>
+        <li>Touchez <b>« 📦 Préparer le transfert »</b>, puis <b>« Enregistrer dans Fichiers »</b>. Le fichier garde vos photos,
+          numéros, prix et dates. Vos blisters restent aussi ici : rien n'est effacé.</li>
+        <li>Ouvrez l'appli complète <b>dans Safari</b> (ou Chrome sur Android) avec ce lien :<br>
+          <b>matd-prog.github.io/briquotheque</b> <button class="petit" id="copier-lien-complet">📋 Copier le lien</button><br>
+          puis installez-la : <b>Partager ⬆️</b> › <b>« Sur l'écran d'accueil »</b> › <b>Ajouter</b>.</li>
+        <li>Ouvrez <b>« Briquothèque »</b> depuis l'écran d'accueil, touchez <b>« 📲 Je viens de la mini-appli Blisters JB »</b>
+          et choisissez le fichier enregistré à l'étape 1. Vos blisters arrivent dans sa base et dans « Ma collection ».</li>
+      </ol>
+      <button class="gros-bouton vert" data-action="base-transfert">📦 Préparer le transfert</button>
+    </details>
     <label class="gros-bouton corail">📷 Photographier un blister
       <input type="file" id="input-base" accept="image/*" capture="environment" hidden>
     </label>
@@ -322,6 +336,11 @@ const Memoire = {
   window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); invite = e; guider(); });
   window.addEventListener("appinstalled", () => { $("installer").hidden = true; toast("Appli installée ✔ Ouvrez « Blisters JB » depuis l'écran d'accueil."); });
   MesBlisters.installer();
+  $("copier-lien-complet").addEventListener("click", async () => {
+    const lien = location.origin + location.pathname.replace(/contribuer\.html$/, "");
+    try { await navigator.clipboard.writeText(lien); toast("Lien copié ✔ Collez-le dans " + (ios ? "Safari" : "Chrome") + "."); }
+    catch (e) { prompt("Copiez ce lien, puis collez-le dans " + (ios ? "Safari" : "Chrome") + " :", lien); }
+  });
   document.querySelector("[data-ecran-ami-retour]").addEventListener("click", () => MesBlisters.ecran("base"));
   Base.ouvrir().then(() => {
     guider();

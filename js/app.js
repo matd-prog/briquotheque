@@ -98,7 +98,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v184"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v185"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -496,6 +496,18 @@ async function photoVersSet() {
   $("set-numero").value = a.id;
   EcranSet.chercher();
 }
+// Arrivée depuis la mini-appli Blisters JB (06/11/2026) : collection rangée dans l'appli créée, puis blisters repris du
+// fichier de transfert (photos, n°, prix, dates) dans la base de blisters et dans Ma collection
+$("input-transfert").addEventListener("change", async e => {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  if (!etat.classeur) await demarrerBase(false);
+  if (!etat.classeur) return;
+  await Base.ouvrir();
+  await Base.reprendre(f, true);
+});
+
 // « Ajouter un blister JB » (Mathias, 06/11/2026) : prendre la photo, ou choisir une photo déjà prise (galerie)
 async function ajouterBlister() {
   const i = await choisirAction("Ajouter un blister JB", ["📷 Prendre la photo", "🖼️ Choisir une photo déjà prise"]);
