@@ -17,7 +17,7 @@ const BaseCommune = {
 
   async _api(depot, chemin, options = {}) {
     const rep = await fetch(`https://api.github.com/repos/${depot}${chemin}`, {
-      cache: "no-store", ...options,
+      cache: "no-store", ...options, enFond: this._fond, // envoi en arrière-plan : pas de bandeau « ⏳ En cours » (js/occupe.js)
       headers: { Authorization: `Bearer ${Valeur.jeton}`, Accept: "application/vnd.github+json",
                  "X-GitHub-Api-Version": "2022-11-28", ...(options.headers || {}) },
     });
@@ -268,8 +268,11 @@ const BaseCommune = {
   // Aussi les photos refaites (e.communeMaj) : la base commune prend la nouvelle (voir majPhotos).
   async envoyerEnFond(base) {
     if (this._enCours || !(await this.jeton())) return;
+    // en arrière-plan (Mathias, 06/11/2026 : « ⏳ En cours… patientez » restait affiché après l'ajout d'un blister, le
+    // temps d'envoyer ses photos) : l'envoi ne bloque pas l'écran
+    this._fond = true;
     if (!(await Memoire.lire("commune-photos-reperees"))) await this.reperer(base.entrees).catch(err => console.warn("base commune : repérage", err));
-    if (!this.enAttente(base.entrees).length && !base.entrees.some(e => e.communeMaj)) return;
+    if (!this.enAttente(base.entrees).length && !base.entrees.some(e => e.communeMaj)) { this._fond = false; return; }
     this._enCours = this.envoyer(base.entrees, "moi")
       .then(async n => {
         const m = await this.majPhotos(base.entrees);
@@ -278,7 +281,7 @@ const BaseCommune = {
         if (m) toast(`🌐 ${m} photo${m > 1 ? "s" : ""} refaite${m > 1 ? "s" : ""} reportée${m > 1 ? "s" : ""} dans la base commune : reconnaissance améliorée`, 5000);
       })
       .catch(err => console.warn("base commune :", err))
-      .finally(() => { this._enCours = null; base._afficherListe(); });
+      .finally(() => { this._enCours = null; this._fond = false; base._afficherListe(); });
     return this._enCours;
   },
 

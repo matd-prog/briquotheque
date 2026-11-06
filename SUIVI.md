@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v183 (06/11) : « ⏳ EN COURS… PATIENTEZ » RESTAIT AFFICHÉ APRÈS L'AJOUT D'UN BLISTER (Mathias, capture). L'envoi à la
+    base commune en arrière-plan (BaseCommune.envoyerEnFond, photos comprises) passait par fetch, compté par js/occupe.js.
+    Maintenant : BaseCommune._fond pendant l'envoi en arrière-plan -> fetch({ enFond }) non compté. Reproduit avec un
+    GitHub simulé lent (10 s) : avant, bandeau tout le long ; après, aucun. « Envoyer à la base commune » (bouton) reste suivi.
   · v182 (06/11) : PHOTO DE BLISTER GARDÉE ENTIÈRE PAR DÉFAUT (Mathias : « pas forcément besoin de faire du recadrage »).
     Base._preparer renvoie la photo entière (blob) ; le recadrage automatique ne sert plus qu'à la reconnaissance
     (reco -> Base.photoReco : décor, figurine, vision). Cadre mémorisé ou « ✂️ Recadrer » : comme avant. Entrées marquées

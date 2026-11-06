@@ -22,6 +22,7 @@ const Occupe = {
     if (typeof f !== "function" || f._occupe) return;
     const occ = this;
     const g = function (...args) {
+      if (args[1] && args[1].enFond) return f.apply(this, args); // travail en arrière-plan : pas compté
       const r = f.apply(this, args);
       return r && typeof r.then === "function" ? occ.suivre(r) : r;
     };
