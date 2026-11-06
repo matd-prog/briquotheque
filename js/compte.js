@@ -106,6 +106,7 @@ const Compte = {
     const { data } = await this.client.from("profils").select("*").eq("id", this.session.user.id).maybeSingle();
     this.profil = data || null;
     this._majTuile();
+    if (typeof Rapport !== "undefined") Rapport.majCompteur().catch(() => {}); // compte administrateur : rapports reçus
     return this.profil;
   },
 

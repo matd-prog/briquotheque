@@ -658,3 +658,15 @@ html[lang="fr"] .langue-verif { display: none; }
 .grille-photos .photo-exemplaire img { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; flex: none; }
 .grille-photos .photo-exemplaire span { font-weight: 600; font-size: 14px; line-height: 1.25; }
 .grille-photos .photo-exemplaire small { display: block; font-weight: 400; color: #666; }
+/* signaler un problème (js/rapport.js, 06/11/2026) */
+.pied-signaler { text-align: center; margin: 24px 0 8px; }
+.dialogue-rapport { width: min(560px, calc(100vw - 32px)); max-height: 90vh; overflow-y: auto; border: 0; border-radius: 16px; padding: 16px; }
+.dialogue-rapport form { display: flex; flex-direction: column; gap: 10px; }
+.rapport-types { display: flex; gap: 8px; flex-wrap: wrap; }
+.rapport-types .bouton { flex: 1 1 200px; }
+.rapport-types .bouton.actif { outline: 3px solid var(--accent, #4f46e5); }
+.dialogue-rapport textarea { min-height: 110px; resize: vertical; font: inherit; }
+.rapport-apercu { max-width: 100%; max-height: 260px; border-radius: 10px; align-self: center; }
+.rapport-boutons { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+.rapport.traite { opacity: .55; }
+.rapport-diag { white-space: pre-wrap; font-size: 12px; max-height: 240px; overflow: auto; }

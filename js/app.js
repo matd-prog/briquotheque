@@ -98,7 +98,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v186"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v187"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -107,7 +107,7 @@ function noterErreur(texte) {
   ERREURS.unshift(t); ERREURS.length = Math.min(ERREURS.length, 8);
   const l = document.getElementById("liste-erreurs");
   if (l) { l.textContent = ERREURS.join("\n"); document.getElementById("bloc-erreurs").hidden = false; }
-  if (typeof toast === "function") toast("⚠️ Erreur : " + String(texte).slice(0, 160) + " (Outils → 📨 Signaler un problème)", 9000);
+  if (typeof toast === "function") toast("⚠️ Erreur : " + String(texte).slice(0, 160) + " (🐞 en bas de l'écran pour le signaler)", 9000);
 }
 
 // Dernières actions (boutons touchés), pour comprendre un blocage sans erreur
@@ -144,7 +144,9 @@ function texteRapport(description, idee) {
   ].join("\n");
 }
 
+// (06/11/2026) remplacé par js/rapport.js : envoi direct ; gardé comme repli si ce fichier manque
 async function envoyerRapport() {
+  if (typeof Rapport !== "undefined") { Rapport.ouvrir(); return; }
   const choix = await choisirAction("Que voulez-vous envoyer ?", ["🐞 Signaler un problème (bug, blocage)", "💡 Suggérer une amélioration"]);
   if (choix < 0) return;
   const idee = choix === 1;

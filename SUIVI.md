@@ -125,6 +125,15 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v187 (06/11) : SIGNALER UN PROBLÈME / PROPOSER UNE AMÉLIORATION, ENVOI DIRECT (Mathias). Avant : bouton dans les Outils
+    seulement, texte partagé par le menu Partager (aucune adresse de réception). Maintenant js/rapport.js (appli et
+    contribuer.html) : lien « 🐞 Un problème ? Une idée ? Le signaler » en bas de chaque écran + bouton des Outils ;
+    fenêtre : type (problème / idée), description, capture d'écran facultative (réduite à 1000 px), envoyée directement
+    dans la table Supabase « rapports » (outils/supabase_rapports.sql : insertion par tous, même sans compte ; lecture et
+    « traité » pour l'admin seulement, est_admin()) avec le diagnostic (texteRapport : version, écran, appareil, erreurs,
+    dernières actions ; rien de la collection). Échec (table absente, hors connexion) : partage / copie du texte comme avant.
+    Admin (👑) : « 📬 Rapports reçus (n à traiter) » dans les Outils, liste avec capture, détails, « ✔ Traité ».
+    ⚠️ À faire par Mathias : coller outils/supabase_rapports.sql dans Supabase > SQL Editor > Run (sinon repli partage).
   · v186 (06/11) : UNE PHOTO PAR EXEMPLAIRE (Mathias : « comme pour les prix »). Ajout de blister à plusieurs exemplaires
     (appli et contribuer.html) : « Photo de chaque exemplaire » ; le 1er garde la photo du blister, les autres ont un bouton
     (le téléphone propose de prendre la photo ou de la choisir), photo gardée entière (Base._grillePhotos,
