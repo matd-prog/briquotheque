@@ -131,6 +131,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     entiere / versoEntier : pas de repère 📏 « prise de loin », pas remplacées par la photo d'un autre exemplaire.
     Essai (3 photos de l'album élargies comme prises de loin) : photo gardée entière, 3/3 reconnues (confiance 0,99–1).
     Aussi pour contribuer.html. Les photos envoyées à la base commune sont désormais entières.
+    Validé par Mathias sur son téléphone le 06/11 (« ça marche »), avec le défilement corrigé en v181.
   · v181 (06/11) : ÉCRAN BLISTERS BLOQUÉ, IMPOSSIBLE DE DESCENDRE (Mathias, capture). Le recadrage plein écran bloque le
     défilement (body.recadrage-ouvert) ; fermé par un autre chemin que ses boutons (nouvelle photo : _nouvelle, liste
     redessinée : _afficherListe, autre écran), la page restait bloquée. Reproduit (Playwright), corrigé : blocage en CSS
