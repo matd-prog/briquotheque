@@ -649,3 +649,5 @@ html[lang="fr"] .langue-verif { display: none; }
 .portail-entete { text-align: center; margin: 4px 0 10px; }
 .portail-titre { font-size: 26px; font-weight: 800; margin: 6px 0; }
 .portail-sans-compte { display: block; margin: 18px auto 0; }
+/* « Autre exemplaire » : photo à prendre, ou déjà prise (06/11/2026) */
+#base-autre .bouton { margin-top: 10px; }

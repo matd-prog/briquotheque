@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v184 (06/11) : AUTRE EXEMPLAIRE DEPUIS UNE PHOTO DÉJÀ PRISE (Mathias). Sous « ➕ Autre exemplaire de « … » :
+    photographier », nouveau bouton « 🖼️ Autre exemplaire : choisir une photo déjà prise » (input-base-autre-galerie,
+    sans capture), même suite (Base.autreExemplaire). Appli et contribuer.html ; aussi depuis la fiche Ma collection
+    (« ➕ Ajouter un exemplaire »). Mode d'emploi de l'ami (brouillon Gmail) mis à jour.
   · v183 (06/11) : « ⏳ EN COURS… PATIENTEZ » RESTAIT AFFICHÉ APRÈS L'AJOUT D'UN BLISTER (Mathias, capture). L'envoi à la
     base commune en arrière-plan (BaseCommune.envoyerEnFond, photos comprises) passait par fetch, compté par js/occupe.js.
     Maintenant : BaseCommune._fond pendant l'envoi en arrière-plan -> fetch({ enFond }) non compté. Reproduit avec un

@@ -1710,7 +1710,7 @@ for (const id of ["input-base-verso", "input-base-verso2", "input-base-verso-gal
     if (f) Base.prendreVerso(f);
   });
 
-if ($("input-base-autre")) $("input-base-autre").addEventListener("change", e => {
+for (const id of ["input-base-autre", "input-base-autre-galerie"]) if ($(id)) $(id).addEventListener("change", e => {
   const f = e.target.files[0];
   e.target.value = "";
   if (f) Base.autreExemplaire(f);
