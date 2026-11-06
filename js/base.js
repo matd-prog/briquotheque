@@ -48,7 +48,7 @@ const Base = {
   _nouvelle() {
     this.photo = null; this.verso = null; this.versoPasse = false; this.versoTexte = ""; this._versoApplique = false; this.choixNet = false; this.candidatsRecto = []; this.signaux = null; this.confiance = null; this.codeAuto = "";
     if ($("base-verso-info")) { $("base-verso-info").hidden = true; $("base-verso-info").innerHTML = ""; }
-    this.source = this.sourceVerso = this.cadre = this.cadreVerso = null;
+    this.source = this.sourceVerso = this.cadre = this.cadreVerso = this.photoReco = null;
     if ($("base-recadrage")) { $("base-recadrage").hidden = true; $("base-recadrage").classList.remove("plein-ecran"); }
     document.body.classList.remove("recadrage-ouvert");
     if ($("base-recadrer-boutons")) $("base-recadrer-boutons").hidden = true; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.proches = []; this.semblables = [];
@@ -409,7 +409,9 @@ const Base = {
   // (photos en série, même installation : cadre tracé une fois à la main sur les bords extérieurs de la coque)
   async _preparer(fichier, sens, cote = "recto") {
     const memo = this.cadresMemo && this.cadresMemo[cote];
-    if (memo) return this._signalerForme({ blob: await this._reduire(fichier, sens, memo), cadre: { ...memo } }, cote);
+    if (memo) { const r = await this._signalerForme({ blob: await this._reduire(fichier, sens, memo), cadre: { ...memo } }, cote); r.reco = r.blob; return r; }
+    // photo gardée entière par défaut (Mathias, 06/11/2026 : « pas forcément besoin de faire du recadrage ») ; le
+    // recadrage automatique ne sert plus qu'à la reconnaissance (reco), qui compare des blisters bien cadrés
     const entiere = await this._reduire(fichier, sens);
     let cadre = null;
     try {
@@ -420,7 +422,7 @@ const Base = {
       // 📏 le signale et « ✂️ Recadrer » reste possible)
       if (cadre && this.serie && this.formeSuspecte(cadre.l * im.width, cadre.h * im.height)) cadre = null;
     } catch (err) { console.warn(err); }
-    return this._signalerForme({ blob: cadre ? await this._reduire(fichier, sens, cadre) : entiere, cadre }, cote);
+    return { blob: entiere, cadre: null, reco: cadre ? await this._reduire(fichier, sens, cadre) : entiere };
   },
 
   // Photo prise de loin ou mal cadrée : un blister bien cadré a la forme de son carton (à peu près 4/3, coque
@@ -456,8 +458,8 @@ const Base = {
         const f = e.forme || {};
         if (f.recto === e.photo.size && (!e.verso || f.verso === e.verso.size)) continue;
         const mesure = async b => { const im = await createImageBitmap(b); return this.formeSuspecte(im.width, im.height); };
-        e.forme = { recto: e.photo.size, suspecteRecto: await mesure(e.photo),
-                    verso: e.verso ? e.verso.size : 0, suspecteVerso: e.verso ? await mesure(e.verso) : false };
+        e.forme = { recto: e.photo.size, suspecteRecto: !e.entiere && await mesure(e.photo),
+                    verso: e.verso ? e.verso.size : 0, suspecteVerso: !!e.verso && !e.versoEntier && await mesure(e.verso) };
         n++;
       }
       const remplacees = this._fusionnerPhotos();
@@ -622,6 +624,7 @@ const Base = {
     } else {
       this.cadre = cadre;
       this.photo = await this._reduire(this.source.fichier, this.source.sens, cadre);
+      this.photoReco = cadre ? this.photo : null;
       $("base-photo").src = URL.createObjectURL(this.photo);
       // décor et ressemblances recalculés sur la nouvelle image
       try { this.decor = CatalogueJB.classerParDecor(await createImageBitmap(this.photo), 10); } catch (err) { console.warn(err); }
@@ -665,7 +668,7 @@ const Base = {
       });
     } catch (err) { console.error(err); }
     this.source = { fichier, sens: lecture.sens || 0 };
-    ({ blob: this.photo, cadre: this.cadre } = await this._preparer(fichier, this.source.sens));
+    ({ blob: this.photo, cadre: this.cadre, reco: this.photoReco } = await this._preparer(fichier, this.source.sens));
     $("base-photo").src = URL.createObjectURL(this.photo);
     this._boutonsRecadrer();
     // propositions : figurines connues dont le nom a été lu, puis le nom le plus probable du carton
@@ -677,7 +680,7 @@ const Base = {
     this.proches = [];
     try {
       await CatalogueJB.chargerEmpreintes();
-      const tous = CatalogueJB.classerParDecor(await createImageBitmap(this.photo), 100000);
+      const tous = CatalogueJB.classerParDecor(await createImageBitmap(this.photoReco || this.photo), 100000);
       this.decor = tous.slice(0, 10);
       const score = new Map(tous.map(r => [r.f, r.score]));
       // nom lu en entier sur l'étiquette du carton : il l'emporte sur un décor voisin (mesure du 07/10 : « THE GOLDEN
@@ -690,7 +693,7 @@ const Base = {
       // relevé des signaux (mesure des taux de reconnaissance, réglage de leur combinaison)
       this.signaux = { lus: (CatalogueJB.dernierRapprochement || []).map(r => ({ code: r.f.code, score: r.score, ligne: r.ligne, part: r.part, net: nets.has(r.f) })),
                        decor: tous.slice(0, 40).map(r => ({ code: r.f.code, score: +r.score.toFixed(4) })) };
-      this.signaux.figurine = CatalogueJB.departager(await createImageBitmap(this.photo),
+      this.signaux.figurine = CatalogueJB.departager(await createImageBitmap(this.photoReco || this.photo),
         [...new Set([...tous.slice(0, 40).map(r => r.f), ...lus])]).map(r => ({ code: r.f.code, score: +r.score.toFixed(4) }));
       connues = [...new Set([...connues, ...tous.slice(0, connues.length ? 3 : 5).map(r => r.f)])].sort((a, b) => note(b) - note(a)).slice(0, 5);
       // plusieurs blisters presque aussi ressemblants : à départager à l'œil (photos)
@@ -698,7 +701,7 @@ const Base = {
       if (connues.length) this.proches = connues.filter(f => score.has(f) && lus.has(f) === lus.has(connues[0]) && note(f) >= note(connues[0]) - 0.03);
       if (this.proches.length < 2) this.proches = [];
       // même carton : la figurine seule départage (ex. Dark Vador doré / droïde argenté / droïde noir)
-      const fig = CatalogueJB.departager(await createImageBitmap(this.photo), this.proches);
+      const fig = CatalogueJB.departager(await createImageBitmap(this.photoReco || this.photo), this.proches);
       if (fig.length) {
         const ordre = [...fig.map(r => r.f), ...this.proches.filter(f => !fig.some(r => r.f === f))];
         connues = [...ordre, ...connues.filter(f => !ordre.includes(f))];
@@ -708,7 +711,7 @@ const Base = {
       if (typeof Vision !== "undefined") {
         $("base-etat").textContent = "Comparaison de la photo… (la première fois, téléchargement du modèle de vision, environ 24 Mo)";
         try {
-          const r = this._combiner(await Vision.classer(await createImageBitmap(this.photo)), tous, nets, connues);
+          const r = this._combiner(await Vision.classer(await createImageBitmap(this.photoReco || this.photo)), tous, nets, connues);
           if (r) { connues = r.ordre; this.confiance = r.confiance; this.proches = r.confiance < this.SEUIL_SUR ? r.ordre.slice(0, 3) : []; }
         } catch (err) { console.warn("vision", err); }
       }
@@ -1169,7 +1172,7 @@ const Base = {
       prixParExemplaire = prixParExemplaire.filter((x, i) => !ecarte(numeros[i], i));
       numeros = garder; n = garder.length;
     }
-    const commun = { recadre: true, nom, precision, numerote: !nonNumerote, serie: nonNumerote ? "" : $("base-serie").value.trim(), remarque: $("base-remarque").value.trim().toUpperCase(),
+    const commun = { recadre: true, entiere: !this.cadre, versoEntier: !!this.verso && !this.cadreVerso, nom, precision, numerote: !nonNumerote, serie: nonNumerote ? "" : $("base-serie").value.trim(), remarque: $("base-remarque").value.trim().toUpperCase(),
                      code, photo: this.photo, verso: this.verso, versoTexte: this.versoTexte || "", exporte: false,
                      // prix payé d'un exemplaire (facultatif) et date d'achat : jamais envoyés (ni base commune, ni .zip)
                      prixPaye: lirePrixSaisi($("base-prix") && $("base-prix").value), dateAchat: $("base-date-achat") ? dateLue($("base-date-achat").value) : "" };
@@ -1231,8 +1234,8 @@ const Base = {
     this._nouvelle();
     if (fichier) {
       $("base-photo").src = URL.createObjectURL(fichier);
-      const { blob, cadre } = await this._preparer(fichier, 0);
-      Object.assign(this, { photo: blob, cadre, source: { fichier, sens: 0 }, nomLu: p.nomLu, codeLu: p.codeLu });
+      const { blob, cadre, reco } = await this._preparer(fichier, 0);
+      Object.assign(this, { photo: blob, cadre, photoReco: reco, source: { fichier, sens: 0 }, nomLu: p.nomLu, codeLu: p.codeLu });
       this._demanderVerso();
     } else Object.assign(this, { photo: p.photo, verso: p.verso, versoTexte: p.versoTexte || "", versoPasse: !p.verso, nomLu: p.nomLu, codeLu: p.codeLu,
                                  source: p.source, sourceVerso: p.sourceVerso, cadre: p.cadre, cadreVerso: p.cadreVerso });
@@ -1475,7 +1478,7 @@ const Base = {
   async _appliquerRemplacement(r, blob) {
     const { cote, cibles, carte, fichier } = r;
     for (const x of cibles) {
-      if (cote === "verso") { x.verso = blob; x.versoTexte = ""; } else x.photo = blob;
+      if (cote === "verso") { x.verso = blob; x.versoTexte = ""; x.versoEntier = !r.cadre; } else { x.photo = blob; x.entiere = !r.cadre; }
       x.exporte = false;
       if (x.commune) x.communeMaj = Date.now(); // déjà dans la base commune : la photo refaite y remplacera l'ancienne
     }

@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v182 (06/11) : PHOTO DE BLISTER GARDÉE ENTIÈRE PAR DÉFAUT (Mathias : « pas forcément besoin de faire du recadrage »).
+    Base._preparer renvoie la photo entière (blob) ; le recadrage automatique ne sert plus qu'à la reconnaissance
+    (reco -> Base.photoReco : décor, figurine, vision). Cadre mémorisé ou « ✂️ Recadrer » : comme avant. Entrées marquées
+    entiere / versoEntier : pas de repère 📏 « prise de loin », pas remplacées par la photo d'un autre exemplaire.
+    Essai (3 photos de l'album élargies comme prises de loin) : photo gardée entière, 3/3 reconnues (confiance 0,99–1).
+    Aussi pour contribuer.html. Les photos envoyées à la base commune sont désormais entières.
   · v181 (06/11) : ÉCRAN BLISTERS BLOQUÉ, IMPOSSIBLE DE DESCENDRE (Mathias, capture). Le recadrage plein écran bloque le
     défilement (body.recadrage-ouvert) ; fermé par un autre chemin que ses boutons (nouvelle photo : _nouvelle, liste
     redessinée : _afficherListe, autre écran), la page restait bloquée. Reproduit (Playwright), corrigé : blocage en CSS
