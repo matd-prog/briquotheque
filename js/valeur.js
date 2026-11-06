@@ -50,7 +50,21 @@ const Valeur = {
     $("valeur-actions").hidden = !this.jeton;
     $("valeur-resultat").innerHTML = "";
     $("valeur-etat").textContent = this.jeton ? "" : "Collez une fois votre jeton d'accès GitHub (github_pat_…) : il reste dans ce téléphone.";
-    if (this.jeton) { this.afficher(); this.suivre(); }
+    if (this.jeton) { this.afficher(); this.suivre(); this._verifierJeton(); }
+  },
+  // Jeton expiré ou retiré sur GitHub (Mathias, 06/11/2026 : « Catalogue appli » expiré le 01/11) : le champ pour coller le
+  // nouveau s'affiche tout seul, sans passer par « Retirer le jeton »
+  async _verifierJeton() {
+    let rep;
+    try { rep = await fetch(`https://api.github.com/repos/${DEPOT_PRIVE}`, { cache: "no-store", headers: { Authorization: `Bearer ${this.jeton}` } }); }
+    catch (err) { return; } // hors connexion : rien à dire
+    if (rep.status !== 401) return;
+    this.remplacerJeton("🔑 Votre jeton GitHub a expiré ou n'est plus accepté : collez le nouveau ci-dessous, puis « Enregistrer le jeton ».");
+  },
+  remplacerJeton(message) {
+    $("valeur-jeton-bloc").hidden = false;
+    $("valeur-etat").textContent = message || "Collez le nouveau jeton (github_pat_…), puis « Enregistrer le jeton » : il remplace l'ancien.";
+    $("valeur-jeton-bloc").scrollIntoView({ block: "center" });
   },
 
   async enregistrerJeton() {
@@ -59,7 +73,8 @@ const Valeur = {
     this.jeton = j;
     try {
       const rep = await this._api("");
-      if (!rep.ok) throw new Error("dépôt introuvable avec ce jeton");
+      // 404 : jeton valable, mais le dépôt privé n'est pas dans ses dépôts autorisés (Mathias, 06/11/2026)
+      if (!rep.ok) throw new Error(`il est accepté par GitHub, mais n'a pas accès au dépôt privé « ${DEPOT_PRIVE.split("/")[1]} ». Sur GitHub, dans les réglages du jeton, ajoutez ce dépôt (et « briquotheque ») dans « Accès au dépôt », avec « Contenu » et « Actions » en lecture et écriture.`);
     } catch (err) {
       this.jeton = null;
       await demander("Le jeton ne marche pas : " + err.message, "OK", "Fermer");
@@ -832,6 +847,7 @@ document.addEventListener("click", e => {
   if (a === "valeur") Valeur.ouvrir();
   else if (a === "valeur-jeton") Valeur.enregistrerJeton();
   else if (a === "valeur-oublier") Valeur.oublierJeton();
+  else if (a === "valeur-remplacer-jeton") Valeur.remplacerJeton();
   else if (a === "valeur-envoyer") Valeur.envoyer();
   else if (a === "valeur-actualiser") Valeur.afficher();
   else if (a === "valeur-doublons") Valeur.supprimerDoublons();

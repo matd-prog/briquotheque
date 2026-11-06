@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v180 (06/11) : JETON GITHUB EXPIRÉ REPÉRÉ (Mathias). Écran Valeur : jeton refusé (401) -> le champ pour coller le
+    nouveau s'affiche tout seul avec un message ; bouton « 🔑 Remplacer le jeton » ; jeton accepté mais sans accès au dépôt
+    privé (404, cas de Mathias le 06/11 avec son nouveau jeton) -> message qui dit quoi régler sur GitHub (dépôts
+    briquotheque-prive et briquotheque, Contenu et Actions en lecture et écriture).
   · v179 (06/11) : CONTRÔLE COMPLET RANGÉ DANS LE DÉPÔT (Mathias). Le script de contrôle d'avant publication vivait dans
     le dossier temporaire de Claude et a disparu à la réinitialisation de l'environnement (06/11). Réécrit :
     outils/tests/controle_complet.js (NODE_PATH=$(npm root -g) node outils/tests/controle_complet.js [--donnees
