@@ -49,7 +49,8 @@ const Base = {
     this.photo = null; this.verso = null; this.versoPasse = false; this.versoTexte = ""; this._versoApplique = false; this.choixNet = false; this.candidatsRecto = []; this.signaux = null; this.confiance = null; this.codeAuto = "";
     if ($("base-verso-info")) { $("base-verso-info").hidden = true; $("base-verso-info").innerHTML = ""; }
     this.source = this.sourceVerso = this.cadre = this.cadreVerso = null;
-    if ($("base-recadrage")) $("base-recadrage").hidden = true;
+    if ($("base-recadrage")) { $("base-recadrage").hidden = true; $("base-recadrage").classList.remove("plein-ecran"); }
+    document.body.classList.remove("recadrage-ouvert");
     if ($("base-recadrer-boutons")) $("base-recadrer-boutons").hidden = true; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.proches = []; this.semblables = [];
     if ($("base-identite")) $("base-identite").innerHTML = "";
     $("base-photo").removeAttribute("src");
@@ -1322,7 +1323,8 @@ const Base = {
 
   _afficherListe() {
     // cadre de recadrage ouvert dans une fiche de la liste : remis à sa place avant de redessiner la liste
-    if (this._placePanneau) { $("base-recadrage").hidden = true; this._rempl = null; this._remettrePanneau(); }
+    if (this._placePanneau) { $("base-recadrage").hidden = true; $("base-recadrage").classList.remove("plein-ecran"); document.body.classList.remove("recadrage-ouvert");
+      this._rempl = null; this._remettrePanneau(); }
     const n = this.entrees.length, attente = this.entrees.filter(e => !e.exporte).length, pasAMoi = this.entrees.filter(e => e.possede === false).length;
     $("base-compte").textContent = n
       ? `${n - pasAMoi} blister${n - pasAMoi > 1 ? "s" : ""} à vous${pasAMoi ? ` + ${pasAMoi} pour la base commune seulement` : ""}` +

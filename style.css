@@ -379,7 +379,9 @@ body:not(.base-vide) .base-vide-seul { display: none !important; }
 #base-recadrage.plein-ecran #base-recadrage-zone img { width: auto; max-width: calc(100vw - 48px); max-height: calc(100vh - 230px); max-height: calc(100dvh - 230px); }
 #base-recadrage.plein-ecran .case-a-cocher { color: #ddd; }
 #ecran-recadrage .recadrage-zone img { max-height: calc(100vh - 260px); max-height: calc(100dvh - 260px); }
-body.recadrage-ouvert { overflow: hidden; }
+/* page bloquée seulement tant que le cadre plein écran est vraiment affiché (Mathias, 06/11/2026 : fermé par un autre
+   chemin — nouvelle photo, liste redessinée, autre écran — il laissait la page bloquée, impossible de descendre) */
+body:has(#base-recadrage.plein-ecran:not([hidden])):not(:has([hidden] #base-recadrage)) { overflow: hidden; }
 /* loupe au-dessus du doigt pendant qu'on tire un coin ou un bord */
 .loupe-recadrage { position: fixed; z-index: 2000; width: 120px; height: 120px; border-radius: 50%; border: 3px solid #fff;
   box-shadow: 0 4px 14px rgba(0,0,0,.5); pointer-events: none; background: #111; }

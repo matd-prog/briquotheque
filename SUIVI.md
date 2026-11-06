@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v181 (06/11) : ÉCRAN BLISTERS BLOQUÉ, IMPOSSIBLE DE DESCENDRE (Mathias, capture). Le recadrage plein écran bloque le
+    défilement (body.recadrage-ouvert) ; fermé par un autre chemin que ses boutons (nouvelle photo : _nouvelle, liste
+    redessinée : _afficherListe, autre écran), la page restait bloquée. Reproduit (Playwright), corrigé : blocage en CSS
+    seulement tant que le cadre est vraiment affiché (body:has(...)), et classe retirée sur ces chemins. Aussi pour
+    contribuer.html (même base.js et style.css).
   · v180 (06/11) : JETON GITHUB EXPIRÉ REPÉRÉ (Mathias). Écran Valeur : jeton refusé (401) -> le champ pour coller le
     nouveau s'affiche tout seul avec un message ; bouton « 🔑 Remplacer le jeton » ; jeton accepté mais sans accès au dépôt
     privé (404, cas de Mathias le 06/11 avec son nouveau jeton) -> message qui dit quoi régler sur GitHub (dépôts
