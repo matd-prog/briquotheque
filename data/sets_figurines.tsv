@@ -1,4 +1,4 @@
-#date 2026-10-22
+#date 2026-11-06
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -1233,10 +1233,10 @@ set	figurine	quantite	nom	bricklink	ressemblance
 11377-1	fig-017715	1	Soldier of Gondor, Raised Eyebrow	lor155	0.62
 11377-1	fig-017716	1	Aragorn (King Elessar)	lor163	1.0
 11377-1	fig-017717	1	Arwen, Yellowish Green Dress	lor164	1.0
-11378-1	fig-017529	1	Pan Am Air Hostess, Sand Blue Uniform	twn545	0.31
-11378-1	fig-017530	1	Pan Am Air Hostess, Blue Uniform	twn546	0.34
+11378-1	fig-017529	1	Pan Am Air Hostess, Sand Blue Uniform	twn543	0.31
+11378-1	fig-017530	1	Pan Am Air Hostess, Blue Uniform	twn545	0.34
 11378-1	fig-017531	1	Pan Am Pilot, Black Uniform	twn544	0.76
-11378-1	fig-017532	1	Pan Am Pilot, Dark Blue Uniform	twn556	0.45
+11378-1	fig-017532	1	Pan Am Purser, Dark Blue Uniform	twn546	0.7
 11379-1	fig-018160	1	Author/Store Owner	twn511	0.35
 11379-1	fig-018161	1	Reader		0.0
 11382-1	fig-017996	1	Astronaut	edu034	0.78
@@ -1260,8 +1260,26 @@ set	figurine	quantite	nom	bricklink	ressemblance
 11387-1	fig-018163	1	Child, White Torso, Red Legs, Dark Brown Hair	LLP038	0.81
 11387-1	fig-018164	1	Child, Dark Turquoise Hoodie, Blue Medium Legs, Dark Blue Beanie	LLP039	0.82
 11387-1	fig-018165	1	Woman, Dark Green Torso, Dark Tan Legs, Light Bluish Grey Hair	cty1961	0.7
+11388-1	fig-018277	1	Waiter, White Jacket, Bright Light Blue Legs, Tan Hair	hol345	0.55
+11388-1	fig-018278	1	Tourist, Dark Brown Jacket, Sand Blue Legs, Reddish Brown Hair	hol330	0.61
+11388-1	fig-018279	1	Glass Shop Proprietor, Light Bluish Grey Suit, Black Hair	sh1100	0.37
+11388-1	fig-018280	1	Glassblower, Reddish Brown Overall	hol433	0.41
+11388-1	fig-018281	1	Shopper, Bright Light Blue Plaid Shirt, Dark Orange Legs, Black Hair	twn532	0.48
+11388-1	fig-018282	1	Tourist, Tan Sweater, Dark Brown Legs, Medium Nougat Hair	idea240	0.66
+11388-1	fig-018283	1	Gondolier, Black Striped Shirt, Dark Blue Legs	hp630	0.55
+11388-1	fig-018284	1	Carnival Goer, Gold Costume	frnd0838	0.3
+11388-1	fig-018285	1	Violist, Dark Red Suit	sh1156	0.49
+11388-1	fig-018286	1	Flower Girl, White Shirt, Sand Green Legs, Dark Orange Hair	twn537	0.49
+11388-1	fig-018287	1	Reader, Dark Green Jacket, Medium Nougat Legs, Light Bluish Grey Cap	sh1118	0.42
+11388-1	fig-018288	1	Workman, Medium Nougat Overall, Dark Green Cap	cty1851	0.41
+11388-1	fig-018289	1	Carnaval Goer, Dark Blue Costume	sw1493	0.34
+11388-1	fig-018290	1	Tourist, Tan Coat, Dark Green Legs, Dark Orange Hair	idea242	0.64
+11388-1	fig-018291	1	Tourist, Dark Orange Jacket, Dark Brown Legs, Cap, Dark Bluish Grey Moustache	cty2046	0.46
+11388-1	fig-018292	1	Tourist, Yellowish Green Shirt, Sand Blue Legs, Dark Brown Hair	cty1954	0.59
+11388-1	fig-018293	1	Gondolier, Red Striped Shirt, Dark Blue Legs	bdp318	0.53
 11389-1	fig-017454	1	Dr. Ryland Grace	phm001	0.55
 11389-1	fig-017455	1	Rocky (Alien)	phm002	0.7
+11390-1	fig-018276	1	Goku		0.0
 1177-1	fig-000364	1	Santa, Plain Red with White Hips	hol008	0.85
 1180-1	fig-000361	1	Astronaut, White, Blue Cap, Headset	spp001	0.64
 1181-1	fig-000079	1	Astronaut, White, White Hips, Helmet with Large Chrome Gold Visor, Headset	spp016	0.6
@@ -4597,11 +4615,14 @@ set	figurine	quantite	nom	bricklink	ressemblance
 40866-1	fig-015529	1	Santa, Black Boots, 3626cpr3560 Head, 102264 Hat	hol381	0.59
 40866-1	fig-018159	1	Mrs. Claus, Red Dress, Gold Glasses	hol384	0.65
 40872-1	fig-016676	1	Ghost, Glow in the Dark, Pin Hole	sh1117	0.32
+40889-1	fig-016348	1	Classic Spaceman, Dark Turquoise with Airtanks	idea227	0.36
 40891-1	fig-017245	1	Sheriff Hopper	st024	0.35
 40891-1	fig-017246	1	Joyce Byers	st023	0.81
 40893-1	fig-017703	1	Orc, 67037 Helmet	lor165	0.67
 40893-1	fig-017704	1	Orc, Olive Green, Yellow Eyes	lor166	0.84
 40896-1	fig-018006	1	Dana Scully, Scrubs	idea281	0.83
+40898-1	fig-018294	1	Tourist, Lime Shirt, Medium Azure Legs, Dark Brown Hair	idea240	0.66
+40898-1	fig-018295	1	Taxi Captain, Light Bluish Grey Jacker, Black Legs, Dark Blue Cap	bdp309	0.42
 40901-1	fig-018080	1	Cornelius Fudge, Black Suit	hp579	0.53
 40901-1	fig-018081	1	Daily Prophet Vendor	sh1139	0.33
 40901-1	fig-018082	1	Fountain Statue	hp629	0.46
@@ -7771,6 +7792,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 5907762001359-1	fig-014187	1	Stormtrooper, Black Squares on Back of Helmet, Female, Nougat Head	sw1456	0.52
 5907762001434-1	fig-016819	1	The Joker, Prison Clothes	sh1075	0.65
 5907762001434-1	fig-017485	1	Batman, Black Suit, Black Cape and Cowl, Rubber Cape	sh1123	0.86
+5907762001465-1	fig-010828	2	Ghost-Spider / Spider-Gwen, Open Front Hood, White Hands	sh1030	0.7
 5909-1	fig-000195	1	Harry Cane	adv009	1.0
 5909-1	fig-000464	1	Lord Sam Sinister	adv038	0.61
 5909-1	fig-000629	1	Baron Von Barron	adv003	0.66
@@ -11214,6 +11236,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 6679-2	fig-000726	1	Man, Red Top with Exxon Logo, Black Legs, Black Hat	exx003	0.55
 6680-1	fig-008221	1	Doctor, Woman, White Jacket with Red Cross, White Legs, Black Pigtails	doc008	0.8
 6680-1	fig-008222	1	Doctor, White Jacket with Red Cross, White Legs, Red Hat	doc007	0.89
+6680477-1	fig-018275	1	Woman, Dark Pink Hoodie, Tan Legs, Red Helmet	hol416	0.64
 6681-1	fig-000811	1	Policeman with Zipper Jacket, White Hat	cop013	0.54
 6682-1	fig-000675	1	Man, Black Overalls, Red Hard Hat (3626a Head)	post005	0.45
 6683-1	fig-008753	1	Chef, Red Neckerchief, Black Legs (3626a Head)	chef002	0.58
@@ -21986,6 +22009,55 @@ set	figurine	quantite	nom	bricklink	ressemblance
 910062-1	fig-017917	1	Dwarf	idea180	0.47
 910062-1	fig-017918	1	Horse Knight, Dark Orange Hair	bdp355	1.0
 910062-1	fig-017919	1	Horse Knight, Black Hair	bdp356	1.0
+910064-1	fig-016358	1	Griffin Knight, Female, Dark Red Arms	idea236	0.63
+910064-1	fig-018225	1	Snake, Black Armor, Neck Armor, Helmet with Yellow Plume, Beard	bdp215	0.4
+910064-1	fig-018226	1	Snake, Black Armor, Neck Armor, Black Hair, Bandana	bdp282	0.51
+910064-1	fig-018227	1	White King, Crown	bdp310	0.39
+910064-1	fig-018228	1	White Knight, Helmet	bdp210	0.57
+910064-1	fig-018229	1	Cook	poc013	0.65
+910064-1	fig-018230	1	The Madam of the Keep	hp633	0.41
+910064-1	fig-018231	1	The Clerk	twn476	0.36
+910064-1	fig-018232	1	Snake, Black Armor, Hood, Quiver	bdp281	0.57
+910064-1	fig-018233	1	Snake, Black Armor, Neck Armor, Dark Orange Hair, Bandana	bdp295	0.53
+910064-1	fig-018234	1	Kraken Warrior, Black Hair	idea234	0.57
+910064-1	fig-018235	1	Snake, Black Armor, Neck Armor, Black Helmet with Plume, Woman	bdp329	0.37
+910064-1	fig-018236	1	Snake, Black Armor, Silver Neck Armor, Helmet	bdp222	0.55
+910064-1	fig-018237	1	Snake, Black Armor, Katana Holder, Black Hair	bdp356	0.42
+910064-1	fig-018238	1	Snake, Black Armor, Neck Armor, Black Helmet with Plume, Moustache	bdp216	0.44
+910064-1	fig-018239	1	Snake, Black Armor, Neck Armor, Dark Bluish Gray Hair	bdp279	0.56
+910064-1	fig-018240	1	Snake, Black Armor, Black Helmet with Plume, Black Goatee	drm102	0.41
+910064-1	fig-018241	1	Snake, Black Armor, Quiver, Reddish Brown Hair	bdp283	0.54
+910064-1	fig-018242	1	Griffin Knight, Reddish Brown Hair	bdp353	0.97
+910064-1	fig-018243	1	Snake, Black Armor, Black Hair, Moustache	bdp332	0.5
+910065-1	fig-018246	1	Pirate, Woman, Reddish Brown Torso, Dark Blue Legs, Black Tricon	pi202	0.73
+910065-1	fig-018247	1	Prisoner, White Shirt, Black Legs, Dark Orange Hair	bdp295	0.72
+910065-1	fig-018248	1	Coconut Cape Soldier, Armor, Dark Bluish Grey Sideburns	bdp279	0.37
+910065-1	fig-018249	1	Coconut Cape Soldier, Armor, Black Hair	bdp356	0.42
+910065-1	fig-018250	1	Coconut Cape Soldier, Armor, Reddish Brown Beard, Plume	bdp189	0.41
+910065-1	fig-018251	1	Coconut Cape Soldier, Armor, Smirk	sh1146	0.34
+910065-1	fig-018252	1	Coconut Cape Soldier, Armor, Moustache, Plume	bdp332	0.32
+910065-1	fig-018253	1	Important Guy, Medium Lavender Torso	bdp343	0.42
+910065-1	fig-018254	1	Lady, White Torso, Lavender Dress	bdp296	0.5
+910066-1	fig-018244	1	Train Driver, Dark Blue Torso, Dark Tan Legs, Dark Brown Cap	cty2027	0.78
+910067-1	fig-018245	1	Balloon Controller	cty1982	0.34
+910068-1	fig-018255	1	Scientist, White Labcoat, Sand Blue Legs, Black Hair	bdp274	0.52
+910068-1	fig-018256	1	Scientist, White Labcoat, Dark Blue Legs, Light Bluish Grey Hair	bdp341	0.53
+910068-1	fig-018257	1	Cyclist, Yellowish Green Torso, Sand Green Legs, Backpack	bdp312	0.47
+910068-1	fig-018258	1	Teacher, Grey Suit	bdp307	0.38
+910068-1	fig-018259	1	Janitor, Bright Light Blue Shirt, Blue Legs, Dark Blue Cap	bdp348	0.6
+910068-1	fig-018260	1	Unknown Role, Olive Green Torso, Nougat Legs, Tan Hair	bdp330	0.45
+910068-1	fig-018261	1	Unknown Role, Tan Coat, Black Beret	bdp329	0.46
+910068-1	fig-018262	1	Unknown Role, Light Bluish Grey Sweater, Dark Turquoise Legs, Reddish Brown Hair	bdp284	0.51
+910068-1	fig-018263	1	Student, Dark Turquoise Torso, Dark Green Legs, Dark Brown Hair, Scarf	bdp308	0.52
+910068-1	fig-018264	1	Student, Dark Orange Torso, Dark Blue Legs, Beanie, Headphones	bdp315	0.48
+910068-1	fig-018265	1	Unknown Role, Tan Sweater, Olive Green Legs, Dark Orange Hair	bdp267	0.54
+910068-1	fig-018266	1	Unknown Role, Dark Red Torso, Dark Tan Legs, Dark Brown Hair	bdp333	0.55
+910068-1	fig-018267	1	Unknown Role, Black Suit, Dark Brown Hair	bdp279	0.53
+910068-1	fig-018268	1	Artist, Reddish Brown Apron, Black Hair	bdp260	0.61
+910068-1	fig-018269	1	Doctor, White Labcoat, Bright Light Blue Legs, Bright Light Yellow Hair	bdp326	0.55
+910068-1	fig-018270	1	Teacher, Bright Light Blue Sweater, Sand Blue Legs, Black Hair	bdp290	0.61
+910068-1	fig-018271	1	Teacher, Dark Blue Jacket, Dark Brown Legs, Light Bluish Grey Hair	bdp268	0.57
+910068-1	fig-018272	1	Botanist, Medium Nougat Apron, Black Hair	bdp343	0.47
 911-1	fig-000782	2	LEGOLAND Black	old048	0.58
 911-1	fig-004697	2	LEGOLAND Red	old025	0.6
 911610-1	fig-010468	1	Imperial Probe Droid - Dark Bluish Grey Plate	sw0712a	0.94
@@ -22269,11 +22341,11 @@ set	figurine	quantite	nom	bricklink	ressemblance
 9365-1	fig-008132	1	Man, White Jacket with Zipper, White Legs, White Hat	zip034	0.49
 9365-1	fig-008133	1	Fireman, Plain Black, White Helmet, Airtanks	4555pb176	0.45
 9376-1	fig-000339	2	Bat Lord (Fright Knights) - No Cape	cas022	0.65
+9376-1	fig-000645	2	King (Royal Knights) - Blue Legs, Blue Hips, No Cape	cas552	0.52
 9376-1	fig-000646	2	Knight (Fright Knights) - Black Helmet, No Plume	cas023	0.69
 9376-1	fig-002229	2	Skeleton, Standard Face, Ball Joint Arms (3626b Head)	gen010	0.58
 9376-1	fig-005145	2	Ghost - White Legs	gen012	0.75
 9376-1	fig-006551	2	Witch (Fright Knights) - Willa, No Cape	cas032	0.55
-9376-1	fig-007104	2	King (Royal Knights) - Blue Legs, Black Hips	cas552	0.65
 9376-1	fig-018056	2	Knight (Royal Knights) - Black Legs, Red Helmet	cas243	0.51
 9440-1	fig-001490	1	Zane ZX with Shoulder Armour	njo0031	0.66
 9441-1	fig-000452	1	Rattla	njo0033	1.0
@@ -22878,6 +22950,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 9781837251995-1	fig-017178	1	Garmadon	njo1001	0.55
 9781837251995-1	fig-017208	1	Kai	njo1048	0.83
 9781837252145-1	fig-017970	1	Alex, Flat Silver Helmet	min158	0.48
+9781837252152-1	fig-018274	1	Cole	njo0199	0.85
 9781837252169-1	fig-014190	1	Darth Vader, White Skin, 50231 Cape, Robe Hem and Stripes on Legs	sw1502	0.51
 9781837252176-1	fig-017971	1	Hermione Granger, Gryffindor Robes Open, Hair in Bun	hp617	0.59
 9781838526771-1	fig-012479	1	Biggs Darklighter - Black Hair	sw1038	0.77

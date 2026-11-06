@@ -1,4 +1,4 @@
-#date 2026-10-22
+#date 2026-11-06
 code	nom	annee	theme	pieces	figurines
 0003977811-1	Ninjago: Book of Adventures	2022	Books / Activity Books with LEGO Parts	1	1
 001-1	Gears	1965	System / Samsonite	43	0
@@ -437,6 +437,7 @@ code	nom	annee	theme	pieces	figurines
 10368-1	Chrysanthemum	2024	Botanicals	278	0
 10369-1	Plum Blossom	2024	Botanicals	327	0
 10370-1	Poinsettia	2024	Seasonal / Christmas	608	0
+10371-1	Cozy Plants	2026	Botanicals	248	0
 10372-1	Hibiscus	2025	Botanicals	660	0
 10373-1	Mini Bonsai Trees	2025	Botanicals	709	0
 10374-1	Bouquet of Pink Roses	2025	Botanicals	789	0
@@ -585,7 +586,7 @@ code	nom	annee	theme	pieces	figurines
 10557-1	Giant Tower	2013	Duplo / Basic Set	200	0
 10558-1	Number Train	2013	Duplo	31	0
 10559-1	A Fairy Tale	2013	Duplo / Basic Set	16	0
-1056-1	Basic School Pack - 773 elements with teacher's manual	1985	Educational and Dacta / Universal Building Set	785	0
+1056-1	Basic School Pack - 773 Elements with Teacher's Manual	1985	Educational and Dacta / Universal Building Set	785	0
 10560-1	Peekaboo Jungle	2013	Duplo / Basic Set	14	0
 10561-1	Toddler Starter Building Set	2013	Duplo / Basic Set	37	0
 10565-1	Creative Suitcase	2014	Duplo / Basic Set	135	0
@@ -640,7 +641,7 @@ code	nom	annee	theme	pieces	figurines
 10623-1	Basic Bricks Large	2015	Duplo / Basic Set	60	0
 1063-1	Community Workers	1985	Educational and Dacta / Town	169	24
 1064-1	Dacta Buildings	1981	Educational and Dacta / Town	420	6
-1065-1	House Accessories - 182 elements	1985	Educational and Dacta / Universal Building Set	196	0
+1065-1	House Accessories - 182 Elements	1985	Educational and Dacta / Universal Building Set	196	0
 10654-1	XL Creative Brick Box	2016	Classic	1600	0
 10655-1	Monster Trucks	2013	Make & Create / Bricks & More	197	3
 10656-1	My First LEGO Princess	2013	Make & Create / Bricks & More	88	1
@@ -1127,7 +1128,7 @@ code	nom	annee	theme	pieces	figurines
 1129-2	Santa on Reindeer	1999	Seasonal / Christmas	34	0
 113-1	Universal Building Set	1977	Universal Building Set	293	0
 113-2	Motorized Train Set	1966	Train / 4.5V	334	0
-113-2-DBASE-1	Database Set for Various 3009 prints For Set 113-2	1966	Other / Database Sets	18	0
+113-2-DBASE-1	Database Set for Various 3009 Prints For Set 113-2	1966	Other / Database Sets	18	0
 1130-1	Storage Folder for Building Instructions (16 Internal Pockets)	1980	Service Packs	1	0
 1131-1	Tires (42 mm) and Hubs	1981	Service Packs / Technic	4	0
 1132-1	Hinges	1981	Service Packs	8	0
@@ -1157,8 +1158,10 @@ code	nom	annee	theme	pieces	figurines
 11385-1	Star Trek: U.S.S. Enterprise NCC-1701 Bridge	2026	Icons	1701	8
 11386-1	SpongeBob SquarePants: Bikini Bottom	2026	Icons	1794	4
 11387-1	Holiday House	2026	Seasonal / Christmas	1354	4
+11388-1	Venetian Neighborhood	2026	Icons	5683	17
 11389-1	Project Hail Mary	2026	Icons	830	2
 1139-1	Motor-Mount Plate with Magnetic Couplers	1981	Service Packs / Train	5	0
+11390-1	Dragon Ball: Shenron & Goku	2026	Icons	1764	1
 114-1	Universal Building Set	1977	Universal Building Set	390	0
 114-2	Small Train Set	1966	Train / 4.5V	88	0
 1140-1	12V Light Bricks	1981	Service Packs	2	0
@@ -1330,7 +1333,7 @@ code	nom	annee	theme	pieces	figurines
 122010-1	Baby Dino Transport	2020	Jurassic World	26	0
 12201420-1	The LEGO Ninjago Movie: Garmageddon in Ninjago City!	2017	Books / Activity Books with LEGO Parts	8	1
 12202014-1	Ninjago: Spinning Power	2011	Books / Activity Books with LEGO Parts	8	1
-1221-1	TECHNIC beams - yellow	1982	Service Packs / Technic	8	0
+1221-1	TECHNIC Beams - Yellow	1982	Service Packs / Technic	8	0
 1221-2	1 x 1 Bricks	1955	System / Supplemental	40	0
 122111-1	Stegosaurus	2020	Jurassic World	64	0
 122112-1	Dr. Wu's Laboratory	2021	Jurassic World	15	1
@@ -1338,7 +1341,7 @@ code	nom	annee	theme	pieces	figurines
 122114-1	Owen Grady and Red Motorbike	2021	Jurassic World	14	1
 122115-1	Dilophosaurus	2021	Jurassic World	67	0
 122116-1	Sinjin Prescott with Buggy	2021	Jurassic World	30	1
-1222-1	TECHNIC beams - blue	1982	Service Packs / Technic	8	0
+1222-1	TECHNIC Beams - Blue	1982	Service Packs / Technic	8	0
 1222-2	1 x 1 Round Bricks	1955	System / Supplemental	40	0
 122217-1	Raptor and Hideout	2022	Jurassic World	23	0
 122218-1	Tyrannosaurus Rex	2022	Jurassic World	57	0
@@ -1349,7 +1352,7 @@ code	nom	annee	theme	pieces	figurines
 122223-1	Owen and Quad	2022	Jurassic World	37	1
 122224-1	Rainn Delacourt with Raptor	2022	Jurassic World	34	1
 122225-1	Blue Raptor	2022	Jurassic World	60	0
-1223-1	TECHNIC beams - black	1982	Service Packs / Technic	8	0
+1223-1	TECHNIC Beams - Black	1982	Service Packs / Technic	8	0
 1223-2	2 x 2 & 2 x 4 Curved Bricks	1955	System / Supplemental	14	0
 1223-3	2 x 2 Curved Bricks	1957	System / Supplemental	20	0
 122326-1	Raptor and Trap	2023	Jurassic World	20	0
@@ -1401,7 +1404,7 @@ code	nom	annee	theme	pieces	figurines
 1234-3	Replacement Gearbox for Electric, Motor 4.5V/12V Type II 12 x 4 x 3 1/3	1983	Service Packs	1	0
 1235-1	Differential Gear Housing	1984	Service Packs / Technic	19	0
 1235-2	Garage Plate and Door	1955	System / Supplemental	3	0
-1236-1	TECHNIC wheels with hubs	1984	Service Packs / Technic	4	0
+1236-1	TECHNIC Wheels with Hubs	1984	Service Packs / Technic	4	0
 1236-2	Garage	1955	System / Town Plan	59	0
 1236-3	12V Technic Motor	1979	Service Packs / Technic	1	0
 1237-1	Honda Promotional Set	2001	Technic	56	0
@@ -1504,7 +1507,7 @@ code	nom	annee	theme	pieces	figurines
 1309-1	Church	1957	System / Town Plan	150	0
 131-1	Passenger Coach	1972	Train / 4.5V	67	0
 1310-1	ESSO Filling Station	1956	System / Town Plan	96	0
-1314-1	Stop bush / Small pulley	1987	Educational and Dacta / Service Packs / Technic	210	0
+1314-1	Stop Bush / Small Pulley	1987	Educational and Dacta / Service Packs / Technic	210	0
 1315-1	Piston Rod	1987	Educational and Dacta / Service Packs / Technic	50	0
 1316-1	Connector Peg	1987	Educational and Dacta / Service Packs / Technic	150	0
 1317-1	Technic Chainlinks	1987	Educational and Dacta / Service Packs / Technic	350	0
@@ -1592,7 +1595,7 @@ code	nom	annee	theme	pieces	figurines
 1406-1	Nursing the Baby	2001	Duplo / Playhouse	6	0
 1407-1	Cooking with Mummy (Mommy)	2001	Duplo / Playhouse	7	0
 1408-1	Walking the Dog with Daddy	2001	Duplo / Playhouse	5	0
-1411-1	Pirate's Treasure Hunt (Quaker Oats promo)	2001	Studios	35	4
+1411-1	Pirate's Treasure Hunt (Quaker Oats Promo)	2001	Studios	35	4
 14122020-1	Ninjago: Official Guide	2012	Books / Non-fiction Books	5	1
 14127980-1	Ninjago: The Way Of The Ghost	2015	Books / Activity Books with LEGO Parts	6	1
 14128079-1	Legends of Chima: The Battle for Chima	2015	Books / Activity Books with LEGO Parts	11	1
@@ -1600,8 +1603,8 @@ code	nom	annee	theme	pieces	figurines
 1414-1	Double Hover (Kabaya Promotional)	2001	Space / Life On Mars	21	1
 1415-1	Jet Scooter	2001	Space / Life On Mars	24	1
 1416-1	Worker Robot	2001	Space / Life On Mars	30	1
-1417-1	Vakama (Kabaya version)	2001	Bionicle	26	0
-1417-2	Vakama (Polybag version)	2003	Bionicle	26	0
+1417-1	Vakama (Kabaya Version)	2001	Bionicle	26	0
+1417-2	Vakama (Polybag Version)	2003	Bionicle	26	0
 1418-1	Matau	2001	Bionicle	25	0
 1419-1	Nokama (Kabaya Promotional)	2001	Bionicle	27	0
 1420-1	Nuju	2001	Bionicle	29	0
@@ -1673,7 +1676,7 @@ code	nom	annee	theme	pieces	figurines
 150-1	Straight Track	1966	Train / 4.5V	25	0
 1500-1	Oval Bricks	1988	Duplo / Basic Set	2	0
 1501-1	Yellow Bucket	1987	Duplo / Basic Set	73	0
-1502-1	Basic set with Duffel Bag	1986	Duplo / Basic Set	10	0
+1502-1	Basic Set with Duffel Bag	1986	Duplo / Basic Set	10	0
 1503-1	Car Building Set	1986	Duplo / Basic Set	7	0
 1504-1	Family Bucket	1993	Universal Building Set / Basic	243	0
 1504-2	House Building Set	1986	Duplo / Basic Set	14	0
@@ -1829,19 +1832,19 @@ code	nom	annee	theme	pieces	figurines
 1639-1	Large Bucket	1990	Universal Building Set / Basic	679	2
 164-1	Passenger Wagon	1978	Train / 4.5V	158	2
 1640-1	Tuttle the Turtle	1989	Duplo / Basic Set	6	0
-1641-1	Crocodile	1989	Duplo / Basic Set	6	0
+1641-1	Giddy the Gator	1989	Duplo / Basic Set	6	0
 1642-1	Lego Motion 3B, Sea Eagle	1989	Promotional / McDonalds	15	0
-1642-2	Lego Motion 3B, Sea Eagle - International version	1994	Promotional / McDonalds	15	0
+1642-2	Lego Motion 3B, Sea Eagle - International Version	1994	Promotional / McDonalds	15	0
 1643-1	Lego Motion 2B, Lightning Striker	1989	Promotional / McDonalds	16	0
 1644-1	Lego Motion 4A, Wind Whirler	1989	Promotional / McDonalds	17	0
-1644-2	Lego Motion 4A, Wind Whirler - International version	1994	Promotional / McDonalds	17	0
+1644-2	Lego Motion 4A, Wind Whirler - International Version	1994	Promotional / McDonalds	17	0
 1645-1	Lego Motion 1A, Gyro Bird	1989	Promotional / McDonalds	19	0
 1646-1	Lego Motion 3A, Land Laser	1989	Promotional / McDonalds	17	0
-1646-2	Lego Motion 3A, Land Laser - International version	1994	Promotional / McDonalds	17	0
+1646-2	Lego Motion 3A, Land Laser - International Version	1994	Promotional / McDonalds	17	0
 1647-1	Lego Motion 1B, Turbo Force	1989	Promotional / McDonalds	14	0
 1648-1	Lego Motion 2A, Swamp Stinger	1989	Promotional / McDonalds	16	0
 1649-1	Lego Motion 4B, Sea Skimmer	1989	Promotional / McDonalds	17	0
-1649-2	Lego Motion 4B, Sea Skimmer - International version	1994	Promotional / McDonalds	17	0
+1649-2	Lego Motion 4B, Sea Skimmer - International Version	1994	Promotional / McDonalds	17	0
 165-1	Cargo Station	1978	Train / 4.5V	266	2
 1650-1	Maersk Line Container Ship	1974	Boat	220	0
 1651-1	Basic Building Set Trial Size	1993	Universal Building Set / Basic	30	0
@@ -2134,7 +2137,7 @@ code	nom	annee	theme	pieces	figurines
 1959-1	Ultra-Light	1993	Town / Classic Town	30	1
 1959-2	House Building Set	1985	Duplo	8	0
 196-1	Antique Car	1975	Building Set with People	115	0
-1960-2	Special Value 96 pieces (Canadian Set)	1985	Universal Building Set / Basic	104	0
+1960-2	Special Value 96 Pieces (Canadian Set)	1985	Universal Building Set / Basic	104	0
 1962-1	Basic Building Set	1985	Universal Building Set / Basic	219	1
 1963-1	Basic Set with Storage Case	1986	Universal Building Set / Basic	221	1
 1964-1	Basic Building Set	1985	Universal Building Set / Basic	27	0
@@ -2160,8 +2163,8 @@ code	nom	annee	theme	pieces	figurines
 1980-1	Santa's Elves	1991	Seasonal / Christmas	30	0
 19801974-1	Ninjago: Ninja vs. Venomari	2012	Books / Activity Books with LEGO Parts	5	1
 1981-1	Rattle	1987	Duplo / Rattles	1	0
-198575-2	Fabuland Figure Panda 2 - Orzoro Nestlé Promotional polybag	1985	Fabuland	1	0
-198575-3	Fabuland Figure Bunny 3 - Orzoro Nestlé Promotional polybag	1985	Fabuland	1	0
+198575-2	Fabuland Figure Panda 2 - Orzoro Nestlé Promotional Polybag	1985	Fabuland	1	0
+198575-3	Fabuland Figure Bunny 3 - Orzoro Nestlé Promotional Polybag	1985	Fabuland	1	0
 199-1	Scooter	1977	Building Set with People	41	0
 1990-1	F1 Race Car	1993	Town / Classic Town	35	1
 1991-1	Racing Pickup	1993	Town / Classic Town	81	1
@@ -2460,6 +2463,7 @@ code	nom	annee	theme	pieces	figurines
 21062-1	Trevi Fountain	2025	Architecture	1880	3
 21063-1	Neuschwanstein Castle	2025	Architecture	3455	0
 21064-1	Paris - City of Love	2026	Architecture	958	0
+21065-1	Sagrada Família	2026	Architecture	12060	0
 21066-1	New York City – The Big Apple	2026	Architecture	1465	1
 21067-1	Tower Bridge	2026	Architecture	3745	0
 21068-1	Shanghai	2025	Architecture	597	0
@@ -2758,7 +2762,7 @@ code	nom	annee	theme	pieces	figurines
 214.1-1	1 x 6 x 3 Window with Frame	1961	System / Supplemental	6	0
 214.10-1	1 x 2 x 4 Glass Door in Frame, Left	1961	System / Supplemental	13	0
 214.2-1	1 x 6 x 2 Triple-Pane Window in Frame	1961	System / Supplemental	8	0
-214.3-1	1 x 6 x 2 Double-Pane Window in Frame w/Shutters	1961	System / Supplemental	8	0
+214.3-1	1 x 6 x 2 Double-Pane Window in Frame with Shutters	1961	System / Supplemental	8	0
 214.4-1	1 x 4 x 2 Window in Frame	1961	System / Supplemental	9	0
 214.5-1	1 x 3 x 2 Window in Frame	1961	System / Supplemental	12	0
 214.6-1	1 x 2 x 2 Window in Frame	1961	System / Supplemental	15	0
@@ -2898,7 +2902,7 @@ code	nom	annee	theme	pieces	figurines
 2257-1	Spinjitzu Starter Set	2011	Ninjago	57	2
 2258-1	Ninja Ambush	2011	Ninjago	71	2
 2259-1	Skull Motorbike	2011	Ninjago	157	2
-226-1-DBASE-1	Database Set for Various 3009 prints For Set 226-1	1958	Other / Database Sets	77	0
+226-1-DBASE-1	Database Set for Various 3009 Prints For Set 226-1	1958	Other / Database Sets	77	0
 2260-1	Ice Dragon Attack	2011	Ninjago	158	2
 2261-1	Happy Gardener	1997	Duplo / Basic Set	11	0
 2262-1	Basic Set	1997	Duplo / Basic Set	20	0
@@ -2980,9 +2984,9 @@ code	nom	annee	theme	pieces	figurines
 2355-1	Basic Set (Vehicles)	1984	Duplo / Basic Set	27	0
 2356-1	Jumbo Tub (Zoo Tub)	1996	Duplo / Basic Set	109	0
 2356-2	Fun Zoo	2004	Duplo / Basic Set	116	0
-236-1	Garage with Automatic Door (White base and door frame)	1956	System / Town Plan	62	0
+236-1	Garage with Automatic Door (White Base and Door Frame)	1956	System / Town Plan	62	0
 236-2	Garage and Van	1957	System / Town Plan	69	0
-236-3	Garage with Automatic Door (Gray base and door frame)	1968	System / Town Plan	61	0
+236-3	Garage with Automatic Door (Gray Base and Door Frame)	1968	System / Town Plan	61	0
 2361-1	Matt and Mutt Building Set	1991	Duplo / Basic Set	23	0
 2362-1	Large Circus Bucket	1995	Duplo / Basic Set	57	0
 2364-1	Circus Bucket Green	1995	Duplo / Basic Set	42	0
@@ -3803,8 +3807,8 @@ code	nom	annee	theme	pieces	figurines
 30195-1	FXX	2012	Racers / Ferrari	53	0
 30196-1	Shell F1 Team	2012	Racers / Ferrari	47	3
 30197-1	Snowman	2014	Seasonal / Christmas / Creator	60	0
-302-1	Straight Road Plates (without crosswalk)	1983	Town / Classic Town	2	0
-302-2	Straight Road Plates (with crosswalk)	1978	Town / Classic Town	2	0
+302-1	Straight Road Plates (without Crosswalk)	1983	Town / Classic Town	2	0
+302-2	Straight Road Plates (with Crosswalk)	1978	Town / Classic Town	2	0
 3020-1	Jones' Raft	1998	Adventurers / Desert	18	1
 30200-1	Zombie Chauffeur Coffin Car	2012	Monster Fighters	32	1
 302001-1	Aurora	2020	Disney / Disney Princess	6	1
@@ -4657,7 +4661,7 @@ code	nom	annee	theme	pieces	figurines
 3183-1	Stephanie's Cool Convertible	2012	Friends	149	1
 3184-1	Adventure Camper	2012	Friends	325	2
 3185-1	Summer Riding Camp	2012	Friends	1160	4
-3186-1	Emma's  Horse Trailer	2012	Friends	233	1
+3186-1	Emma's Horse Trailer	2012	Friends	233	1
 3187-1	Butterfly Beauty Shop	2012	Friends	241	2
 3188-1	Heartlake Vet	2012	Friends	371	2
 3189-1	Heartlake Stables	2012	Friends	426	2
@@ -5227,8 +5231,8 @@ code	nom	annee	theme	pieces	figurines
 374-1	Fire Station	1978	Town / Classic Town	338	4
 374-2	Fire Engine	1971	Legoland / Fire	73	0
 3740-1	Small Locomotive	2001	Train / 9V	66	0
-3741-1	Large Locomotive (base unit without color trim elements)	2001	Train / 9V	91	0
-3742-1	Tender Basis (without color trim elements)	2001	Train / 9V	41	0
+3741-1	Large Locomotive (Base Unit without Color Trim Elements)	2001	Train / 9V	91	0
+3742-1	Tender Basis (without Color Trim Elements)	2001	Train / 9V	41	0
 3743-1	Locomotive Blue Bricks	2001	Train / 9V	106	0
 3744-1	Locomotive Green Bricks	2001	Train / 9V	106	0
 3745-1	Locomotive Black Bricks	2001	Train / 9V	106	0
@@ -6356,6 +6360,7 @@ code	nom	annee	theme	pieces	figurines
 40885-1	Duck Family	2026	Creator	262	0
 40886-1	Penguins in Love	2026	Seasonal / Valentine	278	0
 40887-1	Ditto as Squirtle: Movie Night	2026	Pokémon	185	0
+40889-1	Build, Paint and Play!	2026	LEGO Ideas and CUUSOO	158	1
 4089-1	Orange Bucket XL (Explore)	2002	Duplo / Basic Set	90	0
 40890-1	Easter Decorations	2026	Seasonal / Easter	312	0
 40891-1	Stranger Things: WSQK Radio Station	2026	Icons	234	2
@@ -6364,6 +6369,7 @@ code	nom	annee	theme	pieces	figurines
 40894-1	Koenigsegg Sadair's Spear Steering Wheel	2026	Technic	228	0
 40896-1	The X-Files: Scully's Lab	2026	LEGO Ideas and CUUSOO	221	1
 40897-1	Darth Vader's Lightsaber	2026	Star Wars	174	0
+40898-1	Venetian Water Taxi	2026	Icons	322	2
 40899-1	Astro Bot	2026	Other	276	0
 409-1	38 Slimbricks Assorted Sizes (The Building Toy)	1965	System / Samsonite	38	0
 4090-1	Motion Madness	2003	Creator / Inventor	243	0
@@ -6626,7 +6632,7 @@ code	nom	annee	theme	pieces	figurines
 4124-1	Creator Advent Calendar 2001	2001	Seasonal / Advent / Creator	240	0
 412401-1	Wrecking Ball Crane	2024	Technic	86	0
 412402-1	Helicopter	2024	Technic	56	0
-412403-1	Race car	2024	Technic	81	0
+412403-1	Race Car	2024	Technic	81	0
 41250-1	Techno Reef Dance Party	2020	Trolls: World Tour	173	1
 412501-1	Fire Truck	2024	Technic	80	0
 412502-1	Combine Harvester	2025	Technic	80	0
@@ -7119,7 +7125,7 @@ code	nom	annee	theme	pieces	figurines
 41839-1	Message Board	2024	Other	1743	0
 4184-1	Black Pearl	2011	Disney / Pirates of the Caribbean	805	7
 41843-1	Family Christmas Tree Decoration	2025	Seasonal / Christmas	3171	7
-4186868-1	Large Train Engine with Tender Black (Motorizable, sets 4534, 4535)	2002	Train / 9V	204	0
+4186868-1	Large Train Engine with Tender Black (Motorizable, Sets 4534-1, 4535-1)	2002	Train / 9V	204	0
 4186870-1	Open Freight Wagon (White Box)	2002	Train / 9V	121	0
 4186872-1	Passenger Wagon Green (White Box)	2002	Train / 9V	194	0
 4186874-1	Caboose (White Box)	2002	Train / 9V	170	0
@@ -7233,7 +7239,7 @@ code	nom	annee	theme	pieces	figurines
 4202681-1	Lion Knights Flag Pole Magnet Set	2003	Gear / Magnets	5	0
 42027-1	Desert Racer	2014	Technic	149	0
 42028-1	Bulldozer	2014	Technic	617	0
-42029-1	Customized Pick up Truck	2014	Technic	1063	0
+42029-1	Customized Pick Up Truck	2014	Technic	1063	0
 4203-1	Excavator Transport	2012	City / Construction	305	2
 42030-1	Remote-Controlled Volvo L350F Wheel Loader	2014	Technic	1636	0
 42031-1	Cherry Picker	2015	Technic	155	0
@@ -7308,7 +7314,7 @@ code	nom	annee	theme	pieces	figurines
 42098-1	Car Transporter	2019	Technic	2493	0
 42099-1	4x4 X-treme Off-Roader	2019	Technic	958	0
 421-1	1 x 2 Bricks	1966	System / Supplemental	44	0
-421-2	2 eights 2 sixes 2 fours 8 twos 6 ones (The Building Toy)	1966	System / Supplemental	20	0
+421-2	2 Eights, 2 Sixes, 2 Fours, 8 Twos, 6 Ones (The Building Toy)	1966	System / Supplemental	20	0
 4210-1	Coast Guard Platform	2008	City / Coast Guard	469	4
 42100-1	Liebherr R 9800 Excavator	2019	Technic	4108	0
 42101-1	Buggy	2020	Technic	117	0
@@ -7844,7 +7850,7 @@ code	nom	annee	theme	pieces	figurines
 4337-1	Dragon Pod	2005	Creator / X-Pod	52	0
 4338-1	Monster Pod	2005	Creator / X-Pod	49	0
 4339-1	Aqua Pod	2005	Creator / X-Pod	56	0
-434-1	50 lettered bricks (The Building Toy)	1966	System / Supplemental	50	0
+434-1	50 Lettered Bricks (The Building Toy)	1966	System / Supplemental	50	0
 4346-1	Robo Pod	2004	Creator / X-Pod	50	0
 4346-2	Robo Pod (Polybag)	2004	Creator / X-Pod	47	0
 4346-3	Robo Pod (Toy Fair Nuernberg Promotion)	2004	Creator / X-Pod	50	0
@@ -7860,7 +7866,7 @@ code	nom	annee	theme	pieces	figurines
 435-1	Tipper Truck	1976	Legoland / Construction	23	0
 435-2	Garage Plate and Door (The Building Toy)	1966	System / Supplemental	3	0
 4369-1	X-Tracker Watch	2000	Gear / Clocks and Watches	34	0
-437-1	50 numbered bricks (The Building Toy)	1966	System / Supplemental	50	0
+437-1	50 Numbered Bricks (The Building Toy)	1966	System / Supplemental	50	0
 4373-1	Dreamstar Watch	2000	Gear / Clocks and Watches	65	0
 4383-1	Time Teaching Clock	2000	Gear / Clocks and Watches	13	1
 4391-1	Ghost Clock	2000	Gear / Clocks and Watches	17	2
@@ -8007,8 +8013,8 @@ code	nom	annee	theme	pieces	figurines
 4499574-1	Tic Tac Toe	2006	Other	71	10
 450-1	Fork Lift	1973	Legoland / Construction	42	0
 450-2	Deluxe Building Set	1963	System / Samsonite	468	0
-4500-1	Rebel Snowspeeder [Redesign] - Blue box	2004	Star Wars	217	3
-4500-2	Rebel Snowspeeder [Redesign], Original Trilogy Edition box	2004	Star Wars	216	3
+4500-1	Rebel Snowspeeder [Redesign] - Blue Box	2004	Star Wars	217	3
+4500-2	Rebel Snowspeeder [Redesign], Original Trilogy Edition Box	2004	Star Wars	216	3
 45000-1	Creative Builder	2013	Educational and Dacta	122	0
 45001-1	Playground Set with Storage	2013	Educational and Dacta / Duplo and Explore	108	0
 45002-1	Tech Machines Set with Storage	2013	Educational and Dacta / Duplo and Explore	99	0
@@ -8021,8 +8027,8 @@ code	nom	annee	theme	pieces	figurines
 4500744-1	Ludo	2006	Other	358	16
 45008-1	Math Train	2015	Educational and Dacta / Duplo and Explore	167	0
 45009-1	Animal Bingo	2015	Educational and Dacta / Duplo and Explore	57	0
-4501-1	Mos Eisley Cantina, Blue box	2004	Star Wars	197	5
-4501-2	Mos Eisley Cantina, Original Trilogy Edition box	2004	Star Wars	196	5
+4501-1	Mos Eisley Cantina, Blue Box	2004	Star Wars	197	5
+4501-2	Mos Eisley Cantina, Original Trilogy Edition Box	2004	Star Wars	196	5
 45010-1	Community People Set	2015	Educational and Dacta / Duplo and Explore	21	0
 45011-1	World People Set	2015	Educational and Dacta / Duplo and Explore	16	0
 45012-1	Wild Animals Set	2015	Educational and Dacta / Duplo and Explore	104	0
@@ -8063,7 +8069,7 @@ code	nom	annee	theme	pieces	figurines
 4511-1	High Speed Train	2003	Town / World City	336	3
 45110-1	BuildToExpress Core Set	2012	Educational and Dacta	205	2
 4512-1	Cargo Train	2003	Town / World City	547	3
-45120-1	LearnToLearn Core set	2014	Educational and Dacta	2018	0
+45120-1	LearnToLearn Core Set	2014	Educational and Dacta	2018	0
 4513-1	Grand Central Station	2003	Town / World City	351	5
 4514-1	Cargo Crane	2003	Town / World City	177	2
 4514950-1	It's Zoo Time	2007	Duplo	18	0
@@ -8080,7 +8086,7 @@ code	nom	annee	theme	pieces	figurines
 45202-1	Mars Mission Science Kit	2026	Educational and Dacta / Learning at Home	933	4
 45203-1	Arctic Animals Science Kit	2026	Educational and Dacta / Learning at Home	1134	4
 45210-1	MoreToMath 1-2 Core Set	2015	Educational and Dacta	520	2
-4521221-1	Gold chrome plated C-3PO	2007	Star Wars	3	1
+4521221-1	Gold Chrome Plated C-3PO	2007	Star Wars	3	1
 4524-1	Creator Advent Calendar 2002	2002	Seasonal / Advent / Creator	240	0
 4525-1	Road and Rail Repair	1994	Train / 9V	85	1
 4526-1	Batman	2012	Super Heroes DC / Batman	40	0
@@ -8248,7 +8254,7 @@ code	nom	annee	theme	pieces	figurines
 4583-1	Maverick Storm	2002	Racers	31	1
 45830-1	UNEARTHED Explore Set	2025	FIRST LEGO League	708	2
 45831-1	UNEARTHED Discover Set	2025	FIRST LEGO League	32	0
-45832-1	BIOGLOW Challenge set	2026	FIRST LEGO League	2096	0
+45832-1	BIOGLOW Challenge Set	2026	FIRST LEGO League	2096	0
 45833-1	BIOGLOW Explore Set	2026	FIRST LEGO League	761	0
 45834-1	BIOGLOW Future Edition Set	2026	FIRST LEGO League	1990	0
 45835-1	BIOGLOW FIRST LEGO League Future Edition Grades K-2	2026	FIRST LEGO League	709	2
@@ -8347,9 +8353,9 @@ code	nom	annee	theme	pieces	figurines
 4669-1	Turbo-Charged Police Boat	2003	4 Juniors	54	0
 4676-1	Police Key Chain	2004	Gear / Key Chain	19	0
 4677-1	Name Letter Pack	2004	Other	67	0
-4679a-1	Bricks and Creations Tub (Bottom Tub and its contents only)	2004	Make & Create	1000	0
-4679a-2	Bricks and Creations Tub - (TRU Exclusive) (Bottom Tub and its contents only)	2005	Make & Create	1000	0
-4679b-2	Free 500 LEGO Bricks (Bonus box and its contents only)	2005	Make & Create	500	0
+4679a-1	Bricks and Creations Tub (Bottom Tub and its Contents Only)	2004	Make & Create	1000	0
+4679a-2	Bricks and Creations Tub - (TRU Exclusive) (Bottom Tub and its Contents Only)	2005	Make & Create	1000	0
+4679b-2	Free 500 LEGO Bricks (Bonus Box and its Contents Only)	2005	Make & Create	500	0
 4680-1	Traffic Patrol	2004	Duplo / Town / Legoville	3	0
 4681-1	Fire Truck	2004	Duplo / Town / Legoville	21	0
 4683-1	Pony and Cart	2004	Duplo / Town / Legoville	6	0
@@ -8399,7 +8405,7 @@ code	nom	annee	theme	pieces	figurines
 472302-1	Fireman	2023	Duplo / Town	2	0
 472402-1	George Pig	2024	Duplo / Peppa Pig	2	0
 472407-1	Sabine Wren	2024	Star Wars	8	1
-472506-1	Hero with Crafting table, Furnace and Anvil	2025	Minecraft	19	1
+472506-1	Hero with Crafting Table, Furnace and Anvil	2025	Minecraft	19	1
 472518-1	Ahsoka Tano	2025	Star Wars	8	1
 4726-1	Quidditch Practice	2002	Harry Potter	132	3
 4727-1	Aragog in the Dark Forest	2002	Harry Potter	183	2
@@ -8470,7 +8476,7 @@ code	nom	annee	theme	pieces	figurines
 4806-1	Axe Cart	2000	Castle / Knights Kingdom I	28	1
 4807-1	Fire Attack	2000	Castle / Knights Kingdom I	24	1
 481-3	Slopes and Slopes Double 2 x 3 and 2 x 1, Red (The Building Toy)	1966	System / Supplemental	21	0
-481-4	Slopes and Slopes Double 2 x 3 an 2 x 1, Blue (The Building Toy)	1966	System / Supplemental	21	0
+481-4	Slopes and Slopes Double 2 x 3 and 2 x 1, Blue (The Building Toy)	1966	System / Supplemental	21	0
 481-5	Slopes Regular, Double, Angle, Valley and Corner, Red (System)	1966	System / Supplemental	34	0
 481-6	Slopes Regular, Double, Angle, Valley and Corner, Blue (System)	1966	System / Supplemental	34	0
 4810-1	Blue Creator Bucket	2001	Creator / Early Creator	256	1
@@ -8534,7 +8540,7 @@ code	nom	annee	theme	pieces	figurines
 488-1	1 x 1 Bricks with Letters (System)	1966	System / Supplemental	44	0
 4881-1	Robo Platoon	2005	Creator / Designer Sets	219	0
 4882-1	Speed Wings	2004	Creator / Designer Sets	162	0
-4882-2	Speed Wings - ANA version	2004	Creator / Designer Sets	163	0
+4882-2	Speed Wings - ANA Version	2004	Creator / Designer Sets	163	0
 4883-1	Gear Grinders	2005	Creator / Designer Sets	273	0
 4884-1	Wild Hunters	2005	Creator / Designer Sets	630	0
 4886-1	Building Bonanza	2004	Creator / Designer Sets	667	0
@@ -8574,9 +8580,9 @@ code	nom	annee	theme	pieces	figurines
 492-2	Nordic and American Flags	1966	System / Supplemental	8	0
 4920-1	Rapid Rider	1999	Rock Raiders	39	1
 4924-1	Creator Advent Calendar 2004	2004	Seasonal / Advent / Creator	335	0
-493-1	Space Command Center (Flatplate version)	1979	Space / Classic Space	193	4
+493-1	Space Command Center (Flatplate Version)	1979	Space / Classic Space	193	4
 493-2	European Flags	1966	System / Supplemental	8	0
-493-3	Space Command Center (Craterplate version)	1979	Space / Classic Space	177	4
+493-3	Space Command Center (Craterplate Version)	1979	Space / Classic Space	177	4
 4930-1	Rock Raiders Crew	1999	Rock Raiders	48	5
 4933-1	Street Sweeper	2007	City / Traffic	14	1
 4934-1	Police Swamp Boat	2007	City / Police	20	1
@@ -8884,7 +8890,7 @@ code	nom	annee	theme	pieces	figurines
 5003244-1	EV3 Tire Parts Pack	2014	Educational and Dacta / Service Packs / Technic	8	0
 5003245-1	EV3 Technic Ball Pivots	2014	Educational and Dacta / Service Packs / Technic	4	0
 5003246-1	Rubber Track Elements	2015	Educational and Dacta / Service Packs	30	0
-5003257-1	Gorzan Buildable watch	2014	Gear / Clocks and Watches	20	0
+5003257-1	Gorzan Buildable Watch	2014	Gear / Clocks and Watches	20	0
 5003258-1	Worriz Buildable Watch	2014	Gear / Clocks and Watches	20	0
 5003403-1	NXT Homeschool Pack	2011	Educational and Dacta / Mindstorms / NXT	1	0
 5003406-1	Early Simple Machines III Homeschool Pack	2014	Educational and Dacta / Duplo and Explore	1	0
@@ -9268,6 +9274,7 @@ code	nom	annee	theme	pieces	figurines
 5010203-1	Brick Clog (All Colors)	2026	Gear / Clothing & Footwear	3	0
 5010305-1	The Mandalorian and Grogu	2026	Star Wars	140	0
 5010321-1	Minecraft: Visual Dictionary	2025	Books / Non-fiction Books	3	1
+5010353-1	Tiny Pets: Corgi	2026	Books / Activity Books with LEGO Parts	56	0
 5010355-1	ReBuild Activity Cards: Space	2024	Gear / Tabletop Games and Puzzles	25	0
 5010356-1	ReBuild Activity Cards: Animals	2024	Gear / Tabletop Games and Puzzles	25	0
 5010357-1	ReBuild Activity Cards: Magic	2024	Gear / Tabletop Games and Puzzles	25	0
@@ -9464,9 +9471,9 @@ code	nom	annee	theme	pieces	figurines
 5177-1	Town and Space Accessories	1987	Service Packs	35	0
 5178-1	Plane Accessories	1987	Service Packs	23	0
 5179-1	Hinges and Couplings	1987	Service Packs	26	0
-518-1	2 x 4 Plates (cardboard box version)	1962	System / Supplemental	24	0
+518-1	2 x 4 Plates (Cardboard Box Version)	1962	System / Supplemental	24	0
 518-8	Bricks, Half Bricks and Trolley	1975	Duplo / Basic Set	17	0
-518-9	2 x 4 Plates (architectural hobby und modelbau version)	1962	System / Supplemental	26	0
+518-9	2 x 4 Plates (Architectural Hobby und Modelbau Version)	1962	System / Supplemental	26	0
 5180-1	T-Junction, Circle (Airport)	1987	Service Packs	2	0
 5181-1	Runways, Straight (Airport)	1987	Service Packs	2	0
 5182-1	Hinges and Couplings	1989	Service Packs	19	0
@@ -9478,9 +9485,9 @@ code	nom	annee	theme	pieces	figurines
 5187-1	Bricks with Groove and Garage Panels	1989	Service Packs	26	0
 5188-1	Seats, Steering Wheels and Windscreens	1989	Service Packs	10	0
 5189-1	Ladder (Black and Grey)	1989	Service Packs	16	0
-519-1	2 x 3 Plates (cardboard box version)	1962	System / Supplemental	30	0
+519-1	2 x 3 Plates (Cardboard Box Version)	1962	System / Supplemental	30	0
 519-8	Bricks, Half Bricks, Arches, Trolley	1975	Duplo / Basic Set	21	0
-519-9	2 x 3 Plates (architectural hobby und modelbau version)	1962	System / Supplemental	32	0
+519-9	2 x 3 Plates (Architectural Hobby und Modelbau Version)	1962	System / Supplemental	32	0
 5190-1	Seats and Windscreens	1989	Service Packs	7	0
 5191-1	Balloon Tires	1989	Service Packs	4	0
 5192-1	Cypress Trees	1989	Service Packs	2	0
@@ -9491,10 +9498,10 @@ code	nom	annee	theme	pieces	figurines
 5197-1	Lampholders, Plate with Holders	1989	Service Packs	24	0
 5198-1	Small Plates, Disks and Cones	1989	Service Packs	56	0
 5199-1	Mini Antennas and Stick	1989	Service Packs	32	0
-520-1	2 x 2 Plates (cardboard box version)	1962	System / Supplemental	40	0
+520-1	2 x 2 Plates (Cardboard Box Version)	1962	System / Supplemental	40	0
 520-16	Basic Building Set	1985	Universal Building Set / Basic	173	1
 520-17	Bricks, Half Bricks, Two Trolleys	1975	Duplo / Basic Set	21	0
-520-9	2 x 2 Plates (architectural hobby und modelbau version)	1962	System / Supplemental	42	0
+520-9	2 x 2 Plates (Architectural Hobby und Modelbau Version)	1962	System / Supplemental	42	0
 5200-1	Signal Masts and Feet	1987	Service Packs / Train	8	0
 5201-1	Angle Pieces	1997	Service Packs / Technic	20	0
 5202-1	Angle Beams	1997	Service Packs / Technic	8	0
@@ -9504,9 +9511,9 @@ code	nom	annee	theme	pieces	figurines
 52053-1	Stationery Starter Set	2016	Gear / Stationery and Office Supplies	9	1
 52053-2	Stationery Set with Minifigure	2026	Gear / Stationery and Office Supplies	10	1
 5206-1	Speed Computer	2000	Technic / Supplemental	19	0
-521-1	1 x 1 and 1 x 2 Plates (cardboard box version)	1962	System / Supplemental	80	0
+521-1	1 x 1 and 1 x 2 Plates (Cardboard Box Version)	1962	System / Supplemental	80	0
 521-8	All Bricks in All Colors	1975	Duplo / Basic Set	31	0
-521-9	1 x 1 and 1 x 2 Plates (architectural hobby und modelbau version)	1962	System / Supplemental	82	0
+521-9	1 x 1 and 1 x 2 Plates (Architectural Hobby und Modelbau Version)	1962	System / Supplemental	82	0
 5210-1	Elastic Bands	1997	Service Packs / Technic	1	0
 5211-1	Explore Half Strata Box	2003	Duplo / Basic Set	110	0
 5212-1	Explore Strata	2003	Duplo / Basic Set	140	0
@@ -9522,7 +9529,7 @@ code	nom	annee	theme	pieces	figurines
 52214-1	Star Wars Pencils with Topper	2021	Gear / Stationery and Office Supplies	1	0
 5222-1	Chassis Pack	2000	Technic / Supplemental	137	0
 5223-1	Wind-up Motor	2001	Technic / Supplemental	41	0
-5225-1	9v Motor with gear reduction	1998	Service Packs / Technic	1	0
+5225-1	9v Motor with Gear Reduction	1998	Service Packs / Technic	1	0
 5226-1	Cross Axles	1998	Service Packs / Technic	18	0
 5227-1	Fiber Optic Cables	2000	Service Packs / Technic	8	0
 5228-1	Small Beams and Plates	1997	Service Packs / Technic	26	0
@@ -9533,7 +9540,7 @@ code	nom	annee	theme	pieces	figurines
 5231-1	TECHNIC Beams and Plates [Yellow]	1987	Service Packs / Technic	20	0
 5232-1	TECHNIC Beams and Plates [Blue]	1987	Service Packs / Technic	20	0
 5233-1	Bedroom	1980	Homemaker	164	1
-5233-2	Small Beams and Plates with holes	1993	Service Packs / Technic	26	0
+5233-2	Small Beams and Plates with Holes	1993	Service Packs / Technic	26	0
 5234-1	TECHNIC Beams and Plates {black}	1987	Service Packs / Technic	20	0
 5235-1	Large Beams with Holes	1993	Service Packs / Technic	10	0
 5235-2	Schoolroom	1982	Homemaker	233	0
@@ -9548,7 +9555,7 @@ code	nom	annee	theme	pieces	figurines
 52398-1	Buildable Ruler (Black)	2016	Gear / Stationery and Office Supplies	28	0
 52399-1	Buildable Ruler (Blue)	2016	Gear / Stationery and Office Supplies	28	0
 524-1	Town	1977	Duplo / Basic Set	63	0
-5240-1	TECHNIC Wheels with 43 mm + 24 mm tyres	1987	Service Packs / Technic	12	0
+5240-1	TECHNIC Wheels with 43 mm + 24 mm Tyres	1987	Service Packs / Technic	12	0
 5241-1	Gear Wheel Assortment	1987	Service Packs / Technic	21	0
 5242-1	Differential Gear Housing	1987	Service Packs / Technic	19	0
 5243-1	TECHNIC Chainlinks	1987	Service Packs / Technic	70	0
@@ -9587,7 +9594,7 @@ code	nom	annee	theme	pieces	figurines
 5271-1	White Hubs & Tires / 49.6 mm Tyres & Hubs	1991	Service Packs / Technic	4	0
 5272-1	Cylinder Motor	1991	Service Packs / Technic	9	0
 5273-1	Tires	1992	Service Packs / Technic	4	0
-5274-1	8 Tires / Tyres (4x24, 4x 30 mm) w/hubs	1992	Service Packs / Technic	16	0
+5274-1	8 Tires / Tyres (4x24, 4x 30 mm) with Hubs	1992	Service Packs / Technic	16	0
 5275-1	Toggle Joints and Connectors	1993	Service Packs / Technic	48	0
 5276-1	Gear Wheels Etc. / Gear Wheels, Worm Gears, Universal Joints and Gear Racks	1993	Service Packs / Technic	23	0
 5277-1	Pulleys & V-Belts	1993	Service Packs / Technic	12	0
@@ -9670,8 +9677,8 @@ code	nom	annee	theme	pieces	figurines
 53705-1	Pen Pal Mechanical Pencil with Construction Worker Minifigure	2025	Gear / Stationery and Office Supplies	6	1
 53707-1	Pencil Box with Four Building Bricks and Construction Worker Minifigure	2025	Gear / Stationery and Office Supplies	4	1
 53708-1	Stationery Set with Minifigure	2026	Gear / Stationery and Office Supplies	11	1
-5370a-1	Large Make and Create Bucket with Special LEGO Bonus Bricks (Bucket and its contents only)	2005	Make & Create	500	0
-5370b-1	Large Make and Create Bucket with Special LEGO Bonus Bricks (Bonus box and its contents only)	2005	Make & Create	201	0
+5370a-1	Large Make and Create Bucket with Special LEGO Bonus Bricks (Bucket and its Contents Only)	2005	Make & Create	500	0
+5370b-1	Large Make and Create Bucket with Special LEGO Bonus Bricks (Bonus Box and its Contents Only)	2005	Make & Create	201	0
 5371-1	Bucket Green	2005	Duplo / Basic Set	90	0
 5372-1	Skeleton Chariot	2008	Castle / Fantasy Era	25	1
 5373-1	Knight & Catapult	2008	Castle / Fantasy Era	23	1
@@ -9996,7 +10003,7 @@ code	nom	annee	theme	pieces	figurines
 562302-1	Bunny at Veterinary Station	2023	Friends	21	0
 562303-1	Puppy's Doghouse	2023	Friends	25	0
 562304-1	Surfing with Dolphin	2023	Friends	32	0
-562305-1	Sushi stand	2023	Friends	38	0
+562305-1	Sushi Stand	2023	Friends	38	0
 562306-1	Cake Kitchen	2023	Friends	30	0
 562401-1	Pizzeria	2024	Friends	42	0
 562402-1	Puppy's House	2024	Friends	24	0
@@ -10184,7 +10191,8 @@ code	nom	annee	theme	pieces	figurines
 5907762001236-1	Your Galactic Mission: Build Your Own Story	2022	Books / Ideas Books	201	2
 5907762001342-1	Ninjago: Dragons Rising: Discover Ninja Adventures	2025	Books / Activity Books with LEGO Parts	5	1
 5907762001359-1	Star Wars: Sekrety ciemnej strony Mocy	2025	Books / Activity Books with LEGO Parts	5	1
-5907762001434-1	DC Comics Batman: Epickie Pojedynki	2026	Books / Activity Books with LEGO Parts	11	2
+5907762001434-1	DC Comics Batman: Battle Box	2026	Books / Activity Books with LEGO Parts	11	2
+5907762001465-1	Marvel: Odkryj Spider-Moce	2026	Books / Activity Books with LEGO Parts	4	2
 5907762061780-1	City: Zestaw Fana	2021	Books / Activity Books with LEGO Parts	8	0
 5907762063326-1	Friends: Kręcimy film!	2021	Books / Activity Books with LEGO Parts	13	0
 5907762063333-1	Friends: Magiczne Sztuczki	2021	Books / Activity Books with LEGO Parts	15	0
@@ -10192,7 +10200,7 @@ code	nom	annee	theme	pieces	figurines
 5907762063357-1	Friends: Nowe Hobby	2021	Books / Activity Books with LEGO Parts	24	0
 5907762063364-1	Friends: Jabłkowy zawrót głowy	2021	Books / Activity Books with LEGO Parts	12	0
 5907762063371-1	Friends: Legenda Dżungli	2021	Books / Activity Books with LEGO Parts	13	0
-5909-1	Treasure Raiders set with Mummy Storage Container	1998	Adventurers / Desert	198	5
+5909-1	Treasure Raiders Set with Mummy Storage Container	1998	Adventurers / Desert	198	5
 5911-1	Johnny Thunder's Plane	2000	Adventurers / Dino Island	23	1
 5912-1	Hydrofoil	2000	Adventurers / Dino Island	20	1
 5913-1	Dr. Lightning's Car	2000	Adventurers / Dino Island	22	1
@@ -11280,7 +11288,7 @@ code	nom	annee	theme	pieces	figurines
 6388-1	Holiday Home with Caravan	1989	Town / Classic Town	363	4
 6389-1	Fire Control Center	1990	Town / Classic Town	540	4
 639-1	Lots of Extra Basic Bricks, 5+	1997	Universal Building Set / Basic	400	0
-6390-1	Main Street	1980	Town / Classic Town	608	8
+6390-1	Main Street	1980	Town / Classic Town	612	8
 6390711-1	LEGO Certified Store 1st Anniversary	2021	LEGO Brand Store	1	0
 6391-1	Cargo Center	1984	Town / Classic Town	567	5
 6392-1	Airport	1985	Town / Classic Town	538	8
@@ -11544,7 +11552,7 @@ code	nom	annee	theme	pieces	figurines
 6520657-1	X-Wing	2024	Star Wars	60	0
 6521-1	Emergency Repair Truck	1987	Town / Classic Town	58	1
 6522-1	Highway Patrol	1987	Town / Classic Town	38	2
-65221-1	Streetball 2 vs 2 (box with mini basketball)	2003	Sports / Basketball	1	0
+65221-1	Streetball 2 vs 2 (Box with Mini Basketball)	2003	Sports / Basketball	1	0
 6523-1	Red Cross	1987	Town / Classic Town	51	1
 6523825-1	Naboo Fighter	2024	Star Wars	45	0
 6523826-1	Millennium Falcon	2024	Star Wars	20	0
@@ -11713,6 +11721,7 @@ code	nom	annee	theme	pieces	figurines
 6575258-1	Boom Box	2025	LEGO Brand Store	34	0
 6575259-1	Gaming-Controller	2025	LEGO Brand Store	47	0
 6575260-1	Holiday Ornament	2025	Seasonal / Christmas	60	0
+6575864-1	Stitch M&T	2026	Promotional	27	0
 6576-1	Sledge	1998	Town / Arctic	24	2
 6576140-1	5th Anniversary The LEGO Store (Hangzhou)	2025	LEGO Brand Store	8	2
 65766-1	Thomas Bridge & Tunnel Set	2005	Duplo / Thomas & Friends	15	0
@@ -11946,6 +11955,7 @@ code	nom	annee	theme	pieces	figurines
 6644842-1	Poké Ball Smart Tag Case	2026	Pokémon	31	0
 6644846-1	Turbo Shark Delivery	2026	LEGO Brand Store	41	1
 6644847-1	Web Goal Challenge	2026	Promotional	52	0
+6644859-1	Reindeer	2026	Seasonal / Christmas	36	0
 6644864-1	Training Tree	2026	Pokémon	46	0
 6644870-1	Dragon on Skateboard	2026	Promotional	55	0
 6644876-1	Micro Castle	2026	Harry Potter	43	0
@@ -11978,7 +11988,7 @@ code	nom	annee	theme	pieces	figurines
 6650-1	Fire and Rescue Van	1981	Town / Classic Town	46	1
 6650266-1	R2-D2 Level Up Workshop	2026	Star Wars	93	0
 6651-1	Post Office Van	1982	Town / Classic Town	47	1
-6651880-1	Arcade driving game	2023	LEGO Brand Store	32	0
+6651880-1	Arcade Driving Game	2023	LEGO Brand Store	32	0
 6652-1	Construction Truck	1983	Town / Classic Town	44	1
 6652991-1	Rock Guitar	2026	Promotional	52	0
 6653-1	Highway Emergency Van	1982	Town / Classic Town	56	1
@@ -12026,7 +12036,7 @@ code	nom	annee	theme	pieces	figurines
 6672-1	Safari Off-Road Vehicle	1990	Town / Classic Town	67	2
 6673-1	Solo Trainer	1990	Town / Classic Town	74	1
 6674-1	Crane Truck	1988	Town / Classic Town	94	1
-6674871-1	Tall ship	2026	LEGO Brand Store	45	0
+6674871-1	Tall Ship	2026	LEGO Brand Store	45	0
 6675-1	Road & Trail 4x4	1988	Town / Classic Town	81	1
 6675226-1	Father's Day Frame	2027	Promotional	27	0
 6675837-1	Witch's Flight	2026	Promotional	153	0
@@ -12038,6 +12048,7 @@ code	nom	annee	theme	pieces	figurines
 668-1	1:87 Ford Taunus 17M	1964	System / HO 1:87 Vehicles	1	0
 6680-1	Ambulance	1981	Town / Classic Town	63	2
 66802-1	Ultimate Formula 1 Collector's Pack	2025	Speed Champions	1	0
+6680477-1	Soap Box Racer	2026	Promotional	38	1
 6680480-1	Jolly Roger Mosaic	2026	One Piece	52	0
 6680481-1	Baroque Works Mosaic	2026	One Piece	89	0
 6681-1	Police Van	1981	Town / Classic Town	81	1
@@ -12329,9 +12340,9 @@ code	nom	annee	theme	pieces	figurines
 6965-1	TIE Interceptor	2004	Star Wars	32	0
 6965-2	TIE Interceptor	2005	Star Wars	32	0
 6966-1	Jedi Starfighter - Mini	2005	Star Wars	38	0
-6966-2	Jedi Starfighter - Mini - Korean Duracell promo package with 8 AA batteries	2005	Star Wars	38	0
+6966-2	Jedi Starfighter - Mini - Korean Duracell Promo Package with 8 AA Batteries	2005	Star Wars	38	0
 6967-1	ARC-170 Starfighter - Mini	2005	Star Wars	42	0
-6967-2	ARC-170 Starfighter - Mini - Korean Duracell promo package with 8 AA batteries	2005	Star Wars	42	0
+6967-2	ARC-170 Starfighter - Mini - Korean Duracell Promo Package with 8 AA Batteries	2005	Star Wars	42	0
 6968-1	Mini Wookiee Attack	2005	Star Wars	48	0
 6969-1	Celestial Stinger	1998	Space / Insectoids	256	3
 697-1	Stagecoach	1976	Legoland / Western	96	1
@@ -12391,12 +12402,12 @@ code	nom	annee	theme	pieces	figurines
 700.B.3-1	Single 1 x 2 x 2 Window without Glass (ABB)	1950	System / Supplemental	1	0
 700.B.4-1	Single 1 x 2 x 4 Door without Glass (ABB)	1950	System / Supplemental	1	0
 700.C-1	Tall Classic Windows/Door (with Glass)	1954	System / Supplemental	6	0
-700.C.1-1	Individual 1 x 6 x 4 Panorama Window (with glass)	1954	System / Supplemental	1	0
-700.C.2-1	Individual 1 x 6 x 3 3-Pane Window (with glass)	1954	System / Supplemental	1	0
-700.C.3-1	Individual 1 x 6 x 3 Shutter Window (with glass)	1954	System / Supplemental	1	0
-700.C.4-1	Individual 1 x 4 x 3 Window (with glass)	1954	System / Supplemental	1	0
-700.C.5-1	Individual 1 x 3 x 3 Window (with glass)	1954	System / Supplemental	1	0
-700.C.6-1	Individual 1 x 2 x 4 Door (with glass)	1954	System / Supplemental	1	0
+700.C.1-1	Individual 1 x 6 x 4 Panorama Window (with Glass)	1954	System / Supplemental	1	0
+700.C.2-1	Individual 1 x 6 x 3 3-Pane Window (with Glass)	1954	System / Supplemental	1	0
+700.C.3-1	Individual 1 x 6 x 3 Shutter Window (with Glass)	1954	System / Supplemental	1	0
+700.C.4-1	Individual 1 x 4 x 3 Window (with Glass)	1954	System / Supplemental	1	0
+700.C.5-1	Individual 1 x 3 x 3 Window (with Glass)	1954	System / Supplemental	1	0
+700.C.6-1	Individual 1 x 2 x 4 Door (with Glass)	1954	System / Supplemental	1	0
 700.F-1	Automatic Binding Bricks - Small Brick Set (Lego Mursten)	1953	System / Supplemental	48	0
 700.H-1	Individual 4 x 4 Corner Bricks	1954	System / Supplemental	1	0
 7000-1	Baby Ankylosaurus	2001	Dinosaurs	37	0
@@ -12470,12 +12481,12 @@ code	nom	annee	theme	pieces	figurines
 70146-1	Flying Phoenix Fire Temple	2014	Legends of Chima	1301	7
 70147-1	Sir Fangar's Ice Fortress	2014	Legends of Chima	670	5
 70149-1	Scorching Blades	2014	Legends of Chima / Speedorz	77	1
-7015-1	Viking Warrior challenges the Fenris Wolf	2005	Vikings	76	1
+7015-1	Viking Warrior Challenges the Fenris Wolf	2005	Vikings	76	1
 70150-1	Flaming Claws	2014	Legends of Chima / Speedorz	74	1
 70151-1	Frozen Spikes	2014	Legends of Chima / Speedorz	77	1
 70155-1	Inferno Pit	2014	Legends of Chima / Speedorz	74	1
 70156-1	Fire vs. Ice	2014	Legends of Chima / Speedorz	102	2
-7016-1	Viking Boat against the Wyvern Dragon	2005	Vikings	112	2
+7016-1	Viking Boat Against the Wyvern Dragon	2005	Vikings	112	2
 70160-1	Riverside Raid	2014	Agents / Ultra Agents	88	2
 70161-1	Tremor Track Infiltration	2014	Agents / Ultra Agents	241	2
 70162-1	Infearno Interception	2014	Agents / Ultra Agents	312	2
@@ -12491,7 +12502,7 @@ code	nom	annee	theme	pieces	figurines
 70171-1	Ultrasonic Showdown	2015	Agents / Ultra Agents	187	2
 70172-1	AntiMatter's Portal Hideout	2015	Agents / Ultra Agents	474	4
 70173-1	Ultra Agents Ocean HQ	2015	Agents / Ultra Agents	1204	6
-7018-1	Viking Ship challenges the Midgard Serpent	2005	Vikings	582	6
+7018-1	Viking Ship Challenges the Midgard Serpent	2005	Vikings	582	6
 7019-1	Viking Fortress against the Fafnir Dragon	2005	Vikings	1036	6
 702-1	12V Motor with Accessories Pack	1969	Train / 12V	27	0
 702-3	Motor Wires	1984	Service Packs	2	0
@@ -13663,7 +13674,7 @@ code	nom	annee	theme	pieces	figurines
 71309-1	Onua Uniter of Earth	2016	Bionicle	143	0
 7131-1	Anakin's Podracer	1999	Star Wars	136	3
 71310-1	Umarak the Hunter	2016	Bionicle	172	0
-71311-1	Kopaka and Melum - Unity set	2016	Bionicle	171	0
+71311-1	Kopaka and Melum - Unity Set	2016	Bionicle	171	0
 71312-1	Ekimu the Mask Maker	2016	Bionicle	94	0
 71313-1	Lava Beast	2016	Bionicle	114	0
 71314-1	Storm Beast	2016	Bionicle	109	0
@@ -14120,9 +14131,9 @@ code	nom	annee	theme	pieces	figurines
 72157-1	Charmander and Geodude's Cavern Clash	2026	Pokémon	198	0
 72158-1	Sprigatito, Fuecoco and Quaxly Battle	2026	Pokémon	313	0
 72159-1	Jigglypuff Concert	2026	Pokémon	88	0
-7216-1	Gold Good Guy - looking Right (Duracell 8 pack AA) {Turaga Lhikan}	2006	Bionicle	22	0
-7216-2	Gold Good Guy - looking Left (Duracell 12 pack AA) {Turaga Lhikan}	2006	Bionicle	22	0
-7216-3	Gold Good Guy - looking Right (Duracell 12 pack AA) {Turaga Lhikan}	2006	Bionicle	22	0
+7216-1	Gold Good Guy - Looking Right (Duracell 8 Pack AA) {Turaga Lhikan}	2006	Bionicle	22	0
+7216-2	Gold Good Guy - Looking Left (Duracell 12 Pack AA) {Turaga Lhikan}	2006	Bionicle	22	0
+7216-3	Gold Good Guy - Looking Right (Duracell 12 Pack AA) {Turaga Lhikan}	2006	Bionicle	22	0
 72160-1	Arcanine	2026	Pokémon	1190	0
 72161-1	Drone Search for Mythical Mew	2026	Pokémon	429	0
 72162-1	Eevee and Lapras's Treasure Hunt	2026	Pokémon	623	0
@@ -14132,8 +14143,8 @@ code	nom	annee	theme	pieces	figurines
 72166-1	Cubone and Gengar's Spooky Showdown	2026	Pokémon	782	0
 72167-1	Charizard vs. Jolteon Ultimate Battle	2026	Pokémon	751	0
 72168-1	Rayquaza	2026	Pokémon	1083	1
-7217-1	Braca (Duracell 12 pack AA battery promotion)	2006	Bionicle	16	0
-7217-2	Braca (Duracell 8 pack AA battery promotion)	2006	Bionicle	16	0
+7217-1	Braca (Duracell 12 Pack AA Battery Promotion)	2006	Bionicle	16	0
+7217-2	Braca (Duracell 8 Pack AA Battery Promotion)	2006	Bionicle	16	0
 7218-1	Orange Speedboat	2004	Creator / Designer Sets	26	0
 7219-1	Dinosaur	2004	Creator / Designer Sets	34	0
 722-1	Universal Building Set	1980	Universal Building Set	302	0
@@ -14143,7 +14154,7 @@ code	nom	annee	theme	pieces	figurines
 7221-2	Robots - ANA Promotion	2003	Creator / Designer Sets	23	0
 7222-1	Flyers	2003	Creator / Designer Sets	28	0
 7223-1	Wheelers	2003	Creator / Designer Sets	34	0
-7223-2	Yellow Truck (Box version) - ANA Promotion	2003	Creator / Designer Sets	36	0
+7223-2	Yellow Truck (Box Version) - ANA Promotion	2003	Creator / Designer Sets	36	0
 7224-1	Santa, Tree, and Present	2003	Seasonal / Christmas / Creator	34	0
 723-1	Diesel Locomotive	1970	Train / 12V	97	0
 723-2	Diesel Locomotive with DB Sticker	1974	Train / 12V	96	0
@@ -14520,7 +14531,7 @@ code	nom	annee	theme	pieces	figurines
 75186-1	The Arrowhead	2017	Star Wars	775	5
 75187-1	BB-8	2017	Star Wars	1106	1
 75188-1	Resistance Bomber	2017	Star Wars	780	5
-75188-2	Resistance Bomber (Finch Dallow version)	2018	Star Wars	780	5
+75188-2	Resistance Bomber (Finch Dallow Version)	2018	Star Wars	780	5
 75189-1	First Order Heavy Assault Walker	2017	Star Wars	1376	5
 7519-1	Cool Room Frames	2003	Clikits	131	0
 75190-1	First Order Star Destroyer	2017	Star Wars	1416	7
@@ -15387,7 +15398,7 @@ code	nom	annee	theme	pieces	figurines
 76350-1	Spider-Man vs. Hulk Epic Clash	2026	Super Heroes Marvel / Spider-Man	534	6
 76352-1	Avengers: Doomsday New Avengers Tower	2026	Super Heroes Marvel / Avengers	954	6
 76354-1	S.H.I.E.L.D. Helicarrier	2026	Super Heroes Marvel / The Infinity Saga	3057	6
-76355-1	Batman Returns Batmobile	2026	Super Heroes DC / Batman	2271	1
+76355-1	Batman Returns Batmobile	2026	Super Heroes DC / Batman	2269	1
 76356-1	Venom Bust	2026	Super Heroes Marvel	413	1
 7636-1	Combine Harvester	2009	City / Farm	365	1
 7637-1	Farm	2009	City / Farm	614	3
@@ -15480,7 +15491,7 @@ code	nom	annee	theme	pieces	figurines
 76462-1	Hogwarts House Crest	2026	Harry Potter	545	0
 76463-1	Hogwarts Castle: Hospital Wing	2026	Harry Potter	909	7
 76464-1	Cauldron: Secret Potions Classroom	2026	Harry Potter	661	2
-76466-1	Sorcerer's Stone – Collectors' Edition	2026	Harry Potter	1574	3
+76466-1	Sorcerer's Stone – Collectors' Edition	2026	Harry Potter	1571	3
 76467-1	Luna Lovegood's House	2026	Harry Potter	764	5
 76469-1	Dobby the Free Elf	2026	Harry Potter	379	0
 7647-1	MX-41 Switch Fighter	2008	Space / Mars Mission	235	2
@@ -15489,7 +15500,7 @@ code	nom	annee	theme	pieces	figurines
 76473-1	Hogwarts Castle: East Wing	2026	Harry Potter	2164	14
 76474-1	Hogwarts Herbology Plants	2026	Harry Potter	817	0
 76475-1	Forbidden Forest: Expecto Patronum	2026	Harry Potter	244	4
-76476-1	The Ministry of Magic – Collectors' Edition	2026	Harry Potter	3546	15
+76476-1	The Ministry of Magic – Collectors' Edition	2026	Harry Potter	3492	15
 76477-1	Norbert: Hagrid's Baby Dragon	2026	Harry Potter	483	0
 76478-1	Book Nook: Dumbledore's Office	2026	Harry Potter	1182	2
 7648-1	MT-21 Mobile Mining Unit	2008	Space / Mars Mission	130	2
@@ -15688,7 +15699,7 @@ code	nom	annee	theme	pieces	figurines
 7717-1	QUICK Bad Guy Green	2006	Bionicle	26	0
 7718-1	QUICK Bad Guy Yellow	2006	Bionicle	26	0
 7719-1	QUICK Good Guy Red	2006	Bionicle	21	0
-7720-1	Diesel Freight Train Set, battery	1980	Train / 4.5V	428	3
+7720-1	Diesel Freight Train Set, Battery	1980	Train / 4.5V	428	3
 7721-1	Combat Crawler X2	2007	Exo-Force	581	3
 7722-1	Steam Cargo Train	1985	Train / 4.5V	499	3
 7723-1	Police Pontoon Plane	2008	City / Police	215	1
@@ -15886,7 +15897,7 @@ code	nom	annee	theme	pieces	figurines
 7891-1	Airport Firetruck	2006	City / Airport	148	1
 7892-1	Hospital	2006	City / Hospital	386	4
 7893-1	Passenger Plane	2006	City / Airport	404	4
-7893-2	Passenger Plane - ANA version	2006	City / Airport	404	4
+7893-2	Passenger Plane - ANA Version	2006	City / Airport	404	4
 7894-1	Airport	2006	City / Airport	705	5
 7894-2	Airport - ANA Version	2007	City / Airport	707	5
 7895-1	Switching Tracks for RC Trains	2006	City / Trains	8	0
@@ -16233,7 +16244,7 @@ code	nom	annee	theme	pieces	figurines
 810-1	Basic Motor Set	1985	Universal Building Set / Supplemental	33	0
 810-2	Town Plan - Continental European	1961	System / Town Plan	756	0
 810-3	Gear Truck Set	1974	Universal Building Set / Gears	112	0
-810-4	Town Plan - UK, Cardboard box	1962	System / Town Plan	751	0
+810-4	Town Plan - UK, Cardboard Box	1962	System / Town Plan	751	0
 8100-1	Cyclone Defender	2007	Exo-Force	92	1
 81000-1	Koi	2019	Forma	293	0
 810002-1	50 Years of the LEGO Brick	2008	Books / Non-fiction Books	6	0
@@ -16277,7 +16288,7 @@ code	nom	annee	theme	pieces	figurines
 8130-1	Terrain Crusher	2007	Racers	44	0
 8131-1	Raceway Rider	2007	Racers	51	0
 8132-1	Night Driver	2007	Racers	41	0
-8133-1	Rally Rider	2007	Racers	51	0
+8133-1	Rally Runner	2007	Racers	51	0
 8134-1	Night Crusher	2007	Racers	264	0
 8135-1	Bridge Chase	2007	Racers	542	0
 8136-1	Fire Crusher	2007	Racers	65	0
@@ -16795,12 +16806,12 @@ code	nom	annee	theme	pieces	figurines
 852996-1	Max	2010	LEGO Brand Store	4	1
 852998-1	Birthday Party Kit	2010	Gear / Seasonal	43	10
 853-1	Auto Chassis	1977	Technic / Expert Builder	608	0
-8530-1	Kanohi Mask Pack polybag - Non-US Version	2001	Bionicle	2	0
+8530-1	Kanohi Mask Pack Polybag - Non-US Version	2001	Bionicle	2	0
 853037-1	Star Wars Magnet Set	2010	Gear / Magnets	20	3
 853087-1	Atlantis Magnet Set	2011	Gear / Magnets	27	3
 853092-1	City Burglars Magnet Set	2011	Gear / Magnets	18	3
 8531-1	Pohatu	2001	Bionicle	49	0
-8531-2	Pohatu - With mini CD-ROM	2001	Bionicle	50	0
+8531-2	Pohatu - With 15068p0pCD-ROM	2001	Bionicle	50	0
 853102-1	Ninjago Magnet Set	2011	Gear / Magnets	24	3
 853106-1	Ninjago 3D Battle Arena	2011	Ninjago	9	1
 853111-1	Exclusive Weapon Training Set - Limited Edition	2011	Ninjago	33	1
@@ -16816,11 +16827,11 @@ code	nom	annee	theme	pieces	figurines
 853191-1	Pirates of the Caribbean Magnet Set	2011	Gear / Magnets	20	3
 853195-1	Brick Calendar	2011	Other	120	2
 8532-1	Onua	2001	Bionicle	30	0
-8532-2	Onua - With mini CD-ROM	2001	Bionicle	31	0
+8532-2	Onua - With Mini CD-ROM	2001	Bionicle	31	0
 853213-1	Drink Tumbler	2012	Gear / Houseware	9	0
 853219-1	Pirates of the Caribbean Battle Pack	2011	Disney / Pirates of the Caribbean	30	5
 8533-1	Gali	2001	Bionicle	35	0
-8533-2	Gali - With mini CD-ROM	2001	Bionicle	36	0
+8533-2	Gali - With Mini CD-ROM	2001	Bionicle	36	0
 853301-1	Alien Conquest Battle Pack	2011	Space / Alien Conquest	27	5
 853305-1	Copenhagen Key Chain	2011	Gear / Key Chain	3	0
 853306-1	Berlin Key Chain	2011	Gear / Key Chain	2	0
@@ -16840,7 +16851,7 @@ code	nom	annee	theme	pieces	figurines
 853383-1	Girl Magnet Set	2012	Gear / Magnets	21	3
 853393-1	Friends Picture Frame	2012	Friends	51	0
 8534-1	Tahu	2001	Bionicle	33	0
-8534-2	Tahu - With mini CD-ROM	2001	Bionicle	34	0
+8534-2	Tahu - With Mini CD-ROM	2001	Bionicle	34	0
 853404-1	Ninjago Magnet Set	2012	Gear / Magnets	24	3
 853414-1	Star Wars Magnet Set	2012	Gear / Magnets	16	3
 853419-1	Star Wars Magnet Set	2012	Gear / Magnets	22	3
@@ -16854,7 +16865,7 @@ code	nom	annee	theme	pieces	figurines
 853441-1	Minidoll Carry Case	2015	Gear / Storage	2	0
 853476-1	Yoda Magnet	2015	Gear / Magnets	5	1
 8535-1	Lewa	2001	Bionicle	36	0
-8535-2	Lewa - With mini CD-ROM	2001	Bionicle	37	0
+8535-2	Lewa - With Mini CD-ROM	2001	Bionicle	37	0
 853515-1	Knights Army-Building Set	2016	Nexo Knights	35	4
 853516-1	Monsters Army-Building Set	2016	Nexo Knights	30	4
 853543-1	Party Set	2016	Ninjago	60	0
@@ -16869,7 +16880,7 @@ code	nom	annee	theme	pieces	figurines
 853580-1	Key Rack	2016	Gear / Key Chain	33	0
 853599-1	New York Minifigure Magnet	2016	Gear / Magnets	6	1
 8536-1	Kopaka	2001	Bionicle	33	0
-8536-2	Kopaka - With mini CD-ROM	2001	Bionicle	34	0
+8536-2	Kopaka - With Mini CD-ROM	2001	Bionicle	34	0
 853600-1	Statue of Liberty Magnet [Rockefeller Square Exclusive]	2016	Gear / Magnets	11	1
 853607-1	Halloween Trio (LEGOLAND Version)	2018	Legoland Parks	15	3
 853609-1	Minecraft Skin Pack	2016	Minecraft	25	4
@@ -17004,22 +17015,22 @@ code	nom	annee	theme	pieces	figurines
 8586-2	Macku (Kabaya Promotional)	2003	Bionicle	25	0
 8587-1	Panrahk	2003	Bionicle	44	0
 8587-2	Panrahk - With Shadow Kraata	2003	Bionicle	44	0
-8587-3	Panrahk - With mini CD-ROM	2003	Bionicle	45	0
+8587-3	Panrahk - With Mini CD-ROM	2003	Bionicle	45	0
 8588-1	Kurahk	2003	Bionicle	44	0
 8588-2	Kurahk - With Shadow Kraata	2003	Bionicle	44	0
-8588-3	Kurahk - With mini CD-ROM	2003	Bionicle	44	0
+8588-3	Kurahk - With Mini CD-ROM	2003	Bionicle	44	0
 8589-1	Lerahk	2003	Bionicle	44	0
 8589-2	Lerahk - With Shadow Kraata	2003	Bionicle	44	0
-8589-3	Lerahk - With mini CD-ROM	2003	Bionicle	45	0
+8589-3	Lerahk - With Mini CD-ROM	2003	Bionicle	45	0
 8590-1	Guurahk	2003	Bionicle	44	0
 8590-2	Guurahk - With Shadow Kraata	2003	Bionicle	44	0
-8590-3	Guurahk - With mini CD-ROM	2003	Bionicle	45	0
+8590-3	Guurahk - With Mini CD-ROM	2003	Bionicle	45	0
 8591-1	Vorahk	2003	Bionicle	44	0
 8591-2	Vorahk - With Shadow Kraata	2003	Bionicle	44	0
-8591-3	Vorahk - With mini CD-ROM	2003	Bionicle	44	0
+8591-3	Vorahk - With Mini CD-ROM	2003	Bionicle	44	0
 8592-1	Turahk	2003	Bionicle	44	0
 8592-2	Turahk - With Shadow Kraata	2003	Bionicle	44	0
-8592-3	Turahk - With mini CD-ROM	2003	Bionicle	45	0
+8592-3	Turahk - With Mini CD-ROM	2003	Bionicle	45	0
 8593-1	Makuta	2003	Bionicle	199	0
 8594-1	Jaller and Gukko	2003	Bionicle	166	0
 8595-1	Takua and Pewku	2003	Bionicle	221	0
@@ -17225,29 +17236,29 @@ code	nom	annee	theme	pieces	figurines
 8764-1	Vezon & Fenrakk	2006	Bionicle	281	0
 8769-1	Visorak's Gate	2005	Bionicle / Playsets	335	0
 877-1	Supplementary Set	1979	Technic / Expert Builder	30	0
-8770-1	Danju (European version without Cards)	2004	Castle / Knights Kingdom II	42	0
-8771-1	Jayko (European version without Cards)	2004	Castle / Knights Kingdom II	45	0
-8772-1	Rascus (European version without Cards)	2004	Castle / Knights Kingdom II	46	0
-8773-1	Santis (European version without Cards)	2004	Castle / Knights Kingdom II	46	0
-8774-1	Vladek (European version without Cards)	2004	Castle / Knights Kingdom II	48	0
+8770-1	Danju (European Version without Cards)	2004	Castle / Knights Kingdom II	42	0
+8771-1	Jayko (European Version without Cards)	2004	Castle / Knights Kingdom II	45	0
+8772-1	Rascus (European Version without Cards)	2004	Castle / Knights Kingdom II	46	0
+8773-1	Santis (European Version without Cards)	2004	Castle / Knights Kingdom II	46	0
+8774-1	Vladek (European Version without Cards)	2004	Castle / Knights Kingdom II	48	0
 8777-1	Vladek Encounter	2004	Castle / Knights Kingdom II	45	2
 8778-1	Border Ambush	2004	Castle / Knights Kingdom II	180	2
 8779-1	The Grand Tournament	2004	Castle / Knights Kingdom II	318	3
 878-1	Supplementary Set	1979	Technic / Expert Builder	52	0
 8780-1	Citadel of Orlan	2004	Castle / Knights Kingdom II	483	4
 8781-1	Castle of Morcia	2004	Castle / Knights Kingdom II	661	8
-8782-1	Danju (USA version with 3 Cards)	2004	Castle / Knights Kingdom II	45	0
-8782-2	Danju (USA version with 6 Cards, Target Promo)	2004	Castle / Knights Kingdom II	48	0
-8783-1	Jayko (USA version with 3 Cards)	2004	Castle / Knights Kingdom II	48	0
-8783-2	Jayko (USA version with 6 Cards, Target Promo)	2004	Castle / Knights Kingdom II	51	0
-8784-1	Rascus (USA version with 3 Cards)	2004	Castle / Knights Kingdom II	49	0
-8784-2	Rascus (USA version with 6 Cards, Target Promo)	2004	Castle / Knights Kingdom II	52	0
-8785-1	Santis (USA version with 3 Cards)	2004	Castle / Knights Kingdom II	49	0
-8785-2	Santis (USA version with 6 Cards, Target Promo)	2004	Castle / Knights Kingdom II	52	0
+8782-1	Danju (USA Version with 3 Cards)	2004	Castle / Knights Kingdom II	45	0
+8782-2	Danju (USA Version with 6 Cards, Target Promo)	2004	Castle / Knights Kingdom II	48	0
+8783-1	Jayko (USA Version with 3 Cards)	2004	Castle / Knights Kingdom II	48	0
+8783-2	Jayko (USA Version with 6 Cards, Target Promo)	2004	Castle / Knights Kingdom II	51	0
+8784-1	Rascus (USA Version with 3 Cards)	2004	Castle / Knights Kingdom II	49	0
+8784-2	Rascus (USA Version with 6 Cards, Target Promo)	2004	Castle / Knights Kingdom II	52	0
+8785-1	Santis (USA Version with 3 Cards)	2004	Castle / Knights Kingdom II	49	0
+8785-2	Santis (USA Version with 6 Cards, Target Promo)	2004	Castle / Knights Kingdom II	52	0
 8785476-1	MUJI Sea Set	2010	Other	91	0
 8785483-1	MUJI Circus Set	2010	Other	91	0
-8786-1	Vladek (USA version with 3 Cards)	2004	Castle / Knights Kingdom II	51	0
-8786-2	Vladek (USA version with 6 Cards, Target Promo)	2004	Castle / Knights Kingdom II	54	0
+8786-1	Vladek (USA Version with 3 Cards)	2004	Castle / Knights Kingdom II	51	0
+8786-2	Vladek (USA Version with 6 Cards, Target Promo)	2004	Castle / Knights Kingdom II	54	0
 879-1	Supplementary Set	1979	Technic / Expert Builder	87	0
 8790-1	King Mathias (Series 1) Limited Edition with Map and Cape, European	2004	Castle / Knights Kingdom II	45	0
 8791-1	Sir Danju	2005	Castle / Knights Kingdom II	43	0
@@ -17461,7 +17472,7 @@ code	nom	annee	theme	pieces	figurines
 8874-1	Battle Wagon	2005	Castle / Knights Kingdom II	130	3
 8875-1	King's Siege Tower	2005	Castle / Knights Kingdom II	131	4
 8876-1	Scorpion Prison Cave	2005	Castle / Knights Kingdom II	279	5
-8877-1	Vladek's Dark Fortress	2005	Castle / Knights Kingdom II	989	9
+8877-1	Vladek's Dark Fortress	2005	Castle / Knights Kingdom II	970	9
 8878-1	Rechargeable Battery Box	2009	Power Functions	1	0
 8879-1	IR Speed Remote Control	2009	Power Functions	1	0
 8880-1	Super Car	1994	Technic	1346	0
@@ -17780,7 +17791,7 @@ code	nom	annee	theme	pieces	figurines
 9057-1	Two Pullback Motors	1992	Educational and Dacta / Duplo and Explore	2	0
 9058-1	Large Building Plates	1987	Educational and Dacta / Duplo and Explore	2	0
 9059-1	Building Plates	1997	Educational and Dacta / Duplo and Explore	2	0
-906-1	12 doors and 5 hinges	1969	System / Supplemental	17	0
+906-1	12 Doors and 5 Hinges	1969	System / Supplemental	17	0
 9060-1	Small Building Plates	1986	Educational and Dacta / Duplo and Explore	6	0
 9061-1	Duplo Basic Green Bucket	1994	Educational and Dacta / Duplo and Explore	66	0
 9063-1	Basic Circus	1999	Educational and Dacta / Duplo and Explore	305	0
@@ -17855,6 +17866,11 @@ code	nom	annee	theme	pieces	figurines
 910061-1	Antique Collection	2026	BrickLink Designer Program	1504	5
 910062-1	Alchemist's Shop	2026	BrickLink Designer Program	2319	9
 910063-1	W.A.L.T.	2026	BrickLink Designer Program	766	0
+910064-1	Dustmark Keep	2026	BrickLink Designer Program	3959	20
+910065-1	Coconut Cape	2026	BrickLink Designer Program	2387	9
+910066-1	Brick Railroad Locomotive	2026	BrickLink Designer Program	1348	1
+910067-1	Hot Air Balloon	2026	BrickLink Designer Program	883	1
+910068-1	University of Science	2026	BrickLink Designer Program	3981	18
 9101-1	Duplo Toolo Large Set	1995	Educational and Dacta / Duplo and Explore	86	0
 9102-1	Small Duplo Toolo Set	1992	Educational and Dacta / Duplo and Explore	30	0
 9103-1	Medium First Tools for Technology Set	1994	Educational and Dacta / Duplo and Explore	56	0
@@ -18015,7 +18031,7 @@ code	nom	annee	theme	pieces	figurines
 9146-1	Rails & Switches	1998	Educational and Dacta / Duplo and Explore	16	0
 9148-1	Home	1998	Educational and Dacta / Duplo and Explore	90	0
 9149-1	Pony Stables	1998	Educational and Dacta / Duplo and Explore	72	0
-915-1	6 bricks with 16 and 20 studs and 3 Angle Bricks White/Red	1969	System / Supplemental	9	0
+915-1	6 Bricks with 16 and 20 Studs and 3 Angle Bricks White/Red	1969	System / Supplemental	9	0
 9150-1	Duplo Furniture	1986	Educational and Dacta / Duplo and Explore	76	0
 9151-1	Family	1986	Educational and Dacta / Duplo and Explore	10	0
 9152-1	House	1988	Educational and Dacta / Duplo and Explore	126	0
@@ -18053,7 +18069,7 @@ code	nom	annee	theme	pieces	figurines
 9186-1	Indians	1998	Educational and Dacta / Duplo and Explore	88	0
 9187-1	Police Station	1997	Educational and Dacta / Duplo and Explore	64	0
 9189-1	Animal and Fun Park	1998	Educational and Dacta / Duplo and Explore	105	0
-919-1	31 bricks with 2, 4 and 6 studs	1969	System / Supplemental	31	0
+919-1	31 Bricks with 2, 4 and 6 Studs	1969	System / Supplemental	31	0
 9190-1	Zoo	1995	Educational and Dacta / Duplo and Explore	84	0
 9191-1	Animal Water Park	1996	Educational and Dacta / Duplo and Explore	54	0
 9192-1	Zoo Babies (Zoo Animals)	1998	Educational and Dacta / Duplo and Explore	16	0
@@ -18089,7 +18105,7 @@ code	nom	annee	theme	pieces	figurines
 9227-1	Farm	2007	Educational and Dacta / Duplo and Explore	104	0
 9228-1	Farm Animals	2007	Educational and Dacta / Duplo and Explore	52	0
 9229-1	Police Station	2007	Educational and Dacta / Duplo and Explore	81	0
-923-1	50 bricks, curved and round	1969	System / Supplemental	50	0
+923-1	50 Bricks, Curved and Round	1969	System / Supplemental	50	0
 9230-1	Duplo Town Set	2004	Educational and Dacta / Duplo and Explore	200	0
 9231-1	Playhouse Set	2005	Educational and Dacta / Duplo and Explore	104	0
 9232-1	Hospital	2005	Educational and Dacta / Duplo and Explore	106	0
@@ -18311,7 +18327,7 @@ code	nom	annee	theme	pieces	figurines
 952212-1	Forklift	2022	City / Cargo	31	1
 952301-1	Fire-Helicopter	2023	City / Fire	30	1
 952302-1	Police Buggy	2023	City / Police	26	1
-952303-1	Lawn mower	2023	City	31	1
+952303-1	Lawn Mower	2023	City	31	1
 952304-1	Duke Detain & Criminal	2023	City / Police	17	2
 952305-1	Building Team with Tools	2023	City / Construction	19	2
 952306-1	Service Car	2023	City / Airport	25	1
@@ -18419,7 +18435,7 @@ code	nom	annee	theme	pieces	figurines
 9633-1	Advanced Air Power Set	1999	Educational and Dacta	217	0
 9636-1	Solar Add-on	2000	Educational and Dacta	3	0
 9637-1	Speed Computer Add-on	2000	Technic / Supplemental	2	0
-964-1	10 building plates 2 x 8, 4 x 8, 6 x 8	1969	System / Supplemental	10	0
+964-1	10 Building Plates 2 x 8, 4 x 8, 6 x 8	1969	System / Supplemental	10	0
 9641-1	Pneumatics Add-on Set for Machines & Mechanisms	2008	Educational and Dacta / Supplemental	31	0
 9647-1	Studios Camera and Software	2000	Educational and Dacta	2	0
 9648-1	Education Resource Set [NXT Supplemental Set]	2006	Educational and Dacta / Mindstorms / NXT	674	0
@@ -18455,7 +18471,7 @@ code	nom	annee	theme	pieces	figurines
 9690-1	Education Center	2009	Educational and Dacta / Duplo and Explore	172	0
 9691-1	LEC Set	2008	Educational and Dacta	1213	0
 9692-1	Tech Machines Set	2009	Educational and Dacta / Duplo and Explore	38	0
-9693-1	Rechargeable Battery for Lego Mindstorms NXT, DC plug	2010	Mindstorms / NXT	1	0
+9693-1	Rechargeable Battery for Lego Mindstorms NXT, DC Plug	2010	Mindstorms / NXT	1	0
 9694-1	NXT Color Sensor	2010	Mindstorms / NXT	1	0
 9695-1	Mindstorms Education Resource Set	2010	Mindstorms / NXT	819	0
 9696-1	BODY FORWARD Challenge Kit	2010	FIRST LEGO League	1515	0
@@ -18463,7 +18479,7 @@ code	nom	annee	theme	pieces	figurines
 9698-1	SMART MOVE Challenge Kit	2009	FIRST LEGO League	1310	0
 9699-1	Climate Connections Challenge Kit	2008	FIRST LEGO League	842	12
 970-1	Lighting Bricks	1978	Universal Building Set / Supplemental	17	0
-970-2	47 1/3 elements (plates)	1969	System / Supplemental	47	0
+970-2	47 1/3 Elements (Plates)	1969	System / Supplemental	47	0
 9700-1	Technic Control Center	1987	Educational and Dacta / Technic	487	4
 970004-1	Yellow Band (Pack of 25)	2002	Educational and Dacta / Service Packs	25	0
 970005-1	9-Volt 1 x 2 Lamp Brick (Pack of 2)	2002	Educational and Dacta / Service Packs	2	0
@@ -18472,26 +18488,26 @@ code	nom	annee	theme	pieces	figurines
 970010-1	Hubs Gray (Pack of 50)	2002	Educational and Dacta / Service Packs / Technic	50	0
 970017-1	14-Tooth Beveled Gears (Pack of 100)	2002	Educational and Dacta / Service Packs / Technic	100	0
 970018-1	Gray Pulley Wheel (Pack of 50)	2008	Educational and Dacta / Service Packs / Technic	50	0
-970021-1	Red Rover Tires and Hubs (4 tires 4 hubs)	2002	Educational and Dacta / Service Packs	8	0
+970021-1	Red Rover Tires and Hubs (4 Tires 4 Hubs)	2002	Educational and Dacta / Service Packs	8	0
 970028-1	Shock Absorber (Pack of 10)	2002	Educational and Dacta / Service Packs / Technic	10	0
 970030-1	Lift Arm (Pack of 50)	2002	Educational and Dacta / Service Packs / Technic	50	0
 970036-1	2 x 2 Angle Plate (Pack of 25)	2002	Educational and Dacta / Service Packs	25	0
 970039-1	Lever Arm (Pack of 50)	2002	Educational and Dacta / Service Packs / Technic	50	0
-970040-1	Caterpillar Hub and Tread (Set of 2 treads 4 Hubs)	2002	Educational and Dacta / Service Packs	6	0
+970040-1	Caterpillar Hub and Tread (Set of 2 Treads 4 Hubs)	2002	Educational and Dacta / Service Packs	6	0
 970041-1	128 MM Connecting Leads (Pack of 3)	2002	Educational and Dacta / Service Packs / Technic	3	0
 970042-1	Piston Rod (Pack of 75)	2002	Educational and Dacta / Service Packs / Technic	75	0
 970043-1	Small Half Beam (Pack of 100)	2002	Educational and Dacta / Service Packs / Technic	100	0
-970047-1	Large Tire and Hub (2 tires 2 hubs)	2002	Educational and Dacta / Service Packs	4	0
+970047-1	Large Tire and Hub (2 Tires, 2 Hubs)	2002	Educational and Dacta / Service Packs	4	0
 970098-1	Special Elements for Control Lab Set	2001	Educational and Dacta / Service Packs	122	0
 9701-1	Control Lab Building Set	1995	Educational and Dacta / Technic / Control Lab	576	0
 970110-1	Pneumatic T-Pieces (Pack of 25)	2002	Educational and Dacta / Service Packs / Technic	25	0
-970111-1	Large Lawn Tire & Hub (4 tires 4 hubs)	2002	Educational and Dacta / Service Packs	8	0
-970112-1	Small Lawn Tire & Hub (4 tires 4 hubs)	2002	Educational and Dacta / Service Packs	8	0
+970111-1	Large Lawn Tire & Hub (4 Tires, 4 Hubs)	2002	Educational and Dacta / Service Packs	8	0
+970112-1	Small Lawn Tire & Hub (4 Tires, 4 Hubs)	2002	Educational and Dacta / Service Packs	8	0
 970113-1	Tire Pack (Set of 8)	2002	Educational and Dacta / Service Packs	8	0
 970115-1	1280 mm Connecting Leads (Pack of 3)	2002	Educational and Dacta / Service Packs / Technic	3	0
 970116-1	12 Tooth Double Bevel Gears (Pack of 25)	2002	Educational and Dacta / Service Packs / Technic	25	0
 970117-1	Pneumatic Hand Pump (Pack of 2)	2002	Educational and Dacta / Service Packs / Technic	2	0
-970118-1	Pneumatic Cylinder (Set of 2 small)	2002	Educational and Dacta / Service Packs / Technic	2	0
+970118-1	Pneumatic Cylinder (Set of 2 Small)	2002	Educational and Dacta / Service Packs / Technic	2	0
 970119-1	Pneumatic Tubing Service Pack	2002	Educational and Dacta / Service Packs / Technic	2	0
 970120-1	Black Bands (Pack of 50)	2002	Educational and Dacta / Service Packs	25	0
 970121-1	Red Bands (Pack of 25)	2002	Educational and Dacta / Service Packs	25	0
@@ -18530,7 +18546,7 @@ code	nom	annee	theme	pieces	figurines
 970627-1	40 Tooth Gears (Pack of 25)	2002	Educational and Dacta / Service Packs / Technic	25	0
 970628-1	Cross Blocks (Pack of 50)	2002	Educational and Dacta / Service Packs / Technic	50	0
 970629-1	Catches with Cross Holes (Pack of 50)	2002	Educational and Dacta / Service Packs / Technic	50	0
-970630-1	Pulleys (For micromotor pack of 10)	2002	Educational and Dacta / Service Packs / Technic	10	0
+970630-1	Pulleys (For Micromotor Pack of 10)	2002	Educational and Dacta / Service Packs / Technic	10	0
 970631-1	Bricks with Cross (axle) Holes (Pack of 50)	2002	Educational and Dacta / Service Packs / Technic	50	0
 970632-1	1 x 2 Beams	2002	Educational and Dacta / Service Packs / Technic	50	0
 970633-1	1 x 4 Beams	2002	Educational and Dacta / Service Packs / Technic	30	0
@@ -18541,7 +18557,7 @@ code	nom	annee	theme	pieces	figurines
 970638-1	1 x 16 Beams	2002	Educational and Dacta / Service Packs / Technic	10	0
 970639-1	2 x 2 Skid Plates (Pack of 50)	2002	Educational and Dacta / Service Packs	50	0
 970640-1	Tacho Wheels (Pack of 20)	2002	Educational and Dacta / Service Packs / Technic	20	0
-970641-1	Gear Casings (Pack of 10 contained 20 prior to 2005 Dacta catalog)	2002	Educational and Dacta / Service Packs / Technic	10	0
+970641-1	Gear Casings (Pack of 10 Contained 20 Prior to 2005 Dacta Catalog)	2002	Educational and Dacta / Service Packs / Technic	10	0
 970643-1	Bobbins {Technic Reels}	2002	Educational and Dacta / Service Packs / Technic	25	0
 970645-1	Chain Links	2003	Educational and Dacta / Service Packs / Technic	100	0
 970646-1	Gear Blocks (Pack of 5)	2002	Educational and Dacta / Service Packs / Technic	5	0
@@ -18567,7 +18583,7 @@ code	nom	annee	theme	pieces	figurines
 970679-1	Special Elements For Mechanical Engineering Set	2004	Educational and Dacta / Service Packs	130	0
 970680-1	Special Elements for Early Simple Machines Set	2002	Educational and Dacta / Service Packs	19	0
 970683-1	Black Plates - Large Package	2002	Educational and Dacta / Service Packs	165	0
-970684-1	Wheels (Tires hubs axle plates and bricks)	2002	Educational and Dacta / Service Packs	184	0
+970684-1	Wheels (Tires Hubs Axle Plates and Bricks)	2002	Educational and Dacta / Service Packs	184	0
 970686-1	Roof Tiles	2002	Educational and Dacta / Service Packs	180	0
 970687-1	Team Challenge Upgrade Kit	2002	Educational and Dacta / Service Packs	96	0
 9707-1	Intelligent House Building Set	1996	Educational and Dacta	164	1
@@ -18605,7 +18621,7 @@ code	nom	annee	theme	pieces	figurines
 9763-1	NANO QUEST Challenge Kit	2006	FIRST LEGO League	1505	2
 9764-1	Power Puzzle Challenge Kit	2007	FIRST LEGO League	1570	1
 9767-1	Interface Card/Cable for Apple IIe and IIGS	1989	Educational and Dacta / Technic	1	0
-9771-1	Interface Card and Cable for TC Logo - IBM compatible	1989	Educational and Dacta / Technic	3	0
+9771-1	Interface Card and Cable for TC Logo - IBM Compatible	1989	Educational and Dacta / Technic	3	0
 9776-1	Pneumatic Circuit	1999	Educational and Dacta / Service Packs / Technic	4	0
 9780-1	ROBOLAB Starter Building Set	1998	Educational and Dacta / Mindstorms / RCX	1712	1
 9780141357201-1	Mixels: Mixels vs Nixels	2014	Books / Activity Books with LEGO Parts	22	0
@@ -18830,6 +18846,7 @@ code	nom	annee	theme	pieces	figurines
 9781837251797-1	DC Comics Super Heroes: Batman Needs You	2026	Books / Activity Books with LEGO Parts	6	1
 9781837251995-1	Ninjago: The Epic History Activity Box	2026	Books / Activity Books with LEGO Parts	19	3
 9781837252145-1	Minecraft: Rare Mob Expedition: Search & Find Sticker Activity	2026	Books / Activity Books with LEGO Parts	10	1
+9781837252152-1	Ninjago: Dragons Rising: Cole's Mech Mission	2026	Books / Activity Books with LEGO Parts	30	1
 9781837252169-1	Star Wars: The Dark Lord	2026	Books / Activity Books with LEGO Parts	7	1
 9781837252176-1	Harry Potter: Magical Lessons	2026	Books / Activity Books with LEGO Parts	17	1
 9781838526771-1	Star Wars: Official Annual 2020	2019	Books / Activity Books with LEGO Parts	5	1
@@ -18967,10 +18984,10 @@ code	nom	annee	theme	pieces	figurines
 9798-1	NXT Rechargeable Battery	2006	Mindstorms / NXT	1	0
 9798217121762-1	Minecraft: The End Adventure: Search & Find Sticker Activity	2026	Books / Activity Books with LEGO Parts	7	1
 9799-1	Sensor Adaptor for Mindstorms NXT to Vernier	2008	Mindstorms / NXT	1	0
-980-1	23 sloping bricks, including roof peak bricks, Red	1969	System / Supplemental	23	0
-980-2	23 sloping bricks, including roof peak bricks, Blue	1969	System / Supplemental	23	0
-981-1	34 sloping profile bricks, including profile peak bricks, Red	1969	System / Supplemental	39	0
-981-2	34 sloping profile bricks, including profile peak bricks, Blue	1969	System / Supplemental	39	0
+980-1	23 Sloping Bricks, including Roof Peak Bricks, Red	1969	System / Supplemental	23	0
+980-2	23 Sloping Bricks, including Roof Peak Bricks, Blue	1969	System / Supplemental	23	0
+981-1	34 Sloping Profile Bricks, including Profile Peak Bricks, Red	1969	System / Supplemental	39	0
+981-2	34 Sloping Profile Bricks, including Profile Peak Bricks, Blue	1969	System / Supplemental	39	0
 9816-1	Numbers & Letters	1998	Educational and Dacta / Duplo and Explore	276	0
 9820-1	Geared Turntable	1989	Educational and Dacta / Service Packs / Technic	64	0
 9822-1	Beams (Red)	1994	Educational and Dacta / Service Packs / Technic	68	0
@@ -19036,8 +19053,8 @@ code	nom	annee	theme	pieces	figurines
 9898-1	9-Volt Long Connecting Leads	1996	Educational and Dacta / Service Packs / Technic	2	0
 9899-1	Hubs and Tires	1999	Educational and Dacta / Service Packs / Technic	20	0
 99-1	Gift Set	1966	System / Samsonite	94	0
-990-1	Trees and Signs (1971 version with granulated trees and 4 bricks)	1971	Universal Building Set / Supplemental	12	0
-990-2	Trees and Signs (1969 version with old style trees and 3 bricks)	1969	Universal Building Set / Supplemental	12	0
+990-1	Trees and Signs (1971 Version with Granulated Trees and 4 Bricks)	1971	Universal Building Set / Supplemental	12	0
+990-2	Trees and Signs (1969 Version with Old Style Trees and 3 Bricks)	1969	Universal Building Set / Supplemental	12	0
 9900-1	Small Gear Wheels	1999	Educational and Dacta / Service Packs / Technic	21	0
 9910-1	Watch System Cyclone - Master	1999	Gear / Clocks and Watches	42	0
 9911-1	9-Volt Touch Sensor and Leads	2004	Mindstorms / RCX	3	0
@@ -19051,10 +19068,10 @@ code	nom	annee	theme	pieces	figurines
 991328-1	36-Tooth Double Conical Wheels (Pack of 25)	2007	Educational and Dacta / Service Packs / Technic	25	0
 991329-1	7-Stud Axles (Pack of 50)	2007	Educational and Dacta / Service Packs / Technic	50	0
 991330-1	New Turntables (Pack of 2)	2007	Educational and Dacta / Service Packs / Technic	2	0
-991331-1	Small Wide Tire & Hub (Pack of 8 each)	2007	Educational and Dacta / Service Packs	16	0
+991331-1	Small Wide Tire & Hub (Pack of 8 Each)	2007	Educational and Dacta / Service Packs	16	0
 991332-1	Technic Triangle (Pack of 25)	2007	Educational and Dacta / Service Packs / Technic	25	0
 991333-1	Cam Wheel (Pack of 25)	2007	Educational and Dacta / Service Packs / Technic	25	0
-991335-1	Swivel Magnet Pack (Pack of 10 each)	2007	Educational and Dacta / Service Packs	20	0
+991335-1	Swivel Magnet Pack (Pack of 10 Each)	2007	Educational and Dacta / Service Packs	20	0
 991336-1	2-Stud Axles with Grooves (Pack of 100)	2007	Educational and Dacta / Service Packs / Technic	100	0
 991337-1	Connector Peg with Axle (Pack of 100)	2007	Educational and Dacta / Service Packs / Technic	100	0
 991369-1	Tracks and Sprockets Pack	2008	Educational and Dacta / Service Packs / Technic	110	0
@@ -19087,7 +19104,7 @@ code	nom	annee	theme	pieces	figurines
 9937-1	Small Chain Links	1998	Educational and Dacta / Service Packs / Technic	108	0
 9938-1	Conveyor Belt Links	1999	Educational and Dacta / Service Packs / Technic	36	0
 9939-1	Assorted Pulleys	1999	Educational and Dacta / Service Packs / Technic	14	0
-994-1	LEGO fences with garden gates	1969	System / Supplemental	19	0
+994-1	LEGO Fences with Garden Gates	1969	System / Supplemental	19	0
 9940-1	Rubber Bands and String	1999	Educational and Dacta / Service Packs	36	0
 9941-1	Cams & Linkages	1998	Educational and Dacta / Service Packs / Technic	18	0
 9942-1	Connectors & Bushings	1998	Educational and Dacta / Service Packs / Technic	160	0
@@ -19132,7 +19149,7 @@ ARCTRIUMPH-1	Mini Arc de Triomphe	2025	Promotional	31	0
 ARENDELLECASTLE-1	Arendelle Castle	2019	Disney / Frozen	62	0
 AUDITT-1	Audi TT Roadster (Legoland Deutschland)	2002	Legoland Parks	58	0
 AUSTIN-1	LEGO Store Grand Opening Exclusive Set, Barton Creek Square, Austin, TX	2010	LEGO Brand Store	82	0
-AUTOSHOW-1	Chevrolet Silverado Lego Movie promotional	2019	Promotional	28	0
+AUTOSHOW-1	Chevrolet Silverado Lego Movie Promotional	2019	Promotional	28	0
 AZULEJO-1	Azulejo	2023	Friends	257	0
 B001-1	1 x 4 x 5 Black Window Frames, Transparent Blue Panes	2001	Bulk Bricks	20	0
 B002-1	1 x 4 x 3 Train Window Clear	2000	Bulk Bricks	25	0
@@ -19179,13 +19196,13 @@ Bricktober-1	Toys 'R' Us Bricktober Promotional Brick Set	2009	Promotional / Bri
 Build-a-Mini-0	Build-A-Minifigure Station Exclusive Parts	2018	Other / Database Sets	17	0
 Build-a-Mini-2018	2018 Build-A-Minifigure Station Exclusive Parts	2018	Other / Database Sets	3	0
 Build-a-Mini-2019	2019 Build-A-Minifigure Station Exclusive Parts	2019	Other / Database Sets	34	0
-Build-a-Mini-2020	2020 Build-A-Minifigure Station Exclusive Parts	2020	Other / Database Sets	24	0
+Build-a-Mini-2020	2020 Build-A-Minifigure Station Exclusive Parts	2020	Other / Database Sets	23	0
 Build-a-Mini-2021	2021 Build-A-Minifigure Station Exclusive Parts	2021	Other / Database Sets	30	0
 Build-a-Mini-2022	2022 Build-A-Minifigure Station Exclusive Parts	2022	Other / Database Sets	55	0
 Build-a-Mini-2023	2023 Build-A-Minifigure Station Exclusive Parts	2023	Other / Database Sets	42	0
 Build-a-Mini-2024	2024 Build-A-Minifigure Station Exclusive Parts	2024	Other / Database Sets	52	0
 Build-a-Mini-2025	2025 Build-A-Minifigure Station Exclusive Parts	2025	Other / Database Sets	71	0
-Build-a-Mini-2026	2026 Build-A-Minifigure Station Exclusive Parts	2026	Other / Database Sets	57	0
+Build-a-Mini-2026	2026 Build-A-Minifigure Station Exclusive Parts	2026	Other / Database Sets	69	0
 C3PO-1	C-3PO	2020	Promotional	60	0
 C8500-1	Robotops (8500 + 8501 + 8502 + 8503)	1999	Technic / Throwbot Slizer	96	0
 C8504-1	Ultrarex (8504 + 8505 + 8506 + 8507)	1999	Technic / Throwbot Slizer	88	0
@@ -19278,11 +19295,11 @@ DALLAS-1	LEGO Store Grand Opening Exclusive Set, NorthPark Center, Dallas, TX	20
 DANISHHEART-1	Danish Heart	2023	Seasonal / Christmas	16	0
 DATABASE-0	Unsorted Unused Parts Database Set	2023	Other / Database Sets	17	0
 DATABASE-1	Unused Parts Database Set - Pre-1965	1965	Other / Database Sets	201	0
-DATABASE-2	Unused Parts Database Set -1966 to 200﻿0	2000	Other / Database Sets	218	0
+DATABASE-2	Unused Parts Database Set -1966 to 200﻿0	2000	Other / Database Sets	217	0
 DATABASE-2001	2001 - Unused Parts Database Set	2001	Other / Database Sets	68	0
 DATABASE-2002	2002 - Unused Parts Database Set	2002	Other / Database Sets	29	0
 DATABASE-2003	2003 - Unused Parts Database Set	2003	Other / Database Sets	48	0
-DATABASE-2004	2004 - Unused Parts Database Set	2004	Other / Database Sets	83	0
+DATABASE-2004	2004 - Unused Parts Database Set	2004	Other / Database Sets	84	0
 DATABASE-2005	2005 - Unused Parts Database Set	2005	Other / Database Sets	82	0
 DATABASE-2006	2006 - Unused Parts Database Set	2006	Other / Database Sets	18	0
 DATABASE-2007	2007 - Unused Parts Database Set	2007	Other / Database Sets	22	0
@@ -19301,9 +19318,9 @@ DATABASE-2019	2019 - Unused Parts Database Set	2019	Other / Database Sets	46	0
 DATABASE-2020	2020 - Unused Parts Database Set	2020	Other / Database Sets	28	0
 DATABASE-2021	2021 - Unused Parts Database Set	2021	Other / Database Sets	38	0
 DATABASE-2022	2022 - Unused Parts Database Set	2022	Other / Database Sets	73	0
-DATABASE-2023	2023 - Unused Parts Database Set	2023	Other / Database Sets	57	0
+DATABASE-2023	2023 - Unused Parts Database Set	2023	Other / Database Sets	55	0
 DATABASE-2024	2024 - Unused Parts Database Set	2024	Other / Database Sets	38	0
-DATABASE-2025	2025 - Unused Parts Database Set	2025	Other / Database Sets	29	0
+DATABASE-2025	2025 - Unused Parts Database Set	2025	Other / Database Sets	27	0
 DATABASE-2026	2026 - Unused Parts Database Set	2026	Other / Database Sets	32	0
 DATABASE-HO-1	Database Set for 1:87 Mercedes Sport	1963	Other / Database Sets	11	0
 DATABASE-HO-2	Database Set for 1:87 VW Vans	1958	Other / Database Sets	26	0
@@ -19316,9 +19333,9 @@ DATABASE-HO-8	Database Set for 699-2	1965	Other / Database Sets	21	0
 DBASE-1	Database Set for Set 491-2	1966	Other / Database Sets	15	0
 DBASE-2	Database Set for Set 426-1	1966	Other / Database Sets	13	0
 DBASE-3	Database Set for 1210-2	1955	Other / Database Sets	10	0
-DBASE-4	Database Set for Various 3009 prints For Set 1224.1-1	1955	Other / Database Sets	13	0
+DBASE-4	Database Set for Various 3009 Prints For Set 1224.1-1	1955	Other / Database Sets	13	0
 DBASE-4696-1	Database Set for 4696-1	2004	Other / Database Sets	153	0
-DBASE-5	Database Set for Various prints For Set 1224-2	1955	Other / Database Sets	22	0
+DBASE-5	Database Set for Various Prints For Set 1224-2	1955	Other / Database Sets	22	0
 DBASE-6	Database Set for Set 700.0-1	1957	Other / Database Sets	19	0
 DC1-1	Commemorative Limited Edition Batman Announcement	2006	Super Heroes DC / Batman	13	2
 DCBHZ-1	Wonder Woman	2017	Brickheadz	145	0
@@ -19376,7 +19393,7 @@ EG00016-1	Desert Market Stall	2023	Other	94	0
 EG00017-1	Medieval Throne	2023	Other	149	0
 EG00018-1	6 x Santa	2024	Seasonal / Christmas	18	0
 EG00019-1	3x Harry Potter Wands	2023	Harry Potter	78	0
-EG00020-1	2K Drive pack	2023	Other	147	0
+EG00020-1	2K Drive Pack	2023	Other	147	0
 EG00021-1	3 x Reindeer	2024	Seasonal / Christmas	9	0
 EG00022-1	Pumpkins	2024	Seasonal / Halloween	140	0
 EG00023-1	Skeletons	2024	Seasonal / Halloween	90	0
@@ -19443,7 +19460,7 @@ EG00168-1	5x Baby Puppy	2025	Other	200	0
 EG00169-1	5x Baby Seahorse	2025	Other	170	0
 EG00170-1	5x Baby Unicorn	2025	Other	190	0
 EG00171-1	5x Little HeiHei	2025	Other	160	0
-EG00172-1	Multipack Baby Animals Trio (2 of each)	2026	Other	204	0
+EG00172-1	Multipack Baby Animals Trio (2 of Each)	2026	Other	204	0
 EG00173-1	White Road Bike	2026	Icons	261	0
 ELEPHANT-1	Elephant	2019	Promotional	11	0
 ELIZABETH-1	LEGO Store Grand Opening Exclusive Set, Jersey Gardens, Elizabeth, NJ	2012	LEGO Brand Store	15	3
@@ -19452,7 +19469,7 @@ EMMET-1	Emmet	2014	The LEGO Movie	5	1
 EMMETSCAR-1	Emmet's Car	2014	The LEGO Movie	40	0
 ESSEN-1	LEGO Store Grand Opening Exclusive Set, Essen	2012	LEGO Brand Store	10	0
 EV3MEG-1	EV3 MEG Mini	2013	Mindstorms / EV3	31	0
-EXPERTHEART-1	A “woah, you MADE that?!” heart	2023	Seasonal / Christmas	152	0
+EXPERTHEART-1	A “woah, you MADE that?!” Heart	2023	Seasonal / Christmas	152	0
 F6316-1	Flags and Posts	2006	Bulk Bricks	100	0
 FANEXPO001-1	The Ghost Starship	2014	Star Wars	134	1
 FANEXPO2015-1	Tatooine Mini-Build (FAN EXPO Version)	2015	Star Wars	179	1
@@ -19586,7 +19603,7 @@ L0002236-1	Republic Gunship	2026	Star Wars	59	0
 L0002237-1	Galactic Marine	2026	Star Wars	8	1
 L0002238-1	327th Star Corps Clone Trooper	2026	Star Wars	1	1
 L0002239-1	Death Trooper	2026	Star Wars	5	1
-L0002240-1	Clone Trooper	2026	Star Wars	1	1
+L0002240-1	332nd Clone Trooper	2026	Star Wars	1	1
 L0002241-1	K-2S0	2026	Star Wars	5	1
 L0002245-1	Jango Fett	2026	Star Wars	8	1
 L0002245-2	Jango Fett [Helmet Tin]	2026	Star Wars	8	1
@@ -19601,6 +19618,7 @@ L0002253-1	Parrot Handler with Skeleton, Skeleton Spawner and Dungeon	2026	Minec
 L0002254-1	Hero, Zombie and TNT Launcher	2026	Minecraft	24	2
 L0002260-1	Magma Cube	2026	Minecraft	39	1
 L0002261-1	Raptor and Volcano	2026	Jurassic World	28	0
+L0002262-1	Raptor in Enclosure	2026	Jurassic World	16	0
 L0002265-1	Kitten and Vet's Office	2026	Friends	24	0
 L0002266-1	Corgi and Ice Cream Stand	2026	Friends	16	0
 L0002270-1	Mr. Freeze & Snowman	2026	Super Heroes DC / Batman	12	1
@@ -19636,7 +19654,7 @@ LE436-1	Classic Stationery Set	2013	Gear / Stationery and Office Supplies	2	0
 LE437-1	9 Piece Stationery Set	2014	Gear / Stationery and Office Supplies	2	0
 LE704-1	Friends Stationery Set	2014	Gear / Stationery and Office Supplies	2	0
 LEEDS-1	LEGO Store Grand Opening Exclusive Set, Leeds, UK	2013	LEGO Brand Store	16	3
-LEGO-Modulex-1	Unused Modulex parts sold by LEGO	1963	Other / Database Sets	280	0
+LEGO-Modulex-1	Unused Modulex Parts Sold by LEGO	1963	Other / Database Sets	280	0
 LEGOLAND-1	LEGOLAND The Netherlands 2025	2025	LEGO Exclusive	2	0
 LEGOSTORE100-1	LEGO Store 100th LEGO Store Grand Opening Set, White Plains, NY, June 28-30, 2013	2013	LEGO Brand Store	5	0
 LEGOWORLD-DBASE-1	Database Set for LEGO World Letter Tiles	2013	Other / Database Sets	39	0
@@ -19651,7 +19669,7 @@ LIBERTYBELL-1	Liberty Bell	2015	Promotional	40	0
 LIFECEREAL-1	Puppet Set	1969	System / Samsonite	92	0
 LIGHTBULB-1	Celebrating Moments That CLICK Light Bulb	2009	Promotional	57	0
 LILLE-1	LEGO Store Grand Opening Exclusive Set, Euralille, Lille, France	2013	LEGO Brand Store	16	3
-LIMEMAX-1	LEGO Club Lime Max polybag	2014	LEGO Exclusive	4	1
+LIMEMAX-1	LEGO Club Lime Max Polybag	2014	LEGO Exclusive	4	1
 LINCOLNMEMORIAL-1	Lincoln Memorial	2015	Promotional	58	0
 LION-1	Lion	2022	Other	35	0
 LIT2007-1	Market Street (LEGO Inside Tour Version)	2007	LEGO Exclusive	1250	3
@@ -19932,7 +19950,7 @@ ROSE2-1	Rose	2020	Promotional	26	0
 ROSEVILLE-1	Grand Opening LEGO Store Roseville, CA	2018	LEGO Brand Store	7	0
 S1-1	Baseplate with Steering Control Tongue	1970	Service Packs	1	0
 S2-1	Steering Column	1970	Service Packs	2	0
-S3-1	Wheels and tyres	1970	Service Packs	6	0
+S3-1	Wheels and Tyres	1970	Service Packs	6	0
 SAARBRUCKEN-1	LEGO Store Grand Opening Exclusive Set, Saarbrücken, Germany	2012	LEGO Brand Store	15	3
 SACRAMENTO-1	LEGO Store Grand Opening Exclusive Set, Arden Fair Mall, Sacramento, CA	2008	LEGO Brand Store	79	0
 SANDIEGO-1	LEGO Store Grand Opening Exclusive Set Fashion Valley San Diego CA	2011	LEGO Brand Store	15	3
