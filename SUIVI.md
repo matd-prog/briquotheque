@@ -129,6 +129,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     nouveau s'affiche tout seul avec un message ; bouton « 🔑 Remplacer le jeton » ; jeton accepté mais sans accès au dépôt
     privé (404, cas de Mathias le 06/11 avec son nouveau jeton) -> message qui dit quoi régler sur GitHub (dépôts
     briquotheque-prive et briquotheque, Contenu et Actions en lecture et écriture).
+    Fait le 06/11 : nouveau jeton sans date d'expiration, dépôts briquotheque-prive + briquotheque, Actions et Contenu
+    (« Sommaire » dans la traduction du navigateur) en lecture et écriture ; accepté par l'appli.
   · v179 (06/11) : CONTRÔLE COMPLET RANGÉ DANS LE DÉPÔT (Mathias). Le script de contrôle d'avant publication vivait dans
     le dossier temporaire de Claude et a disparu à la réinitialisation de l'environnement (06/11). Réécrit :
     outils/tests/controle_complet.js (NODE_PATH=$(npm root -g) node outils/tests/controle_complet.js [--donnees
