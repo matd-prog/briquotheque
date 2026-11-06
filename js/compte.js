@@ -162,7 +162,9 @@ const Compte = {
     if (/longer than 72/i.test(t)) return "Mot de passe trop long : 72 caractères au plus (20 à 30 suffisent largement).";
     if (/for security purposes|after \d+ seconds/i.test(t)) return "Patientez une minute avant de redemander un e-mail.";
     if (/rate limit|too many/i.test(t)) return "Trop de tentatives : réessayez dans quelques minutes.";
-    if (/failed to fetch|network/i.test(t)) return "Pas de connexion Internet.";
+    // téléphone en ligne mais serveur muet : service de comptes en pause ou arrêté (Supabase, 06/11/2026), pas le réseau
+    if (/failed to fetch|network|load failed/i.test(t)) return navigator.onLine === false ? "Pas de connexion Internet."
+      : "Le service des comptes ne répond pas pour l'instant. Réessayez plus tard : votre collection, elle, reste dans le téléphone.";
     return "Erreur : " + t;
   },
 

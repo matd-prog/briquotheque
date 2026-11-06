@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v177 (06/11) : CONNEXION IMPOSSIBLE — SUPABASE EN PAUSE (Mathias). Offre gratuite : projet mis en pause après une semaine
+    sans activité ; Mathias l'a relancé (« Resume project », reprenable jusqu'au 03/12/2027, données intactes). Prévention :
+    .github/workflows/supabase_eveil.yml, lundi et jeudi, question à la base (rpc pseudo_libre, clé publique) ; échec = run
+    rouge + e-mail GitHub. Message d'erreur : serveur muet alors que le téléphone est en ligne -> « Le service des comptes ne
+    répond pas pour l'instant… » (au lieu de « Pas de connexion Internet »).
   · v176 (22/10) : PRIX TOTAL D'UN BLISTER À PLUSIEURS EXEMPLAIRES (Mathias). Ajout de blister (appli et contribuer.html) :
     « Prix total payé pour tous les exemplaires » ; le reste du total après les prix tapés par n° est partagé à parts égales
     entre les exemplaires sans prix (prix moyen), affiché en direct (« Soit 27,50 € pour chacun des 2 exemplaires sans

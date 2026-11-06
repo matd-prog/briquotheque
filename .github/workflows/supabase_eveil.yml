@@ -1,0 +1,27 @@
+# Garde le service de comptes (Supabase, offre gratuite) éveillé : sans activité pendant une semaine, Supabase met le
+# projet en pause et plus personne ne peut se connecter (arrivé le 06/11/2026). Deux fois par semaine, une petite question
+# à la base (« ce pseudo est-il libre ? »), avec la clé publique de l'appli (déjà dans js/compte.js, sans danger).
+# Échec (projet en pause, serveur arrêté) : le run est rouge et GitHub envoie un e-mail à Mathias.
+name: Garder Supabase éveillé
+on:
+  schedule:
+    - cron: "17 6 * * 1,4"   # lundi et jeudi, 6 h 17 (UTC)
+  workflow_dispatch:
+jobs:
+  eveil:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Question à la base
+        run: |
+          URL="https://neadnkbroribjobpsqcu.supabase.co"
+          CLE="sb_publishable_5EmR-GxELWvYIyN1NJH0pA_5q8vtetO"
+          for i in 1 2 3; do
+            code=$(curl -s -o reponse.txt -w "%{http_code}" -X POST "$URL/rest/v1/rpc/pseudo_libre" \
+              -H "apikey: $CLE" -H "Content-Type: application/json" -d '{"p":"eveil-automatique"}') || code=000
+            echo "essai $i : HTTP $code, réponse : $(cat reponse.txt 2>/dev/null)"
+            [ "$code" = "200" ] && exit 0
+            sleep 30
+          done
+          echo "::error::Supabase ne répond pas : projet en pause ? Ouvrir supabase.com > projet briquotheque > Resume project."
+          exit 1
