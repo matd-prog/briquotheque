@@ -147,6 +147,8 @@ const Rapport = {
         <p><b>${r.type === "idee" ? "💡 Idée" : "🐞 Problème"}</b> · ${echapper(new Date(r.cree).toLocaleString("fr-FR"))} ·
           ${echapper(r.appli || "")} ${echapper(r.version || "")}${r.pseudo ? ` · ${echapper(r.pseudo)}` : ""}</p>
         <p>${echapper(r.texte)}</p>
+        ${r.analyse ? `<div class="alerte info rapport-analyse"><b>🤖 Proposition de Claude</b>${r.analyse_le ? ` (${echapper(new Date(r.analyse_le).toLocaleDateString("fr-FR"))})` : ""}
+          <div>${echapper(r.analyse)}</div></div>` : ""}
         ${r.capture ? `<img class="rapport-apercu" src="${echapper(r.capture)}" alt="capture">` : ""}
         <details><summary>Détails (appareil, erreurs, dernières actions)</summary><pre class="rapport-diag">${echapper(r.diagnostic || "")}</pre></details>
         <button class="petit" data-rapport-traite="${r.id}" data-fait="${r.traite ? "1" : "0"}">${r.traite ? "↩️ Pas encore traité" : "✔ Traité"}</button>

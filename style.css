@@ -670,3 +670,4 @@ html[lang="fr"] .langue-verif { display: none; }
 .rapport-boutons { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
 .rapport.traite { opacity: .55; }
 .rapport-diag { white-space: pre-wrap; font-size: 12px; max-height: 240px; overflow: auto; }
+.rapport-analyse div { white-space: pre-wrap; margin-top: 4px; }

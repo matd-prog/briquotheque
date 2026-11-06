@@ -125,6 +125,14 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v188 (06/11) : RAPPORTS ANALYSÉS AUTOMATIQUEMENT PAR CLAUDE (Mathias : « me prévenir quand il y a un problème et me
+    proposer une solution »). Tâche programmée « Rapports Briquothèque » (trig_01PxGJ2CkhRWLNCFZSWkEWKC, 7 h 39 et
+    18 h 39, heure de Paris, nouvelle session à chaque fois, notification téléphone + e-mail) : lit les rapports non
+    traités et non analysés (rpc rapports_a_analyser), cherche la cause dans le code, enregistre sa proposition
+    (rpc noter_analyse), et résume dans son message final ; ne modifie jamais le code. Accès sans compte ni mot de
+    passe : clé privée « rapports » créée dans Supabase (table cles_privees, illisible par Internet), présentée en
+    en-tête x-rapports-key, ajoutée par le proxy de l'environnement (formulaire sécurisé, jamais dans une conversation).
+    Appli : « 🤖 Proposition de Claude » dans 📬 Rapports reçus. outils/supabase_rapports.sql complété (à lancer par Mathias).
   · v187 (06/11) : SIGNALER UN PROBLÈME / PROPOSER UNE AMÉLIORATION, ENVOI DIRECT (Mathias). Avant : bouton dans les Outils
     seulement, texte partagé par le menu Partager (aucune adresse de réception). Maintenant js/rapport.js (appli et
     contribuer.html) : lien « 🐞 Un problème ? Une idée ? Le signaler » en bas de chaque écran + bouton des Outils ;
