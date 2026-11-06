@@ -125,6 +125,16 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v178 (06/11) : SESSION VÉRIFIÉE AU DÉMARRAGE + « AJOUTER UN BLISTER JB » (Mathias). Après la pause de Supabase, la session
+    gardée dans le téléphone n'était plus valable et l'appli ne disait rien (Compte.ouvrirPortail ne regardait que la
+    présence d'une session). Maintenant : getUser() à chaque démarrage ; refusée (401, ou rafraîchissement refusé) ->
+    déconnexion locale + écran de connexion « Vous avez été déconnecté de votre compte (session expirée)… » ; serveur muet
+    -> avertissement, l'appli s'ouvre quand même ; déconnexion non voulue en cours d'usage -> message. Testé (Playwright,
+    serveur simulé) : 401, 503, 200, rafraîchissement refusé. Blister : un seul bouton « Ajouter un blister JB » (accueil,
+    section JB, Ma collection > Ajouter) -> « 📷 Prendre la photo » ou « 🖼️ Choisir une photo déjà prise » ; tuiles
+    « Blister, photo déjà prise » retirées (contribuer.html proposait déjà les deux).
+    Jeton GitHub « Catalogue appli » (appli du téléphone, écran Valeur) expiré le 01/11 (e-mails GitHub) : à régénérer par
+    Mathias puis à recoller dans l'appli.
   · v177 (06/11) : CONNEXION IMPOSSIBLE — SUPABASE EN PAUSE (Mathias). Offre gratuite : projet mis en pause après une semaine
     sans activité ; Mathias l'a relancé (« Resume project », reprenable jusqu'au 03/12/2027, données intactes). Prévention :
     .github/workflows/supabase_eveil.yml, lundi et jeudi, question à la base (rpc pseudo_libre, clé publique) ; échec = run

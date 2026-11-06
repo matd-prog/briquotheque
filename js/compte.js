@@ -29,6 +29,10 @@ const Compte = {
     this.client = supabase.createClient(SUPABASE_URL, SUPABASE_CLE, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
     this.client.auth.onAuthStateChange((evenement, session) => {
       this.session = session;
+      if (evenement === "SIGNED_OUT" && !this._deconnexionVoulue) { // session refusée par le serveur
+        this._deconnecte = true;
+        if (this._verifie) setTimeout(() => toast("Vous avez été déconnecté de votre compte : reconnectez-vous depuis l'accueil.", 6000), 0);
+      }
       if (evenement === "PASSWORD_RECOVERY") { this.recuperation = true; this.portail = false; this.ouvrir(); }
       if (evenement === "SIGNED_IN" && this.portail && session) setTimeout(() => this.fermerPortail(false), 0);
       if (evenement === "SIGNED_IN" && confirmation && !this._confirme) {
@@ -42,19 +46,36 @@ const Compte = {
     });
     // au démarrage, pas encore connecté sur cet appareil : l'écran de connexion d'abord (demande de Mathias, 18/10).
     // Une fois connecté, la session est gardée dans l'appareil (connexion automatique, sans retaper le mot de passe).
-    if (typeof demarrage !== "undefined") demarrage.then(() => this.ouvrirPortail()).catch(() => {});
+    if (typeof demarrage !== "undefined") demarrage.then(() => this.ouvrirPortail()).catch(() => {}).finally(() => { this._verifie = true; });
     // sauvegarde en ligne automatique : une fois par jour, quand la collection est ouverte
     setTimeout(() => this.sauvegardeAuto().catch(err => console.warn("sauvegarde en ligne", err)), 20000);
   },
 
   // Tuile : le pseudo du compte (pas l'adresse e-mail, demande de Mathias), lu en ligne s'il n'est pas encore connu
+  // Session gardée dans le téléphone : vérifiée auprès du serveur à chaque démarrage (Mathias, 06/11/2026 : après la pause
+  // du serveur, la session gardée n'était plus valable, et l'appli ne disait rien). Refusée : déconnexion, et l'écran de
+  // connexion le dit. Serveur muet : on prévient, l'appli s'ouvre quand même (collection dans le téléphone).
   async ouvrirPortail() {
     if (!navigator.onLine) return; // hors connexion : l'appli s'ouvre sans compte
     try { if (sessionStorage.getItem("sans-compte") === "1") return; } catch (e) { /* pas de stockage */ }
     const { data } = await this.client.auth.getSession();
-    if (data.session || this.recuperation || !["accueil", "fichier"].includes(ecranActuel)) return;
+    let raison = this._deconnecte ? "expiree" : "";
+    if (data.session) {
+      const verif = await this.client.auth.getUser().catch(err => ({ error: err }));
+      if (!verif.error) return; // connecté, session valable
+      const statut = verif.error.status || 0;
+      if (!statut || statut >= 500 || /failed to fetch|network|load failed/i.test(verif.error.message || "")) {
+        toast("⚠️ Votre compte n'a pas pu être vérifié : le service des comptes ne répond pas. Votre collection reste dans le téléphone.", 7000);
+        return;
+      }
+      await this.client.auth.signOut({ scope: "local" }).catch(() => {});
+      this.session = null; this._majTuile();
+      raison = "expiree";
+    }
+    if (this.recuperation || !["accueil", "fichier"].includes(ecranActuel)) return;
     this.portail = true; this.mode = "connexion";
     await this.ouvrir();
+    if (raison) this.message("Vous avez été déconnecté de votre compte (session expirée) : reconnectez-vous pour retrouver vos amis et la sauvegarde en ligne.");
   },
   fermerPortail(sansCompte) {
     if (!this.portail) return;
@@ -300,6 +321,7 @@ const Compte = {
   },
 
   async deconnecter() {
+    this._deconnexionVoulue = true;
     await this.client.auth.signOut();
     this.session = null; this.profil = null;
     this._majTuile();
@@ -311,6 +333,7 @@ const Compte = {
     if (!(await demander("Supprimer définitivement votre compte, votre pseudo et votre sauvegarde en ligne ? La collection de ce téléphone, elle, est gardée.", "Supprimer", "Annuler"))) return;
     const { error } = await this.client.rpc("supprimer_mon_compte");
     if (error) { this.message(this.erreur(error)); return; }
+    this._deconnexionVoulue = true;
     await this.client.auth.signOut();
     this.session = null; this.profil = null;
     this._majTuile();

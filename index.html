@@ -69,16 +69,16 @@
       <span><b>Photographier</b><small>Figurine, blister JB, set… l'appli reconnaît ce que c'est</small></span>
       <input type="file" id="input-photo" accept="image/*" capture="environment" hidden>
     </label>
-    <label class="action-principale action-blister">
+    <!-- un seul bouton pour un blister (Mathias, 06/11/2026) : prendre la photo, ou en choisir une déjà prise -->
+    <button class="action-principale action-blister" data-action="blister-ajouter">
       <span class="icone">📦</span>
-      <span><b>Photographier un blister JB</b><small>Recto, verso, n° · reconnu grâce à la base commune</small></span>
-      <input type="file" id="input-blister" accept="image/*" capture="environment" hidden>
-    </label>
+      <span><b>Ajouter un blister JB</b><small>Photo à prendre ou déjà prise · recto, verso, n°</small></span>
+    </button>
+    <input type="file" id="input-blister" accept="image/*" capture="environment" hidden>
+    <input type="file" id="input-blister-galerie" accept="image/*" hidden>
     <div class="tuiles">
       <label class="tuile"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Figurine, depuis la galerie</small>
         <input type="file" id="input-galerie" accept="image/*" hidden></label>
-      <label class="tuile"><span class="icone">🖼️</span><b>Blister, photo déjà prise</b><small>Blister JB, depuis la galerie</small>
-        <input type="file" id="input-blister-galerie" accept="image/*" hidden></label>
       <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Figurine (BrickLink)</small></button>
       <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Set LEGO</b><small>Ou Youmko, Pantasy, Cobi…</small></button>
@@ -100,7 +100,7 @@
     <!-- Tout JB Spielwaren au même endroit (demande de Mathias, 20/10/2026) : blisters, customs, tiles et autres objets -->
     <p class="section-titre">🟪 JB Spielwaren</p>
     <div class="tuiles">
-      <label class="tuile" for="input-blister"><span class="icone">📦</span><b>Photographier un blister</b><small>Recto, verso, n°</small></label>
+      <button class="tuile" data-action="blister-ajouter"><span class="icone">📦</span><b>Ajouter un blister</b><small>Photo à prendre ou déjà prise</small></button>
       <button class="tuile" data-action="customs-voir"><span class="icone">🎨</span><b>Mes customs JB</b><small>Mes blisters, en photos</small></button>
       <button class="tuile" data-action="objets-jb-voir"><span class="icone">🟪</span><b>Tiles et objets JB</b><small>Tiles, vignettes, chromés…</small></button>
       <button class="tuile" data-action="objet-jb"><span class="icone">➕</span><b>Ajouter un tile ou un objet</b><small>Nom, photo, quantité</small></button>
@@ -195,9 +195,8 @@
       <summary class="bouton">➕ Ajouter à ma collection</summary>
       <div class="tuiles">
         <label class="tuile" for="input-photo"><span class="icone">📷</span><b>Photographier</b><small>Figurine, blister, set… reconnu</small></label>
-        <label class="tuile" for="input-blister"><span class="icone">📦</span><b>Blister JB</b><small>Le photographier</small></label>
+        <button class="tuile" data-action="blister-ajouter"><span class="icone">📦</span><b>Blister JB</b><small>Photo à prendre ou déjà prise</small></button>
         <label class="tuile" for="input-galerie"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Figurine, depuis la galerie</small></label>
-        <label class="tuile" for="input-blister-galerie"><span class="icone">🖼️</span><b>Blister, photo déjà prise</b><small>Blister JB, depuis la galerie</small></label>
         <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Figurine (BrickLink)</small></button>
         <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
         <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>

@@ -98,7 +98,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v177"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v178"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -495,6 +495,11 @@ async function photoVersSet() {
   await EcranSet.ouvrir();
   $("set-numero").value = a.id;
   EcranSet.chercher();
+}
+// « Ajouter un blister JB » (Mathias, 06/11/2026) : prendre la photo, ou choisir une photo déjà prise (galerie)
+async function ajouterBlister() {
+  const i = await choisirAction("Ajouter un blister JB", ["📷 Prendre la photo", "🖼️ Choisir une photo déjà prise"]);
+  if (i >= 0) $(i ? "input-blister-galerie" : "input-blister").click();
 }
 // Pas une figurine : on demande quoi en faire ; true si l'utilisateur a choisi une autre voie
 async function proposerAutreChose(autre) {
@@ -1971,6 +1976,7 @@ document.addEventListener("click", async e => {
   }
   else if (action === "saisie") ouvrirSaisie();
   else if (action === "photo-vers-blister") photoVersBlister();
+  else if (action === "blister-ajouter") ajouterBlister();
   else if (action === "photo-vers-set") photoVersSet();
   else if (action === "nouveautes") EcranNouveautes.ouvrir();
   else if (action === "nouveautes-series") { $("recherche-texte").value = ""; ouvrirRecherche(true); }

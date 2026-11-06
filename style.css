@@ -308,6 +308,7 @@ button.proposition { font: inherit; text-align: left; border: 0; cursor: pointer
 .fiche.cliquable { cursor: pointer; }
 /* accueil : second gros bouton (blister JB), juste sous celui de la figurine */
 .action-principale.action-blister { margin-top: 10px; background: #d9466f; }
+button.action-principale { width: 100%; border: 0; font: inherit; text-align: left; cursor: pointer; }
 
 /* Impression d'étiquettes (js/impression.js) : pages à la taille réelle, réduites à l'écran pour l'aperçu */
 .grille-reglages { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
