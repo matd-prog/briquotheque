@@ -123,6 +123,11 @@
         <input id="base-numero" class="champ" inputmode="numeric" autocomplete="off" placeholder="ex. 143">
       </div>
       <p class="score" id="base-numeros-etat"></p>
+      <!-- une photo par exemplaire (Mathias, 06/11/2026) : facultatif, sinon la même photo pour tous -->
+      <div id="base-photos-detail" hidden>
+        <p class="etiquette-champ">Photo de chaque exemplaire (facultatif : sinon la même photo pour tous)</p>
+        <div id="base-photos-numeros" class="grille-photos"></div>
+      </div>
       <label class="case-a-cocher"><input type="checkbox" id="base-non-numerote"> Non numérotée (pas de série limitée)</label>
       <label for="base-remarque" class="etiquette-champ">Note particulière (facultatif)</label>
       <input id="base-remarque" class="champ" autocomplete="off" autocapitalize="characters" placeholder="ex. SIGNÉE PAR L'ACTEUR, SPÉCIAL COMIC CON…">

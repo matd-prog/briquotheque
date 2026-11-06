@@ -48,7 +48,7 @@ const Base = {
   _nouvelle() {
     this.photo = null; this.verso = null; this.versoPasse = false; this.versoTexte = ""; this._versoApplique = false; this.choixNet = false; this.candidatsRecto = []; this.signaux = null; this.confiance = null; this.codeAuto = "";
     if ($("base-verso-info")) { $("base-verso-info").hidden = true; $("base-verso-info").innerHTML = ""; }
-    this.source = this.sourceVerso = this.cadre = this.cadreVerso = this.photoReco = null;
+    this.source = this.sourceVerso = this.cadre = this.cadreVerso = this.photoReco = null; this.photosExemplaires = [];
     if ($("base-recadrage")) { $("base-recadrage").hidden = true; $("base-recadrage").classList.remove("plein-ecran"); }
     document.body.classList.remove("recadrage-ouvert");
     if ($("base-recadrer-boutons")) $("base-recadrer-boutons").hidden = true; this.codeLu = ""; this.nomLu = ""; this.decor = []; this.proches = []; this.semblables = [];
@@ -957,13 +957,46 @@ const Base = {
     for (let i = champs.length; i < n; i++)
       zone.insertAdjacentHTML("beforeend", `<input class="champ numero-sup" inputmode="numeric" autocomplete="off" placeholder="n° ${i + 1}">`);
     [...zone.querySelectorAll("input")].forEach((c, i) => { if (i >= n) c.remove(); });
-    $("base-numeros-titre").textContent = n > 1 ? `N° des ${n} exemplaires (même photo pour tous)` : "N° de l'exemplaire";
+    $("base-numeros-titre").textContent = n > 1 ? `N° des ${n} exemplaires` : "N° de l'exemplaire";
     this._numerote();
     this._grillePrix();
+    this._grillePhotos();
   },
 
   // Prix de chaque exemplaire quand il y en a plusieurs (Mathias, 22/10/2026 : « certains numéros ne sont pas achetés au
   // même prix ») : un champ par exemplaire, nommé d'après son n° ; vide = le prix commun (base-prix)
+  // Photo de chaque exemplaire (Mathias, 06/11/2026 : « une photo différente pour chaque exemplaire, comme pour les
+  // prix ») : le 1er garde la photo du blister ; pour les autres, une photo prise ou choisie (le téléphone propose les
+  // deux), gardée entière ; sans photo, la même que le 1er. this.photosExemplaires[i] = photo de l'exemplaire i.
+  _grillePhotos() {
+    const zone = $("base-photos-numeros");
+    if (!zone) return;
+    const n = Math.min(99, Math.max(1, parseInt(($("base-nombre") || {}).value, 10) || 1));
+    this.photosExemplaires = (this.photosExemplaires || []).slice(0, n);
+    if (n < 2 || !this.photo) { zone.innerHTML = ""; $("base-photos-detail").hidden = true; return; }
+    $("base-photos-detail").hidden = false;
+    const nums = $("base-numeros") ? [...$("base-numeros").querySelectorAll("input")].map(c => c.value.trim()) : [];
+    const non = $("base-non-numerote") && $("base-non-numerote").checked;
+    const nomEx = i => !non && nums[i] ? `n° ${nums[i]}` : `Exemplaire ${i + 1}`;
+    this._urlsEx = (this._urlsEx || []).filter(u => { URL.revokeObjectURL(u); return false; });
+    const url = b => { const u = URL.createObjectURL(b); this._urlsEx.push(u); return u; };
+    zone.innerHTML = Array.from({ length: n }, (_, i) => {
+      const propre = i > 0 && this.photosExemplaires[i];
+      return i === 0
+        ? `<div class="photo-exemplaire"><img src="${url(this.photo)}" alt=""><span>${echapper(nomEx(0))}<small>photo du blister</small></span></div>`
+        : `<label class="photo-exemplaire"><img src="${url(propre || this.photo)}" alt="" ${propre ? "" : 'style="opacity:.35"'}>
+            <span>${echapper(nomEx(i))}<small>${propre ? "📷 sa photo ✔ (toucher pour changer)" : "📷 ajouter sa photo"}</small></span>
+            <input type="file" accept="image/*" data-photo-exemplaire="${i}" hidden></label>`;
+    }).join("");
+  },
+  async _photoExemplaire(i, fichier) {
+    try {
+      const { blob } = await this._preparer(fichier, 0);
+      (this.photosExemplaires = this.photosExemplaires || [])[i] = blob;
+    } catch (err) { console.error(err); toast("Photo illisible : " + err.message); }
+    this._grillePhotos();
+  },
+
   _grillePrix() {
     const zone = $("base-prix-numeros");
     if (!zone) return;
@@ -1148,6 +1181,7 @@ const Base = {
       : [$("base-numero") ? $("base-numero").value.trim() : ""];
     while (numeros.length < n) numeros.push("");
     let prixParExemplaire = this._prixExemplaires(n); // un prix par n° (même ordre que les n°)
+    let photosParExemplaire = Array.from({ length: n }, (_, i) => (i > 0 && (this.photosExemplaires || [])[i]) || null); // null : la photo du blister
     const precision = $("base-precision") ? $("base-precision").value.trim() : "";
     const memes = this.entrees.filter(e => e.possede !== false && cleFigurine(e.nom, e.precision) === cleFigurine(nom, precision));
     const doublesSaisie = numeros.filter((x, i) => x && numeros.indexOf(x) !== i);
@@ -1170,6 +1204,7 @@ const Base = {
       if (!(await demander(`${txt}.\n\nAjouter les ${garder.length} autre${pluriel(garder)} exemplaire${pluriel(garder)} sans ${dejaLa.length + doublesSaisie.length > 1 ? "ces numéros" : "ce numéro"} ?`,
           `Ajouter les ${garder.length} autre${pluriel(garder)}`, "Corriger d'abord"))) { viderDoublons(); return; }
       prixParExemplaire = prixParExemplaire.filter((x, i) => !ecarte(numeros[i], i));
+      photosParExemplaire = photosParExemplaire.filter((x, i) => !ecarte(numeros[i], i));
       numeros = garder; n = garder.length;
     }
     const commun = { recadre: true, entiere: !this.cadre, versoEntier: !!this.verso && !this.cadreVerso, nom, precision, numerote: !nonNumerote, serie: nonNumerote ? "" : $("base-serie").value.trim(), remarque: $("base-remarque").value.trim().toUpperCase(),
@@ -1178,7 +1213,8 @@ const Base = {
                      prixPaye: lirePrixSaisi($("base-prix") && $("base-prix").value), dateAchat: $("base-date-achat") ? dateLue($("base-date-achat").value) : "" };
     numeros.forEach((numero, i) =>
       this.entrees.push({ ...commun, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
-                          numero: nonNumerote ? "" : numero, date: new Date().toISOString(), prixPaye: prixParExemplaire[i] || 0 }));
+                          numero: nonNumerote ? "" : numero, date: new Date().toISOString(), prixPaye: prixParExemplaire[i] || 0,
+                          ...(photosParExemplaire[i] ? { photo: photosParExemplaire[i], entiere: true } : {}) }));
     $("base-etat").textContent = "Enregistrement du blister dans le téléphone…";
     if (!(await Memoire.ecrire(this.entrees, "base"))) {
       this.entrees.splice(this.entrees.length - numeros.length, numeros.length); // pas enregistré : retiré de la liste
@@ -1716,12 +1752,17 @@ const Base = {
   },
 };
 
-if ($("base-non-numerote")) $("base-non-numerote").addEventListener("change", () => { Base._numerote(); Base._grillePrix(); });
+if ($("base-non-numerote")) $("base-non-numerote").addEventListener("change", () => { Base._numerote(); Base._grillePrix(); Base._grillePhotos(); });
 if ($("base-nombre")) $("base-nombre").addEventListener("input", () => Base._grilleNumeros());
 if ($("base-nom")) $("base-nom").addEventListener("input", () => Base._deja());
 if ($("base-precision")) $("base-precision").addEventListener("input", () => Base._deja());
 if ($("base-filtre")) { let m; $("base-filtre").addEventListener("input", () => { Base.filtreExact = null; clearTimeout(m); m = setTimeout(() => { Base.vue = "photos"; Base._afficherListe(); }, 250); }); }
-if ($("base-numeros")) $("base-numeros").addEventListener("input", () => { Base._etatNumeros(); Base._grillePrix(); });
+if ($("base-numeros")) $("base-numeros").addEventListener("input", () => { Base._etatNumeros(); Base._grillePrix(); Base._grillePhotos(); });
+if ($("base-photos-numeros")) $("base-photos-numeros").addEventListener("change", e => {
+  const i = e.target.dataset && e.target.dataset.photoExemplaire, f = e.target.files && e.target.files[0];
+  e.target.value = "";
+  if (i && f) Base._photoExemplaire(+i, f);
+});
 if ($("base-prix")) $("base-prix").addEventListener("input", () => Base._grillePrix());
 if ($("base-prix-total")) $("base-prix-total").addEventListener("input", () => Base._majPrixMoyen());
 if ($("base-prix-numeros")) $("base-prix-numeros").addEventListener("input", () => Base._majPrixMoyen());

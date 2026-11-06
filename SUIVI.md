@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v186 (06/11) : UNE PHOTO PAR EXEMPLAIRE (Mathias : « comme pour les prix »). Ajout de blister à plusieurs exemplaires
+    (appli et contribuer.html) : « Photo de chaque exemplaire » ; le 1er garde la photo du blister, les autres ont un bouton
+    (le téléphone propose de prendre la photo ou de la choisir), photo gardée entière (Base._grillePhotos,
+    _photoExemplaire, photosExemplaires) ; sans photo : la même que le 1er ; n° écartés en doublon retirés avec la leur.
+    Titre « N° des n exemplaires » (plus « même photo pour tous »). Testé : n° 21, 22 photo du blister, 23 sa propre photo.
+    (La mise en ligne de la v185 avait échoué chez GitHub : partie avec celle-ci.)
   · v185 (06/11) : PASSAGE DE LA MINI-APPLI À L'APPLI COMPLÈTE, SANS RIEN PERDRE (Mathias, pour son ami sur iPhone). Sur
     iPhone, chaque appli de l'écran d'accueil a son propre stockage, et la mini-appli range ses blisters dans une autre base
     (« blisters-jb ») que l'appli complète (« briquotheque-memoire ») : transfert par fichier. Mini-appli : carte « 🚀 Passer

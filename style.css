@@ -651,3 +651,10 @@ html[lang="fr"] .langue-verif { display: none; }
 .portail-sans-compte { display: block; margin: 18px auto 0; }
 /* « Autre exemplaire » : photo à prendre, ou déjà prise (06/11/2026) */
 #base-autre .bouton { margin-top: 10px; }
+/* une photo par exemplaire (formulaire d'ajout d'un blister, 06/11/2026) */
+.grille-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin-bottom: 8px; }
+.grille-photos .photo-exemplaire { display: flex; align-items: center; gap: 8px; border: 1px solid var(--bord, #ddd); border-radius: 12px;
+  padding: 6px 8px; cursor: pointer; background: #fff; min-height: 56px; }
+.grille-photos .photo-exemplaire img { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; flex: none; }
+.grille-photos .photo-exemplaire span { font-weight: 600; font-size: 14px; line-height: 1.25; }
+.grille-photos .photo-exemplaire small { display: block; font-weight: 400; color: #666; }

@@ -1439,3 +1439,8 @@ Autre exemplaire : choisir une photo déjà prise	Another copy: choose an existi
 📲 Je viens de la mini-appli Blisters JB : reprendre mes blisters	📲 I'm coming from the Blisters JB mini-app: bring back my blisters	📲 Ich komme von der Mini-App Blisters JB: meine Blister übernehmen	📲 Vengo de la mini-app Blisters JB: recuperar mis blísteres
 Rangement dans Ma collection…	Adding to My collection…	Wird in Meine Sammlung eingeordnet…	Guardando en Mi colección…
 {#0} exemplaire{s} rangé{s} dans Ma collection (Customs).	{0} {p:copy|copies} added to My collection (Customs).	{0} {p:Exemplar|Exemplare} in Meine Sammlung (Customs) eingeordnet.	{0} {p:ejemplar guardado|ejemplares guardados} en Mi colección (Customs).
+N° des {#0} exemplaires	Numbers of the {0} copies	Nr. der {0} Exemplare	N.º de los {0} ejemplares
+Photo de chaque exemplaire (facultatif : sinon la même photo pour tous)	Photo of each copy (optional: otherwise the same photo for all)	Foto jedes Exemplars (optional: sonst dasselbe Foto für alle)	Foto de cada ejemplar (opcional: si no, la misma foto para todos)
+photo du blister	blister photo	Blisterfoto	foto del blíster
+📷 sa photo ✔ (toucher pour changer)	📷 its photo ✔ (tap to change)	📷 eigenes Foto ✔ (zum Ändern tippen)	📷 su foto ✔ (toque para cambiar)
+📷 ajouter sa photo	📷 add its photo	📷 eigenes Foto hinzufügen	📷 añadir su foto
