@@ -42,3 +42,20 @@ create policy "retirer un partage" on public.partages_amis
 
 revoke all on public.partages_amis from anon;
 grant select, insert, update, delete on public.partages_amis to authenticated;
+
+-- Photos des partages (07/11/2026 : « qu'il n'y ait pas les prix, c'est bien, mais qu'il y ait les photos ») : espace
+-- « partages » de Supabase Storage, privé. Chaque compte dépose ses photos (blisters, tiles et objets JB, réduites) dans
+-- son dossier <son id>/ ; elles ne sont visibles que de lui et des amis avec qui il a partagé quelque chose.
+-- Figurines officielles et sets : image BrickLink (publique), rien n'est déposé.
+insert into storage.buckets (id, name, public) values ('partages', 'partages', false) on conflict (id) do nothing;
+
+drop policy if exists "partages : déposer ses photos" on storage.objects;
+create policy "partages : déposer ses photos" on storage.objects for insert to authenticated
+  with check (bucket_id = 'partages' and (storage.foldername(name))[1] = auth.uid()::text);
+drop policy if exists "partages : voir les photos partagées" on storage.objects;
+create policy "partages : voir les photos partagées" on storage.objects for select to authenticated
+  using (bucket_id = 'partages' and ((storage.foldername(name))[1] = auth.uid()::text
+    or exists (select 1 from public.partages_amis p where p.de::text = (storage.foldername(name))[1] and p.a = auth.uid())));
+drop policy if exists "partages : retirer ses photos" on storage.objects;
+create policy "partages : retirer ses photos" on storage.objects for delete to authenticated
+  using (bucket_id = 'partages' and (storage.foldername(name))[1] = auth.uid()::text);

@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v192 (07/11) : PHOTOS DANS LES PARTAGES (Mathias : « pas les prix, c'est bien, mais qu'il y ait les photos »). Customs :
+    photo de son blister (même n°, sinon un autre exemplaire ; sinon image du catalogue JB) ; tiles et objets JB : leur photo ;
+    figurines officielles et sets LEGO : image BrickLink (publique). Photos à soi réduites à 700 px et déposées une seule
+    fois (nom = empreinte SHA-1) dans l'espace Supabase Storage « partages », dossier du compte ; visibles seulement de ses
+    amis destinataires d'un partage (outils/supabase_partages.sql complété ; testé sur PostgreSQL local avec un faux
+    storage). Écran lecture seule : vignettes (adresses signées 1 h), toucher = grande photo. Fichiers Excel : sans photo.
   · v191 (07/11) : PARTAGER SA COLLECTION ET SES DOUBLES AVEC UN AMI, SANS VALEUR (Mathias : « toute la collection, pour que
     des amis puissent la voir, sans pouvoir faire d'action » + « un fichier des doubles à échanger, sans aucune notion de
     valeur »). js/partages.js : deux fichiers Excel (collection regroupée : catégorie, thème, nom, code, n°/état, quantité ;

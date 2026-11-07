@@ -1507,3 +1507,7 @@ Vous n'avez pas encore d'ami dans l'appli : ajoutez-en un dans « 👥 Mes amis 
 Ce partage n'est plus disponible.	This share is no longer available.	Diese Freigabe ist nicht mehr verfügbar.	Este compartido ya no está disponible.
 Aucun double à mettre dans le fichier (Échanges : « Je garde n exemplaire(s) »).	No duplicate to put in the file (Swaps: “I keep n copy(ies)”).	Keine Doppelten für die Datei (Tausch: „Ich behalte n Exemplar(e)“).	Ningún repetido para el archivo (Intercambios: «Conservo n ejemplar(es)»).
 Votre collection est vide.	Your collection is empty.	Ihre Sammlung ist leer.	Su colección está vacía.
+Envoi des photos… ({#0} au plus ; seulement les nouvelles)	Sending photos… ({0} at most; only new ones)	Fotos werden gesendet… (höchstens {0}; nur neue)	Enviando fotos… ({0} como máximo; solo las nuevas)
+Envoi des photos… {#0} / {#1}	Sending photos… {0} / {1}	Fotos werden gesendet… {0} / {1}	Enviando fotos… {0} / {1}
+Les photos n'ont pas pu être envoyées : {0}	The photos could not be sent: {0}	Die Fotos konnten nicht gesendet werden: {0}	No se han podido enviar las fotos: {0}
+Le partage est fait sans vos photos.	The share is done without your photos.	Die Freigabe erfolgt ohne Ihre Fotos.	Se comparte sin sus fotos.

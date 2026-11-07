@@ -671,3 +671,8 @@ html[lang="fr"] .langue-verif { display: none; }
 .rapport.traite { opacity: .55; }
 .rapport-diag { white-space: pre-wrap; font-size: 12px; max-height: 240px; overflow: auto; }
 .rapport-analyse div { white-space: pre-wrap; margin-top: 4px; }
+/* partage reçu : une ligne par article, avec sa photo (js/partages.js, 07/11/2026) */
+.ligne-partage { display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: 0; border-bottom: 1px solid #eee;
+  padding: 6px 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.ligne-partage > span { flex: 1; }
+.vignette-partage { width: 56px; height: 56px; object-fit: contain; border-radius: 8px; background: #f3f3f3; flex: none; }

@@ -4,7 +4,10 @@
 //  - ou partage dans l'appli avec un ami (table partages_amis, outils/supabase_partages.sql) : lui seul le voit, en
 //    lecture seule (recherche, rien à modifier) ; pour les doubles, il voit ceux qui sont dans sa liste de souhaits et
 //    peut proposer un échange.
-// Jamais de prix, de valeur, de prix payé ni de photo : catégorie, thème, nom, code, n°, état, quantité.
+// Jamais de prix, de valeur ni de prix payé : catégorie, thème, nom, code, n°, état, quantité, et les photos (07/11 :
+// « qu'il n'y ait pas les prix, c'est bien, mais qu'il y ait les photos ») : vos photos (blisters, tiles et objets JB)
+// sont déposées, réduites, dans l'espace « partages » de Supabase (dossier de votre compte, visible seulement des amis
+// avec qui vous avez partagé) ; figurines officielles et sets : image BrickLink (publique).
 
 const Partages = {
   get client() { return typeof Compte !== "undefined" ? Compte.client : null; },
@@ -16,21 +19,82 @@ const Partages = {
     if (!etat.classeur) throw new Error("ouvrez d'abord votre collection");
     if (sorte === "doubles") {
       const exclus = Echanges._exclus(), doubles = (await Echanges.doubles()).filter(d => !exclus.has(d.cle));
-      return doubles.map(d => ({ c: d.type, n: d.nom, k: d.type === "Custom" || d.code === "CUSTOM" ? "" : d.code, d: d.numeros ? `n° ${d.numeros}` : "", q: d.quantite, cle: d.cle }));
+      await this._preparerPhotos();
+      return doubles.map(d => {
+        const custom = d.type === "Custom", premier = String(d.numeros || "").split(",")[0].trim();
+        return { c: d.type, n: d.nom, k: custom || d.code === "CUSTOM" ? "" : d.code, d: d.numeros ? `n° ${d.numeros}` : "", q: d.quantite, cle: d.cle,
+                 ...(custom ? this._photoCustom({ code: d.code, nom: d.nom }, premier) : this._imageOfficielle(d.code)) };
+      });
     }
+    await this._preparerPhotos();
     const res = [], numero = nom => (/(\d+\s*\/\s*\d+)\s*$/.exec(nom || "") || [, ""])[1].replace(/\s/g, "");
     for (const [onglet, o] of Object.entries(etat.collection || {}))
       for (const c of o.cases.filter(c => c.code || c.nom)) {
         const custom = onglet === THEME_CUSTOMS.onglet;
         res.push({ c: custom ? "Custom" : "Figurine", t: typeof ongletAffiche === "function" ? ongletAffiche(onglet) : onglet,
-                   n: custom ? Collection._sansNumero(c.nom) : (c.nom || c.code), k: custom ? "" : c.code, d: custom && numero(c.nom) ? `n° ${numero(c.nom)}` : "", q: 1 });
+                   n: custom ? Collection._sansNumero(c.nom) : (c.nom || c.code), k: custom ? "" : c.code, d: custom && numero(c.nom) ? `n° ${numero(c.nom)}` : "", q: 1,
+                   ...(custom ? this._photoCustom(c, numero(c.nom).split("/")[0]) : this._imageOfficielle(c.code)) });
       }
     const lire = async f => { try { return await f(etat.classeur); } catch (err) { return []; } };
-    for (const s of await lire(lireSets)) res.push({ c: "Set", t: s.marque && s.marque !== "LEGO" ? s.marque : (s.theme || "LEGO"), n: s.nom || s.code, k: s.code, d: [s.annee, s.etat].filter(Boolean).join(" · "), q: s.quantite || 1 });
+    for (const s of await lire(lireSets)) res.push({ c: "Set", t: s.marque && s.marque !== "LEGO" ? s.marque : (s.theme || "LEGO"), n: s.nom || s.code, k: s.code, d: [s.annee, s.etat].filter(Boolean).join(" · "), q: s.quantite || 1,
+      ...(!s.marque || s.marque === "LEGO" ? { img: `https://img.bricklink.com/ItemImage/SN/0/${encodeURIComponent(s.code)}.png` } : {}) });
     for (const o of await lire(lireObjets)) res.push({ c: "Objet dérivé", t: o.type || "", n: o.nom || o.code, k: o.code || "", d: o.etat || "", q: o.quantite || 1 });
-    if (typeof lireObjetsJB === "function") for (const o of await lire(lireObjetsJB)) res.push({ c: "Objet JB", t: o.type || "", n: o.nom, k: "", d: "", q: o.quantite || 1 });
+    const photosJB = typeof ObjetsJB !== "undefined" ? await ObjetsJB._charger().catch(() => ({})) : {};
+    if (typeof lireObjetsJB === "function") for (const o of await lire(lireObjetsJB)) res.push({ c: "Objet JB", t: o.type || "", n: o.nom, k: "", d: "", q: o.quantite || 1,
+      ...(photosJB[o.row] ? { _blob: photosJB[o.row] } : {}) });
     return res;
   },
+  // Photos : blisters (Ma base de blisters), lus une fois
+  async _preparerPhotos() {
+    if (typeof Collection !== "undefined") await Collection._chargerMesBlisters().catch(() => {});
+    if (typeof CatalogueJB !== "undefined") await CatalogueJB.charger().catch(() => {});
+  },
+  _imageOfficielle(code) {
+    return code && typeof codeInvalide === "function" && !codeInvalide(code) && typeof imageBricklink === "function" ? { img: imageBricklink(code) } : {};
+  },
+  // custom : la photo de son blister (celui du même n°, sinon un autre de la même figurine), sinon l'image du catalogue JB
+  _photoCustom(c, num) {
+    let miens = [];
+    try { miens = Collection._miens(c); } catch (err) { /* pas de blister */ }
+    const e = miens.find(x => num && String(x.numero || "").split("/")[0] === String(num)) || miens[0];
+    if (e && e.photo) return { _blob: e.photo };
+    let f = null;
+    try { f = Collection._jbDe(c); } catch (err) { /* pas dans le catalogue */ }
+    return f && f.image ? { img: f.image } : {};
+  },
+  // Dépose les photos (réduites à 700 px) dans l'espace « partages », une seule fois chacune (nom = empreinte du contenu)
+  async _deposer(liste, avancement) {
+    const aDeposer = liste.filter(x => x._blob), deja = new Set((await Memoire.lire("partages-photos").catch(() => null)) || []);
+    const parBlob = new Map();
+    let i = 0;
+    for (const x of aDeposer) {
+      let chemin = parBlob.get(x._blob);
+      if (!chemin) {
+        const octets = await x._blob.arrayBuffer();
+        const empreinte = [...new Uint8Array(await crypto.subtle.digest("SHA-1", octets))].map(o => o.toString(16).padStart(2, "0")).join("");
+        chemin = `${this.moi}/${empreinte}.jpg`;
+        if (!deja.has(chemin)) {
+          const { error } = await this.client.storage.from("partages").upload(chemin, await this._reduire(x._blob), { contentType: "image/jpeg", upsert: false });
+          if (error && !/exists|duplicate|409/i.test(error.message || "") && error.statusCode !== "409") throw new Error("photos : " + error.message);
+          deja.add(chemin);
+        }
+        parBlob.set(x._blob, chemin);
+      }
+      x.p = chemin; delete x._blob;
+      if (avancement && ++i % 5 === 0) avancement(i, aDeposer.length);
+    }
+    await Memoire.ecrire([...deja], "partages-photos");
+    for (const x of liste) delete x._blob;
+    return liste;
+  },
+  async _reduire(blob) {
+    const img = await createImageBitmap(blob), k = Math.min(1, 700 / Math.max(img.width, img.height));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    return new Promise(ok => c.toBlob(ok, "image/jpeg", 0.78));
+  },
+
   // figurines d'une même référence regroupées (customs : un exemplaire par n°, donc regroupées avec leurs n°)
   _regrouper(l) {
     const m = new Map();
@@ -38,6 +102,7 @@ const Partages = {
       const k = [x.c, x.t, x.n, x.k].join("|");
       const g = m.get(k) || { ...x, q: 0, nums: [] };
       g.q += x.q || 1; if (x.d && /^n° /.test(x.d)) g.nums.push(x.d.slice(3)); else if (x.d) g.d = x.d;
+      if (!g.p && x.p) g.p = x.p; if (!g.img && x.img) g.img = x.img;
       m.set(k, g);
     }
     return [...m.values()].map(g => ({ ...g, d: g.nums.length ? `n° ${g.nums.join(", ")}` : g.d || "" }))
@@ -47,7 +112,7 @@ const Partages = {
   // Fichier Excel (sans valeur), envoyé par le menu Partager du téléphone, sinon téléchargé
   async fichier(sorte, liste = null, nomPersonne = "") {
     try {
-      const l = this._regrouper(liste || await this.contenu(sorte));
+      const l = this._regrouper((liste || await this.contenu(sorte)).map(({ _blob, ...x }) => x));
       if (!l.length) { await demander(sorte === "doubles" ? "Aucun double à mettre dans le fichier (Échanges : « Je garde n exemplaire(s) »)." : "Votre collection est vide.", "OK", "Fermer"); return; }
       const feuille = sorte === "doubles"
         ? { nom: "Doubles", titre: "Doubles", colonnes: [["Type", 10], ["Nom", 48], ["Code", 14], ["Exemplaires en double", 12], ["N° disponibles", 30]],
@@ -76,8 +141,17 @@ const Partages = {
       if (i < 0) return;
       ami = amis[i];
     }
-    const contenu = await this.contenu(sorte).catch(err => { demander("Partage impossible : " + err.message, "OK", "Fermer"); return null; });
+    const retour = ecranActuel;
+    let contenu = await this.contenu(sorte).catch(err => { demander("Partage impossible : " + err.message, "OK", "Fermer"); return null; });
     if (!contenu) return;
+    const nPhotos = new Set(contenu.filter(x => x._blob).map(x => x._blob)).size;
+    if (nPhotos) {
+      $("texte-chargement").textContent = `Envoi des photos… (${nPhotos} au plus ; seulement les nouvelles)`;
+      afficher("chargement");
+      try { contenu = await this._deposer(contenu, (i, n) => { $("texte-chargement").textContent = `Envoi des photos… ${i} / ${n}`; }); }
+      catch (err) { console.error(err); afficher(retour); await demander("Les photos n'ont pas pu être envoyées : " + err.message + "\n\nLe partage est fait sans vos photos.", "OK", "Fermer"); contenu.forEach(x => delete x._blob); }
+      afficher(retour);
+    }
     const { error } = await this.client.from("partages_amis")
       .upsert({ de: this.moi, a: ami.ami, sorte, contenu, cree_le: new Date().toISOString() }, { onConflict: "de,a,sorte" });
     if (error) { await demander("Partage impossible : " + Compte.erreur(error), "OK", "Fermer"); return; }
@@ -132,9 +206,27 @@ const Partages = {
     $("partage-liste").innerHTML = l.map(x => {
       const titre = x.c !== cat ? `<p class="sous-titre">${echapper(x.c)}</p>` : ""; cat = x.c;
       const voulu = v.sorte === "doubles" && x.cle && v.souhaits.has(x.cle);
-      return `${titre}<div class="ligne-valeur"><span>${voulu ? "⭐ " : ""}${echapper(x.n)} <span class="score">${[x.k, x.t, x.d].filter(Boolean).map(echapper).join(" · ")}</span></span>${x.q > 1 ? `<b>×${x.q}</b>` : ""}</div>`;
+      const vignette = x.p || x.img ? `<img class="vignette-partage" alt="" loading="lazy" ${x.p ? `data-partage-photo="${echapper(x.p)}"` : `src="${echapper(x.img)}"`} onerror="this.style.visibility='hidden'">` : `<span class="vignette-partage vide"></span>`;
+      return `${titre}<button class="ligne-partage" data-partage-zoom="${echapper(x.p || x.img || "")}" data-partage-nom="${echapper(x.n)}">${vignette}<span>${voulu ? "⭐ " : ""}${echapper(x.n)} <span class="score">${[x.k, x.t, x.d].filter(Boolean).map(echapper).join(" · ")}</span></span>${x.q > 1 ? `<b>×${x.q}</b>` : ""}</button>`;
     }).join("") || `<p class="aide">Rien ne correspond.</p>`;
+    this._signer();
   },
+  // photos déposées : adresses temporaires (1 h), demandées par paquets
+  async _signer() {
+    this._urls = this._urls || new Map();
+    const imgs = [...document.querySelectorAll("#partage-liste img[data-partage-photo]")];
+    const manquants = [...new Set(imgs.map(i => i.dataset.partagePhoto).filter(p => !this._urls.has(p)))];
+    for (let i = 0; i < manquants.length; i += 100) {
+      const { data } = await this.client.storage.from("partages").createSignedUrls(manquants.slice(i, i + 100), 3600);
+      for (const d of data || []) if (d.signedUrl) this._urls.set(d.path, d.signedUrl);
+    }
+    for (const i of imgs) { const u = this._urls.get(i.dataset.partagePhoto); if (u) i.src = u; }
+  },
+  zoom(cle, nom) {
+    const src = cle && (this._urls && this._urls.get(cle) || (/^https?:/.test(cle) ? cle : ""));
+    if (src && typeof Visionneuse !== "undefined") Visionneuse.ouvrir(nom, [{ src, legende: nom }], "", "");
+  },
+
   // proposer un échange à partir des doubles qu'il a partagés (écran de proposition des Échanges)
   proposer() {
     const v = this.vu;
@@ -152,7 +244,7 @@ const Partages = {
 };
 
 document.addEventListener("click", e => {
-  const b = e.target.closest("[data-partage-fichier], [data-partage-partager], [data-partage-voir], [data-partage-retirer], [data-partage-avec], [data-partage-proposer], [data-partage-fichier-vu]");
+  const b = e.target.closest("[data-partage-fichier], [data-partage-partager], [data-partage-voir], [data-partage-retirer], [data-partage-avec], [data-partage-proposer], [data-partage-fichier-vu], [data-partage-zoom]");
   if (!b) return;
   if (b.dataset.partageFichier) Partages.fichier(b.dataset.partageFichier);
   else if (b.dataset.partagePartager) Partages.partager(b.dataset.partagePartager);
@@ -160,6 +252,7 @@ document.addEventListener("click", e => {
   else if (b.dataset.partageRetirer) Partages.retirer(+b.dataset.partageRetirer);
   else if (b.dataset.partageAvec) Partages.partagerAvec({ ami: b.dataset.partageAvec, pseudo: b.dataset.partagePseudo || "" });
   else if (b.hasAttribute("data-partage-proposer")) Partages.proposer();
+  else if (b.hasAttribute("data-partage-zoom")) Partages.zoom(b.dataset.partageZoom, b.dataset.partageNom);
   else if (b.hasAttribute("data-partage-fichier-vu") && Partages.vu) Partages.fichier(Partages.vu.sorte, Partages.vu.contenu, Partages.vu.pseudo);
 });
 document.addEventListener("input", e => { if (e.target.id === "partage-recherche") Partages.rendreVu(); });
