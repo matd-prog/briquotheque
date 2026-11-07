@@ -1473,3 +1473,37 @@ Relever les prix de mes articles	Look up the prices of my items	Preise meiner Ar
 {#0} set(s) corrigé(s) ✔ Pensez à enregistrer, puis « Valoriser ma collection ».	{0} set(s) corrected ✔ Remember to save, then “Value my collection”.	{0} Set(s) korrigiert ✔ Denken Sie ans Speichern, dann „Meine Sammlung bewerten“.	{0} set(s) corregido(s) ✔ Recuerde guardar y luego «Valorar mi colección».
 Pas encore de prix : touchez « Valoriser ma collection ».	No prices yet: tap “Value my collection”.	Noch keine Preise: Tippen Sie auf „Meine Sammlung bewerten“.	Aún no hay precios: toque «Valorar mi colección».
 Pas encore de prix : passez d'abord par « 💶 Valeur » → « Valoriser ma collection ».	No prices yet: first go to “💶 Value” → “Value my collection”.	Noch keine Preise: Gehen Sie zuerst zu „💶 Wert“ → „Meine Sammlung bewerten“.	Aún no hay precios: vaya primero a «💶 Valor» → «Valorar mi colección».
+📤 Partager	📤 Share	📤 Teilen	📤 Compartir
+📥 Partagé avec moi	📥 Shared with me	📥 Mit mir geteilt	📥 Compartido conmigo
+👁️ Voir	👁️ View	👁️ Ansehen	👁️ Ver
+📤 Partager, sans aucune valeur	📤 Share, without any value	📤 Teilen, ohne jeden Wert	📤 Compartir, sin ningún valor
+Ni prix, ni valeur, ni photo : seulement les noms, codes, n° et quantités. L'ami ne peut rien modifier.	No prices, no value, no photos: only names, codes, numbers and quantities. Your friend cannot change anything.	Keine Preise, kein Wert, keine Fotos: nur Namen, Codes, Nummern und Mengen. Ihr Freund kann nichts ändern.	Ni precios, ni valor, ni fotos: solo nombres, códigos, números y cantidades. Su amigo no puede modificar nada.
+🔄 Mettre à jour	🔄 Update	🔄 Aktualisieren	🔄 Actualizar
+Mes doubles	My duplicates	Meine Doppelten	Mis repetidos
+La partager avec un ami	Share it with a friend	Mit einem Freund teilen	Compartirla con un amigo
+Les partager avec un ami	Share them with a friend	Mit einem Freund teilen	Compartirlos con un amigo
+Fichier de ma collection	File of my collection	Datei meiner Sammlung	Archivo de mi colección
+Fichier de mes doubles	File of my duplicates	Datei meiner Doppelten	Archivo de mis repetidos
+À envoyer à qui vous voulez	To send to whoever you like	Zum Senden an wen Sie möchten	Para enviar a quien quiera
+📄 Fichier de mes doubles (sans valeur)	📄 File of my duplicates (no value)	📄 Datei meiner Doppelten (ohne Wert)	📄 Archivo de mis repetidos (sin valor)
+📤 Partager mes doubles avec un ami	📤 Share my duplicates with a friend	📤 Meine Doppelten mit einem Freund teilen	📤 Compartir mis repetidos con un amigo
+📄 Fichier de cette liste	📄 File of this list	📄 Datei dieser Liste	📄 Archivo de esta lista
+← Mes amis	← My friends	← Meine Freunde	← Mis amigos
+📚 Collection de	📚 Collection of	📚 Sammlung von	📚 Colección de
+🔁 Doubles à échanger de	🔁 Duplicates to swap from	🔁 Doppelte zum Tauschen von	🔁 Repetidos para intercambiar de
+📚 Collection →	📚 Collection →	📚 Sammlung →	📚 Colección →
+🔁 Doubles à échanger →	🔁 Duplicates to swap →	🔁 Doppelte zum Tauschen →	🔁 Repetidos para intercambiar →
+· partagé le {0} · {#1} référence(s)	· shared on {0} · {1} item(s)	· geteilt am {0} · {1} Artikel	· compartido el {0} · {1} referencia(s)
+✉️ Proposer un échange à {0}	✉️ Propose a swap to {0}	✉️ {0} einen Tausch vorschlagen	✉️ Proponer un intercambio a {0}
+⭐ {#0} de ses doubles sont dans votre liste de souhaits.	⭐ {0} of their duplicates are on your wishlist.	⭐ {0} seiner Doppelten stehen auf Ihrer Wunschliste.	⭐ {0} de sus repetidos están en su lista de deseos.
+Rien ne correspond.	Nothing matches.	Nichts gefunden.	No hay coincidencias.
+Partager mes doubles avec…	Share my duplicates with…	Meine Doppelten teilen mit…	Compartir mis repetidos con…
+Partager ma collection avec…	Share my collection with…	Meine Sammlung teilen mit…	Compartir mi colección con…
+Partager avec {0} (sans aucune valeur)	Share with {0} (without any value)	Mit {0} teilen (ohne jeden Wert)	Compartir con {0} (sin ningún valor)
+📚 Toute ma collection, à regarder	📚 My whole collection, to look at	📚 Meine ganze Sammlung, zum Ansehen	📚 Toda mi colección, para ver
+🔁 Mes doubles à échanger	🔁 My duplicates to swap	🔁 Meine Doppelten zum Tauschen	🔁 Mis repetidos para intercambiar
+Retirer ce partage ? L'ami ne le verra plus.	Remove this share? Your friend will no longer see it.	Diese Freigabe entfernen? Ihr Freund sieht sie dann nicht mehr.	¿Quitar este compartido? Su amigo ya no lo verá.
+Vous n'avez pas encore d'ami dans l'appli : ajoutez-en un dans « 👥 Mes amis ».	You don't have a friend in the app yet: add one in “👥 My friends”.	Sie haben noch keinen Freund in der App: Fügen Sie einen unter „👥 Meine Freunde“ hinzu.	Aún no tiene amigos en la app: añada uno en «👥 Mis amigos».
+Ce partage n'est plus disponible.	This share is no longer available.	Diese Freigabe ist nicht mehr verfügbar.	Este compartido ya no está disponible.
+Aucun double à mettre dans le fichier (Échanges : « Je garde n exemplaire(s) »).	No duplicate to put in the file (Swaps: “I keep n copy(ies)”).	Keine Doppelten für die Datei (Tausch: „Ich behalte n Exemplar(e)“).	Ningún repetido para el archivo (Intercambios: «Conservo n ejemplar(es)»).
+Votre collection est vide.	Your collection is empty.	Ihre Sammlung ist leer.	Su colección está vacía.

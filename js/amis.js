@@ -58,6 +58,26 @@ const Amis = {
       return;
     }
     await this.charger();
+    // partages reçus et envoyés (js/partages.js) : collection ou doubles, sans valeur
+    const pseudoDe = id => (this.liste.find(a => a.ami === id) || {}).pseudo || "?";
+    const parts = typeof Partages !== "undefined" ? await Partages.lister() : { recus: [], envoyes: [] };
+    const date = d => new Date(d).toLocaleDateString("fr-FR");
+    const cartesPartages = typeof Partages === "undefined" ? "" : `
+      ${parts.recus.length ? `<div class="carte"><p class="sous-titre">📥 Partagé avec moi</p>${parts.recus.map(p => `<div class="ami-ligne">
+        <span>${Partages.TITRES[p.sorte]} de <b>${echapper(pseudoDe(p.de))}</b> <span class="score">${p.nb} · ${date(p.cree_le)}</span></span>
+        <span><button class="bouton" data-partage-voir="${p.id}" data-partage-pseudo="${echapper(pseudoDe(p.de))}">👁️ Voir</button>
+        <button class="bouton-lien" data-partage-retirer="${p.id}" aria-label="Retirer">✖</button></span></div>`).join("")}</div>` : ""}
+      <div class="carte"><p class="sous-titre">📤 Partager, sans aucune valeur</p>
+        <p class="aide">Ni prix, ni valeur, ni photo : seulement les noms, codes, n° et quantités. L'ami ne peut rien modifier.</p>
+        ${parts.envoyes.map(p => `<div class="ami-ligne"><span>${Partages.TITRES[p.sorte]} → <b>${echapper(pseudoDe(p.a))}</b> <span class="score">${p.nb} · ${date(p.cree_le)}</span></span>
+          <span><button class="bouton gris" data-partage-avec="${p.a}" data-partage-pseudo="${echapper(pseudoDe(p.a))}">🔄 Mettre à jour</button>
+          <button class="bouton-lien" data-partage-retirer="${p.id}" aria-label="Retirer">✖</button></span></div>`).join("")}
+        <div class="tuiles">
+          <button class="tuile" data-partage-partager="collection"><span class="icone">📚</span><b>Ma collection</b><small>La partager avec un ami</small></button>
+          <button class="tuile" data-partage-partager="doubles"><span class="icone">🔁</span><b>Mes doubles</b><small>Les partager avec un ami</small></button>
+          <button class="tuile" data-partage-fichier="collection"><span class="icone">📄</span><b>Fichier de ma collection</b><small>À envoyer à qui vous voulez</small></button>
+          <button class="tuile" data-partage-fichier="doubles"><span class="icone">📄</span><b>Fichier de mes doubles</b><small>À envoyer à qui vous voulez</small></button>
+        </div></div>`;
     const amis = this.liste.filter(a => a.sens === "ami"), recues = this.liste.filter(a => a.sens === "recue"), envoyees = this.liste.filter(a => a.sens === "envoyee");
     z.innerHTML = `<p class="intro">👥 <b>Mes amis</b> : ${amis.filter(a => a.en_ligne).length} en ligne sur ${amis.length}.
         🟢 dans l'appli en ce moment, 🔴 hors ligne.</p>
@@ -67,10 +87,12 @@ const Amis = {
       <div class="carte"><p class="sous-titre">👥 Amis</p>
         ${amis.map(a => `<div class="ami-ligne"><span><span class="pastille ${a.en_ligne ? "verte" : "rouge"}"></span> <b>${echapper(a.pseudo)}</b>
           <span class="score">${a.en_ligne ? "en ligne" : this._depuis(a.vu_le)}</span></span>
-          <span><button class="bouton" data-echanges-membre="${a.ami}" data-echanges-pseudo="${echapper(a.pseudo)}">🔄 Échanger</button>
+          <span><button class="bouton" data-partage-avec="${a.ami}" data-partage-pseudo="${echapper(a.pseudo)}">📤 Partager</button>
+          <button class="bouton" data-echanges-membre="${a.ami}" data-echanges-pseudo="${echapper(a.pseudo)}">🔄 Échanger</button>
           <button class="bouton-lien" data-ami-retirer="${a.id}" data-ami-quoi="retirer" aria-label="Retirer">✖</button></span></div>`).join("")
           || `<p class="aide">Pas encore d'ami : cherchez un collectionneur par son pseudo ci-dessous.</p>`}
       </div>
+      ${cartesPartages}
       ${envoyees.length ? `<div class="carte"><p class="sous-titre">📤 Demandes envoyées</p>${envoyees.map(a => `<div class="ami-ligne">
         <span>👤 ${echapper(a.pseudo)} <span class="score">en attente</span></span>
         <button class="bouton-lien" data-ami-retirer="${a.id}" data-ami-quoi="annuler">Annuler</button></div>`).join("")}</div>` : ""}

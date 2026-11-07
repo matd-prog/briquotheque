@@ -125,6 +125,16 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v191 (07/11) : PARTAGER SA COLLECTION ET SES DOUBLES AVEC UN AMI, SANS VALEUR (Mathias : « toute la collection, pour que
+    des amis puissent la voir, sans pouvoir faire d'action » + « un fichier des doubles à échanger, sans aucune notion de
+    valeur »). js/partages.js : deux fichiers Excel (collection regroupée : catégorie, thème, nom, code, n°/état, quantité ;
+    doubles : nom, code, nombre, n° disponibles), envoyés par le menu Partager ; partage dans l'appli avec un ami choisi
+    (table partages_amis, sorte collection | doubles, outils/supabase_partages.sql : seuls les deux amis le voient, ami
+    accepté obligatoire, lecture seule pour le destinataire). 👥 Mes amis : « 📤 Partager » par ami, « 📥 Partagé avec moi »
+    (👁️ Voir : écran lecture seule avec recherche ; doubles : ⭐ ceux de ma liste de souhaits + « Proposer un échange »),
+    « 📤 Partager, sans aucune valeur » (mises à jour, retrait, 4 tuiles). Échanges : boutons fichier / partage des
+    doubles. Testé : SQL sur PostgreSQL local (ami : lit ; inconnu, sans compte : rien ; non-ami : refusé ; ami ne peut pas
+    modifier), appli avec Supabase simulé (aucun prix envoyé ni dans les fichiers). ⚠️ À faire : SQL par Mathias.
   · v190 (07/11) : « Envoyer ma liste » RENOMMÉ « 💶 Valoriser ma collection » (« Relever les prix de mes articles »),
     suggestion de Mathias ; messages, dossier assureur et methode.html (relevé chaque jour) suivent.
   · v189 (07/11) : VALEUR POUR TOUS LES COMPTES DE L'APPLI (Mathias : « donne-lui aussi accès à la valeur » ; choix : tous

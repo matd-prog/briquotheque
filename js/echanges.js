@@ -171,6 +171,8 @@ const Echanges = {
         <details><summary>Choisir les doubles à proposer (${offertes.length}/${doubles.length})</summary>
           <div class="liste-cases">${doubles.map(d => `<label><input type="checkbox" data-echanges-exclure="${echapper(d.cle)}" ${exclus.has(d.cle) ? "" : "checked"}>
             ${echapper(d.nom)} <span class="score">×${d.quantite}${d.numeros ? ` · n° ${echapper(d.numeros)}` : ""}${d.valeur ? ` · ${this._euros(d.valeur)}` : ""}</span></label>`).join("") || "<p class=\"aide\">Aucun double.</p>"}</div></details>
+        <p><button class="bouton gris" data-partage-fichier="doubles">📄 Fichier de mes doubles (sans valeur)</button>
+          <button class="bouton gris" data-partage-partager="doubles">📤 Partager mes doubles avec un ami</button></p>
         <p><b>${souhaits.length}</b> figurine(s) de votre <a href="#" data-action="souhaits">liste de souhaits</a> à chercher.</p>
         <p class="score">${derniere ? `Publié le ${new Date(derniere).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })} : ${nOffres} double(s), ${nSouhaits} souhait(s). Republiez après vos changements.` : "Rien de publié pour l'instant : les autres collectionneurs ne voient rien de votre collection."}</p>
         <button class="gros-bouton vert" data-action="echanges-publier">📢 ${derniere ? "Mettre à jour" : "Publier"} mes annonces</button>

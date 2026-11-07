@@ -341,6 +341,16 @@
     <div id="amis-contenu"></div>
   </section>
 
+  <!-- Ce qu'un ami a partagé (js/partages.js) : sa collection ou ses doubles, en lecture seule, sans valeur -->
+  <section id="ecran-partage" class="ecran" hidden>
+    <p class="intro" id="partage-titre"></p>
+    <div id="partage-actions"></div>
+    <input id="partage-recherche" class="champ" type="search" placeholder="🔍 Nom ou code…" autocomplete="off">
+    <div id="partage-liste" class="carte"></div>
+    <button class="bouton gris" data-partage-fichier-vu>📄 Fichier de cette liste</button>
+    <button class="bouton-lien" data-action="amis">← Mes amis</button>
+  </section>
+
   <!-- Échanges entre collectionneurs (js/echanges.js) -->
   <section id="ecran-echanges" class="ecran" hidden>
     <div id="echanges-contenu"></div>
@@ -891,5 +901,6 @@
 <script src="js/rapport.js"></script>
 <script src="js/echanges.js"></script>
 <script src="js/amis.js"></script>
+<script src="js/partages.js"></script>
 </body>
 </html>
