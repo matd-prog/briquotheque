@@ -72,16 +72,17 @@
       <span><b>Photographier</b><small>Figurine, blister JB, set… l'appli reconnaît ce que c'est</small></span>
       <input type="file" id="input-photo" accept="image/*" capture="environment" hidden>
     </label>
-    <!-- un seul bouton pour un blister (Mathias, 06/11/2026) : prendre la photo, ou en choisir une déjà prise -->
-    <button class="action-principale action-blister" data-action="blister-ajouter">
-      <span class="icone">📦</span>
-      <span><b>Ajouter un blister JB</b><small>Photo à prendre ou déjà prise · recto, verso, n°</small></span>
-    </button>
+    <!-- deux gros boutons (Mathias, 07/11/2026 : « Photographier » proposait déjà le blister JB, « Ajouter un blister JB »
+         faisait doublon) : prendre la photo, ou en choisir une déjà prise ; l'appli reconnaît ce que c'est dans les deux cas.
+         Le blister JB direct (recto, verso, n°) reste dans la rubrique JB Spielwaren. -->
+    <label class="action-principale action-blister">
+      <span class="icone">🖼️</span>
+      <span><b>Ajouter une photo déjà prise</b><small>Figurine, blister JB, set… depuis la galerie</small></span>
+      <input type="file" id="input-galerie" accept="image/*" hidden>
+    </label>
     <input type="file" id="input-blister" accept="image/*" capture="environment" hidden>
     <input type="file" id="input-blister-galerie" accept="image/*" hidden>
     <div class="tuiles">
-      <label class="tuile"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Figurine, depuis la galerie</small>
-        <input type="file" id="input-galerie" accept="image/*" hidden></label>
       <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Figurine (BrickLink)</small></button>
       <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
       <button class="tuile" data-action="set"><span class="icone">🧱</span><b>Set LEGO</b><small>Ou Youmko, Pantasy, Cobi…</small></button>
@@ -198,8 +199,7 @@
       <summary class="bouton">➕ Ajouter à ma collection</summary>
       <div class="tuiles">
         <label class="tuile" for="input-photo"><span class="icone">📷</span><b>Photographier</b><small>Figurine, blister, set… reconnu</small></label>
-        <button class="tuile" data-action="blister-ajouter"><span class="icone">📦</span><b>Blister JB</b><small>Photo à prendre ou déjà prise</small></button>
-        <label class="tuile" for="input-galerie"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Figurine, depuis la galerie</small></label>
+        <label class="tuile" for="input-galerie"><span class="icone">🖼️</span><b>Photo déjà prise</b><small>Figurine, blister, set… reconnu</small></label>
         <button class="tuile" data-action="recherche"><span class="icone">🔍</span><b>Chercher par nom</b><small>Figurine (BrickLink)</small></button>
         <button class="tuile" data-action="saisie"><span class="icone">⌨️</span><b>Saisir un code</b><small>Un ou plusieurs codes</small></button>
         <button class="tuile" data-action="custom"><span class="icone">🎨</span><b>Figurine custom</b><small>Catalogue JB ou lien</small></button>

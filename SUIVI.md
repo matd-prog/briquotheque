@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v195 (07/11) : ACCUEIL, DEUX GROS BOUTONS (Mathias : « Photographier propose déjà le blister JB, ça fait doublon »).
+    « 📷 Photographier » et « 🖼️ Ajouter une photo déjà prise » (figurine, blister JB, set… : même reconnaissance que la
+    photo prise) ; le gros bouton « Ajouter un blister JB » et la tuile « Photo déjà prise » disparaissent de l'accueil. Le
+    blister JB direct (recto, verso, n°) reste dans la rubrique JB Spielwaren ; même ménage dans « Ajouter à ma collection ».
   · v194 (07/11) : ÉCHANGES SANS VALEUR (Mathias : « retire les valeurs de l'écran d'échange »). Plus aucun prix ni valeur
     dans les échanges : ni à côté des doubles, ni dans la proposition, ni comparaison « équilibré » (remplacée par le nombre
     de figurines données et reçues) ; plus de valeur publiée avec les annonces ni envoyée avec une proposition (les valeurs
