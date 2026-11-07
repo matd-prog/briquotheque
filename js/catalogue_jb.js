@@ -30,8 +30,10 @@ const CatalogueJB = {
     if (!this._chargement) {
       // éléments écartés après vérification des images (data/jb_exclus.tsv) : pas des blisters, ou image fausse
       const exclus = fetch("data/jb_exclus.tsv").then(rep => rep.ok ? rep.text() : "").catch(() => "");
+      const enLigne = (f, t) => typeof CommuneEnLigne !== "undefined" ? CommuneEnLigne.completer(f, t) : t; // nouveautés de la base commune (js/commune_en_ligne.js)
       const textes = SOURCES_JB.map(s => fetch(s.fichier)
         .then(rep => { if (rep.ok) return rep.text(); if (s.obligatoire) throw new Error("catalogue JB absent"); return ""; })
+        .then(t => s.source === "commune" ? enLigne(s.fichier, t) : t)
         .catch(err => { if (s.obligatoire) throw err; return ""; }));
       this._chargement = Promise.all([exclus, ...textes])
         .then(([texteExclus, ...liste]) => {
@@ -100,8 +102,10 @@ const CatalogueJB = {
   chargerEmpreintes() {
     if (!this._chargementEmpreintes) {
       const lire = f => fetch(f).then(rep => rep.ok ? rep.text() : "").catch(() => "");
-      this._chargementEmpreintes = Promise.all([lire("data/jb_empreintes.tsv"), lire("data/jb_empreintes_album.tsv"), lire("data/jb_empreintes_commune.tsv"),
-                                                lire("data/jb_empreintes_figurine.tsv")])
+      const enLigne = (f, t) => typeof CommuneEnLigne !== "undefined" ? CommuneEnLigne.completer(f, t) : t; // nouveautés de la base commune (js/commune_en_ligne.js)
+      this._chargementEmpreintes = Promise.all([lire("data/jb_empreintes.tsv"), lire("data/jb_empreintes_album.tsv"),
+                                                lire("data/jb_empreintes_commune.tsv").then(t => enLigne("data/jb_empreintes_commune.tsv", t)),
+                                                lire("data/jb_empreintes_figurine.tsv").then(t => enLigne("data/jb_empreintes_figurine.tsv", t))])
         .then(([catalogue, album, commune, figurine]) => {
           // figurine seule au centre du blister (empreinteCentreBlister) : pour départager des blisters au même carton
           this.empreintesFigurine = new Map();
@@ -160,7 +164,8 @@ const CatalogueJB = {
   versos: null,
   chargerVersos() {
     if (!this._chargementVersos) {
-      this._chargementVersos = Promise.all([this.charger(), fetch("data/jb_versos.tsv").then(rep => rep.ok ? rep.text() : "").catch(() => "")])
+      this._chargementVersos = Promise.all([this.charger(), fetch("data/jb_versos.tsv").then(rep => rep.ok ? rep.text() : "").catch(() => "")
+        .then(t => typeof CommuneEnLigne !== "undefined" ? CommuneEnLigne.completer("data/jb_versos.tsv", t) : t)])
         .then(([, texte]) => {
           const parFiche = new Map();
           for (const ligne of texte.split("\n").slice(1)) {

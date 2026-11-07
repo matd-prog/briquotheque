@@ -161,6 +161,8 @@ const Rapport = {
     if (!b || typeof Compte === "undefined" || !Compte.client) return;
     const admin = !!(Compte.session && Compte.profil && Compte.profil.role === "admin");
     b.hidden = !admin;
+    const m = document.getElementById("btn-commune-migrer"); // recopie de l'ancienne base commune (js/base_commune.js)
+    if (m) m.hidden = !admin;
     if (!admin) return;
     const { count } = await Compte.client.from("rapports").select("id", { count: "exact", head: true }).eq("traite", false);
     b.textContent = count ? `📬 Rapports reçus (${count} à traiter)` : "📬 Rapports reçus";

@@ -1,0 +1,35 @@
+# Base commune ouverte à tous les comptes (07/11/2026) : chaque jour, les blisters envoyés par les comptes de l'appli
+# (Supabase) sont recopiés dans les listes du catalogue (data/jb_*.tsv), lues par tous les téléphones, avec ou sans compte.
+# Voir outils/consolider_base_commune.py. À la main : onglet « Actions » -> « Base commune » -> « Exécuter le workflow »
+# (Run workflow).
+name: Base commune
+on:
+  schedule:
+    - cron: "23 3 * * *"   # chaque jour, 3 h 23 (UTC)
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+jobs:
+  recopie:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recopier les nouveautés
+        run: python3 outils/consolider_base_commune.py
+      - name: Publier
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git add data/
+          git diff --cached --quiet && { echo "Rien de nouveau"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Base commune : nouveautés des comptes ($(date +%F))"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          # un envoi fait par cette tâche ne relance pas la publication du site : on la demande
+          sleep 20
+          curl -sS -X POST -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds" || true

@@ -7,8 +7,12 @@
 //   des textes seulement, pas de photo ;
 // - dépôt privé : les photos (album_photos/commune/BC-…_recto.jpg, _verso.jpg) et album_photos/commune.tsv
 //   (numéro, qui l'a envoyé, date).
-// Seule l'appli principale envoie (jeton GitHub de l'écran Valeur, qui doit donner accès aux deux dépôts) ;
-// la mini-appli de l'ami envoie un fichier .zip, que l'utilisateur ajoute à la base commune (Base.reprendre).
+// Depuis le 07/11/2026 (Mathias : « la base commune des photos doit être accessible pour tous les utilisateurs de
+// l'application ») : tout compte connecté envoie ses blisters dans Supabase (table commune_blisters, photos dans
+// l'espace « commune », lisibles par tous les comptes ; outils/supabase_base_commune.sql). La tâche « Base commune »
+// du dépôt public recopie chaque jour les nouveautés dans data/ (outils/consolider_base_commune.py) et l'appli les
+// ajoute d'elle-même en attendant (js/commune_en_ligne.js). Sans compte, l'ancien envoi par le jeton GitHub reste
+// possible ; la mini-appli de l'ami envoie un fichier .zip, que l'utilisateur ajoute à la base commune (Base.reprendre).
 
 const DEPOT_PUBLIC = "matd-prog/briquotheque";
 
@@ -60,6 +64,43 @@ const BaseCommune = {
     return Valeur.jeton;
   },
 
+  // Compte connecté : envoi dans Supabase (sinon : jeton GitHub)
+  _compte() { return typeof Compte !== "undefined" && Compte.client && Compte.session ? Compte : null; },
+  async peutEnvoyer() { return !!this._compte() || !!(await this.jeton()); },
+
+  // Requête à Supabase avec la session du compte, sans bandeau « ⏳ En cours » en arrière-plan
+  async _sb(chemin, options = {}) {
+    const { data } = await Compte.client.auth.getSession();
+    const jeton = data.session ? data.session.access_token : Compte.session.access_token;
+    const rep = await fetch(`${CommuneEnLigne.URL}${chemin}`, { ...options, enFond: this._fond,
+      headers: { apikey: CommuneEnLigne.CLE, Authorization: `Bearer ${jeton}`, ...(options.headers || {}) } });
+    if (!rep.ok) throw new Error(`la base commune a répondu ${rep.status} ${(await rep.text().catch(() => "")).slice(0, 120)}`);
+    return rep;
+  },
+
+  // Liste publique de data/ : sur le site (complétée des nouveautés) avec un compte, sinon lue dans le dépôt
+  async _lirePublic(chemin) {
+    if (!this._compte()) return (await this._lire(DEPOT_PUBLIC, chemin)).texte;
+    const rep = await fetch(chemin, { cache: "no-cache", enFond: this._fond });
+    return CommuneEnLigne.completer(chemin, rep.ok ? await rep.text() : "");
+  },
+
+  // Photo (1600 px au plus) déposée dans l'espace « commune », dans le dossier du compte ; renvoie son chemin
+  async _deposer(code, cote, blob) {
+    const chemin = `${Compte.session.user.id}/${code}_${cote}.jpg`;
+    const im = await createImageBitmap(blob), k = Math.min(1, 1600 / Math.max(im.width, im.height));
+    let b = blob;
+    if (k < 1) {
+      const c = document.createElement("canvas");
+      c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+      c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+      b = await new Promise(ok => c.toBlob(ok, "image/jpeg", 0.85));
+    }
+    im.close && im.close();
+    await this._sb(`/storage/v1/object/commune/${chemin}`, { method: "POST", body: b, headers: { "Content-Type": "image/jpeg", "x-upsert": "true" } });
+    return chemin;
+  },
+
   enAttente(entrees) { return entrees.filter(e => e.photo && e.nom && !e.commune); },
 
   // Envoie des blisters à la base commune ; renvoie le nombre de figurines envoyées. qui : « moi » ou « ami ».
@@ -67,15 +108,16 @@ const BaseCommune = {
   // la reconnaissance n'a besoin que d'une photo (demande de Mathias, 02/10). Figurine déjà dans la base commune :
   // rien n'est envoyé. Chaque blister est marqué traité (e.commune) ; celui envoyé reçoit son code BC-… (e.communeCode).
   async envoyer(entrees, qui = "moi", progression) {
-    if (!(await this.jeton())) throw new Error("pas de jeton GitHub (écran Valeur)");
+    const sb = !!this._compte();
+    if (!sb && !(await this.jeton())) throw new Error("pas de compte connecté ni de jeton GitHub");
     const enAttente = this.enAttente(entrees);
     if (!enAttente.length) return 0;
     const cle = t => normaliser(t).replace(/[^a-z0-9]+/g, " ").trim();
     const connues = new Map(), avecVerso = new Set(); // nom -> figurine de la base commune ; figurines au verso déjà lu
     try {
-      const [{ texte }, versos] = await Promise.all([this._lire(DEPOT_PUBLIC, "data/jb_commune.tsv"), this._lire(DEPOT_PUBLIC, "data/jb_versos.tsv")]);
+      const [texte, versos] = await Promise.all([this._lirePublic("data/jb_commune.tsv"), this._lirePublic("data/jb_versos.tsv")]);
       for (const l of texte.split("\n").slice(1)) { const [code, nom, , , , , , rattache] = l.split("\t"); if (nom) connues.set(cle(nom), (rattache || "").trim() || code); }
-      for (const l of versos.texte.split("\n").slice(1)) { const code = l.split("\t")[0]; if (code) avecVerso.add(code.toUpperCase()); }
+      for (const l of versos.split("\n").slice(1)) { const code = l.split("\t")[0]; if (code) avecVerso.add(code.toUpperCase()); }
     } catch (err) { console.warn("base commune : liste des noms illisible", err); }
     // texte du verso (data/jb_versos.tsv, public : c'est le texte imprimé au dos), lu au besoin
     const versos = [];
@@ -87,7 +129,7 @@ const BaseCommune = {
       return texteVerso(e.versoTexte || "").split("\n").map(l => l.replace(/[\t\/]/g, " ").trim()).filter(Boolean).join(" / ");
     };
     const ajouterVerso = async (code, e) => {
-      if (!code || avecVerso.has(code.toUpperCase()) || !e || !e.verso) return;
+      if (sb || !code || avecVerso.has(code.toUpperCase()) || !e || !e.verso) return;
       const t = await texteDuVerso(e);
       if (t.length >= 20) { versos.push(`${code}\t${t}`); avecVerso.add(code.toUpperCase()); }
     };
@@ -110,23 +152,37 @@ const BaseCommune = {
       doublons.push(...g.filter(e => e !== rep));
     }
     if (!liste.length) {
-      if (versos.length) await this._ajouterVersos(versos).catch(err => console.warn("base commune : versos", err));
+      if (versos.length && !sb) await this._ajouterVersos(versos).catch(err => console.warn("base commune : versos", err));
       for (const e of doublons) e.commune = true;
       return 0;
     }
     const date = new Date().toISOString().slice(0, 10), noms = [], empreintes = [], figurines = [], visions = [], prives = [];
     let n = 0;
     for (const e of liste) {
-      const code = e.communeCode || `BC-${e.id.toUpperCase()}`;
+      const code = e.communeCode || `BC-${e.id.toUpperCase().replace(/[^A-Z0-9_-]/g, "")}`;
       const bitmap = await createImageBitmap(e.photo);
       const empreinte = empreinteEnTexte(empreinteImage(bitmap, false));
       const empreinteFig = empreinteEnTexte(empreinteCentreBlister(bitmap));
       const vision = await this._vision(bitmap);
       bitmap.close && bitmap.close();
+      const propre = v => String(v || "").replace(/[\t\n]/g, " ").trim();
+      if (sb) { // compte connecté : une ligne dans commune_blisters, photos dans l'espace « commune »
+        const rattache = propre(e.code), cleVerso = (rattache || code).toUpperCase();
+        let versoTexte = "";
+        if (e.verso && !avecVerso.has(cleVerso)) { versoTexte = await texteDuVerso(e); if (versoTexte.length < 20) versoTexte = ""; else avecVerso.add(cleVerso); }
+        const ligne = { code, nom: propre(nomComplet(e)).slice(0, 200), rattache: rattache.slice(0, 60) || null, empreinte, empreinte_fig: empreinteFig,
+          vision: vision || null, verso_texte: versoTexte.slice(0, 3000) || null,
+          photo: await this._deposer(code, "recto", e.photo), verso: e.verso ? await this._deposer(code, "verso", e.verso) : null };
+        await this._sb("/rest/v1/commune_blisters?on_conflict=code", { method: "POST", body: JSON.stringify(ligne),
+          headers: { "Content-Type": "application/json", Prefer: "resolution=merge-duplicates,return=minimal" } });
+        e.communeCode = code;
+        n++;
+        if (progression) progression(n, liste.length);
+        continue;
+      }
       const recto = `album_photos/commune/${code}_recto.jpg`, verso = e.verso ? `album_photos/commune/${code}_verso.jpg` : "";
       await this._ecrire(DEPOT_PRIVE, recto, await this._blobEn64(e.photo), null, `Base commune : ${nomComplet(e)} (recto)`);
       if (e.verso) await this._ecrire(DEPOT_PRIVE, verso, await this._blobEn64(e.verso), null, `Base commune : ${nomComplet(e)} (verso)`);
-      const propre = v => String(v || "").replace(/[\t\n]/g, " ").trim();
       // nom ; catégorie ; lien, image, prix, dispo vides ; figurine du catalogue à laquelle la rattacher (code reconnu)
       noms.push([code, propre(nomComplet(e)), "Base commune", "", "", "", "", propre(e.code)].join("\t"));
       empreintes.push(`${code}\t${empreinte}`);
@@ -137,6 +193,11 @@ const BaseCommune = {
       e.communeCode = code;
       n++;
       if (progression) progression(n, liste.length);
+    }
+    if (sb) {
+      if (typeof CommuneEnLigne !== "undefined") CommuneEnLigne.oublier(); // reconnus tout de suite
+      for (const e of [...liste, ...doublons]) e.commune = true;
+      return n;
     }
     const ajouter = (...a) => this._ajouterLignes(...a);
     await ajouter(DEPOT_PRIVE, "album_photos/commune.tsv", "code\tnom\tprecision\tnumero\tserie\tcode_catalogue\tqui\tdate\tphoto\tverso", prives);
@@ -166,8 +227,10 @@ const BaseCommune = {
     const cle = t => normaliser(t).replace(/[^a-z0-9]+/g, " ").trim();
     const bonne = async b => { const im = await createImageBitmap(b); const ok = !Base.formeSuspecte(im.width, im.height); im.close && im.close(); return ok; };
     // code BC-… de chaque figurine : celui de l'exemplaire envoyé, sinon d'après le nom dans la base commune
+    const sb = !!this._compte();
+    if (!sb && !(await this.jeton())) return 0;
     const parNom = new Map();
-    for (const l of (await this._lire(DEPOT_PUBLIC, "data/jb_commune.tsv")).texte.split("\n").slice(1)) {
+    for (const l of (await this._lirePublic("data/jb_commune.tsv")).split("\n").slice(1)) {
       const [code, nom] = l.split("\t");
       if (/^BC-/.test(code || "") && nom && !parNom.has(cle(nom))) parNom.set(cle(nom), code);
     }
@@ -185,10 +248,20 @@ const BaseCommune = {
       const vision = await this._vision(bitmap);
       if (vision) visions.set(code, vision);
       bitmap.close && bitmap.close();
+      if (sb) { // compte connecté : la ligne de la base commune, si c'est ce compte qui l'a envoyée (règles de la base)
+        const maj = { empreinte: empreintes.get(code), empreinte_fig: figurines.get(code), photo: await this._deposer(code, "recto", e.photo),
+          ...(vision ? { vision } : {}), ...(e.verso ? { verso: await this._deposer(code, "verso", e.verso) } : {}) };
+        const rep = await this._sb(`/rest/v1/commune_blisters?code=eq.${encodeURIComponent(code)}`, { method: "PATCH", body: JSON.stringify(maj),
+          headers: { "Content-Type": "application/json", Prefer: "return=representation" } });
+        if (!(await rep.json()).length) { empreintes.delete(code); figurines.delete(code); visions.delete(code); } // envoyée par un autre compte (ou pas encore recopiée)
+        faits.push(...memes);
+        continue;
+      }
       await this._remplacerFichier(DEPOT_PRIVE, `album_photos/commune/${code}_recto.jpg`, e.photo, `Base commune : ${nomComplet(e)} (photo refaite, recto)`);
       if (e.verso) await this._remplacerFichier(DEPOT_PRIVE, `album_photos/commune/${code}_verso.jpg`, e.verso, `Base commune : ${nomComplet(e)} (photo refaite, verso)`);
       faits.push(...memes);
     }
+    if (sb) { faits.forEach(x => delete x.communeMaj); if (empreintes.size) CommuneEnLigne.oublier(); return empreintes.size; }
     if (!empreintes.size) return 0;
     await this._remplacerLignes(DEPOT_PUBLIC, "data/jb_empreintes_commune.tsv", "code\tempreinte", empreintes);
     await this._remplacerLignes(DEPOT_PUBLIC, "data/jb_empreintes_figurine.tsv", "code\tempreinte", figurines);
@@ -267,7 +340,7 @@ const BaseCommune = {
   // Envoi discret après un ajout (appli principale, avec jeton) ; une erreur n'empêche rien : réessayé plus tard.
   // Aussi les photos refaites (e.communeMaj) : la base commune prend la nouvelle (voir majPhotos).
   async envoyerEnFond(base) {
-    if (this._enCours || !(await this.jeton())) return;
+    if (this._enCours || !(await this.peutEnvoyer())) return;
     // en arrière-plan (Mathias, 06/11/2026 : « ⏳ En cours… patientez » restait affiché après l'ajout d'un blister, le
     // temps d'envoyer ses photos) : l'envoi ne bloque pas l'écran
     this._fond = true;
@@ -287,7 +360,7 @@ const BaseCommune = {
 
   // Bouton « Envoyer à la base commune » : tout ce qui attend, avec un message clair en cas de souci
   async envoyerTout(base) {
-    if (!(await this.jeton())) { await demander("Enregistrez d'abord votre jeton GitHub dans l'écran Valeur.", "OK", "Fermer"); return; }
+    if (!(await this.peutEnvoyer())) { await demander("Connectez-vous d'abord à votre compte (accueil, « Connexion, sauvegarde en ligne »).", "OK", "Fermer"); return; }
     if (this._enCours) await this._enCours.catch(() => {});
     const n0 = this.enAttente(base.entrees).length;
     if (!n0) { toast("Tous vos blisters sont déjà dans la base commune ✔"); return; }
@@ -310,9 +383,59 @@ const BaseCommune = {
     "→ Autorisations (Permissions) : Contenu (Contents) « Lecture et écriture » (Read and write) → Mettre à jour (Update). " +
     "Puis touchez à nouveau « Envoyer à la base commune ».",
 
+  // Recopie, une fois, de l'ancienne base commune (photos du dépôt privé, listes de data/) dans Supabase, pour que ses
+  // photos soient visibles de tous les comptes (compte administrateur, avec le jeton GitHub). Reprend là où elle
+  // s'est arrêtée : les figurines déjà recopiées sont passées.
+  async migrer(bouton) {
+    if (!this._compte() || !(Compte.profil && Compte.profil.role === "admin")) { toast("Réservé au compte administrateur."); return; }
+    if (!(await this.jeton())) { await demander("Enregistrez d'abord votre jeton GitHub dans l'écran Valeur.", "OK", "Fermer"); return; }
+    if (this._enCours) await this._enCours.catch(() => {});
+    const texte0 = bouton.textContent;
+    bouton.disabled = true;
+    this._fond = true;
+    try {
+      const lire = async f => { const r = await fetch(f, { cache: "no-cache", enFond: true }); return r.ok ? r.text() : ""; };
+      const parCode = async f => new Map((await lire(f)).split("\n").slice(1).map(l => l.split("\t")).filter(([c, v]) => c && v).map(([c, v]) => [c.toUpperCase(), v]));
+      const [liste, empreintes, figurines, visions, versos] = await Promise.all([lire("data/jb_commune.tsv"),
+        parCode("data/jb_empreintes_commune.tsv"), parCode("data/jb_empreintes_figurine.tsv"), parCode("data/jb_vision_commune.tsv"), parCode("data/jb_versos.tsv")]);
+      const photos = new Map(); // code -> { recto, verso } (la dernière ligne : photo refaite)
+      for (const l of (await this._lire(DEPOT_PRIVE, "album_photos/commune.tsv")).texte.split("\n").slice(1)) {
+        const c = l.split("\t");
+        if (c[0]) photos.set(c[0].toUpperCase(), { recto: c[8], verso: c[9] });
+      }
+      const deja = new Set((await (await this._sb("/rest/v1/commune_blisters?select=code&limit=10000")).json()).map(r => r.code.toUpperCase()));
+      const lignes = liste.split("\n").slice(1).map(l => l.split("\t")).filter(c => /^BC-/.test(c[0] || "") && c[1] && !deja.has(c[0].toUpperCase()));
+      const brut = async chemin => {
+        if (!chemin) return null;
+        const r = await this._api(DEPOT_PRIVE, `/contents/album_photos/${chemin}`, { headers: { Accept: "application/vnd.github.raw" } });
+        return r.ok ? r.blob() : null;
+      };
+      let n = 0;
+      for (const c of lignes) {
+        const code = c[0].toUpperCase(), rattache = (c[7] || "").trim(), ph = photos.get(code) || {};
+        const recto = await brut(ph.recto), verso = await brut(ph.verso);
+        const ligne = { code, nom: c[1].slice(0, 200), rattache: rattache.slice(0, 60) || null, empreinte: empreintes.get(code) || null,
+          empreinte_fig: figurines.get(code) || null, vision: visions.get(code) || null,
+          verso_texte: versos.get((rattache || code).toUpperCase()) || null,
+          photo: recto ? await this._deposer(code, "recto", recto) : null, verso: verso ? await this._deposer(code, "verso", verso) : null };
+        await this._sb("/rest/v1/commune_blisters?on_conflict=code", { method: "POST", body: JSON.stringify(ligne),
+          headers: { "Content-Type": "application/json", Prefer: "resolution=merge-duplicates,return=minimal" } });
+        bouton.textContent = `🌐 Recopie… ${++n} / ${lignes.length}`;
+      }
+      CommuneEnLigne.oublier();
+      await demander(n ? `${n} figurine${n > 1 ? "s" : ""} de la base commune recopiée${n > 1 ? "s" : ""} : leurs photos sont maintenant visibles de tous les comptes ✔` : "La base commune était déjà recopiée ✔", "OK", "Fermer");
+    } catch (err) {
+      console.error(err);
+      await demander("La recopie s'est arrêtée : " + err.message + "\n\nTouchez à nouveau le bouton : elle reprendra là où elle s'est arrêtée.", "OK", "Fermer");
+    }
+    this._fond = false;
+    bouton.disabled = false;
+    bouton.textContent = texte0;
+  },
+
   // Envoi .zip d'un ami : ses blisters vont seulement dans la base commune (pas dans votre collection)
   async ajouterEnvoiAmi(entrees) {
-    if (!(await this.jeton())) { await demander("Enregistrez d'abord votre jeton GitHub dans l'écran Valeur.", "OK", "Fermer"); return; }
+    if (!(await this.peutEnvoyer())) { await demander("Connectez-vous d'abord à votre compte (accueil, « Connexion, sauvegarde en ligne »).", "OK", "Fermer"); return; }
     $("base-commune-etat").textContent = `🌐 Envoi à la base commune… 0 / ${entrees.length}`;
     try {
       const n = await this.envoyer(entrees, "ami", (i, t) => { $("base-commune-etat").textContent = `🌐 Envoi à la base commune… ${i} / ${t}`; });
@@ -325,3 +448,8 @@ const BaseCommune = {
     Base._afficherListe();
   },
 };
+
+document.addEventListener("click", e => {
+  const b = e.target.closest('[data-action="commune-migrer"]');
+  if (b) BaseCommune.migrer(b);
+});

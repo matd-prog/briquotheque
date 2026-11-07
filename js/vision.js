@@ -83,7 +83,9 @@ const Vision = {
     if (!this._refs) {
       const lire = f => fetch(f).then(r => r.ok ? r.text() : "").catch(() => "");
       // catalogue et album (outils/vision_jb.js) ; base commune (ajoutés à chaque envoi, js/base_commune.js)
-      this._refs = Promise.all([lire("data/jb_vision.tsv"), lire("data/jb_vision_commune.tsv")]).then(t => t.join("\n")).then(texte => {
+      // base commune : nouveautés pas encore recopiées dans data/ ajoutées (js/commune_en_ligne.js)
+      const commune = lire("data/jb_vision_commune.tsv").then(t => typeof CommuneEnLigne !== "undefined" ? CommuneEnLigne.completer("data/jb_vision_commune.tsv", t) : t);
+      this._refs = Promise.all([lire("data/jb_vision.tsv"), commune]).then(t => t.join("\n")).then(texte => {
         const refs = new Map();
         for (const ligne of texte.split("\n")) {
           const [code, e] = ligne.split("\t");

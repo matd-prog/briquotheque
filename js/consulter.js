@@ -134,20 +134,22 @@ const Consulter = {
   },
 
   // Photo d'un blister (code JB-… ou ALB-…) prise dans l'album de l'utilisateur, ou "" (pas de jeton, pas de photo)
+  // Sinon (pas de jeton, ou pas dans l'album) : photo de la base commune, visible par tous les comptes (07/11/2026)
   async maPhoto(code) {
+    const commune = () => typeof CommuneEnLigne !== "undefined" ? CommuneEnLigne.photo(code) : "";
     await this._chargerMesPhotos();
     const f = CatalogueJB.trouver(code);
     const photos = f ? this._album(f) : (this.mesPhotos && this.mesPhotos.get((code || "").toUpperCase()));
-    if (!photos || !photos.length) return "";
+    if (!photos || !photos.length) return commune();
     const chemin = photos[0].photo;
     try {
       if (!this._images.has(chemin)) {
         const rep = await Valeur._api(`/contents/album_photos/${chemin}`, { headers: { Accept: "application/vnd.github.raw" } });
-        if (!rep.ok) return "";
+        if (!rep.ok) return commune();
         this._images.set(chemin, URL.createObjectURL(await rep.blob()));
       }
       return this._images.get(chemin);
-    } catch (err) { console.warn(err); return ""; }
+    } catch (err) { console.warn(err); return commune(); }
   },
 
   // Images vides (blisters de collectionneur, sans photo publique) : remplies avec vos photos d'album

@@ -125,6 +125,17 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v193 (07/11) : BASE COMMUNE OUVERTE À TOUS LES COMPTES (Mathias : « la base commune des photos doit être accessible
+    pour tous les utilisateurs de l'application, c'est ça qui va faire qu'une photo de blister soit reconnue »). Tout compte
+    connecté envoie ses blisters dans Supabase (outils/supabase_base_commune.sql : table commune_blisters, photos dans
+    l'espace « commune », lisibles par tous les comptes, chacun dépose dans son dossier ; jamais de prix ni de n°), sans
+    jeton GitHub. Chaque jour, la tâche « Base commune » (.github/workflows/base_commune.yml,
+    outils/consolider_base_commune.py) recopie les nouveautés dans data/jb_*.tsv (date dans data/jb_commune_maj.txt) ;
+    d'ici là, les deux applis les ajoutent d'elles-mêmes (js/commune_en_ligne.js, fonction commune_export lisible sans
+    compte) : reconnu tout de suite sur tous les téléphones. Photos des figurines de collectionneur (cartes « Probablement »,
+    Consulter) : celle de la base commune si l'album privé n'en a pas. Photo refaite : remplacée si c'est ce compte qui l'a
+    envoyée. Bouton administrateur (Outils) « Recopier l'ancienne base commune » : les 295 figurines et leurs photos du dépôt
+    privé passent dans Supabase (reprend là où il s'est arrêté). Sans compte, l'ancien envoi par jeton reste possible.
   · v192 (07/11) : PHOTOS DANS LES PARTAGES (Mathias : « pas les prix, c'est bien, mais qu'il y ait les photos »). Customs :
     photo de son blister (même n°, sinon un autre exemplaire ; sinon image du catalogue JB) ; tiles et objets JB : leur photo ;
     figurines officielles et sets LEGO : image BrickLink (publique). Photos à soi réduites à 700 px et déposées une seule
