@@ -70,7 +70,9 @@ const EcranSet = {
   set: null,
   figs: [],  // [{ ...figurine du set, code, nomBL, theme, camp, onglet, deja, cocher }]
 
-  async ouvrir() {
+  // clavier = false : ouvert pour un set déjà choisi (nouveautés, liste de souhaits, photo reconnue…) : le curseur
+  // n'est pas mis dans la zone de saisie, sinon le clavier s'ouvre par-dessus le set (Mathias, 07/11/2026)
+  async ouvrir(clavier = true) {
     this.set = null;
     $("set-numero").value = "";
     $("set-fiche").innerHTML = "";
@@ -92,7 +94,7 @@ const EcranSet = {
     } catch (e) {
       $("set-info").textContent = "Le catalogue des sets n'est pas encore disponible.";
     }
-    setTimeout(() => $(estLego({ marque: this.marque() }) ? "set-numero" : "set-m-numero").focus(), 50);
+    if (clavier) setTimeout(() => $(estLego({ marque: this.marque() }) ? "set-numero" : "set-m-numero").focus(), 50);
   },
 
   marque() {

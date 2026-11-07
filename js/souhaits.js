@@ -132,7 +132,7 @@ const Souhaits = {
       const f = CatalogueJB.trouver(s.code);
       if (f) choisirJB(f); else { $("custom-nom").value = s.nom || ""; majCustom(); }
     } else if (s.type === "Set") {
-      await EcranSet.ouvrir();
+      await EcranSet.ouvrir(false);
       await Nouveautes.charger();
       $("set-numero").value = s.code; EcranSet.chercher();
     } else {

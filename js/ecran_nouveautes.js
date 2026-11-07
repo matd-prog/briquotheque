@@ -153,7 +153,7 @@ const EcranNouveautes = {
       etat.origine = "recherche";
       choisirCandidat(0);
     } else if (n.type === "set") {
-      await EcranSet.ouvrir();
+      await EcranSet.ouvrir(false);
       const s = CatalogueSets.trouver(n.code);
       if (s) { $("set-numero").value = s.code; EcranSet.choisir(s, CatalogueSets.versions(s.code)); }
       else { $("set-numero").value = n.code; EcranSet.chercher(); }

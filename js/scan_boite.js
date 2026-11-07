@@ -61,7 +61,7 @@ const ScanBoite = {
     }
     await this.charger();
     const trouve = lus.map(v => this.codes.get(this.cle(v))).find(Boolean);
-    await EcranSet.ouvrir();
+    await EcranSet.ouvrir(!trouve);
     if (trouve) {
       $("set-numero").value = trouve;
       EcranSet.chercher();
@@ -85,9 +85,9 @@ EcranSet.choisir = async function (s, versions) {
   return choisirSetSansScan.call(this, s, versions);
 };
 const ouvrirSetSansScan = EcranSet.ouvrir;
-EcranSet.ouvrir = async function () { // ouvert autrement que par un scan : rien en attente
+EcranSet.ouvrir = async function (...args) { // ouvert autrement que par un scan : rien en attente
   if (!ScanBoite._ouvertureScan) ScanBoite.enAttente = null;
-  return ouvrirSetSansScan.call(this);
+  return ouvrirSetSansScan.apply(this, args);
 };
 
 for (const id of ["input-boite", "input-boite-collection"]) {

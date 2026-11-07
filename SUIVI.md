@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v196 (07/11) : PAS DE CLAVIER PAR-DESSUS UN SET CHOISI (Mathias : « dans les sorties futures, il nous met sur la zone de
+    saisie, il ouvre le clavier, on ne voit plus l'élément »). EcranSet.ouvrir(clavier) : le curseur n'est plus mis dans la
+    zone de saisie quand on arrive avec un set déjà choisi (nouveautés et sorties, liste de souhaits, photo reconnue comme
+    set, code-barres lu) ; seulement quand on ouvre l'écran pour taper un set.
   · v195 (07/11) : ACCUEIL, DEUX GROS BOUTONS (Mathias : « Photographier propose déjà le blister JB, ça fait doublon »).
     « 📷 Photographier » et « 🖼️ Ajouter une photo déjà prise » (figurine, blister JB, set… : même reconnaissance que la
     photo prise) ; le gros bouton « Ajouter un blister JB » et la tuile « Photo déjà prise » disparaissent de l'accueil. Le
