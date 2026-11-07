@@ -133,6 +133,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     passe : clé privée « rapports » créée dans Supabase (table cles_privees, illisible par Internet), présentée en
     en-tête x-rapports-key, ajoutée par le proxy de l'environnement (formulaire sécurisé, jamais dans une conversation).
     Appli : « 🤖 Proposition de Claude » dans 📬 Rapports reçus. outils/supabase_rapports.sql complété (à lancer par Mathias).
+    07/11 : erreur au lancement (« syntax error at or near analyse » : mot réservé du SQL) -> "analyse" entre guillemets ;
+    script exécuté pour de vrai sur un PostgreSQL 16 local imitant Supabase (rôles anon/authenticated, est_admin), deux fois
+    de suite, et règles vérifiées (anonyme : envoi seulement ; mauvaise clé : rien ; bonne clé : lecture + analyse ; admin).
   · v187 (06/11) : SIGNALER UN PROBLÈME / PROPOSER UNE AMÉLIORATION, ENVOI DIRECT (Mathias). Avant : bouton dans les Outils
     seulement, texte partagé par le menu Partager (aucune adresse de réception). Maintenant js/rapport.js (appli et
     contribuer.html) : lien « 🐞 Un problème ? Une idée ? Le signaler » en bas de chaque écran + bouton des Outils ;
