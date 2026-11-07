@@ -51,7 +51,7 @@ const Assurance = {
     try {
       Valeur.jeton = await Memoire.lire("jeton-github");
       this.calcul = await Valeur.calculer();
-      if (!this.calcul) { $("assurance-etat").textContent = "Pas encore de prix : passez d'abord par « 💶 Valeur » → « Envoyer ma liste »."; return; }
+      if (!this.calcul) { $("assurance-etat").textContent = "Pas encore de prix : passez d'abord par « 💶 Valeur » → « Valoriser ma collection »."; return; }
     } catch (err) {
       console.error(err);
       $("assurance-etat").textContent = "Échec : " + err.message;

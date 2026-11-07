@@ -46,7 +46,7 @@ const Valeur = {
   // Deux façons d'avoir les prix (Mathias, 07/11/2026 : « donne-lui aussi accès à la valeur ») :
   //  - jeton GitHub (Mathias) : dépôt privé, relevé lancé à la demande, achats et prix payés compris ;
   //  - compte de l'appli, sans jeton (« partagé ») : prix du MARCHÉ recopiés chaque jour dans Supabase (table
-  //    fichiers_prix, outils/supabase_prix_partages.sql) ; « Envoyer ma liste » dépose les codes de la collection
+  //    fichiers_prix, outils/supabase_prix_partages.sql) ; « Valoriser ma collection » dépose les codes de la collection
   //    (table listes_codes), relevés au relevé suivant (chaque matin). Jamais les achats de Mathias.
   FICHIERS_PARTAGES: ["prix.tsv", "lego.tsv", "prix_ebay.tsv", "prix_ebay_sets.tsv", "prix_ebay_marques.tsv"],
   _partage() { return !this.jeton && typeof Compte !== "undefined" && !!Compte.client && !!Compte.session; },
@@ -450,7 +450,7 @@ const Valeur = {
     etat.nonEnregistres++;
     await memoriser();
     await relireContenu();
-    toast(`${doublons.length} doublon(s) supprimé(s) ✔ Pensez à enregistrer, puis « Envoyer ma liste ».`);
+    toast(`${doublons.length} doublon(s) supprimé(s) ✔ Pensez à enregistrer, puis « Valoriser ma collection ».`);
     this.afficher();
   },
 
@@ -466,7 +466,7 @@ const Valeur = {
     etat.nonEnregistres++;
     await memoriser();
     await relireContenu();
-    toast(`${boites.length} set(s) corrigé(s) ✔ Pensez à enregistrer, puis « Envoyer ma liste ».`, 6000);
+    toast(`${boites.length} set(s) corrigé(s) ✔ Pensez à enregistrer, puis « Valoriser ma collection ».`, 6000);
     this.afficher();
   },
 
@@ -820,7 +820,7 @@ const Valeur = {
     $("valeur-etat").textContent = "Lecture des prix…";
     try {
       const calcul = await this.calculer();
-      if (!calcul) { $("valeur-etat").textContent = "Pas encore de prix : touchez « Envoyer ma liste et relever les prix »."; return; }
+      if (!calcul) { $("valeur-etat").textContent = "Pas encore de prix : touchez « Valoriser ma collection »."; return; }
       const { details, sans, total, totalOccasion, parOnglet, date } = calcul;
       this._aJour = { date };
       if (typeof Echanges !== "undefined") Echanges.memoriserValeurs(details).catch(err => console.warn(err)); // valeurs des échanges

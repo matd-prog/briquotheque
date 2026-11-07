@@ -125,6 +125,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v190 (07/11) : « Envoyer ma liste » RENOMMÉ « 💶 Valoriser ma collection » (« Relever les prix de mes articles »),
+    suggestion de Mathias ; messages, dossier assureur et methode.html (relevé chaque jour) suivent.
   · v189 (07/11) : VALEUR POUR TOUS LES COMPTES DE L'APPLI (Mathias : « donne-lui aussi accès à la valeur » ; choix : tous
     les comptes). Sans jeton GitHub mais connecté : l'écran Valeur lit les prix du MARCHÉ dans Supabase (table fichiers_prix :
     prix.tsv, lego.tsv, prix_ebay*.tsv ; jamais achats.tsv ni customs_achetees.tsv), et « Envoyer ma liste » dépose les codes
