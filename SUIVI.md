@@ -135,7 +135,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     (rpc publier_prix). Clé « prix » (cles_privees) en secret SUPABASE_CLE_PRIX du dépôt privé. outils/supabase_prix_partages.sql
     (testé sur PostgreSQL local : chaque compte ne voit que sa liste ; sans compte : rien ; publication limitée aux 5 fichiers ;
     mauvaise clé refusée). Dossier assureur ouvert aussi aux comptes. Test appli (Supabase simulé) : valeur calculée, achats
-    jamais demandés, liste envoyée = codes seulement. ⚠️ À faire par Mathias : lancer le SQL, puis créer le secret.
+    jamais demandés, liste envoyée = codes seulement. FAIT le 07/11 : SQL lancé, secret SUPABASE_CLE_PRIX créé dans
+    briquotheque-prive (d'abord mis par erreur dans le dépôt public : à y supprimer) ; relevé lancé : listes lues (0 compte),
+    prix.tsv, lego.tsv, prix_ebay.tsv, prix_ebay_sets.tsv recopiés dans Supabase.
   · v188 (06/11) : RAPPORTS ANALYSÉS AUTOMATIQUEMENT PAR CLAUDE (Mathias : « me prévenir quand il y a un problème et me
     proposer une solution »). Tâche programmée « Rapports Briquothèque » (trig_01PxGJ2CkhRWLNCFZSWkEWKC, 7 h 39 et
     18 h 39, heure de Paris, nouvelle session à chaque fois, notification téléphone + e-mail) : lit les rapports non
