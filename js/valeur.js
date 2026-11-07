@@ -43,14 +43,39 @@ const Valeur = {
     return rep;
   },
 
+  // Deux façons d'avoir les prix (Mathias, 07/11/2026 : « donne-lui aussi accès à la valeur ») :
+  //  - jeton GitHub (Mathias) : dépôt privé, relevé lancé à la demande, achats et prix payés compris ;
+  //  - compte de l'appli, sans jeton (« partagé ») : prix du MARCHÉ recopiés chaque jour dans Supabase (table
+  //    fichiers_prix, outils/supabase_prix_partages.sql) ; « Envoyer ma liste » dépose les codes de la collection
+  //    (table listes_codes), relevés au relevé suivant (chaque matin). Jamais les achats de Mathias.
+  FICHIERS_PARTAGES: ["prix.tsv", "lego.tsv", "prix_ebay.tsv", "prix_ebay_sets.tsv", "prix_ebay_marques.tsv"],
+  _partage() { return !this.jeton && typeof Compte !== "undefined" && !!Compte.client && !!Compte.session; },
+  // un fichier de prix : dépôt privé (jeton) ou prix partagés (compte) ; { ok, text() } comme une réponse fetch
+  async _lire(fichier) {
+    if (this.jeton) return this._api(`/contents/${fichier}`, { headers: { Accept: "application/vnd.github.raw" } });
+    const vide = { ok: false, text: async () => "" };
+    if (!this._partage() || !this.FICHIERS_PARTAGES.includes(fichier)) return vide;
+    const { data, error } = await Compte.client.from("fichiers_prix").select("contenu").eq("nom", fichier).maybeSingle();
+    if (error) throw new Error(error.message);
+    return data ? { ok: true, text: async () => data.contenu } : vide;
+  },
+
   async ouvrir() {
     this.jeton = await Memoire.lire("jeton-github");
     afficher("valeur");
-    $("valeur-jeton-bloc").hidden = !!this.jeton;
-    $("valeur-actions").hidden = !this.jeton;
+    if (!this.jeton && typeof Compte !== "undefined" && Compte.client) {
+      try { Compte.session = (await Compte.client.auth.getSession()).data.session; } catch (err) { /* hors connexion */ }
+    }
+    const partage = this._partage();
+    $("valeur-jeton-bloc").hidden = !!this.jeton || partage;
+    $("valeur-actions").hidden = !this.jeton && !partage;
+    for (const a of ["valeur-customs", "valeur-remplacer-jeton", "valeur-oublier"]) // réservés au jeton (achats, dépôt privé)
+      document.querySelectorAll(`#ecran-valeur [data-action="${a}"]`).forEach(b => { b.hidden = partage; });
     $("valeur-resultat").innerHTML = "";
-    $("valeur-etat").textContent = this.jeton ? "" : "Collez une fois votre jeton d'accès GitHub (github_pat_…) : il reste dans ce téléphone.";
+    $("valeur-etat").textContent = this.jeton || partage ? ""
+      : "Connectez-vous à votre compte (👤 en haut de l'écran) pour voir la valeur de votre collection. Ou collez un jeton d'accès GitHub (github_pat_…) : il reste dans ce téléphone.";
     if (this.jeton) { this.afficher(); this.suivre(); this._verifierJeton(); }
+    else if (partage) this.afficher();
   },
   // Jeton expiré ou retiré sur GitHub (Mathias, 06/11/2026 : « Catalogue appli » expiré le 01/11) : le champ pour coller le
   // nouveau s'affiche tout seul, sans passer par « Retirer le jeton »
@@ -182,6 +207,7 @@ const Valeur = {
     const articles = await this._articles();
     const codes = [...new Set(articles.filter(a => a.type !== "CUSTOM" && a.type !== "MARQUE" && a.type !== "JB")
       .flatMap(a => [`${a.type} ${a.code}`, ...(a.figs || []).map(f => `MINIFIG ${f.code}`)]))].sort();
+    if (!this.jeton) return this._envoyerPartage(codes);
     // garde-fou : une liste vide (ou beaucoup plus courte que la précédente) effacerait les prix déjà relevés
     const ouvert = etat.classeur.estBase ? "la collection rangée dans l'appli" : "le fichier Excel ouvert";
     if (!codes.length) {
@@ -232,6 +258,17 @@ const Valeur = {
       console.error(err);
       $("valeur-etat").textContent = "Échec : " + err.message;
     }
+  },
+
+  // Compte sans jeton : la liste (codes seulement) va dans Supabase ; le relevé de chaque matin la relève
+  async _envoyerPartage(codes) {
+    if (!this._partage()) { await demander("Connectez-vous d'abord à votre compte (👤 en haut de l'écran).", "OK", "Fermer"); return; }
+    if (!codes.length) { await demander("Aucune figurine, aucun set ni objet à relever dans votre collection (les customs JB ont déjà leurs prix).", "OK", "Fermer"); return; }
+    $("valeur-etat").textContent = `Envoi de la liste (${codes.length} articles)…`;
+    const { error } = await Compte.client.from("listes_codes")
+      .upsert({ user_id: Compte.session.user.id, codes: codes.join("\n"), maj: new Date().toISOString() });
+    if (error) { $("valeur-etat").textContent = "Échec : " + error.message; return; }
+    $("valeur-etat").textContent = `Liste envoyée (${codes.length} articles) ✔ Les prix sont relevés chaque matin : ceux qui manquent encore apparaîtront demain (BrickLink limite à 2 250 articles par jour). Touchez « Actualiser » pour relire les prix.`;
   },
 
   // Relevé en direct (toutes les 5 s, valeur provisoire toutes les 10 s) : étape en cours de l'action GitHub « Prix BrickLink »
@@ -437,8 +474,8 @@ const Valeur = {
   // { details: [{...article, v, brut, ventes, neuf, enVente}], sans, total, parOnglet, date } ; null si pas encore de prix
   // provisoire : prix en cours de relevé (branche releve-en-cours, mise à jour toutes les 10 s), sinon ceux de main
   async calculer(provisoire = false) {
-    let rep = provisoire ? await this._api("/contents/prix.tsv?ref=releve-en-cours", { headers: { Accept: "application/vnd.github.raw" } }) : null;
-    if (!rep || !rep.ok) rep = await this._api("/contents/prix.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+    let rep = provisoire && this.jeton ? await this._api("/contents/prix.tsv?ref=releve-en-cours", { headers: { Accept: "application/vnd.github.raw" } }) : null;
+    if (!rep || !rep.ok) rep = await this._lire("prix.tsv");
     if (!rep.ok) return null;
     const lignes = (await rep.text()).split("\n").map(l => l.split("\t"));
     const entete = lignes.shift();
@@ -448,7 +485,7 @@ const Valeur = {
     // un set retiré (ventes BrickLink) : jamais le prix allemand (règle de l'utilisateur, 01/10/2026). Le prix allemand
     // (colonne prix_lego) ne sert plus que de prix d'origine pour le plancher du reste d'un set, faute de prix français.
     const lego = new Map(), prixOrigine = new Map(); // prix LEGO France des sets encore en vente ; prix LEGO d'origine de tous
-    const repLego = await this._api("/contents/lego.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+    const repLego = await this._lire("lego.tsv");
     if (repLego.ok) {
       const [entete, ...lignesLego] = (await repLego.text()).split("\n");
       const col = entete.split("\t"), i = k => col.indexOf(k);
@@ -465,7 +502,7 @@ const Valeur = {
     // relevé dans les reçus), rapproché par le nom
     try { await CatalogueJB.charger(); } catch (e) { /* sans catalogue JB : prix d'achat seulement */ }
     const achats = [], lots = []; // achats nommés (rapprochés par le nom) ; lots Whatnot de customs non nommées
-    const repAchats = await this._api("/contents/achats.tsv", { headers: { Accept: "application/vnd.github.raw" } });
+    const repAchats = await this._lire("achats.tsv");
     if (repAchats.ok) for (const l of (await repAchats.text()).split("\n").slice(1)) {
       const [date, vendeur, source, article, , qte, ttc, remarque] = l.split("\t");
       if (!article || !(parseFloat(ttc) > 0)) continue;
@@ -477,14 +514,14 @@ const Valeur = {
     const prixLot = lots.length ? lots[Math.floor(lots.length / 2)] : 0; // médiane : prix habituel d'une custom sur Whatnot
     // sets vendus sans leurs figurines sur eBay.de (prix_ebay_sets.tsv, outils/prix_ebay_sets.py) : au moins 2 annonces
     const sansFigsEbay = new Map();
-    const repSets = await this._api("/contents/prix_ebay_sets.tsv", { headers: { Accept: "application/vnd.github.raw" } }).catch(() => null);
+    const repSets = await this._lire("prix_ebay_sets.tsv").catch(() => null);
     if (repSets && repSets.ok) for (const l of (await repSets.text()).split("\n").slice(1)) {
       const [code, n, , med] = l.split("\t");
       if (code && +n >= 2 && +med > 0) sansFigsEbay.set(code.toLowerCase(), { n: +n, med: +med });
     }
     // prix demandés sur eBay.de (prix_ebay.tsv, outils/prix_ebay_jb.py) : coût de rachat d'une custom qu'on ne trouve plus chez JB
     const ebay = [];
-    const repEbay = await this._api("/contents/prix_ebay.tsv", { headers: { Accept: "application/vnd.github.raw" } }).catch(() => null);
+    const repEbay = await this._lire("prix_ebay.tsv").catch(() => null);
     if (repEbay && repEbay.ok) for (const l of (await repEbay.text()).split("\n").slice(1)) {
       const [nom, n, , med] = l.split("\t");
       if (+n >= 2 && +med > 0) ebay.push({ nom, n: +n, med: +med, mots: new Set([...motsCustom(nom), ...(normaliser(nom).match(/\b\d{2,4}\b/g) || [])]) });
@@ -502,7 +539,7 @@ const Valeur = {
     // autres marques (Cobi, BlueBrixx…) : prix demandés sur eBay.fr (prix_ebay_marques.tsv, outils/prix_ebay_marques.py),
     // au moins 2 annonces ; rachat = prix du milieu des annonces, occasion = 85 % ; sinon le prix payé
     const ebayMarques = new Map();
-    const repMarques = await this._api("/contents/prix_ebay_marques.tsv", { headers: { Accept: "application/vnd.github.raw" } }).catch(() => null);
+    const repMarques = await this._lire("prix_ebay_marques.tsv").catch(() => null);
     if (repMarques && repMarques.ok) for (const l of (await repMarques.text()).split("\n").slice(1)) {
       const [marque, code, n, mini, med, maxi] = l.split("\t");
       if (code && +n >= 2 && +med > 0) ebayMarques.set(`${marque}|${code}`.toLowerCase(), { n: +n, med: +med, mini: +mini, maxi: +maxi });

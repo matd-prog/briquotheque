@@ -42,7 +42,9 @@ const Assurance = {
 
   async preparer() {
     if (!etat.classeur) { await demander("Ouvrez d'abord votre collection.", "OK", "Fermer"); return; }
-    if (!(await Memoire.lire("jeton-github"))) { await demander("Collez d'abord votre jeton dans « 💶 Valeur ».", "OK", "Fermer"); return; }
+    // prix : jeton GitHub (dépôt privé), ou compte de l'appli (prix partagés, 07/11/2026)
+    if (!(await Memoire.lire("jeton-github")) && !(typeof Compte !== "undefined" && Compte.session)) {
+      await demander("Connectez-vous d'abord à votre compte (👤 en haut de l'écran) : la valeur vient des prix relevés pour les comptes de l'appli.", "OK", "Fermer"); return; }
     const infos = { nom: $("assurance-nom").value.trim(), adresse: $("assurance-adresse").value.trim(), contrat: $("assurance-contrat").value.trim() };
     await Memoire.ecrire(infos, "assurance");
     $("assurance-etat").textContent = "Préparation du dossier…";
