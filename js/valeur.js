@@ -823,7 +823,6 @@ const Valeur = {
       if (!calcul) { $("valeur-etat").textContent = "Pas encore de prix : touchez « Valoriser ma collection »."; return; }
       const { details, sans, total, totalOccasion, parOnglet, date } = calcul;
       this._aJour = { date };
-      if (typeof Echanges !== "undefined") Echanges.memoriserValeurs(details).catch(err => console.warn(err)); // valeurs des échanges
       if (!details.length) {
         $("valeur-etat").textContent = "";
         $("valeur-resultat").innerHTML = `<div class="carte"><p>⏳ Aucun prix pour l'instant : le relevé BrickLink est sans doute encore en cours` +

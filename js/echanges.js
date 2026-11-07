@@ -4,9 +4,8 @@
 // cherchez et cherchent ce que vous avez en double (fonction correspondances), propose un échange, puis une discussion
 // suit (messages) ; le destinataire accepte ou refuse, l'expéditeur peut annuler, l'échange fini est marqué « terminé ».
 // Clé commune entre collections : F|<code LEGO> (figurine officielle), C|<code catalogue JB> ou C|<nom> (custom).
-// Valeur (demande de Mathias, 18/10) : chaque figurine porte sa valeur estimée (Valeur de l'appli, mémorisée à chaque
-// calcul ; sinon prix JB du catalogue ; sinon la valeur publiée par l'autre collectionneur) et la proposition compare le
-// total donné et reçu (« équilibré » à 15 % près). « ✉️ Proposer un échange à un membre » : un ami ou un pseudo cherché,
+// Sans aucune valeur (Mathias, 07/11/2026, comme les partages entre amis) : ni prix ni valeur affichés, publiés ou
+// envoyés ; la proposition compte seulement les figurines données et reçues. « ✉️ Proposer un échange à un membre » : un ami ou un pseudo cherché,
 // toutes ses figurines publiées et tous vos doubles, au choix.
 
 const STATUTS_ECHANGE = { envoyee: "⏳ En attente de réponse", acceptee: "🤝 Acceptée", refusee: "❌ Refusée", annulee: "🚫 Annulée", terminee: "✅ Terminée" };
@@ -16,49 +15,12 @@ const Echanges = {
   partenaire: null,     // { user_id, pseudo, il_a, il_cherche } pour « proposer »
   propositionId: null,
 
-  valeurs: null,        // Map clé -> valeur estimée d'un exemplaire (€), mémorisée au dernier calcul de la Valeur
-
   get client() { return typeof Compte !== "undefined" ? Compte.client : null; },
 
-  // Appelée par la Valeur (js/valeur.js) à chaque calcul : valeur d'un exemplaire de chaque figurine, par clé d'échange
-  async memoriserValeurs(details) {
-    await CatalogueJB.charger().catch(() => {});
-    const m = {};
-    for (const d of details) {
-      if (!(d.unitaire > 0)) continue;
-      if (d.type === "MINIFIG") m["F|" + String(d.code).toUpperCase()] = Math.round(d.unitaire * 100) / 100;
-      else if (d.type === "CUSTOM") {
-        const f = CatalogueJB.trouver(d.code) || Collection._jbDe({ code: d.code, nom: d.nom });
-        const cle = "C|" + (f ? f.code : normaliser(Collection._sansNumero(d.nom))).toUpperCase();
-        if (!m[cle]) m[cle] = Math.round(d.unitaire * 100) / 100;
-      }
-    }
-    this.valeurs = new Map(Object.entries(m));
-    await Memoire.ecrire({ date: new Date().toISOString(), valeurs: m }, "valeurs_echange");
-  },
-  async _chargerValeurs() {
-    if (this.valeurs) return;
-    const v = await Memoire.lire("valeurs_echange").catch(() => null);
-    this.valeurs = new Map(Object.entries((v && v.valeurs) || {}));
-  },
-  // Valeur d'un exemplaire : la mienne (Valeur), sinon le prix JB, sinon celle publiée
-  valeurDe(x) {
-    const v = this.valeurs && this.valeurs.get(x.cle);
-    if (v > 0) return v;
-    if (x.cle && x.cle.startsWith("C|")) { const f = CatalogueJB.trouver(x.cle.slice(2)); if (f && f.prix > 0) return f.prix; }
-    return x.valeur > 0 ? +x.valeur : 0;
-  },
-  _euros(v) { return v > 0 ? v.toLocaleString("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: v < 100 ? 2 : 0 }) : "?"; },
-  // Balance d'un échange : total donné, total reçu, verdict
+  // Compte des figurines données et reçues (sans valeur)
   balance(donne, recois) {
-    const t = l => l.reduce((s, x) => s + this.valeurDe(x) * (x.n || 1), 0), d = t(donne), r = t(recois);
-    const inconnues = [...donne, ...recois].filter(x => !(this.valeurDe(x) > 0)).length;
-    const ecart = r - d, ref = Math.max(d, r);
-    const verdict = !ref ? "Valeurs inconnues" : Math.abs(ecart) <= 0.15 * ref ? "⚖️ Échange équilibré"
-      : ecart > 0 ? `📈 Vous recevez ${this._euros(ecart)} de plus` : `📉 Vous donnez ${this._euros(-ecart)} de plus`;
-    return { d, r, verdict, inconnues, html: `<div class="balance-echange ${!ref ? "" : Math.abs(ecart) <= 0.15 * ref ? "ok" : "ecart"}">
-      <span>Vous donnez <b>${this._euros(d)}</b></span><span>Vous recevez <b>${this._euros(r)}</b></span>
-      <b>${verdict}</b>${inconnues ? `<span class="score">${inconnues} figurine(s) sans valeur connue</span>` : ""}</div>` };
+    const n = l => l.reduce((t, x) => t + (x.n || 1), 0);
+    return { html: `<div class="balance-echange"><span>Vous donnez <b>${n(donne)}</b> figurine(s)</span><span>Vous recevez <b>${n(recois)}</b> figurine(s)</span></div>` };
   },
   get moi() { return typeof Compte !== "undefined" && Compte.session ? Compte.session.user.id : null; },
 
@@ -82,7 +44,6 @@ const Echanges = {
   // Doubles : par clé, les exemplaires au-delà de ceux gardés (les plus petits n° sont gardés)
   async doubles() {
     await CatalogueJB.charger().catch(() => {});
-    await this._chargerValeurs();
     const garder = this._garder(), parCle = new Map();
     for (const [onglet, o] of Object.entries(etat.collection || {}))
       for (const c of o.cases.filter(c => c.code)) {
@@ -96,7 +57,6 @@ const Echanges = {
       const tries = Collection._parNumero(cases), donnes = tries.slice(garder), c = tries[0], custom = c.onglet === THEME_CUSTOMS.onglet;
       const x = { cle, type: custom ? "Custom" : "Figurine", code: c.code, nom: custom ? Collection._sansNumero(c.nom) : c.nom || c.code,
         quantite: donnes.length, numeros: donnes.map(d => Collection._numero(d)).filter(Boolean).join(", "), total: cases.length };
-      x.valeur = this.valeurDe(x) || null;
       res.push(x);
     }
     return res.sort((a, b) => a.nom.localeCompare(b.nom, "fr"));
@@ -105,7 +65,6 @@ const Echanges = {
   async souhaits() {
     if (typeof Souhaits === "undefined") return [];
     await CatalogueJB.charger().catch(() => {});
-    await this._chargerValeurs();
     const liste = (await Souhaits.charger()).filter(s => s.type === "Figurine" || s.type === "Custom");
     const possede = await Souhaits._possedes();
     const vus = new Set(), res = [];
@@ -114,7 +73,6 @@ const Echanges = {
       if (vus.has(cle)) continue;
       vus.add(cle);
       const x = { cle, type: s.type, code: s.code, nom: s.nom || s.code };
-      x.valeur = this.valeurDe(x) || null;
       res.push(x);
     }
     return res;
@@ -142,7 +100,6 @@ const Echanges = {
       return;
     }
     if (!etat.classeur) { z.innerHTML = `<p class="alerte">Ouvrez d'abord votre collection.</p>`; return; }
-    await this._chargerValeurs();
     if (this.vue === "proposer") return this._rendreProposer(z);
     if (this.vue === "membre") return this._rendreMembre(z);
     if (this.vue === "proposition") return this._rendreProposition(z);
@@ -159,8 +116,7 @@ const Echanges = {
     const pub = publiees.data || [], derniere = pub.reduce((m, a) => a.maj > m ? a.maj : m, "");
     const nOffres = pub.filter(a => a.sens === "offre").length, nSouhaits = pub.filter(a => a.sens === "souhait").length;
     const pseudos = await this._pseudos((props.data || []).map(p => p.de === this.moi ? p.a : p.de));
-    const liste = l => l.map(x => echapper(x.nom) + (x.numeros ? ` <span class="score">(n° ${echapper(x.numeros)})</span>` : x.quantite > 1 ? ` ×${x.quantite}` : "")
-      + (this.valeurDe(x) > 0 ? ` <span class="prix-echange">${this._euros(this.valeurDe(x))}</span>` : "")).join(", ");
+    const liste = l => l.map(x => echapper(x.nom) + (x.numeros ? ` <span class="score">(n° ${echapper(x.numeros)})</span>` : x.quantite > 1 ? ` ×${x.quantite}` : "")).join(", ");
 
     z.innerHTML = `<p class="intro">🔄 <b>Échanges</b> : vos doubles contre les figurines de votre liste de souhaits, avec d'autres collectionneurs.</p>
 
@@ -170,7 +126,7 @@ const Echanges = {
           exemplaire(s) de chaque figurine (les plus petits n°) : <b>${offertes.length}</b> figurine(s) en double à proposer.</p>
         <details><summary>Choisir les doubles à proposer (${offertes.length}/${doubles.length})</summary>
           <div class="liste-cases">${doubles.map(d => `<label><input type="checkbox" data-echanges-exclure="${echapper(d.cle)}" ${exclus.has(d.cle) ? "" : "checked"}>
-            ${echapper(d.nom)} <span class="score">×${d.quantite}${d.numeros ? ` · n° ${echapper(d.numeros)}` : ""}${d.valeur ? ` · ${this._euros(d.valeur)}` : ""}</span></label>`).join("") || "<p class=\"aide\">Aucun double.</p>"}</div></details>
+            ${echapper(d.nom)} <span class="score">×${d.quantite}${d.numeros ? ` · n° ${echapper(d.numeros)}` : ""}</span></label>`).join("") || "<p class=\"aide\">Aucun double.</p>"}</div></details>
         <p><button class="bouton gris" data-partage-fichier="doubles">📄 Fichier de mes doubles (sans valeur)</button>
           <button class="bouton gris" data-partage-partager="doubles">📤 Partager mes doubles avec un ami</button></p>
         <p><b>${souhaits.length}</b> figurine(s) de votre <a href="#" data-action="souhaits">liste de souhaits</a> à chercher.</p>
@@ -237,7 +193,7 @@ const Echanges = {
   async _rendreMembre(z) {
     const amis = typeof Amis !== "undefined" ? (await Amis.charger()).filter(a => a.sens === "ami") : [];
     z.innerHTML = `<p class="intro">✉️ <b>Proposer un échange à un membre</b> : choisissez un ami ou cherchez un collectionneur.
-        Vous verrez toutes les figurines qu'il a publiées et tous vos doubles, avec leur valeur.</p>
+        Vous verrez toutes les figurines qu'il a publiées et tous vos doubles.</p>
       <div class="carte"><p class="sous-titre">👥 Mes amis</p>
         ${amis.map(a => `<div class="ami-ligne"><span><span class="pastille ${a.en_ligne ? "verte" : "rouge"}"></span> <b>${echapper(a.pseudo)}</b></span>
           <button class="bouton" data-echanges-membre="${a.ami}" data-echanges-pseudo="${echapper(a.pseudo)}">🔄 Échanger</button></div>`).join("")
@@ -288,8 +244,7 @@ const Echanges = {
     const c = this.partenaire;
     const ligne = (x, groupe, i) => `<label><input type="checkbox" name="${groupe}" value="${i}" ${x.premier && (c.libre ? x.voulu : true) ? "checked" : ""}>
       <span>${x.voulu && c.libre ? (groupe === "recois" ? "⭐ " : "🔁 ") : ""}${echapper(x.nom)}${x.numeros ? ` <span class="score">(n° ${echapper(x.numeros)})</span>` : ""}
-</span>
-      <span class="prix-echange">${this._euros(this.valeurDe(x))}</span></label>`;
+</span></label>`;
     z.innerHTML = `<p class="intro">✉️ <b>Proposer un échange à ${echapper(c.pseudo)}</b>${c.libre ? " : ⭐ = dans votre liste de souhaits, 🔁 = il la cherche." : ""}</p>
       <form id="echanges-form-proposer" class="compte-form">
         <p class="sous-titre">Je donne${c.libre ? " (mes doubles)" : " (il les cherche)"}</p>
@@ -301,8 +256,7 @@ const Echanges = {
         <textarea id="echanges-message" class="champ" rows="4" maxlength="2000" placeholder="Bonjour ! Je vous propose cet échange. Envoi en lettre suivie de mon côté, et du vôtre ?"></textarea>
         <button class="gros-bouton vert" type="submit">✉️ Envoyer la proposition</button>
       </form>
-      <button class="bouton-lien" data-action="echanges-retour">← Retour aux échanges</button>
-      <p class="aide">Valeurs estimées d'un exemplaire : votre « Valeur » (ventes BrickLink, prix d'achat), le prix JB, ou la valeur annoncée par l'autre collectionneur.</p>`;
+      <button class="bouton-lien" data-action="echanges-retour">← Retour aux échanges</button>`;
     this.majBalance();
   },
 
@@ -324,7 +278,7 @@ const Echanges = {
     const c = this.partenaire, f = e.target, { donne, recois } = this._choix();
     const texte = $("echanges-message").value.trim();
     if (!donne.length && !recois.length && !texte) { toast("Cochez au moins une figurine, ou écrivez un message."); return; }
-    const garder = x => ({ cle: x.cle, type: x.type, code: x.code, nom: x.nom, numeros: x.numeros || "", valeur: this.valeurDe(x) || null });
+    const garder = x => ({ cle: x.cle, type: x.type, code: x.code, nom: x.nom, numeros: x.numeros || "" });
     const bouton = f.querySelector("[type=submit]"); bouton.disabled = true;
     const { data, error } = await this.client.from("propositions").insert({ de: this.moi, a: c.user_id, je_donne: donne.map(garder), je_recois: recois.map(garder) }).select("id").single();
     if (!error && texte) await this.client.from("messages").insert({ proposition_id: data.id, auteur: this.moi, texte });
@@ -343,7 +297,7 @@ const Echanges = {
     if (error || !p) { z.innerHTML = `<p class="alerte">Proposition introuvable.</p><button class="bouton-lien" data-action="echanges-retour">← Retour</button>`; return; }
     const recue = p.a === this.moi, pseudos = await this._pseudos([p.de, p.a]), autre = echapper(pseudos.get(recue ? p.de : p.a) || "?");
     const donne = recue ? p.je_recois : p.je_donne, recois = recue ? p.je_donne : p.je_recois;
-    const l = x => `<li>${echapper(x.nom)}${x.numeros ? ` <span class="score">(n° ${echapper(x.numeros)})</span>` : ""} <span class="prix-echange">${this._euros(this.valeurDe(x))}</span></li>`;
+    const l = x => `<li>${echapper(x.nom)}${x.numeros ? ` <span class="score">(n° ${echapper(x.numeros)})</span>` : ""}</li>`;
     const actions = [
       recue && p.statut === "envoyee" ? `<button class="gros-bouton vert" data-echanges-statut="acceptee">🤝 Accepter</button><button class="gros-bouton gris" data-echanges-statut="refusee">❌ Refuser</button>` : "",
       !recue && ["envoyee", "acceptee"].includes(p.statut) ? `<button class="bouton gris" data-echanges-statut="annulee">🚫 Annuler la proposition</button>` : "",

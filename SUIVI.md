@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v194 (07/11) : ÉCHANGES SANS VALEUR (Mathias : « retire les valeurs de l'écran d'échange »). Plus aucun prix ni valeur
+    dans les échanges : ni à côté des doubles, ni dans la proposition, ni comparaison « équilibré » (remplacée par le nombre
+    de figurines données et reçues) ; plus de valeur publiée avec les annonces ni envoyée avec une proposition (les valeurs
+    déjà publiées ne s'affichent plus). La Valeur ne transmet plus rien aux échanges.
   · v193 (07/11) : BASE COMMUNE OUVERTE À TOUS LES COMPTES (Mathias : « la base commune des photos doit être accessible
     pour tous les utilisateurs de l'application, c'est ça qui va faire qu'une photo de blister soit reconnue »). Tout compte
     connecté envoie ses blisters dans Supabase (outils/supabase_base_commune.sql : table commune_blisters, photos dans
