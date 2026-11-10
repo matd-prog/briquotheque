@@ -548,7 +548,9 @@ async function identifier(photo) {
     }
     const items = await pItems;
     const proches = await pSemblables;
-    const semblables = proches.map(x => Nouveautes.candidat(x.n));
+    // ressemblance des nouveautés peu fiable (0,8 pour des figurines sans rapport, mesuré le 10/11/2026) : seules les très
+    // ressemblantes sont gardées ; sinon « aucune figurine reconnue » et Google Lens
+    const semblables = proches.filter(x => x.s >= 0.9).map(x => Nouveautes.candidat(x.n));
     if (premiere) etat.autreVu = autreQueFigurine(await pGeneral, items);
     if (!items.length && !semblables.length) {
       afficher(etat.photos.length ? "resultat" : "accueil");

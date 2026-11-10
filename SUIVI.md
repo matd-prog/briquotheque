@@ -131,6 +131,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     capuche) », « 📷 Le dos »… : la photo du détail s'affiche au-dessus des versions pour comparer. « 🔎 Chercher avec
     Google Lens » (autres possibilités, et quand rien n'est reconnu) : la photo part par le menu de partage du téléphone
     (Google Lens), puis l'écran « Saisir un code » s'ouvre avec une aide. Pas d'accès direct à Google Lens (pas d'API).
+    Nouveautés « ressemblantes » gardées seulement à 0,9 et plus (Leia : sans résultat Brickognize, le Taxi Driver à 0,8
+    restait proposé) : sinon « Aucune figurine reconnue », avec Google Lens.
   · v198 (10/11) : LES NOUVEAUTÉS NE PASSENT PLUS DEVANT (Mathias : Princesse Leia 20 ans proposée en « Taxi Driver,
     Nouveauté LEGO »). La ressemblance des nouveautés (empreinte de couleurs, nouveautes_empreintes.tsv) donne 0,79 à 0,83 à
     des figurines sans rapport (mesuré sur la photo de Mathias) : elles restent proposées après Brickognize, jamais devant ;
