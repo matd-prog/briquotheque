@@ -98,7 +98,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v197"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v198"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -567,10 +567,9 @@ async function identifier(photo) {
     if (premiere && !(etat.candidats[0] && etat.candidats[0].score >= 0.85)) {
       const deja = new Set(etat.candidats.map(c => c.id));
       etat.semblables = semblables.filter(c => !deja.has(c.id));
-      // nouveauté très ressemblante et Brickognize hésitant : la nouveauté passe devant
-      const devant = proches.length && proches[0].s >= 0.8 && !(etat.candidats[0] && etat.candidats[0].score >= 0.5);
-      etat.candidats = !items.length ? etat.semblables
-        : devant ? [...etat.semblables, ...etat.candidats] : [...etat.candidats, ...etat.semblables];
+      // les nouveautés ne passent plus jamais devant (Mathias, 10/11/2026 : Princesse Leia proposée en « Taxi Driver ») :
+      // la ressemblance des couleurs donne 0,8 à des figurines sans rapport ; elles restent en autres possibilités
+      etat.candidats = !items.length ? etat.semblables : [...etat.candidats, ...etat.semblables];
     } else if (premiere) etat.semblables = [];
     else etat.candidats = [...etat.candidats, ...(etat.semblables || []).filter(c => !etat.candidats.some(x => x.id === c.id))];
     choisirCandidat(0);

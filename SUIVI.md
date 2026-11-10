@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v198 (10/11) : LES NOUVEAUTÉS NE PASSENT PLUS DEVANT (Mathias : Princesse Leia 20 ans proposée en « Taxi Driver,
+    Nouveauté LEGO »). La ressemblance des nouveautés (empreinte de couleurs, nouveautes_empreintes.tsv) donne 0,79 à 0,83 à
+    des figurines sans rapport (mesuré sur la photo de Mathias) : elles restent proposées après Brickognize, jamais devant ;
+    seules quand Brickognize ne trouve rien.
   · v197 (10/11) : COMPARER LES VERSIONS, PORTE-CLÉS (Mathias : stormtroopers, Dark Vador… « ça se joue à peu de
     détails » ; « il ne reconnaît jamais les porte-clés »). Sous la figurine proposée : « 🔍 Comparer les N versions de
     « First Order Stormtrooper » » = toutes les versions du même personnage (même nom principal avant « - », « ( » ou « , »,
