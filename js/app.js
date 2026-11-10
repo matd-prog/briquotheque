@@ -698,7 +698,9 @@ function ongletChoisi() {
 function blocVariantes(code) {
   const v = Catalogue.versions(code), f = Catalogue.trouver(code);
   if (v.length < 2 || !f) return "";
-  const c = code.toUpperCase(), parties = partiesDistinctives(v);
+  const c = code.toUpperCase(), droide = /droid|astromech|\bR\d-|probe/i.test(nomPrincipal(f.nom));
+  // droïdes (Mathias, 10/11/2026 : « il ne voit pas le dessus, complètement différent ») : la « tête » est le dôme
+  const parties = partiesDistinctives(v).map(x => droide && x.id === "visage" ? { ...x, nom: "la tête (le dôme)", bouton: "La tête (le dôme, vue de dessus)" } : x);
   const details = (etat.photosDetail || []).filter(d => d.code === c || d.perso === clePersonnage(f));
   return `<details class="variantes"${v.length <= 12 || etat.photos.length ? " open" : ""}>
     <summary>🔍 Comparer les ${v.length} versions de « ${echapper(nomPrincipal(f.nom))} » (le détail qui change est en gras)</summary>
@@ -736,7 +738,8 @@ function partiesDistinctives(versions) {
   });
 }
 async function photographierDetail(id) {
-  const p = PARTIES_FIGURINE.find(x => x.id === id), cand = etat.choisi;
+  const cand = etat.choisi, droide = cand && /droid|astromech|\bR\d-|probe/i.test(nomPrincipal(cand.nom || ""));
+  const p0 = PARTIES_FIGURINE.find(x => x.id === id), p = p0 && droide && id === "visage" ? { ...p0, bouton: "La tête (le dôme, vue de dessus)" } : p0;
   if (!p || !cand) return;
   const champ = document.createElement("input");
   champ.type = "file"; champ.accept = "image/*"; champ.setAttribute("capture", "environment");
