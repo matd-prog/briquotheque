@@ -99,6 +99,23 @@ const Catalogue = {
     return groupe.length > 1 ? groupe.slice().sort((a, b) => (b.annee || "").localeCompare(a.annee || "") || a.code.localeCompare(b.code)) : [];
   },
 
+  // Toutes les versions d'un même personnage (Mathias, 10/11/2026 : stormtroopers, Dark Vador… se jouent à un détail) :
+  // même nom principal (avant « - », « ( » ou « , ») et même racine de catégorie ; les plus récentes d'abord
+  versions(code, max = 60) {
+    const f = this.trouver(code);
+    if (!f || !this.liste) return [];
+    if (!this._personnages) {
+      this._personnages = new Map();
+      for (const x of this.liste) {
+        const k = clePersonnage(x);
+        if (!this._personnages.has(k)) this._personnages.set(k, []);
+        this._personnages.get(k).push(x);
+      }
+    }
+    const groupe = this._personnages.get(clePersonnage(f)) || [];
+    return groupe.length > 1 ? groupe.slice().sort((a, b) => (b.annee || "").localeCompare(a.annee || "") || a.code.localeCompare(b.code, "en", { numeric: true })).slice(0, max) : [];
+  },
+
   // Séries récentes (catégories BrickLink dont une figurine date de cette année ou de l'an dernier),
   // les plus récentes d'abord : [{ categorie, annee, n }]. Utile quand la reconnaissance par photo
   // (Brickognize) ne connaît pas encore une nouvelle série (ex. minifigures Shrek).
@@ -136,6 +153,15 @@ const Catalogue = {
     return res.slice(0, max);
   },
 };
+
+// Nom principal d'une figurine (« First Order Stormtrooper (Pointed Mouth Pattern) » -> « First Order Stormtrooper ») et
+// ce qui distingue la version (« Pointed Mouth Pattern »)
+function nomPrincipal(nom) { return String(nom || "").split(/\s[-–]\s|\s?\(|,/)[0].trim(); }
+function detailVersion(nom) {
+  const p = nomPrincipal(nom);
+  return String(nom || "").slice(p.length).replace(/^[\s,\-–]+/, "").replace(/[()]/g, "").replace(/\s+/g, " ").trim();
+}
+function clePersonnage(f) { return `${(f.categorie || "").split(" / ")[0].toLowerCase()}#${normaliser(nomPrincipal(f.nom))}`; }
 
 // Nom d'une figurine sans ce qui touche à la tête (« Light Nougat Head », « Female », « Angry Smile »…),
 // précédé de la racine de sa catégorie : même clé = variantes qui ne diffèrent que par la tête

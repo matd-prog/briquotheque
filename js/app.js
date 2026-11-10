@@ -98,7 +98,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v196"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v197"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -692,19 +692,46 @@ function ongletChoisi() {
   return etat.theme === STAR_WARS ? CAMPS[etat.camp].onglet : etat.theme;
 }
 
-// Autres versions du même personnage, qui ne diffèrent que par la tête (cachée par un casque sur la photo)
+// Comparer les versions (Mathias, 10/11/2026 : stormtroopers, Dark Vador… « des fois, ça se joue à peu de détails ») :
+// toutes les versions du même personnage, avec leur photo et ce qui les distingue en gras ; un toucher la choisit
 function blocVariantes(code) {
-  const v = Catalogue.variantes(code).filter(f => f.code !== code.toUpperCase());
-  if (!v.length) return "";
-  return `<details class="variantes"${v.length <= 6 ? " open" : ""}>
-    <summary>🪖 ${v.length} autre${v.length > 1 ? "s" : ""} version${v.length > 1 ? "s" : ""} du même personnage (tête différente, cachée par un casque ?)</summary>
-    <div class="grille">${v.map(f => `
-      <button class="proposition" data-variante="${echapper(f.code)}">
-        ${imageHtml({ id: f.code })}
-        <span class="nom-court">${echapper(f.nom)}</span>
-        <span class="code">${echapper(f.code)}${f.annee ? ` · ${echapper(f.annee)}` : ""}</span>
+  const v = Catalogue.versions(code), f = Catalogue.trouver(code);
+  if (v.length < 2 || !f) return "";
+  const c = code.toUpperCase();
+  return `<details class="variantes"${v.length <= 12 ? " open" : ""}>
+    <summary>🔍 Comparer les ${v.length} versions de « ${echapper(nomPrincipal(f.nom))} » (le détail qui change est en gras)</summary>
+    <div class="grille">${v.map(x => `
+      <button class="proposition${x.code === c ? " choisie" : ""}" data-variante="${echapper(x.code)}">
+        ${imageHtml({ id: x.code })}
+        <span class="nom-court"><b>${echapper(detailVersion(x.nom) || "Version de base")}</b></span>
+        <span class="code">${echapper(x.code)}${x.annee ? ` · ${echapper(x.annee)}` : ""}${x.code === c ? " · ✔ proposée" : ""}</span>
       </button>`).join("")}</div>
   </details>`;
+}
+
+// Porte-clés (Mathias, 10/11/2026 : « il ne reconnaît jamais les porte-clés ») : la reconnaissance par photo ne connaît
+// que les figurines ; les porte-clés du même personnage (catalogue des objets dérivés) sont proposés sous la figurine
+async function remplirPorteCles(cand) {
+  const z = $("porte-cles");
+  if (!z || typeof CatalogueObjets === "undefined" || !cand.nom) return;
+  try { await CatalogueObjets.charger(); } catch (err) { return; }
+  const perso = normaliser(nomPrincipal(cand.nom));
+  if (perso.length < 3 || z.dataset.pour !== cand.id) return;
+  const liste = CatalogueObjets.liste.filter(o => /key ?chain/i.test(`${o.theme} ${o.nom}`) && normaliser(o.nom).includes(perso))
+    .sort((a, b) => (b.annee || "").localeCompare(a.annee || ""));
+  if (!liste.length) return;
+  z.innerHTML = `<details class="variantes"${etat.photos.length ? " open" : ""}>
+    <summary>🔑 C'est un porte-clés ? ${liste.length} porte-clés « ${echapper(nomPrincipal(cand.nom))} »</summary>
+    <div class="grille">${liste.slice(0, 30).map((o, i) => `
+      <button class="proposition" data-porte-cles="${i}">
+        ${o.image ? `<img loading="lazy" src="${echapper(o.image)}" alt="" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">Pas de photo</div>`}
+        <span class="nom-court">${echapper(o.nom)}</span>
+        <span class="code">${echapper(o.bricklink || o.code)}${o.annee ? ` · ${echapper(o.annee)}` : ""}</span>
+      </button>`).join("")}</div></details>`;
+  z.querySelectorAll("[data-porte-cles]").forEach(b => b.addEventListener("click", async () => {
+    await EcranObjet.ouvrir();
+    EcranObjet.choisir(liste[+b.dataset.porteCles]);
+  }));
 }
 
 function choisirCandidat(i) {
@@ -732,9 +759,12 @@ function choisirCandidat(i) {
     </div>
     <a class="bouton bleu" href="${echapper(cand.lien)}" target="_blank" rel="noopener">🔗 Voir la page ${/rebrickable/.test(cand.lien) ? "Rebrickable" : "BrickLink"}</a>
     ${typeof Souhaits !== "undefined" ? Souhaits.bouton("Figurine", cand.id, cand.nom, cand.categorie || "") : ""}
-    ${blocVariantes(cand.id)}`;
+    ${blocVariantes(cand.id)}
+    <div id="porte-cles" data-pour="${echapper(cand.id)}"></div>`;
+  remplirPorteCles(cand);
   $("carte-principale").querySelectorAll("[data-variante]").forEach(b => b.addEventListener("click", () => {
     const f = Catalogue.trouver(b.dataset.variante);
+    if (!f || f.code === cand.id.toUpperCase()) return;
     etat.candidats = [{ id: f.code, nom: f.nom, image: "", score: null, categorie: f.categorie, lien: urlBricklink(f.code) }, ...etat.candidats];
     choisirCandidat(0);
     window.scrollTo(0, 0);
@@ -1679,6 +1709,7 @@ function ouvrirSaisie() {
 async function validerSaisie() {
   const code = $("saisie-code").value.trim().toUpperCase().replace(/\s+/g, "");
   if (!code) return;
+  await Catalogue.charger().catch(() => {}); // sinon « Nom inconnu » si le catalogue n'est pas encore lu (Mathias, 10/11/2026)
   const connu = etat.table.find(l => l.code.toUpperCase() === code);
   const fiche = Catalogue.trouver(code);
   etat.candidats = [{

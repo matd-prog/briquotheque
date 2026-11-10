@@ -125,6 +125,13 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v197 (10/11) : COMPARER LES VERSIONS, PORTE-CLÉS (Mathias : stormtroopers, Dark Vador… « ça se joue à peu de
+    détails » ; « il ne reconnaît jamais les porte-clés »). Sous la figurine proposée : « 🔍 Comparer les N versions de
+    « First Order Stormtrooper » » = toutes les versions du même personnage (même nom principal avant « - », « ( » ou « , »,
+    même racine de catégorie ; Catalogue.versions), photo, code, année et le détail qui change en gras ; un toucher choisit.
+    Remplace l'ancien bloc « autres versions (tête différente) », trop restreint. « 🔑 C'est un porte-clés ? » : les
+    porte-clés du même personnage (catalogue des objets dérivés, Gear / Key Chain), ouvert après une photo ; un toucher
+    ouvre l'objet dérivé. Bug corrigé : code tapé à la main affiché « Nom inconnu » quand le catalogue n'était pas encore lu.
   · v196 (07/11) : PAS DE CLAVIER PAR-DESSUS UN SET CHOISI (Mathias : « dans les sorties futures, il nous met sur la zone de
     saisie, il ouvre le clavier, on ne voit plus l'élément »). EcranSet.ouvrir(clavier) : le curseur n'est plus mis dans la
     zone de saisie quand on arrive avec un set déjà choisi (nouveautés et sorties, liste de souhaits, photo reconnue comme
