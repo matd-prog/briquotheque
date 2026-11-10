@@ -776,12 +776,15 @@ async function remplirPorteCles(cand) {
   if (z.dataset.pour !== cand.id) return;
   // mot à mot, dans n'importe quel ordre (Mathias, 10/11/2026 : « Rebel Pilot Y-wing » = « Y-Wing Pilot Key Chain ») : les
   // mots du personnage du porte-clés se retrouvent dans le nom de la figurine ; les mieux assortis d'abord
-  const mots = t => normaliser(t).split(/[^a-z0-9]+/).filter(m => m.length > 1 && !/^(key|chain|light|lego|minifigure|with)$/.test(m));
-  const siens = new Set(mots(nomPrincipal(cand.nom))); // le personnage, pas ses couleurs (« Dark Blue Jumpsuit »)
+  const mots = t => normaliser(t).split(/[^a-z0-9]+/).filter(m => m.length > 1 && !/^(key|chain|light|lego|minifigure|with|the|of|and)$/.test(m));
+  // surnoms entre apostrophes ignorés (« 'Baby Yoda' » ferait proposer les porte-clés de Yoda pour Grogu)
+  const perso = new Set(mots(nomPrincipal(cand.nom).replace(/'[^']*'/g, " ")));
+  // le reste du nom compte aussi (« Holiday » : « The Child Key Light with Holiday Sweater »), si le personnage y est
+  const siens = new Set([...perso, ...mots(cand.nom.replace(/'[^']*'/g, " "))]); // le personnage, pas ses couleurs (« Dark Blue Jumpsuit »)
   // (un mot de plus toléré au-delà de deux en commun : « Darth Vader Holiday Key Light »)
   const liste = CatalogueObjets.liste.map(o => { const m = mots(o.nom); return { o, m, n: m.filter(x => siens.has(x)).length }; })
-    .filter(({ o, m, n }) => /key ?(chain|light)/i.test(`${o.theme} ${o.nom}`) && m.some(x => x.length >= 3 && siens.has(x)) && (n === m.length || (n >= 2 && n >= m.length - 1)))
-    .sort((a, b) => (b.n === b.m.length) - (a.n === a.m.length) || b.n - a.n || (b.o.annee || "").localeCompare(a.o.annee || "")).map(x => x.o);
+    .filter(({ o, m, n }) => /key ?(chain|light)/i.test(`${o.theme} ${o.nom}`) && m.some(x => x.length >= 3 && perso.has(x)) && (n === m.length || (n >= 2 && n >= m.length - 1)))
+    .sort((a, b) => b.n - a.n || (b.n === b.m.length) - (a.n === a.m.length) || (b.o.annee || "").localeCompare(a.o.annee || "")).map(x => x.o);
   if (!liste.length) return;
   z.innerHTML = `<details class="variantes">
     <summary>🔑 C'est un porte-clés ? ${liste.length} porte-clés « ${echapper(nomPrincipal(cand.nom))} »</summary>

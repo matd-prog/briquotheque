@@ -128,7 +128,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
   · v200 (10/11, pas encore publiée) : PORTE-CLÉS TROUVÉS MOT À MOT (Mathias : pilote Y-wing sw0801 en porte-clés, rien
     proposé). Les mots du personnage du porte-clés (« Y-Wing Pilot ») sont cherchés dans le nom principal de la figurine
     (« Rebel Pilot Y-wing »), dans n'importe quel ordre ; un mot de plus toléré au-delà de deux en commun (« Darth Vader
-    Holiday Key Light ») ; porte-clés lumineux (Key Light) compris ; les mieux assortis d'abord.
+    Holiday Key Light ») ; porte-clés lumineux (Key Light) compris ; les mieux assortis d'abord. Surnoms entre apostrophes
+    ignorés (Grogu « 'Baby Yoda' » : plus de porte-clés Yoda) ; le reste du nom compte si le personnage est là (Grogu en
+    tenue de fête : « The Child Key Light with Holiday Sweater » en premier).
   · v199 (10/11) : PHOTO DU DÉTAIL QUI DISTINGUE LES VERSIONS,
     GOOGLE LENS. Dans « Comparer les versions » : l'appli déduit des noms BrickLink ce qui distingue les versions (visage,
     casque, torse, dos, bras, jambes, cape/capuche/cheveux ; partiesDistinctives) et propose « 📷 Le visage (sans casque ni
