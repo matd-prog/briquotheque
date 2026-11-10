@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v199 (10/11, PAS ENCORE PUBLIÉE : Mathias veut tout corriger avant) : PHOTO DU DÉTAIL QUI DISTINGUE LES VERSIONS,
+    GOOGLE LENS. Dans « Comparer les versions » : l'appli déduit des noms BrickLink ce qui distingue les versions (visage,
+    casque, torse, dos, bras, jambes, cape/capuche/cheveux ; partiesDistinctives) et propose « 📷 Le visage (sans casque ni
+    capuche) », « 📷 Le dos »… : la photo du détail s'affiche au-dessus des versions pour comparer. « 🔎 Chercher avec
+    Google Lens » (autres possibilités, et quand rien n'est reconnu) : la photo part par le menu de partage du téléphone
+    (Google Lens), puis l'écran « Saisir un code » s'ouvre avec une aide. Pas d'accès direct à Google Lens (pas d'API).
   · v198 (10/11) : LES NOUVEAUTÉS NE PASSENT PLUS DEVANT (Mathias : Princesse Leia 20 ans proposée en « Taxi Driver,
     Nouveauté LEGO »). La ressemblance des nouveautés (empreinte de couleurs, nouveautes_empreintes.tsv) donne 0,79 à 0,83 à
     des figurines sans rapport (mesuré sur la photo de Mathias) : elles restent proposées après Brickognize, jamais devant ;

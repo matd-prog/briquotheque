@@ -686,6 +686,7 @@
         <label class="bouton bleu" id="btn-dos">📷 Ajouter une photo de dos pour affiner
           <input type="file" id="input-dos" accept="image/*" capture="environment" hidden>
         </label>
+        <button class="bouton bleu" data-action="google-lens">🔎 Chercher avec Google Lens</button>
         <button class="bouton bleu" data-action="recherche">🔍 Chercher par nom</button>
         <button class="bouton bleu" data-action="nouveautes-series">🆕 Nouveautés (séries récentes, pas encore reconnues en photo)</button>
         <button class="bouton-lien" data-action="saisie">⌨️ Saisir le code à la main</button>
@@ -696,6 +697,7 @@
 
   <!-- 5. Saisie manuelle -->
   <section id="ecran-saisie" class="ecran" hidden>
+    <p class="alerte info" id="saisie-aide-lens" hidden>🔎 Dans Google Lens, repérez le code de la figurine (ex. « sw1022 ») ou son nom, puis tapez le code ci-dessous. Sans code, revenez et touchez « Chercher par nom ».</p>
     <label for="saisie-code" class="etiquette-champ">Code BrickLink de la figurine</label>
     <input id="saisie-code" class="champ" placeholder="ex. SW0631" autocapitalize="characters" autocomplete="off">
     <p class="aide">Vous ne connaissez pas le code ? <a id="lien-recherche" href="https://www.bricklink.com/catalogTree.asp?itemType=M" target="_blank" rel="noopener">Chercher sur BrickLink</a></p>

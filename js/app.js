@@ -98,7 +98,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v198"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v199"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -557,7 +557,7 @@ async function identifier(photo) {
         return;
       }
       if (premiere && etat.autreVu && await proposerAutreChose(etat.autreVu)) return;
-      await demander("Aucune figurine reconnue sur cette photo. Essayez avec la figurine seule, bien éclairée, sur un fond uni, en la recadrant au plus près.", "OK", "Fermer");
+      if (await demander("Aucune figurine reconnue sur cette photo. Essayez avec la figurine seule, bien éclairée, sur un fond uni, en la recadrant au plus près.\n\nOu cherchez-la avec Google Lens, puis tapez le code trouvé.", "🔎 Google Lens", "Fermer")) chercherAvecLens();
       return;
     }
     etat.photos.push({ url, items });
@@ -696,9 +696,14 @@ function ongletChoisi() {
 function blocVariantes(code) {
   const v = Catalogue.versions(code), f = Catalogue.trouver(code);
   if (v.length < 2 || !f) return "";
-  const c = code.toUpperCase();
-  return `<details class="variantes"${v.length <= 12 ? " open" : ""}>
+  const c = code.toUpperCase(), parties = partiesDistinctives(v);
+  const details = (etat.photosDetail || []).filter(d => d.code === c || d.perso === clePersonnage(f));
+  return `<details class="variantes"${v.length <= 12 || etat.photos.length ? " open" : ""}>
     <summary>🔍 Comparer les ${v.length} versions de « ${echapper(nomPrincipal(f.nom))} » (le détail qui change est en gras)</summary>
+    ${parties.length ? `<div class="alerte info">📷 Ces versions se distinguent par : <b>${parties.map(x => echapper(x.nom)).join(", ")}</b>.
+      Photographiez ce détail pour le comparer aux photos ci-dessous :
+      <div class="suggestions">${parties.map(x => `<button class="petit" data-photo-detail="${x.id}">📷 ${echapper(x.bouton)}</button>`).join("")}</div></div>` : ""}
+    ${details.length ? `<div class="photos-detail">${details.map(d => `<figure><img src="${d.url}" alt=""><figcaption>${echapper(d.nom)}</figcaption></figure>`).join("")}</div>` : ""}
     <div class="grille">${v.map(x => `
       <button class="proposition${x.code === c ? " choisie" : ""}" data-variante="${echapper(x.code)}">
         ${imageHtml({ id: x.code })}
@@ -706,6 +711,55 @@ function blocVariantes(code) {
         <span class="code">${echapper(x.code)}${x.annee ? ` · ${echapper(x.annee)}` : ""}${x.code === c ? " · ✔ proposée" : ""}</span>
       </button>`).join("")}</div>
   </details>`;
+}
+
+// Ce qui distingue les versions d'un personnage, d'après le détail de leur nom BrickLink (Mathias, 10/11/2026 : « il
+// faudrait qu'il nous demande de faire une photo de ce qui pourrait différencier une figurine d'une autre ; si c'est le
+// visage, une photo sans le casque, ou du dos… »)
+const PARTIES_FIGURINE = [
+  { id: "visage", nom: "le visage", bouton: "Le visage (sans casque ni capuche)", re: /head|face|smile|frown|grin|grimac|smirk|scowl|\bfemale\b|\bmale\b|cheek|eyebrow|freckle|stubble|beard|goatee|moustache|mustache|sneer|eyes|eyelashes|pupils|lips|teeth|wink|balaclava|scar\b/i },
+  { id: "casque", nom: "le casque", bouton: "Le casque (de face)", re: /helmet|mouth pattern|visor|antenna|goggles|mask/i },
+  { id: "torse", nom: "le torse", bouton: "Le torse (de face)", re: /torso|vest|belt|jacket|shirt|armor|armour|logo|uniform|suit|pocket|pouch|tunic|sash|insignia|anniversary/i },
+  { id: "dos", nom: "le dos", bouton: "Le dos", re: /\bback\b|backpack/i },
+  { id: "bras", nom: "les bras ou les mains", bouton: "Les bras et les mains", re: /\barms?\b|sleeve|\bhands?\b|gloves?/i },
+  { id: "jambes", nom: "les jambes", bouton: "Les jambes", re: /\blegs?\b|hips|boots|skirt|dual molded|kilt|shoes/i },
+  { id: "cape", nom: "la cape, la capuche ou les cheveux", bouton: "La cape, la capuche ou les cheveux", re: /cape|poncho|hood|robe|hair|scarf|cloak|skirt piece/i },
+];
+function partiesDistinctives(versions) {
+  const textes = versions.map(x => detailVersion(x.nom));
+  // une partie ne distingue que si toutes les versions n'en disent pas la même chose
+  return PARTIES_FIGURINE.filter(p => {
+    const mots = textes.map(t => t.split(/,|\s-\s/).map(m => m.trim()).filter(m => p.re.test(m)).sort().join("|"));
+    return mots.some(Boolean) && new Set(mots).size > 1;
+  });
+}
+async function photographierDetail(id) {
+  const p = PARTIES_FIGURINE.find(x => x.id === id), cand = etat.choisi;
+  if (!p || !cand) return;
+  const champ = document.createElement("input");
+  champ.type = "file"; champ.accept = "image/*"; champ.setAttribute("capture", "environment");
+  champ.addEventListener("change", () => {
+    const f = champ.files[0];
+    if (!f) return;
+    const fiche = Catalogue.trouver(cand.id);
+    etat.photosDetail = [...(etat.photosDetail || []), { code: cand.id.toUpperCase(), perso: fiche ? clePersonnage(fiche) : "", nom: p.bouton, url: URL.createObjectURL(f) }];
+    choisirCandidat(etat.candidats.indexOf(cand));
+    setTimeout(() => { const z = document.querySelector(".photos-detail"); if (z) z.scrollIntoView({ block: "center" }); }, 100);
+  });
+  champ.click();
+}
+
+// Google Lens (Mathias, 10/11/2026 : « basculer sur Google Lens si jamais il échoue ») : la photo est envoyée par le menu
+// de partage du téléphone (choisir « Google Lens » ou « Rechercher l'image ») ; le code trouvé se tape ensuite
+async function chercherAvecLens() {
+  const f = etat.fichierPhoto;
+  const fichier = f && new File([f], "figurine.jpg", { type: f.type || "image/jpeg" });
+  if (fichier && navigator.canShare && navigator.canShare({ files: [fichier] })) {
+    try { await navigator.share({ files: [fichier], title: "Figurine LEGO" }); }
+    catch (err) { if (err.name === "AbortError") return; }
+  } else window.open("https://lens.google.com/", "_blank", "noopener");
+  ouvrirSaisie();
+  $("saisie-aide-lens").hidden = false;
 }
 
 // Porte-clés (Mathias, 10/11/2026 : « il ne reconnaît jamais les porte-clés ») : la reconnaissance par photo ne connaît
@@ -761,6 +815,7 @@ function choisirCandidat(i) {
     ${blocVariantes(cand.id)}
     <div id="porte-cles" data-pour="${echapper(cand.id)}"></div>`;
   remplirPorteCles(cand);
+  $("carte-principale").querySelectorAll("[data-photo-detail]").forEach(b => b.addEventListener("click", () => photographierDetail(b.dataset.photoDetail)));
   $("carte-principale").querySelectorAll("[data-variante]").forEach(b => b.addEventListener("click", () => {
     const f = Catalogue.trouver(b.dataset.variante);
     if (!f || f.code === cand.id.toUpperCase()) return;
@@ -1701,6 +1756,7 @@ async function ajouterCustom() {
 
 function ouvrirSaisie() {
   $("saisie-code").value = "";
+  if ($("saisie-aide-lens")) $("saisie-aide-lens").hidden = true;
   afficher("saisie");
   setTimeout(() => $("saisie-code").focus(), 50);
 }
@@ -2019,6 +2075,7 @@ document.addEventListener("click", async e => {
     else afficher(etat.classeur ? "accueil" : "fichier");
   }
   else if (action === "saisie") ouvrirSaisie();
+  else if (action === "google-lens") chercherAvecLens();
   else if (action === "photo-vers-blister") photoVersBlister();
   else if (action === "blister-ajouter") ajouterBlister();
   else if (action === "photo-vers-set") photoVersSet();

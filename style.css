@@ -678,3 +678,8 @@ html[lang="fr"] .langue-verif { display: none; }
   padding: 6px 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
 .ligne-partage > span { flex: 1; }
 .vignette-partage { width: 56px; height: 56px; object-fit: contain; border-radius: 8px; background: #f3f3f3; flex: none; }
+/* Photos d'un détail (visage sans casque, dos…) pour comparer les versions d'un personnage (10/11/2026) */
+.photos-detail { display: flex; gap: 8px; overflow-x: auto; margin: 8px 0; }
+.photos-detail figure { margin: 0; flex: 0 0 46%; }
+.photos-detail img { width: 100%; border-radius: 10px; display: block; }
+.photos-detail figcaption { font-size: .85em; text-align: center; color: var(--gris, #666); }
