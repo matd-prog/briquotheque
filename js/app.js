@@ -574,6 +574,9 @@ async function identifier(photo) {
       etat.candidats = !items.length ? etat.semblables : [...etat.candidats, ...etat.semblables];
     } else if (premiere) etat.semblables = [];
     else etat.candidats = [...etat.candidats, ...(etat.semblables || []).filter(c => !etat.candidats.some(x => x.id === c.id))];
+    // catalogue lu avant d'afficher (Mathias, 10/11/2026 : sur le téléphone, « Comparer les versions » manquait : le
+    // catalogue de 20 000 figurines n'était pas encore lu quand la réponse arrivait) ; 8 s au plus
+    await Promise.race([Catalogue.charger().catch(() => {}), new Promise(ok => setTimeout(ok, 8000))]);
     choisirCandidat(0);
   } catch (err) {
     console.error(err);
@@ -806,6 +809,9 @@ function choisirCandidat(i) {
   etat.choisi = cand;
   etat.theme = proposerTheme(cand);
   etat.camp = proposerCamp(cand.id, cand.nom, etat.table).camp;
+  if (!Catalogue.liste) Catalogue.charger().then(() => { // catalogue lu ensuite : versions et nom complétés
+    if (etat.choisi === cand && ecranActuel === "resultat" && !document.activeElement.closest("#zone-ajout")) choisirCandidat(etat.candidats.indexOf(cand));
+  }).catch(() => {});
   const deja = ouFigurine(cand.id);
   const nbPhotos = etat.photos.length;
   const score = cand.score != null
