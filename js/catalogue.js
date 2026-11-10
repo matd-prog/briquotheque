@@ -113,7 +113,11 @@ const Catalogue = {
       }
     }
     const groupe = this._personnages.get(clePersonnage(f)) || [];
-    return groupe.length > 1 ? groupe.slice().sort((a, b) => (b.annee || "").localeCompare(a.annee || "") || a.code.localeCompare(b.code, "en", { numeric: true })).slice(0, max) : [];
+    // les plus proches d'abord (le plus de mots en commun avec son nom : « R5-D4 », « Truncated Cone Head »…), puis les
+    // plus récentes ; la figurine elle-même en tête
+    const mots = t => new Set(normaliser(t).split(/[^a-z0-9]+/).filter(m => m.length > 1));
+    const siens = mots(f.nom), proche = x => x === f ? 1e6 : [...mots(x.nom)].filter(m => siens.has(m)).length;
+    return groupe.length > 1 ? groupe.slice().sort((a, b) => proche(b) - proche(a) || (b.annee || "").localeCompare(a.annee || "") || a.code.localeCompare(b.code, "en", { numeric: true })).slice(0, max) : [];
   },
 
   // Séries récentes (catégories BrickLink dont une figurine date de cette année ou de l'an dernier),

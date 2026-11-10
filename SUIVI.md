@@ -133,6 +133,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     (Google Lens), puis l'écran « Saisir un code » s'ouvre avec une aide. Pas d'accès direct à Google Lens (pas d'API).
     Nouveautés « ressemblantes » gardées seulement à 0,9 et plus (Leia : sans résultat Brickognize, le Taxi Driver à 0,8
     restait proposé) : sinon « Aucune figurine reconnue », avec Google Lens.
+    Versions triées par proximité du nom (le plus de mots en commun : pour R5-D8 / R5-D4, les autres R5-D4 d'abord, et
+    non les 60 droïdes astromech au hasard), la figurine proposée en tête ; bloc ouvert après une photo. Bloc porte-clés
+    replié par défaut (il ne prend plus la place sous chaque figurine).
   · v198 (10/11) : LES NOUVEAUTÉS NE PASSENT PLUS DEVANT (Mathias : Princesse Leia 20 ans proposée en « Taxi Driver,
     Nouveauté LEGO »). La ressemblance des nouveautés (empreinte de couleurs, nouveautes_empreintes.tsv) donne 0,79 à 0,83 à
     des figurines sans rapport (mesuré sur la photo de Mathias) : elles restent proposées après Brickognize, jamais devant ;

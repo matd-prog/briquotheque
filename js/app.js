@@ -775,7 +775,7 @@ async function remplirPorteCles(cand) {
   const liste = CatalogueObjets.liste.filter(o => /key ?chain/i.test(`${o.theme} ${o.nom}`) && normaliser(o.nom).includes(perso))
     .sort((a, b) => (b.annee || "").localeCompare(a.annee || ""));
   if (!liste.length) return;
-  z.innerHTML = `<details class="variantes"${etat.photos.length ? " open" : ""}>
+  z.innerHTML = `<details class="variantes">
     <summary>🔑 C'est un porte-clés ? ${liste.length} porte-clés « ${echapper(nomPrincipal(cand.nom))} »</summary>
     <div class="grille">${liste.slice(0, 30).map((o, i) => `
       <button class="proposition" data-porte-cles="${i}">
