@@ -125,7 +125,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
-  · v199 (10/11, PAS ENCORE PUBLIÉE : Mathias veut tout corriger avant) : PHOTO DU DÉTAIL QUI DISTINGUE LES VERSIONS,
+  · v199 (10/11) : PHOTO DU DÉTAIL QUI DISTINGUE LES VERSIONS,
     GOOGLE LENS. Dans « Comparer les versions » : l'appli déduit des noms BrickLink ce qui distingue les versions (visage,
     casque, torse, dos, bras, jambes, cape/capuche/cheveux ; partiesDistinctives) et propose « 📷 Le visage (sans casque ni
     capuche) », « 📷 Le dos »… : la photo du détail s'affiche au-dessus des versions pour comparer. « 🔎 Chercher avec
