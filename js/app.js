@@ -772,11 +772,37 @@ async function chercherAvecLens() {
 
 // Porte-clés (Mathias, 10/11/2026 : « il ne reconnaît jamais les porte-clés ») : la reconnaissance par photo ne connaît
 // que les figurines ; les porte-clés du même personnage (catalogue des objets dérivés) sont proposés sous la figurine
+// Porte-clés qui ressemblent à la photo (Mathias, 11/11/2026 : « on ne peut pas prendre une photo d'un truc qu'on ne
+// connaît pas pour que l'appli l'identifie ») : modèle de vision de l'appli (js/vision.js), comparé aux résumés des photos
+// officielles des porte-clés (data/porte_cles_vision.tsv, outils/vision_porte_cles.js, chaque nuit) ; [{ code, s }]
+let _refsPorteCles = null, _vecteurPhoto = null;
+async function porteClesRessemblants(max = 6) {
+  const f = etat.fichierPhoto;
+  if (!f || !etat.photos.length || typeof Vision === "undefined") return [];
+  if (!_refsPorteCles) _refsPorteCles = fetch("data/porte_cles_vision.tsv").then(r => r.ok ? r.text() : "")
+    .then(t => t.split("\n").slice(1).filter(Boolean).map(l => { const [code, v] = l.split("\t"); return { code, v: Vision.depuisTexte(v) }; }))
+    .catch(() => []);
+  const refs = await _refsPorteCles;
+  if (!refs.length) return [];
+  if (!_vecteurPhoto || _vecteurPhoto.f !== f) {
+    const im = await createImageBitmap(f);
+    _vecteurPhoto = { f, v: await Vision.vecteur(im) };
+    im.close && im.close();
+  }
+  const v = _vecteurPhoto.v, n = Math.hypot(...v) || 1;
+  return refs.map(r => { let s = 0; for (let i = 0; i < v.length; i++) s += v[i] * r.v[i]; return { code: r.code, s: s / n }; })
+    .sort((a, b) => b.s - a.s).slice(0, max);
+}
+
 async function remplirPorteCles(cand) {
   const z = $("porte-cles");
   if (!z || typeof CatalogueObjets === "undefined" || !cand.nom) return;
   try { await CatalogueObjets.charger(); } catch (err) { return; }
   if (z.dataset.pour !== cand.id) return;
+  const vus = await porteClesRessemblants().catch(err => { console.warn("porte-clés : vision", err); return []; });
+  if (z.dataset.pour !== cand.id) return;
+  const parCode = new Map(CatalogueObjets.liste.map(o => [String(o.bricklink || o.code).toUpperCase(), o]));
+  const ressemblants = vus.map(x => parCode.get(x.code.toUpperCase())).filter(Boolean);
   // mot à mot, dans n'importe quel ordre (Mathias, 10/11/2026 : « Rebel Pilot Y-wing » = « Y-Wing Pilot Key Chain ») : les
   // mots du personnage du porte-clés se retrouvent dans le nom de la figurine ; les mieux assortis d'abord
   const mots = t => normaliser(t).split(/[^a-z0-9]+/).filter(m => m.length > 1 && !/^(key|chain|light|lego|minifigure|with|the|of|and)$/.test(m));
@@ -788,18 +814,21 @@ async function remplirPorteCles(cand) {
   const liste = CatalogueObjets.liste.map(o => { const m = mots(o.nom); return { o, m, n: m.filter(x => siens.has(x)).length }; })
     .filter(({ o, m, n }) => /key ?(chain|light)/i.test(`${o.theme} ${o.nom}`) && m.some(x => x.length >= 3 && perso.has(x)) && (n === m.length || (n >= 2 && n >= m.length - 1)))
     .sort((a, b) => b.n - a.n || (b.n === b.m.length) - (a.n === a.m.length) || (b.o.annee || "").localeCompare(a.o.annee || "")).map(x => x.o);
-  if (!liste.length) return;
+  const duPerso = liste.length;
+  // ceux qui ressemblent à la photo d'abord (marqués 📷), puis ceux du personnage reconnu
+  const tous = [...ressemblants, ...liste.filter(o => !ressemblants.includes(o))];
+  if (!tous.length) return;
   z.innerHTML = `<details class="variantes">
-    <summary>🔑 C'est un porte-clés ? ${liste.length} porte-clés « ${echapper(nomPrincipal(cand.nom))} »</summary>
-    <div class="grille">${liste.slice(0, 30).map((o, i) => `
-      <button class="proposition" data-porte-cles="${i}">
+    <summary>🔑 C'est un porte-clés ? ${ressemblants.length ? `${ressemblants.length} ressemblent à votre photo` : ""}${ressemblants.length && duPerso ? ", " : ""}${duPerso ? `${duPerso} porte-clés « ${echapper(nomPrincipal(cand.nom))} »` : ""}</summary>
+    <div class="grille">${tous.slice(0, 36).map((o, i) => `
+      <button class="proposition" data-porte-cles="${i}">${ressemblants.includes(o) ? `<span class="badge">📷 ressemble</span>` : ""}
         ${o.image ? `<img loading="lazy" src="${echapper(o.image)}" alt="" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">Pas de photo</div>`}
         <span class="nom-court">${echapper(o.nom)}</span>
         <span class="code">${echapper(o.bricklink || o.code)}${o.annee ? ` · ${echapper(o.annee)}` : ""}</span>
       </button>`).join("")}</div></details>`;
   z.querySelectorAll("[data-porte-cles]").forEach(b => b.addEventListener("click", async () => {
     await EcranObjet.ouvrir();
-    EcranObjet.choisir(liste[+b.dataset.porteCles]);
+    EcranObjet.choisir(tous[+b.dataset.porteCles]);
   }));
 }
 
