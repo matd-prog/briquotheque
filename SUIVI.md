@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v201 (11/11, pas encore publiée) : CATALOGUE DE L'APPLI TOUJOURS LU (Mathias : sw1166 tapé à la main affiché avec le
+    nom de sa collection, pas de « Comparer les versions » sur son téléphone). Son catalogue BrickLink installé à la main
+    le 02/10 (22 776 lignes) remplaçait celui de l'appli et ne trouvait pas sw1166 (codes mal lus). Maintenant le catalogue
+    livré (data/figurines.tsv) sert toujours de base ; un catalogue installé à la main ne fait que le compléter, et
+    seulement s'il est bien lu (plus de 80 % de codes de figurines avec un nom, Catalogue._valide).
   · v200 (10/11) : PORTE-CLÉS TROUVÉS MOT À MOT (Mathias : pilote Y-wing sw0801 en porte-clés, rien
     proposé). Les mots du personnage du porte-clés (« Y-Wing Pilot ») sont cherchés dans le nom principal de la figurine
     (« Rebel Pilot Y-wing »), dans n'importe quel ordre ; un mot de plus toléré au-delà de deux en commun (« Darth Vader

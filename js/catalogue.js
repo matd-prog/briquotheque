@@ -1,6 +1,8 @@
 // Catalogue BrickLink des figurines (fichier data/figurines.tsv, une ligne par figurine :
 // code, nom, catégorie, année). Sert à la recherche par nom et à reconnaître le thème.
 
+const CODE_FIGURINE = /^[a-z][a-z0-9]*\d[a-z0-9]*(-\d+)?$/i; // sw0001a, col123, fab1a… (pas un nombre seul)
+
 const Catalogue = {
   liste: null,
   parCode: null,
@@ -16,9 +18,14 @@ const Catalogue = {
         let texte = null;
         try { const rep = await fetch("data/figurines.tsv"); if (rep.ok) texte = await rep.text(); } catch (err) { console.warn(err); }
         const dateDe = t => ((/^#date (\S+)/m.exec(t || "") || [])[1] || "");
-        if (perso && perso.texte && (!texte || dateDe(perso.texte) > dateDe(texte))) texte = perso.texte;
+        // Le catalogue livré avec l'appli sert toujours de base ; celui installé à la main (plus récent) ne fait que
+        // l'enrichir, et seulement s'il a été bien lu (Mathias, 11/11/2026 : son fichier du 02/10, 22 776 lignes, n'avait
+        // pas les bons codes : « Nom inconnu », pas de « Comparer les versions »)
+        const persoOk = perso && perso.texte && this._valide(perso.texte);
+        if (!texte && persoOk) texte = perso.texte;
         if (!texte) throw new Error("catalogue absent");
         this._lire(texte);
+        if (persoOk && perso.texte !== texte && dateDe(perso.texte) > dateDe(texte)) this._lire(perso.texte, true);
         if (typeof Nouveautes !== "undefined") this._ajouterNouveautes(await Nouveautes.charger());
         return this.liste;
       })().catch(err => { this._chargement = null; throw err; });
@@ -26,19 +33,29 @@ const Catalogue = {
     return this._chargement;
   },
 
-  _lire(texte) {
-    this.liste = [];
-    this.parCode = new Map();
-    this.date = null;
+  // ajout = true : complète le catalogue déjà lu (figurines absentes ajoutées, noms mis à jour)
+  _lire(texte, ajout = false) {
+    if (!ajout) { this.liste = []; this.parCode = new Map(); this.date = null; }
+    this._personnages = null; this._groupes = null;
     for (const ligne of texte.split("\n")) {
-      if (ligne.startsWith("#date ")) { this.date = ligne.slice(6).trim(); continue; }
+      if (ligne.startsWith("#date ")) { const d = ligne.slice(6).trim(); if (!this.date || d > this.date) this.date = d; continue; }
       const [code, nom, categorie, annee] = ligne.replace(/\r$/, "").split("\t");
-      if (!code || code === "code" || code.startsWith("#")) continue;
+      if (!code || code === "code" || code.startsWith("#") || (ajout && !CODE_FIGURINE.test(code))) continue;
+      const deja = this.parCode.get(code.toUpperCase());
+      if (deja) { if (nom) { deja.nom = nom; deja.categorie = categorie || deja.categorie; deja.annee = annee || deja.annee;
+        deja.recherche = normaliser(`${deja.code} ${deja.nom} ${deja.categorie}`); } continue; }
       const f = { code: code.toUpperCase(), nom: nom || "", categorie: categorie || "", annee: annee || "" };
       f.recherche = normaliser(`${f.code} ${f.nom} ${f.categorie}`);
       this.liste.push(f);
       this.parCode.set(f.code, f);
     }
+  },
+
+  // Catalogue bien lu : la plupart des codes ressemblent à des codes de figurines (sw0001a, col123…) et ont un nom
+  _valide(texte) {
+    const l = texte.split("\n").filter(x => x && !x.startsWith("#") && !x.startsWith("code\t")).slice(0, 2000);
+    const bons = l.filter(x => { const [c, n] = x.split("\t"); return CODE_FIGURINE.test(c || "") && n; }).length;
+    return l.length > 100 && bons / l.length > 0.8;
   },
 
   // Catalogue mis à jour tout seul chaque mois : rappel seulement s'il a plus de deux mois (mise à jour en panne)
