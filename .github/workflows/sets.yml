@@ -51,13 +51,10 @@ jobs:
           npm install --no-save playwright@1
           npx playwright install chromium
           node outils/empreintes_nouveautes.js
-      - name: Résumés d'image des porte-clés (modèle de vision)
-        continue-on-error: true   # photo ou modèle indisponible : l'ancien fichier reste
-        run: node outils/vision_porte_cles.js
       - name: Publication
         run: |
           git add data/sets.tsv data/sets_figurines.tsv data/nouveautes.tsv data/nouveautes_empreintes.tsv data/objets.tsv
-          for f in data/sorties.tsv data/prix_fr.tsv data/codes_barres.tsv data/porte_cles_vision.tsv; do if [ -f $f ]; then git add $f; fi; done
+          for f in data/sorties.tsv data/prix_fr.tsv data/codes_barres.tsv; do if [ -f $f ]; then git add $f; fi; done
           # seule la date a changé : rien à publier
           if ! git diff --cached -U0 | grep -q '^[+-][^+#-]'; then echo "Rien de nouveau"; exit 0; fi
           git config user.name "github-actions[bot]"
