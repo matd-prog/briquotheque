@@ -98,7 +98,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v201"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v202"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -801,7 +801,7 @@ async function remplirPorteCles(cand) {
   const tous = [...liste, ...autres];
   if (!tous.length) return;
   z.innerHTML = `<details class="variantes">
-    <summary>🔑 C'est un porte-clés ? ${liste.length ? `${liste.length} porte-clés « ${echapper(nomPrincipal(cand.nom))} »` : ""}${liste.length && autres.length ? " + " : ""}${autres.length ? `${autres.length} d'autres personnages proposés` : ""}</summary>
+    <summary>🔑 C'est un porte-clés ? ${liste.length ? `${liste.length} porte-clés « ${echapper(nomPrincipal(cand.nom))} »` : ""}${liste.length && autres.length ? " + " : ""}${autres.length ? (autres.length === 1 ? "1 d'un autre personnage proposé" : `${autres.length} d'autres personnages proposés`) : ""}</summary>
     <div class="grille">${tous.slice(0, 36).map((o, i) => `
       <button class="proposition" data-porte-cles="${i}">
         ${o.image ? `<img loading="lazy" src="${echapper(o.image)}" alt="" onerror="this.style.visibility='hidden'">` : `<div class="sans-photo">Pas de photo</div>`}
