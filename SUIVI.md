@@ -130,6 +130,8 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     le 02/10 (22 776 lignes) remplaçait celui de l'appli et ne trouvait pas sw1166 (codes mal lus). Maintenant le catalogue
     livré (data/figurines.tsv) sert toujours de base ; un catalogue installé à la main ne fait que le compléter, et
     seulement s'il est bien lu (plus de 80 % de codes de figurines avec un nom, Catalogue._valide).
+    « 🔑 C'est un porte-clés : le chercher par nom » (autres possibilités ; Mathias : porte-clés Jyn Erso reconnu en
+    « Imperial Ground Crew ») : écran Objet dérivé, on tape le personnage, les porte-clés d'abord (EcranObjet.ouvrirPorteCles).
   · v200 (10/11) : PORTE-CLÉS TROUVÉS MOT À MOT (Mathias : pilote Y-wing sw0801 en porte-clés, rien
     proposé). Les mots du personnage du porte-clés (« Y-Wing Pilot ») sont cherchés dans le nom principal de la figurine
     (« Rebel Pilot Y-wing »), dans n'importe quel ordre ; un mot de plus toléré au-delà de deux en commun (« Darth Vader
