@@ -125,7 +125,7 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
-  · v202 (11/11, pas encore publiée) : PORTE-CLÉS DES AUTRES PERSONNAGES PROPOSÉS (Mathias : « on ne peut pas prendre une
+  · v202 (11/11) : PORTE-CLÉS DES AUTRES PERSONNAGES PROPOSÉS (Mathias : « on ne peut pas prendre une
     photo d'un truc qu'on ne connaît pas pour que l'appli l'identifie »). Après une photo, le bloc « 🔑 C'est un
     porte-clés ? » ajoute les porte-clés des autres personnages proposés par la reconnaissance (8 premiers) : Jyn Erso
     reconnue en « Imperial Ground Crew » → « Jyn Erso Key Chain » proposé. Essayé et abandonné le même jour : comparer la
