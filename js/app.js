@@ -448,6 +448,9 @@ function combiner(photos) {
 // - Set ou pièce : Brickognize, tous objets (/predict/), dit si la photo ressemble surtout à un set, une pièce ou une
 //   figurine. Set : proposé comme set (n° trouvé) ; pièce (tile, élément…) : proposée comme tile JB ou objet dérivé.
 const SEUIL_BLISTER_SUR = 0.75, SEUIL_BLISTER_PEUT_ETRE = 0.7;
+// Au-delà de SEUIL_BLISTER_CERTAIN (blisters déjà dans la base : 0,98 et plus), blister sans hésiter ; entre les deux,
+// seulement si Brickognize ne reconnaît pas de figurine à SEUIL_FIGURINE_VUE ou plus (figurine seule photographiée).
+const SEUIL_BLISTER_CERTAIN = 0.85, SEUIL_FIGURINE_VUE = 0.6;
 async function blisterRessemblant(fichier) {
   if (typeof Vision === "undefined" || typeof CatalogueJB === "undefined" || !fichier) return null;
   const essai = (async () => {
@@ -541,7 +544,12 @@ async function identifier(photo) {
   pItems.catch(() => {});
   try {
     etat.blisterVu = await pBlister;
-    if (premiere && etat.blisterVu && etat.blisterVu.score >= SEUIL_BLISTER_SUR) {
+    // Mathias, 13/11/2026 : un Doctor Strange posé derrière une vitrine partait tout seul en blister. Passage direct au
+    // blister seulement si la ressemblance est très forte, ou si Brickognize ne voit aucune figurine convaincante ;
+    // sinon, résultats de la figurine, avec « 📦 Cette photo ressemble au blister… » au-dessus.
+    const figVue = premiere && etat.blisterVu && etat.blisterVu.score < SEUIL_BLISTER_CERTAIN
+      ? await pItems.then(l => (l[0] && l[0].score) || 0, () => 0) : 0;
+    if (premiere && etat.blisterVu && etat.blisterVu.score >= SEUIL_BLISTER_SUR && figVue < SEUIL_FIGURINE_VUE) {
       toast(`📦 Blister JB sur la photo (« ${etat.blisterVu.nom} ») : reconnaissance du blister`, 4000);
       photoVersBlister();
       return;
