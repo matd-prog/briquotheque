@@ -1,4 +1,4 @@
-#date 2026-11-12
+#date 2026-11-13
 code	prix	meilleur	url	date	marchand	total
 1000858708-1				2026-11-11		
 1000858718-1				2026-11-11		
@@ -932,9 +932,9 @@ code	prix	meilleur	url	date	marchand	total
 5006163-1				2026-11-11		
 5006583-1	15.99	14.75	https://www.avenuedelabrique.com/porte-cles-lego/5006583-porte-cle-lumineux-dark-vador-avec-pull-de-noel/p11482	2026-11-11	Amazon	14.75
 5006585-1	15.99	14.99	https://www.avenuedelabrique.com/porte-cles-lego/5006585-porte-cles-lumineux-stormtrooper-avec-pull-de-noel/p11483	2026-11-11	LToys	23.98
-5006726-1				2026-11-05		
-5007202-1				2026-11-05		
-5008280-1				2026-11-05		
+5006726-1				2026-11-13		
+5007202-1				2026-11-13		
+5008280-1				2026-11-13		
 50090-1				2026-11-11		
 5009015-1	19.99	142.37	https://www.avenuedelabrique.com/lego-marvel-super-heroes/5009015-cerebro/p10388	2026-11-05	Carrefour [Marketplace]	142.37
 5009027-1				2026-11-05		
@@ -1061,7 +1061,7 @@ code	prix	meilleur	url	date	marchand	total
 5010927-1				2026-11-11		
 5010929-1				2026-11-11		
 5011029-1				2026-11-11		
-5011043-1				2026-11-05		
+5011043-1				2026-11-13		
 5011065-1				2026-11-11		
 5011070-1				2026-11-12		
 5011071-1				2026-11-12		
@@ -1508,7 +1508,7 @@ code	prix	meilleur	url	date	marchand	total
 72151-1	59.99	39.99	https://www.avenuedelabrique.com/lego-pokemon/72151-evoli/p11475	2026-11-06	Amazon	39.99
 72152-1	199.99	123.78	https://www.avenuedelabrique.com/lego-pokemon/72152-pikachu-et-poke-ball/p11474	2026-11-06	Amazon	123.78
 72153-1	649.99	580.00	https://www.avenuedelabrique.com/lego-pokemon/72153-florizarre-dracaufeu-et-tortank/p11473	2026-11-06	BrickPlus	580.00
-72154-1	259.99	179.99	https://www.avenuedelabrique.com/lego-pokemon/72154-poke-ball-moments-culte-de-dresseur/p12249	2026-11-05	Cdiscount	179.99
+72154-1	259.99	189.99	https://www.avenuedelabrique.com/lego-pokemon/72154-poke-ball-moments-culte-de-dresseur/p12249	2026-11-13	Amazon	189.99
 72155-1	19.99	15.99	https://www.avenuedelabrique.com/lego-pokemon/72155-smart-play-bulbizarre-et-keunotor-delice-de-baies/p11866	2026-11-04	Carrefour	17.98
 72156-1	29.99	22.99	https://www.avenuedelabrique.com/lego-pokemon/72156-smart-play-l-aventure-de-carapuce-avec-le-buggy-du-dresseur/p11870	2026-11-04	Cdiscount	25.98
 72157-1	19.99	17.99	https://www.avenuedelabrique.com/lego-pokemon/72157-smart-play-salameche-et-racaillou-le-combat-dans-la-grotte/p11861	2026-11-04	Cdiscount	20.98
@@ -1615,6 +1615,13 @@ code	prix	meilleur	url	date	marchand	total
 75459-1	149.99	149.99	https://www.avenuedelabrique.com/lego-star-wars/75459-navette-imperiale-de-classe-lambda/p11837	2026-11-07	Amazon	149.99
 75460-1	69.99	69.99	https://www.avenuedelabrique.com/lego-star-wars/75460-le-x-wing-starfighter-de-la-nouvelle-republique/p11546	2026-11-07	LEGO	69.99
 75461-1	99.99	79.99	https://www.avenuedelabrique.com/lego-star-wars/75461-minifigurine-de-dark-vador-grand-format/p11835	2026-11-07	Cdiscount	79.99
+75466-1	69.99	53.75	https://www.avenuedelabrique.com/lego-star-wars/75466-art-mural-dark-vador-2-en-1/p13719	2026-11-13	Brickmo	63.70
+75467-1	299.99	299.99	https://www.avenuedelabrique.com/lego-star-wars/75467-affiche-du-film-un-nouvel-espoir/p13720	2026-11-13	LEGO	299.99
+75470-1	39.99	30.70	https://www.avenuedelabrique.com/lego-star-wars/75470-duel-sur-mustafar/p13721	2026-11-13	Brickmo	40.65
+75478-1	79.99	61.40	https://www.avenuedelabrique.com/lego-star-wars/75478-le-chasseur-y-wing-de-l-alliance-rebelle/p13722	2026-11-13	Brickmo	71.35
+75480-1	79.99	61.40	https://www.avenuedelabrique.com/lego-star-wars/75480-duel-sur-bespin/p13723	2026-11-13	Brickmo	71.35
+75482-1	99.99	76.80	https://www.avenuedelabrique.com/lego-star-wars/75482-minifigurine-grand-format-de-luke-skywalker/p13724	2026-11-13	Brickmo	86.75
+75495-1	79.99	79.99	https://www.avenuedelabrique.com/lego-star-wars/75495-casque-de-stormtrooper-concept-art/p13725	2026-11-13	LEGO	79.99
 75580-1	24.99	34.99	https://www.avenuedelabrique.com/lego-moi-moche-et-mechant/75580-les-minions-et-la-voiture-banane/p9985	2026-11-07	Golden Brick	39.98
 75581-1	39.99	49.99	https://www.avenuedelabrique.com/lego-moi-moche-et-mechant/75581-le-disco-bus-des-minions/p9986	2026-11-07	Cdiscount	59.99
 75582-1	54.99	54.95	https://www.avenuedelabrique.com/lego-moi-moche-et-mechant/75582-gru-et-les-minions-en-briques/p9962	2026-11-07	Rue du Commerce	54.95
