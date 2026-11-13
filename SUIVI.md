@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v203 (13/11) : UNE FIGURINE RECONNUE NE PART PLUS EN BLISTER (Mathias : Doctor Strange photographié dans une
+    vitrine, envoyé tout seul dans « Base de blisters JB »). Ressemblance au blister de 0,75 à 0,85 : passage direct au
+    blister seulement si Brickognize ne voit aucune figurine à 0,6 ou plus ; sinon résultats de la figurine avec
+    « 📦 Reconnaître le blister JB » au-dessus. 0,85 et plus (blisters de la base : 0,98 et plus) : blister directement.
+    Le « décor » seul ne suffit pas (tiles à 0,95, figurines photographiées devant un fond chargé).
   · v202 (11/11) : PORTE-CLÉS DES AUTRES PERSONNAGES PROPOSÉS (Mathias : « on ne peut pas prendre une
     photo d'un truc qu'on ne connaît pas pour que l'appli l'identifie »). Après une photo, le bloc « 🔑 C'est un
     porte-clés ? » ajoute les porte-clés des autres personnages proposés par la reconnaissance (8 premiers) : Jyn Erso
