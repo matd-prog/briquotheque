@@ -1,4 +1,4 @@
-#date 2026-11-13
+#date 2026-11-14
 code	prix	meilleur	url	date	marchand	total
 1000858708-1				2026-11-11		
 1000858718-1				2026-11-11		
@@ -164,10 +164,10 @@ code	prix	meilleur	url	date	marchand	total
 11512-1	59.99	59.99	https://www.avenuedelabrique.com/lego-botanicals/11512-pothos-dore-tombant/p12211	2026-11-02	LEGO	59.99
 11513-1	59.99	59.99	https://www.avenuedelabrique.com/lego-botanicals/11513-la-composition-florale-sombre/p12212	2026-11-02	LEGO	59.99
 11514-1	14.99	10.29	https://www.avenuedelabrique.com/lego-botanicals/11514-les-cosmos/p11736	2026-11-09	Alternate.fr	20.19
-11515-1	59.99	50.99	https://www.avenuedelabrique.com/lego-botanicals/11515-peony-bouquet/p13646	2026-11-06	LToys	59.98
-11516-1	29.99	25.49	https://www.avenuedelabrique.com/lego-botanicals/11516-cherry-blossom-branches/p13647	2026-11-06	LToys	34.48
-11519-1	59.99		https://www.avenuedelabrique.com/lego-botanicals/11519-wild-orchid/p13648	2026-11-06		
-11522-1	59.99		https://www.avenuedelabrique.com/lego-botanicals/11522-perfectly-pastel-flower-bouquet/p13650	2026-11-06		
+11515-1	59.99	45.20	https://www.avenuedelabrique.com/lego-botanicals/11515-le-bouquet-de-pivoines/p13646	2026-11-14	Brickmo	55.15
+11516-1	29.99	25.49	https://www.avenuedelabrique.com/lego-botanicals/11516-les-branches-de-cerisier-en-fleur/p13647	2026-11-14	LToys	34.48
+11519-1	59.99	45.20	https://www.avenuedelabrique.com/lego-botanicals/11519-l-orchidee-sauvage/p13648	2026-11-14	Brickmo	55.15
+11522-1	59.99	45.20	https://www.avenuedelabrique.com/lego-botanicals/11522-bouquet-de-fleurs-aux-couleurs-pastel/p13650	2026-11-14	Brickmo	55.15
 11532-1	4.99	4.24	https://www.avenuedelabrique.com/lego-botanicals/11532-buttercup-flowers/p13655	2026-11-07	LToys	13.23
 11533-1	4.99	4.24	https://www.avenuedelabrique.com/lego-botanicals/11533-mallow-flowers/p13656	2026-11-07	LToys	13.23
 11534-1	4.99	4.24	https://www.avenuedelabrique.com/lego-botanicals/11534-bluebell-flowers/p13657	2026-11-07	LToys	13.23
@@ -619,7 +619,7 @@ code	prix	meilleur	url	date	marchand	total
 40972-1				2026-11-11		
 40973-1				2026-11-11		
 40975-1	39.99	39.99	https://www.avenuedelabrique.com/lego-harry-potter/40975-chateau-de-poudlard-miniature/p12458	2026-11-12	LEGO	45.94
-40976-1	29.99		https://www.avenuedelabrique.com/lego-chinese-festivals/40976-le-lion-de-la-prosperite/p13644	2026-11-06		
+40976-1	29.99	29.99	https://www.avenuedelabrique.com/lego-chinese-festivals/40976-le-lion-de-la-prosperite/p13644	2026-11-14	LEGO	35.94
 412401-1				2026-11-02		
 412402-1				2026-11-02		
 412403-1				2026-11-02		
@@ -804,9 +804,9 @@ code	prix	meilleur	url	date	marchand	total
 42703-1	99.99	75.35	https://www.avenuedelabrique.com/lego-friends/42703-les-montagnes-russes-des-sirenes/p11827	2026-11-04	Brickmo	85.30
 42704-1	149.99	110.79	https://www.avenuedelabrique.com/lego-friends/42704-le-grand-hotel-de-heartlake-city/p11828	2026-11-04	Amazon	110.79
 42705-1	99.99	70.99	https://www.avenuedelabrique.com/lego-friends/42705-la-cabane-chaleureuse-dans-la-foret/p11753	2026-11-04	Amazon	70.99
-42709-1	49.99	37.65	https://www.avenuedelabrique.com/lego-friends/42709-le-centre-de-soins-et-de-loisirs-pour-les-animaux/p13520	2026-11-06	Brickmo	47.60
-42718-1	59.99	45.20	https://www.avenuedelabrique.com/lego-friends/42718-le-bus-de-la-fete-de-l-amitie/p13518	2026-11-06	Brickmo	55.15
-42719-1	99.99	75.30	https://www.avenuedelabrique.com/lego-friends/42719-le-centre-commercial-de-heartlake-city/p13519	2026-11-06	Brickmo	85.25
+42709-1	49.99	37.65	https://www.avenuedelabrique.com/lego-friends/42709-le-centre-de-soins-et-de-loisirs-pour-les-animaux/p13520	2026-11-14	Brickmo	47.60
+42718-1	59.99	45.20	https://www.avenuedelabrique.com/lego-friends/42718-le-bus-de-la-fete-de-l-amitie/p13518	2026-11-14	Brickmo	55.15
+42719-1	99.99	75.30	https://www.avenuedelabrique.com/lego-friends/42719-le-centre-commercial-de-heartlake-city/p13519	2026-11-14	Brickmo	85.25
 43008-1	99.99	99.99	https://www.avenuedelabrique.com/lego-nike/43008-nike-dunk-x-lego-set/p10935	2026-11-04	LEGO	99.99
 43010-1	69.99	69.99	https://www.avenuedelabrique.com/lego-nike/43010-nike-slam-dunk/p11048	2026-11-04	LEGO	69.99
 43011-1	29.99	19.89	https://www.avenuedelabrique.com/lego-editions/43011-lionel-messi-best-of/p11670	2026-11-04	Cdiscount	22.88
@@ -1339,7 +1339,7 @@ code	prix	meilleur	url	date	marchand	total
 66833-1				2026-10-26		
 66834-1				2026-11-11		
 6695501-1				2026-11-12		
-67005-1	99.99	76.80	https://www.avenuedelabrique.com/lego-marvel-super-heroes/67005-le-saint-des-saints-de-marvel-what-if-docteur-strange-supreme/p13517	2026-11-06	Brickmo	86.75
+67005-1	99.99	76.80	https://www.avenuedelabrique.com/lego-marvel-super-heroes/67005-le-saint-des-saints-de-marvel-what-if-docteur-strange-supreme/p13517	2026-11-14	Brickmo	86.75
 67006-1	99.99	76.80	https://www.avenuedelabrique.com/lego-marvel-super-heroes/67006-panorama-de-marvel/p13484	2026-11-11	Brickmo	86.75
 67008-1	59.99	46.05	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67008-la-batmobile-et-le-canard-de-batman-le-defi/p13382	2026-11-11	Brickmo	56.00
 67009-1	29.99	22.49	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67009-la-batmobile-de-batman-arkham/p13383	2026-11-11	Brickmo	32.44
@@ -1477,7 +1477,7 @@ code	prix	meilleur	url	date	marchand	total
 71872-1	199.99	153.96	https://www.avenuedelabrique.com/lego-ninjago/71872-le-combat-de-l-ultra-dragon/p11823	2026-11-06	Amazon	153.96
 71873-1	9.99	8.49	https://www.avenuedelabrique.com/lego-ninjago/71873-la-toupie-cole-contre-cole-malefique/p13314	2026-11-11	LToys	17.48
 71875-1	19.99	15.95	https://www.avenuedelabrique.com/lego-ninjago/71875-le-combat-de-toupies-lloyd-contre-ras/p13316	2026-11-11	Brickmo	25.90
-71888-1	279.99	279.99	https://www.avenuedelabrique.com/lego-ninjago/71888-le-dojo-ninja-d-ivo/p13645	2026-11-06	LEGO	279.99
+71888-1	279.99	279.99	https://www.avenuedelabrique.com/lego-ninjago/71888-le-dojo-ninja-d-ivo/p13645	2026-11-14	LEGO	279.99
 72031-1	14.99	14.95	https://www.avenuedelabrique.com/lego-super-mario/72031-mario-kart-yoshimoto/p10263	2026-11-06	Brickmo	24.90
 72032-1	19.99	17.95	https://www.avenuedelabrique.com/lego-super-mario/72032-mario-kart-kart-standard/p10264	2026-11-06	Brickmo	27.90
 72033-1	24.49	45.99	https://www.avenuedelabrique.com/lego-super-mario/72033-mario-kart-donkey-kong-et-dk-jumbo/p10265	2026-11-06	Deparkatre	50.50
@@ -1908,8 +1908,8 @@ code	prix	meilleur	url	date	marchand	total
 80119-1	99.99	97.74	https://www.avenuedelabrique.com/lego-saisonnier/80119-tableau-vivant-le-galop-des-chevaux/p11237	2026-11-12	Auchan	97.74
 80120-1	49.99	46.90	https://www.avenuedelabrique.com/lego-saisonnier/80120-saut-de-la-carpe-symbole-de-prosperite/p11793	2026-11-08	Galaxus	46.90
 80121-1	109.99	109.99	https://www.avenuedelabrique.com/lego-saisonnier/80121-l-auberge-traditionnelle-du-clair-de-lune/p11794	2026-11-08	LEGO	109.99
-80122-1	69.99	69.99	https://www.avenuedelabrique.com/lego-chinese-festivals/80122-pixiu-de-bon-augure-sous-l-arbre-du-bonheur/p13651	2026-11-06	LEGO	69.99
-80123-1	99.99	99.99	https://www.avenuedelabrique.com/lego-chinese-festivals/80123-le-voyage-de-la-fete-du-printemps/p13649	2026-11-06	LEGO	99.99
+80122-1	69.99	59.49	https://www.avenuedelabrique.com/lego-chinese-festivals/80122-pixiu-de-bon-augure-sous-l-arbre-du-bonheur/p13651	2026-11-14	LToys	68.48
+80123-1	99.99	84.99	https://www.avenuedelabrique.com/lego-chinese-festivals/80123-le-voyage-de-la-fete-du-printemps/p13649	2026-11-14	LToys	93.98
 854326-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854326-porte-cles-le-mandalorien/p11684	2026-11-11	LEGO	11.94
 854327-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854327-porte-cles-simba/p11381	2026-11-11	LEGO	11.94
 854328-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854328-porte-cles-dumbo/p11380	2026-11-11	LEGO	11.94
