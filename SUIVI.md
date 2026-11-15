@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v207 (15/11) : LA PHOTO DE DÉTAIL DIT CE QU'ELLE CONFIRME (Mathias : « quand on rajoute une photo, il reste sur la
+    même, on ne sait pas si elle a été prise en compte »). Photo du torse, du visage… : envoyée à la reconnaissance, la
+    version du personnage la mieux classée est comparée à la proposition : « ✔ Votre photo confirme cette version », ou
+    « ↪ ressemble plutôt à une autre version » + « Voir cette version », ou « ❔ ne permet pas de trancher ». Photo de dos :
+    message « confirme » ou « la proposition change ».
   · v206 (14/11) : RETOUR DEPUIS LA FICHE D'UN BLISTER (Mathias : depuis « ✏️ Modifier ce blister » d'un de ses deux
     exemplaires, le bouton retour ramenait à l'accueil). Retour du téléphone ou flèche ← : la fiche se ferme et la liste
     des exemplaires revient ; le retour suivant ramène à l'écran d'avant.

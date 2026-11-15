@@ -104,7 +104,7 @@ window.addEventListener("popstate", () => {
   desarmerRetour();
 });
 
-const VERSION_APPLI = "v206"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
+const VERSION_APPLI = "v207"; // même numéro que le cache de sw.js (« briquotheque-vNN »)
 
 // Erreurs inattendues : montrées à l'écran (message) et gardées dans les Outils, pour les signaler
 const ERREURS = [];
@@ -580,6 +580,7 @@ async function identifier(photo) {
       else if (i === 1) chercherAvecLens();
       return;
     }
+    const avant = !premiere && etat.choisi ? etat.choisi.id : null; // proposition avant la photo de dos
     etat.photos.push({ url, items });
     etat.origine = "photo";
     etat.candidats = combiner(etat.photos);
@@ -596,6 +597,9 @@ async function identifier(photo) {
     // catalogue de 20 000 figurines n'était pas encore lu quand la réponse arrivait) ; 8 s au plus
     await Promise.race([Catalogue.charger().catch(() => {}), new Promise(ok => setTimeout(ok, 8000))]);
     choisirCandidat(0);
+    // photo de dos : dire si elle confirme la proposition ou la change (Mathias, 15/11/2026)
+    if (avant && etat.choisi) toast(etat.choisi.id === avant ? `✔ La photo de dos confirme : ${etat.choisi.id}`
+      : `↪ Avec la photo de dos, la proposition change : ${etat.choisi.id} (au lieu de ${avant})`, 6000);
   } catch (err) {
     console.error(err);
     afficher(etat.photos.length ? "resultat" : "accueil");
@@ -729,6 +733,7 @@ function blocVariantes(code) {
       Photographiez ce détail pour le comparer aux photos ci-dessous :
       <div class="suggestions">${parties.map(x => `<button class="petit" data-photo-detail="${x.id}">📷 ${echapper(x.bouton)}</button>`).join("")}</div></div>` : ""}
     ${details.length ? `<div class="photos-detail">${details.map(d => `<figure><img src="${d.url}" alt=""><figcaption>${echapper(d.nom)}</figcaption></figure>`).join("")}</div>` : ""}
+    ${details.length ? verdictDetail(details[details.length - 1], c) : ""}
     <div class="grille">${v.map(x => `
       <button class="proposition${x.code === c ? " choisie" : ""}" data-variante="${echapper(x.code)}">
         ${imageHtml({ id: x.code })}
@@ -758,6 +763,30 @@ function partiesDistinctives(versions) {
     return mots.some(Boolean) && new Set(mots).size > 1;
   });
 }
+// Verdict de la dernière photo de détail (Mathias, 15/11/2026 : « quand on rajoute une photo, il reste sur la même, on ne
+// sait pas si elle a été prise en compte ») : la photo est envoyée à la reconnaissance, et la version du personnage la
+// mieux classée est comparée à celle proposée. Les parties variables (code, nom) sont à part, pour la traduction.
+function verdictDetail(d, code) {
+  const v = d.verdict;
+  if (!v) return "";
+  if (v.etat === "analyse") return `<div class="alerte info">⏳ <span>Analyse de votre photo…</span></div>`;
+  if (v.etat === "incertain") return `<div class="alerte info">❔ <span>Votre photo ne permet pas de trancher entre ces versions : comparez-la à l'œil aux photos ci-dessous.</span></div>`;
+  const nom = `<b>${echapper(v.code)}</b> <span class="score">${echapper(detailVersion(v.nom) || "")} · ${Math.round(v.score * 100)} %</span>`;
+  if (v.code === code) return `<div class="alerte">✔ <span>Votre photo confirme cette version :</span> ${nom}</div>`;
+  return `<div class="alerte stop">↪ <span>Votre photo ressemble plutôt à une autre version :</span> ${nom}
+    <button class="gros-bouton vert" data-variante="${echapper(v.code)}">Voir cette version</button></div>`;
+}
+async function analyserDetail(d, fichier, versions) {
+  const codes = new Set(versions.map(x => x.code.toUpperCase()));
+  try {
+    const items = await interrogerBrickognize(fichier);
+    const parmi = items.filter(it => codes.has(it.id.toUpperCase()) && it.score != null);
+    const m = parmi.sort((a, b) => b.score - a.score)[0];
+    const f = m && Catalogue.trouver(m.id);
+    d.verdict = m && m.score >= 0.3 ? { etat: "ok", code: m.id.toUpperCase(), nom: f ? f.nom : m.nom, score: m.score } : { etat: "incertain" };
+  } catch (err) { console.warn(err); d.verdict = { etat: "incertain" }; }
+}
+
 async function photographierDetail(id) {
   const cand = etat.choisi, droide = cand && /droid|astromech|\bR\d-|probe/i.test(nomPrincipal(cand.nom || ""));
   const p0 = PARTIES_FIGURINE.find(x => x.id === id), p = p0 && droide && id === "visage" ? { ...p0, bouton: "La tête (le dôme, vue de dessus)" } : p0;
@@ -768,9 +797,15 @@ async function photographierDetail(id) {
     const f = champ.files[0];
     if (!f) return;
     const fiche = Catalogue.trouver(cand.id);
-    etat.photosDetail = [...(etat.photosDetail || []), { code: cand.id.toUpperCase(), perso: fiche ? clePersonnage(fiche) : "", nom: p.bouton, url: URL.createObjectURL(f) }];
-    choisirCandidat(etat.candidats.indexOf(cand));
-    setTimeout(() => { const z = document.querySelector(".photos-detail"); if (z) z.scrollIntoView({ block: "center" }); }, 100);
+    const d = { code: cand.id.toUpperCase(), perso: fiche ? clePersonnage(fiche) : "", nom: p.bouton, url: URL.createObjectURL(f), verdict: { etat: "analyse" } };
+    etat.photosDetail = [...(etat.photosDetail || []), d];
+    const revoir = () => {
+      if (ecranActuel !== "resultat" || !etat.candidats.includes(etat.choisi)) return;
+      choisirCandidat(etat.candidats.indexOf(etat.choisi));
+      setTimeout(() => { const z = document.querySelector(".photos-detail"); if (z) z.scrollIntoView({ block: "center" }); }, 100);
+    };
+    revoir();
+    analyserDetail(d, f, Catalogue.versions(cand.id)).then(revoir);
   });
   champ.click();
 }
