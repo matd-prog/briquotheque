@@ -1,4 +1,4 @@
-#date 2026-11-14
+#date 2026-11-15
 code	nom	theme	sous_theme	annee	sortie	fin	pieces	figurines	image
 21064-1	Paris - City of Love	Architecture	Iconic Landmarks	2026	2026-01-01	2028-12-31	958		https://images.brickset.com/sets/images/21064-1.jpg
 31218-1	Japanese Cherry Blossom Landscape	Art	Paintings	2026	2026-01-01	2028-12-31	1892		https://images.brickset.com/sets/images/31218-1.jpg
@@ -637,6 +637,9 @@ L0002295-1	Tractor	Technic	Magazine Gift	2026	2026-11-05		61		https://images.bri
 5010915-1	FORTNITE Peely Bag Tag	Gear	Bag Tags	2026	2026-11-07				https://images.brickset.com/sets/images/5010915-1.jpg
 5010916-1	FORTNITE Cuddle Bag Tag	Gear	Bag Tags	2026	2026-11-07				https://images.brickset.com/sets/images/5010916-1.jpg
 5010920-1	AirTag Holder	Gear	Bag Tags	2026	2026-11-07				https://images.brickset.com/sets/images/5010920-1.jpg
+6644894-1	Reindeer	Promotional	LEGO brand stores	2026	2026-11-13		36		https://images.brickset.com/sets/images/6644894-1.jpg
+5011070-1	Santa's Workshop	Seasonal	Christmas	2026	2026-11-13	2026-11-15	150		https://images.brickset.com/sets/images/5011070-1.jpg
+5010876-1	Macy's Parade 100 Santa Soars	Seasonal	Thanksgiving	2026	2026-11-14		145		https://images.brickset.com/sets/images/5010876-1.jpg
 GODZILLAPOSTER-1	Godzilla Poster	Gear	Posters	2026	2026-11-27				https://images.brickset.com/sets/images/GODZILLAPOSTER-1.jpg
 21375-1	Godzilla	Ideas	Licensed	2026	2026-11-27		5363		https://images.brickset.com/sets/images/21375-1.jpg
 40888-1	Godzilla Logo & Footprint	Ideas	Promotional	2026	2026-11-27		359		https://images.brickset.com/sets/images/40888-1.jpg
@@ -1030,7 +1033,6 @@ L0002216-1	Zane vs. Loyalist Leader	Ninjago	Magazine Gift	2026			8	2
 6644870-1	Dragon on Skateboard	Promotional	Miscellaneous	2026			55		https://images.brickset.com/sets/images/6644870-1.jpg
 6644886-1	Ghost Street	Promotional	LEGO brand stores	2026			36		https://images.brickset.com/sets/images/6644886-1.jpg
 6644890-1	The Holiday Duo	Promotional	LEGO brand stores	2026			53		https://images.brickset.com/sets/images/6644890-1.jpg
-6644894-1	Reindeer	Promotional	LEGO brand stores	2026			36		https://images.brickset.com/sets/images/6644894-1.jpg
 6644896-1	Magenta Flower Candle	Promotional	LEGO brand stores	2026			21		https://images.brickset.com/sets/images/6644896-1.jpg
 6647174-1	Stadium	Promotional	LEGO brand stores	2026			17		https://images.brickset.com/sets/images/STADIUM-1.jpg
 6652991-1	Rock Guitar	Promotional	LEGO brand stores	2026			52		https://images.brickset.com/sets/images/GUITAR-1.jpg
@@ -1055,8 +1057,7 @@ STAR-1	Arena Star	Promotional	Miscellaneous	2026			42		https://images.brickset.c
 TVREMOTE-1	TV Remote	Promotional	LEGO brand stores	2026					https://images.brickset.com/sets/images/TVREMOTE-1.jpg
 WEBGOAL-1	Web Goal Challenge	Promotional	Miscellaneous	2026					https://images.brickset.com/sets/images/WEBGOAL-1.jpg
 5010908-1	Witch's Flight	Seasonal	Halloween	2026			153		https://images.brickset.com/sets/images/WITCHPUMPKIN-1.jpg
-5011070-1	Santa's Workshop	Seasonal	Christmas	2026					
-5011071-1	Gingerbread House	Seasonal	Christmas	2026					
+5011071-1	Gingerbread House	Seasonal	Christmas	2026					https://images.brickset.com/sets/images/5011071-1.jpg
 80118-1	Fortune Firecracker	Seasonal	Chinese Traditional Festival	2026			1039	6	https://images.brickset.com/sets/images/80118-1.jpg
 80119-1	Galloping Horse Canvas	Seasonal	Chinese Traditional Festival	2026			1650	2	https://images.brickset.com/sets/images/80119-1.jpg
 5010391-1	Bo Katan	Star Wars	Promotional	2026			133		https://images.brickset.com/sets/images/5010391-1.jpg
