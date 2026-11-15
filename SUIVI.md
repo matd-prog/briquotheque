@@ -130,6 +130,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     les versions : ce qui se voit de face (torse, jambes, casque…) se compare à l'œil aux photos ; pour le dos, le visage
     sans casque (ou la tête tournée) et le dôme des droïdes, « 📷 La figurine entière… » : 2e photo combinée à la
     première, puis message « ✔ La 2e photo confirme » ou « ↪ la proposition change ». Plus de photo de détail seule.
+    Aussi : « 👑 Tous les comptes » dans 👥 Mes amis, pour le compte administrateur seulement (Mathias : « la liste de
+    tous ceux qui ont créé un compte, pour les ajouter comme amis » ; « savoir s'ils ont alimenté la base commune ») :
+    pseudo, date d'inscription, nombre de blisters envoyés dans la base commune, bouton « ➕ Ajouter ».
   · v206 (14/11) : RETOUR DEPUIS LA FICHE D'UN BLISTER (Mathias : depuis « ✏️ Modifier ce blister » d'un de ses deux
     exemplaires, le bouton retour ramenait à l'accueil). Retour du téléphone ou flèche ← : la fiche se ferme et la liste
     des exemplaires revient ; le retour suivant ramène à l'écran d'avant.

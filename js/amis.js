@@ -103,7 +103,32 @@ const Amis = {
           <button class="gros-bouton" type="submit">🔎 Chercher</button>
         </form>
         <div id="amis-resultats"></div></div>
+      <div id="amis-tous"></div>
       <button class="bouton gris" data-action="amis-actualiser">🔄 Actualiser</button>`;
+    if (Compte.profil && Compte.profil.role === "admin") this.rendreTous();
+  },
+
+  // Administrateur (Mathias, 15/11/2026 : « avoir la liste de tous ceux qui ont créé un compte, pour les ajouter comme
+  // amis » et « savoir s'ils ont alimenté la base commune ») : chaque compte, sa date d'inscription, ses blisters
+  // envoyés dans la base commune. Les pseudos sont déjà lisibles par tous les comptes (recherche d'ami) ; la liste
+  // complète n'est montrée qu'au compte administrateur.
+  async rendreTous() {
+    const z = $("amis-tous");
+    if (!z) return;
+    const [{ data: profils, error }, { data: blisters }] = await Promise.all([
+      this.client.from("profils").select("id, pseudo, cree_le").order("cree_le", { ascending: false }).limit(500),
+      this.client.from("commune_blisters").select("auteur").limit(10000)]);
+    if (error || !profils) return;
+    const nb = new Map();
+    for (const b of blisters || []) if (b.auteur) nb.set(b.auteur, (nb.get(b.auteur) || 0) + 1);
+    const deja = new Map(this.liste.map(a => [a.ami, a.sens]));
+    z.innerHTML = `<div class="carte"><p class="sous-titre">👑 Tous les comptes (${profils.length})</p>
+      <p class="aide">Visible par vous seul (administrateur). Date d'inscription et blisters envoyés dans la base commune.</p>
+      ${profils.map(p => `<div class="ami-ligne"><span>👤 <b>${echapper(p.pseudo)}</b>
+          <span class="score">${new Date(p.cree_le).toLocaleDateString("fr-FR")} · 📦 ${nb.get(p.id) || 0}</span></span>
+        ${p.id === this.moi ? `<span class="score">vous</span>`
+          : deja.has(p.id) ? `<span class="score">${{ ami: "déjà ami", envoyee: "demande envoyée", recue: "vous a demandé" }[deja.get(p.id)]}</span>`
+          : `<button class="bouton" data-ami-ajouter="${p.id}" data-ami-pseudo="${echapper(p.pseudo)}">➕ Ajouter</button>`}</div>`).join("")}</div>`;
   },
 
   async chercher(e) {
