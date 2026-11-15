@@ -159,7 +159,8 @@ const Compte = {
     const { data: s } = await this.client.from("sauvegardes").select("maj, articles").eq("user_id", this.session.user.id).maybeSingle();
     z.innerHTML = `<div class="carte">
         <p class="sous-titre">👤 ${echapper((p && p.pseudo) || "Mon compte")}${p && p.role === "admin" ? ` <span class="badge-admin">👑 Administrateur</span>` : ""}</p>
-        <p class="score">${echapper(this.session.user.email)}</p></div>
+        <p class="score">${echapper(this.session.user.email)}</p>
+        <div id="compte-recap"></div></div>
       <div class="carte">
         <p class="sous-titre">☁️ Sauvegarde en ligne</p>
         <p class="score" id="compte-sauvegarde-info">${s ? `Dernière sauvegarde : ${new Date(s.maj).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })}` +
@@ -171,6 +172,25 @@ const Compte = {
       <button class="gros-bouton gris" data-action="compte-deconnecter">Se déconnecter</button>
       <button class="bouton-lien" data-action="compte-supprimer">Supprimer mon compte et mes données en ligne</button>
       <p class="aide" id="compte-message"></p>`;
+    this.recap(p);
+  },
+
+  // Récapitulatif du compte (Mathias, 15/11/2026 : « une espèce de récap global du compte de chacun », avec, en une ligne,
+  // les figurines ajoutées à la base commune, « un peu comme un remerciement… ça motive ») : inscription, amis, base commune
+  async recap(p) {
+    const z = $("compte-recap");
+    if (!z) return;
+    const moi = this.session.user.id;
+    const compter = q => q.then(({ count, error }) => error ? null : count || 0, () => null);
+    const [amis, miens] = await Promise.all([
+      typeof Amis !== "undefined" ? Amis.charger().then(l => l.filter(a => a.sens === "ami").length, () => null) : null,
+      compter(this.client.from("commune_blisters").select("code", { count: "exact", head: true }).eq("auteur", moi))]);
+    const lignes = [];
+    if (p && p.cree_le) lignes.push(`📅 <span>Inscrit le ${new Date(p.cree_le).toLocaleDateString("fr-FR")}</span>`);
+    if (amis != null) lignes.push(`👥 <span>${amis} ami${amis > 1 ? "s" : ""}</span>`);
+    if (miens) lignes.push(`🙏 <span>${miens} figurine${miens > 1 ? "s" : ""} ajoutée${miens > 1 ? "s" : ""} à la base commune grâce à vous : merci !</span>`);
+    else if (miens === 0) lignes.push(`🌐 <span>Aucun blister envoyé dans la base commune pour l'instant.</span>`);
+    z.innerHTML = lignes.map(l => `<p class="score">${l}</p>`).join("");
   },
 
   message(t) { const m = $("compte-message"); if (m) m.textContent = t; },

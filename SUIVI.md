@@ -133,10 +133,9 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     Aussi : « 👑 Tous les comptes » dans 👥 Mes amis, pour le compte administrateur seulement (Mathias : « la liste de
     tous ceux qui ont créé un compte, pour les ajouter comme amis » ; « savoir s'ils ont alimenté la base commune ») :
     pseudo, date d'inscription, nombre de blisters envoyés dans la base commune, bouton « ➕ Ajouter ».
-    Et remerciement dans la base de blisters, pour chaque compte (Mathias : « un peu comme un remerciement… ça motive ») :
-    « 🙏 Merci ! Grâce à vous, N figurines ont rejoint la base commune. Elle en compte M en tout… », ou, sans envoi, le
-    total et une invitation à envoyer ses blisters. (Mini-appli contribuer.html : pas de compte, envoi par .zip à
-    Mathias, donc pas de décompte par personne ; rien à changer.)
+    Et récapitulatif dans 👤 Mon compte (Mathias : « juste une ligne d'info, pas à chaque blister ; un récap global du
+    compte de chacun ») : inscrit le…, nombre d'amis, et « 🙏 N figurines ajoutées à la base commune grâce à vous :
+    merci ! » (ou « aucun blister envoyé pour l'instant »). Mini-appli contribuer.html : pas de compte, rien à changer.
   · v206 (14/11) : RETOUR DEPUIS LA FICHE D'UN BLISTER (Mathias : depuis « ✏️ Modifier ce blister » d'un de ses deux
     exemplaires, le bouton retour ramenait à l'accueil). Retour du téléphone ou flèche ← : la fiche se ferme et la liste
     des exemplaires revient ; le retour suivant ramène à l'écran d'avant.
