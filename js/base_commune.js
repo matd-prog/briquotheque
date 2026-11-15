@@ -64,6 +64,28 @@ const BaseCommune = {
     return Valeur.jeton;
   },
 
+  // Remerciement (Mathias, 15/11/2026 : « un peu comme un remerciement : votre participation a permis d'alimenter la base
+  // commune de tant de blisters ; ça motive les gens ») : figurines ajoutées par ce compte, et total de la base commune.
+  // (Une ligne de commune_blisters = une figurine ; les exemplaires suivants d'un même blister ne créent pas de ligne.)
+  async merci() {
+    const z = document.getElementById("base-merci"), c = this._compte();
+    if (!z) return;
+    if (!c) { z.innerHTML = ""; return; }
+    try {
+      const compter = q => q.then(({ count, error }) => { if (error) throw error; return count || 0; });
+      const t = c.client.from("commune_blisters");
+      const [miens, total] = await Promise.all([
+        compter(c.client.from("commune_blisters").select("code", { count: "exact", head: true }).eq("auteur", c.session.user.id)),
+        compter(t.select("code", { count: "exact", head: true }))]);
+      if (!total) { z.innerHTML = ""; return; }
+      z.innerHTML = miens
+        ? `<div class="alerte merci">🙏 <span>Merci ! Grâce à vous, ${miens} figurine${miens > 1 ? "s ont" : " a"} rejoint la base commune.</span>
+            <span>Elle en compte ${total} en tout : elles aident tous les collectionneurs à reconnaître leurs blisters.</span></div>`
+        : `<div class="alerte info">🌐 <span>La base commune compte ${total} figurines, partagées par les collectionneurs.</span>
+            <span>Envoyez vos blisters : chacun aide les autres à reconnaître les leurs.</span></div>`;
+    } catch (err) { console.warn("merci", err); z.innerHTML = ""; }
+  },
+
   // Compte connecté : envoi dans Supabase (sinon : jeton GitHub)
   _compte() { return typeof Compte !== "undefined" && Compte.client && Compte.session ? Compte : null; },
   async peutEnvoyer() { return !!this._compte() || !!(await this.jeton()); },

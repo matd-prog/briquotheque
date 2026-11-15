@@ -1384,6 +1384,7 @@ const Base = {
       const a = BaseCommune.enAttente(this.entrees).length;
       $("base-commune-etat").textContent = a ? `🌐 ${a} blister${a > 1 ? "s" : ""} pas encore dans la base commune.` : n ? "🌐 Tous vos blisters sont dans la base commune ✔" : "";
       $("btn-base-commune").hidden = !a;
+      BaseCommune.merci();
     }
     $("btn-base-exporter").hidden = !n;
     $("btn-base-vider").hidden = !this.entrees.some(e => e.exporte);
