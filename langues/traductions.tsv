@@ -1546,10 +1546,23 @@ Différents	Different	Verschiedene	Distintos
 Tout compris	All included	Alles zusammen	Todo incluido
 « Différents » : plusieurs exemplaires d'une même figurine, d'un même blister ou d'un même set ne comptent qu'une fois.	"Different": several copies of the same minifigure, blister or set count only once.	„Verschiedene“: Mehrere Exemplare derselben Minifigur, desselben Blisters oder desselben Sets zählen nur einmal.	«Distintos»: varios ejemplares de una misma minifigura, del mismo blíster o del mismo set cuentan una sola vez.
 Total	Total	Gesamt	Total
-Analyse de votre photo…	Analysing your photo…	Ihr Foto wird analysiert…	Analizando su foto…
-Votre photo ne permet pas de trancher entre ces versions : comparez-la à l'œil aux photos ci-dessous.	Your photo cannot tell these versions apart: compare it by eye with the photos below.	Ihr Foto reicht nicht, um diese Versionen zu unterscheiden: Vergleichen Sie es selbst mit den Fotos unten.	Su foto no permite distinguir estas versiones: compárela a simple vista con las fotos de abajo.
-Votre photo confirme cette version :	Your photo confirms this version:	Ihr Foto bestätigt diese Version:	Su foto confirma esta versión:
-Votre photo ressemble plutôt à une autre version :	Your photo looks more like another version:	Ihr Foto ähnelt eher einer anderen Version:	Su foto se parece más a otra versión:
-Voir cette version	See this version	Diese Version ansehen	Ver esta versión
-✔ La photo de dos confirme : {0}	✔ The back photo confirms: {0}	✔ Das Rückenfoto bestätigt: {0}	✔ La foto de la espalda confirma: {0}
-↪ Avec la photo de dos, la proposition change : {0} (au lieu de {1})	↪ With the back photo, the suggestion changes: {0} (instead of {1})	↪ Mit dem Rückenfoto ändert sich der Vorschlag: {0} (statt {1})	↪ Con la foto de la espalda, la propuesta cambia: {0} (en lugar de {1})
+Ce qui se voit de face : comparez votre figurine aux photos ci-dessous.	What shows from the front: compare your minifigure with the photos below.	Was von vorne sichtbar ist: Vergleichen Sie Ihre Minifigur mit den Fotos unten.	Lo que se ve de frente: compare su minifigura con las fotos de abajo.
+Ce qui ne se voit pas de face : prenez une 2e photo, de la figurine entière.	What does not show from the front: take a 2nd photo of the whole minifigure.	Was von vorne nicht sichtbar ist: Machen Sie ein 2. Foto der ganzen Minifigur.	Lo que no se ve de frente: haga una 2.ª foto de la minifigura entera.
+📷 La figurine entière, de dos	📷 The whole minifigure, from the back	📷 Die ganze Minifigur, von hinten	📷 La minifigura entera, de espaldas
+📷 La figurine entière, sans casque ni capuche (ou la tête tournée, s'il y a un 2e visage)	📷 The whole minifigure, without helmet or hood (or head turned, if there is a 2nd face)	📷 Die ganze Minifigur, ohne Helm oder Kapuze (oder Kopf gedreht, falls es ein 2. Gesicht gibt)	📷 La minifigura entera, sin casco ni capucha (o con la cabeza girada, si hay una 2.ª cara)
+📷 Le droïde entier, vu de dessus	📷 The whole droid, seen from above	📷 Der ganze Droide, von oben	📷 El droide entero, visto desde arriba
+Photo de dos : encadrez la figurine entière.	Back photo: frame the whole minifigure.	Rückenfoto: Rahmen Sie die ganze Minifigur ein.	Foto de espaldas: encuadre la minifigura entera.
+Sans casque ni capuche (ou tête tournée) : encadrez la figurine entière.	Without helmet or hood (or head turned): frame the whole minifigure.	Ohne Helm oder Kapuze (oder Kopf gedreht): Rahmen Sie die ganze Minifigur ein.	Sin casco ni capucha (o cabeza girada): encuadre la minifigura entera.
+✔ La 2e photo confirme : {0}	✔ The 2nd photo confirms: {0}	✔ Das 2. Foto bestätigt: {0}	✔ La 2.ª foto confirma: {0}
+↪ Avec la 2e photo, la proposition change : {0} (au lieu de {1})	↪ With the 2nd photo, the suggestion changes: {0} (instead of {1})	↪ Mit dem 2. Foto ändert sich der Vorschlag: {0} (statt {1})	↪ Con la 2.ª foto, la propuesta cambia: {0} (en lugar de {1})
+🔎 Ces versions se distinguent par : {0}.	🔎 These versions differ by: {0}.	🔎 Diese Versionen unterscheiden sich durch: {0}.	🔎 Estas versiones se distinguen por: {0}.
+Vu de dessus : encadrez le droïde entier.	Seen from above: frame the whole droid.	Von oben: Rahmen Sie den ganzen Droiden ein.	Visto desde arriba: encuadre el droide entero.
+🔎 Ces versions se distinguent par :	🔎 These versions differ by:	🔎 Diese Versionen unterscheiden sich durch:	🔎 Estas versiones se distinguen por:
+le visage	the face	das Gesicht	la cara
+le casque	the helmet	den Helm	el casco
+le torse	the torso	den Oberkörper	el torso
+le dos	the back	den Rücken	la espalda
+les bras ou les mains	the arms or hands	die Arme oder Hände	los brazos o las manos
+les jambes	the legs	die Beine	las piernas
+la cape, la capuche ou les cheveux	the cape, hood or hair	den Umhang, die Kapuze oder die Haare	la capa, la capucha o el pelo
+la tête (le dôme)	the head (the dome)	den Kopf (die Kuppel)	la cabeza (la cúpula)

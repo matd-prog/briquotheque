@@ -125,11 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
-  · v207 (15/11) : LA PHOTO DE DÉTAIL DIT CE QU'ELLE CONFIRME (Mathias : « quand on rajoute une photo, il reste sur la
-    même, on ne sait pas si elle a été prise en compte »). Photo du torse, du visage… : envoyée à la reconnaissance, la
-    version du personnage la mieux classée est comparée à la proposition : « ✔ Votre photo confirme cette version », ou
-    « ↪ ressemble plutôt à une autre version » + « Voir cette version », ou « ❔ ne permet pas de trancher ». Photo de dos :
-    message « confirme » ou « la proposition change ».
+  · v207 (15/11) : 2E PHOTO SEULEMENT POUR CE QUI NE SE VOIT PAS DE FACE (Mathias : « une photo du torse n'apporte rien
+    de plus, la première photo devrait trancher » ; « on ne sait pas si la 2e photo a été prise en compte »). Comparer
+    les versions : ce qui se voit de face (torse, jambes, casque…) se compare à l'œil aux photos ; pour le dos, le visage
+    sans casque (ou la tête tournée) et le dôme des droïdes, « 📷 La figurine entière… » : 2e photo combinée à la
+    première, puis message « ✔ La 2e photo confirme » ou « ↪ la proposition change ». Plus de photo de détail seule.
   · v206 (14/11) : RETOUR DEPUIS LA FICHE D'UN BLISTER (Mathias : depuis « ✏️ Modifier ce blister » d'un de ses deux
     exemplaires, le bouton retour ramenait à l'accueil). Retour du téléphone ou flèche ← : la fiche se ferme et la liste
     des exemplaires revient ; le retour suivant ramène à l'écran d'avant.

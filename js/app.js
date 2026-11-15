@@ -408,7 +408,8 @@ $("input-dos").addEventListener("change", async e => {
   const f = e.target.files[0];
   e.target.value = "";
   if (!f) return;
-  $("recadrage-titre").textContent = "Photo de dos : encadrez la figurine.";
+  $("recadrage-titre").textContent = etat.titreSuivante || "Photo de dos : encadrez la figurine.";
+  etat.titreSuivante = "";
   const photo = await Recadrage.ouvrir(f).catch(() => null);
   if (!photo) { afficher("resultat"); return; }
   identifier(photo);
@@ -597,9 +598,9 @@ async function identifier(photo) {
     // catalogue de 20 000 figurines n'était pas encore lu quand la réponse arrivait) ; 8 s au plus
     await Promise.race([Catalogue.charger().catch(() => {}), new Promise(ok => setTimeout(ok, 8000))]);
     choisirCandidat(0);
-    // photo de dos : dire si elle confirme la proposition ou la change (Mathias, 15/11/2026)
-    if (avant && etat.choisi) toast(etat.choisi.id === avant ? `✔ La photo de dos confirme : ${etat.choisi.id}`
-      : `↪ Avec la photo de dos, la proposition change : ${etat.choisi.id} (au lieu de ${avant})`, 6000);
+    // 2e photo (dos, sans casque…) : dire si elle confirme la proposition ou la change (Mathias, 15/11/2026)
+    if (avant && etat.choisi) toast(etat.choisi.id === avant ? `✔ La 2e photo confirme : ${etat.choisi.id}`
+      : `↪ Avec la 2e photo, la proposition change : ${etat.choisi.id} (au lieu de ${avant})`, 6000);
   } catch (err) {
     console.error(err);
     afficher(etat.photos.length ? "resultat" : "accueil");
@@ -724,16 +725,20 @@ function blocVariantes(code) {
   const v = Catalogue.versions(code), f = Catalogue.trouver(code);
   if (v.length < 2 || !f) return "";
   const c = code.toUpperCase(), droide = /droid|astromech|\bR\d-|probe/i.test(nomPrincipal(f.nom));
+  // Mathias, 15/11/2026 : la reconnaissance compare des figurines entières ; une photo du torse seul n'apporte rien de plus
+  // que la première photo. Ce qui se voit de face (torse, jambes, casque…) se compare à l'œil aux photos ; seul ce qui
+  // ne se voit pas de face demande une 2e photo, de la figurine entière, combinée à la première (« input-dos »).
   // droïdes (Mathias, 10/11/2026 : « il ne voit pas le dessus, complètement différent ») : la « tête » est le dôme
-  const parties = partiesDistinctives(v).map(x => droide && x.id === "visage" ? { ...x, nom: "la tête (le dôme)", bouton: "La tête (le dôme, vue de dessus)" } : x);
-  const details = (etat.photosDetail || []).filter(d => d.code === c || d.perso === clePersonnage(f));
+  const parties = partiesDistinctives(v).map(x => droide && x.id === "visage" ? { ...x, nom: "la tête (le dôme)" } : x);
+  const CACHEES = { dos: "La figurine entière, de dos",
+    visage: droide ? "Le droïde entier, vu de dessus" : "La figurine entière, sans casque ni capuche (ou la tête tournée, s'il y a un 2e visage)" };
+  const visibles = parties.filter(x => !CACHEES[x.id]), cachees = parties.filter(x => CACHEES[x.id]);
   return `<details class="variantes"${v.length <= 12 || etat.photos.length ? " open" : ""}>
     <summary>🔍 Comparer les ${v.length} versions de « ${echapper(nomPrincipal(f.nom))} » (le détail qui change est en gras)</summary>
-    ${parties.length ? `<div class="alerte info">📷 Ces versions se distinguent par : <b>${parties.map(x => echapper(x.nom)).join(", ")}</b>.
-      Photographiez ce détail pour le comparer aux photos ci-dessous :
-      <div class="suggestions">${parties.map(x => `<button class="petit" data-photo-detail="${x.id}">📷 ${echapper(x.bouton)}</button>`).join("")}</div></div>` : ""}
-    ${details.length ? `<div class="photos-detail">${details.map(d => `<figure><img src="${d.url}" alt=""><figcaption>${echapper(d.nom)}</figcaption></figure>`).join("")}</div>` : ""}
-    ${details.length ? verdictDetail(details[details.length - 1], c) : ""}
+    ${parties.length ? `<div class="alerte info"><span>🔎 Ces versions se distinguent par :</span> <b>${parties.map(x => `<span>${echapper(x.nom)}</span>`).join(", ")}</b>.
+      ${visibles.length ? `<span>Ce qui se voit de face : comparez votre figurine aux photos ci-dessous.</span>` : ""}
+      ${cachees.length ? `<span>Ce qui ne se voit pas de face : prenez une 2e photo, de la figurine entière.</span>
+      <div class="suggestions">${cachees.map(x => `<button class="petit" data-photo-detail="${x.id}">📷 ${echapper(CACHEES[x.id])}</button>`).join("")}</div>` : ""}</div>` : ""}
     <div class="grille">${v.map(x => `
       <button class="proposition${x.code === c ? " choisie" : ""}" data-variante="${echapper(x.code)}">
         ${imageHtml({ id: x.code })}
@@ -763,51 +768,13 @@ function partiesDistinctives(versions) {
     return mots.some(Boolean) && new Set(mots).size > 1;
   });
 }
-// Verdict de la dernière photo de détail (Mathias, 15/11/2026 : « quand on rajoute une photo, il reste sur la même, on ne
-// sait pas si elle a été prise en compte ») : la photo est envoyée à la reconnaissance, et la version du personnage la
-// mieux classée est comparée à celle proposée. Les parties variables (code, nom) sont à part, pour la traduction.
-function verdictDetail(d, code) {
-  const v = d.verdict;
-  if (!v) return "";
-  if (v.etat === "analyse") return `<div class="alerte info">⏳ <span>Analyse de votre photo…</span></div>`;
-  if (v.etat === "incertain") return `<div class="alerte info">❔ <span>Votre photo ne permet pas de trancher entre ces versions : comparez-la à l'œil aux photos ci-dessous.</span></div>`;
-  const nom = `<b>${echapper(v.code)}</b> <span class="score">${echapper(detailVersion(v.nom) || "")} · ${Math.round(v.score * 100)} %</span>`;
-  if (v.code === code) return `<div class="alerte">✔ <span>Votre photo confirme cette version :</span> ${nom}</div>`;
-  return `<div class="alerte stop">↪ <span>Votre photo ressemble plutôt à une autre version :</span> ${nom}
-    <button class="gros-bouton vert" data-variante="${echapper(v.code)}">Voir cette version</button></div>`;
-}
-async function analyserDetail(d, fichier, versions) {
-  const codes = new Set(versions.map(x => x.code.toUpperCase()));
-  try {
-    const items = await interrogerBrickognize(fichier);
-    const parmi = items.filter(it => codes.has(it.id.toUpperCase()) && it.score != null);
-    const m = parmi.sort((a, b) => b.score - a.score)[0];
-    const f = m && Catalogue.trouver(m.id);
-    d.verdict = m && m.score >= 0.3 ? { etat: "ok", code: m.id.toUpperCase(), nom: f ? f.nom : m.nom, score: m.score } : { etat: "incertain" };
-  } catch (err) { console.warn(err); d.verdict = { etat: "incertain" }; }
-}
-
-async function photographierDetail(id) {
-  const cand = etat.choisi, droide = cand && /droid|astromech|\bR\d-|probe/i.test(nomPrincipal(cand.nom || ""));
-  const p0 = PARTIES_FIGURINE.find(x => x.id === id), p = p0 && droide && id === "visage" ? { ...p0, bouton: "La tête (le dôme, vue de dessus)" } : p0;
-  if (!p || !cand) return;
-  const champ = document.createElement("input");
-  champ.type = "file"; champ.accept = "image/*"; champ.setAttribute("capture", "environment");
-  champ.addEventListener("change", () => {
-    const f = champ.files[0];
-    if (!f) return;
-    const fiche = Catalogue.trouver(cand.id);
-    const d = { code: cand.id.toUpperCase(), perso: fiche ? clePersonnage(fiche) : "", nom: p.bouton, url: URL.createObjectURL(f), verdict: { etat: "analyse" } };
-    etat.photosDetail = [...(etat.photosDetail || []), d];
-    const revoir = () => {
-      if (ecranActuel !== "resultat" || !etat.candidats.includes(etat.choisi)) return;
-      choisirCandidat(etat.candidats.indexOf(etat.choisi));
-      setTimeout(() => { const z = document.querySelector(".photos-detail"); if (z) z.scrollIntoView({ block: "center" }); }, 100);
-    };
-    revoir();
-    analyserDetail(d, f, Catalogue.versions(cand.id)).then(revoir);
-  });
-  champ.click();
+// 2e photo de la figurine entière (de dos, sans casque, tête tournée, droïde vu de dessus) : combinée à la première
+function photographierDetail(id) {
+  const droide = etat.choisi && /droid|astromech|\bR\d-|probe/i.test(nomPrincipal(etat.choisi.nom || ""));
+  const titres = { dos: "Photo de dos : encadrez la figurine entière.",
+    visage: droide ? "Vu de dessus : encadrez le droïde entier." : "Sans casque ni capuche (ou tête tournée) : encadrez la figurine entière." };
+  etat.titreSuivante = titres[id] || "";
+  $("input-dos").click();
 }
 
 // Google Lens (Mathias, 10/11/2026 : « basculer sur Google Lens si jamais il échoue ») : la photo est envoyée par le menu
