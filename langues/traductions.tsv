@@ -1573,3 +1573,7 @@ Inscrit le {0}	Signed up on {0}	Angemeldet am {0}	Registrado el {0}
 {#0} ami{s}	{0} {p:friend|friends}	{0} {p:Freund|Freunde}	{0} {p:amigo|amigos}
 {#0} figurine{s} ajoutée{s} à la base commune grâce à vous : merci !	{0} {p:minifigure|minifigures} added to the shared database thanks to you: thank you!	{0} {p:Figur|Figuren} dank Ihnen in die gemeinsame Datenbank aufgenommen: danke!	{0} {p:minifigura añadida|minifiguras añadidas} a la base común gracias a usted: ¡gracias!
 Aucun blister envoyé dans la base commune pour l'instant.	No blister sent to the shared database yet.	Noch kein Blister an die gemeinsame Datenbank gesendet.	Todavía no ha enviado ningún blíster a la base común.
+📗 Fichier Excel complet, avec photos	📗 Full Excel file, with photos	📗 Vollständige Excel-Datei, mit Fotos	📗 Archivo Excel completo, con fotos
+⏳ Préparation du fichier Excel (photos comprises)…	⏳ Preparing the Excel file (photos included)…	⏳ Excel-Datei wird erstellt (mit Fotos)…	⏳ Preparando el archivo Excel (con fotos)…
+Aucun exemplaire à vendre pour l'instant.	Nothing to sell for now.	Derzeit nichts zu verkaufen.	Nada para vender por ahora.
+Fichier « {0} » enregistré dans Téléchargements ✔	File “{0}” saved in Downloads ✔	Datei „{0}“ in Downloads gespeichert ✔	Archivo «{0}» guardado en Descargas ✔

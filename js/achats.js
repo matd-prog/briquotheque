@@ -75,7 +75,7 @@ const EcranAchats = {
   async _exemplaires() {
     const recense = ((await Memoire.lire("base")) || []).filter(e => e.nom);
     if (recense.length) return { source: "recensement", liste: recense.map(e => ({ nom: nomComplet(e), numero: e.numero || "", serie: e.serie || "", code: e.code || "", note: e.remarque || "",
-      groupe: e.precision ? cleFigurine(e.nom, e.precision) : "", prixPaye: e.prixPaye || 0 })) };
+      groupe: e.precision ? cleFigurine(e.nom, e.precision) : "", prixPaye: e.prixPaye || 0, src: e })) };
     const liste = [];
     const onglet = etat.collection && etat.collection[THEME_CUSTOMS.onglet];
     for (const c of (onglet ? onglet.cases : [])) {
@@ -141,6 +141,7 @@ const EcranAchats = {
         ${sansPrix ? `<div class="score">${sansPrix} figurine(s) sans prix connu (ni achat retrouvé, ni annonce eBay)</div>` : ""}
         <button class="bouton vert" data-action="achats-vendre-maj">🔄 Mettre à jour la liste « À vendre »</button>
         <p class="score">${this._majVente ? `Dernière mise à jour : ${echapper(this._majVente)}` : "Cette liste se recalcule à chaque ouverture, d'après votre base de blisters ; « Mettre à jour » l'enregistre dans l'onglet « À vendre » (le statut « vendu » et le prix de vente réel que vous y notez sont gardés)."}</p>
+        <button class="bouton vert" data-action="achats-vendre-excel">📗 Fichier Excel complet, avec photos</button>
         <button class="bouton gris" data-action="achats-vendre-csv">📊 Liste pour mes annonces (.csv)</button></div>` +
       (lignes.length ? lignes.map(l => `<div class="carte achat-figurine">
         <p class="sous-titre">${echapper(l.g.nom)} <span class="badge">×${l.g.ex.length}</span></p>
@@ -167,6 +168,53 @@ const EcranAchats = {
         (r.vendus ? `, ${r.vendus} déjà vendu(s) gardé(s)` : "") + ".\n\nDans Excel, notez « vendu » dans la colonne Statut et le prix obtenu : ils seront gardés à la prochaine mise à jour.\n\nPensez à enregistrer le fichier.", "OK", "Fermer");
       this._listerVente();
     } catch (err) { console.error(err); await demander("La mise à jour a échoué : " + err.message, "OK", "Fermer"); }
+  },
+
+  // Fichier Excel complet (Mathias, 15/11/2026) : une ligne par exemplaire à vendre, avec la photo du recto et tout ce qui a
+  // été noté en ajoutant le blister (nom imprimé, précision, n°, série limitée, note, prix payé, date d'achat)
+  async exporterVenteExcel() {
+    const l = this._vente || [];
+    if (!l.length) { toast("Aucun exemplaire à vendre pour l'instant."); return; }
+    const num = e => e.numero ? `${e.numero}${e.serie ? `/${e.serie}` : ""}` : "sans n°";
+    const dateFr = d => { if (!d) return ""; const x = new Date(d); return isNaN(x) ? String(d) : x.toLocaleDateString("fr-FR"); };
+    const colonnes = [
+      { titre: "Photo (recto)", largeur: 21, type: "texte" }, { titre: "Nom imprimé", largeur: 30, type: "texte" },
+      { titre: "Précision (personnage, couleur…)", largeur: 24, type: "texte" }, { titre: "N° de l'exemplaire", largeur: 11, type: "texte" },
+      { titre: "Série limitée à", largeur: 10, type: "nombre" }, { titre: "Numérotée", largeur: 10, type: "texte" },
+      { titre: "Note particulière (Halloween, signé…)", largeur: 22, type: "texte" }, { titre: "Code catalogue", largeur: 17, type: "texte" },
+      { titre: "Prix payé (€)", largeur: 11, type: "euro" }, { titre: "Acheté le", largeur: 11, type: "texte" },
+      { titre: "Prix proposé (€)", largeur: 12, type: "euro", total: true }, { titre: "D'où vient le prix", largeur: 30, type: "texte" },
+      { titre: "Chez JB Spielwaren", largeur: 16, type: "texte" }, { titre: "Exemplaires gardés", largeur: 18, type: "texte" },
+    ];
+    const lignes = [];
+    for (const x of l) for (const e of x.vendre) {
+      const s = e.src || {};
+      const origine = [x.eb && x.prix === Math.round(x.eb.med) && "annonces eBay.de (pour info)", x.cout && x.prix === x.conseille && "revente conseillée d'après le prix payé",
+        x.plafond && "ramené au prix JB (encore en vente)", !x.cout && !x.eb && x.enVente && "prix JB (encore en vente)"].filter(Boolean).join(" · ") || (x.prix ? "" : "à fixer vous-même");
+      lignes.push({ photo: s.photo || null, valeurs: [
+        "", s.nom || x.g.nom, s.precision || "", num(e), e.serie ? +e.serie || e.serie : "", s.numerote === false ? "non" : "oui",
+        e.note || "", x.g.code || "", s.prixPaye || e.prixPaye || x.cout || "", dateFr(s.dateAchat), x.prix || "", origine,
+        x.enVente ? `en vente : ${String(x.jb.prix).replace(".", ",")} €` : x.jb && x.jb.epuisee ? "épuisée" : "",
+        x.garde.map(g => num(g) + (g.note ? ` (${g.note})` : "")).join(", ")] });
+    }
+    const jour = new Date().toLocaleDateString("fr-FR");
+    const legende = [`Figurines à vendre — ${jour}, d'après votre base de blisters.`,
+      "Pour chaque figurine en plusieurs exemplaires, le n° le plus bas est gardé, ainsi que les exemplaires qui ont une note (signé, Comic Con…). Les autres sont à vendre.",
+      "Une ligne par exemplaire à vendre, avec la photo du recto et ce que vous avez noté en ajoutant le blister.",
+      "Prix proposé : le plus haut entre la revente conseillée (d'après le prix payé) et les annonces eBay.de, sans dépasser le prix JB si JB vend encore la figurine.",
+      "Ce sont des prix indicatifs. Les prix en bleu peuvent être modifiés : le total se recalcule."];
+    toast("⏳ Préparation du fichier Excel (photos comprises)…", 4000);
+    const blob = await ExportVente.fichier(colonnes, lignes, legende);
+    const fichier = new File([blob], `figurines_a_vendre_${new Date().toISOString().slice(0, 10)}.xlsx`, { type: blob.type });
+    if (navigator.canShare && navigator.canShare({ files: [fichier] })) {
+      try { await navigator.share({ files: [fichier], title: "Figurines à vendre" }); return; }
+      catch (err) { if (err.name === "AbortError") return; console.error(err); }
+    }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(fichier); a.download = fichier.name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+    toast(`Fichier « ${fichier.name} » enregistré dans Téléchargements ✔`, 5000);
   },
 
   exporterVente() {
@@ -343,5 +391,6 @@ document.addEventListener("click", e => {
   else if (a === "achat-valider") EcranAchats.valider();
   else if (a === "achats-vendre") { EcranAchats.vue = "vendre"; EcranAchats.ouvert = null; EcranAchats.lister(); }
   else if (a === "achats-vendre-csv") EcranAchats.exporterVente();
+  else if (a === "achats-vendre-excel") EcranAchats.exporterVenteExcel();
   else if (a === "achats-vendre-maj") EcranAchats.majVente();
 });

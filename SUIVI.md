@@ -125,6 +125,11 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v208 (15/11) : FICHIER EXCEL « À VENDRE » COMPLET, AVEC PHOTOS (Mathias : « un maximum d'informations, les mêmes que
+    je remplis quand j'intègre un blister… et la photo avant »). Mes achats customs › À vendre › « 📗 Fichier Excel
+    complet, avec photos » : une ligne par exemplaire à vendre, photo du recto réduite, nom imprimé, précision, n°, série
+    limitée, numérotée, note particulière, code, prix payé, date d'achat, prix proposé et d'où il vient, chez JB, n°
+    gardés ; total en formule ; onglet « Comment lire ». Fichier .xlsx écrit par js/export_vente.js (JSZip).
   · v207 (15/11) : 2E PHOTO SEULEMENT POUR CE QUI NE SE VOIT PAS DE FACE (Mathias : « une photo du torse n'apporte rien
     de plus, la première photo devrait trancher » ; « on ne sait pas si la 2e photo a été prise en compte »). Comparer
     les versions : ce qui se voit de face (torse, jambes, casque…) se compare à l'œil aux photos ; pour le dos, le visage
