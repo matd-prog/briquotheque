@@ -1,4 +1,4 @@
-#date 2026-11-15
+#date 2026-11-16
 code	prix	meilleur	url	date	marchand	total
 1000858708-1				2026-11-11		
 1000858718-1				2026-11-11		
@@ -577,7 +577,7 @@ code	prix	meilleur	url	date	marchand	total
 40886-1		24.99	https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40886-les-manchots-amoureux/p11493	2026-11-10	LToys	33.98
 40887-1	19.99	59.00	https://www.avenuedelabrique.com/lego-pokemon/40887-smart-play-metamorph-en-carapuce-soiree-tele/p11873	2026-11-10	LToys	67.99
 40888-1	24.99		https://www.avenuedelabrique.com/lego-ideas/40888-logo-et-empreinte-de-godzilla/p13570	2026-11-12		
-40889-1	19.99		https://www.avenuedelabrique.com/lego-ideas/40889-construire-peindre-et-jouer/p13510	2026-11-08		
+40889-1	19.99	45.00	https://www.avenuedelabrique.com/lego-ideas/40889-construire-peindre-et-jouer/p13510	2026-11-16	BrickGarden	45.00
 40890-1	19.99	14.99	https://www.avenuedelabrique.com/sets-promotionnels-gwp-lego/40890-les-decorations-de-paques/p11576	2026-11-10	LToys	23.98
 40891-1		129.00	https://www.avenuedelabrique.com/lego-stranger-things/40891-stranger-things-la-radio-wsqk/p11374	2026-11-10	LToys	129.00
 40892-1	29.99	130.00	https://www.avenuedelabrique.com/lego-pokemon/40892-collection-de-badges-de-kanto/p11472	2026-11-10	BrickPlus	130.00
@@ -599,9 +599,11 @@ code	prix	meilleur	url	date	marchand	total
 40911-1		89.99	https://www.avenuedelabrique.com/lego-pokemon/40911-centre-pokemon-miniature/p11476	2026-11-11	Brickeez	89.99
 40912-1		60.00	https://www.avenuedelabrique.com/lego-ideas/40912-le-serpent-de-mer/p12213	2026-11-10	LToys	68.99
 40913-1		25.26	https://www.avenuedelabrique.com/lego-icons/40913-la-voiture-retro/p11397	2026-11-10	Amazon	29.25
+40914-1				2026-11-16		
 40915-1		39.99	https://www.avenuedelabrique.com/lego-saisonnier/40915-la-danse-du-lion/p11477	2026-11-10	LToys	48.98
 40916-1		39.99	https://www.avenuedelabrique.com/lego-botanicals/40916-cadre-photo-fleuri/p11566	2026-11-10	LToys	48.98
 40917-1		60.00	https://www.avenuedelabrique.com/lego-star-wars/40917-le-sabre-noir/p11698	2026-11-10	BrickPlus	64.40
+40918-1				2026-11-16		
 40919-1	24.99	24.99	https://www.avenuedelabrique.com/lego-brickheadz/40919-figurines-des-gremlins-gizmo-et-stripe/p12490	2026-11-12	LEGO	30.94
 40920-1	39.99	30.70	https://www.avenuedelabrique.com/lego-looney-tunes/40920-bugs-bunny/p11375	2026-11-10	Brickmo	40.65
 40921-1	59.99	59.99	https://www.avenuedelabrique.com/objets-divers-lego/40921-minifigurine-d-astronaute-bleu-grand-format/p11506	2026-11-02	LEGO	59.99
@@ -994,8 +996,8 @@ code	prix	meilleur	url	date	marchand	total
 5010349-1	39.99	39.99	https://www.avenuedelabrique.com/objets-divers-lego/5010349-lot-de-10-clips-masterbrand-crocs-x-lego/p11594	2026-11-11	LEGO	45.94
 5010353-1	9.99		https://www.avenuedelabrique.com/objets-divers-lego/5010353-animaux-de-bureau-le-corgi/p11783	2026-11-11		
 5010354-1	9.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010354-animaux-de-bureau-le-cochon/p11784	2026-11-11	LEGO	15.94
-5010365-1	16.99	16.99	https://www.avenuedelabrique.com/objets-divers-lego/5010365-calendrier-mural-2027/p13571	2026-11-08	LEGO	22.94
-5010366-1	18.99	18.99	https://www.avenuedelabrique.com/objets-divers-lego/5010366-calendrier-2027-une-minifigurine-par-jour/p13572	2026-11-08	LEGO	24.94
+5010365-1	16.99	16.99	https://www.avenuedelabrique.com/objets-divers-lego/5010365-calendrier-mural-2027/p13571	2026-11-16	LEGO	22.94
+5010366-1	18.99	18.99	https://www.avenuedelabrique.com/objets-divers-lego/5010366-calendrier-2027-une-minifigurine-par-jour/p13572	2026-11-16	LEGO	24.94
 5010388-1				2026-11-05		
 5010391-1				2026-11-12		
 5010392-1	11.99	9.99	https://www.avenuedelabrique.com/objets-divers-lego/5010392-vase-briques/p12252	2026-11-11	Alternate.fr	19.89
@@ -1328,6 +1330,7 @@ code	prix	meilleur	url	date	marchand	total
 6663053-1				2026-11-06		
 6667469-1				2026-11-12		
 6668941-1				2026-11-06		
+6670939-1				2026-11-16		
 6674871-1				2026-11-12		
 6675226-1				2026-11-12		
 6680480-1				2026-11-06		

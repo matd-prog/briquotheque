@@ -1,4 +1,4 @@
-#date 2026-11-15
+#date 2026-11-16
 code	nom	annee	theme	pieces	figurines
 0003977811-1	Ninjago: Book of Adventures	2022	Books / Activity Books with LEGO Parts	1	1
 001-1	Gears	1965	System / Samsonite	43	0
@@ -2169,6 +2169,7 @@ code	nom	annee	theme	pieces	figurines
 1990-1	F1 Race Car	1993	Town / Classic Town	35	1
 1991-1	Racing Pickup	1993	Town / Classic Town	81	1
 1992-1	Dragsters	1993	Town / Classic Town	104	2
+199384-1	Lion Knight Polybag	1984	Castle / Lion Knights	6	1
 1994-1	Turtle Bucket with Motor	1992	Universal Building Set / Basic	192	0
 1995-1	Racer	1999	Universal Building Set / Classic Basic	15	0
 1998-1	Silja Line Ferry	1991	Promotional / Ferries	376	0
@@ -3635,9 +3636,9 @@ code	nom	annee	theme	pieces	figurines
 2D001183-1	Kai with Motorcycle	2026	Ninjago	44	1
 2D001184-1	Lloyd with Mech	2026	Ninjago	54	1
 2D001185-1	Horse	2026	Friends	47	0
-2D001186-1	Valeria with Puppy	2026	Friends	21	1
-2D001187-1	Cockatoo	2026	Creator / Creator 3-in-1	69	0
-2D001188-1	Car	2026	Creator / Creator 3-in-1	76	0
+2D001186-1	Valeria with Puppy	2026	Friends	29	1
+2D001187-1	Cockatoo	2026	Creator / Creator 3-in-1	78	0
+2D001188-1	Car	2026	Creator / Creator 3-in-1	85	0
 2DD00084-1	Minecraft Trading Cards Series 3 On Fire - Starterpack (German Version)	2026	Gear	2	0
 2DI00237-1	Minecraft Trading Cards Series 3: On Fire - Starter-Pack (Polish Version)	2026	Gear	3	0
 3-4	Basic Set	1973	Universal Building Set	191	0
@@ -9203,7 +9204,6 @@ code	nom	annee	theme	pieces	figurines
 5008303-1	Minifigure Photography	2023	Books / Ideas Books	30	0
 5008314-1	Harry Potter: Character Encyclopedia	2023	Books / Non-fiction Books	6	1
 5008325-1	Dungeons & Dragons Mimic Dice Box	2024	Promotional	168	0
-5008864-1	Popcorn Stall	2024	Promotional / Bricktober	108	1
 5008897-1	Tic Tac Toe	2024	Promotional	148	10
 5008900-1	Star Wars: Visual Dictionary: Updated Edition	2024	Books / Non-fiction Books	8	1
 5008904-1	Harry Potter: Magical Defenders	2023	Books / Activity Books with LEGO Parts	15	3
@@ -11568,6 +11568,7 @@ code	nom	annee	theme	pieces	figurines
 6527192-1	Yoshi	2024	Super Mario	31	0
 6528-1	Sand Storm Racer	1989	Town / Classic Town	39	1
 6528713-1	Ice Cream Stall	2024	Promotional / Bricktober	95	1
+6528714-1	Popcorn Stall	2024	Promotional / Bricktober	108	1
 6528715-1	Bubble Tea Stall	2024	Promotional / Bricktober	96	1
 6528717-1	Burger Stall	2024	Promotional / Bricktober	97	1
 6528898-1	Yoda	2024	Star Wars	20	0
@@ -12035,6 +12036,7 @@ code	nom	annee	theme	pieces	figurines
 6670923-1	I [Heart] LEGO Store Town Center Crossing Tile	2026	LEGO Brand Store	1	0
 6670924-1	I [Heart] LEGO Store Markville Shopping Centre Tile	2026	LEGO Brand Store	1	0
 6670926-1	I [Heart] LEGO Store Promenade Temecula Tile	2026	LEGO Brand Store	1	0
+6670939-1	Macy's Parade 100 Santa Soars	2026	Seasonal / Christmas	145	1
 6671-1	Utility Repair Lift	1989	Town / Classic Town	107	1
 6672-1	Safari Off-Road Vehicle	1990	Town / Classic Town	67	2
 6673-1	Solo Trainer	1990	Town / Classic Town	74	1
@@ -12048,6 +12050,7 @@ code	nom	annee	theme	pieces	figurines
 6676-1	Mobile Command Unit	1986	Town / Classic Town	100	2
 6677-1	Motocross Racing	1986	Town / Classic Town	76	1
 6678-1	Excavator	1980	Town / Classic Town	61	1
+6678777-1	Christmas Sticker Sheet	2026	Gear / Seasonal	1	0
 6679-1	Dark Shark	1991	Town / Classic Town	83	2
 6679-2	Exxon Tow Truck	1980	Town / Classic Town	79	1
 668-1	1:87 Ford Taunus 17M	1964	System / HO 1:87 Vehicles	1	0
@@ -12057,6 +12060,7 @@ code	nom	annee	theme	pieces	figurines
 6680480-1	Jolly Roger Mosaic	2026	One Piece	52	0
 6680481-1	Baroque Works Mosaic	2026	One Piece	89	0
 6681-1	Police Van	1981	Town / Classic Town	81	1
+6681246-1	Santa's Workshop	2026	Promotional	150	2
 6682-1	Cement Mixer	1985	Town / Classic Town	90	1
 6683-1	Burger Stand	1983	Town / Classic Town	69	2
 6684-1	Police Patrol Squad	1984	Town / Classic Town	81	2
@@ -17872,7 +17876,7 @@ code	nom	annee	theme	pieces	figurines
 910061-1	Antique Collection	2026	BrickLink Designer Program	1504	5
 910062-1	Alchemist's Shop	2026	BrickLink Designer Program	2319	9
 910063-1	W.A.L.T.	2026	BrickLink Designer Program	766	0
-910064-1	Dustmark Keep	2026	BrickLink Designer Program	3959	20
+910064-1	Dustmark Keep	2026	BrickLink Designer Program	3960	20
 910065-1	Coconut Cape	2026	BrickLink Designer Program	2387	9
 910066-1	Brick Railroad Locomotive	2026	BrickLink Designer Program	1348	1
 910067-1	Hot Air Balloon	2026	BrickLink Designer Program	883	1
@@ -19471,6 +19475,7 @@ EG00171-1	5x Little HeiHei	2025	Other	160	0
 EG00172-1	Multipack Baby Animals Trio (2 of Each)	2026	Other	204	0
 EG00173-1	White Road Bike	2026	Icons	261	0
 ELEPHANT-1	Elephant	2019	Promotional	11	0
+ELF-1	Mirkwood Elf - Desolation of Smaug Promotional	2013	The Hobbit and Lord of the Rings / The Hobbit	7	1
 ELIZABETH-1	LEGO Store Grand Opening Exclusive Set, Jersey Gardens, Elizabeth, NJ	2012	LEGO Brand Store	15	3
 ELMHURST-1	LEGO Store Grand Opening Exclusive Set, Queens Center Mall, Elmhurst, NY	2010	LEGO Brand Store	95	0
 EMMET-1	Emmet	2014	The LEGO Movie	5	1
@@ -20132,6 +20137,7 @@ TerapiI-1	Therapy I	1965	Educational and Dacta	1	0
 TerapiI-2	Therapy I with Duplo	1969	Educational and Dacta / Duplo and Explore	1	0
 TerapiII-1	Therapy II	1965	Educational and Dacta	1	0
 TerapiIII-1	Therapy III	1965	Educational and Dacta	1	0
+UGLYSWEATER-1	Ugly Sweater	2026	Promotional	70	0
 UNICORN-1	Unicorn	2022	Other	38	0
 UNITY-1	Unity x Lego Minifigure	2021	Promotional	8	1
 VALENTINE-1	Valentine's Day Card	2019	Seasonal / Valentine	40	0
@@ -20158,6 +20164,7 @@ WEETABIX3-1	House	1976	Legoland / Building	149	2
 WEETABIX4-1	House and Car	1976	Legoland / Building	147	1
 WHITEHOUSE-1	White House	2015	Promotional	59	0
 WIESBADEN-1	LEGO Store Grand Opening Exclusive Set, Wiesbaden, Germany	2010	LEGO Brand Store	146	0
+WILDLIFE4-1	Wildlife Bricks - Kohi the Kiwi	2025	Gear	999	0
 WILLIAM-1	Will.i.am	2016	Collectible Minifigures	6	1
 WINDTURBINE-1	Wind Turbine	2021	Promotional	36	0
 WISHINGWELL-1	Wishing Well	2013	Friends	28	0
