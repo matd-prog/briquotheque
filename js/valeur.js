@@ -921,7 +921,7 @@ const Valeur = {
           `ils sont comptés comme des boîtes vides.<button class="bouton bleu" data-action="valeur-boites">✔ Ce sont des sets montés complets (boîte et notice)</button></div>` : "") + `
         <div class="carte valeur-total"><div class="score">Coût de rachat à neuf de la collection</div><div class="montant">${euros(total)}</div>
           <div class="ligne-valeur"><span>Valeur d'occasion (revente)</span><b>${euros(totalOccasion)}</b></div>
-          <div class="score">${details.length} article(s) valorisé(s)${sans.length ? ` · ${sans.length} sans prix pour l'instant` : ""}</div></div>
+          <div class="score">${details.length} article(s) valorisé(s)${sans.length ? ` · ${sans.length} sans prix pour l'instant (liste plus bas)` : ""}</div></div>
         ${this._carteHistorique(historique, euros)}
         ${this._carteDeclarees(details, sans)}
         <div class="carte"><p class="sous-titre">Par onglet</p>
@@ -935,6 +935,17 @@ const Valeur = {
             ${g.slice(0, 10).map(d => `<div class="ligne-valeur"><span>${echapper(d.nom || d.code)} <span class="score">${d.marque ? `${echapper(d.marque)} ` : ""}${echapper(d.code)}${d.quantite > 1 ? ` ×${d.quantite}` : ""}${d.sourceCustom ? ` · ${d.sourceCustom}` : d.enVente ? " · prix LEGO France (encore en vente)" : d.neuf ? " · neuf" : " · occasion (aucune vente neuve)"}${d.zone === "monde" ? " · ventes hors Europe" : ""}${d.detail && d.detail.seulementFigs ? ` · figurine(s) seulement (${euros(d.detail.figsSet)}) : pas de prix BrickLink pour le livre lui-même${d.figsAilleurs ? ` ; ${d.figsAilleurs} figurine(s) déjà comptée(s) dans vos onglets` : ""}` : d.detail ? ` · figurines ${euros(d.detail.figsSet)} + reste du set ${euros(d.detail.reste)}${d.detail.resteEbay ? ` (d'après ${d.detail.resteEbay.n} annonces eBay.de sans figurines)` : ""}${d.figsAilleurs ? ` (${d.figsAilleurs} figurine(s) comptée(s) dans vos onglets)` : ""}${d.sansFigs ? " · sans figurines" : ""}` : ""}${d.enVente || d.sourceCustom || (d.detail && d.detail.seulementFigs) ? "" : ` · ${d.ventes} ventes · occasion ${euros(d.vOccasion)}`}</span></span><b>${euros(d.v)}</b></div>`).join("")}
             ${g.length > 10 ? `<p class="score">… et ${g.length - 10} autre(s)</p>` : ""}</div>`;
         }).join("")}
+        ${(() => { // articles LEGO sans prix (Mathias, 18/11/2026 : « j'ai 87 objets non valorisés, c'est quoi ? »)
+          const TYPES = { MINIFIG: "🧍 Figurines LEGO", SET: "🧱 Sets LEGO", GEAR: "🔑 Objets dérivés", JB: "🟪 Objets JB" };
+          const l = sans.filter(a => TYPES[a.type]);
+          if (!l.length) return "";
+          const lien = a => a.type === "GEAR" || a.type === "SET" || a.type === "MINIFIG" ? `https://www.bricklink.com/v2/search.page?q=${encodeURIComponent(a.code || a.nom || "")}` : "";
+          return `<div class="carte"><p class="sous-titre">❔ Articles LEGO sans prix (${l.length})</p>
+            <p class="score">Aucune vente relevée sur BrickLink pour l'instant (article rare, très récent, ou code inconnu de BrickLink), et pas de prix payé indiqué. Pour les compter : touchez « Valoriser ma collection » pour relancer le relevé, ou indiquez leur prix payé, ou déclarez leur valeur.</p>
+            ${Object.entries(TYPES).map(([k, titre]) => { const g = l.filter(a => a.type === k); return g.length ? `<details><summary class="score"><b>${titre} (${g.length})</b></summary>
+              ${g.map(a => `<div class="ligne-valeur"><span>${echapper(a.nom || "(sans nom)")} <span class="score">${echapper(a.code || "sans code")}${a.quantite > 1 ? ` ×${a.quantite}` : ""} · ${echapper(a.onglet)}</span></span>
+                ${lien(a) ? `<a class="score" href="${echapper(lien(a))}" target="_blank" rel="noopener">BrickLink</a>` : ""}</div>`).join("")}</details>` : ""; }).join("")}</div>`;
+        })()}
         ${(() => { // autres marques sans prix : ni annonce eBay.fr, ni prix payé
           const m = sans.filter(a => a.type === "MARQUE");
           return m.length ? `<div class="carte"><p class="sous-titre">🏷️ Autres marques sans prix (${m.length})</p>

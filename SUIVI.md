@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v211 (18/11) : LISTE DES ARTICLES LEGO SANS PRIX (Mathias : « j'ai 87 objets non valorisés, c'est quoi ? »). Seuls les
+    customs et autres marques sans prix étaient listés ; carte « ❔ Articles LEGO sans prix » par sorte (figurines, sets,
+    objets dérivés, objets JB), lien BrickLink. Sauvegarde du 14/11 : 83 figurines (Star Wars 43, Super-héros 37) absentes
+    du dernier relevé des prix (13/11) : ajoutées depuis (étiquettes des plaques) -> « Valoriser ma collection ».
   · v210 (18/11) : ÉCART DE VALEUR DÉCOMPOSÉ (Mathias : « distinguer la valeur due à de nouvelles acquisitions de la valeur
     liée au changement de valorisation depuis le dernier relevé »). Chaque relevé garde la valeur de chaque article
     (Memoire « valeur_photo », base : dernier relevé d'un autre jour) ; écart = 🛒 nouvelles acquisitions (articles ou
