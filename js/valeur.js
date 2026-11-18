@@ -795,7 +795,42 @@ const Valeur = {
         ${h.map(p => `<circle cx="${x(p).toFixed(1)}" cy="${y(p.total).toFixed(1)}" r="3" fill="#00852b"/>`).join("")}
       </svg>
       <div class="ligne-valeur"><span>Du ${date(premier.jour)} au ${date(dernier.jour)}</span><b class="${ecart >= 0 ? "hausse" : "baisse"}">${ecart >= 0 ? "+" : ""}${euros(ecart)}</b></div>
-      <p class="score">Trait plein : rachat à neuf ; pointillés : occasion. ${h.length} relevés.</p></div>`;
+      <p class="score">Trait plein : rachat à neuf ; pointillés : occasion. ${h.length} relevés.</p>
+      ${this._chute(h) ? `<button class="bouton bleu" data-action="valeur-depart" data-jour="${this._chute(h).jour}">✂️ Faire partir la courbe du ${date(this._chute(h).jour)}</button>
+        <p class="aide">Le ${date(this._chute(h).jour)}, la valeur a baissé de ${euros(this._chute(h).baisse)} d'un coup : c'est sans doute une correction du calcul (articles comptés deux fois), pas une vraie perte. Les relevés d'avant peuvent être retirés.</p>` : ""}
+      <button class="bouton-lien" data-action="valeur-depart-choisir">📅 Choisir le point de départ de la courbe</button></div>`;
+  },
+
+  // Plus forte baisse d'un relevé au suivant (plus de 10 %) : { jour, baisse } du relevé d'après, ou null
+  // (Mathias, 18/11/2026 : « reprendre à partir du moment où on a revalorisé, il y avait des choses comptées deux fois »)
+  _chute(h) {
+    let m = null;
+    for (let i = 1; i < h.length; i++) {
+      const baisse = h[i - 1].total - h[i].total;
+      if (baisse > 0.1 * h[i - 1].total && (!m || baisse > m.baisse)) m = { jour: h[i].jour, baisse };
+    }
+    return m;
+  },
+
+  // Retire les relevés d'avant ce jour (la courbe part de là)
+  async departCourbe(jour) {
+    const h = (await Memoire.lire("historique_valeur")) || [];
+    const avant = h.filter(p => p.jour < jour).length;
+    if (!avant) return;
+    const d = new Date(jour + "T12:00:00").toLocaleDateString("fr-FR");
+    if (!(await demander(`Faire partir la courbe du ${d} ? Les ${avant} relevé(s) d'avant seront retirés de l'historique.`, "✂️ Oui", "Annuler"))) return;
+    await Memoire.ecrire(h.filter(p => p.jour >= jour), "historique_valeur");
+    toast(`📈 La courbe part maintenant du ${d} ✔`);
+    this.afficher();
+  },
+  async choisirDepart() {
+    const h = (await Memoire.lire("historique_valeur")) || [];
+    if (h.length < 2) return;
+    const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+    const liste = h.slice(1);
+    const i = await choisirAction("Point de départ de la courbe : les relevés d'avant seront retirés",
+      liste.map(p => `${new Date(p.jour + "T12:00:00").toLocaleDateString("fr-FR")} · ${euros(p.total)}`));
+    if (i >= 0) this.departCourbe(liste[i].jour);
   },
 
   // Bandeau d'état : « actualisation en cours » tant qu'un calcul ou un relevé des prix tourne (le total peut encore
@@ -887,6 +922,8 @@ document.addEventListener("click", e => {
   else if (a === "valeur-envoyer") Valeur.envoyer();
   else if (a === "valeur-actualiser") Valeur.afficher();
   else if (a === "valeur-doublons") Valeur.supprimerDoublons();
+  else if (a === "valeur-depart") Valeur.departCourbe(b.dataset.jour);
+  else if (a === "valeur-depart-choisir") Valeur.choisirDepart();
   else if (a === "valeur-boites") Valeur.corrigerBoites();
   else if (a === "valeur-customs") Valeur.ajouterCustoms();
   else if (a === "valeur-declarer") Valeur.declarer();

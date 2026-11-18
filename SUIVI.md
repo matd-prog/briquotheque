@@ -125,6 +125,10 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v209 (18/11) : COURBE DE LA VALEUR SANS L'AVANT-CORRECTION (Mathias : « reprendre à partir du moment où on a bien
+    revalorisé, il y avait des choses comptées deux fois, ça me fait une baisse de 5 000 € d'un coup »). L'historique est
+    dans le téléphone : la plus forte baisse d'un relevé au suivant (plus de 10 %) est repérée et « ✂️ Faire partir la
+    courbe du … » retire les relevés d'avant ; « 📅 Choisir le point de départ » pour un autre jour.
   · v208 (15/11) : FICHIER EXCEL « À VENDRE » COMPLET, AVEC PHOTOS (Mathias : « un maximum d'informations, les mêmes que
     je remplis quand j'intègre un blister… et la photo avant »). Mes achats customs › À vendre › « 📗 Fichier Excel
     complet, avec photos » : une ligne par exemplaire à vendre, photo du recto réduite, nom imprimé, précision, n°, série
