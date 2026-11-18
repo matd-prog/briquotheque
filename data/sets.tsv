@@ -1,4 +1,4 @@
-#date 2026-11-17
+#date 2026-11-18
 code	nom	annee	theme	pieces	figurines
 0003977811-1	Ninjago: Book of Adventures	2022	Books / Activity Books with LEGO Parts	1	1
 001-1	Gears	1965	System / Samsonite	43	0
@@ -422,7 +422,7 @@ code	nom	annee	theme	pieces	figurines
 10352-1	The Simpsons: Krusty Burger	2025	Icons	1635	7
 10353-1	Williams Racing FW14B & Nigel Mansell	2025	Icons	799	1
 10354-1	The Lord of the Rings: The Shire	2025	Icons	2017	9
-10355-1	Blacktron Renegade	2025	Icons	1151	3
+10355-1	Blacktron Renegade	2025	Icons	1151	4
 10356-1	Star Trek: U.S.S. Enterprise NCC-1701-D	2025	Icons	3600	9
 10357-1	Shelby Cobra 427 S/C	2025	Icons	1248	0
 10358-1	Transformers: Soundwave	2025	Icons	1505	0
@@ -17841,7 +17841,7 @@ code	nom	annee	theme	pieces	figurines
 910023-1	Venetian Houses	2022	BrickLink Designer Program	3462	13
 910027-1	Mountain View Observatory	2023	BrickLink Designer Program	3876	11
 910028-1	Pursuit of Flight	2021	BrickLink Designer Program	541	0
-910029-1	Mountain Fortress	2024	BrickLink Designer Program	3997	9
+910029-1	Mountain Fortress	2024	BrickLink Designer Program	3998	9
 910030-1	Snack Shack	2024	BrickLink Designer Program	539	2
 910031-1	General Store	2024	BrickLink Designer Program	1906	5
 910032-1	Parisian Street	2024	BrickLink Designer Program	3532	7
@@ -17857,7 +17857,7 @@ code	nom	annee	theme	pieces	figurines
 910042-1	Lost City	2025	BrickLink Designer Program	3506	3
 910043-1	Forest Stronghold	2025	BrickLink Designer Program	3396	13
 910044-1	Wild West Train	2025	BrickLink Designer Program	3197	12
-910045-1	Siege Encampment	2025	BrickLink Designer Program	2601	18
+910045-1	Siege Encampment	2025	BrickLink Designer Program	2602	18
 910046-1	Merchant Boat	2025	BrickLink Designer Program	2196	4
 910047-1	Medieval Seaside Market	2025	BrickLink Designer Program	2560	9
 910048-1	Riverside Scholars	2025	BrickLink Designer Program	2785	5
@@ -20164,7 +20164,6 @@ WEETABIX3-1	House	1976	Legoland / Building	149	2
 WEETABIX4-1	House and Car	1976	Legoland / Building	147	1
 WHITEHOUSE-1	White House	2015	Promotional	59	0
 WIESBADEN-1	LEGO Store Grand Opening Exclusive Set, Wiesbaden, Germany	2010	LEGO Brand Store	146	0
-WILDLIFE4-1	Wildlife Bricks - Kohi the Kiwi	2025	Gear	999	0
 WILLIAM-1	Will.i.am	2016	Collectible Minifigures	6	1
 WINDTURBINE-1	Wind Turbine	2021	Promotional	36	0
 WISHINGWELL-1	Wishing Well	2013	Friends	28	0
