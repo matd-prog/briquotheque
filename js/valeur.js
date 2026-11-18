@@ -766,11 +766,38 @@ const Valeur = {
     this.afficher();
   },
 
-  // Historique de la valeur (gardé dans le téléphone) : un point par jour de consultation, le dernier du jour gagne
-  async _historiser(total, totalOccasion, n) {
+  // Historique de la valeur (gardé dans le téléphone) : un point par jour de consultation, le dernier du jour gagne.
+  // Écart avec le relevé précédent décomposé (Mathias, 18/11/2026 : « distinguer la valeur due à de nouvelles acquisitions
+  // de celle liée au changement de valorisation ») : la valeur de chaque article est gardée (photo du dernier relevé d'un
+  // autre jour) ; nouveaux articles ou exemplaires = acquisitions, disparus = retirés (vendus…), le reste = prix.
+  async _historiser(total, totalOccasion, n, details = []) {
     const jour = new Date().toISOString().slice(0, 10);
     const h = ((await Memoire.lire("historique_valeur")) || []).filter(p => p.jour !== jour);
-    h.push({ jour, total: Math.round(total * 100) / 100, occasion: Math.round(totalOccasion * 100) / 100, n });
+    const cur = {};
+    for (const d of details) {
+      const k = `${d.type || ""}|${d.code ? d.code.toUpperCase() : normaliser(d.nom || "")}`;
+      const x = cur[k] || (cur[k] = [0, 0]);
+      x[0] += d.v || 0; x[1] += d.quantite || 1;
+    }
+    let photo = await Memoire.lire("valeur_photo");
+    if (photo && photo.jour < jour) { await Memoire.ecrire(photo, "valeur_photo_base"); }
+    const base = photo && photo.jour < jour ? photo : await Memoire.lire("valeur_photo_base");
+    await Memoire.ecrire({ jour, articles: cur }, "valeur_photo");
+    let ecart = null;
+    if (base && base.jour < jour && base.articles) {
+      let acquis = 0, retires = 0, prix = 0, nAcquis = 0, nRetires = 0;
+      for (const k of new Set([...Object.keys(cur), ...Object.keys(base.articles)])) {
+        const [vc, qc] = cur[k] || [0, 0], [vb, qb] = base.articles[k] || [0, 0];
+        if (!qb) { acquis += vc; nAcquis += qc; continue; }
+        if (!qc) { retires += vb; nRetires += qb; continue; }
+        const uc = vc / qc, ub = vb / qb;
+        if (qc > qb) { acquis += (qc - qb) * uc; nAcquis += qc - qb; prix += qb * (uc - ub); }
+        else { retires += (qb - qc) * ub; nRetires += qb - qc; prix += qc * (uc - ub); }
+      }
+      const r = v => Math.round(v * 100) / 100;
+      ecart = { depuis: base.jour, acquis: r(acquis), nAcquis, retires: r(retires), nRetires, prix: r(prix) };
+    }
+    h.push({ jour, total: Math.round(total * 100) / 100, occasion: Math.round(totalOccasion * 100) / 100, n, ...(ecart ? { ecart } : {}) });
     h.sort((a, b) => a.jour.localeCompare(b.jour));
     await Memoire.ecrire(h, "historique_valeur");
     return h;
@@ -795,10 +822,27 @@ const Valeur = {
         ${h.map(p => `<circle cx="${x(p).toFixed(1)}" cy="${y(p.total).toFixed(1)}" r="3" fill="#00852b"/>`).join("")}
       </svg>
       <div class="ligne-valeur"><span>Du ${date(premier.jour)} au ${date(dernier.jour)}</span><b class="${ecart >= 0 ? "hausse" : "baisse"}">${ecart >= 0 ? "+" : ""}${euros(ecart)}</b></div>
+      ${this._carteEcart(h, euros, date)}
       <p class="score">Trait plein : rachat à neuf ; pointillés : occasion. ${h.length} relevés.</p>
       ${this._chute(h) ? `<button class="bouton bleu" data-action="valeur-depart" data-jour="${this._chute(h).jour}">✂️ Faire partir la courbe du ${date(this._chute(h).jour)}</button>
         <p class="aide">Le ${date(this._chute(h).jour)}, la valeur a baissé de ${euros(this._chute(h).baisse)} d'un coup : c'est sans doute une correction du calcul (articles comptés deux fois), pas une vraie perte. Les relevés d'avant peuvent être retirés.</p>` : ""}
       <button class="bouton-lien" data-action="valeur-depart-choisir">📅 Choisir le point de départ de la courbe</button></div>`;
+  },
+
+  // D'où vient l'écart : depuis le relevé précédent, et depuis le début de la courbe (relevés qui ont le détail)
+  _carteEcart(h, euros, date) {
+    const signe = v => `${v > 0 ? "+" : v < 0 ? "−" : ""}${euros(Math.abs(v))}`;
+    const bloc = (titre, e) => `<div class="ecart-valeur"><p class="score"><b>${titre}</b></p>
+      <div class="ligne-valeur"><span>🛒 <span>Nouvelles acquisitions</span>${e.nAcquis ? ` <span class="score">(${e.nAcquis})</span>` : ""}</span><b class="${e.acquis ? "hausse" : ""}">${signe(e.acquis)}</b></div>
+      <div class="ligne-valeur"><span>📈 <span>Évolution des prix</span></span><b class="${e.prix > 0 ? "hausse" : e.prix < 0 ? "baisse" : ""}">${signe(e.prix)}</b></div>
+      ${e.retires ? `<div class="ligne-valeur"><span>📤 <span>Retirés (vendus, échangés…)</span> <span class="score">(${e.nRetires})</span></span><b class="baisse">${signe(-e.retires)}</b></div>` : ""}</div>`;
+    const der = h[h.length - 1].ecart;
+    const avec = h.filter(p => p.ecart);
+    if (!avec.length) return `<p class="aide">🔎 Le détail de l'écart (nouvelles acquisitions ou évolution des prix) apparaîtra à partir du prochain relevé, un autre jour.</p>`;
+    const cumul = avec.reduce((s, p) => ({ acquis: s.acquis + p.ecart.acquis, nAcquis: s.nAcquis + p.ecart.nAcquis, prix: s.prix + p.ecart.prix,
+      retires: s.retires + p.ecart.retires, nRetires: s.nRetires + p.ecart.nRetires }), { acquis: 0, nAcquis: 0, prix: 0, retires: 0, nRetires: 0 });
+    return (der ? bloc(`Depuis le relevé du ${date(der.depuis)}`, der) : "") +
+      (avec.length > 1 || !der ? bloc(`Depuis le ${date(avec[0].ecart.depuis)}`, cumul) : "");
   },
 
   // Plus forte baisse d'un relevé au suivant (plus de 10 %) : { jour, baisse } du relevé d'après, ou null
@@ -807,7 +851,8 @@ const Valeur = {
     let m = null;
     for (let i = 1; i < h.length; i++) {
       const baisse = h[i - 1].total - h[i].total;
-      if (baisse > 0.1 * h[i - 1].total && (!m || baisse > m.baisse)) m = { jour: h[i].jour, baisse };
+      const vendus = h[i].ecart ? h[i].ecart.retires : 0; // baisse expliquée par des ventes : pas une correction
+      if (baisse > 0.1 * h[i - 1].total && vendus < baisse / 2 && (!m || baisse > m.baisse)) m = { jour: h[i].jour, baisse };
     }
     return m;
   },
@@ -866,7 +911,7 @@ const Valeur = {
       }
       const euros = v => v.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
       $("valeur-etat").textContent = date ? `Prix du ${new Date(date).toLocaleDateString("fr-FR")} : médiane des ventes BrickLink des 6 derniers mois en Europe, TVA comprise.` : "";
-      const historique = await this._historiser(total, totalOccasion, details.length);
+      const historique = await this._historiser(total, totalOccasion, details.length, details);
       const doublons = await this._doublons();
       const boites = (await lireSets(etat.classeur)).filter(x => /boîte seule|boite seule/i.test(x.etat));
       $("valeur-resultat").innerHTML = (doublons.length ? `<div class="carte alerte">⚠️ <b>${doublons.length} ligne(s) en double</b> dans l'onglet « Sets » ` +

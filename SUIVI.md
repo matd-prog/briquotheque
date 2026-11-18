@@ -125,6 +125,12 @@ Tout le code et les données sont dans ce dépôt ; ce fichier sert à reprendre
     « Figothèque » toujours acceptées. INPI vérifié par Mathias (02/10) : une seule marque
     « BRIQUOTHEQUE » (n° 1695257, Wienerberger, 1991, classe 19 matériaux de construction), EXPIRÉE le 25/09/2021 ->
     nom libre en France. EUIPO « Briquothèque » et « Briquotheque » : 0 marque -> nom libre en France et dans l'UE ; dépôt éventuel classes 9 et 42 avant une diffusion commerciale.
+  · v210 (18/11) : ÉCART DE VALEUR DÉCOMPOSÉ (Mathias : « distinguer la valeur due à de nouvelles acquisitions de la valeur
+    liée au changement de valorisation depuis le dernier relevé »). Chaque relevé garde la valeur de chaque article
+    (Memoire « valeur_photo », base : dernier relevé d'un autre jour) ; écart = 🛒 nouvelles acquisitions (articles ou
+    exemplaires en plus) + 📈 évolution des prix (mêmes articles) − 📤 retirés (vendus, échangés). Affiché sous la courbe :
+    depuis le relevé précédent, et en cumul depuis le premier relevé détaillé. Baisse due à des ventes : pas proposée
+    comme « correction » à couper.
   · v209 (18/11) : COURBE DE LA VALEUR SANS L'AVANT-CORRECTION (Mathias : « reprendre à partir du moment où on a bien
     revalorisé, il y avait des choses comptées deux fois, ça me fait une baisse de 5 000 € d'un coup »). L'historique est
     dans le téléphone : la plus forte baisse d'un relevé au suivant (plus de 10 %) est repérée et « ✂️ Faire partir la

@@ -689,3 +689,4 @@ html[lang="fr"] .langue-verif { display: none; }
 .decompte th, .decompte td { padding: 6px 4px; text-align: right; border-bottom: 1px solid var(--bord) }
 .decompte th:first-child, .decompte td:first-child { text-align: left }
 .decompte-total td { border-bottom: none; font-weight: 700 }
+.ecart-valeur { margin-top: 8px; padding-top: 6px; border-top: 1px solid var(--bord); }

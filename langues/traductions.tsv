@@ -1584,3 +1584,9 @@ Point de départ de la courbe : les relevés d'avant seront retirés	Starting po
 Faire partir la courbe du {0} ? Les {#1} relevé(s) d'avant seront retirés de l'historique.	Start the chart on {0}? The {1} earlier record(s) will be removed from the history.	Kurve ab dem {0} beginnen? Die {1} früheren Werte werden aus dem Verlauf entfernt.	¿Empezar la curva el {0}? Se eliminarán del historial los {1} registros anteriores.
 📈 La courbe part maintenant du {0} ✔	📈 The chart now starts on {0} ✔	📈 Die Kurve beginnt jetzt am {0} ✔	📈 La curva empieza ahora el {0} ✔
 ✂️ Oui	✂️ Yes	✂️ Ja	✂️ Sí
+Nouvelles acquisitions	New acquisitions	Neuzugänge	Nuevas adquisiciones
+Évolution des prix	Price changes	Preisentwicklung	Evolución de los precios
+Retirés (vendus, échangés…)	Removed (sold, traded…)	Entfernt (verkauft, getauscht…)	Retirados (vendidos, cambiados…)
+Depuis le relevé du {0}	Since the record of {0}	Seit dem Wert vom {0}	Desde el registro del {0}
+Depuis le {0}	Since {0}	Seit dem {0}	Desde el {0}
+🔎 Le détail de l'écart (nouvelles acquisitions ou évolution des prix) apparaîtra à partir du prochain relevé, un autre jour.	🔎 The breakdown of the change (new acquisitions or price changes) will appear from the next record, on another day.	🔎 Die Aufschlüsselung der Änderung (Neuzugänge oder Preisentwicklung) erscheint ab dem nächsten Wert, an einem anderen Tag.	🔎 El detalle de la diferencia (nuevas adquisiciones o evolución de los precios) aparecerá a partir del próximo registro, otro día.
