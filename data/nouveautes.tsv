@@ -1,4 +1,4 @@
-#date 2026-11-18
+#date 2026-11-19
 type	code	bricklink	ressemblance	nom	theme	annee	image	vu_le	sets
 figurine	fig-018301	min204	0.83	Parrot Handler, Helmet	Minecraft	2026	https://cdn.rebrickable.com/media/sets/fig-018301.jpg	2026-11-18	L0002253-1
 figurine	fig-018299		0.69	Elf, Green Torso, Bright Green Hat	Promotional	2026	https://cdn.rebrickable.com/media/sets/fig-018299.jpg	2026-11-16	6681246-1
@@ -236,7 +236,7 @@ figurine	fig-018039		0.65	Droid	Star Wars	2026	https://cdn.rebrickable.com/media
 figurine	fig-018038		0.64	Jawa, Red Eyes, Strap over Right Shoulder	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018038.jpg		75453-1
 figurine	fig-018037		0.64	Jawa, Red Eyes, Strap over Left Shoulder	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018037.jpg		75453-1
 figurine	fig-018036	sw1492	0.7	Jawa, Red Eyes, Cross Straps	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018036.jpg		75453-1 75456-1
-figurine	fig-018035		0.63	The Mandalorian / Din Djarin - Tan Armor, Dirty	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018035.jpg		75453-1
+figurine	fig-018035		0.63	The Mandalorian / Din Djarin, Tan Armor, Dirty	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018035.jpg		75453-1
 figurine	fig-018034	sw1543	1.0	Kuiil, Backpack	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018034.jpg		75453-1
 figurine	fig-018033	sw1537	0.75	AT-AT Driver, White Uniform, Printed Legs	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018033.jpg		75454-1
 figurine	fig-018032	sw1536	1.0	Imperial Remnant Snowtrooper, Umber Brown Head	Star Wars	2026	https://cdn.rebrickable.com/media/sets/fig-018032.jpg		75454-1
@@ -1056,6 +1056,44 @@ figurine	fig-017053		0.47	Monkey Suit	Collectible Minifigures / Series 28 Minifi
 figurine	fig-017052		0.47	Goldfish Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017052.jpg		71051-3
 figurine	fig-017051		0.47	Cat Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017051.jpg		71051-2
 figurine	fig-017050		0.47	Peacock Suit	Collectible Minifigures / Series 28 Minifigures	2026	https://cdn.rebrickable.com/media/sets/fig-017050.jpg		71051-1
+objet	POSTER-3	POSTER-3		LEGO Ideas Godzilla Poster	Gear / Posters and Art Prints	2026	https://cdn.rebrickable.com/media/sets/poster-3.jpg	2026-11-19	
+objet	5011101-1	5011101		Gingerbread Man Small Plush Minifigure	Gear / Plush Toys	2026	https://cdn.rebrickable.com/media/sets/5011101-1.jpg	2026-11-19	
+objet	5011100-1	5011100		Snowman Small Plush Minifigure	Gear / Plush Toys	2026	https://cdn.rebrickable.com/media/sets/5011100-1.jpg	2026-11-19	
+objet	5011099-1	5011099		Santa Small Plush Minifigure	Gear / Plush Toys	2026	https://cdn.rebrickable.com/media/sets/5011099-1.jpg	2026-11-19	
+objet	5010919-1	5010919		Drift Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/5010919-1.jpg	2026-11-19	
+objet	5010918-1	5010918		Cuddle Team Leader Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/5010918-1.jpg	2026-11-19	
+objet	5010917-1	5010917		Peely Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/5010917-1.jpg	2026-11-19	
+objet	5010914-1	5010914		Chili Costume Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/5010914-1.jpg	2026-11-19	
+objet	5010913-1	5010913		C-3PO Holiday Sweater Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/5010913-1.jpg	2026-11-19	
+objet	5010404-1	5010404		Skeleton Girl Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/5010404-1.jpg	2026-11-19	
+objet	5010403-1	5010403		Reindeer Costume Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/5010403-1.jpg	2026-11-19	
+objet	2162927-1	2162927		Minifigure Bag	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/2162927-1.jpg	2026-11-19	
+objet	10020198-1	10020198		Sporty Minifigure Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020198-1.jpg	2026-11-19	
+objet	10020193-1	10020193		DJ Minifigure Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020193-1.jpg	2026-11-19	
+objet	10020186-1	10020186		Holiday Light Brown Teddy Bear Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020186-1.jpg	2026-11-19	
+objet	10020185-1	10020185		Holiday Santa Claus Face Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020185-1.jpg	2026-11-19	
+objet	10020184-1	10020184		Holiday Green Elf Minifigure Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020184-1.jpg	2026-11-19	
+objet	10020084-1	10020084		Vice Boombox Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020084-1.jpg	2026-11-19	
+objet	10020083-1	10020083		Vice Cellphone Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020083-1.jpg	2026-11-19	
+objet	10020081-1	10020081		Vice Black Star Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020081-1.jpg	2026-11-19	
+objet	10020080-1	10020080		Vice Small Flame Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020080-1.jpg	2026-11-19	
+objet	10020079-1	10020079		Vice Large Flame Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020079-1.jpg	2026-11-19	
+objet	10020077-1	10020077		Vehicles Red Car Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020077-1.jpg	2026-11-19	
+objet	10020076-1	10020076		Vehicles Engine Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020076-1.jpg	2026-11-19	
+objet	10020075-1	10020075		Vehicles Steering Wheel Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020075-1.jpg	2026-11-19	
+objet	10020074-1	10020074		Vehicles Headlight Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020074-1.jpg	2026-11-19	
+objet	10020073-1	10020073		Vehicles Flag Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020073-1.jpg	2026-11-19	
+objet	10020072-1	10020072		Vehicles Wheel Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020072-1.jpg	2026-11-19	
+objet	10020071-1	10020071		Vehicles Green Car Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10020071-1.jpg	2026-11-19	
+objet	10019747-1	10019747		Small Lightning Bolt Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10019747-1.jpg	2026-11-19	
+objet	10019395-1	10019395		Vehicles 5 Pack	Gear	2026	https://cdn.rebrickable.com/media/sets/10019395-1.jpg	2026-11-19	
+objet	10019393-1	10019393		Vice 5 Pack	Gear	2026	https://cdn.rebrickable.com/media/sets/10019393-1.jpg	2026-11-19	
+objet	10019391-1	10019391		Holiday 5 Pack	Gear	2026	https://cdn.rebrickable.com/media/sets/10019391-1.jpg	2026-11-19	
+objet	10019390-1	10019390		Sports 10 Pack	Gear	2026	https://cdn.rebrickable.com/media/sets/10019390-1.jpg	2026-11-19	
+objet	10019389-1	10019389		Y2K 5 Pack	Gear	2026	https://cdn.rebrickable.com/media/sets/10019389-1.jpg	2026-11-19	
+objet	10019388-1	10019388		Vehicles 10 Pack	Gear	2026	https://cdn.rebrickable.com/media/sets/10019388-1.jpg	2026-11-19	
+objet	10019386-1	10019386		Vice 10 Pack	Gear	2026	https://cdn.rebrickable.com/media/sets/10019386-1.jpg	2026-11-19	
+objet	10018254-1	10018254		Gaming Controller Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018254-1.jpg	2026-11-19	
 objet	6678777-1	6678777		Christmas Sticker Sheet	Gear / Seasonal	2026	https://cdn.rebrickable.com/media/sets/6678777-1.jpg	2026-11-16	
 objet	10019750-1	10019750		Big Lightning Bolt Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10019750-1.jpg	2026-11-16	
 objet	10019746-1	10019746		Purple Holder Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10019746-1.jpg	2026-11-16	
@@ -1080,8 +1118,6 @@ objet	51305-1	51305		City Find the Figure Puzzle	Gear / Tabletop Games and Puzzl
 objet	51298-1	51298		Icons Santa's Post Office Puzzle	Gear / Tabletop Games and Puzzles	2026	https://cdn.rebrickable.com/media/sets/51298-1.jpg	2026-10-15	
 objet	51297-1	51297		Icons Family Christmas Tree Puzzle	Gear / Tabletop Games and Puzzles	2026	https://cdn.rebrickable.com/media/sets/51297-1.jpg	2026-10-15	
 objet	51296-1	51296		Icons Holiday Express Train Puzzle	Gear / Tabletop Games and Puzzles	2026	https://cdn.rebrickable.com/media/sets/51296-1.jpg	2026-10-15	
-objet	18342-1	18342		Snowman Small Plush Minifigure	Gear / Plush Toys	2026	https://cdn.rebrickable.com/media/sets/18342-1.jpg	2026-10-15	
-objet	18341-1	18341		Santa Small Plush Minifigure	Gear / Plush Toys	2026	https://cdn.rebrickable.com/media/sets/18341-1.jpg	2026-10-15	
 objet	1160408338-1	1160408338		Herschel Classic XL Backpack - Botanical Floral Lavender	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/1160408338-1.jpg	2026-10-15	
 objet	1160408337-1	1160408337		Herschel Classic XL Backpack - Botanical Floral Black	Gear / Bags, Totes, & Luggage	2026	https://cdn.rebrickable.com/media/sets/1160408337-1.jpg	2026-10-15	
 objet	51433-1	51433		Raccoon Fan Suit Small Plush Minifigure	Gear / Plush Toys	2026	https://cdn.rebrickable.com/media/sets/51433-1.jpg	2026-10-14	
@@ -1185,16 +1221,9 @@ objet	MAGNET-6	MAGNET-6		Shanghai Magnet - Red	Gear / Magnets	2026	https://cdn.r
 objet	MAGNET-5	MAGNET-5		Shanghai Magnet - Pattern	Gear / Magnets	2026	https://cdn.rebrickable.com/media/sets/magnet-5.jpg		
 objet	MAGNET-4	MAGNET-4		Shanghai Magnet - Heart	Gear / Magnets	2026	https://cdn.rebrickable.com/media/sets/magnet-4.jpg		
 objet	MAGNET-3	MAGNET-3		Munich Magnet - Heart	Gear / Magnets	2026	https://cdn.rebrickable.com/media/sets/magnet-3.jpg		
-objet	LGLKE261H-1	LGL-KE261H		Skeleton Girl Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke261h-1.jpg		
-objet	LGLKE260H-1	LGL-KE260H		Reindeer Costume Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke260h-1.jpg		
 objet	LGLKE259H-1	LGL-KE259H		Chicken Skater Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke259h-1.jpg		
 objet	LGLKE258H-1	LGL-KE258H		Cupid Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke258h-1.jpg		
 objet	LGLKE257H-1	LGL-KE257H		Love Bear Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke257h-1.jpg		
-objet	LGLKE256H-1	LGL-KE256H		Chili Costume Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke256h-1.jpg		
-objet	LGLKE254H-1	LGL-KE254H		Drift Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke254h-1.jpg		
-objet	LGLKE253H-1	LGL-KE253H		Cuddle Team Leader Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke253h-1.jpg		
-objet	LGLKE252H-1	LGL-KE252H		Peely Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke252h-1.jpg		
-objet	LGLKE250H-1	LGL-KE250H		C-3PO Holiday Sweater Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke250h-1.jpg		
 objet	LGLKE246H-1	LGL-KE246H		Chicken Suit Guy Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke246h-1.jpg		
 objet	LGLKE228H-1	LGL-KE228H		Mei Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke228h-1.jpg		
 objet	LGLKE227H-1	LGL-KE227H		Monkie Kid Key Light	Gear / Key Chain	2026	https://cdn.rebrickable.com/media/sets/lglke227h-1.jpg		
@@ -1733,6 +1762,10 @@ objet	10018250-1	10018250		Red Tile 1x1 Jibbitz	Gear	2026	https://cdn.rebrickabl
 objet	10018249-1	10018249		Spaceship Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018249-1.jpg		
 objet	10018248-1	10018248		Red Tile 2x2 Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018248-1.jpg		
 objet	10018247-1	10018247		Castle Jibbitz	Gear	2026	https://cdn.rebrickable.com/media/sets/10018247-1.jpg		
+set	WORKSHOP-1	WORKSHOP-1		Mini Santa's Workshop	Seasonal / Christmas	2026	https://cdn.rebrickable.com/media/sets/workshop-1.jpg	2026-11-19	
+set	9798217311330-1	9798217311330-1		Star Wars: Read. Build. Create. (2026 Edition)	Star Wars	2026	https://cdn.rebrickable.com/media/sets/9798217311330-1.jpg	2026-11-19	
+set	6681247-1	6681247-1		Gingerbread House	Promotional	2026	https://cdn.rebrickable.com/media/sets/6681247-1.jpg	2026-11-19	
+set	6671142-1	6671142-1		Retro Space M-Tron	Promotional	2026	https://cdn.rebrickable.com/media/sets/6671142-1.jpg	2026-11-19	
 set	40918-1	40918-1		Winter Snow Globe	Other	2026	https://cdn.rebrickable.com/media/sets/40918-1.jpg	2026-11-18	
 set	40914-1	40914-1		Retro Jukebox	Other	2026	https://cdn.rebrickable.com/media/sets/40914-1.jpg	2026-11-18	
 set	UGLYSWEATER-1	UGLYSWEATER-1		Ugly Sweater	Promotional	2026	https://cdn.rebrickable.com/media/sets/uglysweater-1.jpg	2026-11-16	
