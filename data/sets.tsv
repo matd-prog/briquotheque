@@ -1,4 +1,4 @@
-#date 2026-11-19
+#date 2026-11-20
 code	nom	annee	theme	pieces	figurines
 0003977811-1	Ninjago: Book of Adventures	2022	Books / Activity Books with LEGO Parts	1	1
 001-1	Gears	1965	System / Samsonite	43	0
@@ -9283,6 +9283,7 @@ code	nom	annee	theme	pieces	figurines
 5010388-1	Play Box	2026	Other	121	0
 5011-1	9V Basic Motor	1992	Service Packs	1	0
 5011029-1	Ninjago: Destiny's Bounty Adventures	2026	Gear / Tabletop Games and Puzzles	125	4
+5011071-1	Gingerbread House	2026	Promotional	149	0
 5012-1	Soccer Player with Goal	2003	Sports / Soccer	15	1
 5013-1	Basketball	2003	Sports / Basketball	25	1
 5014-1	Hockey Players	2003	Sports / Hockey	27	0
@@ -11957,6 +11958,7 @@ code	nom	annee	theme	pieces	figurines
 6644842-1	Poké Ball Smart Tag Case	2026	Pokémon	31	0
 6644846-1	Turbo Shark Delivery	2026	LEGO Brand Store	41	1
 6644847-1	Web Goal Challenge	2026	Promotional	52	0
+6644855-1	The North-Pole Squad	2026	Promotional	55	0
 6644859-1	Reindeer	2026	Seasonal / Christmas	36	0
 6644864-1	Training Tree	2026	Pokémon	46	0
 6644870-1	Dragon on Skateboard	2026	Promotional	55	0
@@ -12061,7 +12063,6 @@ code	nom	annee	theme	pieces	figurines
 6680481-1	Baroque Works Mosaic	2026	One Piece	89	0
 6681-1	Police Van	1981	Town / Classic Town	81	1
 6681246-1	Santa's Workshop	2026	Promotional	150	2
-6681247-1	Gingerbread House	2026	Promotional	149	0
 6682-1	Cement Mixer	1985	Town / Classic Town	90	1
 6683-1	Burger Stand	1983	Town / Classic Town	69	2
 6684-1	Police Patrol Squad	1984	Town / Classic Town	81	2
@@ -18976,7 +18977,7 @@ code	nom	annee	theme	pieces	figurines
 9788325347192-1	Star Wars: W służbie Imperium	2025	Books / Activity Books with LEGO Parts	5	1
 9788325347208-1	Harry Potter: Playtime Companions	2025	Books / Activity Books with LEGO Parts	7	1
 9788325347215-1	Ninjago: Dragons Rising: The Heat is On	2025	Books / Activity Books with LEGO Parts	10	1
-978832534839-7	Harry Potter: Time to Play! (Neville Longbottom Edition)	2025	Books	11	1
+978832534839-7	Harry Potter: Time to Play! (Neville Longbottom Edition)	2025	Books / Activity Books with LEGO Parts	11	1
 978832534844-1	City: Time to Play (Astronaut Spacewalk)	2025	Books / Activity Books with LEGO Parts	14	1
 9788325349042-1	Falcon: Droga do Kapitana Ameryki	2026	Books / Activity Books with LEGO Parts	32	1
 9788828795346-1	Harry Potter: Avventure a Hogwarts	2026	Books / Activity Books with LEGO Parts	6	1
@@ -18996,7 +18997,7 @@ code	nom	annee	theme	pieces	figurines
 979760-1	Mars Exploration	2003	Educational and Dacta / Mindstorms	810	0
 9798-1	NXT Rechargeable Battery	2006	Mindstorms / NXT	1	0
 9798217121762-1	Minecraft: The End Adventure: Search & Find Sticker Activity	2026	Books / Activity Books with LEGO Parts	7	1
-9798217311330-1	Star Wars: Read. Build. Create. (2026 Edition)	2026	Star Wars	8	2
+9798217311330-1	Star Wars: Read. Build. Create. (2026 Edition)	2026	Books / Activity Books with LEGO Parts	8	2
 9799-1	Sensor Adaptor for Mindstorms NXT to Vernier	2008	Mindstorms / NXT	1	0
 980-1	23 Sloping Bricks, including Roof Peak Bricks, Red	1969	System / Supplemental	23	0
 980-2	23 Sloping Bricks, including Roof Peak Bricks, Blue	1969	System / Supplemental	23	0
@@ -19207,6 +19208,7 @@ BULL-1	Bull	2019	LEGO Brand Store	64	0
 BUNNY-1	Bunny	2019	Seasonal / Easter	32	0
 BYCOT-1	Build Your City of Tomorrow	2017	Promotional	4	1
 BauMit-1	BAU MIT!	2009	Promotional / McDonalds	1	0
+Beijin-1	Beijing Tile with Red Dragon Minifig on Card	2019	Promotional	1	0
 Bricktober-1	Toys 'R' Us Bricktober Promotional Brick Set	2009	Promotional / Bricktober	6	0
 Build-a-Mini-0	Build-A-Minifigure Station Exclusive Parts	2018	Other / Database Sets	17	0
 Build-a-Mini-2018	2018 Build-A-Minifigure Station Exclusive Parts	2018	Other / Database Sets	3	0
@@ -19330,7 +19332,7 @@ DATABASE-2015	2015 - Unused Parts Database Set	2015	Other / Database Sets	58	0
 DATABASE-2016	2016 - Unused Parts Database Set	2016	Other / Database Sets	40	0
 DATABASE-2017	2017 - Unused Parts Database Set	2017	Other / Database Sets	45	0
 DATABASE-2018	2018 - Unused Parts Database Set	2018	Other / Database Sets	63	0
-DATABASE-2019	2019 - Unused Parts Database Set	2019	Other / Database Sets	46	0
+DATABASE-2019	2019 - Unused Parts Database Set	2019	Other / Database Sets	45	0
 DATABASE-2020	2020 - Unused Parts Database Set	2020	Other / Database Sets	28	0
 DATABASE-2021	2021 - Unused Parts Database Set	2021	Other / Database Sets	38	0
 DATABASE-2022	2022 - Unused Parts Database Set	2022	Other / Database Sets	73	0
