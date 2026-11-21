@@ -1,4 +1,4 @@
-#date 2026-11-20
+#date 2026-11-21
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -610,7 +610,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 10312-1	fig-013492	1	Magician - Black Tuxedo, Bright Light Yellow Hair	twn457	0.8
 10312-1	fig-013493	1	Pizza Delivery Driver - Dark Green Torso, Red Legs, Medium Nougat Hair	cty2016	0.59
 10316-1	fig-013594	1	Frodo, Dark Green Cape, Reddish Brown Torso	lor112	0.57
-10316-1	fig-013595	1	Samwise Gamgee - Sand Blue Cape	lor113	0.89
+10316-1	fig-013595	1	Samwise Gamgee, Sand Blue Cape	lor113	0.89
 10316-1	fig-013596	2	Statue, Dress/Robe, Straight Hair	lor114	0.47
 10316-1	fig-013597	2	Statue, Legs, Wavy Hair	lor115	0.7
 10316-1	fig-013598	1	Statue, Legs, Straight Hair	lor116	0.7
@@ -896,7 +896,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 10728-1	fig-010318	1	Mia - Medium Azure Shirt, Magenta Skirt, Veterinarian, Nurse Hat	frnd0174	0.55
 10728-1	fig-010319	1	Olivia - Dark Pink Top, Medium Lavender Skirt	frnd0175	0.63
 10729-1	fig-001655	1	Cinderella, Bright Light Blue Dress, White Gloves	dp022	0.83
-10729-1	fig-003495	1	Prince Charming - Light Blue Shirt, Dark Red Trousers	dp009	0.58
+10729-1	fig-003495	1	Prince Charming, Light Blue Shirt, Dark Red Trousers	dp009	0.58
 10730-1	fig-012727	1	Lightning McQueen, Juniors	crs014	0.73
 10731-1	fig-010449	1	Cruz Ramirez	crs017	1.0
 10732-1	fig-004064	1	Guido	crs005	0.88
@@ -1076,7 +1076,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 10996-1	fig-016462	1	Tow Mater, Duplo	crs114	0.68
 1100-1	fig-000856	1	Boat Driver	stu011	0.82
 1100-1	fig-009007	1	Woman, Orange Shirt with Green Vest with Wrench, Brown Hair, Yellow Life Vest	twn022	0.51
-1106-2	fig-004396	1	Racer - Octan, Red Torso, Green Legs, White Helmet	oct042	0.52
+1106-2	fig-004396	1	Racer, Octan, Red Torso, Green Legs, White Helmet	oct042	0.52
 1106-2	fig-004397	1	White Torso, Blue Overalls, Brown Hair (3626b Head)	belvfemale47a	0.37
 111901-1	fig-002831	1	Lord Garmadon (Legacy)	njo0505	1.0
 111902-1	fig-002085	1	Master Wu with Gold Lettering on Robes	njo0550	0.43
@@ -1322,10 +1322,10 @@ set	figurine	quantite	nom	bricklink	ressemblance
 122112-1	fig-008917	1	Dr. Henry Wu, Scared	jw068	0.88
 122113-1	fig-001846	1	Owen Grady	jw023	0.95
 122114-1	fig-008918	1	Owen Grady with Strap with Canisters, Dark Blue Legs	jw072	0.45
-122116-1	fig-011865	1	Sinjin Prescott - No Backpack	jw076	0.8
+122116-1	fig-011865	1	Sinjin Prescott, No Backpack	jw076	0.8
 122220-1	fig-001846	1	Owen Grady	jw089	0.97
 122223-1	fig-006021	1	Owen Grady in Light Bluish Gray Shirt	jw100	0.67
-122224-1	fig-012490	1	Rainn DeLaCourt - Dark Bluish Gray Jacket, White Shirt	jw077	0.86
+122224-1	fig-012490	1	Rainn DeLaCourt, Dark Bluish Gray Jacket, White Shirt	jw077	0.86
 122328-1	fig-013697	1	Owen Grady in Light Bluish Gray Shirt, Black Neck Bracket	jw102	0.57
 122331-1	fig-006021	1	Owen Grady in Light Bluish Gray Shirt	jw100	0.6
 122332-1	fig-014370	1	Wildlife Guard, Neck Bracket, Helmet	jw091	0.67
@@ -1388,7 +1388,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 1349-1	fig-005946	1	Grip, Blue Legs	stu005	0.7
 1349-1	fig-006391	1	Assistant, Female, White Bandanna, Blue Cap	stu013a	0.72
 1349-1	fig-006392	1	Female, Red Jacket, Blue Top, White Legs	stu010	0.64
-1349-1	fig-006393	1	Res-Q - White Torso, White Legs, White Helmet	js010	0.6
+1349-1	fig-006393	1	Res-Q, White Torso, White Legs, White Helmet	js010	0.6
 1351-1	fig-005944	1	Actor, Male Driver, Black	stu016	0.71
 1351-1	fig-005946	1	Grip, Blue Legs	stu005	0.63
 1351-1	fig-005949	1	Policeman, Black Jacket with Zipper and Badge, White Helmet with Trans-Light Blue Visor	stu008	0.47
@@ -1805,7 +1805,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 2000448-1	fig-009490	1	Max	edu001	0.93
 2000448-1	fig-009491	1	Mia	edu002	0.93
 2000451-1	fig-009499	1	White Torso, Blue Legs, Black Hair	edu005	0.67
-2000458-1	fig-011682	1	Sofie - Bright Green Torso, Dark Purple Legs, Black Hair	pln194	0.63
+2000458-1	fig-011682	1	Sofie, Bright Green Torso, Dark Purple Legs, Black Hair	pln194	0.63
 2000471-1	fig-011027	1	White Torso, Dark Bluish Grey Legs, Dark Azure Hair	47205pb089	0.48
 2000471-1	fig-011028	1	White Torso, Red Legs, Black Hair	pln192	0.56
 2000480-1	fig-014123	1	Monochrome Figure - Orange	pln197	0.58
@@ -1816,11 +1816,11 @@ set	figurine	quantite	nom	bricklink	ressemblance
 2000716-1	fig-002130	1	Doctor, Woman, White Shirt with Pocket and Stethoscope, Medium Blue Legs, Dark Brown Hair, Glasses	game012	0.67
 2000720-1	fig-009497	1	Bright Light Blue Torso, Bright Light Orange Legs, Dark Brown Hair	edu008	0.63
 2000720-1	fig-009498	1	Dark Azure Torso, Black Legs, Black Hair	pln192	0.58
-2000723-1	fig-011682	1	Sofie - Bright Green Torso, Dark Purple Legs, Black Hair	pln194	0.63
+2000723-1	fig-011682	1	Sofie, Bright Green Torso, Dark Purple Legs, Black Hair	pln194	0.63
 2000723-1	fig-011683	1	Maria - Magenta Torso, Orange Legs, Reddish Brown Hair	pln193	0.54
 2000723-1	fig-011684	1	Leo - Blue Torso, Green Legs, Medium Nougat Hair	pln191	0.57
 2000723-1	fig-011685	1	Daniel, Red Torso, Dark Azure Legs, Black Hair	pln192	0.62
-2000727-1	fig-011682	1	Sofie - Bright Green Torso, Dark Purple Legs, Black Hair	pln194	0.56
+2000727-1	fig-011682	1	Sofie, Bright Green Torso, Dark Purple Legs, Black Hair	pln194	0.56
 2000727-1	fig-011683	1	Maria - Magenta Torso, Orange Legs, Reddish Brown Hair	pln193	0.47
 2000727-1	fig-011684	1	Leo - Blue Torso, Green Legs, Medium Nougat Hair	twn441	0.54
 2000727-1	fig-011685	1	Daniel, Red Torso, Dark Azure Legs, Black Hair	pln192	0.55
@@ -2090,7 +2090,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 212009-1	fig-005315	1	The Riddler in Lime Suit with Black Shirt	edu007	0.42
 212010-1	fig-010263	1	Batman, Dark Bluish Gray Suit, Black Cowl, Neck Bracket with Bars	sh0589a	0.69
 212011-1	fig-002204	1	The Joker in Prison Clothes	sh0598	0.44
-212012-1	fig-010747	1	Shazam - White Hood	sh0592a	0.87
+212012-1	fig-010747	1	Shazam, White Hood	sh0592a	0.87
 21204-1	fig-000769	1	Striped Vest with Yellow Striped Scarf and Black Legs	fus001	0.75
 21208-1	fig-001091	1	Olivia - Bright Pink Top, Sand Blue Skirt	frnd0079	0.65
 212113-1	fig-010263	1	Batman, Dark Bluish Gray Suit, Black Cowl, Neck Bracket with Bars	sh0786	0.7
@@ -2798,7 +2798,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 2995-1	fig-002235	1	Skeleton, Standard Face, Mummy Headdress, Blue and Gold Stripes	gen008	0.53
 2996-1	fig-000464	1	Lord Sam Sinister	adv038	0.61
 2996-1	fig-000526	1	Pharaoh Hotep	adv021	1.0
-2998-1	fig-001212	1	Racer - Octan, Red Torso, Blue Legs, White Helmet	oct033	0.52
+2998-1	fig-001212	1	Racer, Octan, Red Torso, Blue Legs, White Helmet	oct033	0.52
 2D001164-1	fig-017386	1	Police Officer, Vibrant Yellow Safety Vest, Dark Blue Legs, White Helmet	cty2048	0.61
 2D001182-1	fig-017390	1	Construction Worker, Reddish Orange Safety Jacket, Dark Blue Grey Legs, Red Hard Hat	cty2047	0.75
 2D001183-1	fig-017389	1	Kai, Dark Red Suit, Wrap	njo0930	0.8
@@ -2823,8 +2823,8 @@ set	figurine	quantite	nom	bricklink	ressemblance
 30017-1	fig-001276	1	Forest Police / Ranger, Dark Tan Shirt with Radio and Badge, Dark Blue Legs, Tan Campaign Hat, Yellow Life Vest, Sunglasses	cty0284	0.58
 30018-1	fig-001492	1	Policeman, Dark Blue Jacket with Pockets and Badge, White Helmet with Visor, Orange Sunglasses	cty0276	0.5
 30019-1	fig-000446	1	Fireman, Red Jacket with Straps, White Helmet with Visor, Orange Sunglasses	cty0278	0.41
-30031-1	fig-000486	1	Race Driver - Team Daredevil 6	wr022	0.34
-30032-1	fig-001133	1	Race Driver - Bart Blaster	wr025	0.39
+30031-1	fig-000486	1	Race Driver, Team Daredevil 6	wr022	0.34
+30032-1	fig-001133	1	Race Driver, Bart Blaster	wr025	0.39
 30042-1	fig-002333	1	Lance Spears, Trans-Bright Green Visor	atl018	0.5
 30058-1	fig-003612	1	Battle Droid, Two Bent Arms	sw0467	0.62
 30061-1	fig-014125	1	Dragon Knight, Dark Green, Pearl Dark Gray Helmet, Stubble	cas468	0.5
@@ -2858,7 +2858,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 30113-1	fig-001169	1	Stephanie, Sand Green Top, Magenta Skirt	frnd0065	0.72
 30114-1	fig-001245	1	Andrea, Magenta/White Bikini, Bright Light Yellow Skirt	frnd0087	0.7
 30115-1	fig-000570	1	Olivia - Bright Pink Top, Lime Trousers	frnd0048	0.68
-30116-1	fig-001160	1	Rapunzel - Medium Lavender Dress, Magenta Bow	dp010	0.82
+30116-1	fig-001160	1	Rapunzel, Medium Lavender Dress, Magenta Bow	dp010	0.82
 3012-1	fig-000086	1	UFO Droid, Blue	sp043	0.85
 30120-1	fig-014041	1	Guido, Light Aqua, Headset	crs112	1.0
 30121-1	fig-014042	1	Grem, Red, Visor	crs109	1.0
@@ -2903,7 +2903,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 30205-1	fig-000268	1	Andrea, White Top, Bright Light Orange Skirt. Magenta Bow	frnd0132	0.7
 3021-1	fig-000526	1	Pharaoh Hotep	adv021	1.0
 30210-1	fig-001360	1	Frodo Baggins, Sand Green Torso	lor002	0.85
-302102-1	fig-012531	1	Rapunzel - Medium Lavender Dress, 2 Bows	dp103a	0.74
+302102-1	fig-012531	1	Rapunzel, Medium Lavender Dress, 2 Bows	dp103a	0.74
 302104-1	fig-013223	1	Cinderella, Bright Light Blue Dress, White Under-Dress, Thin Hinge	dp173	0.75
 302105-1	fig-012527	1	Lumière, Small, 2 Flames	dp157	0.91
 302105-1	fig-012528	1	Cogsworth, Micro, Flower Top	dp156	0.72
@@ -3006,7 +3006,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 30387-1	fig-011929	1	Minion Bob - Robotic Arms	mnn015	1.0
 3039-1	fig-000195	1	Harry Cane	adv009	1.0
 30390-1	fig-012514	1	Guard, Beanie Hat	jw091	0.43
-30391-1	fig-010814	1	Rapunzel - Lavender Top, Medium Lavender Dress, Flowers	dp186	0.72
+30391-1	fig-010814	1	Rapunzel, Lavender Top, Medium Lavender Dress, Flowers	dp186	0.72
 30392-1	fig-011601	1	Hermione Granger, Gryffindor Robes Open, Short Legs	hp315	0.92
 30393-1	fig-002118	1	Steve	njo0413	0.93
 30393-1	fig-006478	1	Creeper	min108	0.82
@@ -3133,7 +3133,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 30636-1	fig-014139	1	Z-Blob	drm013	1.0
 30638-1	fig-013440	1	Police Officer, Sweater with Police Badge, Dark Blue Helmet, Orange Glasses	cty1374	0.56
 30639-1	fig-013389	1	Orange Torso, Medium Blue Legs, Medium Azure Helmet	cty1594	0.54
-30640-1	fig-013553	1	Race Driver - Flat Silver Torso, Flat Silver Legs, White Helmet	cty1593	0.52
+30640-1	fig-013553	1	Race Driver, Flat Silver Torso, Flat Silver Legs, White Helmet	cty1593	0.52
 30646-1	fig-013377	1	Moana	dis088	0.93
 30647-1	fig-002118	1	Steve	min140	0.88
 30647-1	fig-006478	1	Creeper	min108	0.9
@@ -3388,7 +3388,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 3185-1	fig-002341	1	Stephanie, White Top, Lime Trousers	frnd0028	0.78
 3186-1	fig-000836	1	Emma, Lavender Top, White Trousers	frnd0027	0.65
 3187-1	fig-000219	1	Emma, Lavender Top, Dark Blue Skirt	frnd0011	0.79
-3187-1	fig-002328	1	Sarah - White Top, Bright Light Blue Skirt	frnd0070	0.62
+3187-1	fig-002328	1	Sarah, White Top, Bright Light Blue Skirt	frnd0070	0.62
 3188-1	fig-000456	1	Mia - Medium Blue Top, Lime Shorts	frnd0016	0.66
 3188-1	fig-002336	1	Sophie, Light Aqua Shirt, Bright Pink Skirt	frnd0015	0.67
 3189-1	fig-000456	1	Mia - Medium Blue Top, Lime Shorts	frnd0016	0.66
@@ -3500,7 +3500,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 3401-1	fig-000168	1	Soccer Player White Torso with Blue/Red Stripes, Blue Legs, Black Hair	soc004	0.56
 3401-1	fig-007145	1	Soccer Player Green Torso, White Legs #18	soc059	0.61
 3401-2	fig-007145	1	Soccer Player Green Torso, White Legs #18	soc059	0.61
-3401-2	fig-007146	1	Soccer Player Blue Torso, White Legs #10 - Zidane	soc035	0.56
+3401-2	fig-007146	1	Soccer Player Blue Torso, White Legs #10, Zidane	soc035	0.56
 3402-1	fig-007132	1	Man - Black Torso, Blue Legs, Red Cap	soc004	0.67
 3402-1	fig-007133	1	Man - Red Torso, Dark Grey Legs	soc005	0.57
 3403-1	fig-006894	1	Woman, Black Jacket, Brown Legs	hol336	0.5
@@ -3730,7 +3730,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 3440-1	fig-007200	1	Basketball Player, Violet Torso, Violet Legs 9	nba049	0.59
 3440-1	fig-007202	1	Basketball Player, Red Torso, Red Legs #4	nba053	0.61
 3442-1	fig-001498	1	Man, Green Jacket, Light Gray Legs, White Cap, Sunglasses	trn107	0.68
-34607703-1	fig-012490	1	Rainn DeLaCourt - Dark Bluish Gray Jacket, White Shirt	jw077	0.69
+34607703-1	fig-012490	1	Rainn DeLaCourt, Dark Bluish Gray Jacket, White Shirt	jw077	0.69
 3467702-1	fig-011356	1	Neville Longbottom, Gryffindor Robes, Short Legs	hp398	0.74
 350-3	fig-014136	1	Bertie Bulldog, Brown Head, Blue Torso, Black Legs, Red Fire Helmet	fab2e	0.5
 3500-1	fig-000493	1	Kobe Bryant, Los Angeles Lakers #8	nba035	0.77
@@ -4071,7 +4071,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 4002021-1	fig-011983	1	Santa Garmadon	njo0733	1.0
 4002021-1	fig-011985	1	Misako - Celebration	njo0734	0.64
 4002021-1	fig-011986	1	Mezmo Junior	njo0732	1.0
-4002021-1	fig-011987	1	Snowman - Celebration	njo0730	0.62
+4002021-1	fig-011987	1	Snowman, Celebration	njo0730	0.62
 4002021-1	fig-011989	1	Master Wu - Golden, Celebration	njo0550	0.51
 4002022-1	fig-013068	1	Santa Claus	idea194	0.85
 4002022-1	fig-013216	1	Stephanie, Silver Top, Magenta Skirt, Bow	frnd0561	0.79
@@ -4309,7 +4309,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 40345-1	fig-008505	1	Astronaut, Woman, Orange Torso and Legs, White Helmet, Trans-Light Blue Visor	cty1065	0.67
 40345-1	fig-008506	1	Technician, Dark Blue Torso, Dark Blue Legs, White Helmet	cty1001	0.48
 40345-1	fig-008521	1	Astronaut, White Torso and Legs, Lime Decorations, White Helmet Trans Orange Visor	cty1009	0.71
-40345-1	fig-008522	1	Scientist - White Torso, Lab Coat, Light Bluish Grey Legs, Reddish Brown Hair	cty1069	0.65
+40345-1	fig-008522	1	Scientist, White Torso, Lab Coat, Light Bluish Grey Legs, Reddish Brown Hair	cty1069	0.65
 40346-1	fig-002729	1	Baby, White Body, Head with Neck	njo0446	0.78
 40346-1	fig-008439	1	Kid, Dark Azure Torso, Green Legs, Reddish Brown Hair	LLP023	0.52
 40346-1	fig-008440	1	Kid, White Torso, Blue Legs, Tan Hair	LLP008	0.5
@@ -4539,9 +4539,9 @@ set	figurine	quantite	nom	bricklink	ressemblance
 40657-1	fig-014143	1	Dreamling, Wizard	drm019	0.85
 40658-1	fig-001714	1	Chewbacca, Dark Brown, Long Lines on Legs on Inside	sw1184	0.62
 40658-1	fig-004428	1	BB-8, Large Photoreceptor	sw1485	0.84
-40658-1	fig-014376	1	Rey - Ugly Christmas Sweater	sw1317	0.78
+40658-1	fig-014376	1	Rey, Ugly Christmas Sweater	sw1317	0.78
 40658-1	fig-014377	1	Finn, Ugly Christmas Sweater	sw1318	0.73
-40658-1	fig-014399	1	Porg - Dark Bluish Grey Center	sw1316	0.43
+40658-1	fig-014399	1	Porg, Dark Bluish Grey Center	sw1316	0.43
 40659-1	fig-014409	1	Mickey Mouse, Classic Black and White	dis147	0.86
 4066-1	fig-000309	1	Actor 1	cc4066	1.0
 40678-1	fig-014604	1	Man, Red Jacket, Dark Blue Legs, Black Hair	hol354	0.9
@@ -4699,15 +4699,15 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41050-1	fig-010624	1	Ariel	dp004	0.87
 41051-1	fig-001370	1	Merida - Dark Blue Dress	dp002	0.65
 41052-1	fig-003490	1	Ariel, Human Form, Pink Dress	dp004	0.86
-41052-1	fig-003491	1	Prince Eric - White Shirt, Red Belt	dp005	0.86
+41052-1	fig-003491	1	Prince Eric, White Shirt, Red Belt	dp005	0.86
 41053-1	fig-001461	1	Cinderella, Bright Light Blue Dress, Silver Stars, Hair Band	dp022	0.68
 41054-1	fig-003492	1	Flynn Rider, Sand Blue Vest	dp007	0.99
-41054-1	fig-003493	1	Rapunzel - Medium Lavender Dress	dp010	0.83
+41054-1	fig-003493	1	Rapunzel, Medium Lavender Dress	dp010	0.83
 41055-1	fig-003494	1	Cinderella, Medium Blue Dress, Bright Light Blue Gloves, Hair Band	dp039	0.71
-41055-1	fig-003495	1	Prince Charming - Light Blue Shirt, Dark Red Trousers	dp009	0.83
+41055-1	fig-003495	1	Prince Charming, Light Blue Shirt, Dark Red Trousers	dp009	0.83
 41056-1	fig-002358	1	Andrew, Medium Blue Shirt, Dark Blue Trousers, Cap	frnd0066	0.79
 41056-1	fig-002359	1	Emma, White Shirt, Sand Green Skirt	frnd0095	0.68
-41057-1	fig-002354	1	Robert - Lime Vest, Dark Blue Trousers	frnd0069	0.68
+41057-1	fig-002354	1	Robert, Lime Vest, Dark Blue Trousers	frnd0069	0.68
 41057-1	fig-002355	1	Stephanie, White Blouse, White Trousers, Bow	frnd0064	0.52
 41058-1	fig-002360	1	Emma, Light Aqua Top, Bright Light Skirt	frnd0082	0.72
 41058-1	fig-002361	1	Julian, Sand Green, Dark Blue Trousers	frnd0084	0.77
@@ -4721,9 +4721,9 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41062-1	fig-003569	1	Olaf - Brick Built	dp017	1.0
 41063-1	fig-003565	1	Ariel, Mermaid Form, Bright Pink Flower	dp014	0.87
 41063-1	fig-003566	1	Alana, Dark Pink Crown	dp013	0.65
-41065-1	fig-001111	1	Rapunzel - Medium Lavender Dress, Flowers in Hair	dp032	0.65
+41065-1	fig-001111	1	Rapunzel, Medium Lavender Dress, Flowers in Hair	dp032	0.65
 41066-1	fig-003567	1	Anna, Magenta Hat, Cape	dp073	0.69
-41066-1	fig-003570	1	Kristoff - Dark Blue Jacket	dp020	0.84
+41066-1	fig-003570	1	Kristoff, Dark Blue Jacket	dp020	0.84
 41067-1	fig-001784	1	Belle, Bright Light Orange and Bright Light Yellow Full Dress	dp024	0.85
 41067-1	fig-003573	1	Beast, Blue Jacket, Black Legs, Dark Purple Cape	twn281	0.45
 41067-1	fig-010625	1	Babette	dp026	0.63
@@ -4787,7 +4787,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41107-1	fig-002397	1	Olivia - Dark Blue Vest, Medium Lavender Skirt, Flower	frnd0119	0.77
 41108-1	fig-002379	1	Maya - White Plaid Top, Magenta Dress	frnd0131	0.57
 41108-1	fig-002380	1	Mia - Magenta Top, Lime Trousers	frnd0130	0.78
-41109-1	fig-002376	1	Sandra - White Vest, Sand Green Skirt	frnd0128	0.66
+41109-1	fig-002376	1	Sandra, White Vest, Sand Green Skirt	frnd0128	0.66
 41109-1	fig-002377	1	David, Dark Blue Vest, Black Trousers	frnd0129	0.68
 41109-1	fig-002378	1	Stephanie, Light Aqua Top, Magenta Skirt	frnd0127	0.77
 41110-1	fig-000302	1	Andrea, Bright Light Orange Top, Light Aqua Skirt, Magenta Party Hat	frnd0165	0.78
@@ -4847,14 +4847,14 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41152-1	fig-003602	1	Maleficent	dp046	0.87
 41152-1	fig-003603	1	Aurora, Dark Pink Dress, Silver Decoration, Pearl Gold Crown	dp045	0.56
 41153-1	fig-003588	1	Ariel, Human Form, Bright Pink Gown, White Cape	dp048	0.88
-41153-1	fig-003589	1	Prince Eric - White Uniform	dp049	0.89
+41153-1	fig-003589	1	Prince Eric, White Uniform	dp049	0.89
 41154-1	fig-001899	1	Cinderella, Bright Light Blue/Medium Blue Dress	dp039	0.85
-41154-1	fig-003595	1	Prince Charming - Tan Shirt, Dark Red Trousers	dp052	0.89
+41154-1	fig-003595	1	Prince Charming, Tan Shirt, Dark Red Trousers	dp052	0.89
 41155-1	fig-001681	1	Elsa, Medium Azure Dress, Long Cape with Snowflakes	dp076	0.79
 41155-1	fig-003596	1	Olaf - Brick Built, Buttons, Clip On Back	dp054a	1.0
-41156-1	fig-001786	1	Rapunzel - Dark Purple Top, Medium Lavender Dress, 2 Bright Pink Flowers in Hair	dp059	0.8
+41156-1	fig-001786	1	Rapunzel, Dark Purple Top, Medium Lavender Dress, 2 Bright Pink Flowers in Hair	dp059	0.8
 41157-1	fig-003586	1	Cassandra	dp056	1.0
-41157-1	fig-003587	1	Rapunzel - Dark Brown Top, Dark Purple Dress, Bows in Hair	dp055	0.74
+41157-1	fig-003587	1	Rapunzel, Dark Brown Top, Dark Purple Dress, Bows in Hair	dp055	0.74
 41158-1	fig-010638	1	Jasmine	dp068	0.9
 41159-1	fig-001899	1	Cinderella, Bright Light Blue/Medium Blue Dress	dp022	0.85
 41160-1	fig-001923	1	Ariel, Human Form, Light Aqua Dress	dp062	0.92
@@ -4863,7 +4863,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41162-1	fig-003592	1	Ariel, Mermaid Form, Pink Top, Dark Green Scales on Tail	dp063	0.83
 41162-1	fig-003593	1	Aurora, Dark Pink Dress, Pearl Gold Decoration	dp105	0.66
 41162-1	fig-003594	1	Tiana	dp065	0.88
-41163-1	fig-003582	1	Rapunzel - Medium Lavender Dress, 1 Flower in Hair	dp061	0.64
+41163-1	fig-003582	1	Rapunzel, Medium Lavender Dress, 1 Flower in Hair	dp061	0.64
 41164-1	fig-002091	1	Anna, Black Dress, Cape	dp073	0.96
 41164-1	fig-003747	1	Olaf - Minidoll Arms	dp074	0.64
 41164-1	fig-003750	1	Lieutenant Matthias	dp075	0.95
@@ -4871,7 +4871,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41165-1	fig-003747	1	Olaf - Minidoll Arms	dp074	0.64
 41166-1	fig-002093	1	Elsa, Medium Blue Skirt, Glitter Cape	dp069	0.97
 41167-1	fig-002098	1	Elsa, Lavender Dress	dp071	1.0
-41167-1	fig-003748	1	Kristoff - Black Vest, Dark Orange Shirt	dp072	0.93
+41167-1	fig-003748	1	Kristoff, Black Vest, Dark Orange Shirt	dp072	0.93
 41167-1	fig-003749	1	Anna, Tan Shirt, White Dress	dp070	0.92
 41168-1	fig-002093	1	Elsa, Medium Blue Skirt, Glitter Cape	dp069	0.97
 41171-1	fig-001301	1	Emily Jones in Dark Tan Shorts	elf012	0.85
@@ -4973,7 +4973,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41311-1	fig-002600	1	Oliver - Green Jacket, Dark Red Trousers	frnd0182	0.66
 41311-1	fig-002601	1	Emma, White Top, Magenta Apron	frnd0183	0.76
 41312-1	fig-001507	1	Mia - Magenta Top, Dark Purple Skirt	frnd0195	0.66
-41312-1	fig-002602	1	Robert - Medium Blue Jacket, Sand Blue Trousers	frnd0218	0.49
+41312-1	fig-002602	1	Robert, Medium Blue Jacket, Sand Blue Trousers	frnd0218	0.49
 41313-1	fig-002603	1	Andrea, Lime Bikini, Medium Azure Skirt	frnd0197	0.67
 41313-1	fig-002604	1	Martina - Dark Pink Bikini, Lime Skirt	frnd0199	0.64
 41314-1	fig-002613	1	Stephanie, White/Magenta Top, Dark Blue Skirt	frnd0184	0.72
@@ -5001,7 +5001,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41324-1	fig-002611	1	Mia - Lime Ski Vest, Dark Blue Trousers	frnd0221	0.54
 41324-1	fig-002612	1	Olivia - Bright Light Orange Ski Vest, Magenta Trousers	frnd0222	0.56
 41325-1	fig-000179	1	Mia - Medium Blue Top, Lime Shorts	frnd0189	0.65
-41325-1	fig-002594	1	Sienna - Magenta Top, Medium Azure Skirt	frnd0198	0.68
+41325-1	fig-002594	1	Sienna, Magenta Top, Medium Azure Skirt	frnd0198	0.68
 41326-1	fig-001633	1	Stephanie, Christmas Sweater, Dark Blue Skirt	frnd0225	0.6
 41327-1	fig-001674	1	Mia - Lime Top, Dark Purple Skirt, Sunglasses	frnd0233	0.72
 41328-1	fig-001673	1	Stephanie, Azure Shirt, Dark Blue Skirt, Bow Tie	frnd0234	0.63
@@ -5110,7 +5110,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41388-1	fig-002029	1	Mia - Dark Purple Top, Dark Purple Skirt	frnd0315	0.65
 41389-1	fig-010339	1	Stephanie, Medium Azure Top, Dark Blue Skirt, Sunglasses	frnd0345	0.78
 41390-1	fig-002698	1	Andrea, Dark Turquoise Top, Dark Blue Skirt	frnd0348	0.74
-41390-1	fig-002700	1	Roxy - Coral Top, Yellow Skirt, Sunglasses	frnd0347	0.71
+41390-1	fig-002700	1	Roxy, Coral Top, Yellow Skirt, Sunglasses	frnd0347	0.71
 41391-1	fig-002713	1	Emma, Light Aqua Top, Light Aqua Skirt	frnd0366	0.74
 41391-1	fig-002714	1	Nina - Medium Azure Jacket, Dark Pink Skirt	frnd0405	0.61
 41392-1	fig-002719	1	Olivia - Bright Light Yellow Top, Bright Light Yellow Skirt	frnd0391	0.72
@@ -5200,7 +5200,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41445-1	fig-008979	1	Olivia - Medium Blue Jacket, Bright Light Yellow Skirt	frnd0460	0.69
 41445-1	fig-011115	1	Emma, White Veterinarian Jacket, Light Aqua Skirt	frnd0438	0.57
 41446-1	fig-011116	1	Mia - White Veterinarian Jacket, Dark Purple Skirt	frnd0471	0.55
-41446-1	fig-011117	1	Savannah - Blue Top, Sand Green Skirt, Black Hair	frnd0539	0.53
+41446-1	fig-011117	1	Savannah, Blue Top, Sand Green Skirt, Black Hair	frnd0539	0.53
 41446-1	fig-011118	1	Donna, White Veterinarian Jacket, Dark Turquoise Pants, Hat	frnd0415	0.49
 41447-1	fig-002707	1	Olivia - Bright Light Yellow Jacket, Dark Azure Skirt	frnd0460	0.77
 41447-1	fig-008976	1	Emma, Coral Top, Light Aqua Skirt	frnd0463	0.75
@@ -5218,7 +5218,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41450-1	fig-010902	1	Henry, Microdoll, Dark Turquoise Shirt, Light Bluish Grey Pants	frnd0434	0.42
 41450-1	fig-011119	1	Emma, Coral Top, Medium Lavender Skirt	frnd0427	0.77
 41450-1	fig-011120	1	June, White Top, Dark Blue Skirt	frnd0415	0.65
-41450-1	fig-011121	1	Robert - Dark Turquoise Top, Black Pants	frnd0462	0.57
+41450-1	fig-011121	1	Robert, Dark Turquoise Top, Black Pants	frnd0462	0.57
 41451-1	fig-008404	1	Unikitty, Dark Azure Foot, Open Mouth, Small Pupils	uni07	0.57
 41451-1	fig-008405	1	Fee Bee	uni05	1.0
 41451-1	fig-008406	1	Square Bear	uni06	1.0
@@ -5286,12 +5286,12 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41682-1	fig-011461	1	Julian, Lavender Shirt, Black Pants, Medium Nougat Hair	frnd0459	0.53
 41682-1	fig-011462	1	Marisa - Yellowish Green Top, Dark Blue Skirt, Bright Light Yellow Hair	frnd0481	0.58
 41683-1	fig-011463	1	Mia - Lime Top, Dark Blue Pants, Black Cap	frnd0469	0.63
-41683-1	fig-011464	1	Savannah - Medium Blue Jacket, White Pants, Black Hair	frnd0468	0.64
+41683-1	fig-011464	1	Savannah, Medium Blue Jacket, White Pants, Black Hair	frnd0468	0.64
 41683-1	fig-011465	1	Kevin, Microdoll, Red Shirt, Blue Pants, Black Hair	frnd0479	0.56
 41684-1	fig-011466	1	Emma, Light Aqua Dress	frnd0453	0.77
 41684-1	fig-011467	1	Stephanie, Dark Red Uniform	frnd0452	0.77
 41684-1	fig-011468	1	Amelia, Dark Turquoise Dress	frnd0516	0.52
-41684-1	fig-011469	1	River - Dark Bluish Grey Jacket, Black Pants, Dark Brown Hair	frnd0454	0.5
+41684-1	fig-011469	1	River, Dark Bluish Grey Jacket, Black Pants, Dark Brown Hair	frnd0454	0.5
 41685-1	fig-011470	1	Andrea, Magenta Top, Magenta Skirt, Face Paint	frnd0444	0.57
 41685-1	fig-011471	1	Stella, White Top, White Skirt, Light Aqua Hair	frnd0438	0.57
 41685-1	fig-011472	1	Camila, Gold Jacket, Dark Turquoise Pants, Magenta Hair, Cape	frnd0434	0.54
@@ -5305,14 +5305,14 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41688-1	fig-011477	1	Mia - Gold/Dark Purple Top, Dark Turquoise Pants, Face Paint	frnd0462	0.67
 41689-1	fig-011478	1	Mia - Gold/Dark Purple Top, Dark Purple Skirt	frnd0471	0.7
 41689-1	fig-011479	1	Stephanie, Dark Pink/Silver Top, Dark Pink Pants, Face Paint	frnd0442	0.56
-41689-1	fig-011480	1	River - Dark Purple Jacket, Black Pants, Dark Brown Hair	frnd0473	0.54
+41689-1	fig-011480	1	River, Dark Purple Jacket, Black Pants, Dark Brown Hair	frnd0473	0.54
 41690-1	fig-011766	1	Stephanie, Microdoll, Medium Azure Dress	dp140	0.45
 41690-1	fig-011768	1	Andrea, Microdoll, Dark Turquoise Dress	frnd0480	0.43
 41690-1	fig-011769	1	Mia - Microdoll, Lime Dress	frnd0464	0.38
 41690-1	fig-011770	1	Emma, Microdoll, Lavender Dress	frnd0453	0.52
 41690-1	fig-011771	1	Olivia - Microdoll, Dark Pink Dress	frnd0455	0.43
 41691-1	fig-002715	1	Emma, Dark Pink Top, Dark Pink Skirt	frnd0423	0.72
-41691-1	fig-010900	1	Roxy - Coral Top, Yellow Skirt	frnd0422	0.7
+41691-1	fig-010900	1	Roxy, Coral Top, Yellow Skirt	frnd0422	0.7
 41692-1	fig-010898	1	Mia - Dark Purple Top, Olive Green Skirt	frnd0409	0.69
 41692-1	fig-010899	1	Stephanie, White Doctor Coat, Magenta Skirt	frnd0432	0.58
 41693-1	fig-002709	1	Mia - Orange Top, Olive Green Skirt	frnd0409	0.57
@@ -5330,24 +5330,24 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41698-1	fig-012347	1	Andrea, Magenta and White Top, Yellow Skirt	frnd0517	0.75
 41698-1	fig-012348	1	Liz - Microdoll, Dark Turquoise Outfit, Dark Brown Hair	frnd0516	0.46
 41699-1	fig-012333	1	Olivia - Metallic Blue Jacket, Dark Pink Skirt, Bright Light Yellow Cap	frnd0509	0.69
-41699-1	fig-012334	1	Priyanka - White Apron and Shorts, Black Hair	frnd0515	0.48
+41699-1	fig-012334	1	Priyanka, White Apron and Shorts, Black Hair	frnd0515	0.48
 41700-1	fig-012129	1	Stephanie, Silver Top, Medium Azure Skirt, Bright Pink Hat	frnd0506	0.7
 41700-1	fig-012130	1	Daniel, White/Yellow Shirt, Sand Green Pants	frnd0507	0.6
 41700-1	fig-012281	1	Andrea, Dark Blue Top, Magenta Skirt, Live Jacket	frnd0551	0.67
 41701-1	fig-012131	1	Emma, Sand Blue Top, Light Aqua Skirt, Black Hair with Buns	frnd0482	0.67
 41701-1	fig-012132	1	Nandi - Medium Azure Top, Dark Pink Skirt, Dark Brown Hair with Bandana	frnd0483	0.54
-41701-1	fig-012133	1	Sebastian - Blue Jacket, Dark Turquoise Pants, Tan Hair	frnd0552	0.56
+41701-1	fig-012133	1	Sebastian, Blue Jacket, Dark Turquoise Pants, Tan Hair	frnd0552	0.56
 41702-1	fig-012134	1	Mia - Dark Purple Top, Olive Green Skirt, Sand Blue Hat	frnd0504	0.63
 41702-1	fig-012135	1	Layla - Magenta Top, Bright Light Blue Skirt, Dark Brown Hair	frnd0563	0.54
-41702-1	fig-012136	1	Sebastian - Blue Jacket, Sand Blue Pants, Tan Hair	frnd0552	0.52
+41702-1	fig-012136	1	Sebastian, Blue Jacket, Sand Blue Pants, Tan Hair	frnd0552	0.52
 41702-1	fig-012137	1	Elijah, White/Orange Shirt, Bright Light Orange Pants, Dark Brown Hair	frnd0501	0.58
 41703-1	fig-011977	1	Jackson	frnd0500	0.62
 41703-1	fig-011978	1	Mia - Bright Light Yellow Shirt, Blue Overalls, Sand Green Boots	frnd0497	0.64
 41703-1	fig-011980	1	Olivia - White Beekeeper Suite	frnd0518	0.5
-41703-1	fig-011981	1	River - Red Jacket, Black Pants, Dark Brown Hair	frnd0552	0.49
+41703-1	fig-011981	1	River, Red Jacket, Black Pants, Dark Brown Hair	frnd0552	0.49
 41704-1	fig-012138	1	Stephanie, Silver Top, Magenta Skirt, Bright Pink Hat	frnd0490	0.8
 41704-1	fig-012139	1	Harper, Dark Turquoise Top, Bright Light Orange Skirt, Pink Cap	frnd0505	0.6
-41704-1	fig-012140	1	Savannah - Blue Top, Sand Green Skirt, Dark Pink Hat	frnd0488	0.56
+41704-1	fig-012140	1	Savannah, Blue Top, Sand Green Skirt, Dark Pink Hat	frnd0488	0.56
 41704-1	fig-012141	1	Evelyn, White Top, Sand Blue Skirt, Dark Azure Hair	frnd0539	0.62
 41704-1	fig-012142	1	Dottie, Black Top, Blue Pants, Light Bluish Grey Hair	bdp040	0.42
 41704-1	fig-012143	1	Trevor, White Shirt, Black Pants, Black Hair	frnd0479	0.59
@@ -5358,7 +5358,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41706-1	fig-010904	1	Ava, Microdoll, Medium Blue Dress, Dark Orange Hair	cty1348	0.45
 41706-1	fig-013068	1	Santa Claus	idea194	0.85
 41706-1	fig-013092	1	Olivia - Dark Blue Jacket, Dark Pink Skirt	frnd0558	0.67
-41706-1	fig-013094	1	Santiago - Reddish Brown Hair	jw088	0.5
+41706-1	fig-013094	1	Santiago, Reddish Brown Hair	jw088	0.5
 41707-1	fig-012075	1	Olivia - Dark Turquoise Top, Dark Pink Overall	frnd0496	0.68
 41707-1	fig-012076	1	Daniel, White Shirt, Sand Blue Overall	frnd0554	0.57
 41708-1	fig-011977	1	Jackson	frnd0500	0.62
@@ -5366,7 +5366,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41708-1	fig-012843	1	Andrea, Dark Turquoise Top, Dark Blue Skirt, Dark Turquoise Ribbon	frnd0564	0.64
 41709-1	fig-012137	1	Elijah, White/Orange Shirt, Bright Light Orange Pants, Dark Brown Hair	frnd0501	0.58
 41709-1	fig-012350	1	Mia - Lime Top, Orange Cropped Trousers, Orange Life Vest	frnd0512	0.68
-41709-1	fig-012351	1	Sebastian - White Top, Dark Turquoise Shorts, Magenta Helmet, Orange Life Vest	frnd0513	0.72
+41709-1	fig-012351	1	Sebastian, White Top, Dark Turquoise Shorts, Magenta Helmet, Orange Life Vest	frnd0513	0.72
 41709-1	fig-012352	1	Stephanie, Bright Light Blue Bikini Top with White Flowers, Dark Purple Skirt, Magenta Hat	frnd0511	0.58
 41710-1	fig-012839	1	Koa	frnd0542	0.72
 41710-1	fig-012840	1	Maya - Medium Azure Dress, Dark Brown Hair, Lifejacket	frnd0619	0.48
@@ -5375,7 +5375,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41711-1	fig-012838	1	Prof. Béatrice	frnd0533	0.77
 41711-1	fig-012844	1	Felix	frnd0532	0.72
 41712-1	fig-012788	1	Emma, Safety Jacket, White Pants	frnd0540	0.52
-41712-1	fig-012790	1	River - Safety Jacket, Sand Blue Pants	frnd0541	0.55
+41712-1	fig-012790	1	River, Safety Jacket, Sand Blue Pants	frnd0541	0.55
 41713-1	fig-012582	1	William, Space Suit	frnd0519	0.41
 41713-1	fig-012583	1	Dr. Vidya	frnd0520	0.77
 41713-1	fig-012584	1	Julian, Overall	ani019	0.47
@@ -5385,7 +5385,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41714-1	fig-012835	1	Ollie	frnd0536	0.72
 41714-1	fig-012836	1	Prof. Adrian	frnd0537	0.77
 41715-1	fig-012792	1	Andrea, Dark Turquoise Jacket, Dark Blue Skirt, Dark Turquoise Ribbon	frnd0551	0.64
-41715-1	fig-012793	1	Roxy - White Shirt, Yellow Skirt	frnd0550	0.74
+41715-1	fig-012793	1	Roxy, White Shirt, Yellow Skirt	frnd0550	0.74
 41716-1	fig-012830	1	Stephanie, Wetsuit, Lifejacket, Coral Cap	frnd0545	0.52
 41716-1	fig-012831	1	Capt. Maxine	frnd0547	0.65
 41716-1	fig-012832	1	Elijah, Wetsuit, Lifejacket, Coral Cap	frnd0546	0.52
@@ -5393,19 +5393,19 @@ set	figurine	quantite	nom	bricklink	ressemblance
 41717-1	fig-012828	1	Dr. Makena	frnd0528	0.63
 41717-1	fig-012829	1	Joaquim	frnd0526	0.63
 41718-1	fig-010902	1	Henry, Microdoll, Dark Turquoise Shirt, Light Bluish Grey Pants	frnd0523	0.41
-41718-1	fig-011981	1	River - Red Jacket, Black Pants, Dark Brown Hair	frnd0552	0.49
+41718-1	fig-011981	1	River, Red Jacket, Black Pants, Dark Brown Hair	frnd0552	0.49
 41718-1	fig-012354	1	Emma, Coral Top, Medium Lavender Skirt, Dark Purple Cat Ears	frnd0514	0.78
-41718-1	fig-012355	1	Priyanka - Coral Top, White Shorts, Black Hair	frnd0515	0.53
+41718-1	fig-012355	1	Priyanka, Coral Top, White Shorts, Black Hair	frnd0515	0.53
 41719-1	fig-008981	1	Stephanie, Medium Azure Jacket, Dark Blue Skirt	frnd0256a	0.68
 41719-1	fig-012826	1	Camila, Gold Jacket, Dark Turquoise Skirt, Magenta Hair	frnd0564	0.54
-41720-1	fig-012822	1	Santiago - Reddish Brown Hair, Life Vest	cty1472	0.47
+41720-1	fig-012822	1	Santiago, Reddish Brown Hair, Life Vest	cty1472	0.47
 41720-1	fig-012824	1	Olivia - Dark Azure Top, Dark Azure Skirt	frnd0556	0.7
 41720-1	fig-012825	1	Nandi - Dark Turquoise Top, Dark Pink Skirt, Yellow Ribbon	frnd0555	0.68
-41721-1	fig-012355	1	Priyanka - Coral Top, White Shorts, Black Hair	frnd0515	0.53
+41721-1	fig-012355	1	Priyanka, Coral Top, White Shorts, Black Hair	frnd0515	0.53
 41721-1	fig-012814	1	Mia - Lime Top, Dark Purple Skirt, Riding Cap	frnd0522	0.56
 41721-1	fig-012815	1	Marcel - Dark Green Shirt, Dark Tan Overall, Bald Head	frnd0523	0.56
-41721-1	fig-012817	1	River - Red Shirt, Sand Blue Pants, Dark Brown Hair	twn430	0.55
-41722-1	fig-012818	1	Savannah - Dark Blue Jacket, Dark Tan Pants, Black Hair	frnd0552	0.63
+41721-1	fig-012817	1	River, Red Shirt, Sand Blue Pants, Dark Brown Hair	twn430	0.55
+41722-1	fig-012818	1	Savannah, Dark Blue Jacket, Dark Tan Pants, Black Hair	frnd0552	0.63
 41722-1	fig-012819	1	Elijah, White/Orange Shirt, Blue Pants, Dark Brown Hair	frnd0554	0.53
 41722-1	fig-012821	1	Emma, Lavender Jacket, White Pants, Black Hair	frnd0553	0.54
 41723-1	fig-013269	1	Liann - White Top, Bright Light Orange Skirt	frnd0624	0.63
@@ -5629,7 +5629,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 4212662-1	fig-001002	1	King Leo, Knights Kingdom I, Lion Shield, Crown	cas020	0.32
 4212666-1	fig-000359	1	Johnny Thunder (Desert)	adv024	0.76
 4221-1	fig-004470	1	Man - White Torso with Dolphin, Black Legs, Sunglasses	pln093	0.44
-4222-1	fig-004396	1	Racer - Octan, Red Torso, Green Legs, White Helmet	oct033	0.52
+4222-1	fig-004396	1	Racer, Octan, Red Torso, Green Legs, White Helmet	oct033	0.52
 4222-1	fig-004397	1	White Torso, Blue Overalls, Brown Hair (3626b Head)	pln055	0.4
 4223-1	fig-004473	1	Man - White Torso with Blue/Red Stripes, Black Legs, Red Cap	hol343	0.46
 4223-1	fig-004475	1	Man - Blue Octan Torso, White Legs	oct041	0.47
@@ -5770,7 +5770,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 42640-1	fig-015747	1	Aliya, Coral Top, Medium Azure Pants	frnd0773	0.62
 42640-1	fig-015748	1	Matilde, White Shirt, Red Skirt	frnd0774	0.72
 42641-1	fig-015749	1	Paisley - Lavender Top, Nougat Skirt	frnd0823	0.63
-42641-1	fig-015750	1	Sage - Blue Top, Yellowish Green Skirt, Helmet	frnd0783	0.64
+42641-1	fig-015750	1	Sage, Blue Top, Yellowish Green Skirt, Helmet	frnd0783	0.64
 42642-1	fig-015747	1	Aliya, Coral Top, Medium Azure Pants	frnd0773	0.62
 42642-1	fig-015786	1	Paisley - Bright Light Yellow Top, Dark Tan Shorts	frnd0819	0.75
 42643-1	fig-014658	1	Liann - Lime and Coral Shirt, Bright Light Orange Shorts	frnd0853	0.63
@@ -5809,7 +5809,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 42655-1	fig-015770	1	Aliya, Lavender Top, Bright Light Blue Skirt	frnd0812	0.67
 42655-1	fig-015771	1	Chef Marta	frnd0813	0.77
 42655-1	fig-015772	1	Leo - Reddish Orange Apron	frnd0814	0.72
-42655-1	fig-015773	1	Sara - Bright Light Blue Top, Sand Blue Pants	frnd0811	0.64
+42655-1	fig-015773	1	Sara, Bright Light Blue Top, Sand Blue Pants	frnd0811	0.64
 42656-1	fig-015769	1	Zac, White Shirt, Blue Shorts	frnd0792	0.63
 42656-1	fig-015774	1	Emilia		0.0
 42656-1	fig-015775	1	Celine	frnd0794	0.72
@@ -5832,12 +5832,12 @@ set	figurine	quantite	nom	bricklink	ressemblance
 42663-1	fig-015766	1	Olly - White Top, Dark Blue Shorts	frnd0781	0.65
 42663-1	fig-015783	1	Liann - Coral Overall	frnd0809	0.58
 42663-1	fig-015965	1	Autumn, Lavender Top, Sand Green Pants, Flower	frnd0777	0.55
-42664-1	fig-016295	1	Sky - Dark Turquoise Top, Dark Purple Shorts	frnd0822	0.75
+42664-1	fig-016295	1	Sky, Dark Turquoise Top, Dark Purple Shorts	frnd0822	0.75
 42664-1	fig-016296	1	Celine, Coral Top, White Shorts	frnd0853	0.61
 42664-1	fig-016297	1	Paisley - Lavender Top, Shorts	frnd0819	0.68
 42664-1	fig-016299	1	Zac, White/Green Shirt, Orange Shorts	frnd0824	0.72
 42665-1	fig-015747	1	Aliya, Coral Top, Medium Azure Pants	frnd0773	0.62
-42665-1	fig-016478	1	Sara - Bright Light Blue Top, Yellowish Green Shorts	frnd0841	0.75
+42665-1	fig-016478	1	Sara, Bright Light Blue Top, Yellowish Green Shorts	frnd0841	0.75
 42666-1	fig-015754	1	Paisley - Bright Light Yellow Top, Medium Lavender Skirt	frnd0819	0.68
 42666-1	fig-016290	1	Leo - Red Shirt, Yellow Shorts	frnd0792	0.53
 42668-1	fig-016745	1	Aliya, Lime Pajama	frnd0855	0.42
@@ -5868,7 +5868,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 42672-1	fig-016022	1	Olly - White Top, Dark Blue Shorts, Life Jacket	frnd0807	0.67
 42673-1	fig-016288	1	Liann - Dark Azure Top, Bright Light Yellow Shorts	frnd0829	0.77
 42673-1	fig-016304	1	Nova - Lavender Top, Dark Purple Shorts, Life Vest, Sunglasses	frnd0826	0.61
-42673-1	fig-016305	1	Sage - Dark Azure Top, Bright Green Shorts	frnd0830	0.66
+42673-1	fig-016305	1	Sage, Dark Azure Top, Bright Green Shorts	frnd0830	0.66
 42673-1	fig-016306	1	Mischa	frnd0828	0.62
 42673-1	fig-016307	1	Christopher	frnd0827	0.68
 42673-1	fig-016308	1	Aron, Blue Shorts	frnd0831	0.64
@@ -5968,7 +5968,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 4274-1	fig-008413	1	White Torso, Freestyle, White Legs, Black Cap	pln093	0.58
 4284-1	fig-001155	1	Man - White Suit, Blue Arm, Light Gray Legs, White Cap	trn112	0.52
 4285-1	fig-000547	1	Man, Green Jacket, White Legs, Black Hair	pck014	0.59
-4288-1	fig-004692	1	Racer - White Torso with Red/Blue Stripes, White Legs, White Helmet	oct043	0.46
+4288-1	fig-004692	1	Racer, White Torso with Red/Blue Stripes, White Legs, White Helmet	oct043	0.46
 4288-1	fig-004693	1	Man - White Torso, Blue Overall, Green Cap	trn022	0.38
 4291-1	fig-001161	1	White Torso, Blue Overall, Black Hair	pln055	0.5
 4291-1	fig-004385	1	Man - Blue Shirt, White Arm, Light Gray Legs	cty1270	0.42
@@ -6058,13 +6058,13 @@ set	figurine	quantite	nom	bricklink	ressemblance
 43174-1	fig-003599	1	Li Shang	dp081	0.97
 43174-1	fig-003600	1	Mulan - Girl - MicroDoll	dp079	0.66
 43174-1	fig-003601	1	Mulan - Boy - MicroDoll	dp080	0.67
-43175-1	fig-003743	1	Kristoff - MicroDoll	dp085	0.7
+43175-1	fig-003743	1	Kristoff, MicroDoll	dp085	0.7
 43175-1	fig-003744	1	Anna, MicroDoll	dp084	0.72
 43175-1	fig-003745	1	Elsa, MicroDoll	dp083	0.72
 43175-1	fig-003746	1	Olaf - MicroDoll	dp086	0.72
 43176-1	fig-003583	1	Ariel, Mermaid Form, MicroDoll	dp088	0.71
 43176-1	fig-003584	1	Ariel, Human Form, MicroDoll	dp089	0.72
-43176-1	fig-003585	1	Prince Eric - MicroDoll	dp087	0.78
+43176-1	fig-003585	1	Prince Eric, MicroDoll	dp087	0.78
 43177-1	fig-003429	1	Belle, Microdoll	dp090	0.72
 43177-1	fig-003430	1	Beast, Microdoll	dp091	0.47
 43177-1	fig-012467	1	Mrs. Potts, Lavender Lid	dp077	0.76
@@ -6085,17 +6085,17 @@ set	figurine	quantite	nom	bricklink	ressemblance
 43185-1	fig-011102	1	Boun	dp120	1.0
 43185-1	fig-011103	1	Sisu Human	dp119	0.55
 43185-1	fig-011104	1	Dyan		0.0
-43187-1	fig-010538	1	Rapunzel - Medium Lavender Dress, Bows	dp103a	0.71
+43187-1	fig-010538	1	Rapunzel, Medium Lavender Dress, Bows	dp103a	0.71
 43187-1	fig-010539	1	Flynn Rider, Dark Turquoise Vest, Thick Leg Hinge	dp104	0.95
 43188-1	fig-010535	1	Aurora, Dark Pink Dress, Dark Azure/Blue Decorations	dp105	0.73
 43188-1	fig-010536	1	Maleficent - Dark Purple Cape	dp106	0.93
 43189-1	fig-001517	1	Earth Giant	dp113	0.97
 43189-1	fig-003746	1	Olaf - MicroDoll	dp138	0.71
-43189-1	fig-010894	1	Queen Iduna - MicroDoll, Lavender Dress	dp112	0.71
+43189-1	fig-010894	1	Queen Iduna, MicroDoll, Lavender Dress	dp112	0.71
 43189-1	fig-010896	1	Elsa, Microdoll, Bright Light Blue Dress, Hair in Tail, Looking Up	dp110	0.75
 43189-1	fig-010897	1	Elsa, Microdoll, White Dress, Loose Hair	dp111	0.77
 43191-1	fig-010890	1	Ariel, Human Form, White Dress, Crown	dp154	0.86
-43191-1	fig-010892	1	Prince Eric - White Uniform, Medium Blue Pants	dp109	0.88
+43191-1	fig-010892	1	Prince Eric, White Uniform, Medium Blue Pants	dp109	0.88
 43192-1	fig-010887	1	Fairy Godmother, Lavender Dress	dp114	0.74
 43192-1	fig-013223	1	Cinderella, Bright Light Blue Dress, White Under-Dress, Thin Hinge	dp173	0.75
 43193-1	fig-011594	1	Lumière, Small, 3 Flames	dp157	0.76
@@ -6107,7 +6107,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 43194-1	fig-011332	1	Anna, Blue Skirt	dp135	0.91
 43194-1	fig-011334	1	Elsa, Medium Azure Dress, No Cape	dp136	0.9
 43194-1	fig-011336	3	Snowgie	dp142	0.89
-43195-1	fig-011178	1	Rapunzel - Medium Lavender Dress	dp186	0.77
+43195-1	fig-011178	1	Rapunzel, Medium Lavender Dress	dp186	0.77
 43195-1	fig-011600	1	Belle, Medium Azure Short Dress	dp132	0.78
 43196-1	fig-011337	1	Belle, Medium Blue Dress	dp132	0.96
 43196-1	fig-011338	1	Belle, Bright Light Orange and Bright Light Yellow Full Dress with Roses, Open Mouth	dp127	0.91
@@ -6139,14 +6139,14 @@ set	figurine	quantite	nom	bricklink	ressemblance
 43203-1	fig-012089	1	Tiana, Jewel Dress	dp145	0.82
 43204-1	fig-011330	1	Olaf, Micro-Doll Arms, Stick Hair, Medium Blue Mouth	dp185	0.83
 43204-1	fig-012759	1	Anna, Sand Green Tunic, Dark Green Skirt	dp160	0.91
-43205-1	fig-011178	1	Rapunzel - Medium Lavender Dress	dp186	0.77
+43205-1	fig-011178	1	Rapunzel, Medium Lavender Dress	dp186	0.77
 43205-1	fig-012881	1	Ariel, Human Form, Light Aqua/Dark Turquoise Dress	dp164	0.84
 43205-1	fig-012882	1	Tiana, Leaves Dress	dp145	0.82
 43205-1	fig-012884	1	Moana - Red Top, Dark Tan Skirt	dp163	0.93
 43205-1	fig-012885	1	Snow White	dis134	1.0
 43206-1	fig-012749	1	Lady Tremaine	dp159	1.0
 43206-1	fig-012750	1	Cinderella, Bright Light Blue Dress, White Under-Dress, White Hands	dis132	0.86
-43206-1	fig-012751	1	Prince Charming - Tan Shirt, Dark Red Trousers, Smooth Hair	dp161	0.73
+43206-1	fig-012751	1	Prince Charming, Tan Shirt, Dark Red Trousers, Smooth Hair	dp161	0.73
 43207-1	fig-012363	1	Arista	dp150	1.0
 43207-1	fig-012364	1	Ariel, Mermaid Form, Dark Turquoise Tail, Bright Pink Flower	dp151	0.92
 43207-1	fig-012365	1	King Triton, Minidoll	dis111	0.83
@@ -6165,9 +6165,9 @@ set	figurine	quantite	nom	bricklink	ressemblance
 43212-1	fig-013677	1	Minnie Mouse, Bright Pink Jacket, Yellow Bow	dis089	1.0
 43212-1	fig-013679	1	Peter Pan	dis083	0.97
 43213-1	fig-013729	1	Arial, Medium Nougat Skin, Dark Red Hair, Microdoll	dp171	0.54
-43213-1	fig-013731	1	Prince Eric, White Pants - Microdoll	dp179	0.87
+43213-1	fig-013731	1	Prince Eric, White Pants, Microdoll	dp179	0.87
 43213-1	fig-013732	1	Ursula, Microdoll	dp180	0.72
-43214-1	fig-013368	1	Rapunzel - Jewel Dress	dp167	0.77
+43214-1	fig-013368	1	Rapunzel, Jewel Dress	dp167	0.77
 43215-1	fig-013369	1	Jasmine	dp170	0.89
 43215-1	fig-013377	1	Moana	dis088	0.93
 43215-1	fig-013832	1	Mirabel	dis117	0.65
@@ -6182,12 +6182,12 @@ set	figurine	quantite	nom	bricklink	ressemblance
 43215-1	fig-013849	1	Anna	dp182	0.9
 43215-1	fig-013850	1	Alice	dis116	1.0
 43216-1	fig-013369	1	Jasmine	dp170	0.89
-43216-1	fig-013370	1	Rapunzel - Pink Flowers in Hair	dp169	0.82
+43216-1	fig-013370	1	Rapunzel, Pink Flowers in Hair	dp169	0.82
 43216-1	fig-013371	1	Cinderella, Gold Tiara	dp168	0.92
 43217-1	fig-013680	1	Russell	dis090	1.0
 43217-1	fig-013681	1	Carl Fredricksen	dis091	1.0
 43218-1	fig-013853	1	Anna, Microdoll	dp182	0.72
-43218-1	fig-013854	1	Kristoff - Microdoll, Open Mouth	dp184	0.83
+43218-1	fig-013854	1	Kristoff, Microdoll, Open Mouth	dp184	0.83
 43218-1	fig-013856	1	Elsa, Microdoll	dp183	0.71
 43218-1	fig-013857	1	Olaf - Microdoll	dp185	0.71
 43219-1	fig-013559	1	Cinderella, Bright Light Blue Dress, White Under-Dress, Thin Hinge, Hair Band	dp173	0.83
@@ -6197,9 +6197,9 @@ set	figurine	quantite	nom	bricklink	ressemblance
 43220-1	fig-013593	1	Captain Hook	dis082	0.97
 43221-1	fig-013859	1	Mickey Mouse - Bright Orange Torso, Dark Turquoise Overall	dis115	0.79
 43222-1	fig-013724	1	Tiana, Minifig	dis119	0.89
-43222-1	fig-014096	1	Snow White - Minifig	dis134	1.0
+43222-1	fig-014096	1	Snow White, Minifig	dis134	1.0
 43222-1	fig-014097	1	Prince Florian	dis135	1.0
-43222-1	fig-014099	1	Rapunzel - Minifig	dis138	0.91
+43222-1	fig-014099	1	Rapunzel, Minifig	dis138	0.91
 43222-1	fig-014100	1	Flynn Rider, Minifig	dis137	1.0
 43222-1	fig-014101	1	Prince Naveen	dis136	1.0
 43222-1	fig-014102	1	Prince Charming (Henry), Minifig	dis133	0.9
@@ -6239,9 +6239,9 @@ set	figurine	quantite	nom	bricklink	ressemblance
 43240-1	fig-015046	1	Aurora, Dark Pink Trousers, Big Eyes, Yellow Hair, Pearl Gold Crown	dp194	0.85
 43241-1	fig-014620	1	Mother Gothel	dp188	1.0
 43241-1	fig-014621	1	Flynn Rider, Dark Turquoise Vest, Thin Leg Hinge	dp187	0.95
-43241-1	fig-014623	1	Rapunzel - Big Eyes	dp186	0.63
+43241-1	fig-014623	1	Rapunzel, Big Eyes	dp186	0.63
 43242-1	fig-013869	1	Evil Queen, Witch	dp203	0.9
-43242-1	fig-014096	1	Snow White - Minifig	dis134	1.0
+43242-1	fig-014096	1	Snow White, Minifig	dis134	1.0
 43242-1	fig-014097	1	Prince Florian	dis135	1.0
 43242-1	fig-014748	1	Doc	dis155	1.0
 43242-1	fig-014749	1	Grumpy	dis156	1.0
@@ -6331,18 +6331,18 @@ set	figurine	quantite	nom	bricklink	ressemblance
 43273-1	fig-016730	1	Olaf - Microdoll, 28621 Body, Stick Hair, Bright Light Blue Mouth	dp207	0.73
 43273-1	fig-016732	1	Elsa, Microdoll, Bright Light Blue Dress, Hair in Tail	dp230	0.71
 43273-1	fig-016734	1	Anna, Microdoll, Dark Green Dress	dp235	0.82
-43273-1	fig-016735	1	Kristoff - Dark Blue Cap	dp236	0.72
+43273-1	fig-016735	1	Kristoff, Dark Blue Cap	dp236	0.72
 43274-1	fig-016436	1	Daisy Duck with Lavender Dress	dis079	0.62
 43274-1	fig-016438	1	Minnie Mouse, Paw Print Dress	dis186	0.88
 43275-1	fig-015814	1	Cinderella, Bright Light Orange Hair	dp205	1.0
 43275-1	fig-015881	1	Prince Charming	dis133	0.95
-43276-1	fig-015526	1	Snow White - Minidoll	dis134	0.83
+43276-1	fig-015526	1	Snow White, Minidoll	dis134	0.83
 43276-1	fig-015528	1	Evil Queen, Minidoll	dp203	0.9
 43277-1	fig-016783	1	Cruella de Vil	dis188	1.0
 43278-1	fig-016420	1	Elsa, Microdoll, Bright Light Blue Dress, Hair in Tail	dp230	0.81
 43278-1	fig-016421	1	Olaf - Microdoll, 3626c Body, Stick Hair, Bright Light Blue Mouth	dp207	0.83
 43278-1	fig-016423	1	Anna, Microdoll, Dark Purple Dress	dp228	0.92
-43278-1	fig-016424	1	Kristoff - Microdoll, Closed Mouth	dp236	0.82
+43278-1	fig-016424	1	Kristoff, Microdoll, Closed Mouth	dp236	0.82
 43278-1	fig-016425	1	Honeymaren, Microdoll	dp232	0.74
 43280-1	fig-016068	1	Stitch, Dark Azure	dis174	1.0
 43280-1	fig-017662	1	Lilo, Bright Pink Flower, Legs	dis211	1.0
@@ -6544,7 +6544,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 4500744-1	fig-001209	4	Construction Worker, Orange Jacket with Zipper and Reflective Stripes, Orange Legs, Red Hard Hat, Goatee Beard	cty0032	0.73
 4500744-1	fig-009304	4	Policeman, Black Jacket with Zipper and Badge, White Hat, Silver Sunglasses	cty0039	0.5
 4500744-1	fig-009534	4	Worker, Blue Torso, Orange Overall, Blue Cap	rac028as	0.45
-4500744-1	fig-009535	4	Racer - Red Torso, Red Legs, Red Helmet	rac034	0.67
+4500744-1	fig-009535	4	Racer, Red Torso, Red Legs, Red Helmet	rac034	0.67
 4501-1	fig-001419	1	Luke Skywalker, White Robe, Yellow Skin (3626b Head)	sw0019a	0.73
 4501-1	fig-003530	1	Greedo, Dark Turquoise Skin	sw0110	0.62
 4501-1	fig-003531	1	Han Solo, Black Vest, Yellow Skin, Dark Blue Legs	sw0111	0.95
@@ -6647,7 +6647,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 4527617-1	fig-009538	1	Knight, Crown Symbol, Pearl Grey Breastplate, Dark Bluish Grey Legs	cas434	0.46
 4532-1	fig-000582	1	Conductor, Yellow Jacket, Black Legs, Red Hat	trn060	0.55
 4533-1	fig-000580	1	Train Worker, Red Vest, Dark Gray Legs, White Helmet, Sunglasses	trn058	0.7
-45345-1	fig-011682	1	Sofie - Bright Green Torso, Dark Purple Legs, Black Hair	pln194	0.63
+45345-1	fig-011682	1	Sofie, Bright Green Torso, Dark Purple Legs, Black Hair	pln194	0.63
 45345-1	fig-011683	1	Maria - Magenta Torso, Orange Legs, Reddish Brown Hair	pln193	0.54
 45345-1	fig-011684	1	Leo - Blue Torso, Green Legs, Medium Nougat Hair	pln191	0.57
 45345-1	fig-011685	1	Daniel, Red Torso, Dark Azure Legs, Black Hair	pln192	0.62
@@ -6855,7 +6855,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 4587-1	fig-007649	1	Race Driver, Black Torso, Red Legs, Red Helmet	rac016	0.54
 4588-1	fig-016053	1	Off Road Racer - Green Helmet, Black Body	rac086	0.93
 4588-1	fig-016054	1	Off Road Racer - Blue Helmet, Yellow Body	rac087	0.93
-4589-1	fig-000159	1	Race Driver, Red Torso, Red Legs, Red Helmet - Nitro Flash	rac014	0.46
+4589-1	fig-000159	1	Race Driver, Red Torso, Red Legs, Red Helmet, Nitro Flash	rac014	0.46
 4590-1	fig-016061	1	Flash Turbo	rac098	1.0
 4591-1	fig-016063	1	Star Strike	rac100	1.0
 4592-1	fig-016051	1	Red Monster	rac084	1.0
@@ -7032,7 +7032,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 4766-1	fig-006148	1	Peter Pettigrew, Light Bluish Gray Suit, Dark Orange Hair	hp071	0.88
 4766-1	fig-006149	1	Voldemort, Glow in the Dark Head, Poncho Cape	hp069d	0.65
 4766-1	fig-006150	1	Death Eater, Poncho Cape, Long Tan Hair	hp073b	0.7
-4766-1	fig-013513	1	Skeleton - 30377 Droid Arms for Legs	gen176a	0.75
+4766-1	fig-013513	1	Skeleton, 30377 Droid Arms for Legs	gen176a	0.75
 4766-1	fig-013758	1	Skeleton, Evil Face, Ball Joint Arms, Neck Bracket	gen174	0.81
 4767-1	fig-006141	1	Albus Dumbledore, Sand Blue Outfit with Braid Clasps	hp072	0.93
 4767-1	fig-006144	1	Harry Potter, Tournament Uniform Tattered Black Jacket with Hogwarts Crest	hp075	0.82
@@ -7312,7 +7312,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 5004076-1	fig-006254	1	Lloyd DX	njo0108	1.0
 5004076-1	fig-006255	1	Lavertus in Fire Chi Outfit with Cape	loc114	0.63
 5004076-1	fig-011649	1	Superboy	sh0143	1.0
-5004077-1	fig-010801	1	Sir Fangar - Dark Blue Cape	loc161	1.0
+5004077-1	fig-010801	1	Sir Fangar, Dark Blue Cape	loc161	1.0
 5004077-1	fig-011646	1	Kai, Stone Armour	njo0186	0.73
 5004077-1	fig-011647	1	Scuba Diver, Black Torso, Black Legs, Blue Helmet	cty0617	0.64
 5004077-1	fig-011648	1	Lightning Lad	sh0211	1.0
@@ -7479,7 +7479,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 5007499-1	fig-013099	1	Mall of America, Woman	sh0801	0.33
 5007543-1	fig-007852	1	Policeman, Bright Light Blue Shirt with Dark Blue Tie, Badge, and Radio on Belt, Dark Blue Police Hat with Badge, Sunglasses	cty1146	0.5
 5007543-1	fig-007909	1	Criminal, Prison Shirt with #86753, Prison Striped Legs, Black Hat	pi186	0.43
-5007551-1	fig-012490	1	Rainn DeLaCourt - Dark Bluish Gray Jacket, White Shirt	jw077	0.76
+5007551-1	fig-012490	1	Rainn DeLaCourt, Dark Bluish Gray Jacket, White Shirt	jw077	0.76
 5007551-1	fig-013213	1	Owen Grady in Light Bluish Gray Shirt, Backpack	jw100	0.51
 5007581-1	fig-013496	1	Rock Singer	col410	1.0
 5007613-1	fig-004236	1	Poe Dameron, Open Medium Nougat Jacket	sw1145	0.8
@@ -7506,7 +7506,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 5008904-1	fig-013100	1	Hermione Granger, Light Bluish Gray Sweater with Stripes, Dark Blue Legs	hp368	0.74
 5008904-1	fig-014417	1	Luna Lovegood, Ravenclaw Robes Medium Legs	hp465	0.85
 5008905-1	fig-013100	1	Hermione Granger, Light Bluish Gray Sweater with Stripes, Dark Blue Legs	hp368	0.74
-5008905-1	fig-013195	1	Ron Weasley - Plaid Shirt, Black Legs	hp395	0.93
+5008905-1	fig-013195	1	Ron Weasley, Plaid Shirt, Black Legs	hp395	0.93
 5009005-1	fig-015625	1	Gardener, Sand Blue Torso, Medium Nougat Apron, Red Cap	twn520	0.71
 5009015-1	fig-015603	1	Professor Charles Xavier, Black Suit	sh0998	0.55
 5009051-1	fig-015744	1	Izzie, Magenta Legs	drm045	0.77
@@ -7866,7 +7866,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 5971-1	fig-002099	1	Space Police III	sp108	0.58
 5971-1	fig-002261	1	Space Police III, Frenzy	sp091	0.64
 5972-1	fig-002257	1	Space Police III, Officer	sp098	0.66
-5972-1	fig-002278	1	Space Police III, Snake - With Visor	sp100	0.67
+5972-1	fig-002278	1	Space Police III, Snake, With Visor	sp100	0.67
 5973-1	fig-002256	2	Space Police III, Skull Twin	sp101	0.67
 5973-1	fig-002257	1	Space Police III, Officer	sp098	0.66
 5974-1	fig-002267	1	Space Police III, Kranxx	sp093	0.64
@@ -7896,10 +7896,10 @@ set	figurine	quantite	nom	bricklink	ressemblance
 5978-1	fig-002226	1	Miss Gail Storm with Red Legs	adv015	0.7
 5978-1	fig-002232	1	Skeleton, Standard Face, Mummy Headdress, White	gen007	0.72
 5979-1	fig-002268	1	Space Police III, Slizer	sp102	0.64
-5979-1	fig-002278	1	Space Police III, Snake - With Visor	sp100	0.67
+5979-1	fig-002278	1	Space Police III, Snake, With Visor	sp100	0.67
 5979-1	fig-002279	1	Space Police III, Officer	sp098	0.66
 5980-1	fig-002256	1	Space Police III, Skull Twin	sp101	0.67
-5980-1	fig-002278	1	Space Police III, Snake - With Visor	sp100	0.67
+5980-1	fig-002278	1	Space Police III, Snake, With Visor	sp100	0.67
 5980-1	fig-002292	1	Space Police III, Squidman	sp092	0.64
 5980-1	fig-002296	1	Space Police III, Officer	sp098	0.66
 5981-1	fig-002281	1	Space Police III, Rench	sp110	0.64
@@ -7940,7 +7940,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 599-1	fig-001198	1	Man, Plain Red, Black Hair	pln002	0.47
 599-1	fig-004402	1	Woman, Blue Torso, Blue Legs	pln086	0.51
 599-1	fig-004695	1	Man - White Torso, Black Legs, Blue Cap	pln015	0.45
-5996-1	fig-010620	1	Rascus - No Armour, Green Helmet	cas266	0.51
+5996-1	fig-010620	1	Rascus, No Armour, Green Helmet	cas266	0.51
 5998-1	fig-000638	1	Shadow Knight Vladek	cas291	0.68
 5999-1	fig-000639	1	Jayko	cas265	0.64
 600-2	fig-000534	1	Black Torso, Black Legs, White Hat	pln106	0.78
@@ -8618,7 +8618,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 60197-1	fig-005130	1	Conductor, Dark Blue Jacket, Dark Blue Legs, Dark Red Hat, Glasses, Beard	trn248	0.5
 60198-1	fig-004743	1	Forklift Driver, Orange Vest, Dark Blue Legs, Red Helmet	trn242	0.82
 60198-1	fig-004744	1	Criminal, Open Black Jacket over Prison Shirt, Dark Bluish Grey Legs, Black Hat, Stubble	cty0919	0.38
-60198-1	fig-004745	1	Security Officer - Bullet-Proof Vest, Dark Green Legs, Cap	trn243	0.77
+60198-1	fig-004745	1	Security Officer, Bullet-Proof Vest, Dark Green Legs, Cap	trn243	0.77
 60198-1	fig-004746	1	Train Driver, Orange Vest, Olive Green Legs, Red Cap	trn244	0.88
 60198-1	fig-004747	1	Train Driver, Orange Vest, Olive Green Legs, Red Helmet, Female	trn246	0.58
 60198-1	fig-004748	1	Train Worker, Orange Vest, Dark Blue Legs, Light Yellow Hair, Female	trn245	0.86
@@ -8642,7 +8642,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 60201-1	fig-007568	1	Girl, Cardigan Tied with Bow, Necklace, Short Dark Tan Legs, Glasses	hol132	0.54
 60201-1	fig-007569	1	Woman, Medium Blue Jacket with Medium Lavender Scarf, White Legs	twn360	0.56
 60201-1	fig-007570	1	Boy, Green Jacket, Short Dark Blue Legs, Dark Bluish Gray Beanie Hat	cty1081	0.74
-60201-1	fig-012552	1	Snowman - Red Scarf, Black Hat	hol161	0.73
+60201-1	fig-012552	1	Snowman, Red Scarf, Black Hat	hol161	0.73
 60202-1	fig-009839	1	Baby, Yellowish Green Body	cty0918	0.92
 60202-1	fig-009840	1	Racer, Woman, White, Black and Red Jacket, Red Legs, Dark Blue Dirt Bike Helmet with Goggles, Dirt Stains	cty0916	0.46
 60202-1	fig-009841	1	Man, Orange Tank Top with 'SPORT', Dark Orange Legs with Straps, White Helmet, Orange Safety Glasses	trn247	0.48
@@ -8749,19 +8749,19 @@ set	figurine	quantite	nom	bricklink	ressemblance
 60228-1	fig-008505	1	Astronaut, Woman, Orange Torso and Legs, White Helmet, Trans-Light Blue Visor	cty1065	0.67
 60228-1	fig-008506	1	Technician, Dark Blue Torso, Dark Blue Legs, White Helmet	cty1001	0.48
 60228-1	fig-008507	1	Launch Director - Black Torso, Dark Bluish Grey Legs, Reddish Brown Hair	cty1057	0.8
-60228-1	fig-008508	1	Scientist - Dark Bluish Grey Torso, Light Bluish Grey Legs, Dark Orange Hair	cty1058	0.67
-60228-1	fig-008509	1	Scientist - White Torso, Labcoat, Light Bluish Grey Legs, Medium Nougat Hair	cty1035	0.59
+60228-1	fig-008508	1	Scientist, Dark Bluish Grey Torso, Light Bluish Grey Legs, Dark Orange Hair	cty1058	0.67
+60228-1	fig-008509	1	Scientist, White Torso, Labcoat, Light Bluish Grey Legs, Medium Nougat Hair	cty1035	0.59
 60229-1	fig-008506	1	Technician, Dark Blue Torso, Dark Blue Legs, White Helmet	cty1001	0.48
 60229-1	fig-008515	1	Astronaut, Orange Torso and Legs, White Helmet, Trans-Light Blue Visor, Moustache	cty1061	0.71
 60229-1	fig-008516	1	Astronaut, Orange Torso and Legs, White Helmet, Trans-Light Blue Visor, Stubble	cty1059	0.73
 60229-1	fig-008517	1	Droid Engineer	sw0998	0.39
 60229-1	fig-008518	1	Technician, Dark Blue Torso, Dark Blue Legs, White Helmet, Reddish Brown Hair	cty0969	0.52
 60229-1	fig-008519	1	Launch Director - Black Torso, Dark Bluish Grey Legs, Dark Bluish Grey Hair	cty1070	0.78
-60229-1	fig-008520	1	Scientist - White Torso, Labcoat, Light Bluish Grey Legs, Red Cap	cty1069	0.69
+60229-1	fig-008520	1	Scientist, White Torso, Labcoat, Light Bluish Grey Legs, Red Cap	cty1069	0.69
 6023-1	fig-004571	1	Knight, Crusader Axe, Light Gray Legs	cas109	0.68
 6023-1	fig-006747	1	Maiden - Blue Legs, White Cone Hat	cas096	0.81
 60230-1	fig-008505	1	Astronaut, Woman, Orange Torso and Legs, White Helmet, Trans-Light Blue Visor	cty1065	0.67
-60230-1	fig-008509	1	Scientist - White Torso, Labcoat, Light Bluish Grey Legs, Medium Nougat Hair	cty1035	0.59
+60230-1	fig-008509	1	Scientist, White Torso, Labcoat, Light Bluish Grey Legs, Medium Nougat Hair	cty1035	0.59
 60230-1	fig-008517	1	Droid Engineer	sw0998	0.39
 60230-1	fig-008523	1	Astronaut, White Torso and Legs, Orange Trim, White Helmet, Side Lamp Red	cty1092	0.66
 60230-1	fig-008524	1	Astronaut, Blue Torso and Legs, Reddish Brown Hair	cty1036	0.73
@@ -9374,13 +9374,13 @@ set	figurine	quantite	nom	bricklink	ressemblance
 60392-1	fig-013326	1	Policewoman, Bright Light Blue Shirt, Dark Blue Legs, White Helmet and Visor	cty1664	0.48
 60393-1	fig-013315	1	Firefighter, Black Suit, Vibrant Green Helmet with Visor, Glasses	cty1544	0.38
 60394-1	fig-013441	1	Park Ranger	cty1528	0.8
-60395-1	fig-014232	1	Race Driver - Black Torso, Black Legs, Dark Red Hair	cty1670	0.5
-60395-1	fig-014233	1	Race Driver - Black Torso, Black Legs, Medium Azure Hair	cty1671	0.5
-60395-1	fig-014234	1	Race Driver - Black Torso, Black Legs, Bright Light Yellow Hair	cty1666	0.6
-60396-1	fig-014228	1	Race Driver - Flat Silver Torso, Dark Turquoise Arms, Black Legs, Reddish Brown Hair	cty1667	0.5
-60396-1	fig-014229	1	Race Driver - Flat Silver Torso, Coral Arms, Black Legs, Bright Light Yellow Hair	cty1666	0.52
-60397-1	fig-014230	1	Race Driver - Black Torso, Medium Blue Legs, Medium Blue Head	cty1668	0.44
-60397-1	fig-014231	1	Race Driver - Magenta Torso, Pearl Titanium Legs, Black Pirate Hat	cty1669	0.47
+60395-1	fig-014232	1	Race Driver, Black Torso, Black Legs, Dark Red Hair	cty1670	0.5
+60395-1	fig-014233	1	Race Driver, Black Torso, Black Legs, Medium Azure Hair	cty1671	0.5
+60395-1	fig-014234	1	Race Driver, Black Torso, Black Legs, Bright Light Yellow Hair	cty1666	0.6
+60396-1	fig-014228	1	Race Driver, Flat Silver Torso, Dark Turquoise Arms, Black Legs, Reddish Brown Hair	cty1667	0.5
+60396-1	fig-014229	1	Race Driver, Flat Silver Torso, Coral Arms, Black Legs, Bright Light Yellow Hair	cty1666	0.52
+60397-1	fig-014230	1	Race Driver, Black Torso, Medium Blue Legs, Medium Blue Head	cty1668	0.44
+60397-1	fig-014231	1	Race Driver, Magenta Torso, Pearl Titanium Legs, Black Pirate Hat	cty1669	0.47
 60398-1	fig-013954	1	Boy, Dinosaur Shirt, Short Blue Legs, Blue Cap	twn426	0.77
 60398-1	fig-013955	1	Man, Dark Blue Sweater, Sand Green Legs, Beard and Glasses	hol344	0.66
 60398-1	fig-013956	1	Woman, Bright Light Blue Cardigan, Dark Red Legs	twn430	0.77
@@ -9533,7 +9533,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 60439-1	fig-001956	1	Astronaut, White and Dark Blue Spacesuit, Dark Azure Backpack, Dark Blue Helmet	cty1692	0.82
 60439-1	fig-014845	1	Astronaut, White Spacesuit, Bright Green Helmet, Reddish Brown Sideburns	cty1763	0.8
 60439-1	fig-014846	1	Alien, Lime, Space Suit	cty1727	0.53
-6044-1	fig-006729	3	Knight, Scale Mail on Red, Black Arms, White Legs	cas145	0.66
+6044-1	fig-006729	3	Knight, Scale Mail on Red, Blue Arms, White Legs	cas145	0.66
 6044-1	fig-007106	1	King, Royal Knights, White Legs, Black Hips	cas059	0.76
 60440-1	fig-015194	1	Man, Dark Azure Jacket, Dark Tan Legs, Dark Blue Hat, Dark Orange Beard	cty1791	0.7
 60440-1	fig-015195	1	Woman, Tan Argyle Sweater Vest, Light Bluish Gray Legs	idea215	0.73
@@ -13615,7 +13615,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 71028-12	fig-010571	1	Bellatrix Lestrange, Prison Robe	colhp34	0.74
 71028-13	fig-010585	1	Kingsley Shacklebolt, Cape	colhp35	0.8
 71028-14	fig-010589	1	Moaning Myrtle, Printed Legs	colhp36	0.74
-71028-15	fig-010592	1	Professor Pomona Sprout - Medium Nougat Robe	hp270	0.55
+71028-15	fig-010592	1	Professor Pomona Sprout, Medium Nougat Robe	hp270	0.55
 71028-16	fig-010591	1	Neville Longbottom, Gryffindor Robes Closed, Printed Medium Legs	colhp38	0.63
 71028-2	fig-010568	1	Albus Dumbledore, Dark Red Robe with Skirt, Stars on Hat	hp190	0.64
 71028-3	fig-010583	1	Hermione Granger, Tan Striped Sweater, Dark Blue Legs	hp394	0.77
@@ -13692,7 +13692,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 71034-11	fig-013089	1	Knight of the Yellow Castle	col408	1.0
 71034-12	fig-013090	1	Dragon Costume, Green	col409	0.75
 71034-2	fig-013081	1	Sugar Fairy	col399	0.97
-71034-3	fig-013082	1	Snowman - Red Scarf, Black Hat, Mask	njo0730	0.71
+71034-3	fig-013082	1	Snowman, Red Scarf, Black Hat, Mask	njo0730	0.71
 71034-4	fig-013083	1	Reindeer Costume	col401	0.97
 71034-5	fig-013084	1	Holiday Elf	col402	0.97
 71034-6	fig-013079	1	Cardboard Robot	col403	0.97
@@ -13700,10 +13700,10 @@ set	figurine	quantite	nom	bricklink	ressemblance
 71034-8	fig-013086	1	Wolf Costume	col405	0.97
 71034-9	fig-013087	1	Turkey Costume	col406	0.97
 71037-1	fig-013448	1	Referee	col411	0.66
-71037-10	fig-013458	1	Rococo Aristocrat - Minifigure	col421	0.97
-71037-11	fig-013459	1	Rockin' Horse Rider - Minifigure	col422	1.0
+71037-10	fig-013458	1	Rococo Aristocrat, Minifigure	col421	0.97
+71037-11	fig-013459	1	Rockin' Horse Rider, Minifigure	col422	1.0
 71037-12	fig-013460	1	Newspaper Kid - Minifigure	col423	0.97
-71037-2	fig-013449	1	Robot Warrior - Minifig	col412	0.97
+71037-2	fig-013449	1	Robot Warrior, Minifig	col412	0.97
 71037-3	fig-013450	1	Classic Spaceman, Reddish Brown	twn481	0.46
 71037-3	fig-013451	1	Classic Space Baby, Blue, White Pupils	col414	0.53
 71037-4	fig-013452	1	Carrot Mascot, Minifigure	col415	0.97
@@ -13711,7 +13711,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 71037-6	fig-013454	1	T-Rex Costume Fan, Minifigure	col417	1.0
 71037-7	fig-013455	1	Orc - Minifigure	col418	0.93
 71037-8	fig-013456	1	Conservationist (CMF)	col419	0.74
-71037-9	fig-013457	1	Potter - Minifigure	col420	0.93
+71037-9	fig-013457	1	Potter, Minifigure	col420	0.93
 71038-1	fig-013714	1	Oswald the Lucky Rabbit - Minifig	dis092	1.0
 71038-10	fig-013715	1	Ernesto De La Cruz	dis101	1.0
 71038-11	fig-013716	1	Miguel Rivera - Hood	dis102	0.42
@@ -14221,9 +14221,9 @@ set	figurine	quantite	nom	bricklink	ressemblance
 71705-1	fig-009088	1	Samurai X / Nya (Legacy)	njo0502	0.78
 71706-1	fig-002832	1	Hausner	njo0578	1.0
 71706-1	fig-002833	1	Cole / Digi Cole	njo0579	0.85
-71707-1	fig-002822	1	Richie - Black Katana Holder	njo0631	0.65
+71707-1	fig-002822	1	Richie, Black Katana Holder	njo0631	0.65
 71707-1	fig-002823	1	Kai / Digi Kai with Shoulder Armor	njo0568	0.8
-71708-1	fig-002822	1	Richie - Black Katana Holder	njo0631	0.65
+71708-1	fig-002822	1	Richie, Black Katana Holder	njo0631	0.65
 71708-1	fig-002824	1	Jay / Digi Jay with Shoulder Armor	njo0563	0.8
 71708-1	fig-002838	1	Red Visor	njo0566	0.97
 71708-1	fig-002839	1	Zane / Avatar Zane Pink	njo0561	0.85
@@ -14247,7 +14247,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 71710-1	fig-002823	1	Kai / Digi Kai with Shoulder Armor	njo0568	0.8
 71710-1	fig-002838	2	Red Visor	njo0566	0.97
 71710-1	fig-002853	1	Scott with Neck Bracket	njo0585	1.0
-71711-1	fig-002822	1	Richie - Black Katana Holder	njo0631	0.65
+71711-1	fig-002822	1	Richie, Black Katana Holder	njo0631	0.65
 71711-1	fig-002824	1	Jay / Digi Jay with Shoulder Armor	njo0563	0.8
 71711-1	fig-002825	1	Hausner with Scabbard	njo0573	0.72
 71711-1	fig-002834	1	Unagami	njo0572	1.0
@@ -14300,12 +14300,12 @@ set	figurine	quantite	nom	bricklink	ressemblance
 71730-1	fig-010953	1	Wyplash, Tan Hat	njo0712	0.64
 71731-1	fig-002855	1	Nindroid (Legacy)	njo0582	1.0
 71731-1	fig-010955	1	Zane, Flat Silver	njo0713	1.0
-71732-1	fig-010956	1	Serpentine Rattla - Sand Blue	njo0649	0.51
+71732-1	fig-010956	1	Serpentine Rattla, Sand Blue	njo0649	0.51
 71732-1	fig-010958	1	Jay, Legacy with White/Blue Robe	njo0648	0.91
 71733-1	fig-010960	1	Cole, Legacy, Black Suit, Orange Bandana	njo0645	0.9
 71733-1	fig-010961	1	Ghost, Soul Archer (Legacy)	njo0644	0.74
 71734-1	fig-001926	1	Kai (Legacy)	njo0643	0.97
-71734-1	fig-010956	1	Serpentine Rattla - Sand Blue	njo0649	0.51
+71734-1	fig-010956	1	Serpentine Rattla, Sand Blue	njo0649	0.51
 71735-1	fig-009091	1	Kai with Hair (Legacy)	njo0643	0.58
 71735-1	fig-010976	1	Eyezor, Legacy	njo0639	0.8
 71735-1	fig-010979	1	Lloyd - Gold, with Hair	njo0681	0.83
@@ -14330,7 +14330,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 71739-1	fig-009081	1	Jay with Pearl Gold Shoulder Cover (Legacy)	njo0615	0.65
 71739-1	fig-009085	1	Cole with Shoulder Cover (Legacy)	njo0618	0.54
 71739-1	fig-010928	1	Zane with Shoulder Cover and Silver Head (Legacy)	njo0670	0.66
-71739-1	fig-010956	1	Serpentine Rattla - Sand Blue	njo0649	0.51
+71739-1	fig-010956	1	Serpentine Rattla, Sand Blue	njo0649	0.51
 71739-1	fig-011507	1	Zane / Gold (Legacy), Forbidden Spinjitzu Wraps	njo0623	0.44
 71739-1	fig-011558	1	Mezmo, Legacy	njo0709	1.0
 71740-1	fig-010976	1	Eyezor, Legacy	njo0639	0.8
@@ -15812,7 +15812,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 75192-1	fig-002549	1	Princess Leia, Hoth Outfit, White Jacket, Printed Breathing Mask	sw0878	1.0
 75192-1	fig-002550	1	Han Solo, Dark Blue Jacket, Dark Brown Legs, Printed Breathing Mask	sw0879	0.87
 75192-1	fig-002551	1	Han Solo, Old, Angry	sw0841	0.95
-75192-1	fig-014404	2	Porg - Black Wings	sh0402	0.48
+75192-1	fig-014404	2	Porg, Black Wings	sh0402	0.48
 75193-1	fig-001714	1	Chewbacca, Dark Brown, Long Lines on Legs on Inside	sw0922	0.69
 75194-1	fig-001715	1	TIE Pilot, First Order, Three White Lines on Helmet	sw0902	0.82
 75195-1	fig-004286	1	Nodin Chavdri / Resistance Speeder Pilot	sw0883	0.85
@@ -15830,7 +15830,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 75199-1	fig-004162	1	Mace Windu, Dark Tan Printed Legs, Closed Mouth	sw0889	0.88
 75200-1	fig-004280	1	Rey, Dark Tan Jacket	sw0888	1.0
 75200-1	fig-004281	1	Luke Skywalker, Old, White Robes	sw0887	0.86
-75200-1	fig-014403	1	Porg - Dark Bluish Grey Tail	sw0933	0.44
+75200-1	fig-014403	1	Porg, Dark Bluish Grey Tail	sw0933	0.44
 75201-1	fig-002544	1	BB-8	sw1034	0.86
 75201-1	fig-004315	1	Rose Tico in First Order Officer Disguise	sw0901	0.75
 75201-1	fig-004316	1	Finn, First Order Officer Uniform Disguise	sw0900	1.0
@@ -15948,7 +15948,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 75229-1	fig-004417	1	Princess Leia, White Robe, Dark Brown Hair, Decorative Belt, Dual Sided Head Open Mouth / Smile	sw0994	0.7
 75229-1	fig-004418	1	Luke Skywalker, White Robe, Utility Belt, Neck Bracket	sw1039	0.7
 75229-1	fig-010481	1	Mouse Droid (MSE-6-series Repair Droid), Dark Bluish Gray, Open Stud	sw1004	1.0
-75230-1	fig-014402	1	Porg - Black Tail	sw0985	0.43
+75230-1	fig-014402	1	Porg, Black Tail	sw0985	0.43
 75233-1	fig-002086	1	Yoda, Olive Green Head, Dark Tan Undershirt, Thick Creases	sw1071	0.73
 75233-1	fig-004042	1	Chief Tarfful	sw0530	0.75
 75233-1	fig-004168	2	Battle Droid, Kashyyyk	sw0996	0.92
@@ -16099,7 +16099,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 75279-1	fig-010659	1	D-O, Santa Hat	sw1118	0.75
 75279-1	fig-010660	1	Pit Droid	sw1119	0.82
 75279-1	fig-011642	1	GNK Power Droid (Gonk), Snowman	sw1120	0.75
-75279-1	fig-014400	1	Porg - White Center	mk007	0.31
+75279-1	fig-014400	1	Porg, White Center	mk007	0.31
 75280-1	fig-002330	2	Battle Droid, One Bent Arm, One Straight Arm	sw0996	0.58
 75280-1	fig-010291	3	Clone Trooper, 501st Legion, White Arms	sw1094	1.0
 75280-1	fig-010292	1	Jet Trooper, 501st Legion	sw1093	0.71
@@ -16222,7 +16222,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 75320-1	fig-011940	1	Snowtrooper, White Hips, Reddish Brown Head	sw1179	0.74
 75320-1	fig-011945	1	Snowtrooper, White Hips, Light Nougat Head, Female	sw1178	0.77
 75320-1	fig-011957	1	Snowtrooper, White Hips, Light Nougat Head, Grin	sw1181	0.56
-75320-1	fig-012151	1	Scout Trooper - Nougat Head	sw1182	0.69
+75320-1	fig-012151	1	Scout Trooper, Nougat Head	sw1182	0.69
 75321-1	fig-011723	1	The Mandalorian / Din Djarin, Dark Brown Outfit with Jet Pack, Black Head	sw1212	0.56
 75322-1	fig-012154	1	Chewbacca, Dark Brown Torso with Medium Nougat, Snow Print	sw1184	0.91
 75322-1	fig-012155	1	AT-ST Driver, White Jacket	sw1183	0.72
@@ -16252,7 +16252,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 75331-1	fig-013154	1	The Mandalorian / Din Djarin, Head Print, Arm Print	sw1212	0.56
 75331-1	fig-013155	1	Mythrol	sw1243	1.0
 75332-1	fig-012950	1	AT-ST Driver, Plain Legs	sw1217	0.7
-75332-1	fig-012952	1	Scout Trooper - Reddish Brown Head	sw1229	0.7
+75332-1	fig-012952	1	Scout Trooper, Reddish Brown Head	sw1229	0.7
 75332-1	fig-012953	1	Wicket, Ewok, Printed Dark Orange Hood, Tan Face, Lines on Hood	sw1218	0.85
 75333-1	fig-012921	1	Astromech Droid, R4-P17, Light Blue Rectangles	sw1221	0.84
 75333-1	fig-012922	1	Taun We	sw1216	1.0
@@ -16310,7 +16310,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 75352-1	fig-013740	1	Luke Skywalker, Final Duel Outfit, Mid-Length Dark Tan Hair	sw1312	0.85
 75352-1	fig-013742	1	Emperor Palpatine, Tan Head, Cape	sw1263	0.78
 75353-1	fig-013743	1	Princess Leia, Endor Outfit, Helmet	sw1264	1.0
-75353-1	fig-013745	1	Scout Trooper - Light Nougat Head, Black Arms	sw1265	0.56
+75353-1	fig-013745	1	Scout Trooper, Light Nougat Head, Black Arms	sw1265	0.56
 75353-1	fig-013747	1	Luke Skywalker, Dark Tan Endor Outfit, Helmet	sw1266	1.0
 75354-1	fig-014306	1	Padme Amidala / Naberrie, Dark Red Senator Outfit, Bun Hair	sw1303	0.43
 75354-1	fig-014307	2	Clone Trooper, Coruscant Guard, Shock Trooper	sw1305	0.74
@@ -17922,18 +17922,18 @@ set	figurine	quantite	nom	bricklink	ressemblance
 7621-1	fig-005845	1	Marion Ravenwood in White Outfit	iaj007	0.62
 7621-1	fig-005846	1	Skeleton, Evil Face, Straight Mechanical Arms	gen020	0.73
 76210-1	fig-013192	1	Tony Stark Transforming into Iron Man, Dark Bluish Grey Torso	sh0850	0.46
-76211-1	fig-013135	1	Shuri - Black Panther Suit, Hair	sh0843	0.6
+76211-1	fig-013135	1	Shuri, Black Panther Suit, Hair	sh0843	0.6
 76211-1	fig-013136	1	Nakia	sh0844	0.81
 76211-1	fig-013137	1	Ironheart MK1	sh0848	1.0
 76211-1	fig-013138	1	Attuma	sh0840	1.0
 76212-1	fig-011411	1	Shuri	sh0843	0.8
 76212-1	fig-013139	1	Black Panther	sh0842	0.92
-76213-1	fig-013135	1	Shuri - Black Panther Suit, Hair	sh0843	0.6
+76213-1	fig-013135	1	Shuri, Black Panther Suit, Hair	sh0843	0.6
 76213-1	fig-013138	1	Attuma	sh0840	1.0
 76213-1	fig-013141	1	King Namor	sh0841	1.0
 76214-1	fig-013140	1	M'Baku	sh0846	1.0
 76214-1	fig-013141	1	King Namor	sh0841	1.0
-76214-1	fig-013144	1	Shuri - Black Panther Suit, Mask	sh0843	0.6
+76214-1	fig-013144	1	Shuri, Black Panther Suit, Mask	sh0843	0.6
 76214-1	fig-013145	1	Okoye	sh0847	0.83
 76214-1	fig-013146	1	Ironheart MK2	sh0845	1.0
 76216-1	fig-011403	1	Pepper Potts, Black Suit, Ponytail	sh0740	0.86
@@ -18372,7 +18372,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 76383-1	fig-010880	1	Professor Severus Snape, Long Robes Wide Open over Dark Purple Vest	hp266	0.83
 76383-1	fig-010881	1	Draco Malfoy, Slytherin Sweater with Crest, Short Black Legs	hp267	1.0
 76383-1	fig-010882	1	Seamus Finnigan, Gryffindor Sweater with Crest, Short Legs	hp268	1.0
-76384-1	fig-010875	1	Professor Pomona Sprout - Medium Nougat Jacket	hp270	0.72
+76384-1	fig-010875	1	Professor Pomona Sprout, Medium Nougat Jacket	hp270	0.72
 76384-1	fig-010877	1	Cedric Diggory, Tan Uniform	hp275	0.89
 76384-1	fig-010879	1	Neville Longbottom, Tan Shirt, Headphones, Short Legs	hp271	0.94
 76385-1	fig-010871	1	Harry Potter, Gryffindor Sweater with Crest, Short Legs	hp265	1.0
@@ -18543,9 +18543,9 @@ set	figurine	quantite	nom	bricklink	ressemblance
 76417-1	fig-014343	1	Guard, Sand Blue Torso, Dark Blue Legs, Dark Blue Cap, Medium Brown Head	hp459	0.53
 76417-1	fig-014346	1	Goblin, Dark Orange Hair, Black Torso, Black Legs	hp452	0.89
 76417-1	fig-014347	1	Goblin, Dark Bluish Grey Hair, Black Torso, Black Legs	hp457	0.83
-76417-1	fig-014348	1	Ricbert - White Hair, Black Tuxedo	hp451	1.0
+76417-1	fig-014348	1	Ricbert, White Hair, Black Tuxedo	hp451	1.0
 76417-1	fig-014349	1	Griphook, Dark Bluish Grey Hair, Black Torso, White Arms, Black Legs	cty1531	0.48
-76418-1	fig-014299	1	Ron Weasley - Reddish Brown Jacket, Dark Blue Hat	hp459	0.8
+76418-1	fig-014299	1	Ron Weasley, Reddish Brown Jacket, Dark Blue Hat	hp459	0.8
 76418-1	fig-014300	1	Harry Potter, Dark Blue Jacket, Dark Red Hoodie	hp458	0.8
 76418-1	fig-014301	1	Aberforth Dumbledore	hp462	0.88
 76418-1	fig-014302	1	Hermione Granger, Dark Brown Jacket, Red Hat	hp460	0.81
@@ -18946,15 +18946,15 @@ set	figurine	quantite	nom	bricklink	ressemblance
 7690-1	fig-006976	1	Mars Astronaut, Orange Sunglasses, Stubble	mm007	0.74
 7690-1	fig-006979	1	Mars Astronaut, Printed Hair	mm003	0.61
 7690-1	fig-006981	1	Mars Astronaut, Stubble, Printed Hair over Eyes	mm008	0.6
-76900-1	fig-011497	1	Race Driver - Dark Bluish Grey Torso/Legs, Black Helmet	cty1320	0.4
-76901-1	fig-011498	1	Racer Driver - GR Black Torso/Legs, Black Helmet	sc087	0.41
-76902-1	fig-011499	1	Racer Driver - Dark Blue Torso, Tan Legs, Black Helmet	hol231	0.44
-76903-1	fig-011500	1	Race Driver - Black Torso, White Legs, White Helmet	cty1400	0.43
-76903-1	fig-011501	1	Race Driver - Black Torso, Jacket, Dark Blue Legs, Black Helmet	cty1110	0.47
-76904-1	fig-011502	1	Race Driver - Black Torso, Black Legs, Black Helmet	cty1320	0.44
-76904-1	fig-011503	1	Race Driver - Orange Torso, Sand Blue Legs, Black Helmet	cty1330	0.41
-76905-1	fig-011504	1	Race Driver - Black Torso, Black Legs, Black Helmet	cty1320	0.44
-76905-1	fig-011505	1	Race Driver - Tan Torso, Legs, White Helmet	cty1400	0.43
+76900-1	fig-011497	1	Race Driver, Dark Bluish Grey Torso/Legs, Black Helmet	cty1320	0.4
+76901-1	fig-011498	1	Racer Driver, GR Black Torso/Legs, Black Helmet	sc087	0.41
+76902-1	fig-011499	1	Racer Driver, Dark Blue Torso, Tan Legs, Black Helmet	hol231	0.44
+76903-1	fig-011500	1	Race Driver, Black Torso, White Legs, White Helmet	cty1400	0.43
+76903-1	fig-011501	1	Race Driver, Black Torso, Jacket, Dark Blue Legs, Black Helmet	cty1110	0.47
+76904-1	fig-011502	1	Race Driver, Black Torso, Black Legs, Black Helmet	cty1320	0.44
+76904-1	fig-011503	1	Race Driver, Orange Torso, Sand Blue Legs, Black Helmet	cty1330	0.41
+76905-1	fig-011504	1	Race Driver, Black Torso, Black Legs, Black Helmet	cty1320	0.44
+76905-1	fig-011505	1	Race Driver, Tan Torso, Legs, White Helmet	cty1400	0.43
 76906-1	fig-012344	1	Race Driver, White Ferrari Racing Suit, White Helmet	cty1593	0.5
 76907-1	fig-012345	1	Race Driver, Dark Green Lotus Racing Suit, Black Helmet	cty1593	0.41
 76908-1	fig-012343	1	Race Driver, Black Racing Jacket, Dark Blue Legs, Black Helmet, Stubble	cty1400	0.47
@@ -18967,25 +18967,25 @@ set	figurine	quantite	nom	bricklink	ressemblance
 76910-1	fig-012340	1	Race Driver, Dark Bluish Gray Racing Suit with Lime Trim, Black Helmet	twn429	0.38
 76911-1	fig-012916	1	James Bond, Black Tuxedo	sc102	0.97
 76912-1	fig-012917	1	Dominic Toretto	sc103	1.0
-76914-1	fig-013587	1	Race Driver - Black Torso, Dark Bluish Grey Legs, Black Hair	cty1667	0.46
-76915-1	fig-013588	1	Race Driver - Black Torso, Black Legs, Dark Orange Hair	cty1671	0.5
+76914-1	fig-013587	1	Race Driver, Black Torso, Dark Bluish Grey Legs, Black Hair	cty1667	0.46
+76915-1	fig-013588	1	Race Driver, Black Torso, Black Legs, Dark Orange Hair	cty1671	0.5
 76916-1	fig-013524	1	Race Driver, White Race Suit with 'Porsche'	cty1593	0.51
 76917-1	fig-013442	1	Brian O'Conner	sc104	0.93
-76918-1	fig-013589	1	Race Driver - White Torso, White Legs, Black Helmet	cty1718	0.5
-76918-1	fig-013590	1	Race Driver - White Torso, Dark Blue Legs, White Helmet	cty1593	0.52
-76919-1	fig-014771	1	Race Driver - Dark Bluish Grey Racing Suit, Orange Helmet	cty1711	0.53
+76918-1	fig-013589	1	Race Driver, White Torso, White Legs, Black Helmet	cty1718	0.5
+76918-1	fig-013590	1	Race Driver, White Torso, Dark Blue Legs, White Helmet	cty1593	0.52
+76919-1	fig-014771	1	Race Driver, Dark Bluish Grey Racing Suit, Orange Helmet	cty1711	0.53
 7692-1	fig-006974	4	Martian	lom003	0.48
 7692-1	fig-006978	1	Mars Astronaut, Sunglasses	mm004	0.71
 7692-1	fig-006980	1	Mars Astronaut, Stubble, Printed Hair	mm003	0.65
-76920-1	fig-014819	1	Race Driver - Dark Blue Torso, Dark Azure Legs, Dark Red Hair	cty1809	0.48
-76921-1	fig-014818	1	Race Driver - Light Bluish Grey Racing Suit, Black Helmet	cty1718	0.49
-76922-1	fig-014816	1	Race Driver - Red Racing Suit, White Helmet	cty1711	0.62
-76922-1	fig-014817	1	Race Driver - Dark Azure Racing Suit, Black Helmet	cty1718	0.53
-76923-1	fig-015187	1	Race Driver - Olive Green Suit, Lamborghini, Black Helmet	cty1718	0.46
-76924-1	fig-015188	1	Race Driver - Dark Bluish Grey Torso, White Legs, Medium Nougat Hair	cty1735	0.42
-76924-1	fig-015189	1	Race Driver - White Torso, Black Legs, Dark Orange Hair	cty1711	0.47
-76925-1	fig-015190	1	Race Driver - Dark Blue Suit, Aston Martin, White Helmet	cty1711	0.53
-76925-1	fig-015191	1	Race Driver - Green Suit, Aston Martin, Black Helmet	sc116	0.46
+76920-1	fig-014819	1	Race Driver, Dark Blue Torso, Dark Azure Legs, Dark Red Hair	cty1809	0.48
+76921-1	fig-014818	1	Race Driver, Light Bluish Grey Racing Suit, Black Helmet	cty1718	0.49
+76922-1	fig-014816	1	Race Driver, Red Racing Suit, White Helmet	cty1711	0.62
+76922-1	fig-014817	1	Race Driver, Dark Azure Racing Suit, Black Helmet	cty1718	0.53
+76923-1	fig-015187	1	Race Driver, Olive Green Suit, Lamborghini, Black Helmet	cty1718	0.46
+76924-1	fig-015188	1	Race Driver, Dark Bluish Grey Torso, White Legs, Medium Nougat Hair	cty1735	0.42
+76924-1	fig-015189	1	Race Driver, White Torso, Black Legs, Dark Orange Hair	cty1711	0.47
+76925-1	fig-015190	1	Race Driver, Dark Blue Suit, Aston Martin, White Helmet	cty1711	0.53
+76925-1	fig-015191	1	Race Driver, Green Suit, Aston Martin, Black Helmet	sc116	0.46
 7693-1	fig-006974	2	Martian	lom003	0.48
 7693-1	fig-006978	1	Mars Astronaut, Sunglasses	mm004	0.71
 76934-1	fig-015346	1	Woman, Olive Green Ferrari Sweater	hol347	0.66
@@ -19010,14 +19010,14 @@ set	figurine	quantite	nom	bricklink	ressemblance
 76944-1	fig-012488	1	Zia Rodriguez, Dark Bluish Grey Jacket	jw090	0.97
 76944-1	fig-012489	1	Wildlife Guard	jw091	1.0
 76945-1	fig-006021	1	Owen Grady in Light Bluish Gray Shirt	jw100	0.67
-76945-1	fig-012490	1	Rainn DeLaCourt - Dark Bluish Gray Jacket, White Shirt	jw077	0.86
-76946-1	fig-012491	1	Rainn DeLaCourt - Dark Bluish Gray Jacket, Red Shirt	jw095	0.86
+76945-1	fig-012490	1	Rainn DeLaCourt, Dark Bluish Gray Jacket, White Shirt	jw077	0.86
+76946-1	fig-012491	1	Rainn DeLaCourt, Dark Bluish Gray Jacket, Red Shirt	jw095	0.86
 76946-1	fig-012492	1	Maisie Lockwood - Adult, Olive Green Torso, Black Beanie	jw078	0.93
 76947-1	fig-006021	1	Owen Grady in Light Bluish Gray Shirt	jw100	0.67
 76947-1	fig-012493	1	Claire Dearing, Dark Turquoise Jacket	jw079	0.95
 76947-1	fig-012494	1	Kayla Watts, Medium Nougat Hair	jw084	1.0
 76948-1	fig-006021	1	Owen Grady in Light Bluish Gray Shirt	jw100	0.67
-76948-1	fig-012490	1	Rainn DeLaCourt - Dark Bluish Gray Jacket, White Shirt	jw077	0.86
+76948-1	fig-012490	1	Rainn DeLaCourt, Dark Bluish Gray Jacket, White Shirt	jw077	0.86
 76948-1	fig-012493	1	Claire Dearing, Dark Turquoise Jacket	jw079	0.95
 76948-1	fig-012495	1	Soyona Santos	jw080	1.0
 76949-1	fig-006021	1	Owen Grady in Light Bluish Gray Shirt	jw100	0.67
@@ -19304,7 +19304,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 7734-1	fig-007243	1	Ground Crew, Orange Jacket with Zipper and Reflective Stripes, Blue Legs, Blue Cap, Glasses	cty0053	0.86
 7734-1	fig-007244	1	Ground Crew, Orange Jacket with Zipper and Reflective Stripes, Blue Legs, Blue Cap, Stubble	cty0054	0.84
 7735-1	fig-000733	1	Man - Blue Jacket, Blue Legs, Red Hat	zip005	0.49
-7735-1	fig-005115	1	Shell - White Torso with Logo, Blue Legs, Red Cap	shell010	0.76
+7735-1	fig-005115	1	Shell, White Torso with Logo, Blue Legs, Red Cap	shell010	0.76
 7736-1	fig-001201	1	Coast Guard, Yellow Jacket with Zipper, Radio and Badge, Blue Helmet with Visor, Stubble	cty0131	0.33
 7737-1	fig-007246	1	Coast Guard, Yellow Jacket with Zipper, Radio and Badge, Blue Cap, Goatee Beard	cty0054	0.33
 7738-1	fig-007247	1	Coast Guard, Yellow Jacket with Zipper, Radio and Badge, Blue Helmet with Visor	cty0092	0.27
@@ -19458,7 +19458,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 77984-1	fig-017585	1	Dennis Nedry, Yellow Hood	jw143	0.85
 77985-1	fig-017675	1	Dr. Gerry Harding	jw144	1.0
 7810-1	fig-000733	1	Man - Blue Jacket, Blue Legs, Red Hat	exx002	0.53
-7813-1	fig-000822	1	Shell - White Torso with Logo, Blue Legs, Red Construction Helmet	shell012	0.78
+7813-1	fig-000822	1	Shell, White Torso with Logo, Blue Legs, Red Construction Helmet	shell012	0.78
 7814-1	fig-000285	2	Man, Blue Shirt, Blue Legs, Red Hard Hat	but020	0.54
 7815-1	fig-000650	1	Woman, White Torso, Red Legs, Black Hair	pln050	0.51
 7815-1	fig-004974	1	Man - Black Torso, Blue Legs, Brown Hair	pln068	0.6
@@ -19583,7 +19583,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 79004-1	fig-005905	1	Mirkwood Elf Guard	lor053	0.94
 79004-1	fig-005906	1	Oin the Dwarf	lor056	1.0
 79005-1	fig-005273	1	Gandalf The Grey	lor061	0.92
-79005-1	fig-005274	1	Saruman - White Legs	lor058	0.6
+79005-1	fig-005274	1	Saruman, White Legs	lor058	0.6
 79006-1	fig-005192	1	Gimli	dim007	0.85
 79006-1	fig-005246	1	Frodo Baggins, Reddish Brown Torso	lor062	0.81
 79006-1	fig-005247	1	Elrond, Dark Red Cape	lor059	0.77
@@ -19844,8 +19844,8 @@ set	figurine	quantite	nom	bricklink	ressemblance
 7952-1	fig-006920	1	Wizard, Kingdoms, Blue, 3626b	cas473	0.6
 7952-1	fig-007738	1	Blacksmith, Dark Brown Hood, Brown Beard	cas467	0.48
 7952-1	fig-007926	1	Knight, Black Torso, Black Legs	hol010	0.52
-7952-1	fig-007927	1	Queen - Red Torso, Red Slope for Legs, Black Hair	doc001b	0.41
-7952-1	fig-007928	1	Prince - Dark Red Torso, Dark Red Legs, Black Hair	twn111	0.48
+7952-1	fig-007927	1	Queen, Red Torso, Red Slope for Legs, Black Hair	doc001b	0.41
+7952-1	fig-007928	1	Prince, Dark Red Torso, Dark Red Legs, Black Hair	twn111	0.48
 7952-1	fig-007929	1	Barmaid, Dark Green Torso, Dark Bluish Grey Slope for Legs, Dark Brown Hair	cty0194	0.43
 7952-1	fig-007930	1	Lion Knight, Wide Brim Helmet	cas474	0.52
 7952-1	fig-007931	1	Knight, Dark Bluish Gray Torso, Light Bluish Grey Legs, Quiver	twn120	0.43
@@ -20474,20 +20474,20 @@ set	figurine	quantite	nom	bricklink	ressemblance
 8129-1	fig-003869	1	Luke Skywalker, Orange Rebel Pilot Outfit, Dark Bluish Gray Hips, White Pupils	sw0292	0.64
 8129-1	fig-003870	1	Rebel Trooper in Hoth Uniform, Tan Hat, Black Chin Line	sw0291	0.57
 8129-1	fig-003871	1	Han Solo, Dark Blue Jacket, Reddish Brown Legs	sw0290	0.9
-8144-1	fig-007620	1	Race Driver - F. Massa	rac036s2	0.47
-8144-1	fig-007621	1	Race Driver - M. Schumacher	rac022s	0.33
+8144-1	fig-007620	1	Race Driver, F. Massa	rac036s2	0.47
+8144-1	fig-007621	1	Race Driver, M. Schumacher	rac022s	0.33
 8144-1	fig-007622	1	Engineer, Ferrari, Sunglasses, White Hands	rac030as	0.65
 8144-1	fig-007623	1	Engineer, Ferrari, Beard	rac037	0.55
 8144-1	fig-007624	1	Engineer, Ferrari, Sunglasses	rac037bs	0.55
 8144-1	fig-007625	2	Pit Crew, Red Torso, Red Legs, Ferrari	rac025bs	0.58
 8144-1	fig-007626	1	Engineer, Ferrari	rac037s	0.68
-8144-2	fig-007620	1	Race Driver - F. Massa	rac036s2	0.47
+8144-2	fig-007620	1	Race Driver, F. Massa	rac036s2	0.47
 8144-2	fig-007622	1	Engineer, Ferrari, Sunglasses, White Hands	rac030as	0.65
 8144-2	fig-007623	1	Engineer, Ferrari, Beard	rac037	0.55
 8144-2	fig-007624	1	Engineer, Ferrari, Sunglasses	rac037bs	0.55
 8144-2	fig-007625	2	Pit Crew, Red Torso, Red Legs, Ferrari	rac025bs	0.58
 8144-2	fig-007626	1	Engineer, Ferrari	rac037s	0.68
-8144-2	fig-007627	1	Race Driver - K.Raikkonen	rac035s	0.47
+8144-2	fig-007627	1	Race Driver, K.Raikkonen	rac035s	0.47
 8158-1	fig-006698	1	Speed Racer, Blue Sweater	sr001	0.91
 8158-1	fig-006699	1	Snake Oiler	sr002	1.0
 8159-1	fig-006693	1	Taejo Togokahn, White Outfit	sr004	0.91
@@ -20503,10 +20503,10 @@ set	figurine	quantite	nom	bricklink	ressemblance
 8161-1	fig-006704	1	Spritle	sr012	1.0
 8161-1	fig-006705	1	Trixie	sr013	1.0
 8161-1	fig-006706	1	Speed Racer, White Outfit	sr008	0.89
-8168-1	fig-007641	1	Race Driver - F. Massa, Blue Helmet	rac043s	0.57
-8168-1	fig-007642	1	Race Driver - K. Raikkonen	rac042s	0.47
+8168-1	fig-007641	1	Race Driver, F. Massa, Blue Helmet	rac043s	0.57
+8168-1	fig-007642	1	Race Driver, K. Raikkonen	rac042s	0.47
 8168-1	fig-007643	1	Black Torso, Black Legs, Silver Sunglasses	cty0150	0.5
-8185-1	fig-001520	1	Race Driver - Ferrari	rac024bs	0.53
+8185-1	fig-001520	1	Race Driver, Ferrari	rac024bs	0.53
 8185-1	fig-007625	2	Pit Crew, Red Torso, Red Legs, Ferrari	rac025cs	0.57
 8185-1	fig-007639	1	Pit Crew, Red Torso, Red Legs, Ferrari, Scuba Tank	rac046	0.65
 8185-1	fig-007640	1	Engineer, Ferrari, Black Sunglasses	rac045	0.5
@@ -20553,16 +20553,16 @@ set	figurine	quantite	nom	bricklink	ressemblance
 8358-1	fig-016048	1	Off-Roader	rac081	1.0
 8359-1	fig-016060	1	Desert Racer	rac097	1.0
 8360-1	fig-016047	1	Track Racer	rac080	1.0
-8362-1	fig-001520	1	Race Driver - Ferrari	rac024as	0.55
-8364-1	fig-012452	1	Racer - Black Helmet, Trans-Yellow Visor, Red Body	rac093	0.83
-8364-1	fig-012453	1	Racer - Lime Helmet, Black Visor, Red Body	rac091	0.97
-8364-1	fig-012454	1	Racer - Blue Helmet, Trans-Yellow Visor, Dark Gray Body	rac092	0.87
-8364-1	fig-012455	1	Racer - Black Helmet, Black Visor, Dark Gray Body	rac090	0.95
-8374-1	fig-000984	1	Race Driver - F1 Williams Team	rac018s	0.55
-8375-1	fig-001520	1	Race Driver - Ferrari	rac024as	0.55
+8362-1	fig-001520	1	Race Driver, Ferrari	rac024as	0.55
+8364-1	fig-012452	1	Racer, Black Helmet, Trans-Yellow Visor, Red Body	rac093	0.83
+8364-1	fig-012453	1	Racer, Lime Helmet, Black Visor, Red Body	rac091	0.97
+8364-1	fig-012454	1	Racer, Blue Helmet, Trans-Yellow Visor, Dark Gray Body	rac092	0.87
+8364-1	fig-012455	1	Racer, Black Helmet, Black Visor, Dark Gray Body	rac090	0.95
+8374-1	fig-000984	1	Race Driver, F1 Williams Team	rac018s	0.55
+8375-1	fig-001520	1	Race Driver, Ferrari	rac024as	0.55
 8375-1	fig-007625	6	Pit Crew, Red Torso, Red Legs, Ferrari	rac025	0.59
-8389-1	fig-007621	1	Race Driver - M. Schumacher	rac022s	0.48
-8389-1	fig-007638	1	Race Driver - R. Barrichello RF. Massa - Printed Helmet	rac023	0.56
+8389-1	fig-007621	1	Race Driver, M. Schumacher	rac022s	0.48
+8389-1	fig-007638	1	Race Driver, R. Barrichello RF. Massa, Printed Helmet	rac023	0.56
 8396-1	fig-005453	1	Soldier, Imperial Soldier II, Printed Shako, Black Beard	pi098	0.72
 8397-1	fig-000850	1	Pirate - Anchor Tattoo, Dark Green Legs, Dark Green Bandana	pi130	0.79
 8398-1	fig-001024	1	Chef, Red Neckerchief, Black Legs, Goatee Beard	chef018	0.68
@@ -20615,9 +20615,9 @@ set	figurine	quantite	nom	bricklink	ressemblance
 850458-1	fig-000907	1	Elf	col042	0.86
 850458-1	fig-010622	1	Fisherman, Black Cap	col037a	1.0
 850458-1	fig-010623	1	Space Villain, Flat Silver Peg Leg	col038a	1.0
-850486-1	fig-007822	1	Rock Band - Black Torso, Dark Blue Legs, Lime Mohawk	col282	0.39
-850486-1	fig-007823	1	Rock Band - White Torso, White Legs, Black Hair	pln172	0.43
-850486-1	fig-007824	1	Rock Band - White Torso, Black Legs, Black Cap	rb003	0.41
+850486-1	fig-007822	1	Rock Band, Black Torso, Dark Blue Legs, Lime Mohawk	col282	0.39
+850486-1	fig-007823	1	Rock Band, White Torso, White Legs, Black Hair	pln172	0.43
+850486-1	fig-007824	1	Rock Band, White Torso, Black Legs, Black Cap	rb003	0.41
 850487-1	fig-003309	1	Ghost with Open Mouth and Brick Built Legs	gen046	0.38
 850487-1	fig-003310	1	Witch (CMF)	cas484	0.57
 850487-1	fig-003311	1	Zombie in Reddish Brown Suit	mof018	0.75
@@ -20627,7 +20627,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 850513-1	fig-001062	1	Man with 'Malaysia' and Flag	sh0038	0.3
 850517-1	fig-005184	1	Ringwraith / Nazgul	lor018	0.62
 850517-1	fig-005198	1	Frodo Baggins, Dark Bluish Gray Cape	lor003	0.9
-850517-1	fig-005199	1	Samwise Gamgee - Dark Bluish Gray Cape	lor004	0.92
+850517-1	fig-005199	1	Samwise Gamgee, Dark Bluish Gray Cape	lor004	0.92
 850617-1	fig-007957	1	Policewoman, Dark Bluish Gray Vest with Radio, Badge and Pouches over Medium Blue Shirt, Dark Brown Hair	twn188	0.4
 850617-1	fig-007958	1	Policeman, Dark Bluish Gray Vest with Radio, Badge and Pouches over Medium Blue Shirt, Black Hair, Sunglasses	col282	0.39
 850617-1	fig-007959	1	Policeman, Dark Bluish Gray Vest with Radio, Badge and Pouches over Medium Blue Shirt, Black Helmet with Visor, Stubble	col134	0.44
@@ -21139,18 +21139,18 @@ set	figurine	quantite	nom	bricklink	ressemblance
 8639-1	fig-014054	1	Lightning McQueen, World Grand Prix, White Wheels (LBG 3034 & Green 3023)	crs095	0.71
 8639-1	fig-014055	1	Tow Mater, Spy (4085c Clips)	crs088	0.7
 8640-1	fig-010494	1	Technic Figure Blue Legs, Red Top with Zip, Blue Arms, Black Hair, White Helmet	tech040a	1.0
-8654-1	fig-001520	1	Race Driver - Ferrari	rac026s	0.55
+8654-1	fig-001520	1	Race Driver, Ferrari	rac026s	0.55
 8654-1	fig-007625	4	Pit Crew, Red Torso, Red Legs, Ferrari	rac025	0.52
 8654-1	fig-007644	1	Red Torso, Red Legs, Red Cap, Blue Sunglasses	chef013	0.57
-8672-1	fig-007621	1	Race Driver - M. Schumacher	rac029	0.38
+8672-1	fig-007621	1	Race Driver, M. Schumacher	rac029	0.38
 8672-1	fig-007625	3	Pit Crew, Red Torso, Red Legs, Ferrari	rac033s	0.58
 8672-1	fig-007626	1	Engineer, Ferrari	rac030s	0.7
 8672-1	fig-007635	1	Black Tuxedo, Black Hair	bat017	0.51
 8672-1	fig-007637	1	Blue Vest, Blue Legs, Reddish Brown Hair, Beard	jbl010	0.61
 8672-1	fig-010540	1	Engineer, Ferrari, Sunglasses, Yellow Hands	rac030as	0.47
-8672-1	fig-010558	1	Race Driver - R. Barrichello RF. Massa - Plain Helmet	rac027s	0.43
+8672-1	fig-010558	1	Race Driver, R. Barrichello RF. Massa, Plain Helmet	rac027s	0.43
 8672-1	fig-010743	1	White Torso, Orange Vest, Blue Legs, Black Cap, Smile	rac028a	0.7
-8673-1	fig-001520	1	Race Driver - Ferrari	rac026s	0.48
+8673-1	fig-001520	1	Race Driver, Ferrari	rac026s	0.48
 8673-1	fig-007623	1	Engineer, Ferrari, Beard	rac030s	0.57
 8673-1	fig-007625	2	Pit Crew, Red Torso, Red Legs, Ferrari	rac033	0.58
 8673-1	fig-007628	1	Pit Crew, Red Torso, Red Legs, Ferrari, Fuel	rac033s	0.62
@@ -21208,7 +21208,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 8710823003677-1	fig-002153	1	Duke DeTain	cty1329	0.73
 8710823005701-1	fig-002097	1	Kai in Sons of Garmadon Outfit (Legacy)	njo0513	0.45
 8710823006937-1	fig-013100	1	Hermione Granger, Light Bluish Gray Sweater with Stripes, Dark Blue Legs	hp368	0.81
-8710823006937-1	fig-013195	1	Ron Weasley - Plaid Shirt, Black Legs	hp395	1.0
+8710823006937-1	fig-013195	1	Ron Weasley, Plaid Shirt, Black Legs	hp395	1.0
 8712-1	fig-011032	1	Technic Figure White Legs, White Top with Blue Braces Print, Blue Arms, White Helmet	tech006b	0.93
 8712-1	fig-011281	1	Technic Figure Blue Legs, White Top with Blue Arms, White Helmet	tech005a	1.0
 8714-1	fig-010488	1	Technic Figure Black Legs, Light Gray Top with 2 Brown Belts, Black Arms, Black Helmet	tech012a	1.0
@@ -21372,20 +21372,20 @@ set	figurine	quantite	nom	bricklink	ressemblance
 8850-1	fig-011031	1	Technic Figure White Legs, White Top with Blue Braces Print, Blue Arms, Red Helmet	tech006a	0.95
 8855-1	fig-010494	1	Technic Figure Blue Legs, Red Top with Zip, Blue Arms, Black Hair, White Helmet	tech040a	0.88
 886-1	fig-001127	1	Classic Spaceman, White with Airtanks (3842a Helmet)	sp006	0.42
-8863-1	fig-007595	1	Race Driver - Bart Blaster	wr025	0.39
-8863-1	fig-007596	1	Race Driver - Bubba Blaster	wr017	0.39
-8863-1	fig-007597	1	Race Driver - Billy Bob Blaster	wr024	0.44
+8863-1	fig-007595	1	Race Driver, Bart Blaster	wr025	0.39
+8863-1	fig-007596	1	Race Driver, Bubba Blaster	wr017	0.39
+8863-1	fig-007597	1	Race Driver, Billy Bob Blaster	wr024	0.44
 8863-1	fig-007598	1	Race Official 1	wr003	0.55
-8863-1	fig-007599	1	Race Driver - Team Daredevil 1	wr022	0.43
-8863-1	fig-007600	1	Race Driver - Team Daredevil 2	wr019	0.43
-8864-1	fig-007601	1	Race Driver - Bart Blaster	wr025	0.39
-8864-1	fig-007602	1	Race Driver - Bubba Blaster	wr017	0.39
+8863-1	fig-007599	1	Race Driver, Team Daredevil 1	wr022	0.43
+8863-1	fig-007600	1	Race Driver, Team Daredevil 2	wr019	0.43
+8864-1	fig-007601	1	Race Driver, Bart Blaster	wr025	0.39
+8864-1	fig-007602	1	Race Driver, Bubba Blaster	wr017	0.39
 8864-1	fig-007603	1	Crew Member Lime Torso, Dark Bluish Grey Legs 1	wr012	0.35
 8864-1	fig-007604	1	Crew Member Lime Torso, Dark Bluish Grey Legs 2	wr013	0.35
 8864-1	fig-007605	1	Crew Member Lime Torso, Dark Bluish Grey Legs 3	wr014	0.35
 8864-1	fig-007606	1	Race Official 2	wr015	0.55
-8864-1	fig-007607	1	Race Driver - Team Daredevil 3	wr021	0.43
-8864-1	fig-007608	1	Race Driver - Team Daredevil 4	wr022	0.34
+8864-1	fig-007607	1	Race Driver, Team Daredevil 3	wr021	0.43
+8864-1	fig-007608	1	Race Driver, Team Daredevil 4	wr022	0.34
 8873-1	fig-005778	1	Santis with Gold Pattern Armor, and Dark Tan Hands and Helmet	cas267	0.72
 8873-1	fig-009258	1	Shadow Knight	cas291	0.66
 8874-1	fig-005777	1	Rascus with Plain Green Torso, Gold Pattern Armor, and Dark Green Hips and Helmet	cas266	0.79
@@ -21430,19 +21430,19 @@ set	figurine	quantite	nom	bricklink	ressemblance
 8894-1	fig-002488	1	Piraka Avak	bio029	1.0
 8894-1	fig-002489	1	Piraka Vezok	bio011	0.72
 8894-1	fig-002490	1	Toa Inika Matoro	bio009	0.75
-8896-1	fig-007601	1	Race Driver - Bart Blaster	wr025	0.39
-8896-1	fig-007607	1	Race Driver - Team Daredevil 3	wr021	0.43
-8897-1	fig-007595	1	Race Driver - Bart Blaster	wr025	0.39
-8897-1	fig-007615	1	Race Driver - Team Daredevil 5	wr022	0.34
-8898-1	fig-007616	1	Race Driver - Billy Bob Blaster	wr024	0.44
-8898-1	fig-007617	1	Race Driver - Bart Blaster	wr025	0.39
-8898-1	fig-007618	1	Race Driver - Team Daredevil 7	wr021	0.34
-8898-1	fig-007619	1	Race Driver - Team Daredevil 8	wr022	0.34
-8899-1	fig-007609	1	Race Driver - Bubba Blaster	wr017	0.39
-8899-1	fig-007610	1	Race Driver - Billy Bob Blaster	wr024	0.44
+8896-1	fig-007601	1	Race Driver, Bart Blaster	wr025	0.39
+8896-1	fig-007607	1	Race Driver, Team Daredevil 3	wr021	0.43
+8897-1	fig-007595	1	Race Driver, Bart Blaster	wr025	0.39
+8897-1	fig-007615	1	Race Driver, Team Daredevil 5	wr022	0.34
+8898-1	fig-007616	1	Race Driver, Billy Bob Blaster	wr024	0.44
+8898-1	fig-007617	1	Race Driver, Bart Blaster	wr025	0.39
+8898-1	fig-007618	1	Race Driver, Team Daredevil 7	wr021	0.34
+8898-1	fig-007619	1	Race Driver, Team Daredevil 8	wr022	0.34
+8899-1	fig-007609	1	Race Driver, Bubba Blaster	wr017	0.39
+8899-1	fig-007610	1	Race Driver, Billy Bob Blaster	wr024	0.44
 8899-1	fig-007611	1	Race Official 3	wr016	0.55
-8899-1	fig-007612	1	Race Driver - Team Daredevil 3	wr021	0.43
-8899-1	fig-007613	1	Race Driver - Team Daredevil 4	wr022	0.34
+8899-1	fig-007612	1	Race Driver, Team Daredevil 3	wr021	0.43
+8899-1	fig-007613	1	Race Driver, Team Daredevil 4	wr022	0.34
 8907-1	fig-000866	1	Power Miner, Beard Stubble	pm006	1.0
 8908-1	fig-006635	1	Sulfurix, Trans-Neon Green	pm005	0.77
 8909-1	fig-000954	1	Brawny Boxer, Team GB (CMF)	tgb001	0.98
@@ -21524,7 +21524,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 892071-1	fig-010241	1	Cole, Spinjitzu Burst	njo0612	1.0
 892172-1	fig-010244	1	Lloyd - Spinjitzu Burst	njo0619	1.0
 892173-1	fig-011094	1	Zane / Hero Zane with Hair	njo0690	0.85
-892174-1	fig-011217	1	Skull Sorcerer - No Wings	njo0607	0.73
+892174-1	fig-011217	1	Skull Sorcerer, No Wings	njo0607	0.73
 892175-1	fig-011248	1	Jay (Islander)	njo0655	0.76
 892176-1	fig-011185	1	Thunder Keeper	njo0686	1.0
 892177-1	fig-011550	1	Kai, Neck Bracket (Islander)	njo0706	0.86
@@ -22178,7 +22178,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 9247-2	fig-010705	1	Police - Black Torso, Dark Bluish Grey Legs, Black Cap	cop048	0.77
 9247-2	fig-010706	1	Police - Black Torso, Dark Bluish Grey Legs, Black Hat	cop050	0.77
 9247-2	fig-010707	2	Police - Black Torso, Dark Bluish Grey Legs, White Helmet, Black Visor	cop049	0.81
-9247-2	fig-010708	1	Prisoner - White Torso, Light Bluish Grey Legs, Light Bluish Grey Cap - 50380	cty0028	0.48
+9247-2	fig-010708	1	Prisoner, White Torso, Light Bluish Grey Legs, Light Bluish Grey Cap, 50380	cty0028	0.48
 9247-2	fig-010709	1	Tan Torso, Tan Legs, Reddish Brown Hair	pln147	0.56
 9247-2	fig-010710	1	Black Jacket, Black Legs, Black Hair	trn125	0.58
 9247-2	fig-010711	1	White Torso, Yellow Legs, Black Hair	soc127	0.56
@@ -22188,7 +22188,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 928-1	fig-000020	2	Classic Spaceman, Red with Airtanks (3842a Helmet)	sp005	0.42
 928-1	fig-001127	2	Classic Spaceman, White with Airtanks (3842a Helmet)	sp006	0.42
 9287-1	fig-000274	1	Timmy, Blue Legs, Red Cap	trn004	0.58
-9287-1	fig-004396	2	Racer - Octan, Red Torso, Green Legs, White Helmet	oct045	0.51
+9287-1	fig-004396	2	Racer, Octan, Red Torso, Green Legs, White Helmet	oct045	0.51
 9287-1	fig-004397	2	White Torso, Blue Overalls, Brown Hair (3626b Head)	ovr018	0.42
 9287-1	fig-009008	3	Man, Green Jacket, Black Legs, Green Cap, Sunglasses	jbr013	0.53
 9287-1	fig-010647	3	White Torso, Blue Legs, Black Hair, Red Lips	trn071	0.56
@@ -22426,7 +22426,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 9469-1	fig-001360	1	Frodo Baggins, Sand Green Torso	lor002	0.85
 9469-1	fig-005190	1	Gandalf The Grey, Wizard Hat	lor001	0.88
 9470-1	fig-005198	1	Frodo Baggins, Dark Bluish Gray Cape	lor003	0.9
-9470-1	fig-005199	1	Samwise Gamgee - Dark Bluish Gray Cape	lor004	0.92
+9470-1	fig-005199	1	Samwise Gamgee, Dark Bluish Gray Cape	lor004	0.92
 9470-1	fig-005200	1	Gollum, Oval Eyes	lor031	0.76
 9471-1	fig-005204	2	Uruk-Hai, Helmet, Armour	lor022	0.81
 9471-1	fig-005205	1	Uruk-Hai, Helmet	lor007	1.0
@@ -22589,12 +22589,12 @@ set	figurine	quantite	nom	bricklink	ressemblance
 952107-1	fig-011584	1	Diver, Pearl Dark Grey Torso, Legs, Black Airtanks, Red Helmet	cty1293	0.61
 952108-1	fig-011592	1	Driver, White Torso, Orange Legs, White Helmet	cty1398	0.52
 952109-1	fig-011772	1	Police Officer, Sand Blue Torso, Dark Blue Legs	cty1285	0.85
-952110-1	fig-011791	1	Larry Jones - Dark Red Torso, Dark Tan Legs, Tan Hat	cty1313	0.56
+952110-1	fig-011791	1	Larry Jones, Dark Red Torso, Dark Tan Legs, Tan Hat	cty1313	0.56
 952111-1	fig-011872	1	Worker, Orange Safety Vest, Dark Blue Legs, Red Helmet	cty1281	0.65
 952112-1	fig-011424	1	Jessica Sharpe, Vest Top with Necklace, Olive Green Legs, Bright Light Yellow Hair	cty1302	0.5
 952201-1	fig-011990	1	Police Officer - Justin Justice - Bright Light Blue Shirt, Dark Blue Legs, Dark Blue Cap	cty1374	0.59
 952202-1	fig-012293	1	Construction Worker, Bright Light Blue Shirt, Blue Overall, Red Helmet (Pete Precise)	cty1404	0.66
-952203-1	fig-012376	1	Sam Speedster - White Torso, Black Legs, Red Helmet	cty1419	0.44
+952203-1	fig-012376	1	Sam Speedster, White Torso, Black Legs, Red Helmet	cty1419	0.44
 952204-1	fig-012448	1	Worker, Phil Corky	fst049	0.29
 952205-1	fig-012594	1	Astronaut, Female, Bright Light Orange Suit, Gold Visor (Sally Stardust)	cty1762	0.55
 952206-1	fig-012784	1	Firefighter, Black Suit, White Helmet (Freddy Fresh)	cty1419	0.41
@@ -23029,8 +23029,8 @@ set	figurine	quantite	nom	bricklink	ressemblance
 9788325338220-1	fig-002062	1	Santa with Glasses	hol239	0.48
 9788325339135-1	fig-006190	1	Ron Weasley, Gryffindor Sweater, Short Legs	hp273	0.79
 9788325339142-1	fig-008913	1	Park Worker, Reddish Brown Jacket, Tan Legs, Cap	jw065	0.73
-9788325339579-1	fig-012490	1	Rainn DeLaCourt - Dark Bluish Gray Jacket, White Shirt	jw077	0.76
-9788325339586-1	fig-013195	1	Ron Weasley - Plaid Shirt, Black Legs	hp395	1.0
+9788325339579-1	fig-012490	1	Rainn DeLaCourt, Dark Bluish Gray Jacket, White Shirt	jw077	0.76
+9788325339586-1	fig-013195	1	Ron Weasley, Plaid Shirt, Black Legs	hp395	1.0
 9788325340070-1	fig-013207	1	Santa Claus, Cane On Back, Plain Legs	hol285	0.49
 9788325340155-1	fig-012504	1	Alan Grant, Old	jw081	0.47
 9788325340599-1	fig-013207	1	Santa Claus, Cane On Back, Plain Legs	idea194	0.5
@@ -23268,7 +23268,7 @@ FANEXPO001-1	fig-001566	1	Kanan Jarrus, Dark Brown Hair, Dark Brown Eyebrows	sw0
 FANEXPO2015-1	fig-002473	1	Astromech Droid, R2-D2, Flat Silver Dome, Dark Blue Print with Red Dots	sw0527	0.8
 FLATIRON-1	fig-016518	1	Man, Green Overalls over Red Shirt, Reddish Brown Hair, Black Eyebrows - Flatiron	hol349	0.36
 FLATIRON-1	fig-016519	1	Orange Torso, Orange Legs, Reddish Brown Hair - Flatiron	pln174	0.44
-FLATIRON-1	fig-016520	1	Sand Blue Scrubs, Black Hair - Flatiron	twn190	0.38
+FLATIRON-1	fig-016520	1	Sand Blue Scrubs, Black Hair, Flatiron	twn190	0.38
 FLLCHINACC-1	fig-017616	1	CARGO CONNECT China Open Minifigure	idea165	0.28
 GBB6701-1	fig-002831	1	Lord Garmadon (Legacy)	njo0803	0.79
 GBB6701-1	fig-002865	1	Lloyd in Sons of Garmadon Outfit (Legacy)	njo0844	0.36
@@ -23535,7 +23535,7 @@ TORONTO-1	fig-010219	1	Dark Blue Torso, Orange Legs, Red Cap - Toronto	twn148	0.
 TORONTO-2	fig-010190	1	Orange Torso, Orange Legs, Reddish Brown Hair - Toronto	twn152	0.5
 TORONTO-2	fig-010191	1	Black Torso, Black Legs, Dark Brown Hair - Toronto	cty0216	0.48
 TORONTO-2	fig-010192	1	Chef, White Torso, White Legs, White Hat - Toronto	chef017a	0.73
-TORONTO-3	fig-010193	1	Prisoner - White Torso, Black Legs, Black Hair	pln172	0.55
+TORONTO-3	fig-010193	1	Prisoner, White Torso, Black Legs, Black Hair	pln172	0.55
 TORONTO-3	fig-010194	1	Red Torso, Orange Legs, Dark Brown Hair	twn187	0.57
 TORONTO-3	fig-010195	1	White Torso, Green Legs, Black Hair - Toronto	chef019a	0.47
 TORQUE-1	fig-014040	1	Rod "Torque" Redline	sc019	0.0
