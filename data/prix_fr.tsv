@@ -1,4 +1,4 @@
-#date 2026-11-21
+#date 2026-11-22
 code	prix	meilleur	url	date	marchand	total
 1000858708-1				2026-11-19		
 1000858718-1				2026-11-19		
@@ -164,10 +164,10 @@ code	prix	meilleur	url	date	marchand	total
 11512-1	59.99	59.99	https://www.avenuedelabrique.com/lego-botanicals/11512-pothos-dore-tombant/p12211	2026-11-17	LEGO	59.99
 11513-1	59.99	59.99	https://www.avenuedelabrique.com/lego-botanicals/11513-la-composition-florale-sombre/p12212	2026-11-17	LEGO	59.99
 11514-1	14.99	10.29	https://www.avenuedelabrique.com/lego-botanicals/11514-les-cosmos/p11736	2026-11-09	Alternate.fr	20.19
-11515-1	59.99	45.20	https://www.avenuedelabrique.com/lego-botanicals/11515-le-bouquet-de-pivoines/p13646	2026-11-14	Brickmo	55.15
-11516-1	29.99	25.49	https://www.avenuedelabrique.com/lego-botanicals/11516-les-branches-de-cerisier-en-fleur/p13647	2026-11-14	LToys	34.48
-11519-1	59.99	45.20	https://www.avenuedelabrique.com/lego-botanicals/11519-l-orchidee-sauvage/p13648	2026-11-14	Brickmo	55.15
-11522-1	59.99	45.20	https://www.avenuedelabrique.com/lego-botanicals/11522-bouquet-de-fleurs-aux-couleurs-pastel/p13650	2026-11-14	Brickmo	55.15
+11515-1	59.99	45.95	https://www.avenuedelabrique.com/lego-botanicals/11515-le-bouquet-de-pivoines/p13646	2026-11-22	Brickmo	55.90
+11516-1	29.99	25.49	https://www.avenuedelabrique.com/lego-botanicals/11516-les-branches-de-cerisier-en-fleur/p13647	2026-11-22	LToys	34.48
+11519-1	59.99	46.95	https://www.avenuedelabrique.com/lego-botanicals/11519-l-orchidee-sauvage/p13648	2026-11-22	Brickmo	56.90
+11522-1	59.99	45.20	https://www.avenuedelabrique.com/lego-botanicals/11522-bouquet-de-fleurs-aux-couleurs-pastel/p13650	2026-11-22	Brickmo	55.15
 11532-1	4.99	4.24	https://www.avenuedelabrique.com/lego-botanicals/11532-boutons-d-or/p13655	2026-11-15	LToys	13.23
 11533-1	4.99	4.24	https://www.avenuedelabrique.com/lego-botanicals/11533-fleurs-de-mauve/p13656	2026-11-15	LToys	13.23
 11534-1	4.99	4.24	https://www.avenuedelabrique.com/lego-botanicals/11534-jacinthes-des-bois/p13657	2026-11-15	LToys	13.23
@@ -622,7 +622,7 @@ code	prix	meilleur	url	date	marchand	total
 40972-1				2026-11-19		
 40973-1				2026-11-19		
 40975-1	39.99	39.99	https://www.avenuedelabrique.com/lego-harry-potter/40975-chateau-de-poudlard-miniature/p12458	2026-11-12	LEGO	45.94
-40976-1	29.99	29.99	https://www.avenuedelabrique.com/lego-chinese-festivals/40976-le-lion-de-la-prosperite/p13644	2026-11-14	LEGO	35.94
+40976-1	29.99	29.99	https://www.avenuedelabrique.com/lego-chinese-festivals/40976-le-lion-de-la-prosperite/p13644	2026-11-22	LEGO	35.94
 412401-1				2026-11-17		
 412402-1				2026-11-17		
 412403-1				2026-11-17		
@@ -807,9 +807,9 @@ code	prix	meilleur	url	date	marchand	total
 42703-1	99.99	79.99	https://www.avenuedelabrique.com/lego-friends/42703-les-montagnes-russes-des-sirenes/p11827	2026-11-20	Carrefour	79.99
 42704-1	149.99	110.79	https://www.avenuedelabrique.com/lego-friends/42704-le-grand-hotel-de-heartlake-city/p11828	2026-11-20	Amazon	110.79
 42705-1	99.99	69.99	https://www.avenuedelabrique.com/lego-friends/42705-la-cabane-chaleureuse-dans-la-foret/p11753	2026-11-20	Amazon	69.99
-42709-1	49.99	37.65	https://www.avenuedelabrique.com/lego-friends/42709-le-centre-de-soins-et-de-loisirs-pour-les-animaux/p13520	2026-11-14	Brickmo	47.60
-42718-1	59.99	45.20	https://www.avenuedelabrique.com/lego-friends/42718-le-bus-de-la-fete-de-l-amitie/p13518	2026-11-14	Brickmo	55.15
-42719-1	99.99	75.30	https://www.avenuedelabrique.com/lego-friends/42719-le-centre-commercial-de-heartlake-city/p13519	2026-11-14	Brickmo	85.25
+42709-1	49.99	37.65	https://www.avenuedelabrique.com/lego-friends/42709-le-centre-de-soins-et-de-loisirs-pour-les-animaux/p13520	2026-11-22	Brickmo	47.60
+42718-1	59.99	45.20	https://www.avenuedelabrique.com/lego-friends/42718-le-bus-de-la-fete-de-l-amitie/p13518	2026-11-22	Brickmo	55.15
+42719-1	99.99	75.30	https://www.avenuedelabrique.com/lego-friends/42719-le-centre-commercial-de-heartlake-city/p13519	2026-11-22	Brickmo	85.25
 43008-1	99.99	99.99	https://www.avenuedelabrique.com/lego-nike/43008-nike-dunk-x-lego-set/p10935	2026-11-20	LEGO	99.99
 43010-1	69.99	69.99	https://www.avenuedelabrique.com/lego-nike/43010-nike-slam-dunk/p11048	2026-11-20	LEGO	69.99
 43011-1	29.99	19.90	https://www.avenuedelabrique.com/lego-editions/43011-lionel-messi-best-of/p11670	2026-11-20	Amazon	23.89
@@ -1233,74 +1233,74 @@ code	prix	meilleur	url	date	marchand	total
 6509762-1				2026-11-21		
 6511213-1				2026-11-21		
 6513792-1				2026-11-21		
-6515332-1				2026-11-05		
-6520657-1				2026-11-05		
-6523825-1				2026-11-05		
-6527186-1				2026-11-05		
-6527192-1				2026-11-05		
-6528899-1				2026-11-05		
-6532688-1				2026-11-05		
-6532695-1				2026-11-05		
-6535735-1				2026-11-05		
-6538220-1				2026-11-05		
-6541140-1				2026-11-05		
-6545695-1				2026-11-05		
-6548650-1				2026-11-05		
-6550806-1				2026-11-05		
-6556842-1				2026-11-05		
-6557637-1				2026-11-05		
-6559432-1				2026-11-05		
-6562113-1				2026-11-05		
-6562115-1				2026-11-05		
-6562116-1				2026-11-05		
-6565144-1				2026-11-05		
-6565145-1				2026-11-05		
-6565155-1				2026-11-05		
-6565157-1				2026-11-05		
-6565158-1				2026-11-05		
-6565182-1				2026-11-06		
-6569161-1				2026-11-06		
-6573698-1				2026-11-06		
-6573699-1				2026-11-06		
-6575260-1				2026-11-06		
-6583586-1				2026-11-06		
-6583587-1				2026-11-06		
-6583588-1				2026-11-06		
+6515332-1				2026-11-22		
+6520657-1				2026-11-22		
+6523825-1				2026-11-22		
+6527186-1				2026-11-22		
+6527192-1				2026-11-22		
+6528899-1				2026-11-22		
+6532688-1				2026-11-22		
+6532695-1				2026-11-22		
+6535735-1				2026-11-22		
+6538220-1				2026-11-22		
+6541140-1				2026-11-22		
+6545695-1				2026-11-22		
+6548650-1				2026-11-22		
+6550806-1				2026-11-22		
+6556842-1				2026-11-22		
+6557637-1				2026-11-22		
+6559432-1				2026-11-22		
+6562113-1				2026-11-22		
+6562115-1				2026-11-22		
+6562116-1				2026-11-22		
+6565144-1				2026-11-22		
+6565145-1				2026-11-22		
+6565155-1				2026-11-22		
+6565157-1				2026-11-22		
+6565158-1				2026-11-22		
+6565182-1				2026-11-22		
+6569161-1				2026-11-22		
+6573698-1				2026-11-22		
+6573699-1				2026-11-22		
+6575260-1				2026-11-22		
+6583586-1				2026-11-22		
+6583587-1				2026-11-22		
+6583588-1				2026-11-22		
 6593417-1				2026-11-19		
-6599702-1				2026-11-06		
-6601204-1				2026-11-06		
-6602387-1				2026-11-06		
-6602967-1				2026-11-06		
-6602968-1				2026-11-06		
+6599702-1				2026-11-22		
+6601204-1				2026-11-22		
+6602387-1				2026-11-22		
+6602967-1				2026-11-22		
+6602968-1				2026-11-22		
 6608561-1				2026-11-19		
 6611591-1				2026-11-19		
 6611593-1				2026-11-19		
 6611595-1				2026-11-19		
 6611596-1				2026-11-19		
-6614204-1				2026-11-06		
+6614204-1				2026-11-22		
 6614211-1				2026-11-19		
 6614213-1				2026-11-19		
 6614214-1				2026-11-19		
 6614216-1				2026-11-19		
 6614217-1				2026-11-19		
-6614219-1				2026-11-06		
+6614219-1				2026-11-22		
 6614220-1				2026-11-19		
 6614222-1				2026-11-19		
-6614223-1				2026-11-06		
+6614223-1				2026-11-22		
 6614225-1				2026-11-19		
 6614227-1				2026-11-19		
-6614229-1				2026-11-06		
-6614229-2				2026-11-06		
-6614230-1				2026-11-06		
+6614229-1				2026-11-22		
+6614229-2				2026-11-22		
+6614230-1				2026-11-22		
 6618066-1				2026-11-19		
 6621906-1				2026-11-19		
-662402-1				2026-11-06		
-662407-1				2026-11-06		
-662411-1				2026-11-06		
-662504-1				2026-11-06		
-662509-1				2026-11-06		
-6626047-1				2026-11-06		
-6626049-1				2026-11-06		
+662402-1				2026-11-22		
+662407-1				2026-11-22		
+662411-1				2026-11-22		
+662504-1				2026-11-22		
+662509-1				2026-11-22		
+6626047-1				2026-11-22		
+6626049-1				2026-11-22		
 6626053-1				2026-11-19		
 6626055-1				2026-11-20		
 6626057-1				2026-11-19		
@@ -1309,10 +1309,10 @@ code	prix	meilleur	url	date	marchand	total
 6626067-1				2026-11-19		
 6626070-1				2026-11-19		
 6631373-1				2026-11-19		
-6636931-1				2026-11-06		
+6636931-1				2026-11-22		
 6643344-1				2026-11-19		
-6643541-1				2026-11-06		
-6644842-1				2026-11-06		
+6643541-1				2026-11-22		
+6644842-1				2026-11-22		
 6644846-1				2026-11-19		
 6644859-1				2026-11-20		
 6644864-1				2026-11-19		
@@ -1327,9 +1327,9 @@ code	prix	meilleur	url	date	marchand	total
 6644890-1				2026-11-20		
 6644894-1				2026-11-20		
 6644896-1				2026-11-20		
-6646739-1				2026-11-06		
-6646740-1				2026-11-06		
-6646741-1				2026-11-06		
+6646739-1				2026-11-22		
+6646740-1				2026-11-22		
+6646741-1				2026-11-22		
 6647174-1				2026-11-20		
 6649951-1				2026-11-19		
 6649952-1				2026-11-19		
@@ -1340,20 +1340,20 @@ code	prix	meilleur	url	date	marchand	total
 6649957-1				2026-11-19		
 6649958-1				2026-11-19		
 6649999-1				2026-11-19		
-6650266-1				2026-11-06		
+6650266-1				2026-11-22		
 6652991-1				2026-11-20		
-6657699-1				2026-11-06		
+6657699-1				2026-11-22		
 6659451-1				2026-11-20		
-6663053-1				2026-11-06		
+6663053-1				2026-11-22		
 6667469-1				2026-11-20		
-6668941-1				2026-11-06		
+6668941-1				2026-11-22		
 6670939-1				2026-11-16		
 6671142-1				2026-11-17		
 6671145-1				2026-11-20		
 6674871-1				2026-11-20		
 6675226-1				2026-11-20		
-6680480-1				2026-11-06		
-6680481-1				2026-11-06		
+6680480-1				2026-11-22		
+6680481-1				2026-11-22		
 66815-1				2026-10-26		
 66820-1				2026-11-19		
 66821-1				2026-10-26		
@@ -1362,15 +1362,15 @@ code	prix	meilleur	url	date	marchand	total
 66833-1				2026-10-26		
 66834-1				2026-11-19		
 6695501-1				2026-11-20		
-67005-1	99.99	76.80	https://www.avenuedelabrique.com/lego-marvel-super-heroes/67005-le-saint-des-saints-de-marvel-what-if-docteur-strange-supreme/p13517	2026-11-14	Brickmo	86.75
+67005-1	99.99	76.80	https://www.avenuedelabrique.com/lego-marvel-super-heroes/67005-le-saint-des-saints-de-marvel-what-if-docteur-strange-supreme/p13517	2026-11-22	Brickmo	86.75
 67006-1	99.99	76.80	https://www.avenuedelabrique.com/lego-marvel-super-heroes/67006-panorama-de-marvel/p13484	2026-11-19	Brickmo	86.75
 67008-1	59.99	46.05	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67008-la-batmobile-et-le-canard-de-batman-le-defi/p13382	2026-11-19	Brickmo	56.00
 67009-1	29.99	22.49	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67009-la-batmobile-de-batman-arkham/p13383	2026-11-19	Brickmo	32.44
 67012-1	169.99	136.30	https://www.avenuedelabrique.com/lego-dc-comics-super-heroes/67012-couverture-dc-comics-le-joker/p13384	2026-11-19	Brickmo	146.25
-682401-1				2026-11-06		
-682404-1				2026-11-06		
-682406-1				2026-11-06		
-682501-1				2026-11-06		
+682401-1				2026-11-22		
+682404-1				2026-11-22		
+682406-1				2026-11-22		
+682501-1				2026-11-22		
 71053-1		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-26	LToys	119.99
 71053-10		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-26	LToys	119.99
 71053-11		119.99	https://www.avenuedelabrique.com/lego-minifigures/71053-36-serie-shrek-boite-de-36/p12584	2026-10-26	LToys	119.99
@@ -1388,127 +1388,127 @@ code	prix	meilleur	url	date	marchand	total
 71054-1				2026-11-19		
 71054-13				2026-11-19		
 71054-14				2026-11-19		
-71428-1	9.99	33.42	https://www.avenuedelabrique.com/lego-super-mario/71428-ensemble-d-extension-foret-de-yoshi/p9522	2026-11-06	Amazon	37.41
-71429-1	19.99	17.93	https://www.avenuedelabrique.com/lego-super-mario/71429-ensemble-d-extension-carottin-et-la-boutique-toad/p9496	2026-11-06	Deparkatre	22.01
-71430-1	13.99	49.00	https://www.avenuedelabrique.com/lego-super-mario/71430-ensemble-d-extension-aventure-dans-la-neige-pour-la-famille-pingouin/p9497	2026-11-06	Amazon	49.00
-71431-1	29.99	38.99	https://www.avenuedelabrique.com/lego-super-mario/71431-ensemble-d-extension-bolide-de-bowser/p9521	2026-11-06	Deparkatre	43.50
-71432-1	26.99	54.17	https://www.avenuedelabrique.com/lego-super-mario/71432-ensemble-d-extension-aventure-dans-l-epave-engloutie-avec-dorrie/p9523	2026-11-06	Fnac [Marketplace]	58.16
-71433-1	14.99	14.99	https://www.avenuedelabrique.com/lego-super-mario/71433-terrain-de-jeu-des-goombas/p10065	2026-11-06	JouéClub	19.98
-71434-1	54.99	47.38	https://www.avenuedelabrique.com/lego-super-mario/71434-set-de-createur-jungle-cassis/p10068	2026-11-06	Amazon	47.38
-71435-1	64.99	54.99	https://www.avenuedelabrique.com/lego-super-mario/71435-combat-contre-roy-au-chateau-de-peach/p9926	2026-11-06	Cdiscount	64.99
-71436-1	74.99	48.74	https://www.avenuedelabrique.com/lego-super-mario/71436-le-manoir-hante-du-roi-boo/p9927	2026-11-06	E.Leclerc	53.64
-71437-1	119.99	107.99	https://www.avenuedelabrique.com/lego-super-mario/71437-le-train-bowser-express/p9928	2026-11-06	Deparkatre	114.55
-71438-1	129.99	125.99	https://www.avenuedelabrique.com/lego-super-mario/71438-super-mario-world-mario-et-yoshi/p10231	2026-11-06	Golden Brick	130.98
-71439-1	49.99	54.99	https://www.avenuedelabrique.com/lego-super-mario/71439-les-aventures-de-lego-mario-interactif/p10067	2026-11-06	Golden Brick	59.98
-71440-1	49.99	39.99	https://www.avenuedelabrique.com/lego-super-mario/71440-les-aventures-de-lego-luigi-interactif/p10066	2026-11-06	Carrefour	41.98
-71441-1	49.99	36.89	https://www.avenuedelabrique.com/lego-super-mario/71441-les-aventures-de-lego-peach-interactive/p10064	2026-11-06	Alternate.fr	46.79
-71471-1	5.99	9.29	https://www.avenuedelabrique.com/lego-dreamzzz/71471-la-voiture-tout-terrain-de-mateo/p9604	2026-11-06	Carrefour [Marketplace]	19.28
-71472-1	8.99	13.95	https://www.avenuedelabrique.com/lego-dreamzzz/71472-la-montgolfiere-narval-d-izzie/p9603	2026-11-06	Brickmo	23.90
-71475-1	17.99	26.38	https://www.avenuedelabrique.com/lego-dreamzzz/71475-la-voiture-de-l-espace-de-m-oz/p9602	2026-11-06	Deparkatre	35.73
-71476-1	29.99	41.99	https://www.avenuedelabrique.com/lego-dreamzzz/71476-zoey-et-zian-le-chat-hibou/p9601	2026-11-06	KidInn	44.98
-71477-1	89.99	74.02	https://www.avenuedelabrique.com/lego-dreamzzz/71477-la-tour-du-marchand-de-sable/p9600	2026-11-06	Galaxus	74.02
-71478-1	99.99	89.79	https://www.avenuedelabrique.com/lego-dreamzzz/71478-le-corbeau-de-minuit-de-la-sorciere-des-cauchemars/p9978	2026-11-06	Fnac [Marketplace]	95.98
-71479-1	13.99	18.59	https://www.avenuedelabrique.com/lego-dreamzzz/71479-le-chat-moto-de-zoey/p10015	2026-11-06	Carrefour [Marketplace]	28.58
-71480-1	29.99	29.99	https://www.avenuedelabrique.com/lego-dreamzzz/71480-logan-le-puissant-panda/p10014	2026-11-06	JouéClub	34.98
-71481-1	39.99	30.95	https://www.avenuedelabrique.com/lego-dreamzzz/71481-les-animaux-des-reves-d-izzie/p10016	2026-11-06	Amazon	34.94
-71483-1	44.99	41.84	https://www.avenuedelabrique.com/lego-dreamzzz/71483-les-creatures-de-la-sorciere-des-cauchemars/p10017	2026-11-06	Amazon	41.84
-71484-1	79.99	67.95	https://www.avenuedelabrique.com/lego-dreamzzz/71484-le-robot-dinosaure-c-rex-de-cooper/p9976	2026-11-06	Brickmo	77.90
-71485-1	129.99	90.56	https://www.avenuedelabrique.com/lego-dreamzzz/71485-mateo-et-z-blob-le-robot-chevalier/p9977	2026-11-06	Amazon	90.56
-71486-1	199.99	193.76	https://www.avenuedelabrique.com/lego-dreamzzz/71486-le-chateau-nocturnia/p10018	2026-11-06	Carrefour [Marketplace]	198.75
-71487-1	9.99	19.00	https://www.avenuedelabrique.com/lego-dreamzzz/71487-aventures-de-z-blob-robots-et-vehicules/p10528	2026-11-06	Amazon	22.99
-71488-1	6.99	9.99	https://www.avenuedelabrique.com/lego-dreamzzz/71488-aventures-de-bunchu-animaux-creatifs/p10529	2026-11-06	Brickmo	19.94
-71489-1	13.99	19.99	https://www.avenuedelabrique.com/lego-dreamzzz/71489-l-avion-de-la-manette-de-cooper/p10576	2026-11-06	Brickmo	29.94
-71490-1	19.99	16.99	https://www.avenuedelabrique.com/lego-dreamzzz/71490-izzie-et-bunchurro-le-lapin-joueur/p10573	2026-11-06	KidInn	19.98
-71491-1	34.99	49.00	https://www.avenuedelabrique.com/lego-dreamzzz/71491-mateo-et-la-voiture-de-course-de-z-blob/p10578	2026-11-06	Brickmo	58.95
-71492-1	49.99	37.95	https://www.avenuedelabrique.com/lego-dreamzzz/71492-le-cameleon-cracheur-de-feu-de-mateo/p10872	2026-11-06	Brickmo	47.90
-71494-1	29.99	20.99	https://www.avenuedelabrique.com/lego-dreamzzz/71494-le-hibou-temporel-de-zoey/p10871	2026-11-06	E.Leclerc	25.89
-71495-1	29.99	26.95	https://www.avenuedelabrique.com/lego-dreamzzz/71495-mateo-contre-le-robot-cyber-cerveau/p10873	2026-11-06	Brickmo	36.90
-71497-1	99.99	57.62	https://www.avenuedelabrique.com/lego-dreamzzz/71497-robot-tigre-de-cooper-et-bolide-de-zero/p10530	2026-11-06	Amazon	57.62
-71499-1	99.99	72.90	https://www.avenuedelabrique.com/lego-dreamzzz/71499-le-camion-spray-de-peinture-de-mateo/p10874	2026-11-06	Alternate.fr	82.80
-71500-1	139.99	83.99	https://www.avenuedelabrique.com/lego-dreamzzz/71500-le-sous-marin-requin-des-cauchemars/p10875	2026-11-06	Amazon	83.99
-71508-1	79.99	58.90	https://www.avenuedelabrique.com/lego-dreamzzz/71508-le-gardien-robot-renard/p11318	2026-11-06	Alternate.fr	68.80
-71512-1	69.99	44.00	https://www.avenuedelabrique.com/lego-dreamzzz/71512-le-sous-marin-crocodile/p11319	2026-11-06	Amazon	44.00
-71513-1	49.99	35.99	https://www.avenuedelabrique.com/lego-dreamzzz/71513-la-pelleteuse-scorpion-des-cauchemars/p11320	2026-11-06	Amazon	35.99
-71514-1	99.99	67.99	https://www.avenuedelabrique.com/lego-dreamzzz/71514-le-vaisseau-dino/p11321	2026-11-06	Amazon	67.99
-71515-1	139.99	109.99	https://www.avenuedelabrique.com/lego-dreamzzz/71515-le-char-requin-tigre/p11322	2026-11-06	Carrefour	109.99
-71804-1	14.99	14.95	https://www.avenuedelabrique.com/lego-ninjago/71804-le-robot-de-combat-d-arin/p9582	2026-11-06	Brickmo	24.90
-71805-1	9.99	9.99	https://www.avenuedelabrique.com/lego-ninjago/71805-pack-de-combat-le-robot-de-jay/p9583	2026-11-06	Fnac [Marketplace]	19.49
-71806-1	19.99	39.20	https://www.avenuedelabrique.com/lego-ninjago/71806-le-robot-elementaire-de-la-terre-de-cole/p9584	2026-11-06	Amazon	39.20
-71807-1	13.99	50.08	https://www.avenuedelabrique.com/lego-ninjago/71807-le-robot-elementaire-de-la-technologie-de-sora/p9585	2026-11-06	Carrefour [Marketplace]	55.07
-71808-1	29.99	19.07	https://www.avenuedelabrique.com/lego-ninjago/71808-le-robot-elementaire-du-feu-de-kai/p9586	2026-11-06	Amazon	23.06
-71809-1	69.99	69.90	https://www.avenuedelabrique.com/lego-ninjago/71809-egalt-le-maitre-dragon/p9587	2026-11-06	Amazon	69.90
-71810-1	14.99	17.99	https://www.avenuedelabrique.com/lego-ninjago/71810-le-jeune-dragon-riyu/p9816	2026-11-06	Golden Brick	22.98
-71811-1	49.99	46.49	https://www.avenuedelabrique.com/lego-ninjago/71811-le-buggy-tout-terrain-ninja-d-arin/p9815	2026-11-06	Carrefour [Marketplace]	56.48
-71812-1	69.99	70.34	https://www.avenuedelabrique.com/lego-ninjago/71812-le-robot-grimpeur-ninja-de-kai/p9814	2026-11-06	Amazon	70.34
-71813-1	83.99	129.95	https://www.avenuedelabrique.com/lego-ninjago/71813-le-dojo-de-l-ombre-au-masque-de-loup/p9817	2026-11-06	Brickmo	139.90
-71814-1	249.99	269.99	https://www.avenuedelabrique.com/lego-ninjago/71814-la-ville-au-temple-du-tournoi/p10111	2026-11-06	LToys	269.99
-71815-1	37.99	35.33	https://www.avenuedelabrique.com/lego-ninjago/71815-la-bataille-du-dragon-source-de-kai/p9588	2026-11-06	Carrefour [Marketplace]	45.32
-71816-1	9.99	10.99	https://www.avenuedelabrique.com/lego-ninjago/71816-la-moto-de-glace-de-zane/p10112	2026-11-06	Carrefour [Marketplace]	18.98
-71817-1	19.99		https://www.avenuedelabrique.com/lego-ninjago/71817-le-robot-du-pouvoir-elementaire-de-lloyd/p9589	2026-11-06		
-71818-1	49.99	65.89	https://www.avenuedelabrique.com/lego-ninjago/71818-l-arene-de-combat-du-tournoi/p10042	2026-11-06	Amazon	65.89
-71819-1	119.99	114.00	https://www.avenuedelabrique.com/lego-ninjago/71819-le-sanctuaire-de-la-roche-du-dragon/p9813	2026-11-06	Brickeez	114.00
-71819-2	119.99	114.00	https://www.avenuedelabrique.com/lego-ninjago/71819-le-sanctuaire-de-la-roche-du-dragon/p9813	2026-11-06	Brickeez	114.00
-71820-1	89.99	89.99	https://www.avenuedelabrique.com/lego-ninjago/71820-le-vehicule-combine-de-l-equipe-des-ninjas/p10043	2026-11-06	JouéClub	94.98
-71821-1	99.99	99.99	https://www.avenuedelabrique.com/lego-ninjago/71821-le-dragon-titan-de-cole/p10044	2026-11-06	JouéClub	104.98
-71822-1	149.99	194.92	https://www.avenuedelabrique.com/lego-ninjago/71822-le-dragon-source-du-mouvement/p10113	2026-11-06	Carrefour [Marketplace]	194.92
-71823-1	9.99	9.99	https://www.avenuedelabrique.com/lego-ninjago/71823-la-toupie-spinjitzu-du-dragon-de-kai/p10519	2026-11-06	Brickmo	19.94
-71824-1	9.99	9.99	https://www.avenuedelabrique.com/lego-ninjago/71824-la-toupie-spinjitzu-du-dragon-de-sora/p10554	2026-11-06	Brickmo	19.94
-71826-1	19.99	13.89	https://www.avenuedelabrique.com/lego-ninjago/71826-pack-de-combat-spinjitzu-du-dragon/p10511	2026-11-06	Alternate.fr	23.79
-71827-1	9.99	7.09	https://www.avenuedelabrique.com/lego-ninjago/71827-la-super-armure-robot-de-zane/p10512	2026-11-06	Alternate.fr	16.99
-71828-1	24.99	12.90	https://www.avenuedelabrique.com/lego-ninjago/71828-la-voiture-de-course-a-retrofriction-de-lloyd/p10513	2026-11-06	Joybuy	16.89
-71829-1	19.99	12.99	https://www.avenuedelabrique.com/lego-ninjago/71829-le-dragon-vert-de-la-foret-de-lloyd/p10460	2026-11-06	E.Leclerc	17.89
-71830-1	49.99	36.29	https://www.avenuedelabrique.com/lego-ninjago/71830-la-moto-tempete-du-robot-de-kai/p10514	2026-11-06	Alternate.fr	46.19
-71831-1	39.99	28.99	https://www.avenuedelabrique.com/lego-ninjago/71831-le-temple-de-spinjitzu-des-ninjas/p10515	2026-11-06	Alternate.fr	38.89
-71832-1	74.99	82.49	https://www.avenuedelabrique.com/lego-ninjago/71832-croc-de-tonnerre-le-dragon-du-chaos/p10631	2026-11-06	Carrefour [Marketplace]	90.48
-71833-1	49.99	75.01	https://www.avenuedelabrique.com/lego-ninjago/71833-le-super-avion-tempete-de-ras-et-arin/p10516	2026-11-06	Amazon	75.01
-71834-1	99.99	71.99	https://www.avenuedelabrique.com/lego-ninjago/71834-le-robot-ultra-combo-de-zane/p10517	2026-11-06	Cdiscount	71.99
-71836-1	99.99	72.00	https://www.avenuedelabrique.com/lego-ninjago/71836-arc-le-dragon-de-la-concentration/p10632	2026-11-06	Amazon	72.00
-71837-1	249.99	249.99	https://www.avenuedelabrique.com/lego-ninjago/71837-ateliers-ninjago-city/p10704	2026-11-06	LEGO	249.99
-71838-1	9.99	7.95	https://www.avenuedelabrique.com/lego-ninjago/71838-kai-et-la-course-de-motos/p10900	2026-11-06	Brickmo	17.90
-71839-1	19.99	14.99	https://www.avenuedelabrique.com/lego-ninjago/71839-le-robot-de-spinjitzu-d-arin/p10901	2026-11-06	Golden Brick	19.98
-71840-1	19.99	19.99	https://www.avenuedelabrique.com/lego-ninjago/71840-le-duel-en-voitures-de-course-de-rogue-et-drix/p10897	2026-11-06	LEGO	25.94
-71841-1	39.99	43.00	https://www.avenuedelabrique.com/lego-ninjago/71841-le-village-de-la-tempete-draconique/p10518	2026-11-06	Brickmo	52.95
-71842-1	44.99	44.95	https://www.avenuedelabrique.com/lego-ninjago/71842-rontu-le-maitre-dragon/p10899	2026-11-06	Brickmo	54.90
-71843-1	69.99	64.95	https://www.avenuedelabrique.com/lego-ninjago/71843-le-robot-dragonnier-de-rogue/p10896	2026-11-06	Brickmo	74.90
-71844-1	89.99	79.95	https://www.avenuedelabrique.com/lego-ninjago/71844-le-vehicule-de-combat-des-ninjas/p10898	2026-11-06	Brickmo	89.90
-71845-1	99.99	84.99	https://www.avenuedelabrique.com/lego-ninjago/71845-l-avion-robot-de-lloyd/p10892	2026-11-06	JouéClub	89.98
-71846-1	119.99	84.99	https://www.avenuedelabrique.com/lego-ninjago/71846-le-robot-du-chevalier-de-feu/p10894	2026-11-06	Amazon	84.99
-71847-1	149.99	104.99	https://www.avenuedelabrique.com/lego-ninjago/71847-le-dragon-gardien/p10895	2026-11-06	Amazon	104.99
-71848-1	199.99	199.00	https://www.avenuedelabrique.com/lego-ninjago/71848-le-temple-bounty/p10893	2026-11-06	Brickmo	208.95
-71849-1	9.99	6.89	https://www.avenuedelabrique.com/lego-ninjago/71849-nya-contre-la-toupie-du-monstre-mutant/p11363	2026-11-06	Alternate.fr	16.79
-71850-1	9.99	7.09	https://www.avenuedelabrique.com/lego-ninjago/71850-lloyd-contre-la-toupie-du-monstre-de-la-terre/p11365	2026-11-06	Alternate.fr	16.99
-71851-1	9.99	6.89	https://www.avenuedelabrique.com/lego-ninjago/71851-pack-de-combat-le-robot-dragon-de-kai/p11364	2026-11-06	Alternate.fr	16.79
-71853-1	19.99	11.99	https://www.avenuedelabrique.com/lego-ninjago/71853-le-combat-du-robot-dragon-de-jay/p11270	2026-11-06	LIDL	16.98
-71854-1	29.99	20.59	https://www.avenuedelabrique.com/lego-ninjago/71854-la-mission-du-robot-cole-et-du-dragon-zane/p11366	2026-11-06	Alternate.fr	30.49
-71855-1	44.99	44.90	https://www.avenuedelabrique.com/lego-ninjago/71855-le-combat-du-dragon-riyu/p11383	2026-11-06	E.Leclerc	49.80
-71856-1	49.99	31.98	https://www.avenuedelabrique.com/lego-ninjago/71856-la-voiture-transformable-de-jay/p11360	2026-11-06	Cdiscount	31.98
-71857-1	79.99	51.78	https://www.avenuedelabrique.com/lego-ninjago/71857-la-cabane-et-les-vehicules-des-ninjas/p11361	2026-11-06	Amazon	51.78
-71858-1	99.99	59.79	https://www.avenuedelabrique.com/lego-ninjago/71858-15e-anniversaire-la-forge-des-quatre-armes/p11239	2026-11-06	Joybuy	59.79
-71859-1	99.99	69.79	https://www.avenuedelabrique.com/lego-ninjago/71859-le-dragon-de-vie/p11362	2026-11-06	Amazon	69.79
-71860-1	129.99	91.09	https://www.avenuedelabrique.com/lego-ninjago/71860-15e-anniversaire-le-robot-titan-de-lloyd/p11269	2026-11-06	Amazon	91.09
-71861-1	299.99	299.99	https://www.avenuedelabrique.com/lego-ninjago/71861-15e-anniversaire-la-vieille-ville/p11403	2026-11-06	LEGO	299.99
-71862-1	9.99	6.89	https://www.avenuedelabrique.com/lego-ninjago/71862-pack-de-combat-le-robot-dragon-de-lloyd/p11728	2026-11-06	Alternate.fr	16.79
-71863-1	19.99	14.95	https://www.avenuedelabrique.com/lego-ninjago/71863-zilvar-et-grimtak-la-bete-draconique/p11729	2026-11-06	Brickmo	24.90
-71864-1	29.99	17.88	https://www.avenuedelabrique.com/lego-ninjago/71864-vehicules-combinables-de-kai-et-cole/p11730	2026-11-06	Cdiscount	20.87
-71865-1	39.99	39.99	https://www.avenuedelabrique.com/lego-ninjago/71865-le-combat-du-dragon-de-glace-de-zane/p11731	2026-11-06	LEGO	45.94
-71866-1	39.99	26.99	https://www.avenuedelabrique.com/lego-ninjago/71866-15e-anniversaire-collection-des-personnages-ninjas/p11359	2026-11-06	Carrefour	28.98
-71867-1	79.99	58.90	https://www.avenuedelabrique.com/lego-ninjago/71867-15e-anniversaire-le-chargeur-ninja-x-1/p11552	2026-11-06	Alternate.fr	68.80
-71868-1	89.99	64.79	https://www.avenuedelabrique.com/lego-ninjago/71868-le-robot-dragon-transformable-de-brasera/p11732	2026-11-06	Amazon	64.79
-71869-1	129.99	95.79	https://www.avenuedelabrique.com/lego-ninjago/71869-le-bounty-terrestre/p11821	2026-11-06	Amazon	95.79
-71870-1	139.99	101.99	https://www.avenuedelabrique.com/lego-ninjago/71870-les-robots-titan-jumeaux/p11822	2026-11-06	Amazon	101.99
-71871-1	89.99	62.90	https://www.avenuedelabrique.com/lego-ninjago/71871-combat-sur-la-lame-du-dragon/p11733	2026-11-06	Amazon	62.90
-71872-1	199.99	153.96	https://www.avenuedelabrique.com/lego-ninjago/71872-le-combat-de-l-ultra-dragon/p11823	2026-11-06	Amazon	153.96
+71428-1	9.99	23.99	https://www.avenuedelabrique.com/lego-super-mario/71428-ensemble-d-extension-foret-de-yoshi/p9522	2026-11-22	Cultura	26.99
+71429-1	19.99	17.93	https://www.avenuedelabrique.com/lego-super-mario/71429-ensemble-d-extension-carottin-et-la-boutique-toad/p9496	2026-11-22	Deparkatre	22.01
+71430-1	13.99		https://www.avenuedelabrique.com/lego-super-mario/71430-ensemble-d-extension-aventure-dans-la-neige-pour-la-famille-pingouin/p9497	2026-11-22		
+71431-1	29.99	38.99	https://www.avenuedelabrique.com/lego-super-mario/71431-ensemble-d-extension-bolide-de-bowser/p9521	2026-11-22	Cultura	41.99
+71432-1	26.99		https://www.avenuedelabrique.com/lego-super-mario/71432-ensemble-d-extension-aventure-dans-l-epave-engloutie-avec-dorrie/p9523	2026-11-22		
+71433-1	14.99	14.99	https://www.avenuedelabrique.com/lego-super-mario/71433-terrain-de-jeu-des-goombas/p10065	2026-11-22	JouéClub	19.98
+71434-1	54.99	43.48	https://www.avenuedelabrique.com/lego-super-mario/71434-set-de-createur-jungle-cassis/p10068	2026-11-22	Amazon	43.48
+71435-1	64.99	81.99	https://www.avenuedelabrique.com/lego-super-mario/71435-combat-contre-roy-au-chateau-de-peach/p9926	2026-11-22	Deparkatre	88.17
+71436-1	74.99	95.99	https://www.avenuedelabrique.com/lego-super-mario/71436-le-manoir-hante-du-roi-boo/p9927	2026-11-22	Deparkatre	102.17
+71437-1	119.99	107.99	https://www.avenuedelabrique.com/lego-super-mario/71437-le-train-bowser-express/p9928	2026-11-22	Deparkatre	114.55
+71438-1	129.99	129.99	https://www.avenuedelabrique.com/lego-super-mario/71438-super-mario-world-mario-et-yoshi/p10231	2026-11-22	JouéClub	134.98
+71439-1	49.99	59.99	https://www.avenuedelabrique.com/lego-super-mario/71439-les-aventures-de-lego-mario-interactif/p10067	2026-11-22	Golden Brick	64.98
+71440-1	49.99	39.99	https://www.avenuedelabrique.com/lego-super-mario/71440-les-aventures-de-lego-luigi-interactif/p10066	2026-11-22	Carrefour	41.98
+71441-1	49.99	36.89	https://www.avenuedelabrique.com/lego-super-mario/71441-les-aventures-de-lego-peach-interactive/p10064	2026-11-22	Alternate.fr	46.79
+71471-1	5.99	9.29	https://www.avenuedelabrique.com/lego-dreamzzz/71471-la-voiture-tout-terrain-de-mateo/p9604	2026-11-22	Carrefour [Marketplace]	19.28
+71472-1	8.99	13.95	https://www.avenuedelabrique.com/lego-dreamzzz/71472-la-montgolfiere-narval-d-izzie/p9603	2026-11-22	Brickmo	23.90
+71475-1	17.99	24.99	https://www.avenuedelabrique.com/lego-dreamzzz/71475-la-voiture-de-l-espace-de-m-oz/p9602	2026-11-22	Lucky Bricks	34.98
+71476-1	29.99	46.49	https://www.avenuedelabrique.com/lego-dreamzzz/71476-zoey-et-zian-le-chat-hibou/p9601	2026-11-22	Carrefour [Marketplace]	56.48
+71477-1	89.99	63.04	https://www.avenuedelabrique.com/lego-dreamzzz/71477-la-tour-du-marchand-de-sable/p9600	2026-11-22	Amazon	63.04
+71478-1	99.99	60.99	https://www.avenuedelabrique.com/lego-dreamzzz/71478-le-corbeau-de-minuit-de-la-sorciere-des-cauchemars/p9978	2026-11-22	Cdiscount	70.98
+71479-1	13.99	18.59	https://www.avenuedelabrique.com/lego-dreamzzz/71479-le-chat-moto-de-zoey/p10015	2026-11-22	Carrefour [Marketplace]	28.58
+71480-1	29.99	29.99	https://www.avenuedelabrique.com/lego-dreamzzz/71480-logan-le-puissant-panda/p10014	2026-11-22	JouéClub	34.98
+71481-1	39.99	27.98	https://www.avenuedelabrique.com/lego-dreamzzz/71481-les-animaux-des-reves-d-izzie/p10016	2026-11-22	Amazon	31.97
+71483-1	44.99	41.84	https://www.avenuedelabrique.com/lego-dreamzzz/71483-les-creatures-de-la-sorciere-des-cauchemars/p10017	2026-11-22	Carrefour [Marketplace]	51.83
+71484-1	79.99	67.95	https://www.avenuedelabrique.com/lego-dreamzzz/71484-le-robot-dinosaure-c-rex-de-cooper/p9976	2026-11-22	Brickmo	77.90
+71485-1	129.99	96.99	https://www.avenuedelabrique.com/lego-dreamzzz/71485-mateo-et-z-blob-le-robot-chevalier/p9977	2026-11-22	Lucky Bricks	106.98
+71486-1	199.99	171.24	https://www.avenuedelabrique.com/lego-dreamzzz/71486-le-chateau-nocturnia/p10018	2026-11-22	Carrefour [Marketplace]	176.23
+71487-1	9.99	19.20	https://www.avenuedelabrique.com/lego-dreamzzz/71487-aventures-de-z-blob-robots-et-vehicules/p10528	2026-11-22	Cdiscount	24.19
+71488-1	6.99	9.99	https://www.avenuedelabrique.com/lego-dreamzzz/71488-aventures-de-bunchu-animaux-creatifs/p10529	2026-11-22	Cultura	12.99
+71489-1	13.99	19.99	https://www.avenuedelabrique.com/lego-dreamzzz/71489-l-avion-de-la-manette-de-cooper/p10576	2026-11-22	Brickmo	29.94
+71490-1	19.99	13.99	https://www.avenuedelabrique.com/lego-dreamzzz/71490-izzie-et-bunchurro-le-lapin-joueur/p10573	2026-11-22	Cdiscount	23.98
+71491-1	34.99	48.90	https://www.avenuedelabrique.com/lego-dreamzzz/71491-mateo-et-la-voiture-de-course-de-z-blob/p10578	2026-11-22	Galaxus	48.90
+71492-1	49.99	39.99	https://www.avenuedelabrique.com/lego-dreamzzz/71492-le-cameleon-cracheur-de-feu-de-mateo/p10872	2026-11-22	Amazon	39.99
+71494-1	29.99	29.99	https://www.avenuedelabrique.com/lego-dreamzzz/71494-le-hibou-temporel-de-zoey/p10871	2026-11-22	E.Leclerc	34.89
+71495-1	29.99	29.95	https://www.avenuedelabrique.com/lego-dreamzzz/71495-mateo-contre-le-robot-cyber-cerveau/p10873	2026-11-22	Brickmo	39.90
+71497-1	99.99	58.90	https://www.avenuedelabrique.com/lego-dreamzzz/71497-robot-tigre-de-cooper-et-bolide-de-zero/p10530	2026-11-22	Alternate.fr	68.80
+71499-1	99.99	72.55	https://www.avenuedelabrique.com/lego-dreamzzz/71499-le-camion-spray-de-peinture-de-mateo/p10874	2026-11-22	Carrefour [Marketplace]	77.54
+71500-1	139.99	106.90	https://www.avenuedelabrique.com/lego-dreamzzz/71500-le-sous-marin-requin-des-cauchemars/p10875	2026-11-22	Alternate.fr	116.80
+71508-1	79.99	69.39	https://www.avenuedelabrique.com/lego-dreamzzz/71508-le-gardien-robot-renard/p11318	2026-11-22	Galaxus	69.39
+71512-1	69.99	48.99	https://www.avenuedelabrique.com/lego-dreamzzz/71512-le-sous-marin-crocodile/p11319	2026-11-22	Amazon	48.99
+71513-1	49.99	44.95	https://www.avenuedelabrique.com/lego-dreamzzz/71513-la-pelleteuse-scorpion-des-cauchemars/p11320	2026-11-22	Brickmo	54.90
+71514-1	99.99	67.99	https://www.avenuedelabrique.com/lego-dreamzzz/71514-le-vaisseau-dino/p11321	2026-11-22	Amazon	67.99
+71515-1	139.99	109.99	https://www.avenuedelabrique.com/lego-dreamzzz/71515-le-char-requin-tigre/p11322	2026-11-22	Amazon	109.99
+71804-1	14.99	14.95	https://www.avenuedelabrique.com/lego-ninjago/71804-le-robot-de-combat-d-arin/p9582	2026-11-22	Brickmo	24.90
+71805-1	9.99	9.99	https://www.avenuedelabrique.com/lego-ninjago/71805-pack-de-combat-le-robot-de-jay/p9583	2026-11-22	Fnac [Marketplace]	19.49
+71806-1	19.99	40.95	https://www.avenuedelabrique.com/lego-ninjago/71806-le-robot-elementaire-de-la-terre-de-cole/p9584	2026-11-22	Amazon	40.95
+71807-1	13.99	29.99	https://www.avenuedelabrique.com/lego-ninjago/71807-le-robot-elementaire-de-la-technologie-de-sora/p9585	2026-11-22	Cultura	32.99
+71808-1	29.99	19.89	https://www.avenuedelabrique.com/lego-ninjago/71808-le-robot-elementaire-du-feu-de-kai/p9586	2026-11-22	Golden Brick	24.88
+71809-1	69.99	66.99	https://www.avenuedelabrique.com/lego-ninjago/71809-egalt-le-maitre-dragon/p9587	2026-11-22	Brickeez	66.99
+71810-1	14.99	19.52	https://www.avenuedelabrique.com/lego-ninjago/71810-le-jeune-dragon-riyu/p9816	2026-11-22	Carrefour [Marketplace]	29.51
+71811-1	49.99	46.49	https://www.avenuedelabrique.com/lego-ninjago/71811-le-buggy-tout-terrain-ninja-d-arin/p9815	2026-11-22	Carrefour [Marketplace]	56.48
+71812-1	69.99	105.90	https://www.avenuedelabrique.com/lego-ninjago/71812-le-robot-grimpeur-ninja-de-kai/p9814	2026-11-22	Amazon	105.90
+71813-1	83.99	122.99	https://www.avenuedelabrique.com/lego-ninjago/71813-le-dojo-de-l-ombre-au-masque-de-loup/p9817	2026-11-22	Brickeez	122.99
+71814-1	249.99	265.99	https://www.avenuedelabrique.com/lego-ninjago/71814-la-ville-au-temple-du-tournoi/p10111	2026-11-22	Technic Passion	265.99
+71815-1	37.99	35.33	https://www.avenuedelabrique.com/lego-ninjago/71815-la-bataille-du-dragon-source-de-kai/p9588	2026-11-22	Carrefour [Marketplace]	45.32
+71816-1	9.99	10.99	https://www.avenuedelabrique.com/lego-ninjago/71816-la-moto-de-glace-de-zane/p10112	2026-11-22	Carrefour [Marketplace]	18.98
+71817-1	19.99		https://www.avenuedelabrique.com/lego-ninjago/71817-le-robot-du-pouvoir-elementaire-de-lloyd/p9589	2026-11-22		
+71818-1	49.99	66.00	https://www.avenuedelabrique.com/lego-ninjago/71818-l-arene-de-combat-du-tournoi/p10042	2026-11-22	Amazon	66.00
+71819-1	119.99	101.99	https://www.avenuedelabrique.com/lego-ninjago/71819-le-sanctuaire-de-la-roche-du-dragon/p9813	2026-11-22	Brickeez	101.99
+71819-2	119.99	101.99	https://www.avenuedelabrique.com/lego-ninjago/71819-le-sanctuaire-de-la-roche-du-dragon/p9813	2026-11-22	Brickeez	101.99
+71820-1	89.99	79.99	https://www.avenuedelabrique.com/lego-ninjago/71820-le-vehicule-combine-de-l-equipe-des-ninjas/p10043	2026-11-22	Brickeez	79.99
+71821-1	99.99	99.99	https://www.avenuedelabrique.com/lego-ninjago/71821-le-dragon-titan-de-cole/p10044	2026-11-22	JouéClub	104.98
+71822-1	149.99	159.99	https://www.avenuedelabrique.com/lego-ninjago/71822-le-dragon-source-du-mouvement/p10113	2026-11-22	Brickeez	159.99
+71823-1	9.99	9.99	https://www.avenuedelabrique.com/lego-ninjago/71823-la-toupie-spinjitzu-du-dragon-de-kai/p10519	2026-11-22	Brickmo	19.94
+71824-1	9.99	9.99	https://www.avenuedelabrique.com/lego-ninjago/71824-la-toupie-spinjitzu-du-dragon-de-sora/p10554	2026-11-22	Brickmo	19.94
+71826-1	19.99	16.99	https://www.avenuedelabrique.com/lego-ninjago/71826-pack-de-combat-spinjitzu-du-dragon/p10511	2026-11-22	Brickmo	26.94
+71827-1	9.99	7.99	https://www.avenuedelabrique.com/lego-ninjago/71827-la-super-armure-robot-de-zane/p10512	2026-11-22	Joybuy	11.98
+71828-1	24.99	16.90	https://www.avenuedelabrique.com/lego-ninjago/71828-la-voiture-de-course-a-retrofriction-de-lloyd/p10513	2026-11-22	Cdiscount	19.89
+71829-1	19.99	13.89	https://www.avenuedelabrique.com/lego-ninjago/71829-le-dragon-vert-de-la-foret-de-lloyd/p10460	2026-11-22	Alternate.fr	23.79
+71830-1	49.99	36.29	https://www.avenuedelabrique.com/lego-ninjago/71830-la-moto-tempete-du-robot-de-kai/p10514	2026-11-22	Alternate.fr	46.19
+71831-1	39.99	31.95	https://www.avenuedelabrique.com/lego-ninjago/71831-le-temple-de-spinjitzu-des-ninjas/p10515	2026-11-22	Brickmo	41.90
+71832-1	74.99	90.89	https://www.avenuedelabrique.com/lego-ninjago/71832-croc-de-tonnerre-le-dragon-du-chaos/p10631	2026-11-22	Carrefour [Marketplace]	95.88
+71833-1	49.99	57.99	https://www.avenuedelabrique.com/lego-ninjago/71833-le-super-avion-tempete-de-ras-et-arin/p10516	2026-11-22	Cultura	57.99
+71834-1	99.99	72.90	https://www.avenuedelabrique.com/lego-ninjago/71834-le-robot-ultra-combo-de-zane/p10517	2026-11-22	Alternate.fr	82.80
+71836-1	99.99	72.00	https://www.avenuedelabrique.com/lego-ninjago/71836-arc-le-dragon-de-la-concentration/p10632	2026-11-22	Amazon	72.00
+71837-1	249.99	249.99	https://www.avenuedelabrique.com/lego-ninjago/71837-ateliers-ninjago-city/p10704	2026-11-22	LEGO	249.99
+71838-1	9.99	7.09	https://www.avenuedelabrique.com/lego-ninjago/71838-kai-et-la-course-de-motos/p10900	2026-11-22	Alternate.fr	16.99
+71839-1	19.99	13.89	https://www.avenuedelabrique.com/lego-ninjago/71839-le-robot-de-spinjitzu-d-arin/p10901	2026-11-22	Alternate.fr	23.79
+71840-1	19.99	19.99	https://www.avenuedelabrique.com/lego-ninjago/71840-le-duel-en-voitures-de-course-de-rogue-et-drix/p10897	2026-11-22	LEGO	25.94
+71841-1	39.99	43.00	https://www.avenuedelabrique.com/lego-ninjago/71841-le-village-de-la-tempete-draconique/p10518	2026-11-22	Brickmo	52.95
+71842-1	44.99	44.95	https://www.avenuedelabrique.com/lego-ninjago/71842-rontu-le-maitre-dragon/p10899	2026-11-22	Brickmo	54.90
+71843-1	69.99	65.09	https://www.avenuedelabrique.com/lego-ninjago/71843-le-robot-dragonnier-de-rogue/p10896	2026-11-22	Carrefour [Marketplace]	75.08
+71844-1	89.99	82.34	https://www.avenuedelabrique.com/lego-ninjago/71844-le-vehicule-de-combat-des-ninjas/p10898	2026-11-22	Carrefour [Marketplace]	82.34
+71845-1	99.99	84.99	https://www.avenuedelabrique.com/lego-ninjago/71845-l-avion-robot-de-lloyd/p10892	2026-11-22	JouéClub	89.98
+71846-1	119.99	85.00	https://www.avenuedelabrique.com/lego-ninjago/71846-le-robot-du-chevalier-de-feu/p10894	2026-11-22	E.Leclerc	89.90
+71847-1	149.99	104.99	https://www.avenuedelabrique.com/lego-ninjago/71847-le-dragon-gardien/p10895	2026-11-22	Amazon	104.99
+71848-1	199.99	199.00	https://www.avenuedelabrique.com/lego-ninjago/71848-le-temple-bounty/p10893	2026-11-22	Brickmo	208.95
+71849-1	9.99	6.99	https://www.avenuedelabrique.com/lego-ninjago/71849-nya-contre-la-toupie-du-monstre-mutant/p11363	2026-11-22	Alternate.fr	16.89
+71850-1	9.99	6.89	https://www.avenuedelabrique.com/lego-ninjago/71850-lloyd-contre-la-toupie-du-monstre-de-la-terre/p11365	2026-11-22	Alternate.fr	16.79
+71851-1	9.99	6.99	https://www.avenuedelabrique.com/lego-ninjago/71851-pack-de-combat-le-robot-dragon-de-kai/p11364	2026-11-22	Monoprix	11.98
+71853-1	19.99	13.79	https://www.avenuedelabrique.com/lego-ninjago/71853-le-combat-du-robot-dragon-de-jay/p11270	2026-11-22	Alternate.fr	23.69
+71854-1	29.99	17.49	https://www.avenuedelabrique.com/lego-ninjago/71854-la-mission-du-robot-cole-et-du-dragon-zane/p11366	2026-11-22	Monoprix	22.48
+71855-1	44.99	44.90	https://www.avenuedelabrique.com/lego-ninjago/71855-le-combat-du-dragon-riyu/p11383	2026-11-22	E.Leclerc	49.80
+71856-1	49.99	33.99	https://www.avenuedelabrique.com/lego-ninjago/71856-la-voiture-transformable-de-jay/p11360	2026-11-22	E.Leclerc	38.89
+71857-1	79.99	59.99	https://www.avenuedelabrique.com/lego-ninjago/71857-la-cabane-et-les-vehicules-des-ninjas/p11361	2026-11-22	Amazon	59.99
+71858-1	99.99	72.90	https://www.avenuedelabrique.com/lego-ninjago/71858-15e-anniversaire-la-forge-des-quatre-armes/p11239	2026-11-22	Alternate.fr	82.80
+71859-1	99.99	69.79	https://www.avenuedelabrique.com/lego-ninjago/71859-le-dragon-de-vie/p11362	2026-11-22	Amazon	69.79
+71860-1	129.99	91.09	https://www.avenuedelabrique.com/lego-ninjago/71860-15e-anniversaire-le-robot-titan-de-lloyd/p11269	2026-11-22	Amazon	91.09
+71861-1	299.99	299.99	https://www.avenuedelabrique.com/lego-ninjago/71861-15e-anniversaire-la-vieille-ville/p11403	2026-11-22	LEGO	299.99
+71862-1	9.99	6.89	https://www.avenuedelabrique.com/lego-ninjago/71862-pack-de-combat-le-robot-dragon-de-lloyd/p11728	2026-11-22	Alternate.fr	16.79
+71863-1	19.99	12.71	https://www.avenuedelabrique.com/lego-ninjago/71863-zilvar-et-grimtak-la-bete-draconique/p11729	2026-11-22	E.Leclerc	17.61
+71864-1	29.99	17.49	https://www.avenuedelabrique.com/lego-ninjago/71864-vehicules-combinables-de-kai-et-cole/p11730	2026-11-22	Monoprix	22.48
+71865-1	39.99	39.99	https://www.avenuedelabrique.com/lego-ninjago/71865-le-combat-du-dragon-de-glace-de-zane/p11731	2026-11-22	LEGO	45.94
+71866-1	39.99	26.99	https://www.avenuedelabrique.com/lego-ninjago/71866-15e-anniversaire-collection-des-personnages-ninjas/p11359	2026-11-22	Carrefour	28.98
+71867-1	79.99	55.99	https://www.avenuedelabrique.com/lego-ninjago/71867-15e-anniversaire-le-chargeur-ninja-x-1/p11552	2026-11-22	Monoprix	60.98
+71868-1	89.99	55.24	https://www.avenuedelabrique.com/lego-ninjago/71868-le-robot-dragon-transformable-de-brasera/p11732	2026-11-22	Carrefour	55.24
+71869-1	129.99	91.09	https://www.avenuedelabrique.com/lego-ninjago/71869-le-bounty-terrestre/p11821	2026-11-22	Amazon	91.09
+71870-1	139.99	98.10	https://www.avenuedelabrique.com/lego-ninjago/71870-les-robots-titan-jumeaux/p11822	2026-11-22	Amazon	98.10
+71871-1	89.99	62.99	https://www.avenuedelabrique.com/lego-ninjago/71871-combat-sur-la-lame-du-dragon/p11733	2026-11-22	Amazon	62.99
+71872-1	199.99	130.15	https://www.avenuedelabrique.com/lego-ninjago/71872-le-combat-de-l-ultra-dragon/p11823	2026-11-22	Cdiscount	130.15
 71873-1	9.99	8.49	https://www.avenuedelabrique.com/lego-ninjago/71873-la-toupie-cole-contre-cole-malefique/p13314	2026-11-19	LToys	17.48
 71875-1	19.99	16.49	https://www.avenuedelabrique.com/lego-ninjago/71875-le-combat-de-toupies-lloyd-contre-ras/p13316	2026-11-19	Brickmo	26.44
-71888-1	279.99	279.99	https://www.avenuedelabrique.com/lego-ninjago/71888-le-dojo-ninja-d-ivo/p13645	2026-11-14	LEGO	279.99
-72031-1	14.99	14.95	https://www.avenuedelabrique.com/lego-super-mario/72031-mario-kart-yoshimoto/p10263	2026-11-06	Brickmo	24.90
-72032-1	19.99	17.95	https://www.avenuedelabrique.com/lego-super-mario/72032-mario-kart-kart-standard/p10264	2026-11-06	Brickmo	27.90
-72033-1	24.49	45.99	https://www.avenuedelabrique.com/lego-super-mario/72033-mario-kart-donkey-kong-et-dk-jumbo/p10265	2026-11-06	Deparkatre	50.50
-72034-1	29.99	26.95	https://www.avenuedelabrique.com/lego-super-mario/72034-mario-kart-bebe-mario-contre-bebe-luigi/p10266	2026-11-06	Brickmo	36.90
-72035-1	39.99	34.99	https://www.avenuedelabrique.com/lego-super-mario/72035-mario-kart-garage-de-toad/p10267	2026-11-06	Carrefour	36.98
-72036-1	79.99	45.59	https://www.avenuedelabrique.com/lego-super-mario/72036-mario-kart-bebe-peach-et-ensemble-de-grand-prix/p10268	2026-11-06	E.Leclerc	50.49
-72037-1	169.99	116.00	https://www.avenuedelabrique.com/lego-super-mario/72037-mario-kart-mario-et-kart-standard/p10737	2026-11-06	Amazon	116.00
-72038-1	49.99	38.95	https://www.avenuedelabrique.com/lego-super-mario/72038-mario-kart-wario-et-roi-boo/p10827	2026-11-06	Brickmo	48.90
+71888-1	279.99	279.99	https://www.avenuedelabrique.com/lego-ninjago/71888-le-dojo-ninja-d-ivo/p13645	2026-11-22	LEGO	279.99
+72031-1	14.99	14.95	https://www.avenuedelabrique.com/lego-super-mario/72031-mario-kart-yoshimoto/p10263	2026-11-22	Brickmo	24.90
+72032-1	19.99	17.95	https://www.avenuedelabrique.com/lego-super-mario/72032-mario-kart-kart-standard/p10264	2026-11-22	Brickmo	27.90
+72033-1	24.49	64.40	https://www.avenuedelabrique.com/lego-super-mario/72033-mario-kart-donkey-kong-et-dk-jumbo/p10265	2026-11-22	Amazon	64.40
+72034-1	29.99	26.95	https://www.avenuedelabrique.com/lego-super-mario/72034-mario-kart-bebe-mario-contre-bebe-luigi/p10266	2026-11-22	Brickmo	36.90
+72035-1	39.99	26.24	https://www.avenuedelabrique.com/lego-super-mario/72035-mario-kart-garage-de-toad/p10267	2026-11-22	Carrefour	28.23
+72036-1	79.99	54.98	https://www.avenuedelabrique.com/lego-super-mario/72036-mario-kart-bebe-peach-et-ensemble-de-grand-prix/p10268	2026-11-22	Carrefour [Marketplace]	59.97
+72037-1	169.99	121.99	https://www.avenuedelabrique.com/lego-super-mario/72037-mario-kart-mario-et-kart-standard/p10737	2026-11-22	Amazon	121.99
+72038-1	49.99	38.95	https://www.avenuedelabrique.com/lego-super-mario/72038-mario-kart-wario-et-roi-boo/p10827	2026-11-22	Brickmo	48.90
 72039-1	99.99	62.99	https://www.avenuedelabrique.com/lego-super-mario/72039-mario-kart-chateau-de-bowser/p10824	2026-11-06	E.Leclerc	67.89
 72040-1	14.99	13.94	https://www.avenuedelabrique.com/lego-super-mario/72040-campement-du-capitaine-toad/p10819	2026-11-06	Carrefour [Marketplace]	23.93
 72041-1	29.99	24.95	https://www.avenuedelabrique.com/lego-super-mario/72041-fete-chez-les-toads/p10820	2026-11-06	Brickmo	34.90
@@ -1942,8 +1942,8 @@ code	prix	meilleur	url	date	marchand	total
 80119-1	99.99	97.74	https://www.avenuedelabrique.com/lego-saisonnier/80119-tableau-vivant-le-galop-des-chevaux/p11237	2026-11-20	Auchan	97.74
 80120-1	49.99	46.90	https://www.avenuedelabrique.com/lego-saisonnier/80120-saut-de-la-carpe-symbole-de-prosperite/p11793	2026-11-08	Galaxus	46.90
 80121-1	109.99	109.99	https://www.avenuedelabrique.com/lego-saisonnier/80121-l-auberge-traditionnelle-du-clair-de-lune/p11794	2026-11-08	LEGO	109.99
-80122-1	69.99	59.49	https://www.avenuedelabrique.com/lego-chinese-festivals/80122-pixiu-de-bon-augure-sous-l-arbre-du-bonheur/p13651	2026-11-14	LToys	68.48
-80123-1	99.99	84.99	https://www.avenuedelabrique.com/lego-chinese-festivals/80123-le-voyage-de-la-fete-du-printemps/p13649	2026-11-14	LToys	93.98
+80122-1	69.99	59.49	https://www.avenuedelabrique.com/lego-chinese-festivals/80122-pixiu-de-bon-augure-sous-l-arbre-du-bonheur/p13651	2026-11-22	LToys	68.48
+80123-1	99.99	84.99	https://www.avenuedelabrique.com/lego-chinese-festivals/80123-le-voyage-de-la-fete-du-printemps/p13649	2026-11-22	LToys	93.98
 854326-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854326-porte-cles-le-mandalorien/p11684	2026-11-19	LEGO	11.94
 854327-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854327-porte-cles-simba/p11381	2026-11-19	LEGO	11.94
 854328-1	5.99	5.99	https://www.avenuedelabrique.com/porte-cles-lego/854328-porte-cles-dumbo/p11380	2026-11-19	LEGO	11.94
