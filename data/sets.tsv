@@ -1,4 +1,4 @@
-#date 2026-11-22
+#date 2026-11-23
 code	nom	annee	theme	pieces	figurines
 0003977811-1	Ninjago: Book of Adventures	2022	Books / Activity Books with LEGO Parts	1	1
 001-1	Gears	1965	System / Samsonite	43	0
@@ -6386,7 +6386,7 @@ code	nom	annee	theme	pieces	figurines
 40911-1	Mini Pokémon Center	2026	Pokémon	233	0
 40912-1	Sea Serpent	2026	LEGO Ideas and CUUSOO	241	2
 40913-1	Vintage Parade Car	2026	Icons	243	2
-40914-1	Retro Jukebox	2026	Other	287	0
+40914-1	Retro Jukebox	2026	Other	287	1
 40915-1	Lion Dance	2026	Seasonal / Chinese (Lunar) New Year	480	4
 40916-1	Floral Picture Frame	2026	Botanicals	310	0
 40917-1	The Darksaber	2026	Star Wars	278	0
@@ -10831,7 +10831,7 @@ code	nom	annee	theme	pieces	figurines
 60502-1	Airport with Airplane	2026	City / Airport	887	9
 60503-1	Coast Guard Helicopter	2026	City / Coast Guard	551	4
 60504-1	Coast Guard Rescue Boat & Helicopter	2026	City / Coast Guard	743	5
-60505-1	Airplane, Service Truck & Hovercraft Remix	2026	City	991	3
+60505-1	Airplane, Service Truck & Hovercraft Remix	2026	City	990	3
 60506-1	Classic Beach Tram	2026	City	693	5
 60508-1	Police Train Heist	2026	City / Police	1313	6
 60509-1	Harbor Freight Train with Crane & Truck	2026	City / Trains	803	4
@@ -11693,7 +11693,7 @@ code	nom	annee	theme	pieces	figurines
 6565159-1	Witch	2025	Seasonal / Halloween	27	0
 6565180-1	Potted Roses	2025	Seasonal	23	0
 6565181-1	Crayons	2025	LEGO Brand Store	29	0
-6565182-1	Lego Eid Mosaic	2025	Seasonal	169	0
+6565182-1	Eid Mosaic	2025	Seasonal	169	0
 6566-1	Security Express	1997	Town / Town Jr.	106	2
 6566834-1	Gondola	2024	Promotional	41	0
 6566835-1	Snow Groomer	2024	Promotional	28	0
@@ -12053,6 +12053,7 @@ code	nom	annee	theme	pieces	figurines
 6675837-1	Witch's Flight	2026	Promotional	153	0
 6676-1	Mobile Command Unit	1986	Town / Classic Town	100	2
 6677-1	Motocross Racing	1986	Town / Classic Town	76	1
+6677492-1	I [Heart] LEGO Store Lyon Tile	2026	LEGO Brand Store	1	0
 6678-1	Excavator	1980	Town / Classic Town	61	1
 6678777-1	Christmas Sticker Sheet	2026	Gear / Seasonal	1	0
 6679-1	Dark Shark	1991	Town / Classic Town	83	2
@@ -18980,8 +18981,12 @@ code	nom	annee	theme	pieces	figurines
 9788325347192-1	Star Wars: W służbie Imperium	2025	Books / Activity Books with LEGO Parts	5	1
 9788325347208-1	Harry Potter: Playtime Companions	2025	Books / Activity Books with LEGO Parts	7	1
 9788325347215-1	Ninjago: Dragons Rising: The Heat is On	2025	Books / Activity Books with LEGO Parts	10	1
-9788325348397-1	Harry Potter: Time to Play! (Neville Longbottom Edition)	2025	Books / Activity Books with LEGO Parts	11	1
-9788325348441-1	City: Time to Play (Astronaut Spacewalk)	2025	Books / Activity Books with LEGO Parts	14	1
+9788325348380-1	Ninjago: Dragons Rising: Time to Play	2025	Books / Activity Books with LEGO Parts	16	1
+9788325348397-1	Harry Potter: Time to Play!	2025	Books / Activity Books with LEGO Parts	8	1
+9788325348403-1	DC Comics Super Heroes: Time to Play	2025	Books / Activity Books with LEGO Parts	5	1
+9788325348410-1	Friends: Time to Play	2025	Books / Activity Books with LEGO Parts	6	1
+9788325348434-1	DREAMZzz: Time to Play	2025	Books / Activity Books with LEGO Parts	11	1
+9788325348441-1	City: Time to Play	2025	Books / Activity Books with LEGO Parts	6	1
 9788325349042-1	Falcon: Droga do Kapitana Ameryki	2026	Books / Activity Books with LEGO Parts	32	1
 9788828795346-1	Harry Potter: Avventure a Hogwarts	2026	Books / Activity Books with LEGO Parts	6	1
 9789-2	City Sights Challenge Kit	2002	FIRST LEGO League	1016	0
