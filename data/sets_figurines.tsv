@@ -1,4 +1,4 @@
-#date 2026-11-26
+#date 2026-11-27
 set	figurine	quantite	nom	bricklink	ressemblance
 0003977811-1	fig-001926	1	Kai (Legacy)	njo0492	0.85
 0011-2	fig-000225	1	Policeman, Black Suit with Pocket and Badge, White Hat (3626a Head)	cop001	0.48
@@ -1268,12 +1268,12 @@ set	figurine	quantite	nom	bricklink	ressemblance
 11388-1	fig-018281	1	Shopper, Bright Light Blue Plaid Shirt, Dark Orange Legs, Black Hair	twn532	0.48
 11388-1	fig-018282	1	Tourist, Tan Sweater, Dark Brown Legs, Medium Nougat Hair	idea240	0.66
 11388-1	fig-018283	1	Gondolier, Black Striped Shirt, Dark Blue Legs	hp630	0.55
-11388-1	fig-018284	1	Carnival Goer, Gold Costume	frnd0838	0.3
+11388-1	fig-018284	1	Carnival Goer, Sun Costume	hol436	0.27
 11388-1	fig-018285	1	Violist, Dark Red Suit	sh1156	0.49
 11388-1	fig-018286	1	Flower Girl, White Shirt, Sand Green Legs, Dark Orange Hair	twn537	0.49
 11388-1	fig-018287	1	Reader, Dark Green Jacket, Medium Nougat Legs, Light Bluish Grey Cap	sh1118	0.42
 11388-1	fig-018288	1	Workman, Medium Nougat Overall, Dark Green Cap	cty1851	0.41
-11388-1	fig-018289	1	Carnaval Goer, Dark Blue Costume	sw1493	0.34
+11388-1	fig-018289	1	Carnaval Goer, Dark Blue Moon Costume	sw1493	0.31
 11388-1	fig-018290	1	Tourist, Tan Coat, Dark Green Legs, Dark Orange Hair	idea242	0.64
 11388-1	fig-018291	1	Tourist, Dark Orange Jacket, Dark Brown Legs, Cap, Dark Bluish Grey Moustache	cty2046	0.46
 11388-1	fig-018292	1	Tourist, Yellowish Green Shirt, Sand Blue Legs, Dark Brown Hair	cty1954	0.59
@@ -18884,7 +18884,7 @@ set	figurine	quantite	nom	bricklink	ressemblance
 76781-1	fig-015535	1	Enid, Bright Pink Hair	wed003	0.62
 76781-1	fig-015536	1	Enid, Bright Light Yellow Hair	dis152	0.53
 76784-1	fig-016635	1	Wednesday Addams, Short Skirt	wed006	0.84
-76784-1	fig-016636	1	Marilyn Thornhil	wed007	0.49
+76784-1	fig-016636	1	Marilyn Thornhill	wed007	1.0
 76785-1	fig-016876	1	Enid, Dark Purple Outfit	wed008	0.6
 76786-1	fig-015534	1	Wednesday, School Uniform	wed001	0.45
 76786-1	fig-016877	1	Morticia Addams	wed010	1.0
